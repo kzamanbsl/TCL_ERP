@@ -38,6 +38,7 @@ namespace KGERP.Data.Models
         public decimal BankCharge { get; set; }
         public Nullable<int> BankChargeHeadGlId { get; set; }
         public Nullable<int> PaymentToHeadGlId { get; set; }
+        public Nullable<bool> IsAdjusted { get; set; }
     
         public virtual Company Company { get; set; }
         public virtual Voucher Voucher { get; set; }

@@ -39,6 +39,7 @@ namespace KGERP.Data.Models
             this.Areas = new HashSet<Area>();
             this.SubZones = new HashSet<SubZone>();
             this.SaleReturns = new HashSet<SaleReturn>();
+            this.CostCenterManagerMaps = new HashSet<CostCenterManagerMap>();
         }
     
         public long Id { get; set; }
@@ -173,5 +174,7 @@ namespace KGERP.Data.Models
         public virtual ICollection<SubZone> SubZones { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SaleReturn> SaleReturns { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CostCenterManagerMap> CostCenterManagerMaps { get; set; }
     }
 }

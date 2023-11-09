@@ -526,6 +526,10 @@
         <AssociationConnector Association="ERPModel.FK_VendorDepositHistory_Vendor" />
         <AssociationConnector Association="ERPModel.FK_VendorOffer_Vendor" />
         <AssociationConnector Association="ERPModel.FK_VendorOpening_Vendor" />
+        <EntityTypeShape EntityType="ERPModel.BillRequisitionType" Width="1.5" PointX="5.375" PointY="5.75" />
+        <EntityTypeShape EntityType="ERPModel.CostCenterManagerMap" Width="1.5" PointX="54.125" PointY="21.875" />
+        <AssociationConnector Association="ERPModel.FK_CostCenterManagerMap_Accounting_CostCenter" />
+        <AssociationConnector Association="ERPModel.FK_CostCenterManagerMap_Employee" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
