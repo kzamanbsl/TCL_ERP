@@ -29,7 +29,7 @@ namespace KGERP.Controllers
         #region Cost Center Manager Map
             [SessionExpire]
             [HttpGet]
-            public ActionResult CostCenterManagerMap(int companyId = 21)
+            public ActionResult CostCenterManagerMap(int companyId = 0)
             {
                 return View();
             }
