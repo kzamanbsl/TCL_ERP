@@ -11,7 +11,8 @@ namespace KGERP.Data.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class CostCenterManagerMap
     {
         public int CostCenterManagerMapId { get; set; }

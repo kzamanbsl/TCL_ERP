@@ -19,27 +19,40 @@ namespace KGERP.Controllers
             _billRequisitionService = billRequisitionService;
         }
 
+        #region Cost Center Manager Map
         [SessionExpire]
         [HttpGet]
-        public ActionResult Index(int companyId = 21)
+        public ActionResult CostCenterManagerMap(int companyId = 0)
         {
-            return View();
+            var viewData = new CostCenterManagerMapModel()
+            {
+                Projects = _billRequisitionService.GetProjectList(),
+                Employees = _billRequisitionService.GetEmployeeList(),
+                CostCenterManagerMaps = _billRequisitionService.GetCostCenterManagerMapList(),
+            };
+            return View(viewData);
         }
 
-        #region Cost Center Manager Map
-            [SessionExpire]
-            [HttpGet]
-            public ActionResult CostCenterManagerMap(int companyId = 0)
+        [SessionExpire]
+        [HttpPost]
+        public ActionResult CostCenterManagerMap(CostCenterManagerMapModel model)
+        {
+            if (ModelState.IsValid)
             {
-                return View();
+                var result = _billRequisitionService.Add(model);
+
+                if (result)
+                {
+                    TempData["Message"] = "Project manager assigned successfully!";
+                    return RedirectToAction("CostCenterManagerMap");
+                }
+
+                TempData["Message"] = "Something problem inside me! Please try again.";
+                return View(model);
             }
 
-            [SessionExpire]
-            [HttpPost]
-            public ActionResult CostCenterManagerMap(CostCenterManagerMapModel costCenterManagerMapModel)
-            {
-                return View();
-            }
+            return View(model);
+        }
         #endregion
     }
 

@@ -1,49 +1,175 @@
 ﻿@model KGERP.Service.ServiceModel.CostCenterManagerMapModel
-@{
-    
-}
 
-<script src="~/bower_components/jquery/dist/jquery.min.js"></script>
+@{
+    ViewData["Title"] = "Cost Center Manager Map";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style type="text/css">
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
 
 <section class="content-header">
     <h1>
-        Project / Cost Center
+        Cost Center Manager Map
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-
-        <li class="active">Project / Cost Center</li>
+        <li class="active">Requisition Information</li>
     </ol>
+
+</section>
+
+
+@using (Html.BeginForm("CostCenterManagerMap", "BillRequisition", FormMethod.Post))
+{
+    <section class="content">
+        <div class="row">
+            <div class="box">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(x => x.CompanyId, new { id = "CompanyFK" })
+
+                <div class="box-danger">
+                    <div class="box-header">
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        @using (Html.BeginForm("CostCenterManagerMap", "BillRequisition", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.HiddenFor(x => x.CompanyId, new { id = "CompanyFK" })
+
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label asp-for="ProjectId">Select Project</label>
+                                        @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.Projects, "ProjectId", "ProjectName"), "-- Select Project --", new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.EmployeeId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label asp-for="EmployeeRowId">Select Manager</label>
+                                        @Html.DropDownListFor(model => model.EmployeeRowId, new SelectList(Model.Employees, "Id", "Name"), "-- Select Manager --", new { @class = "form-control" })
+
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.EmployeeRowId, "", new { @class = "text-danger" })
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group" style="margin-top: 25px !important">
+                                        <button type="submit" class="btn btn-primary w-100" style="width: 100% !important">Submit</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+}
+
+<section class="content" style="margin-top: -135px !important">
+    <div class="row">
+        <div class="box">
+            <div class="box-danger">
+                <div class="box-header">
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="table-responsive col-md-12">
+                        <table id="KgErpDataTable" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>SL</th>
+                                    <th>Project Name</th>
+                                    <th>Manager</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            @{int sl = 0;}
+                            <tbody>
+                                @foreach (var item in Model.CostCenterManagerMaps)
+                                {
+                                    <tr>
+                                        <td>
+                                            @(++sl)
+                                        </td>
+                                        <td id="tdDamageTypeForName_@item.CostCenterManagerMapId">@Model.Projects.FirstOrDefault(c=> c.ProjectId == item.CostCenterId).ProjectName</td>
+                                        <td id="tdDamageTypeName_@item.CostCenterManagerMapId">@Model.Employees.FirstOrDefault(c => c.Id == item.ManagerId).Name</td>
+                                        <td>
+                                            <a id="@item.CostCenterManagerMapId" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
+
+                                            <a id="@item.CostCenterManagerMapId" onclick="makeDeletable(@item.CostCenterManagerMapId);" class="linkPointer" data-toggle="modal" data-target="#DamageTypeDeleteModal" title="Delete"
+                                               data-placement="top">
+                                                <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 
 @section scripts {
     <script type="text/javascript">
+
+        $(document.body).on("change", "#txtDamageTypeName", function () {
+            var unitId = $("#DamageTypeId").val();
+            if (unitId == null || unitId == "" || unitId == undefined) { unitId = 0 };
+            var damageTypeFroId = $("#ddlEnumDamageTypeForId").val();
+            if (damageTypeFroId == null || damageTypeFroId == "" || damageTypeFroId == undefined) { damageTypeFroId = 0 };
+            var value = $(this).val();
+            var param = { name: value, damageTypeForId: damageTypeFroId, id: unitId };
+            var url = "/Configuration/IsDamageTypeNameExist";
+            $.post(url, param, function (rData) {
+                $('#nameExist').text("");
+                if (rData === true) {
+                    var msg = "Sorry, This " + value + " name already exist!";
+                    $('#nameExist').text(msg);
+                    return;
+                }
+            });
+        });
+
         $(document).ready(function () {
             $('.formValidator').bootstrapValidator();
         });
 
+
         function makeEditble(elem) {
             if (elem !== null) {
                 var rowId = elem.id;
-                $('#userMenuId').val(rowId);
+                $('#DamageTypeId').val(rowId);
                 $('#ActionId').val(2);
                 $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Update");
-                $('#txtMenuName').val($('#tdMenuName_' + rowId).text().trim());
+                $('#txtDamageTypeName').val($('#tdDamageTypeName_' + rowId).text().trim());
+                //var damagetTFor = $('#valDamageTypeFor').val();
+                //$('#ddlEnumDamageTypeForId').val(damagetTFor).trigger('change');
+                $('#ddlEnumDamageTypeForId').val($('#damageTypeFor_' + rowId).val().trim()).trigger('change');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
 
             }
         }
 
-        function makeDeletable(id) {
-            if (id !== null) {
-                $('#userMenuId').val(id);
-                $('#ActionId').val(3);
 
-            }
-        }
+
         function resetForm() {
-            $('#userMenuFormId')[0].reset();
+            $('#commonDamageTypeFormId')[0].reset();
             $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Add");
+
         }
 
     </script>
