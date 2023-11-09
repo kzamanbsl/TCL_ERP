@@ -29,6 +29,7 @@ namespace KGERP.Data.Models
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public string ModifiedBy { get; set; }
         public int CompanyId { get; set; }
+        public Nullable<int> PaymentId { get; set; }
     
         public virtual Company Company { get; set; }
         public virtual OrderMaster OrderMaster { get; set; }
