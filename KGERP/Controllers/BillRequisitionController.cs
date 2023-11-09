@@ -18,13 +18,29 @@ namespace KGERP.Controllers
         {
             _billRequisitionService = billRequisitionService;
         }
-      
+
         [SessionExpire]
         [HttpGet]
         public ActionResult Index(int companyId = 21)
         {
             return View();
         }
+
+        #region Cost Center Manager Map
+            [SessionExpire]
+            [HttpGet]
+            public ActionResult CostCenterManagerMap(int companyId = 21)
+            {
+                return View();
+            }
+
+            [SessionExpire]
+            [HttpPost]
+            public ActionResult CostCenterManagerMap(CostCenterManagerMapModel costCenterManagerMapModel)
+            {
+                return View();
+            }
+        #endregion
     }
 
 }
