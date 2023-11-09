@@ -49,6 +49,8 @@ namespace KGERP.Data.Models
             this.VendorDepositHistories = new HashSet<VendorDepositHistory>();
             this.BatchPaymentDetails = new HashSet<BatchPaymentDetail>();
             this.BatchPaymentMasters = new HashSet<BatchPaymentMaster>();
+            this.BillRequisitionDetails = new HashSet<BillRequisitionDetail>();
+            this.BillRequisitionMasters = new HashSet<BillRequisitionMaster>();
         }
     
         public int CompanyId { get; set; }
@@ -140,5 +142,9 @@ namespace KGERP.Data.Models
         public virtual ICollection<BatchPaymentDetail> BatchPaymentDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BatchPaymentMaster> BatchPaymentMasters { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BillRequisitionDetail> BillRequisitionDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BillRequisitionMaster> BillRequisitionMasters { get; set; }
     }
 }

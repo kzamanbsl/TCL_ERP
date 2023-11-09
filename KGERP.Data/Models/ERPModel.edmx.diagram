@@ -530,6 +530,13 @@
         <EntityTypeShape EntityType="ERPModel.CostCenterManagerMap" Width="1.5" PointX="54.125" PointY="21.875" />
         <AssociationConnector Association="ERPModel.FK_CostCenterManagerMap_Accounting_CostCenter" />
         <AssociationConnector Association="ERPModel.FK_CostCenterManagerMap_Employee" />
+        <EntityTypeShape EntityType="ERPModel.BillRequisitionDetail" Width="1.5" PointX="15.875" PointY="36.75" />
+        <EntityTypeShape EntityType="ERPModel.BillRequisitionMaster" Width="1.5" PointX="13.625" PointY="35.375" />
+        <AssociationConnector Association="ERPModel.FK_BillRequisitionMaster_Accounting_CostCenter" />
+        <AssociationConnector Association="ERPModel.FK_BillRequisitionDetail_Company" />
+        <AssociationConnector Association="ERPModel.FK_BillRequisitionMaster_Company" />
+        <AssociationConnector Association="ERPModel.FK_BillRequisitionDetail_BillRequisitionMaster" />
+        <AssociationConnector Association="ERPModel.FK_BillRequisitionMaster_BillRequisitionType" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

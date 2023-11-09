@@ -12,17 +12,15 @@ namespace KGERP.Data.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class BillRequisitionType
+    public partial class BillRequisitionDetail
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public BillRequisitionType()
-        {
-            this.BillRequisitionMasters = new HashSet<BillRequisitionMaster>();
-        }
-    
-        public int BillRequisitionTypeId { get; set; }
-        public string Name { get; set; }
+        public long BillRequisitionDetailId { get; set; }
+        public long BillRequisitionMasterId { get; set; }
+        public string Item { get; set; }
         public string Description { get; set; }
+        public decimal Qty { get; set; }
+        public decimal UnitPrice { get; set; }
+        public decimal TotalAmount { get; set; }
         public int CompanyId { get; set; }
         public System.DateTime CreateDate { get; set; }
         public string CreatedBy { get; set; }
@@ -30,7 +28,7 @@ namespace KGERP.Data.Models
         public string ModifiedBy { get; set; }
         public bool IsActive { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BillRequisitionMaster> BillRequisitionMasters { get; set; }
+        public virtual Company Company { get; set; }
+        public virtual BillRequisitionMaster BillRequisitionMaster { get; set; }
     }
 }

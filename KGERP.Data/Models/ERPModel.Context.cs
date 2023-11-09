@@ -300,6 +300,8 @@ namespace KGERP.Data.Models
         public virtual DbSet<Vendor> Vendors { get; set; }
         public virtual DbSet<BillRequisitionType> BillRequisitionTypes { get; set; }
         public virtual DbSet<CostCenterManagerMap> CostCenterManagerMaps { get; set; }
+        public virtual DbSet<BillRequisitionDetail> BillRequisitionDetails { get; set; }
+        public virtual DbSet<BillRequisitionMaster> BillRequisitionMasters { get; set; }
     
         public virtual ObjectResult<GetEmployeeListForTeam_Result> GetEmployeeListForTeam(Nullable<int> companyId)
         {
