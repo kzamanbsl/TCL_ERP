@@ -1,0 +1,553 @@
+﻿@model KGERP.Service.ServiceModel.BatchPaymentMasterModel
+@using KGERP.Utility;
+
+@{
+    // ViewData["Title"] = "Customer Batch Payment";
+    ViewData["Title"] = "Bank Collection";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style type="text/css">
+
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
+
+<section class="content-header">
+    <h1>
+        @if (Model.BatchPaymentMasterId > 0)
+        {
+            <span>
+                Batch Collection from Customer
+                @*Production History of: <a target="_blank" href="~/Expense/ExpenseDetailsReport?companyId=@Model.CompanyFK&expenseMasterId=@Model.ExpenseMasterId">@Model.ExpenseNo</a>*@
+            </span>
+        }
+        else
+        {
+            <span>
+                Batch Collection from Customer
+            </span>
+        }
+
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
+        <li class="active">Batch Collection from Customer</li>
+    </ol>
+</section>
+
+@using (Html.BeginForm("CustomerBatchPaymentMasterSlave", "BatchPayment", FormMethod.Post, new { id = "batchPaymentMasterId", @class = "formValidator", @enctype = "multipart/form-data" }))
+{
+    <section class="content">
+        <div class="row">
+            <div class="box">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.BatchPaymentMasterId, new { id = "hideBatchPaymentMasterId" })
+                @Html.HiddenFor(model => model.ActionId, new { id = "ActionId" })
+                @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
+                @Html.HiddenFor(model => model.CompanyId, new { id = "CompanyId" })
+                @Html.HiddenFor(model => model.batchPaymentDetailModel.VendorTypeId, new { id = "hidEditCustomerId" })
+                @Html.HiddenFor(model => model.batchPaymentDetailModel.BatchPaymentDetailId, new { id = "hidebatchPaymentDetailId" })
+
+                <div class="box-danger">
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        @if (Model.BatchPaymentMasterId > 0)
+                        {
+                            <div class="col-md-1"> </div>
+                            <div class="col-md-10">
+
+                                <table class="table">
+                                    <tr>
+                                        <th style="width:18%">
+                                            Collection Date
+                                        </th>
+                                        <th style="width:2%">:</th>
+                                        <td style="width:30%">
+                                            <label class="col-form-label">@Model.TransactionDate.ToShortDateString()</label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th style="width:18%">
+                                            Bank Charge
+                                        </th>
+                                        <th style="width:2%">:</th>
+                                        <td style="width:30%">
+                                            <label class="col-form-label">@Model.BankCharge</label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th style="width:18%">
+                                            Bank/Cash
+                                        </th>
+                                        <th style="width:2%">:</th>
+                                        <td style="width:30%">
+                                            <label class="col-form-label">@Model.PaymentToHeadGLName</label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Created By</th>
+                                        <th>:</th>
+                                        <td>@Model.CreatedBy</td>
+                                    </tr>
+
+                                </table>
+                            </div>
+
+                            <div class="col-md-1"> </div>
+                        }
+
+                        <div class="box-body">
+
+                            @if (Model.BatchPaymentMasterId == 0)
+                            {
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Collection Date:</label>
+                                            <div style="display:flex">
+                                                <input name="TransactionDate" asp-for="TransactionDate" class="datepicker form-control" id="txtPaymentDate" placeholder="Payment Date" autocomplete="off">
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.TransactionDate, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Type :</label>
+                                            @Html.DropDownListFor(model => model.Accounting_BankOrCashParantId, Model.BankOrCashParantList as SelectList, "==Select Type==", new { id = "ddlAccounting_BankOrCashParantId", @class = "form-control ddlReset searchingDropdown", style = "width:100%" })
+                                            @Html.ValidationMessageFor(model => model.Accounting_BankOrCashParantId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Bank/ Cash :</label>
+                                            @Html.DropDownListFor(model => model.Accounting_BankOrCashId, Model.BankOrCashGLList as SelectList, new { id = "ddlAccounting_BankOrCashId", @class = "form-control searchingDropdown", style = "width:100%" })
+                                            @Html.ValidationMessageFor(model => model.Accounting_BankOrCashId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="txtBankCharge" class="col-form-label">Bank Charge:</label>
+                                            @Html.TextBoxFor(model => model.BankCharge, new { id = "txtBankCharge", @class = "form-control", placeholder = "Bank Charge" })
+                                            @Html.ValidationMessageFor(model => model.BankCharge, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                            }
+                            @if (Model.IsSubmitted == false)
+                            {
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Territory:</label>
+                                            @Html.DropDownListFor(model => model.batchPaymentDetailModel.SubZoneFk, Model.batchPaymentDetailModel.SubZoneList as SelectList, "==Select Territory==", new { @id = "subZoneFk", @class = "form-control searchingDropdown", style = "width:100%" })
+                                            @Html.ValidationMessageFor(model => model.batchPaymentDetailModel.SubZoneFk, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Customer:</label>
+                                            @Html.DropDownListFor(model => model.batchPaymentDetailModel.VendorId, Model.batchPaymentDetailModel.CustomerList as SelectList, "==Select Customer==", new { @id = "customerId", @class = "form-control searchingDropdown", style = "width:100%" })
+                                            @Html.ValidationMessageFor(model => model.batchPaymentDetailModel.VendorId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>MR Date:</label>
+                                            <div style="display: flex">
+                                                <input style="overflow: hidden;" name="batchPaymentDetailModel.MoneyReceiptDate" asp-for="batchPaymentDetailModel.MoneyReceiptDate" required="required" class="datepicker form-control" id="collectionDate" placeholder="Date" autocomplete="off">
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.batchPaymentDetailModel.MoneyReceiptDate, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="col-form-label">Money Receipt No:</label>
+                                            <input name="batchPaymentDetailModel.MoneyReceiptNo" asp-for="batchPaymentDetailModel.MoneyReceiptNo" type="text" class="form-control" id="moneyReceiptNo">
+
+                                            @Html.ValidationMessageFor(model => model.batchPaymentDetailModel.MoneyReceiptNo, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="col-form-label">Collected Amount:</label>
+                                            <input name="batchPaymentDetailModel.InAmount" asp-for="batchPaymentDetailModel.InAmount" required="required" type="text" class="form-control" id="txtPaidAmount" placeholder="Paid">
+                                            @Html.ValidationMessageFor(model => model.batchPaymentDetailModel.InAmount, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="col-form-label">Reference No:</label>
+                                            @Html.TextBoxFor(model => model.batchPaymentDetailModel.ReferenceNo, new { id = "txtReferenceNo", placeholder = "Reference No", @class = "form-control", required = "required" })
+                                            @Html.ValidationMessageFor(model => model.batchPaymentDetailModel.ReferenceNo, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row justify-content-end">
+                                    <div class="col-md-7" id="addbuttondiv">
+                                    </div>
+                                    <div class="col-md-5" id="addbuttondiv">
+                                        <label>&nbsp;</label>
+
+                                        <button type="submit" id="exCreateBtn" class="btn btn-primary btn-block">
+                                            <i class='fa fa-plus'></i>
+                                            @if (Model.BatchPaymentMasterId > 0)
+                                            {
+                                                <span>Add Item</span>
+                                            }
+                                            else
+                                            {
+                                                <span>Create</span>
+                                            }
+                                        </button>
+
+                                    </div>
+
+                                </div>
+                            }
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!--Body Will by Start Here-->
+                @{
+                    int sl = 0;
+                    decimal totalPrice = 0;
+
+                    if (Model.BatchPaymentMasterId > 0)
+                    {
+
+                        @Html.HiddenFor(model => model.ID, new { id = "hidSlaveID" })
+                        <div class="table-responsive col-md-12  text-nowrap">
+                            <table id="KgErpDataTable" class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th style="padding:5px;text-align:left;">SL</th>
+                                        <th style="padding:5px;text-align:left;">Customer</th>
+                                        <th style="padding:5px;text-align:left;">MR. Date</th>
+                                        <th style="padding:5px;text-align:left;">MR. No</th>
+                                        <th style="padding:5px;text-align:left;">Ref. No.</th>
+                                        <th style="padding:5px;text-align:right;">Collected Amount</th>
+                                        @if (Model.IsSubmitted == false)
+                                        {
+                                            <th style="padding:5px;text-align:center;">Action</th>
+                                        }
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @foreach (var item in Model.DetailList)
+                                    {
+                                        totalPrice += item.InAmount;
+                                        <tr>
+                                            <td style="padding: 5px; text-align: left;">@(++sl)</td>
+                                            <td style="padding:5px;text-align:left;">@item.VendorName</td>
+                                            <td style="padding:5px;text-align:left; ">@item.MoneyReceiptDate</td>
+                                            <td style="padding:5px;text-align:left;">@item.MoneyReceiptNo</td>
+                                            <td style="padding:5px;text-align:left;">@item.ReferenceNo</td>
+                                            <td style="padding:5px;text-align:right;">@item.InAmount</td>
+                                            @{ if (Model.IsSubmitted == false)
+                                                {
+                                                    <td style="padding:5px;text-align:center;">
+                                                        <a id="@item.BatchPaymentDetailId" onclick="makeEditable(@item.BatchPaymentDetailId);" class="linkPointer" title="Edit"><i class="fa fa-edit" aria-hidden="true"></i></a>
+
+                                                        <a id="@item.BatchPaymentDetailId" onclick="makeDeletale(@item.BatchPaymentDetailId)" class="linkPointer" data-toggle="modal" data-target="#deletebatchPaymentDetailFromId" title="Delete" data-placement="top"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>
+                                                    </td>
+                                                }
+                                            }
+                                        </tr>
+                                    }
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th></th>
+                                        <th colspan="4">Total</th>
+                                        <th style="padding:5px;text-align:right;">@String.Format("{0:0.00}", totalPrice) </th>
+                                        @if (Model.IsSubmitted == false)
+                                        {
+                                            <th></th>
+                                        }
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    }
+                }
+            </div>
+
+            <div class="box-footer">
+                @if (Model.BatchPaymentMasterId > 0)
+                {
+                    <div class="row">
+                        <div class="col-md-6"></div>
+                        <div class="col-md-6">
+                            @if (Model.IsSubmitted == false)
+                            {
+                                <a id="@Model.BatchPaymentMasterId" onclick="makeSubmitble(@Model.BatchPaymentMasterId)" class="linkPointer btn btn-success" data-toggle="modal" style="width:100%" data-target="#submitBatchPaymentModal" data-placement="top">
+
+                                    <i> Submit</i>
+
+                                </a>
+                            }
+                            else
+                            {
+                                <a id="@Model.BatchPaymentMasterId" onclick="makeSubmitble(@Model.BatchPaymentMasterId)" disabled class="linkPointer btn btn-success" style="width:100%">
+
+                                    <i> Submit</i>
+
+                                </a>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+
+        </div>
+
+    </section>
+}
+
+@using (Html.BeginForm("CustomerBatchPaymentMasterSlave", "BatchPayment", FormMethod.Post, new { id = "submitBatchPaymentFormId", @class = "formValidator" }))
+{
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="modal fade" id="submitBatchPaymentModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
+                        &times;
+                    </button>
+                    <h5 class="modal-title">
+                        <b>
+                            <span class="submitOrDraftText"></span> Batch Collection @if (Model.IsSubmitted == false)
+                            {<span>Submit </span>}
+                            else if (Model.IsSubmitted == true)
+                            {<span>Draft </span>}
+                        </b>
+                    </h5>
+                </div>
+                <div class="modal-body">
+                    @Html.HiddenFor(model => model.BatchPaymentMasterId, new { id = "hidSubmitBatchPaymentMasterId" })
+                    @Html.HiddenFor(model => model.CompanyFK, new { id = "hidSubmitCompanyFK" })
+                    @Html.HiddenFor(model => model.CompanyId, new { id = "hidSubmitCompanyId" })
+                    @Html.HiddenFor(model => model.ActionId, new { id = "hiddenActionId" })
+
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div style="text-align:center">
+                        <h3>
+                            Are you sure to  @if (Model.IsSubmitted == false)
+                            {<span>Submit </span>}
+                            else if (Model.IsSubmitted == true)
+                            {<span>Draft </span>} this collection?
+                        </h3>
+                        <p class="text-danger">[N.B] Be sure! After submission, You can't roll back this batch collection.</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-3">
+                        <button type="button" onclick="resetProductionSlaveForm()" class="btn btn-warning fa fa-close" data-dismiss="modal">&nbsp;NO</button>
+                    </div>
+                    <div class="col-md-9">
+                        <button type="submit" id="btnsave" style="width:100%" class="btn btn-primary fa fa-remove">
+                            @if (Model.IsSubmitted == false)
+                            {<span>Make Submit </span>}
+                            else if (Model.IsSubmitted == true)
+                            {<span>Make Draft </span>}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@using (Html.BeginForm("DeleteCustomerBatchPaymentDetailById", "BatchPayment", FormMethod.Post, new { id = "deleteBatchPaymentFormId", @class = "formValidator" }))
+{
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="modal fade" id="deletebatchPaymentDetailFromId" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
+                        &times;
+                    </button>
+                    <h5 class="modal-title"><b>Delete Production Item</b></h5>
+                </div>
+                <div class="modal-body">
+                    @*@Html.HiddenFor(model => model, new { id = "hidDeleteExpensesId" })*@
+                    @Html.HiddenFor(model => model.batchPaymentDetailModel.BatchPaymentDetailId, new { id = "hidDeleteBatchPaymentDetailId" })
+
+                    @Html.HiddenFor(model => model.CompanyFK, new { id = "deleteCompanyFK" })
+                    @Html.HiddenFor(model => model.CompanyId, new { id = "deleteCompanyId" })
+
+                    @Html.HiddenFor(model => model.ActionId, new { id = "deleteActionId" })
+
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div style="text-align:center">
+                        <h3>Are you sure to batch collection Item?</h3>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-3">
+                        <button type="button" onclick="resetProductionSlaveForm()" class="btn btn-warning fa fa-close" data-dismiss="modal">&nbsp;NO</button>
+                    </div>
+                    <div class="col-md-9">
+                        <button type="submit" id="btnsave" style="width:100%" class="btn btn-primary fa fa-remove">&nbsp; Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryui")
+    @Styles.Render("~/Content/cssjqryUi")
+
+    <script type="text/javascript">
+
+        $('.datepicker').datepicker({
+            dateFormat: "dd/mm/yy",
+            showOn: 'both',
+            buttonText: "<i class='fa fa-calendar'></i>",
+            changeMonth: true,
+            changeYear: true,
+            yearRange: "2001:+50"
+        });
+
+          function makeEditable(rowId) {
+    $.ajax({
+        type: "POST",
+        url: "@Url.Action("GetCustomerBatchPaymentDetailById", "BatchPayment")",
+        datatype: "Json",
+        data: { id: rowId },
+        success: function (data) {
+            $('#exCreateBtn').html("<i class='fa fa-edit'></i>&nbsp;Update");
+            $("#hidBatchPaymentId").val(data.BatchPaymentMasterId);
+            $("#hidebatchPaymentDetailId").val(rowId);
+            $('#ActionId').val(2);
+            $("#CompanyFK").val(data.CompanyId);
+            $("#moneyReceiptNo").val(data.MoneyReceiptNo);
+            $("#CompanyId").val(data.CompanyId);
+            $("#subZoneFk").val(data.SubZoneFk).trigger('change');
+            $("#hidEditCustomerId").val(data.VendorId);
+            $("#customerId").val(data.VendorId).trigger('change');
+            $("#txtPaidAmount").val(data.InAmount);
+            $("#txtReferenceNo").val(data.ReferenceNo);
+
+            var ticks = parseInt(data.MoneyReceiptDate.replace(/\/Date\((.*?)\)\//gi, '$1'), 10);
+            var date = new Date(ticks);
+
+            // Now 'date' contains the JavaScript Date object with the converted date
+            var year = date.getFullYear();
+            var month = String(date.getMonth() + 1).padStart(2, '0');
+            var day = String(date.getDate()).padStart(2, '0');
+
+            var formattedDate = day + '/' + month + '/' + year;
+            $("#collectionDate").val(formattedDate);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    });
+    }
+
+    function makeDeletale(rowId) {
+        $('#hidDeleteBatchPaymentDetailId').val(rowId);
+        $('#deleteActionId').val(3);
+        }
+        function makeSubmitble(rowId) {
+            $('#hidSubmitBatchPaymentMasterId').val(rowId);
+        $('#hiddenActionId').val(10);
+        }
+
+    function resetProductionSlaveForm() {
+        $('#deleteProductionSlaveFrom')[0].reset();
+        $('#ActionId').val(1);
+    }
+        $(document).ready(function () {
+            $('.formValidator').bootstrapValidator();
+
+
+           $("#subZoneFk").change(function () {
+               var subZoneFk = $("#subZoneFk").val();
+                $.ajax({
+                type: "GET",
+                url: "@Url.Action("CustomerLisBySubZonetGet", "Procurement")",
+                datatype: "Json",
+                    data: { subZoneId: subZoneFk},
+                    success: function (data) {
+                    var items = "";
+                        if (data) {
+                            $("#customerId").empty();
+                            var custom = $("#hideCustomerId").empty();
+                            $("#customerId").append("<option value=''>==Select Customer==</option>");
+                            $(data).each(function (index, item) {
+                                $("#customerId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                                });
+                            }
+                        let cusId = $('#hidEditCustomerId').val();
+                            $('#customerId').val(cusId).trigger('change');
+                        }
+                    });
+                })
+
+
+                $("#ddlAccounting_BankOrCashParantId").change(function () {
+                    var bankOrCashParantId = $("#ddlAccounting_BankOrCashParantId").val();
+
+
+                    $.ajax({
+
+                        type: "GET",
+                        url: "@Url.Action("HeadGLByHead5ParentIdGet", "Vouchers")",
+                        datatype: "Json",
+                             data: { companyId: "@Model.CompanyFK", parentId: bankOrCashParantId},
+                             success: function (data) {
+                             var items = "";
+                                if (data) {
+                                $("#ddlAccounting_BankOrCashId").empty();
+                                $(data).each(function (index, item) {
+                                    $("#ddlAccounting_BankOrCashId").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+                                });
+
+                            }
+                        }
+                    });
+
+                })
+
+            function SubmitForm() {
+                var r = confirm("Are you sure to save this?");
+                if (r == false) {
+                    return false;
+                }
+            }
+
+        });
+
+    </script>
+
+}

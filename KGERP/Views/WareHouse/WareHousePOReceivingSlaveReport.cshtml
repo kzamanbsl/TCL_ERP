@@ -1,0 +1,356 @@
+﻿@model KGERP.Service.Implementation.Warehouse.VMWarehousePOReceivingSlave
+@{
+    Layout = null;
+    int sl = 0;
+
+}
+
+
+@using KG.Core.Services;
+@using KGERP.Utility
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width" />
+    <title>
+        Store In Information of @Model.Challan
+    </title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/onsen/2.10.6/css/ionicons/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.4.8/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.4.8/css/skins/_all-skins.min.css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Google Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
+    <style>
+        /* h4 {
+                    border-bottom: 2px solid black;
+                    display: inline;
+                }
+        */
+        /*.footer {
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    text-align: center;
+                }*/
+
+        .trclass {
+            border: 1px solid #000;
+            font-size: 16px;
+            font-weight: 800;
+            background-color: #C0C0C0;
+            line-height: 20px;
+        }
+
+        #page {
+            background-color: #fff;
+            width: 900px;
+            margin: 0px auto;
+            position: relative;
+            font-size: 16px;
+        }
+
+
+
+        #topLogo {
+            float: left;
+        }
+
+
+        @@media print {
+            .trclass {
+                background-color: #C0C0C0 !important;
+                -webkit-print-color-adjust: exact;
+                line-height: 20px;
+            }
+
+            body {
+                margin-top: 5px;
+            }
+            /*body {
+                        margin: 1.6cm;
+                    }*/
+            #haderTitle {
+                color: white !important;
+                background-color: black !important;
+                font-weight: bold !important;
+                border-radius: 25px;
+                padding: 5px;
+            }
+
+            #haderTitleh3 {
+                background-color: black !important;
+                padding: 4px;
+            }
+
+            a[href]:after {
+                content: none !important;
+            }
+
+            #print, #print * {
+                display: none !important;
+            }
+        }
+        /*div.divfooter {
+                        margin-top: 15px;
+                        bottom: 0;
+                        display: inherit;
+                    }*/
+        /*#divfooter {
+                        display: block !important;
+                    }*/
+        }
+    </style>
+
+    <script>
+        function printDiv() {
+            window.print();
+        }
+    </script>
+</head>
+
+
+<body>
+    <span id="print" style="float: right; position: fixed;right: 0; vertical-align: top; display: inline-block;" onclick="printDiv()" class="btn btn-default">
+        Print
+    </span>
+    <div id="page">
+        <img style="opacity:0.09; position:absolute; margin-top:200px; width:500px; margin-left:200px;" src="@CompanyInfo.CompanyLogoUrl" />
+        <div style="min-height: 900px;">
+            <div class="text-center">
+                <div class="row">
+                    <table width="100%">
+                        <tr>
+                            <td style="width:20%"></td>
+                            <td style="width:10%">
+                                <img height="80" width="80" id="topLogo" src="@CompanyInfo.CompanyLogoUrl" />
+
+                            </td>
+                            <td style="width:70%">
+
+                                <p style="text-align: left; font-size: 25px; font-weight: bold;margin-bottom: 0;">@Model.CompanyName</p>
+                                <p style="text-align: left; font-size: 16px; font-weight: bold; margin-bottom: 0;">@Model.CompanyAddress</p>
+                                <p style="text-align: left; font-size: 16px; font-weight: bold;margin-bottom: 0;">  Phone : @Model.CompanyPhone, Email : @Model.CompanyEmail</p>
+
+                            </td>
+                            <td style="width:20%"></td>
+
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="text-center">
+                <table style="width:100%">
+                    <tr style="text-align:center">
+                        <td style="border-bottom:double;font-size:22px"><b>Receiving History of Challan</b></td>
+                    </tr>
+                </table>
+            </div>
+            <br />
+
+
+            <div class="text-center">
+
+                <div class="row">
+                    <table style="width: 100%">
+                        <tr>
+                            <td style="width: 30%"></td>
+                            <td style="width: 40%;text-align:center;">
+                                <h4 class="voucherHeader">
+                                    Store In Information of @Model.Challan
+                                </h4>
+                            </td>
+                            <td style="width: 30%; text-align: right;">
+                                <strong>DATE: @Model.ChallanDate.Value.ToString("dd-MM-yyyy")</strong>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div style="padding:10px 0 10px 0">
+                <div>
+                    <table style="width: 100%">
+                        <tr>
+                            <td style="width: 2%">
+                                <strong>Supplier</strong>
+                            </td>
+                            <td colspan="3" style="width: 98%; border-bottom: 1px solid #000000">
+                                &nbsp;&nbsp;&nbsp;
+                                <strong>
+                                    <span>@Model.SupplierName</span>
+                                </strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 10%">
+                                <strong>PO NO</strong>
+                            </td>
+                            <td style="width: 50%; border-bottom: 1px solid #000000">
+                                &nbsp;&nbsp;&nbsp;
+                                <strong>
+                                    <span>@Model.POCID</span>
+
+                                </strong>
+                            </td>
+                            <td style="width: 10%">
+                                <strong>PO Date</strong>
+                            </td>
+                            <td style="width: 30%; border-bottom: 1px solid #000000">
+                                &nbsp;&nbsp;&nbsp;
+                                <strong>
+                                    <span>@Model.PODate.Value.ToString("dd-MM-yyyy")</span>
+
+                                </strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 15%">
+                                <strong>Supplier Challan</strong>
+                            </td>
+                            <td style="width: 45%; border-bottom: 1px solid #000000">
+                                &nbsp;&nbsp;&nbsp;
+                                <strong>
+                                    <span>@Model.Challan</span>
+
+                                </strong>
+                            </td>
+                            <td style="width: 10%">
+                                <strong>Challan Date</strong>
+                            </td>
+                            <td style="width: 30%; border-bottom: 1px solid #000000">
+                                &nbsp;&nbsp;&nbsp;
+                                <strong>
+                                    <span>@Model.ChallanDate.Value.ToString("dd-MM-yyyy")</span>
+
+                                </strong>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <br />
+
+            <div style="font-weight: bold;font-size: 16px"> Item Details: </div>
+
+
+            <div>
+                <table style="width: 100%" cellspacing="0" rules="all" border="1">
+
+                    <tr>
+                        <th style="text-align: center">SL</th>
+                        <th style="text-align: left">Product</th>
+                        <th style="text-align: center">PO Quantity</th>
+                        <th style="text-align: center">Received Quantity</th>
+                        <th style="text-align: center">Total Received Quantity</th>
+                        <th style="text-align: center">Remaining Quantity</th>
+                    </tr>
+
+                    @foreach (var item in Model.DataListSlave)
+                    {
+                        <tr>
+                            <td style="text-align: center">@(++sl)</td>
+
+                            <td style="text-align: left">@item.ProductSubCategory @item.ProductName</td>
+                            <td style="text-align: center">@item.POQuantity</td>
+                            <td style="text-align: center">@item.ReceivedQuantity</td>
+                            <td style="text-align: center">@item.PriviousReceivedQuantity</td>
+                            <td style="text-align: center">@item.RemainingQuantity</td>
+
+
+                        </tr>
+                    }
+                </table>
+            </div>
+
+
+        </div>
+
+
+
+
+        <div style="padding:50px 0 20px 0">
+            <div>
+                <table style="width: 100%; text-align: center">
+                    <tr>
+                        <td style="width: 20%"><strong style="border-top: 1px solid #000000">Prepared By</strong></td>
+                        <td style="width: 20%"><strong style="border-top: 1px solid #000000"></strong></td>
+                        <td style="width: 20%"><strong style="border-top: 1px solid #000000"></strong></td>
+                        <td style="width: 20%"><strong style="border-top: 1px solid #000000"></strong></td>
+                        <td style="width: 20%"><strong style="border-top: 1px solid #000000">Received By</strong></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- /.content -->
+    <!-- /.content-wrapper -->
+    <!-- ./wrapper -->
+    <!-- jQuery 3 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- Bootstrap 3.3.7 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- FastClick -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js"></script>
+    <!-- AdminLTE App -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.4.8/js/adminlte.min.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.4.8/js/demo.js"></script>
+
+    <script>
+        $(function () {
+            SummerizeTable('#tbl1', 1);
+            //SummerizeTable('#tbl1', 2);
+            //SummerizeTable('#tbl1', 5);
+        });
+        function SummerizeTable(table, indexno) {
+            $(table).each(function () {
+                $(table).find('td').each(function () {
+                    var $this = $(this);
+                    var col = indexno;
+                    var html = $this.html();
+                    var row = $(this).parent()[0].rowIndex;
+                    var span = 1;
+                    var cell_above = $($this.parent().prev().children()[col]);
+
+                    // look for cells one above another with the same text
+                    while (cell_above.html() === html) { // if the text is the same
+                        span += 1; // increase the span
+                        cell_above_old = cell_above; // store this cell
+                        cell_above = $(cell_above.parent().prev().children()[col]); // and go to the next cell above
+                    }
+
+                    // if there are at least two columns with the same value,
+                    // set a new span to the first and hide the other
+                    if (span > 1) {
+                        // console.log(span);
+                        $(cell_above_old).attr('rowspan', span);
+                        $this.hide();
+                    }
+
+                });
+            });
+        }
+    </script>
+</body>
+
+
+</html>

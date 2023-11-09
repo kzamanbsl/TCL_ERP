@@ -1,0 +1,350 @@
+
+#Change Identity Sign#
+========================
+(+) Add,
+(*) Update,
+(-) Remove
+
+Date: 10-09-2023
+================
++ Area Table :
+Created using Query : 
+		USE [ISSDevDb]
+		GO
+
+		/****** Object:  Table [Erp].[Area]    Script Date: 9/10/2023 5:19:58 PM ******/
+		SET ANSI_NULLS ON
+		GO
+
+		SET QUOTED_IDENTIFIER ON
+		GO
+
+		CREATE TABLE [Erp].[Area](
+			[AreaId] [int] IDENTITY(1,1) NOT NULL,
+			[ZoneId] [int] NOT NULL,
+			[Name] [nvarchar](100) NULL,
+			[Code] [varchar](10) NULL,
+			[CreatedDate] [datetime] NULL,
+			[CreatedBy] [varchar](128) NULL,
+			[ModifiedDate] [datetime] NULL,
+			[ModifiedBy] [varchar](128) NULL,
+			[IsActive] [bit] NOT NULL,
+			[CompanyId] [int] NOT NULL,
+			[SalesOfficerName] [varchar](100) NULL,
+			[Designation] [varchar](80) NULL,
+			[Email] [varchar](30) NULL,
+			[MobileOffice] [varchar](30) NULL,
+			[MobilePersonal] [varchar](30) NULL,
+			[AccountHeadId] [int] NOT NULL,
+			[EmployeeId] [bigint] NULL,
+			[RegionId] [int] NULL,
+		 CONSTRAINT [PK_Area] PRIMARY KEY CLUSTERED 
+		(
+			[AreaId] ASC
+		)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+		) ON [PRIMARY]
+		GO
+
+		ALTER TABLE [Erp].[Area] ADD  CONSTRAINT [DF_Area_ZoneId]  DEFAULT ((0)) FOR [ZoneId]
+		GO
+
+		ALTER TABLE [Erp].[Area] ADD  CONSTRAINT [DF_Area_CompanyId]  DEFAULT ((0)) FOR [CompanyId]
+		GO
+
+		ALTER TABLE [Erp].[Area] ADD  CONSTRAINT [DF_Area_HeadGLId]  DEFAULT ((0)) FOR [AccountHeadId]
+		GO
+
+		ALTER TABLE [Erp].[Area]  WITH CHECK ADD  CONSTRAINT [FK_Area_Company] FOREIGN KEY([CompanyId])
+		REFERENCES [dbo].[Company] ([CompanyId])
+		GO
+
+		ALTER TABLE [Erp].[Area] CHECK CONSTRAINT [FK_Area_Company]
+		GO
+
+		ALTER TABLE [Erp].[Area]  WITH CHECK ADD  CONSTRAINT [FK_Area_Employee] FOREIGN KEY([EmployeeId])
+		REFERENCES [dbo].[Employee] ([Id])
+		GO
+
+		ALTER TABLE [Erp].[Area] CHECK CONSTRAINT [FK_Area_Employee]
+		GO
+
+		ALTER TABLE [Erp].[Area]  WITH CHECK ADD  CONSTRAINT [FK_Area_Region] FOREIGN KEY([RegionId])
+		REFERENCES [Erp].[Region] ([RegionId])
+		GO
+
+		ALTER TABLE [Erp].[Area] CHECK CONSTRAINT [FK_Area_Region]
+		GO
+
+		ALTER TABLE [Erp].[Area]  WITH CHECK ADD  CONSTRAINT [FK_Area_Zone] FOREIGN KEY([ZoneId])
+		REFERENCES [Erp].[Zone] ([ZoneId])
+		GO
+
+		ALTER TABLE [Erp].[Area] CHECK CONSTRAINT [FK_Area_Zone]
+		GO
+		
+
+*SubZone
+	+AreaId
+
+*OrderMaster
+	+CourierName
+
+*ProductionDetail
+	+ProductionResultId
+	+IsMain
+
+
+Date: 17-09-2023
+================
++BatchPaymentMaster
+
+	USE [ISSDevDb]
+	GO
+
+	/****** Object:  Table [Erp].[BatchPaymentMaster]    Script Date: 9/17/2023 12:29:39 PM ******/
+	SET ANSI_NULLS ON
+	GO
+
+	SET QUOTED_IDENTIFIER ON
+	GO
+
+	CREATE TABLE [Erp].[BatchPaymentMaster](
+		[BatchPaymentMasterId] [int] IDENTITY(1,1) NOT NULL,
+		[BatchPaymentNo] [varchar](50) NULL,
+		[TransactionDate] [date] NOT NULL,
+		[BankCharge] [decimal](18, 3) NOT NULL,
+		[BankChargeHeadGLId] [int] NULL,
+		[PaymentToHeadGLId] [int] NULL,
+		[CreatedBy] [varchar](50) NOT NULL,
+		[CreatedDate] [datetime] NULL,
+		[ModifiedBy] [varchar](50) NULL,
+		[ModifiedDate] [datetime] NULL,
+		[IsActive] [bit] NOT NULL,
+		[IsSubmitted] [bit] NOT NULL,
+		[CompanyId] [int] NOT NULL,
+	 CONSTRAINT [PK_Table_1] PRIMARY KEY CLUSTERED 
+	(
+		[BatchPaymentMasterId] ASC
+	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+	GO
+
+	ALTER TABLE [Erp].[BatchPaymentMaster] ADD  CONSTRAINT [DF_Table_1_BankCharge]  DEFAULT ((0)) FOR [BankCharge]
+	GO
+
+	ALTER TABLE [Erp].[BatchPaymentMaster] ADD  CONSTRAINT [DF_BatchPaymentMaster_CompanyId]  DEFAULT ((0)) FOR [CompanyId]
+	GO
+
+	ALTER TABLE [Erp].[BatchPaymentMaster]  WITH CHECK ADD  CONSTRAINT [FK_Table_1_Table_1] FOREIGN KEY([CompanyId])
+	REFERENCES [dbo].[Company] ([CompanyId])
+	GO
+
+	ALTER TABLE [Erp].[BatchPaymentMaster] CHECK CONSTRAINT [FK_Table_1_Table_1]
+	GO
+
+
+
+
+
++BatchPaymentDetail
+
+	USE [ISSDevDb]
+	GO
+
+	/****** Object:  Table [Erp].[BatchPaymentDetail]    Script Date: 9/17/2023 12:32:37 PM ******/
+	SET ANSI_NULLS ON
+	GO
+
+	SET QUOTED_IDENTIFIER ON
+	GO
+
+	CREATE TABLE [Erp].[BatchPaymentDetail](
+		[BatchPaymentDetailId] [int] IDENTITY(1,1) NOT NULL,
+		[BatchPaymentMasterId] [int] NOT NULL,
+		[CompanyId] [int] NOT NULL,
+		[VendorId] [int] NOT NULL,
+		[VendorTypeId] [int] NOT NULL,
+		[ReferenceNo] [varchar](512) NULL,
+		[MoneyReceiptNo] [varchar](50) NULL,
+		[MoneyReceiptDate] [datetime] NULL,
+		[InAmount] [decimal](18, 2) NOT NULL,
+		[OutAmount] [decimal](18, 2) NOT NULL,
+		[CreatedBy] [varchar](50) NOT NULL,
+		[CreatedDate] [datetime] NOT NULL,
+		[ModifiedBy] [varchar](50) NULL,
+		[ModifiedDate] [datetime] NULL,
+		[IsActive] [bit] NOT NULL,
+	 CONSTRAINT [PK_BatchPaymentDetail] PRIMARY KEY CLUSTERED 
+	(
+		[BatchPaymentDetailId] ASC
+	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+	GO
+
+	ALTER TABLE [Erp].[BatchPaymentDetail] ADD  CONSTRAINT [DF_BatchPaymentDetail_BatchPaymentMasterId]  DEFAULT ((0)) FOR [BatchPaymentMasterId]
+	GO
+
+	ALTER TABLE [Erp].[BatchPaymentDetail] ADD  CONSTRAINT [DF_BatchPaymentDetail_CompanyId]  DEFAULT ((0)) FOR [CompanyId]
+	GO
+
+	ALTER TABLE [Erp].[BatchPaymentDetail] ADD  CONSTRAINT [DF_BatchPaymentDetail_VendorId]  DEFAULT ((0)) FOR [VendorId]
+	GO
+
+	ALTER TABLE [Erp].[BatchPaymentDetail] ADD  CONSTRAINT [DF_BatchPaymentDetail_VendorTypeId]  DEFAULT ((0)) FOR [VendorTypeId]
+	GO
+
+	ALTER TABLE [Erp].[BatchPaymentDetail] ADD  CONSTRAINT [DF_BatchPaymentDetail_InAmount]  DEFAULT ((0)) FOR [InAmount]
+	GO
+
+	ALTER TABLE [Erp].[BatchPaymentDetail] ADD  CONSTRAINT [DF_BatchPaymentDetail_OutAmount]  DEFAULT ((0)) FOR [OutAmount]
+	GO
+
+	ALTER TABLE [Erp].[BatchPaymentDetail]  WITH CHECK ADD  CONSTRAINT [FK_BatchPaymentDetail_BatchPaymentMaster] FOREIGN KEY([BatchPaymentMasterId])
+	REFERENCES [Erp].[BatchPaymentMaster] ([BatchPaymentMasterId])
+	GO
+
+	ALTER TABLE [Erp].[BatchPaymentDetail] CHECK CONSTRAINT [FK_BatchPaymentDetail_BatchPaymentMaster]
+	GO
+
+	ALTER TABLE [Erp].[BatchPaymentDetail]  WITH CHECK ADD  CONSTRAINT [FK_BatchPaymentDetail_Company] FOREIGN KEY([CompanyId])
+	REFERENCES [dbo].[Company] ([CompanyId])
+	GO
+
+	ALTER TABLE [Erp].[BatchPaymentDetail] CHECK CONSTRAINT [FK_BatchPaymentDetail_Company]
+	GO
+
+	ALTER TABLE [Erp].[BatchPaymentDetail]  WITH CHECK ADD  CONSTRAINT [FK_BatchPaymentDetail_Vendor] FOREIGN KEY([VendorId])
+	REFERENCES [Erp].[Vendor] ([VendorId])
+	GO
+
+	ALTER TABLE [Erp].[BatchPaymentDetail] CHECK CONSTRAINT [FK_BatchPaymentDetail_Vendor]
+	GO
+
+
+* PaymentMaster 
+	+BatchPaymentDetailId
+
+
+
+20-09-2023
+==========
+*Payment (In IssDevDb)
+	*PaymentMasterId and OrderMasterId Relationship added
+
++sp_ExpenseDetailReport 
+
+24-09-2023
+==========
+*PaymentMaster
+	*ReferenceNo(Make Nullable)
+	*MoneyReceiptNo (Make Nullable)
+
+*Payment
+	*ReferenceNo(Make Nullable)
+	*MoneyReceiptNo (Make Nullable)
+
+*VendorDeposit
+	+ public decimal BankCharge { get; set; } (Default value 0)
+	+ public Nullable<int> BankChargeHeadGlId { get; set; }
+    	+ public Nullable<int> PaymentToHeadGlId { get; set; }
+
+
+
+16-10-2023
+==========
+*VendorDepositHistory
+	+PaymentId (int, nullable)
+*VendorDeposit 
+	+IsAdjusted (nullable, bit, default 0) (***check table manualy and update default value)
+	+AdjustedAmount (Decimal, Not null and set default value to 0 ) (***check table manualy and update default value)
+
+*Vendor
+	+AreaId (int nullable)
+*PaymentMaster
+	+IsAdjust (bit, default 0) (***check table manualy and update default value)
+
++ VendorDepositHistory Table use below script:
+
+		USE [ISSDevDb]
+GO
+
+/****** Object:  Table [Erp].[VendorDepositHistory]    Script Date: 10/19/2023 12:06:35 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [Erp].[VendorDepositHistory](
+	[VendorDepositHistoryId] [bigint] IDENTITY(1,1) NOT NULL,
+	[VendorId] [int] NOT NULL,
+	[VendorDepositId] [int] NOT NULL,
+	[VendorTypeId] [int] NOT NULL,
+	[OrderMasterId] [bigint] NULL,
+	[PurchaseOrderId] [bigint] NULL,
+	[HistoryDate] [datetime] NOT NULL,
+	[PaymentAmount] [decimal](18, 2) NOT NULL,
+	[OpeningDepositAmount] [decimal](18, 2) NOT NULL,
+	[IsActive] [bit] NOT NULL,
+	[CreateDate] [datetime] NOT NULL,
+	[CreatedBy] [varchar](255) NOT NULL,
+	[ModifiedDate] [datetime] NULL,
+	[ModifiedBy] [varchar](255) NULL,
+	[CompanyId] [int] NOT NULL,
+	[PaymentId] [int] NULL,
+ CONSTRAINT [PK_VendorHistory] PRIMARY KEY CLUSTERED 
+(
+	[VendorDepositHistoryId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [Erp].[VendorDepositHistory] ADD  CONSTRAINT [DF_VendorDepositHistory_PaymentAmount]  DEFAULT ((0)) FOR [PaymentAmount]
+GO
+
+ALTER TABLE [Erp].[VendorDepositHistory] ADD  CONSTRAINT [DF_VendorDepositHistory_OpeningDepositAmount]  DEFAULT ((0)) FOR [OpeningDepositAmount]
+GO
+
+ALTER TABLE [Erp].[VendorDepositHistory]  WITH CHECK ADD  CONSTRAINT [FK_VendorDepositHistory_Company] FOREIGN KEY([CompanyId])
+REFERENCES [dbo].[Company] ([CompanyId])
+GO
+
+ALTER TABLE [Erp].[VendorDepositHistory] CHECK CONSTRAINT [FK_VendorDepositHistory_Company]
+GO
+
+ALTER TABLE [Erp].[VendorDepositHistory]  WITH CHECK ADD  CONSTRAINT [FK_VendorDepositHistory_OrderMaster] FOREIGN KEY([OrderMasterId])
+REFERENCES [Erp].[OrderMaster] ([OrderMasterId])
+GO
+
+ALTER TABLE [Erp].[VendorDepositHistory] CHECK CONSTRAINT [FK_VendorDepositHistory_OrderMaster]
+GO
+
+ALTER TABLE [Erp].[VendorDepositHistory]  WITH CHECK ADD  CONSTRAINT [FK_VendorDepositHistory_Vendor] FOREIGN KEY([VendorId])
+REFERENCES [Erp].[Vendor] ([VendorId])
+GO
+
+ALTER TABLE [Erp].[VendorDepositHistory] CHECK CONSTRAINT [FK_VendorDepositHistory_Vendor]
+GO
+
+ALTER TABLE [Erp].[VendorDepositHistory]  WITH CHECK ADD  CONSTRAINT [FK_VendorDepositHistory_VendorDeposit] FOREIGN KEY([VendorDepositId])
+REFERENCES [Erp].[VendorDeposit] ([VendorDepositId])
+GO
+
+ALTER TABLE [Erp].[VendorDepositHistory] CHECK CONSTRAINT [FK_VendorDepositHistory_VendorDeposit]
+GO
+
+ALTER TABLE [Erp].[VendorDepositHistory]  WITH CHECK ADD  CONSTRAINT [FK_VendorDepositHistory_VendorDepositHistory] FOREIGN KEY([PurchaseOrderId])
+REFERENCES [Erp].[PurchaseOrder] ([PurchaseOrderId])
+GO
+
+ALTER TABLE [Erp].[VendorDepositHistory] CHECK CONSTRAINT [FK_VendorDepositHistory_VendorDepositHistory]
+GO
+
+ALTER TABLE [Erp].[VendorDepositHistory]  WITH CHECK ADD  CONSTRAINT [FK_VendorDepositHistory_VendorType] FOREIGN KEY([VendorTypeId])
+REFERENCES [Erp].[VendorType] ([VendorTypeId])
+GO
+
+ALTER TABLE [Erp].[VendorDepositHistory] CHECK CONSTRAINT [FK_VendorDepositHistory_VendorType]
+GO
+
+
