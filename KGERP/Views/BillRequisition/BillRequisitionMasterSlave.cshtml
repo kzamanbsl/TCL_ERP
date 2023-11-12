@@ -244,7 +244,7 @@
 
                     </div>
 
-                    @if (Model.BillRequisitionMasterId == 0)
+                    @if (Model.BillRequisitionMasterId > 0)
                     {
                         <div class="box-footer">
 
@@ -272,7 +272,7 @@
     </section>
 }
 
-@using (Html.BeginForm("SubmitDamageMaster", "Damage", FormMethod.Post, new { id = "submitDamageMastersFromSlaveFormId", @class = "formValidator" }))
+@using (Html.BeginForm("SubmitBillRequisitionMaster", "BillRequisition", FormMethod.Post, new { id = "submitBRMastersFromSlaveFormId", @class = "formValidator" }))
 {
 
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -283,10 +283,10 @@
                     <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
                         &times;
                     </button>
-                    <h5 class="modal-title"><b><span class="submitOrDraftText"></span> Damages </b></h5>
+                    <h5 class="modal-title"><b><span class="submitOrDraftText"></span> Requisition </b></h5>
                 </div>
                 <div class="modal-body">
-                    @Html.HiddenFor(model => model.BillRequisitionMasterId, new { id = "hidSubmitDamageMasterId" })
+                    @Html.HiddenFor(model => model.BillRequisitionMasterId, new { id = "hidSubmitBRMasterId" })
                     @Html.HiddenFor(model => model.CompanyFK, new { id = "hidSubmitCompanyFK" })
 
                     @Html.AntiForgeryToken()
@@ -309,7 +309,7 @@
     </div>
 }
 
-@using (Html.BeginForm("DeleteDamageDetailById", "Damage", FormMethod.Post, new { id = "deleteDamageSlaveFormId", @class = "formValidator" }))
+@using (Html.BeginForm("DeleteBillRequisitionDetailById", "BillRequisition", FormMethod.Post, new { id = "deleteBRSlaveFormId", @class = "formValidator" }))
 {
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="modal fade" id="deleteDamageSlaveModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
@@ -319,7 +319,7 @@
                     <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
                         &times;
                     </button>
-                    <h5 class="modal-title"><b>Delete Damage Item</b></h5>
+                    <h5 class="modal-title"><b>Delete Requisition Item</b></h5>
                 </div>
                 <div class="modal-body">
                     @Html.AntiForgeryToken()
@@ -331,7 +331,7 @@
                     @Html.HiddenFor(model => model.ActionId, new { id = "deleteActionId" })
 
                     <div style="text-align:center">
-                        <h3>Are you sure to Delete this Damage Item?</h3>
+                        <h3>Are you sure to Delete this Requisition Item?</h3>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -389,7 +389,7 @@
             $.ajax({
 
                   type: "POST",
-                  url: "@Url.Action("SingleDamageDetails", "Damage")",
+                  url: "@Url.Action("SingleBillRequisitionDetails", "BillRequisition")",
                   datatype: "Json",
                   data: { id: rowId },
                   success: function (data) {
@@ -420,7 +420,7 @@
             else {
                 $('.submitOrDraftText').text("Make Draft");
             }
-            $('#hidSubmitDamageMasterId').val(@Model.BillRequisitionMasterId);
+            $('#hidSubmitBRMasterId').val(@Model.BillRequisitionMasterId);
         }
 
         function makeDeletale(rowId) {
