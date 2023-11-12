@@ -1,6 +1,14 @@
 ﻿namespace KGERP.Utility
 {
-
+    public enum EnumBillRequisitionStatus
+    {
+        Draft = 1,
+        Submitted,
+        Pending,
+        Approved,
+        Rejected,
+        Closed
+    }
     public enum FLatCompletionStatusEnum
     {
         OnGoing = 1,
