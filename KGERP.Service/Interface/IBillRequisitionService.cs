@@ -10,6 +10,13 @@ namespace KGERP.Service.Interface
     {
         int GetRequisitionNo();
 
+        #region Bill Requisition Item
+        bool Add(BillRequisitionItemModel model);
+        bool Edit(BillRequisitionItemModel model);
+        bool Delete(BillRequisitionItemModel model);
+        List<BillRequisitionItem> GetBillRequisitionItemList();
+        #endregion
+
         #region Bill Requisition Type
         bool Add(BillRequisitionTypeModel model);
         bool Edit(BillRequisitionTypeModel model);
@@ -20,7 +27,7 @@ namespace KGERP.Service.Interface
         #region Cost Center Manager Map
         bool Add(CostCenterManagerMapModel model);
         bool Edit(CostCenterManagerMapModel model);
-        bool Delete(int id);
+        bool Delete(CostCenterManagerMapModel model);
         List<Employee> GetEmployeeList();
         List<Accounting_CostCenter> GetProjectList();
         List<CostCenterManagerMap> GetCostCenterManagerMapList();
