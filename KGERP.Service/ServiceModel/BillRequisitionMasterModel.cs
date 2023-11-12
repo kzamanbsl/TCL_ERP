@@ -35,6 +35,7 @@ namespace KGERP.Service.ServiceModel
     {
         public long BillRequisitionDetailId { get; set; }
         public long BillRequisitionMasterId { get; set; }
+        public int BillRequisitionItemId { get; set; }
         public int BRItemId { get; set; }
         public string ItemName { get; set; }
         public string Description { get; set; }

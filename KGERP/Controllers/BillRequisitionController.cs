@@ -140,7 +140,8 @@ namespace KGERP.Controllers
 
         #endregion
 
-        #region  BillRequisition Circle
+
+        #region 1.1 BillRequisition Basic CRUD Circle
 
         [HttpGet]
         public async Task<ActionResult> BillRequisitionMasterSlave(int companyId = 0, long BillRequisitionMasterId = 0)
@@ -152,16 +153,123 @@ namespace KGERP.Controllers
                 billRequisitionMasterModel.CompanyFK = companyId;
                 billRequisitionMasterModel.StatusId = EnumBillRequisitionStatus.Draft;
             }
-            //else
-            //{
-            //    billRequisitionMasterModel = await _service.GetBillRequisitionMasterDetail(companyId, BillRequisitionMasterId);
+            else
+            {
+                billRequisitionMasterModel = await _service.GetBillRequisitionMasterDetail(companyId, BillRequisitionMasterId);
 
-            //}
+            }
             //billRequisitionMasterModel.ZoneList = new SelectList(procurementService.ZonesDropDownList(companyId), "Value", "Text");
             //billRequisitionMasterModel.DamageTypeList = new SelectList(configurationService.DamageTypeDropDownList(companyId), "Value", "Text");
             //billRequisitionMasterModel.StockInfos = _stockInfoService.GetStockInfoSelectModels(companyId);
             return View(billRequisitionMasterModel);
         }
+
+        [HttpPost]
+        public async Task<ActionResult> BillRequisitionMasterSlave(BillRequisitionMasterModel billRequisitionMasterModel)
+        {
+
+            if (billRequisitionMasterModel.ActionEum == ActionEnum.Add)
+            {
+                if (billRequisitionMasterModel.BillRequisitionMasterId == 0)
+                {
+                    billRequisitionMasterModel.BillRequisitionMasterId = await _service.BillRequisitionMasterAdd(billRequisitionMasterModel);
+
+                }
+                await _service.BillRequisitionDetailAdd(billRequisitionMasterModel);
+            }
+            else if (billRequisitionMasterModel.ActionEum == ActionEnum.Edit)
+            {
+                await _service.BillRequisitionDetailEdit(billRequisitionMasterModel);
+            }
+            return RedirectToAction(nameof(BillRequisitionMasterSlave), new { companyId = billRequisitionMasterModel.CompanyFK, BillRequisitionMasterId = billRequisitionMasterModel.BillRequisitionMasterId });
+        }
+
+
+
+        [HttpPost]
+        public async Task<ActionResult> SubmitBillRequisitionMaster(BillRequisitionMasterModel billRequisitionMasterModel)
+        {
+            billRequisitionMasterModel.BillRequisitionMasterId = await _service.SubmitBillRequisitionMaster(billRequisitionMasterModel.BillRequisitionMasterId);
+            return RedirectToAction(nameof(BillRequisitionMasterSlave), new { companyId = billRequisitionMasterModel.CompanyFK, BillRequisitionMasterId = billRequisitionMasterModel.BillRequisitionMasterId });
+        }
+
+
+        [HttpPost]
+        public async Task<ActionResult> BillRequisitionMasterEdit(BillRequisitionMasterModel model)
+        {
+            if (model.ActionEum == ActionEnum.Edit)
+            {
+                await _service.BillRequisitionMasterEdit(model);
+            }
+            return RedirectToAction(nameof(BillRequisitionMasterList), new { companyId = model.CompanyFK });
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> GetBillRequisitionMasterById(long BillRequisitionMasterId)
+        {
+            var model = await _service.GetBillRequisitionMasterById(BillRequisitionMasterId);
+            return Json(model, JsonRequestBehavior.AllowGet);
+        }
+        public async Task<JsonResult> SingleBillRequisitionDetails(long id)
+        {
+            var model = await _service.GetSingleBillRequisitionDetails(id);
+            return Json(model, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DeleteBillRequisitionDetailById(BillRequisitionMasterModel billRequisitionMasterModel)
+        {
+            if (billRequisitionMasterModel.ActionEum == ActionEnum.Delete)
+            {
+                billRequisitionMasterModel.DetailModel.BillRequisitionDetailId = await _service.BillRequisitionDetailDelete(billRequisitionMasterModel.DetailModel.BillRequisitionDetailId);
+            }
+            return RedirectToAction(nameof(BillRequisitionMasterSlave), new { companyId = billRequisitionMasterModel.CompanyFK, BillRequisitionMasterId = billRequisitionMasterModel.BillRequisitionMasterId });
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DeleteBillRequisitionMasterById(BillRequisitionMasterModel billRequisitionMasterModel)
+        {
+            if (billRequisitionMasterModel.ActionEum == ActionEnum.Delete)
+            {
+                billRequisitionMasterModel.BillRequisitionMasterId = await _service.BillRequisitionMasterDelete(billRequisitionMasterModel.BillRequisitionMasterId);
+            }
+            return RedirectToAction(nameof(BillRequisitionMasterList), new { companyId = billRequisitionMasterModel.CompanyFK });
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> BillRequisitionMasterList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
+        {
+            if (!fromDate.HasValue) fromDate = DateTime.Now.AddMonths(-2);
+            if (!toDate.HasValue) toDate = DateTime.Now;
+
+            BillRequisitionMasterModel BillRequisitionMasterModel = new BillRequisitionMasterModel();
+            BillRequisitionMasterModel = await _service.GetBillRequisitionMasterList(companyId, fromDate, toDate, vStatus);
+
+            //BillRequisitionMasterModel.StrFromDate = fromDate.Value.ToString("yyyy-MM-dd");
+            //BillRequisitionMasterModel.StrToDate = toDate.Value.ToString("yyyy-MM-dd");
+            if (vStatus == null)
+            {
+                vStatus = -1;
+            }
+            BillRequisitionMasterModel.StatusId = (EnumBillRequisitionStatus)vStatus;
+            //BillRequisitionMasterModel.ZoneList = new SelectList(procurementService.ZonesDropDownList(companyId), "Value", "Text");
+            //BillRequisitionMasterModel.StockInfos = _stockInfoService.GetStockInfoSelectModels(companyId);
+            return View(BillRequisitionMasterModel);
+        }
+
+        //[HttpPost]
+        //public ActionResult DamageOrderSearch(BillRequisitionMasterModel BillRequisitionMasterModel)
+        //{
+        //    if (BillRequisitionMasterModel.CompanyFK > 0)
+        //    {
+        //        Session["CompanyId"] = BillRequisitionMasterModel.CompanyFK;
+        //    }
+
+        //    BillRequisitionMasterModel.FromDate = Convert.ToDateTime(BillRequisitionMasterModel.StrFromDate);
+        //    BillRequisitionMasterModel.ToDate = Convert.ToDateTime(BillRequisitionMasterModel.StrToDate);
+        //    return RedirectToAction(nameof(BillRequisitionMasterList), new { companyId = BillRequisitionMasterModel.CompanyId, fromDate = BillRequisitionMasterModel.FromDate, toDate = BillRequisitionMasterModel.ToDate, vStatus = (long)BillRequisitionMasterModel.StatusId });
+
+        //}
 
         #endregion
     }

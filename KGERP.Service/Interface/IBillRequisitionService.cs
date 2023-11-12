@@ -32,5 +32,25 @@ namespace KGERP.Service.Interface
         List<Accounting_CostCenter> GetProjectList();
         List<CostCenterManagerMap> GetCostCenterManagerMapList();
         #endregion
+
+        #region BillRequisition Master Detail
+        Task<BillRequisitionMasterModel> GetBillRequisitionMasterDetail(int companyId, long billRequisitionMasterId);
+        Task<long> BillRequisitionMasterAdd(BillRequisitionMasterModel model);
+        Task<long> BillRequisitionDetailAdd(BillRequisitionMasterModel model);
+        Task<long> BillRequisitionDetailEdit(BillRequisitionMasterModel model);
+        Task<long> SubmitBillRequisitionMaster(long? id = 0);
+        Task<long> BillRequisitionMasterEdit(BillRequisitionMasterModel model);
+        Task<BillRequisitionMasterModel> GetBillRequisitionMasterById(long billRequisitionMaster);
+        Task<long> BillRequisitionDetailDelete(long id);
+        Task<long> BillRequisitionMasterDelete(long id);
+        Task<BillRequisitionDetailModel> GetSingleBillRequisitionDetails(long id);
+        Task<BillRequisitionMasterModel> GetBillRequisitionMasterList(int companyId, DateTime? fromDate, DateTime? toDate, int? statusId);
+        
+
+        #region 1.2 BillRequisition Received Circle
+        //Task<long> DealerBillRequisitionReceived(BillRequisitionMasterModel BillRequisitionMasterModel);
+        //Task<BillRequisitionMasterModel> GetDealerBillRequisitionMasterReceivedList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus);
+        #endregion
+        #endregion
     }
 }
