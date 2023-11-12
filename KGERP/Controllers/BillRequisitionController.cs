@@ -53,7 +53,7 @@ namespace KGERP.Controllers
             else if (model.ActionEum == ActionEnum.Delete)
             {
                 //Delete
-                //_service.Delete(model.CostCenterManagerMapId);
+                _service.Delete(model.CostCenterManagerMapId);
             }
             else
             {
