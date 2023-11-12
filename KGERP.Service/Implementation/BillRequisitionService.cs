@@ -93,7 +93,7 @@ namespace KGERP.Service.Implementation
                     {
                         CostCenterId = model.ProjectId,
                         ManagerId = model.EmployeeRowId,
-                        //CompanyId = model.CompanyId,
+                        //CompanyId = (int)model.CompanyFK,
                         CompanyId = 21,
                         IsMapActive = true,
                         IsActive = true,
@@ -107,7 +107,31 @@ namespace KGERP.Service.Implementation
                         return true;
                     }
                 }
-                catch (Exception e)
+                catch (Exception err)
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        public bool Edit(CostCenterManagerMapModel model)
+        {
+            if (model != null)
+            {
+                try
+                {
+                    var findCostCenterManagerMap = _context.CostCenterManagerMaps.FirstOrDefault(c => c.CostCenterManagerMapId == model.CostCenterManagerMapId);
+
+                    findCostCenterManagerMap.CostCenterId = model.ProjectId;
+                    findCostCenterManagerMap.ManagerId = model.EmployeeRowId;
+                    var count = _context.SaveChanges();
+                    if (count > 0)
+                    {
+                        return true;
+                    }
+                }
+                catch (Exception err)
                 {
                     return false;
                 }

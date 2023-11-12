@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using System.Web.Services.Description;
 
 namespace KGERP.Controllers
 {
@@ -20,9 +21,9 @@ namespace KGERP.Controllers
         }
 
         #region Cost Center Manager Map
-        [SessionExpire]
+
         [HttpGet]
-        public ActionResult CostCenterManagerMap(int companyId = 0)
+        public ActionResult CostCenterManagerMap(int companyId = 21)
         {
             var viewData = new CostCenterManagerMapModel()
             {
@@ -32,27 +33,32 @@ namespace KGERP.Controllers
             };
             return View(viewData);
         }
-
-        [SessionExpire]
+   
         [HttpPost]
         public ActionResult CostCenterManagerMap(CostCenterManagerMapModel model)
         {
-            if (ModelState.IsValid)
+            if (model.ActionEum == ActionEnum.Add)
             {
-                var result = _billRequisitionService.Add(model);
-
-                if (result)
-                {
-                    TempData["Message"] = "Project manager assigned successfully!";
-                    return RedirectToAction("CostCenterManagerMap");
-                }
-
-                TempData["Message"] = "Something problem inside me! Please try again.";
-                return View(model);
+                //Add 
+                _billRequisitionService.Add(model);
             }
-
-            return View(model);
+            else if (model.ActionEum == ActionEnum.Edit)
+            {
+                //Edit
+                _billRequisitionService.Edit(model);
+            }
+            else if (model.ActionEum == ActionEnum.Delete)
+            {
+                //Delete
+                //await _service.DamageTypeDelete(model.ID);
+            }
+            else
+            {
+                return View("Error");
+            }
+            return RedirectToAction(nameof(CostCenterManagerMap), new { companyId = model.CompanyFK });
         }
+
         #endregion
     }
 

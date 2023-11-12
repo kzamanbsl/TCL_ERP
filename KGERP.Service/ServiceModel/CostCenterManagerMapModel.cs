@@ -1,4 +1,5 @@
 ﻿using KGERP.Data.Models;
+using KGERP.Service.Implementation.Configuration;
 using KGERP.Utility;
 using System;
 using System.Collections.Generic;
@@ -6,9 +7,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace KGERP.Service.ServiceModel
 {
-    public class CostCenterManagerMapModel
+    public class CostCenterManagerMapModel : BaseVM
     {
-        public int CompanyId { get; set; }
         public int CostCenterManagerMapId { get; set; }
 
         [Required]
