@@ -34,11 +34,115 @@ namespace KGERP.Service.Implementation
             return requisitionId;
         }
 
+        #region Bill Requisition Type
+        public List<BillRequisitionType> GetBillRequisitionTypeList()
+        {
+            List<BillRequisitionType> billRequisitionTypes = new List<BillRequisitionType>();
+            var getBillRequisitionTypes = _context.BillRequisitionTypes.Where(c => c.IsActive == true).ToList();
+            foreach (var item in getBillRequisitionTypes)
+            {
+                var data = new BillRequisitionType()
+                {
+                    BillRequisitionTypeId = item.BillRequisitionTypeId,
+                    Name = item.Name,
+                    Description = item.Description
+                };
+                billRequisitionTypes.Add(data);
+            }
+            return billRequisitionTypes;
+        }
+
+        public bool Add(BillRequisitionTypeModel model)
+        {
+            if (model != null)
+            {
+                try
+                {
+                    BillRequisitionType data = new BillRequisitionType()
+                    {
+                        Name = model.Name,
+                        Description = model.Description,
+                        //CompanyId = (int)model.CompanyFK,
+                        CompanyId = 21,
+                        IsActive = true,
+                        CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                        CreateDate = DateTime.Now
+                    };
+                    _context.BillRequisitionTypes.Add(data);
+                    var count = _context.SaveChanges();
+                    if (count > 0)
+                    {
+                        return true;
+                    }
+                }
+                catch (Exception err)
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        public bool Edit(BillRequisitionTypeModel model)
+        {
+            if (model != null)
+            {
+                try
+                {
+                    var findBillRequisitionType = _context.BillRequisitionTypes.FirstOrDefault(c => c.BillRequisitionTypeId == model.BillRequisitionTypeId);
+
+                    findBillRequisitionType.BillRequisitionTypeId = model.BillRequisitionTypeId;
+                    findBillRequisitionType.Name = model.Name;
+                    findBillRequisitionType.Description = model.Description;
+                    findBillRequisitionType.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                    findBillRequisitionType.ModifiedDate = DateTime.Now;
+                    var count = _context.SaveChanges();
+                    if (count > 0)
+                    {
+                        return true;
+                    }
+                }
+                catch (Exception err)
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        public bool Delete(BillRequisitionTypeModel model)
+        {
+            if (model.BillRequisitionTypeId > 0 || model.BillRequisitionTypeId != null)
+            {
+                try
+                {
+                    var findBillRequisitionType = _context.BillRequisitionTypes.FirstOrDefault(c => c.BillRequisitionTypeId == model.BillRequisitionTypeId);
+
+                    findBillRequisitionType.IsActive = false;
+                    findBillRequisitionType.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                    findBillRequisitionType.ModifiedDate = DateTime.Now;
+                    var count = _context.SaveChanges();
+
+                    if (count > 0)
+                    {
+                        return true;
+                    }
+                }
+                catch (Exception err)
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
+        #endregion
+
+        #region Cost Center Manager Map
         public List<Accounting_CostCenter> GetProjectList()
         {
             List<Accounting_CostCenter> projects = new List<Accounting_CostCenter>();
             var getProject = _context.Accounting_CostCenter.Where(c => c.IsActive == true).ToList();
-            foreach ( var project in getProject )
+            foreach (var project in getProject)
             {
                 var data = new Accounting_CostCenter()
                 {
@@ -71,7 +175,7 @@ namespace KGERP.Service.Implementation
         public List<CostCenterManagerMap> GetCostCenterManagerMapList()
         {
             List<CostCenterManagerMap> costCenterManagerMap = new List<CostCenterManagerMap>();
-            var getCostCenterManagerMaps = _context.CostCenterManagerMaps.Where(c=>c.IsActive == true).ToList();
+            var getCostCenterManagerMaps = _context.CostCenterManagerMaps.Where(c => c.IsActive == true).ToList();
             foreach (var item in getCostCenterManagerMaps)
             {
                 var data = new CostCenterManagerMap()
@@ -87,7 +191,7 @@ namespace KGERP.Service.Implementation
 
         public bool Add(CostCenterManagerMapModel model)
         {
-            if(model != null)
+            if (model != null)
             {
                 try
                 {
@@ -168,5 +272,6 @@ namespace KGERP.Service.Implementation
             }
             return false;
         }
+        #endregion
     }
 }

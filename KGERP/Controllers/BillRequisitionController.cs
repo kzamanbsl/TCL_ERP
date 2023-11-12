@@ -23,6 +23,42 @@ namespace KGERP.Controllers
             _service = billRequisitionService;
         }
 
+        #region Bill Requisition Type
+        public ActionResult BillRequisitionType(int companyId = 21)
+        {
+            var viewData = new BillRequisitionTypeModel()
+            {
+                BillRequisitionTypes = _service.GetBillRequisitionTypeList()
+            };
+            return View(viewData);
+        }
+
+        [HttpPost]
+        public ActionResult BillRequisitionType(BillRequisitionTypeModel model)
+        {
+            if (model.ActionEum == ActionEnum.Add)
+            {
+                //Add 
+                _service.Add(model);
+            }
+            else if (model.ActionEum == ActionEnum.Edit)
+            {
+                //Edit
+                _service.Edit(model);
+            }
+            else if (model.ActionEum == ActionEnum.Delete)
+            {
+                //Delete
+                _service.Delete(model);
+            }
+            else
+            {
+                return View("Error");
+            }
+            return RedirectToAction(nameof(BillRequisitionType), new { companyId = model.CompanyFK });
+        }
+        #endregion
+
         #region Cost Center Manager Map
 
         [HttpGet]
@@ -89,9 +125,8 @@ namespace KGERP.Controllers
             return View(billRequisitionMasterModel);
         }
 
-       
+
         #endregion
 
     }
-
 }
