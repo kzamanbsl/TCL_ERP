@@ -3400,11 +3400,25 @@ warning 6002: The table/view 'TCLErp.dbo.TempFeedVoucherDetail' does not have a 
           </Key>
           <Property Name="BillRequisitionDetailId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="BillRequisitionMasterId" Type="bigint" Nullable="false" />
-          <Property Name="Item" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="BillRequisitionItemId" Type="int" Nullable="false" />
           <Property Name="Description" Type="varchar" MaxLength="512" />
           <Property Name="Qty" Type="decimal" Precision="18" Scale="0" Nullable="false" />
           <Property Name="UnitPrice" Type="decimal" Precision="18" Scale="0" Nullable="false" />
           <Property Name="TotalAmount" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="CompanyId" Type="int" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="255" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BillRequisitionItem">
+          <Key>
+            <PropertyRef Name="BillRequisitionItemId" />
+          </Key>
+          <Property Name="BillRequisitionItemId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="512" />
           <Property Name="CompanyId" Type="int" Nullable="false" />
           <Property Name="CreateDate" Type="datetime" Nullable="false" />
           <Property Name="CreatedBy" Type="varchar" MaxLength="255" Nullable="false" />
@@ -3417,6 +3431,7 @@ warning 6002: The table/view 'TCLErp.dbo.TempFeedVoucherDetail' does not have a 
             <PropertyRef Name="BillRequisitionMasterId" />
           </Key>
           <Property Name="BillRequisitionMasterId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BRDate" Type="datetime" Nullable="false" />
           <Property Name="BillRequisitionNo" Type="varchar" MaxLength="255" />
           <Property Name="CostCenterId" Type="int" Nullable="false" />
           <Property Name="BillRequisitionTypeId" Type="int" Nullable="false" />
@@ -6147,6 +6162,18 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_BillRequisitionDetail_BillRequisitionItem">
+          <End Role="BillRequisitionItem" Type="Self.BillRequisitionItem" Multiplicity="1" />
+          <End Role="BillRequisitionDetail" Type="Self.BillRequisitionDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BillRequisitionItem">
+              <PropertyRef Name="BillRequisitionItemId" />
+            </Principal>
+            <Dependent Role="BillRequisitionDetail">
+              <PropertyRef Name="BillRequisitionItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_BillRequisitionDetail_BillRequisitionMaster">
           <End Role="BillRequisitionMaster" Type="Self.BillRequisitionMaster" Multiplicity="1" />
           <End Role="BillRequisitionDetail" Type="Self.BillRequisitionDetail" Multiplicity="*" />
@@ -8538,6 +8565,7 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <EntitySet Name="BatchPaymentDetail" EntityType="Self.BatchPaymentDetail" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="BatchPaymentMaster" EntityType="Self.BatchPaymentMaster" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="BillRequisitionDetail" EntityType="Self.BillRequisitionDetail" Schema="Erp" store:Type="Tables" />
+          <EntitySet Name="BillRequisitionItem" EntityType="Self.BillRequisitionItem" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="BillRequisitionMaster" EntityType="Self.BillRequisitionMaster" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="BillRequisitionType" EntityType="Self.BillRequisitionType" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="BookingApprovalHistory" EntityType="Self.BookingApprovalHistory" Schema="Erp" store:Type="Tables" />
@@ -9342,6 +9370,10 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <AssociationSet Name="FK_BatchPaymentDetail_Vendor" Association="Self.FK_BatchPaymentDetail_Vendor">
             <End Role="Vendor" EntitySet="Vendor" />
             <End Role="BatchPaymentDetail" EntitySet="BatchPaymentDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BillRequisitionDetail_BillRequisitionItem" Association="Self.FK_BillRequisitionDetail_BillRequisitionItem">
+            <End Role="BillRequisitionItem" EntitySet="BillRequisitionItem" />
+            <End Role="BillRequisitionDetail" EntitySet="BillRequisitionDetail" />
           </AssociationSet>
           <AssociationSet Name="FK_BillRequisitionDetail_BillRequisitionMaster" Association="Self.FK_BillRequisitionDetail_BillRequisitionMaster">
             <End Role="BillRequisitionMaster" EntitySet="BillRequisitionMaster" />
@@ -11366,6 +11398,7 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             <End Role="CostCenterManagerMap" EntitySet="CostCenterManagerMaps" />
           </AssociationSet>
           <EntitySet Name="BillRequisitionDetails" EntityType="ERPModel.BillRequisitionDetail" />
+          <EntitySet Name="BillRequisitionItems" EntityType="ERPModel.BillRequisitionItem" />
           <EntitySet Name="BillRequisitionMasters" EntityType="ERPModel.BillRequisitionMaster" />
           <AssociationSet Name="FK_BillRequisitionMaster_Accounting_CostCenter" Association="ERPModel.FK_BillRequisitionMaster_Accounting_CostCenter">
             <End Role="Accounting_CostCenter" EntitySet="Accounting_CostCenter" />
@@ -11378,6 +11411,10 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <AssociationSet Name="FK_BillRequisitionMaster_Company" Association="ERPModel.FK_BillRequisitionMaster_Company">
             <End Role="Company" EntitySet="Companies" />
             <End Role="BillRequisitionMaster" EntitySet="BillRequisitionMasters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BillRequisitionDetail_BillRequisitionItem" Association="ERPModel.FK_BillRequisitionDetail_BillRequisitionItem">
+            <End Role="BillRequisitionItem" EntitySet="BillRequisitionItems" />
+            <End Role="BillRequisitionDetail" EntitySet="BillRequisitionDetails" />
           </AssociationSet>
           <AssociationSet Name="FK_BillRequisitionDetail_BillRequisitionMaster" Association="ERPModel.FK_BillRequisitionDetail_BillRequisitionMaster">
             <End Role="BillRequisitionMaster" EntitySet="BillRequisitionMasters" />
@@ -20378,7 +20415,7 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           </Key>
           <Property Name="BillRequisitionDetailId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="BillRequisitionMasterId" Type="Int64" Nullable="false" />
-          <Property Name="Item" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="BillRequisitionItemId" Type="Int32" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
           <Property Name="Qty" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
           <Property Name="UnitPrice" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
@@ -20390,13 +20427,30 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Company" Relationship="ERPModel.FK_BillRequisitionDetail_Company" FromRole="BillRequisitionDetail" ToRole="Company" />
+          <NavigationProperty Name="BillRequisitionItem" Relationship="ERPModel.FK_BillRequisitionDetail_BillRequisitionItem" FromRole="BillRequisitionDetail" ToRole="BillRequisitionItem" />
           <NavigationProperty Name="BillRequisitionMaster" Relationship="ERPModel.FK_BillRequisitionDetail_BillRequisitionMaster" FromRole="BillRequisitionDetail" ToRole="BillRequisitionMaster" />
+        </EntityType>
+        <EntityType Name="BillRequisitionItem">
+          <Key>
+            <PropertyRef Name="BillRequisitionItemId" />
+          </Key>
+          <Property Name="BillRequisitionItemId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="BillRequisitionDetails" Relationship="ERPModel.FK_BillRequisitionDetail_BillRequisitionItem" FromRole="BillRequisitionItem" ToRole="BillRequisitionDetail" />
         </EntityType>
         <EntityType Name="BillRequisitionMaster">
           <Key>
             <PropertyRef Name="BillRequisitionMasterId" />
           </Key>
           <Property Name="BillRequisitionMasterId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BRDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="BillRequisitionNo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="CostCenterId" Type="Int32" Nullable="false" />
           <Property Name="BillRequisitionTypeId" Type="Int32" Nullable="false" />
@@ -20447,6 +20501,18 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             </Principal>
             <Dependent Role="BillRequisitionMaster">
               <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BillRequisitionDetail_BillRequisitionItem">
+          <End Type="ERPModel.BillRequisitionItem" Role="BillRequisitionItem" Multiplicity="1" />
+          <End Type="ERPModel.BillRequisitionDetail" Role="BillRequisitionDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BillRequisitionItem">
+              <PropertyRef Name="BillRequisitionItemId" />
+            </Principal>
+            <Dependent Role="BillRequisitionDetail">
+              <PropertyRef Name="BillRequisitionItemId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -26149,9 +26215,24 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
                 <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
                 <ScalarProperty Name="Qty" ColumnName="Qty" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Item" ColumnName="Item" />
+                <ScalarProperty Name="BillRequisitionItemId" ColumnName="BillRequisitionItemId" />
                 <ScalarProperty Name="BillRequisitionMasterId" ColumnName="BillRequisitionMasterId" />
                 <ScalarProperty Name="BillRequisitionDetailId" ColumnName="BillRequisitionDetailId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BillRequisitionItems">
+            <EntityTypeMapping TypeName="ERPModel.BillRequisitionItem">
+              <MappingFragment StoreEntitySet="BillRequisitionItem">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="BillRequisitionItemId" ColumnName="BillRequisitionItemId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -26170,6 +26251,7 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
                 <ScalarProperty Name="BillRequisitionTypeId" ColumnName="BillRequisitionTypeId" />
                 <ScalarProperty Name="CostCenterId" ColumnName="CostCenterId" />
                 <ScalarProperty Name="BillRequisitionNo" ColumnName="BillRequisitionNo" />
+                <ScalarProperty Name="BRDate" ColumnName="BRDate" />
                 <ScalarProperty Name="BillRequisitionMasterId" ColumnName="BillRequisitionMasterId" />
               </MappingFragment>
             </EntityTypeMapping>

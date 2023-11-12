@@ -12,12 +12,17 @@ namespace KGERP.Data.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class CostCenterManagerMap
+    public partial class BillRequisitionItem
     {
-        public int CostCenterManagerMapId { get; set; }
-        public int CostCenterId { get; set; }
-        public long ManagerId { get; set; }
-        public bool IsMapActive { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public BillRequisitionItem()
+        {
+            this.BillRequisitionDetails = new HashSet<BillRequisitionDetail>();
+        }
+    
+        public int BillRequisitionItemId { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
         public int CompanyId { get; set; }
         public System.DateTime CreateDate { get; set; }
         public string CreatedBy { get; set; }
@@ -25,7 +30,7 @@ namespace KGERP.Data.Models
         public string ModifiedBy { get; set; }
         public bool IsActive { get; set; }
     
-        public virtual Accounting_CostCenter Accounting_CostCenter { get; set; }
-        public virtual Employee Employee { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BillRequisitionDetail> BillRequisitionDetails { get; set; }
     }
 }

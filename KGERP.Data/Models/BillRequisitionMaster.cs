@@ -21,6 +21,7 @@ namespace KGERP.Data.Models
         }
     
         public long BillRequisitionMasterId { get; set; }
+        public System.DateTime BRDate { get; set; }
         public string BillRequisitionNo { get; set; }
         public int CostCenterId { get; set; }
         public int BillRequisitionTypeId { get; set; }

@@ -16,7 +16,7 @@ namespace KGERP.Data.Models
     {
         public long BillRequisitionDetailId { get; set; }
         public long BillRequisitionMasterId { get; set; }
-        public string Item { get; set; }
+        public int BillRequisitionItemId { get; set; }
         public string Description { get; set; }
         public decimal Qty { get; set; }
         public decimal UnitPrice { get; set; }
@@ -29,6 +29,7 @@ namespace KGERP.Data.Models
         public bool IsActive { get; set; }
     
         public virtual Company Company { get; set; }
+        public virtual BillRequisitionItem BillRequisitionItem { get; set; }
         public virtual BillRequisitionMaster BillRequisitionMaster { get; set; }
     }
 }
