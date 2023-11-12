@@ -27,7 +27,7 @@ namespace KGERP.Service.Interface
         #region Cost Center Manager Map
         bool Add(CostCenterManagerMapModel model);
         bool Edit(CostCenterManagerMapModel model);
-        bool Delete(int id);
+        bool Delete(CostCenterManagerMapModel model);
         List<Employee> GetEmployeeList();
         List<Accounting_CostCenter> GetProjectList();
         List<CostCenterManagerMap> GetCostCenterManagerMapList();

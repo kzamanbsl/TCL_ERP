@@ -76,7 +76,7 @@ namespace KGERP.Service.Implementation
                         return true;
                     }
                 }
-                catch (Exception err)
+                catch (Exception e)
                 {
                     return false;
                 }
@@ -92,7 +92,6 @@ namespace KGERP.Service.Implementation
                 {
                     var findBillRequisitionItem = _context.BillRequisitionItems.FirstOrDefault(c => c.BillRequisitionItemId == model.BillRequisitionItemId);
 
-                    findBillRequisitionItem.BillRequisitionItemId = model.BillRequisitionItemId;
                     findBillRequisitionItem.Name = model.Name;
                     findBillRequisitionItem.Description = model.Description;
                     findBillRequisitionItem.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
@@ -103,7 +102,7 @@ namespace KGERP.Service.Implementation
                         return true;
                     }
                 }
-                catch (Exception err)
+                catch (Exception e)
                 {
                     return false;
                 }
@@ -129,7 +128,7 @@ namespace KGERP.Service.Implementation
                         return true;
                     }
                 }
-                catch (Exception err)
+                catch (Exception e)
                 {
                     return false;
                 }
@@ -181,7 +180,7 @@ namespace KGERP.Service.Implementation
                         return true;
                     }
                 }
-                catch (Exception err)
+                catch (Exception e)
                 {
                     return false;
                 }
@@ -197,7 +196,6 @@ namespace KGERP.Service.Implementation
                 {
                     var findBillRequisitionType = _context.BillRequisitionTypes.FirstOrDefault(c => c.BillRequisitionTypeId == model.BillRequisitionTypeId);
 
-                    findBillRequisitionType.BillRequisitionTypeId = model.BillRequisitionTypeId;
                     findBillRequisitionType.Name = model.Name;
                     findBillRequisitionType.Description = model.Description;
                     findBillRequisitionType.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
@@ -208,7 +206,7 @@ namespace KGERP.Service.Implementation
                         return true;
                     }
                 }
-                catch (Exception err)
+                catch (Exception e)
                 {
                     return false;
                 }
@@ -234,7 +232,7 @@ namespace KGERP.Service.Implementation
                         return true;
                     }
                 }
-                catch (Exception err)
+                catch (Exception e)
                 {
                     return false;
                 }
@@ -321,7 +319,7 @@ namespace KGERP.Service.Implementation
                         return true;
                     }
                 }
-                catch (Exception err)
+                catch (Exception e)
                 {
                     return false;
                 }
@@ -347,7 +345,7 @@ namespace KGERP.Service.Implementation
                         return true;
                     }
                 }
-                catch (Exception err)
+                catch (Exception e)
                 {
                     return false;
                 }
@@ -355,13 +353,13 @@ namespace KGERP.Service.Implementation
             return false;
         }
 
-        public bool Delete(int id)
+        public bool Delete(CostCenterManagerMapModel model)
         {
-            if (id > 0 || id != null)
+            if (model.CostCenterManagerMapId > 0 || model.CostCenterManagerMapId != null)
             {
                 try
                 {
-                    var findCostCenterManagerMap = _context.CostCenterManagerMaps.FirstOrDefault(c => c.CostCenterManagerMapId == id);
+                    var findCostCenterManagerMap = _context.CostCenterManagerMaps.FirstOrDefault(c => c.CostCenterManagerMapId == model.CostCenterManagerMapId);
 
                     findCostCenterManagerMap.IsActive = false;
                     findCostCenterManagerMap.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
@@ -373,7 +371,7 @@ namespace KGERP.Service.Implementation
                         return true;
                     }
                 }
-                catch (Exception err)
+                catch (Exception e)
                 {
                     return false;
                 }
