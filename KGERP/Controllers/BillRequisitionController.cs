@@ -50,7 +50,7 @@ namespace KGERP.Controllers
             else if (model.ActionEum == ActionEnum.Delete)
             {
                 //Delete
-                //await _service.DamageTypeDelete(model.ID);
+                _billRequisitionService.Delete(model.CostCenterManagerMapId);
             }
             else
             {

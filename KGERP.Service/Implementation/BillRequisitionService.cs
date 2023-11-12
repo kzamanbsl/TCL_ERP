@@ -5,6 +5,7 @@ using KGERP.Utility;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Core.Common.CommandTrees;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,16 +34,17 @@ namespace KGERP.Service.Implementation
             return requisitionId;
         }
 
-        public List<Project> GetProjectList()
+        public List<Accounting_CostCenter> GetProjectList()
         {
-            List<Project> projects = new List<Project>();
+            List<Accounting_CostCenter> projects = new List<Accounting_CostCenter>();
             var getProject = _context.Accounting_CostCenter.Where(c => c.IsActive == true).ToList();
             foreach ( var project in getProject )
             {
-                var data = new Project()
+                var data = new Accounting_CostCenter()
                 {
-                    ProjectId = project.CostCenterId,
-                    ProjectName = project.Name
+                    CompanyId = project.CompanyId,
+                    CostCenterId = project.CostCenterId,
+                    Name = project.Name
                 };
                 projects.Add(data);
             }
@@ -125,7 +127,35 @@ namespace KGERP.Service.Implementation
 
                     findCostCenterManagerMap.CostCenterId = model.ProjectId;
                     findCostCenterManagerMap.ManagerId = model.EmployeeRowId;
+                    findCostCenterManagerMap.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                    findCostCenterManagerMap.ModifiedDate = DateTime.Now;
                     var count = _context.SaveChanges();
+                    if (count > 0)
+                    {
+                        return true;
+                    }
+                }
+                catch (Exception err)
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        public bool Delete(int id)
+        {
+            if (id > 0 || id != null)
+            {
+                try
+                {
+                    var findCostCenterManagerMap = _context.CostCenterManagerMaps.FirstOrDefault(c => c.CostCenterManagerMapId == id);
+
+                    findCostCenterManagerMap.IsActive = false;
+                    findCostCenterManagerMap.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                    findCostCenterManagerMap.ModifiedDate = DateTime.Now;
+                    var count = _context.SaveChanges();
+
                     if (count > 0)
                     {
                         return true;
