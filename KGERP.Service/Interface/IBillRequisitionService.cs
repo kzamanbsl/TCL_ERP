@@ -11,8 +11,9 @@ namespace KGERP.Service.Interface
         int GetRequisitionNo();
         bool Add(CostCenterManagerMapModel model);
         bool Edit(CostCenterManagerMapModel model);
-        List<CostCenterManagerMap> GetCostCenterManagerMapList();
-        List<Project> GetProjectList();
+        bool Delete(int id);
         List<Employee> GetEmployeeList();
+        List<Accounting_CostCenter> GetProjectList();
+        List<CostCenterManagerMap> GetCostCenterManagerMapList();
     }
 }

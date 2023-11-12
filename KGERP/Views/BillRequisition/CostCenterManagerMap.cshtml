@@ -44,8 +44,8 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label asp-for="ProjectId">Select Project</label>
-                                    @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.Projects, "ProjectId", "ProjectName"), "-- Select Project --", new { id = "selectProject", @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.EmployeeId, "", new { @class = "text-danger" })
+                                    @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.Projects, "CostCenterId", "Name"), "-- Select Project --", new { id = "selectProject", @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.ProjectId, "", new { @class = "text-danger" })
                                 </div>
                             </div>
 
@@ -106,12 +106,12 @@
                                             <input type="hidden" id="costCenterId_@item.CostCenterManagerMapId" name="CostCenterId" value="@item.CostCenterId" />
                                             <input type="hidden" id="costCenterManagerId_@item.CostCenterManagerMapId" name="CostCenterManagerId" value="@item.ManagerId" />
                                         </td>
-                                        <td id="tdProjectName_@item.CostCenterManagerMapId">@Model.Projects.FirstOrDefault(c => c.ProjectId == item.CostCenterId).ProjectName</td>
+                                        <td id="tdProjectName_@item.CostCenterManagerMapId">@Model.Projects.FirstOrDefault(c => c.CostCenterId == item.CostCenterId).Name</td>
                                         <td id="tdEmployeeName_@item.CostCenterManagerMapId">@Model.Employees.FirstOrDefault(c => c.Id == item.ManagerId).Name</td>
                                         <td>
                                             <a id="@item.CostCenterManagerMapId" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
 
-                                            <a id="@item.CostCenterManagerMapId" onclick="makeDeletable(@item.CostCenterManagerMapId);" class="linkPointer" data-toggle="modal" data-target="#DamageTypeDeleteModal" title="Delete"
+                                            <a id="@item.CostCenterManagerMapId" onclick="makeDeletable(@item.CostCenterManagerMapId);" class="linkPointer" data-toggle="modal" data-target="#CostCenterManagerMapModal" title="Delete"
                                                data-placement="top">
                                                 <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
                                             </a>
@@ -126,6 +126,39 @@
         </div>
     </div>
 </section>
+
+@using (Html.BeginForm("CostCenterManagerMap", "BillRequisition", FormMethod.Post, new { id = "costCenterMapFormId", @class = "formValidator", onreset = "resetDDL();" }))
+{
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    @Html.HiddenFor(model => model.CostCenterManagerMapId, new { Value = "", id = "CostCenterManagerMapIdDelete" })
+    @Html.HiddenFor(model => model.ActionId, new { Value = "", id = "ActionIdDelete" })
+    @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFKDelete" })
+
+    <div class="modal fade" id="CostCenterManagerMapModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" onclick="resetForm()" class="close pull-right" data-dismiss="modal" aria-label="Close">
+                        &times;
+                    </button>
+                    <h5 class="modal-title"><b>Cost Center Manager Map Delete</b></h5>
+
+                </div>
+                <div class="modal-body">
+                    <div style="text-align:center">
+                        <h3>Are you sure to delete?</h3>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" id="btnClose" onclick="resetForm()" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" id="btnDelete" class="deleteId btn btn-primary"><i class="glyphicon glyphicon-check"></i> Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
 
 @section scripts {
     <script type="text/javascript">
@@ -148,7 +181,7 @@
 
         function makeDeletable(id) {
             if (id !== null) {
-                $('#DamageTypeIdDelete').val(id);
+                $('#CostCenterManagerMapIdDelete').val(id);
                 $('#ActionIdDelete').val(3);
                 $("#CompanyFKDelete").val("@Model.CompanyFK");
             }
