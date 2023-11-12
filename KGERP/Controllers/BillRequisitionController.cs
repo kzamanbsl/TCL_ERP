@@ -23,6 +23,17 @@ namespace KGERP.Controllers
             _service = billRequisitionService;
         }
 
+        #region Bill Requisition Item
+        public ActionResult BillRequisitionItem(int companyId = 21)
+        {
+            //var viewData = new BillRequisitionTypeModel()
+            //{
+            //    BillRequisitionItems = _service.GetBillRequisitionItemList()
+            //};
+            return View();
+        }
+        #endregion
+
         #region Bill Requisition Type
         public ActionResult BillRequisitionType(int companyId = 21)
         {
@@ -99,7 +110,6 @@ namespace KGERP.Controllers
         }
 
         #endregion
-
 
         #region  BillRequisition Circle
 
