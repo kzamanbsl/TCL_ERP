@@ -24,17 +24,45 @@ namespace KGERP.Controllers
         }
 
         #region Bill Requisition Item
+
         public ActionResult BillRequisitionItem(int companyId = 21)
         {
-            //var viewData = new BillRequisitionTypeModel()
-            //{
-            //    BillRequisitionItems = _service.GetBillRequisitionItemList()
-            //};
-            return View();
+            var viewData = new BillRequisitionItemModel()
+            {
+                BillRequisitionItems = _service.GetBillRequisitionItemList()
+            };
+            return View(viewData);
         }
+
+        [HttpPost]
+        public ActionResult BillRequisitionItem(BillRequisitionItemModel model)
+        {
+            if (model.ActionEum == ActionEnum.Add)
+            {
+                //Add 
+                _service.Add(model);
+            }
+            else if (model.ActionEum == ActionEnum.Edit)
+            {
+                //Edit
+                _service.Edit(model);
+            }
+            else if (model.ActionEum == ActionEnum.Delete)
+            {
+                //Delete
+                _service.Delete(model);
+            }
+            else
+            {
+                return View("Error");
+            }
+            return RedirectToAction(nameof(BillRequisitionItem), new { companyId = model.CompanyFK });
+        }
+
         #endregion
 
         #region Bill Requisition Type
+
         public ActionResult BillRequisitionType(int companyId = 21)
         {
             var viewData = new BillRequisitionTypeModel()
@@ -68,6 +96,7 @@ namespace KGERP.Controllers
             }
             return RedirectToAction(nameof(BillRequisitionType), new { companyId = model.CompanyFK });
         }
+
         #endregion
 
         #region Cost Center Manager Map
@@ -113,7 +142,6 @@ namespace KGERP.Controllers
 
         #region  BillRequisition Circle
 
-
         [HttpGet]
         public async Task<ActionResult> BillRequisitionMasterSlave(int companyId = 0, long BillRequisitionMasterId = 0)
         {
@@ -135,8 +163,6 @@ namespace KGERP.Controllers
             return View(billRequisitionMasterModel);
         }
 
-
         #endregion
-
     }
 }

@@ -34,7 +34,113 @@ namespace KGERP.Service.Implementation
             return requisitionId;
         }
 
+        #region Bill Requisition Item
+
+        public List<BillRequisitionItem> GetBillRequisitionItemList()
+        {
+            List<BillRequisitionItem> billRequisitionItems = new List<BillRequisitionItem>();
+            var getBillRequisitionItems = _context.BillRequisitionItems.Where(c => c.IsActive == true).ToList();
+            foreach (var item in getBillRequisitionItems)
+            {
+                var data = new BillRequisitionItem()
+                {
+                    BillRequisitionItemId = item.BillRequisitionItemId,
+                    Name = item.Name,
+                    Description = item.Description
+                };
+                billRequisitionItems.Add(data);
+            }
+            return billRequisitionItems;
+        }
+
+        public bool Add(BillRequisitionItemModel model)
+        {
+            if (model != null)
+            {
+                try
+                {
+                    BillRequisitionItem data = new BillRequisitionItem()
+                    {
+                        Name = model.Name,
+                        Description = model.Description,
+                        //CompanyId = (int)model.CompanyFK,
+                        CompanyId = 21,
+                        IsActive = true,
+                        CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                        CreateDate = DateTime.Now
+                    };
+                    _context.BillRequisitionItems.Add(data);
+                    var count = _context.SaveChanges();
+                    if (count > 0)
+                    {
+                        return true;
+                    }
+                }
+                catch (Exception err)
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        public bool Edit(BillRequisitionItemModel model)
+        {
+            if (model != null)
+            {
+                try
+                {
+                    var findBillRequisitionItem = _context.BillRequisitionItems.FirstOrDefault(c => c.BillRequisitionItemId == model.BillRequisitionItemId);
+
+                    findBillRequisitionItem.BillRequisitionItemId = model.BillRequisitionItemId;
+                    findBillRequisitionItem.Name = model.Name;
+                    findBillRequisitionItem.Description = model.Description;
+                    findBillRequisitionItem.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                    findBillRequisitionItem.ModifiedDate = DateTime.Now;
+                    var count = _context.SaveChanges();
+                    if (count > 0)
+                    {
+                        return true;
+                    }
+                }
+                catch (Exception err)
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        public bool Delete(BillRequisitionItemModel model)
+        {
+            if (model.BillRequisitionItemId > 0 || model.BillRequisitionItemId != null)
+            {
+                try
+                {
+                    var findBillRequisitionItem = _context.BillRequisitionItems.FirstOrDefault(c => c.BillRequisitionItemId == model.BillRequisitionItemId);
+
+                    findBillRequisitionItem.IsActive = false;
+                    findBillRequisitionItem.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                    findBillRequisitionItem.ModifiedDate = DateTime.Now;
+                    var count = _context.SaveChanges();
+
+                    if (count > 0)
+                    {
+                        return true;
+                    }
+                }
+                catch (Exception err)
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        #endregion
+
         #region Bill Requisition Type
+
         public List<BillRequisitionType> GetBillRequisitionTypeList()
         {
             List<BillRequisitionType> billRequisitionTypes = new List<BillRequisitionType>();
@@ -135,9 +241,11 @@ namespace KGERP.Service.Implementation
             }
             return false;
         }
+
         #endregion
 
         #region Cost Center Manager Map
+
         public List<Accounting_CostCenter> GetProjectList()
         {
             List<Accounting_CostCenter> projects = new List<Accounting_CostCenter>();
@@ -272,6 +380,7 @@ namespace KGERP.Service.Implementation
             }
             return false;
         }
+
         #endregion
     }
 }
