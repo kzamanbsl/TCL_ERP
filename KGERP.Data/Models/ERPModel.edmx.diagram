@@ -539,6 +539,14 @@
         <AssociationConnector Association="ERPModel.FK_BillRequisitionDetail_BillRequisitionItem" />
         <AssociationConnector Association="ERPModel.FK_BillRequisitionDetail_BillRequisitionMaster" />
         <AssociationConnector Association="ERPModel.FK_BillRequisitionMaster_BillRequisitionType" />
+        <EntityTypeShape EntityType="ERPModel.BillRequisitionApproval" Width="1.5" PointX="54.125" PointY="43.375" />
+        <EntityTypeShape EntityType="ERPModel.BillRequisitionVoucherMap" Width="1.5" PointX="15.875" PointY="60" />
+        <AssociationConnector Association="ERPModel.FK_BillRequisitionApproval_Company" />
+        <AssociationConnector Association="ERPModel.FK_VoucherBillRequisitionMap_Company" />
+        <AssociationConnector Association="ERPModel.FK_BillRequisitionApproval_Employee" />
+        <AssociationConnector Association="ERPModel.FK_BillRequisitionVoucherMap_Voucher" />
+        <AssociationConnector Association="ERPModel.FK_BillRequisitionApproval_BillRequisitionMaster" />
+        <AssociationConnector Association="ERPModel.FK_VoucherBillRequisitionMap_BillRequisitionMaster" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
