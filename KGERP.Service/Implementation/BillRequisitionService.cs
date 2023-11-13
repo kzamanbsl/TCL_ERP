@@ -439,9 +439,20 @@ namespace KGERP.Service.Implementation
             // Generate unique bill requisition number
             string GetUniqueRequisitionNo()
             {
+                int getLastId = _context.BillRequisitionMasters.ToList().Count();
+                var getLastIdLength = getLastId.ToString().Length;
+                int setZeroBeforeLastId(int length)
+                {
+                    int generatedLength = 0000;
+                    generatedLength += length;
+                    return generatedLength;
+                }
+
                 string prefix = "REQ";
-                string uniqueIdentifier = Guid.NewGuid().ToString("N").Substring(0, 4);
-                string generatedNumber = $"{prefix.ToUpper()}-{DateTime.Now:yyyyMMdd}-{uniqueIdentifier.ToUpper()}";
+                //string uniqueIdentifier = Guid.NewGuid().ToString("N").Substring(0, 4);
+                //string generatedNumber = $"{prefix.ToUpper()}-{DateTime.Now:yyMMdd}-{uniqueIdentifier}";
+
+                string generatedNumber = $"{prefix.ToUpper()}-{DateTime.Now:yyMMdd}-{setZeroBeforeLastId(getLastIdLength)}";
 
                 return generatedNumber;
             }
