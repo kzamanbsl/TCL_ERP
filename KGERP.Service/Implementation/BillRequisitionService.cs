@@ -439,22 +439,37 @@ namespace KGERP.Service.Implementation
             // Generate unique bill requisition number
             string GetUniqueRequisitionNo()
             {
-                int getLastId = _context.BillRequisitionMasters.ToList().Count();
-                var getLastIdLength = getLastId.ToString().Length;
-                int setZeroBeforeLastId(int length)
+                #region Generate Unique Requisition Number With Last Id
+
+                int getLastRowId = _context.BillRequisitionMasters.Where(c => c.CreateDate == DateTime.Today).Count();
+
+                string setZeroBeforeLastId(int lastRowId, int length)
                 {
-                    int generatedLength = 0000;
-                    generatedLength += length;
-                    return generatedLength;
+                    string totalDigit = "";
+
+                    for (int i = (length - lastRowId.ToString().Length); 0 < i; i--)
+                    {
+                        totalDigit += "0";
+                    }
+                    return totalDigit + lastRowId.ToString();
                 }
 
                 string prefix = "REQ";
-                //string uniqueIdentifier = Guid.NewGuid().ToString("N").Substring(0, 4);
-                //string generatedNumber = $"{prefix.ToUpper()}-{DateTime.Now:yyMMdd}-{uniqueIdentifier}";
 
-                string generatedNumber = $"{prefix.ToUpper()}-{DateTime.Now:yyMMdd}-{setZeroBeforeLastId(getLastIdLength)}";
+                string generatedNumber = $"{prefix.ToUpper()}-{DateTime.Now:yyMMdd}-{setZeroBeforeLastId(++getLastRowId, 4)}";
 
                 return generatedNumber;
+
+                #endregion
+
+                #region Generate Unique Requisition Number With Guid
+
+                //string prefix = "REQ";
+                //string uniqueIdentifier = Guid.NewGuid().ToString("N").Substring(0, 5);
+                //string generatedNumber = $"{prefix.ToUpper()}-{DateTime.Now:yyMMdd}-{uniqueIdentifier}";
+                //return generatedNumber;
+
+                #endregion
             }
 
             BillRequisitionMaster billRequisitionMaster = new BillRequisitionMaster
