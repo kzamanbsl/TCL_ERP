@@ -436,6 +436,16 @@ namespace KGERP.Service.Implementation
         {
             long result = -1;
 
+            // Generate unique bill requisition number
+            string GetUniqueRequisitionNo()
+            {
+                string prefix = "REQ";
+                string uniqueIdentifier = Guid.NewGuid().ToString("N").Substring(0, 4);
+                string generatedNumber = $"{prefix.ToUpper()}-{DateTime.Now:yyyyMMdd}-{uniqueIdentifier.ToUpper()}";
+
+                return generatedNumber;
+            }
+
             BillRequisitionMaster billRequisitionMaster = new BillRequisitionMaster
             {
                 BillRequisitionMasterId = model.BillRequisitionMasterId,
@@ -443,7 +453,7 @@ namespace KGERP.Service.Implementation
                 BillRequisitionTypeId = model.BillRequisitionTypeId,
                 CostCenterId = model.CostCenterId,
                 Description = model.Description,
-                BillRequisitionNo = model.BillRequisitionNo,
+                BillRequisitionNo = GetUniqueRequisitionNo(),
                 StatusId = (int)model.StatusId,
                 CompanyId = (int)model.CompanyFK,
                 CreatedBy = System.Web.HttpContext.Current.Session["EmployeeName"].ToString(),
