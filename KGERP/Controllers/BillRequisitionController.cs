@@ -156,11 +156,10 @@ namespace KGERP.Controllers
             else
             {
                 billRequisitionMasterModel = await _service.GetBillRequisitionMasterDetail(companyId, billRequisitionMasterId);
-
             }
-            //billRequisitionMasterModel.ZoneList = new SelectList(procurementService.ZonesDropDownList(companyId), "Value", "Text");
-            //billRequisitionMasterModel.DamageTypeList = new SelectList(configurationService.DamageTypeDropDownList(companyId), "Value", "Text");
-            //billRequisitionMasterModel.StockInfos = _stockInfoService.GetStockInfoSelectModels(companyId);
+            billRequisitionMasterModel.ProjectList = new SelectList(_service.GetProjectList(), "CostCenterId", "Name");
+            billRequisitionMasterModel.RequisitionTypeList = new SelectList(_service.GetBillRequisitionTypeList(), "BillRequisitionTypeId", "Name");
+            billRequisitionMasterModel.RequisitionItemList = new SelectList(_service.GetBillRequisitionItemList(), "BillRequisitionItemId", "Name");
             return View(billRequisitionMasterModel);
         }
 
