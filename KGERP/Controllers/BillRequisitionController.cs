@@ -144,18 +144,18 @@ namespace KGERP.Controllers
         #region 1.1 BillRequisition Basic CRUD Circle
 
         [HttpGet]
-        public async Task<ActionResult> BillRequisitionMasterSlave(int companyId = 0, long BillRequisitionMasterId = 0)
+        public async Task<ActionResult> BillRequisitionMasterSlave(int companyId = 0, long billRequisitionMasterId = 0)
         {
             BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
 
-            if (BillRequisitionMasterId == 0)
+            if (billRequisitionMasterId == 0)
             {
                 billRequisitionMasterModel.CompanyFK = companyId;
                 billRequisitionMasterModel.StatusId = EnumBillRequisitionStatus.Draft;
             }
             else
             {
-                billRequisitionMasterModel = await _service.GetBillRequisitionMasterDetail(companyId, BillRequisitionMasterId);
+                billRequisitionMasterModel = await _service.GetBillRequisitionMasterDetail(companyId, billRequisitionMasterId);
 
             }
             //billRequisitionMasterModel.ZoneList = new SelectList(procurementService.ZonesDropDownList(companyId), "Value", "Text");
@@ -181,7 +181,7 @@ namespace KGERP.Controllers
             {
                 await _service.BillRequisitionDetailEdit(billRequisitionMasterModel);
             }
-            return RedirectToAction(nameof(BillRequisitionMasterSlave), new { companyId = billRequisitionMasterModel.CompanyFK, BillRequisitionMasterId = billRequisitionMasterModel.BillRequisitionMasterId });
+            return RedirectToAction(nameof(BillRequisitionMasterSlave), new { companyId = billRequisitionMasterModel.CompanyFK, billRequisitionMasterId = billRequisitionMasterModel.BillRequisitionMasterId });
         }
 
 

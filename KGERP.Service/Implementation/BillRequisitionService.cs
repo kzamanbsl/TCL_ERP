@@ -435,6 +435,7 @@ namespace KGERP.Service.Implementation
         public async Task<long> BillRequisitionMasterAdd(BillRequisitionMasterModel model)
         {
             long result = -1;
+
             BillRequisitionMaster billRequisitionMaster = new BillRequisitionMaster
             {
                 BillRequisitionMasterId = model.BillRequisitionMasterId,
