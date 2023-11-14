@@ -182,7 +182,6 @@ namespace KGERP.Data.Models
         public virtual DbSet<SMSScheduleLog> SMSScheduleLogs { get; set; }
         public virtual DbSet<Requisition> Requisitions { get; set; }
         public virtual DbSet<Store> Stores { get; set; }
-        public virtual DbSet<Accounting_CostCenter> Accounting_CostCenter { get; set; }
         public virtual DbSet<Demand> Demands { get; set; }
         public virtual DbSet<LCInfo> LCInfoes { get; set; }
         public virtual DbSet<ErpSMS> ErpSMS { get; set; }
@@ -301,10 +300,13 @@ namespace KGERP.Data.Models
         public virtual DbSet<BillRequisitionType> BillRequisitionTypes { get; set; }
         public virtual DbSet<CostCenterManagerMap> CostCenterManagerMaps { get; set; }
         public virtual DbSet<BillRequisitionDetail> BillRequisitionDetails { get; set; }
-        public virtual DbSet<BillRequisitionItem> BillRequisitionItems { get; set; }
         public virtual DbSet<BillRequisitionMaster> BillRequisitionMasters { get; set; }
         public virtual DbSet<BillRequisitionApproval> BillRequisitionApprovals { get; set; }
         public virtual DbSet<BillRequisitionVoucherMap> BillRequisitionVoucherMaps { get; set; }
+        public virtual DbSet<Accounting_CostCenter> Accounting_CostCenter { get; set; }
+        public virtual DbSet<Accounting_CostCenterType> Accounting_CostCenterType { get; set; }
+        public virtual DbSet<BillBoQItem> BillBoQItems { get; set; }
+        public virtual DbSet<BillRequisitionItem> BillRequisitionItems { get; set; }
     
         public virtual ObjectResult<GetEmployeeListForTeam_Result> GetEmployeeListForTeam(Nullable<int> companyId)
         {

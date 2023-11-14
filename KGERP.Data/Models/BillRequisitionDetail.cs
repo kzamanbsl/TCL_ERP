@@ -29,7 +29,7 @@ namespace KGERP.Data.Models
         public bool IsActive { get; set; }
     
         public virtual Company Company { get; set; }
-        public virtual BillRequisitionItem BillRequisitionItem { get; set; }
         public virtual BillRequisitionMaster BillRequisitionMaster { get; set; }
+        public virtual BillRequisitionItem BillRequisitionItem { get; set; }
     }
 }

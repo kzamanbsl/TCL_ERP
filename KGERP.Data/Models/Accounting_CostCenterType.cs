@@ -12,16 +12,15 @@ namespace KGERP.Data.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Accounting_CostCenter
+    public partial class Accounting_CostCenterType
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Accounting_CostCenter()
+        public Accounting_CostCenterType()
         {
-            this.BillRequisitionMasters = new HashSet<BillRequisitionMaster>();
-            this.CostCenterManagerMaps = new HashSet<CostCenterManagerMap>();
+            this.Accounting_CostCenter = new HashSet<Accounting_CostCenter>();
         }
     
-        public int CostCenterId { get; set; }
+        public int CostCenterTypeId { get; set; }
         public string Name { get; set; }
         public int CompanyId { get; set; }
         public string CreatedBy { get; set; }
@@ -29,13 +28,8 @@ namespace KGERP.Data.Models
         public string ModifiedBy { get; set; }
         public string ModifiedDate { get; set; }
         public bool IsActive { get; set; }
-        public bool Status { get; set; }
-        public Nullable<int> CostCenterTypeId { get; set; }
     
-        public virtual Accounting_CostCenterType Accounting_CostCenterType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BillRequisitionMaster> BillRequisitionMasters { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CostCenterManagerMap> CostCenterManagerMaps { get; set; }
+        public virtual ICollection<Accounting_CostCenter> Accounting_CostCenter { get; set; }
     }
 }
