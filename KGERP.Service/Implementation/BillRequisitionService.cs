@@ -436,6 +436,36 @@ namespace KGERP.Service.Implementation
         {
             long result = -1;
 
+            try
+            {
+                BillRequisitionMaster billRequisitionMaster = new BillRequisitionMaster
+                {
+                    BillRequisitionMasterId = model.BillRequisitionMasterId,
+                    BRDate = model.BRDate,
+                    BillRequisitionTypeId = model.BillRequisitionTypeId,
+                    CostCenterId = model.CostCenterId,
+                    Description = model.Description,
+                    BillRequisitionNo = GetUniqueRequisitionNo(),
+                    StatusId = (int)model.StatusId,
+                    CompanyId = (int)model.CompanyFK,
+                    CreatedBy = System.Web.HttpContext.Current.Session["EmployeeName"].ToString(),
+                    CreateDate = DateTime.Now,
+                    IsActive = true
+                };
+
+                _context.BillRequisitionMasters.Add(billRequisitionMaster);
+
+                if (await _context.SaveChangesAsync() > 0)
+                {
+                    result = billRequisitionMaster.BillRequisitionMasterId;
+                }
+                return result;
+            }
+            catch (Exception error)
+            {
+                return result;
+            }
+
             // Generate unique bill requisition number
             string GetUniqueRequisitionNo()
             {
@@ -471,28 +501,8 @@ namespace KGERP.Service.Implementation
 
                 #endregion
             }
-
-            BillRequisitionMaster billRequisitionMaster = new BillRequisitionMaster
-            {
-                BillRequisitionMasterId = model.BillRequisitionMasterId,
-                BRDate = model.BRDate,
-                BillRequisitionTypeId = model.BillRequisitionTypeId,
-                CostCenterId = model.CostCenterId,
-                Description = model.Description,
-                BillRequisitionNo = GetUniqueRequisitionNo(),
-                StatusId = (int)model.StatusId,
-                CompanyId = (int)model.CompanyFK,
-                CreatedBy = System.Web.HttpContext.Current.Session["EmployeeName"].ToString(),
-                CreateDate = DateTime.Now,
-                IsActive = true
-            };
-            _context.BillRequisitionMasters.Add(billRequisitionMaster);
-            if (await _context.SaveChangesAsync() > 0)
-            {
-                result = billRequisitionMaster.BillRequisitionMasterId;
-            }
-            return result;
         }
+
         public async Task<long> BillRequisitionDetailAdd(BillRequisitionMasterModel model)
         {
             long result = -1;

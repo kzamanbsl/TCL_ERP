@@ -19,15 +19,15 @@
     <h1>
         @if (Model.BillRequisitionMasterId > 0)
         {
-            <span>
-                Requisition Entry
-            </span>
+        <span>
+            Requisition Entry
+        </span>
         }
         else
         {
-            <span>
-                Requisition Entry
-            </span>
+        <span>
+            Requisition Entry
+        </span>
         }
     </h1>
     <ol class="breadcrumb">
@@ -37,314 +37,406 @@
 </section>
 @using (Html.BeginForm("BillRequisitionMasterSlave", "BillRequisition", FormMethod.Post, new { id = "BRMasterSlaveFormId", @class = "formValidator" }))
 {
-    <section class="content">
-        <div class="row">
-            <div class="box">
-                @Html.AntiForgeryToken()
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                @Html.HiddenFor(model => model.BillRequisitionMasterId, new { id = "hidBRMasterId" })
-                @Html.HiddenFor(model => model.DetailModel.BillRequisitionDetailId, new { id = "hidDamageDetailId" })
+<section class="content">
+    <div class="row">
+        <div class="box">
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.BillRequisitionMasterId, new { id = "hidBRMasterId" })
+            @Html.HiddenFor(model => model.DetailModel.BillRequisitionDetailId, new { id = "hidDamageDetailId" })
 
-                @Html.HiddenFor(model => model.ActionId, new { id = "ActionId" })
-                @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
-                @*@Html.HiddenFor(model => model.FromCustomerId, new { id = "hidCustomerTypeFk" })*@
-                @*<span id="hiddenUnitPrice" hidden="hidden"></span>*@
-                <div class="box-danger">
-                    <div class="box-body">
-                        @if (Model.BillRequisitionMasterId > 0)
+            @Html.HiddenFor(model => model.ActionId, new { id = "ActionId" })
+            @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
+            @*@Html.HiddenFor(model => model.FromCustomerId, new { id = "hidCustomerTypeFk" })*@
+            @*<span id="hiddenUnitPrice" hidden="hidden"></span>*@
+            <div class="box-danger">
+                <div class="box-body">
+                    @if (Model.BillRequisitionMasterId > 0)
                         {
-                            <div class="col-md-1"> </div>
-                            <div class="col-md-10">
-                                <table class="table">
-                                    <tr>
-                                        <th style="width:18%"> Date</th>
-                                        <th style="width:2%">:</th>
-                                        @*<td style="width:30%">@Model.CreatedDate.ToShortDateString()</td>*@
-                                        <td style="width:30%">11-11-2023</td>
+                    <div class="col-md-1"> </div>
+                    <div class="col-md-10">
+                        <table class="table">
+                            <tr>
+                                <th style="width:18%"> Date</th>
+                                <th style="width:2%">:</th>
+                                @*<td style="width:30%">@Model.CreatedDate.ToShortDateString()</td>*@
+                                <td style="width:30%">11-11-2023</td>
 
-                                        <th>Status</th>
-                                        <th>:</th>
-                                        <td>Draft</td>
-                                    </tr>
+                                <th>Status</th>
+                                <th>:</th>
+                                <td>Draft</td>
+                            </tr>
 
-                                    <tr>
-                                        <th>Project </th>
-                                        <th>:</th>
-                                        <td>Kalikoir Project</td>
-                                        <th>Project Manager</th>
-                                        <th>:</th>
-                                        <td>Mr. Tareq</td>
-                                    </tr>
+                            <tr>
+                                <th>Project </th>
+                                <th>:</th>
+                                <td>Kalikoir Project</td>
+                                <th>Project Manager</th>
+                                <th>:</th>
+                                <td>Mr. Tareq</td>
+                            </tr>
 
-                                    <tr>
-                                        <th>Remarks</th>
-                                        <th>:</th>
-                                        <td>@Model.Remarks</td>
+                            <tr>
+                                <th>Remarks</th>
+                                <th>:</th>
+                                <td>@Model.Remarks</td>
 
-                                        <th>Created By</th>
-                                        <th>:</th>
-                                        <td>@Model.CreatedBy</td>
-                                    </tr>
-                                </table>
-                            </div>
-                            <div class="col-md-1"> </div>
+                                <th>Created By</th>
+                                <th>:</th>
+                                <td>@Model.CreatedBy</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-md-1"> </div>
                         }
 
-                        <div class="box-body">
+                <div class="box-body">
 
-                            @if (Model.BillRequisitionMasterId == 0)
-                            {
+                    @if (Model.BillRequisitionMasterId == 0)
+                        {
+                    <div class="row">
 
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <label for="message-text" class="col-form-label">Requisition Date :</label>
-                                        <div class="form-group">
-                                            <input name="OperationDate" asp-for="CreatedDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker" placeholder="Operation Date" autocomplete="off" id="txtOperationrDate">
-                                            @Html.ValidationMessageFor(model => model.CreatedDate, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label>Project</label>
-                                            @Html.DropDownListFor(model => model.CostCenterId, Model.ProjectList as SelectList, "==Select Project==", new { id = "ddlCostCenterId", @class = "form-control searchingDropdown", style = "width:100%" })
-                                            @Html.ValidationMessageFor(model => model.CostCenterId, "", new { @class = "text-danger" })
-
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label>Requisition Type</label>
-                                            @Html.DropDownListFor(model => model.BillRequisitionTypeId, Model.RequisitionTypeList as SelectList, "==Select Requisition Type==", new { id = "ddlBRTypeId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
-                                            @Html.ValidationMessageFor(model => model.BillRequisitionTypeId, "", new { @class = "text-danger" })
-                                         
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label for="txtDescription" class="col-form-label">Description:</label>
-                                            @Html.TextAreaFor(model => model.Description, new { id = "txtDescription", placeholder = "Description", @class = "form-control", rows = 2 })
-                                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                </div>
-
-                            }
-
-                            @if (Model.StatusId == EnumBillRequisitionStatus.Draft)
-                            {
-                                <div class="row">
-
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label>Requisition Item</label>
-                                            @Html.DropDownListFor(model => model.DetailModel.BRItemId, Model.RequisitionItemList as SelectList, "==Select item==", new { id = "ddlBRTypeId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
-                                            @Html.ValidationMessageFor(model => model.DetailModel.BRItemId, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-8">
-                                        <div class="form-group">
-                                            <label for="txtDescription" class="col-form-label">Item Description :</label>
-                                            @Html.TextAreaFor(model => model.DetailModel.Description, new { id = "txtitemDescription", placeholder = "Item Description", @class = "form-control", rows = 1 })
-                                            @Html.ValidationMessageFor(model => model.DetailModel.Description, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label>Quantity:</label>
-
-                                            @Html.TextBoxFor(model => model.DetailModel.Qty, new { id = "txtDamageQuantity", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = " Quantity", required = "Required" })
-                                            @Html.ValidationMessageFor(model => model.DetailModel.Qty, "", new { @class = "text-danger" })
-
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label>Unit Price:</label>
-                                            @Html.TextBoxFor(model => model.DetailModel.UnitPrice, new { id = "txtUnitPrice", type = "number", step = "0.01", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Unit Price" })
-                                            @Html.ValidationMessageFor(model => model.DetailModel.UnitPrice, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                </div>
-
-                            }
+                        <div class="col-md-4">
+                            <label for="message-text" class="col-form-label">Requisition Date :</label>
+                            <div class="form-group">
+                                <input name="BRDate" asp-for="BRDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker " placeholder="Operation Date" autocomplete="off" id="txtOperationrDate" style="width: 92% !important">
+                                @Html.ValidationMessageFor(model => model.BRDate, "", new { @class = "text-danger" })
+                            </div>
                         </div>
 
-                        @if (Model.StatusId == EnumBillRequisitionStatus.Draft)
-                        {
-                            <div class="box-footer">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        @*<table class="table" id="tblStockAvailable">
-                                                <tr>
-                                                    <th>Available Stock: </th>
-                                                    <th id="stockAvailable"></th>
-                                                </tr>
-                                            </table>*@
-                                    </div>
-                                    <div class="col-md-4">
-
-                                    </div>
-                                    <div class="col-lg-4 col-md-4">
-                                        <input type="submit" id="soCreateBtn" value="Add Requisition" class="btn btn-primary btn-block" />
-                                    </div>
-                                </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Requisition Type :</label>
+                                @Html.DropDownListFor(model => model.BillRequisitionTypeId, Model.RequisitionTypeList as SelectList, "==Select Requisition Type==", new { id = "ddlBRTypeId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                @Html.ValidationMessageFor(model => model.BillRequisitionTypeId, "", new { @class = "text-danger" })
                             </div>
-                        }
-                        
-                        @if (Model.BillRequisitionMasterId > 0)
-                        {
+                        </div>
 
-                            @Html.HiddenFor(model => model.ID, new { id = "hidSlaveID" })
-                            <div class="table-responsive col-md-12  text-nowrap">
-                                <table id="KgErpDataTable" class="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th style="padding:5px;text-align:center;">SL</th>
-                                            <th style="padding:5px;text-align:left;">Item</th>
-                                            <th style="padding:5px;text-align:right;">Quantity</th>
-                                            <th style="padding:5px;text-align:right;">Unit Price</th>
-                                            @if (Model.StatusId == EnumBillRequisitionStatus.Draft)
-                                            {
-                                                <th style="padding:5px;text-align:center;">Action</th>
-                                            }
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-
-                                        @foreach (var item in Model.DetailList)
-                                        {
-
-                                            <tr>
-                                                <td style="padding:5px">@(++sl)</td>
-                                                <td style="padding:5px;text-align:left;">@item.ItemName</td>
-                                                <td style="padding:5px;text-align:center;">@String.Format("{0:0.00}", item.Qty) </td>
-                                                <td style="padding:5px;text-align:right;">@String.Format("{0:0.00}", item.UnitPrice)</td>
-                                                @{ if (Model.StatusId == EnumBillRequisitionStatus.Draft)
-                                                    {
-                                                        <td style="padding:5px;text-align:center;">
-                                                            <a id="@item.BillRequisitionDetailId" onclick=" makeEditble(@item.BillRequisitionDetailId);" class="linkPointer" title="Edit"><i class="fa fa-edit" aria-hidden="true"></i></a>
-
-                                                            <a id="@item.BillRequisitionDetailId" onclick="makeDeletale(@item.BillRequisitionDetailId)" class="linkPointer" data-toggle="modal" data-target="#deleteDamageSlaveModal" title="Delete" data-placement="top"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>
-                                                        </td>
-                                                    }
-                                                }
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Project Type :</label>
+                                @Html.DropDownListFor(model => model.BillRequisitionTypeId, Model.RequisitionTypeList as SelectList, "==Select Project Type==", new { id = "ddlProjectTypeId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                @Html.ValidationMessageFor(model => model.BillRequisitionTypeId, "", new { @class = "text-danger" })
                             </div>
-                        }
+                        </div>
 
                     </div>
 
-                    @if (Model.BillRequisitionMasterId > 0)
-                    {
-                        <div class="box-footer">
+                    <div class="row">
 
-                            <div class="row">
-                                <div class="col-md-6"></div>
-                                <div class="col-md-6">
-                                    <a id="@Model.BillRequisitionMasterId" onclick="makeSubmitble(@Model.BillRequisitionMasterId)" class="linkPointer btn btn-success" data-toggle="modal" style="width:100%" data-target="#submitDamageModal" data-placement="top">
-                                        @if (Model.StatusId == EnumBillRequisitionStatus.Submitted)
-                                        {
-                                            <i>Undo Submit</i>
-                                        }
-                                        else
-                                        {
-                                            <i>Submit</i>
-                                        }
-                                    </a>
-                                </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Select Project :</label>
+                                @Html.DropDownListFor(model => model.CostCenterId, Model.ProjectList as SelectList, "==Select Project==", new { id = "ddlCostCenterId", @class = "form-control searchingDropdown", style = "width:100%" })
+                                @Html.ValidationMessageFor(model => model.CostCenterId, "", new { @class = "text-danger" })
                             </div>
                         </div>
-                    }
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Work Detail / BOQ Item :</label>
+                                @Html.DropDownListFor(model => model.BillRequisitionTypeId, Model.RequisitionTypeList as SelectList, "==Select Requisition Type==", new { id = "ddlBRTypeId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                @Html.ValidationMessageFor(model => model.BillRequisitionTypeId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="txtDescription" class="col-form-label">Work Description :</label>
+                                @Html.TextAreaFor(model => model.DetailModel.Description, new { id = "txtitemDescription", placeholder = "Type work description here...", @class = "form-control", rows = 1 })
+                                @Html.ValidationMessageFor(model => model.DetailModel.Description, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Requisition Item/Material :</label>
+                                @Html.DropDownListFor(model => model.DetailModel.BRItemId, Model.RequisitionItemList as SelectList, "==Select Requisition Material==", new { id = "ddlBRTypeId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                @Html.ValidationMessageFor(model => model.DetailModel.BRItemId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Material Unit :</label>
+                                @Html.TextBoxFor(model => model.DetailModel.Qty, new { id = "txtDamageQuantity", @class = "form-control", placeholder = "Material Unit"})
+                                @Html.ValidationMessageFor(model => model.DetailModel.Qty, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Estimate Quantity :</label>
+                                @Html.TextBoxFor(model => model.DetailModel.UnitPrice, new { id = "txtUnitPrice", type = "number", step = "0.01", @class = "form-control", placeholder = "Estimate quantity" })
+                                @Html.ValidationMessageFor(model => model.DetailModel.UnitPrice, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Recived So Far :</label>
+                                @Html.TextBoxFor(model => model.DetailModel.UnitPrice, new { id = "txtUnitPrice", type = "number", step = "0.01", @class = "form-control", placeholder = "Recived so far" })
+                                @Html.ValidationMessageFor(model => model.DetailModel.UnitPrice, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Remaining Quantity :</label>
+                                @Html.TextBoxFor(model => model.DetailModel.UnitPrice, new { id = "txtUnitPrice", type = "number", step = "0.01", @class = "form-control", placeholder = "Remaining quantity" })
+                                @Html.ValidationMessageFor(model => model.DetailModel.UnitPrice, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Material Demand :</label>
+                                @Html.TextBoxFor(model => model.DetailModel.UnitPrice, new { id = "txtUnitPrice", type = "number", step = "0.01", @class = "form-control", placeholder = "Material demand" })
+                                @Html.ValidationMessageFor(model => model.DetailModel.UnitPrice, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Unit Rate :</label>
+                                @Html.TextBoxFor(model => model.DetailModel.UnitPrice, new { id = "txtUnitPrice", type = "number", step = "0.01", @class = "form-control", placeholder = "Unit rate" })
+                                @Html.ValidationMessageFor(model => model.DetailModel.UnitPrice, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Total Price :</label>
+                                @Html.TextBoxFor(model => model.DetailModel.UnitPrice, new { id = "txtUnitPrice", type = "number", step = "0.01", @class = "form-control",  placeholder = "Total price" })
+                                @Html.ValidationMessageFor(model => model.DetailModel.UnitPrice, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="txtDescription" class="col-form-label">Remarks :</label>
+                                @Html.TextAreaFor(model => model.DetailModel.Description, new { id = "txtitemDescription", placeholder = "Type remarks here...", @class = "form-control", rows = 2 })
+                                @Html.ValidationMessageFor(model => model.DetailModel.Description, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                    </div>
+
+                         }
+
+                    @if (Model.StatusId == EnumBillRequisitionStatus.Draft)
+                            {
+                    @*<div class="row">
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>Requisition Item</label>
+                    @Html.DropDownListFor(model => model.DetailModel.BRItemId, Model.RequisitionItemList as SelectList, "==Select item==", new { id = "ddlBRTypeId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                    @Html.ValidationMessageFor(model => model.DetailModel.BRItemId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <div class="form-group">
+                    <label for="txtDescription" class="col-form-label">Item Description :</label>
+                    @Html.TextAreaFor(model => model.DetailModel.Description, new { id = "txtitemDescription", placeholder = "Item Description", @class = "form-control", rows = 1 })
+                    @Html.ValidationMessageFor(model => model.DetailModel.Description, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>Quantity:</label>
+
+                    @Html.TextBoxFor(model => model.DetailModel.Qty, new { id = "txtDamageQuantity", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = " Quantity", required = "Required" })
+                    @Html.ValidationMessageFor(model => model.DetailModel.Qty, "", new { @class = "text-danger" })
 
                 </div>
             </div>
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>Unit Price:</label>
+                    @Html.TextBoxFor(model => model.DetailModel.UnitPrice, new { id = "txtUnitPrice", type = "number", step = "0.01", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Unit Price" })
+                    @Html.ValidationMessageFor(model => model.DetailModel.UnitPrice, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>*@
+
+                            }
+                </div>
+
+                    @if (Model.StatusId == EnumBillRequisitionStatus.Draft)
+                        {
+                    <div class="box-footer">
+                        <div class="row">
+                            <div class="col-md-4">
+                                @*<table class="table" id="tblStockAvailable">
+                                        <tr>
+                                            <th>Available Stock: </th>
+                                            <th id="stockAvailable"></th>
+                                        </tr>
+                                    </table>*@
+                            </div>
+                            <div class="col-md-4">
+
+                            </div>
+                            <div class="col-lg-4 col-md-4">
+                                <input type="submit" id="soCreateBtn" value="Add Requisition" class="btn btn-primary btn-block" />
+                            </div>
+                        </div>
+                    </div>
+                        }
+
+                    @if (Model.BillRequisitionMasterId > 0)
+                        {
+
+                    @Html.HiddenFor(model => model.ID, new { id = "hidSlaveID" })
+                    <div class="table-responsive col-md-12  text-nowrap">
+                        <table id="KgErpDataTable" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th style="padding:5px;text-align:center;">SL</th>
+                                    <th style="padding:5px;text-align:left;">Item</th>
+                                    <th style="padding:5px;text-align:right;">Quantity</th>
+                                    <th style="padding:5px;text-align:right;">Unit Price</th>
+                                    @if (Model.StatusId == EnumBillRequisitionStatus.Draft)
+                                            {
+                                    <th style="padding:5px;text-align:center;">Action</th>
+                                            }
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach (var item in Model.DetailList)
+                                        {
+
+                                <tr>
+                                    <td style="padding:5px">@(++sl)</td>
+                                    <td style="padding:5px;text-align:left;">@item.ItemName</td>
+                                    <td style="padding:5px;text-align:center;">@String.Format("{0:0.00}", item.Qty) </td>
+                                    <td style="padding:5px;text-align:right;">@String.Format("{0:0.00}", item.UnitPrice)</td>
+                                    @{ if (Model.StatusId == EnumBillRequisitionStatus.Draft)
+                                                    {
+                                        <td style="padding:5px;text-align:center;">
+                                            <a id="@item.BillRequisitionDetailId" onclick=" makeEditble(@item.BillRequisitionDetailId);" class="linkPointer" title="Edit"><i class="fa fa-edit" aria-hidden="true"></i></a>
+
+                                            <a id="@item.BillRequisitionDetailId" onclick="makeDeletale(@item.BillRequisitionDetailId)" class="linkPointer" data-toggle="modal" data-target="#deleteDamageSlaveModal" title="Delete" data-placement="top"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>
+                                        </td>
+                                                    }
+                                    }
+                                </tr>
+                                        }
+                            </tbody>
+                        </table>
+                    </div>
+                        }
+
+                </div>
+
+                @if (Model.BillRequisitionMasterId > 0)
+                    {
+                <div class="box-footer">
+
+                    <div class="row">
+                        <div class="col-md-6"></div>
+                        <div class="col-md-6">
+                            <a id="@Model.BillRequisitionMasterId" onclick="makeSubmitble(@Model.BillRequisitionMasterId)" class="linkPointer btn btn-success" data-toggle="modal" style="width:100%" data-target="#submitDamageModal" data-placement="top">
+                                @if (Model.StatusId == EnumBillRequisitionStatus.Submitted)
+                                        {
+                                <i>Undo Submit</i>
+                                        }
+                                        else
+                                        {
+                                <i>Submit</i>
+                                        }
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                    }
+
+            </div>
         </div>
-    </section>
+    </div>
+</section>
 }
 
 @using (Html.BeginForm("SubmitBillRequisitionMaster", "BillRequisition", FormMethod.Post, new { id = "submitBRMastersFromSlaveFormId", @class = "formValidator" }))
 {
 
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="modal fade" id="submitDamageModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
-                        &times;
-                    </button>
-                    <h5 class="modal-title"><b><span class="submitOrDraftText"></span> Requisition </b></h5>
-                </div>
-                <div class="modal-body">
-                    @Html.HiddenFor(model => model.BillRequisitionMasterId, new { id = "hidSubmitBRMasterId" })
-                    @Html.HiddenFor(model => model.CompanyFK, new { id = "hidSubmitCompanyFK" })
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="modal fade" id="submitDamageModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
+                    &times;
+                </button>
+                <h5 class="modal-title"><b><span class="submitOrDraftText"></span> Requisition </b></h5>
+            </div>
+            <div class="modal-body">
+                @Html.HiddenFor(model => model.BillRequisitionMasterId, new { id = "hidSubmitBRMasterId" })
+                @Html.HiddenFor(model => model.CompanyFK, new { id = "hidSubmitCompanyFK" })
 
-                    @Html.AntiForgeryToken()
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                    <div style="text-align:center">
-                        <h3>Are you sure to proceed ?</h3>
-                    </div>
+                <div style="text-align:center">
+                    <h3>Are you sure to proceed ?</h3>
                 </div>
-                <div class="modal-footer">
-                    <div class="col-md-3">
-                        <button type="button" class="btn btn-warning fa fa-close" data-dismiss="modal">&nbsp;NO</button>
-                    </div>
-                    <div class="col-md-9">
-                        <button type="submit" id="btnDelete2" onclick="makeSubmitble(this)" style="width:100%" class="btn btn-primary fa fa-remove">&nbsp;<span class="submitOrDraftText"></span></button>
-                    </div>
+            </div>
+            <div class="modal-footer">
+                <div class="col-md-3">
+                    <button type="button" class="btn btn-warning fa fa-close" data-dismiss="modal">&nbsp;NO</button>
+                </div>
+                <div class="col-md-9">
+                    <button type="submit" id="btnDelete2" onclick="makeSubmitble(this)" style="width:100%" class="btn btn-primary fa fa-remove">&nbsp;<span class="submitOrDraftText"></span></button>
                 </div>
             </div>
         </div>
     </div>
+</div>
 }
 
 @using (Html.BeginForm("DeleteBillRequisitionDetailById", "BillRequisition", FormMethod.Post, new { id = "deleteBRSlaveFormId", @class = "formValidator" }))
 {
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="modal fade" id="deleteDamageSlaveModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
-                        &times;
-                    </button>
-                    <h5 class="modal-title"><b>Delete Requisition Item</b></h5>
-                </div>
-                <div class="modal-body">
-                    @Html.AntiForgeryToken()
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="modal fade" id="deleteDamageSlaveModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
+                    &times;
+                </button>
+                <h5 class="modal-title"><b>Delete Requisition Item</b></h5>
+            </div>
+            <div class="modal-body">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                    @Html.HiddenFor(model => model.DetailModel.BillRequisitionDetailId, new { id = "hidDeleteDamageDetailId" })
-                    @Html.HiddenFor(model => model.BillRequisitionMasterId, new { id = "hidDeleteDamageMasterId" })
-                    @Html.HiddenFor(model => model.CompanyFK, new { id = "deleteCompanyFK" })
-                    @Html.HiddenFor(model => model.ActionId, new { id = "deleteActionId" })
+                @Html.HiddenFor(model => model.DetailModel.BillRequisitionDetailId, new { id = "hidDeleteDamageDetailId" })
+                @Html.HiddenFor(model => model.BillRequisitionMasterId, new { id = "hidDeleteDamageMasterId" })
+                @Html.HiddenFor(model => model.CompanyFK, new { id = "deleteCompanyFK" })
+                @Html.HiddenFor(model => model.ActionId, new { id = "deleteActionId" })
 
-                    <div style="text-align:center">
-                        <h3>Are you sure to Delete this Requisition Item?</h3>
-                    </div>
+                <div style="text-align:center">
+                    <h3>Are you sure to Delete this Requisition Item?</h3>
                 </div>
-                <div class="modal-footer">
-                    <div class="col-md-3">
-                        <button type="button" onclick="resetDamageDeleteSlaveForm()" class="btn btn-warning fa fa-close" data-dismiss="modal">&nbsp;NO</button>
-                    </div>
-                    <div class="col-md-9">
-                        <button type="submit" id="btndelete" style="width:100%" class="btn btn-primary fa fa-remove">&nbsp; Delete</button>
-                    </div>
+            </div>
+            <div class="modal-footer">
+                <div class="col-md-3">
+                    <button type="button" onclick="resetDamageDeleteSlaveForm()" class="btn btn-warning fa fa-close" data-dismiss="modal">&nbsp;NO</button>
+                </div>
+                <div class="col-md-9">
+                    <button type="submit" id="btndelete" style="width:100%" class="btn btn-primary fa fa-remove">&nbsp; Delete</button>
                 </div>
             </div>
         </div>
     </div>
+</div>
 }
 
 
