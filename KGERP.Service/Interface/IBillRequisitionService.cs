@@ -10,6 +10,13 @@ namespace KGERP.Service.Interface
     {
         int GetRequisitionNo();
 
+        #region Bill of Quotation
+        bool Add(BillRequisitionBoqModel model);
+        //bool Edit(BillRequisitionBoqModel model);
+        //bool Delete(BillRequisitionBoqModel model);
+        List<BillBoQItem> GetBillOfQuotationList();
+        #endregion
+
         #region Bill Requisition Item
         bool Add(BillRequisitionItemModel model);
         bool Edit(BillRequisitionItemModel model);

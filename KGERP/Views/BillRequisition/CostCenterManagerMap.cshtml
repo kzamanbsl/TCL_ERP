@@ -12,11 +12,22 @@
 
 <section class="content-header">
     <h1>
-        Cost Center Manager Map
+        @if (Model.CostCenterManagerMapId > 0)
+        {
+            <span>
+                Cost Center Manager Map
+            </span>
+        }
+        else
+        {
+            <span>
+                Cost Center Manager Map
+            </span>
+        }
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">Requisition Information</li>
+        <li class="active">Cost Center Manager</li>
     </ol>
 
 </section>

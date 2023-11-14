@@ -23,6 +23,45 @@ namespace KGERP.Controllers
             _service = billRequisitionService;
         }
 
+        #region BoQ Item
+
+        [HttpGet]
+        public ActionResult BillOfQuotation(int companyId = 21)
+        {
+            var viewData = new BillRequisitionBoqModel()
+            {
+                BillBoQItems = _service.GetBillOfQuotationList()
+            };
+            return View(viewData);
+        }
+
+        [HttpPost]
+        public ActionResult BillOfQuotation(BillRequisitionBoqModel model)
+        {
+            if (model.ActionEum == ActionEnum.Add)
+            {
+                //Add 
+                _service.Add(model);
+            }
+            else if (model.ActionEum == ActionEnum.Edit)
+            {
+                //Edit
+                //_service.Edit(model);
+            }
+            else if (model.ActionEum == ActionEnum.Delete)
+            {
+                //Delete
+                //_service.Delete(model);
+            }
+            else
+            {
+                return View("Error");
+            }
+            return RedirectToAction(nameof(BillOfQuotation), new { companyId = model.CompanyFK });
+        }
+
+        #endregion
+
         #region Bill Requisition Item
 
         public ActionResult BillRequisitionItem(int companyId = 21)

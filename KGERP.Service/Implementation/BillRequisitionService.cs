@@ -34,6 +34,110 @@ namespace KGERP.Service.Implementation
             return requisitionId;
         }
 
+        #region Bill of Quotation
+
+        public List<BillBoQItem> GetBillOfQuotationList()
+        {
+            List<BillBoQItem> billBoQItems = new List<BillBoQItem>();
+            var getbillBoQItems = _context.BillBoQItems.Where(c => c.IsActive == true).ToList();
+            foreach (var item in getbillBoQItems)
+            {
+                var data = new BillBoQItem()
+                {
+                    BoQItemId = item.BoQItemId,
+                    Name = item.Name,
+                    Description = item.Description
+                };
+                billBoQItems.Add(data);
+            }
+            return billBoQItems;
+        }
+
+        public bool Add(BillRequisitionBoqModel model)
+        {
+            if (model != null)
+            {
+                try
+                {
+                    BillBoQItem data = new BillBoQItem()
+                    {
+                        Name = model.Name,
+                        Description = model.Description,
+                        //CompanyId = (int)model.CompanyFK,
+                        CompanyId = 21,
+                        IsActive = true,
+                        CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                        CreateDate = DateTime.Now
+                    };
+                    _context.BillBoQItems.Add(data);
+                    var count = _context.SaveChanges();
+                    if (count > 0)
+                    {
+                        return true;
+                    }
+                }
+                catch (Exception e)
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        //public bool Edit(BillRequisitionItemModel model)
+        //{
+        //    if (model != null)
+        //    {
+        //        try
+        //        {
+        //            var findBillRequisitionItem = _context.BillRequisitionItems.FirstOrDefault(c => c.BillRequisitionItemId == model.BillRequisitionItemId);
+
+        //            findBillRequisitionItem.Name = model.Name;
+        //            findBillRequisitionItem.Description = model.Description;
+        //            findBillRequisitionItem.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+        //            findBillRequisitionItem.ModifiedDate = DateTime.Now;
+        //            var count = _context.SaveChanges();
+        //            if (count > 0)
+        //            {
+        //                return true;
+        //            }
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            return false;
+        //        }
+        //    }
+        //    return false;
+        //}
+
+        //public bool Delete(BillRequisitionItemModel model)
+        //{
+        //    if (model.BillRequisitionItemId > 0 || model.BillRequisitionItemId != null)
+        //    {
+        //        try
+        //        {
+        //            var findBillRequisitionItem = _context.BillRequisitionItems.FirstOrDefault(c => c.BillRequisitionItemId == model.BillRequisitionItemId);
+
+        //            findBillRequisitionItem.IsActive = false;
+        //            findBillRequisitionItem.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+        //            findBillRequisitionItem.ModifiedDate = DateTime.Now;
+        //            var count = _context.SaveChanges();
+
+        //            if (count > 0)
+        //            {
+        //                return true;
+        //            }
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            return false;
+        //        }
+        //    }
+        //    return false;
+        //}
+
+        #endregion
+
         #region Bill Requisition Item
 
         public List<BillRequisitionItem> GetBillRequisitionItemList()
