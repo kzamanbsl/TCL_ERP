@@ -12,7 +12,7 @@
     public enum EnumBillReqProjectType
     {
         Building = 1,
-        Road = 2,
+        Road = 5,
       
     }
     public enum FLatCompletionStatusEnum

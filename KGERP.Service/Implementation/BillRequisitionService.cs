@@ -497,6 +497,10 @@ namespace KGERP.Service.Implementation
                                                                from t2 in t2_Join.DefaultIfEmpty()
                                                                join t3 in _context.BillRequisitionTypes on t1.BillRequisitionTypeId equals t3.BillRequisitionTypeId into t3_Join
                                                                from t3 in t3_Join.DefaultIfEmpty()
+                                                               join t4 in _context.Accounting_CostCenterType on t1.ProjectTypeId equals t4.CostCenterTypeId into t4_Join
+                                                               from t4 in t3_Join.DefaultIfEmpty()
+                                                               join t5 in _context.BillBoQItems on t1.BOQItemId equals t5.BoQItemId into t5_Join
+                                                               from t5 in t5_Join.DefaultIfEmpty()
 
                                                                select new BillRequisitionMasterModel
                                                                {
@@ -504,7 +508,9 @@ namespace KGERP.Service.Implementation
                                                                    BillRequisitionTypeId = t1.BillRequisitionTypeId,
                                                                    BRTypeName = t3.Name,
                                                                    ProjectTypeId =t1.ProjectTypeId,
+                                                                   ProjectTypeName = t4.Name,
                                                                    BOQItemId = t1.BOQItemId,
+                                                                   BOQItemName = t5.Name,
                                                                    CostCenterId = t1.CostCenterId,
                                                                    CostCenterName = t2.Name,
                                                                    Description = t1.Description,
@@ -624,9 +630,9 @@ namespace KGERP.Service.Implementation
                 BillRequisitionItemId = model.DetailModel.BillRequisitionItemId,
                 UnitRate = model.DetailModel.UnitRate,
                 DemandQty = model.DetailModel.DemandQty,
-                //UnitId = model.DetailModel.UnitId,
-                //ReceivedSoFar = model.DetailModel.ReceivedSoFar,
-                //RemainingQty = model.DetailModel.RemainingQty,
+                UnitId = model.DetailModel.UnitId,
+                ReceivedSoFar = model.DetailModel.ReceivedSoFar,
+                RemainingQty = model.DetailModel.RemainingQty,
                 EstimatedQty = model.DetailModel.EstimatedQty,
                 Floor = model.DetailModel.Floor,
                 Ward = model.DetailModel.Ward,
@@ -662,6 +668,9 @@ namespace KGERP.Service.Implementation
             demageDetail.UnitRate = model.DetailModel.UnitRate;
             demageDetail.DemandQty = model.DetailModel.DemandQty;
             demageDetail.EstimatedQty = model.DetailModel.EstimatedQty;
+            demageDetail.RemainingQty = model.DetailModel.RemainingQty;
+            demageDetail.ReceivedSoFar = model.DetailModel.ReceivedSoFar;
+            demageDetail.TotalPrice = model.DetailModel.TotalPrice;
             demageDetail.Ward = model.DetailModel.Ward;
             demageDetail.Floor = model.DetailModel.Floor;
             demageDetail.DPP = model.DetailModel.DPP;

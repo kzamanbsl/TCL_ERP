@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Services.Description;
 using DocumentFormat.OpenXml.EMMA;
+using System.Linq;
 
 namespace KGERP.Controllers
 {
@@ -198,9 +199,10 @@ namespace KGERP.Controllers
             {
                 billRequisitionMasterModel = await _service.GetBillRequisitionMasterDetail(companyId, billRequisitionMasterId);
             }
-            billRequisitionMasterModel.ProjectList = new SelectList(_service.GetProjectList(), "CostCenterId", "Name");
+            billRequisitionMasterModel.ProjectList = new SelectList(_service.GetProjectList().Where(x=>x.CompanyId== companyId).ToList(), "CostCenterId", "Name");
             billRequisitionMasterModel.RequisitionTypeList = new SelectList(_service.GetBillRequisitionTypeList(), "BillRequisitionTypeId", "Name");
             billRequisitionMasterModel.RequisitionItemList = new SelectList(_service.GetBillRequisitionItemList(), "BillRequisitionItemId", "Name");
+            billRequisitionMasterModel.BOQItemList = new SelectList(_service.GetBillOfQuotationList(), "BoQItemId", "Name");
             return View(billRequisitionMasterModel);
         }
 
