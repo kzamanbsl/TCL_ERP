@@ -84,57 +84,57 @@ namespace KGERP.Service.Implementation
             return false;
         }
 
-        //public bool Edit(BillRequisitionItemModel model)
-        //{
-        //    if (model != null)
-        //    {
-        //        try
-        //        {
-        //            var findBillRequisitionItem = _context.BillRequisitionItems.FirstOrDefault(c => c.BillRequisitionItemId == model.BillRequisitionItemId);
+        public bool Edit(BillRequisitionBoqModel model)
+        {
+            if (model != null)
+            {
+                try
+                {
+                    var findBillRequisitionBoQ = _context.BillBoQItems.FirstOrDefault(c => c.BoQItemId == model.BoQItemId);
 
-        //            findBillRequisitionItem.Name = model.Name;
-        //            findBillRequisitionItem.Description = model.Description;
-        //            findBillRequisitionItem.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
-        //            findBillRequisitionItem.ModifiedDate = DateTime.Now;
-        //            var count = _context.SaveChanges();
-        //            if (count > 0)
-        //            {
-        //                return true;
-        //            }
-        //        }
-        //        catch (Exception e)
-        //        {
-        //            return false;
-        //        }
-        //    }
-        //    return false;
-        //}
+                    findBillRequisitionBoQ.Name = model.Name;
+                    findBillRequisitionBoQ.Description = model.Description;
+                    findBillRequisitionBoQ.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                    findBillRequisitionBoQ.ModifiedDate = DateTime.Now;
+                    var count = _context.SaveChanges();
+                    if (count > 0)
+                    {
+                        return true;
+                    }
+                }
+                catch (Exception e)
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
 
-        //public bool Delete(BillRequisitionItemModel model)
-        //{
-        //    if (model.BillRequisitionItemId > 0 || model.BillRequisitionItemId != null)
-        //    {
-        //        try
-        //        {
-        //            var findBillRequisitionItem = _context.BillRequisitionItems.FirstOrDefault(c => c.BillRequisitionItemId == model.BillRequisitionItemId);
+        public bool Delete(BillRequisitionBoqModel model)
+        {
+            if (model.BoQItemId > 0 || model.BoQItemId != null)
+            {
+                try
+                {
+                    var findBillRequisitionBoQ = _context.BillBoQItems.FirstOrDefault(c => c.BoQItemId == model.BoQItemId);
 
-        //            findBillRequisitionItem.IsActive = false;
-        //            findBillRequisitionItem.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
-        //            findBillRequisitionItem.ModifiedDate = DateTime.Now;
-        //            var count = _context.SaveChanges();
+                    findBillRequisitionBoQ.IsActive = false;
+                    findBillRequisitionBoQ.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                    findBillRequisitionBoQ.ModifiedDate = DateTime.Now;
+                    var count = _context.SaveChanges();
 
-        //            if (count > 0)
-        //            {
-        //                return true;
-        //            }
-        //        }
-        //        catch (Exception e)
-        //        {
-        //            return false;
-        //        }
-        //    }
-        //    return false;
-        //}
+                    if (count > 0)
+                    {
+                        return true;
+                    }
+                }
+                catch (Exception e)
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
 
         #endregion
 

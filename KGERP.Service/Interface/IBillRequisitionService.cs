@@ -12,8 +12,8 @@ namespace KGERP.Service.Interface
 
         #region Bill of Quotation
         bool Add(BillRequisitionBoqModel model);
-        //bool Edit(BillRequisitionBoqModel model);
-        //bool Delete(BillRequisitionBoqModel model);
+        bool Edit(BillRequisitionBoqModel model);
+        bool Delete(BillRequisitionBoqModel model);
         List<BillBoQItem> GetBillOfQuotationList();
         #endregion
 

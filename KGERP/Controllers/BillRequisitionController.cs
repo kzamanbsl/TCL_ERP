@@ -47,12 +47,12 @@ namespace KGERP.Controllers
             else if (model.ActionEum == ActionEnum.Edit)
             {
                 //Edit
-                //_service.Edit(model);
+                _service.Edit(model);
             }
             else if (model.ActionEum == ActionEnum.Delete)
             {
                 //Delete
-                //_service.Delete(model);
+                _service.Delete(model);
             }
             else
             {
