@@ -31,6 +31,13 @@ namespace KGERP.Service.Interface
         List<BillRequisitionType> GetBillRequisitionTypeList();
         #endregion
 
+        #region Cost Center Type
+        bool Add(CostCenterTypeModel model);
+        bool Edit(CostCenterTypeModel model);
+        bool Delete(CostCenterTypeModel model);
+        List<Accounting_CostCenterType> GetCostCenterTypeList();
+        #endregion
+
         #region Cost Center Manager Map
         bool Add(CostCenterManagerMapModel model);
         bool Edit(CostCenterManagerMapModel model);

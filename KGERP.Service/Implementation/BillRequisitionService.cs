@@ -346,6 +346,108 @@ namespace KGERP.Service.Implementation
 
         #endregion
 
+        #region Bill Requisition Type
+
+        public List<Accounting_CostCenterType> GetCostCenterTypeList()
+        {
+            List<Accounting_CostCenterType> costCenterTypes = new List<Accounting_CostCenterType>();
+            var getCostCenterTypes = _context.Accounting_CostCenterType.Where(c => c.IsActive == true).ToList();
+            foreach (var item in getCostCenterTypes)
+            {
+                var data = new Accounting_CostCenterType()
+                {
+                    CostCenterTypeId = item.CostCenterTypeId,
+                    Name = item.Name,
+                };
+                costCenterTypes.Add(data);
+            }
+            return costCenterTypes;
+        }
+
+        public bool Add(CostCenterTypeModel model)
+        {
+            if (model != null)
+            {
+                try
+                {
+                    Accounting_CostCenterType data = new Accounting_CostCenterType()
+                    {
+                        Name = model.Name,
+                        //CompanyId = (int)model.CompanyFK,
+                        CompanyId = 21,
+                        IsActive = true,
+                        CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                        CreatedDate = DateTime.Now
+                    };
+                    _context.Accounting_CostCenterType.Add(data);
+                    var count = _context.SaveChanges();
+                    if (count > 0)
+                    {
+                        return true;
+                    }
+                }
+                catch (Exception e)
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        public bool Edit(CostCenterTypeModel model)
+        {
+            if (model != null)
+            {
+                try
+                {
+                    var findCostCenterType = _context.Accounting_CostCenterType.FirstOrDefault(c => c.CostCenterTypeId == model.ID);
+
+                    findCostCenterType.Name = model.Name;
+                    findCostCenterType.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                    findCostCenterType.ModifiedDate = DateTime.Now.ToString();
+                    var count = _context.SaveChanges();
+                    model.CompanyFK = findCostCenterType.CompanyId;
+                    if (count > 0)
+                    {
+                        return true;
+                    }
+                }
+                catch (Exception e)
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        public bool Delete(CostCenterTypeModel model)
+        {
+            if (model.CostCenterTypeId > 0 || model.CostCenterTypeId != null)
+            {
+                try
+                {
+                    var findCostCenterType = _context.Accounting_CostCenterType.FirstOrDefault(c => c.CostCenterTypeId == model.CostCenterTypeId);
+
+                    findCostCenterType.IsActive = false;
+                    findCostCenterType.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                    findCostCenterType.ModifiedDate = DateTime.Now.ToString();
+                    var count = _context.SaveChanges();
+
+                    if (count > 0)
+                    {
+                        return true;
+                    }
+                }
+                catch (Exception e)
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        #endregion
+
         #region Cost Center Manager Map
 
         public List<Accounting_CostCenter> GetProjectList()
@@ -868,7 +970,6 @@ namespace KGERP.Service.Implementation
         }
 
         #endregion
-
 
         #region 1.2   BillRequisition received circle
 

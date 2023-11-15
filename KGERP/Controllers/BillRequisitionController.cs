@@ -139,6 +139,44 @@ namespace KGERP.Controllers
 
         #endregion
 
+        #region Cost Center Type
+
+        public ActionResult CostCenterType(int companyId)
+        {
+            var viewData = new CostCenterTypeModel()
+            {
+                CostCenterTypes = _service.GetCostCenterTypeList()
+            };
+            return View(viewData);
+        }
+
+        [HttpPost]
+        public ActionResult CostCenterType(CostCenterTypeModel model)
+        {
+            if (model.ActionEum == ActionEnum.Add)
+            {
+                //Add 
+                _service.Add(model);
+            }
+            else if (model.ActionEum == ActionEnum.Edit)
+            {
+                //Edit
+                _service.Edit(model);
+            }
+            else if (model.ActionEum == ActionEnum.Delete)
+            {
+                //Delete
+                _service.Delete(model);
+            }
+            else
+            {
+                return View("Error");
+            }
+            return RedirectToAction(nameof(CostCenterType), new { companyId = model.CompanyFK });
+        }
+
+        #endregion
+
         #region Cost Center Manager Map
 
         [HttpGet]
@@ -179,7 +217,6 @@ namespace KGERP.Controllers
         }
 
         #endregion
-
 
         #region 1.1 BillRequisition Basic CRUD Circle
 
