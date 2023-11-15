@@ -17,10 +17,18 @@ namespace KGERP.Data.Models
         public long BillRequisitionDetailId { get; set; }
         public long BillRequisitionMasterId { get; set; }
         public int BillRequisitionItemId { get; set; }
-        public string Description { get; set; }
-        public decimal Qty { get; set; }
-        public decimal UnitPrice { get; set; }
-        public decimal TotalAmount { get; set; }
+        public int UnitId { get; set; }
+        public decimal EstimatedQty { get; set; }
+        public decimal DemandQty { get; set; }
+        public decimal UnitRate { get; set; }
+        public decimal TotalPrice { get; set; }
+        public Nullable<decimal> ReceivedSoFar { get; set; }
+        public Nullable<decimal> RemainingQty { get; set; }
+        public string Floor { get; set; }
+        public string Ward { get; set; }
+        public string DPP { get; set; }
+        public string Chainage { get; set; }
+        public string Remarks { get; set; }
         public int CompanyId { get; set; }
         public System.DateTime CreateDate { get; set; }
         public string CreatedBy { get; set; }
@@ -29,7 +37,7 @@ namespace KGERP.Data.Models
         public bool IsActive { get; set; }
     
         public virtual Company Company { get; set; }
-        public virtual BillRequisitionMaster BillRequisitionMaster { get; set; }
         public virtual BillRequisitionItem BillRequisitionItem { get; set; }
+        public virtual BillRequisitionMaster BillRequisitionMaster { get; set; }
     }
 }

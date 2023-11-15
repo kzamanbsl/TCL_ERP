@@ -13,6 +13,8 @@ namespace KGERP.Service.ServiceModel
     {
         public long BillRequisitionMasterId { get; set; }
         public DateTime BRDate { get; set; }
+        public int ProjectTypeId { get; set; }
+        public int BOQItemId { get; set; }
         public string BillRequisitionNo { get; set; }
         public int CostCenterId { get; set; }
         public string CostCenterName { get; set; }
@@ -36,12 +38,19 @@ namespace KGERP.Service.ServiceModel
         public long BillRequisitionDetailId { get; set; }
         public long BillRequisitionMasterId { get; set; }
         public int BillRequisitionItemId { get; set; }
-        public int BRItemId { get; set; }
-        public string ItemName { get; set; }
-        public string Description { get; set; }
-        public decimal Qty { get; set; }
-        public decimal UnitPrice { get; set; }
-        public decimal TotalAmount { get; set; }
+        public int UnitId { get; set; }
+        public decimal EstimatedQty { get; set; }
+        public decimal DemandQty { get; set; }
+        public decimal UnitRate { get; set; }
+        public decimal TotalPrice { get; set; }
+        public Nullable<decimal> ReceivedSoFar { get; set; }
+        public Nullable<decimal> RemainingQty { get; set; }
+        public string Floor { get; set; }
+        public string Ward { get; set; }
+        public string DPP { get; set; }
+        public string Chainage { get; set; }
+        public string Remarks { get; set; }
+        public int CompanyId { get; set; }
 
     }
 }
