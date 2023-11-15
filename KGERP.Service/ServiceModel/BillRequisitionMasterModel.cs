@@ -33,6 +33,8 @@ namespace KGERP.Service.ServiceModel
 
         public SelectList ProjectList { get; set; } = new SelectList(new List<object>());
         public SelectList RequisitionTypeList { get; set; } = new SelectList(new List<object>());
+        public SelectList BOQItemList { get; set; } = new SelectList(new List<object>());
+        public SelectList ProjectTypeList { get; set; } = new SelectList(new List<object>());
         public SelectList RequisitionItemList { get; set; } = new SelectList(new List<object>());
        
     }

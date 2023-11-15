@@ -9,6 +9,12 @@
         Rejected,
         Closed
     }
+    public enum EnumBillReqProjectType
+    {
+        Building = 1,
+        Road = 2,
+      
+    }
     public enum FLatCompletionStatusEnum
     {
         OnGoing = 1,
