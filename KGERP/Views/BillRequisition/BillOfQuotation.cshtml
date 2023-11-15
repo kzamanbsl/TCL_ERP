@@ -88,14 +88,14 @@
                                             <tr>
                                                 <td>
                                                     @(++sl)
-                                                    <input type="hidden" id="requisitionItem_@item.BoQItemId" name="BillRequisitionItemId" value="@item.BoQItemId" />
+                                                    <input type="hidden" id="requisitionBoQ_@item.BoQItemId" name="BoQItemId" value="@item.BoQItemId" />
                                                 </td>
-                                                <td id="tdRequisitionItemName_@item.BoQItemId">@item.Name</td>
-                                                <td id="tdRequisitionItemDescription_@item.BoQItemId">@item.Description</td>
+                                                <td id="tdRequisitionBoQName_@item.BoQItemId">@item.Name</td>
+                                                <td id="tdRequisitionBoQDescription_@item.BoQItemId">@item.Description</td>
                                                 <td>
                                                     <a id="@item.BoQItemId" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
 
-                                                    <a id="@item.BoQItemId" onclick="makeDeletable(@item.BoQItemId);" class="linkPointer" data-toggle="modal" data-target="#BillRequisitionItemDeleteModal" title="Delete"
+                                                    <a id="@item.BoQItemId" onclick="makeDeletable(@item.BoQItemId);" class="linkPointer" data-toggle="modal" data-target="#BillRequisitionBoQDeleteModal" title="Delete"
                                                        data-placement="top">
                                                         <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
                                                     </a>
@@ -121,11 +121,11 @@
 @using (Html.BeginForm("BillOfQuotation", "BillRequisition", FormMethod.Post, new { id = "BillOfQuotationFormId", @class = "formValidator", onreset = "resetDDL();" }))
 {
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    @Html.HiddenFor(model => model.BoQItemId, new { Value = "", id = "BoQItemId" })
+    @Html.HiddenFor(model => model.BoQItemId, new { Value = "", id = "BillRequisitionBoQDelete" })
     @Html.HiddenFor(model => model.ActionId, new { Value = "", id = "ActionIdDelete" })
     @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFKDelete" })
 
-    <div class="modal fade" id="BillRequisitionItemDeleteModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
+    <div class="modal fade" id="BillRequisitionBoQDeleteModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -156,7 +156,25 @@
             $('.formValidator').bootstrapValidator();
         });
 
+        function makeEditble(elem) {
+            if (elem !== null) {
+                var rowId = elem.id;
+                $('#requisitionBoQ_').val(rowId);
+                $('#ActionId').val(2);
+                $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Update");
+                $('#txtRequisitionBoqName').val($('#tdRequisitionBoQName_' + rowId).text().trim());
+                $('#txtRequisitionBoqDescription').val($('#tdRequisitionBoQDescription_' + rowId).text().trim());
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
 
+        function makeDeletable(id) {
+            if (id !== null) {
+                $('#BillRequisitionBoQDelete').val(id);
+                $('#ActionIdDelete').val(3);
+                $("#CompanyFKDelete").val("@Model.CompanyFK");
+            }
+        }
 
         function resetForm() {
             $('#BillOfQuotationFormId')[0].reset();
