@@ -14,7 +14,9 @@ namespace KGERP.Service.ServiceModel
         public long BillRequisitionMasterId { get; set; }
         public DateTime BRDate { get; set; }
         public int ProjectTypeId { get; set; }
+        public string ProjectTypeName { get; set; }
         public int BOQItemId { get; set; }
+        public string BOQItemName { get; set; }
         public string BillRequisitionNo { get; set; }
         public int CostCenterId { get; set; }
         public string CostCenterName { get; set; }
@@ -32,13 +34,16 @@ namespace KGERP.Service.ServiceModel
         public SelectList ProjectList { get; set; } = new SelectList(new List<object>());
         public SelectList RequisitionTypeList { get; set; } = new SelectList(new List<object>());
         public SelectList RequisitionItemList { get; set; } = new SelectList(new List<object>());
+       
     }
     public class BillRequisitionDetailModel : BaseVM
     {
         public long BillRequisitionDetailId { get; set; }
         public long BillRequisitionMasterId { get; set; }
         public int BillRequisitionItemId { get; set; }
+        public string ItemName { get; set; }
         public int UnitId { get; set; }
+        public string UnitName { get; set; }
         public decimal EstimatedQty { get; set; }
         public decimal DemandQty { get; set; }
         public decimal UnitRate { get; set; }

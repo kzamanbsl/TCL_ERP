@@ -503,6 +503,8 @@ namespace KGERP.Service.Implementation
                                                                    BillRequisitionMasterId = t1.BillRequisitionMasterId,
                                                                    BillRequisitionTypeId = t1.BillRequisitionTypeId,
                                                                    BRTypeName = t3.Name,
+                                                                   ProjectTypeId =t1.ProjectTypeId,
+                                                                   BOQItemId = t1.BOQItemId,
                                                                    CostCenterId = t1.CostCenterId,
                                                                    CostCenterName = t2.Name,
                                                                    Description = t1.Description,
@@ -526,10 +528,13 @@ namespace KGERP.Service.Implementation
                                                                               BillRequisitionMasterId = t1.BillRequisitionMasterId,
                                                                               BillRequisitionItemId = t1.BillRequisitionItemId,
                                                                               ItemName = t3.Name,
-                                                                              Qty = t1.Qty,
-                                                                              Description = t1.Description,
-                                                                              UnitPrice = t1.UnitPrice,
-                                                                              TotalAmount = t1.TotalAmount,
+                                                                              UnitId = t1.UnitId,
+                                                                              UnitRate = t1.UnitRate,
+                                                                              TotalPrice = t1.TotalPrice,
+                                                                              DemandQty = t1.DemandQty,
+                                                                              ReceivedSoFar = t1.ReceivedSoFar,
+                                                                              RemainingQty = t1.RemainingQty,
+                                                                              Remarks = t1.Remarks,
                                                                           }).OrderByDescending(x => x.BillRequisitionDetailId).AsEnumerable());
 
 
@@ -547,6 +552,8 @@ namespace KGERP.Service.Implementation
                     BillRequisitionMasterId = model.BillRequisitionMasterId,
                     BRDate = model.BRDate,
                     BillRequisitionTypeId = model.BillRequisitionTypeId,
+                    BOQItemId = model.BOQItemId,
+                    ProjectTypeId = model.ProjectTypeId,
                     CostCenterId = model.CostCenterId,
                     Description = model.Description,
                     BillRequisitionNo = GetUniqueRequisitionNo(),
@@ -615,9 +622,17 @@ namespace KGERP.Service.Implementation
                 BillRequisitionMasterId = model.BillRequisitionMasterId,
                 BillRequisitionDetailId = model.DetailModel.BillRequisitionDetailId,
                 BillRequisitionItemId = model.DetailModel.BillRequisitionItemId,
-                UnitPrice = model.DetailModel.UnitPrice,
-                Qty = model.DetailModel.Qty,
-                Description = model.DetailModel.Description,
+                UnitRate = model.DetailModel.UnitRate,
+                DemandQty = model.DetailModel.DemandQty,
+                //UnitId = model.DetailModel.UnitId,
+                //ReceivedSoFar = model.DetailModel.ReceivedSoFar,
+                //RemainingQty = model.DetailModel.RemainingQty,
+                EstimatedQty = model.DetailModel.EstimatedQty,
+                Floor = model.DetailModel.Floor,
+                Ward = model.DetailModel.Ward,
+                DPP = model.DetailModel.DPP,
+                Chainage = model.DetailModel.Chainage,
+                Remarks = model.DetailModel.Remarks,
                 CreatedBy = System.Web.HttpContext.Current.Session["EmployeeName"].ToString(),
                 CreateDate = DateTime.Now,
                 IsActive = true,
@@ -644,9 +659,13 @@ namespace KGERP.Service.Implementation
             demageDetail.BillRequisitionMasterId = model.BillRequisitionMasterId;
             demageDetail.BillRequisitionDetailId = model.DetailModel.BillRequisitionDetailId;
             demageDetail.BillRequisitionItemId = model.DetailModel.BillRequisitionItemId;
-            demageDetail.UnitPrice = model.DetailModel.UnitPrice;
-            demageDetail.Qty = model.DetailModel.Qty;
-            demageDetail.Description = model.DetailModel.Description;
+            demageDetail.UnitRate = model.DetailModel.UnitRate;
+            demageDetail.DemandQty = model.DetailModel.DemandQty;
+            demageDetail.EstimatedQty = model.DetailModel.EstimatedQty;
+            demageDetail.Ward = model.DetailModel.Ward;
+            demageDetail.Floor = model.DetailModel.Floor;
+            demageDetail.DPP = model.DetailModel.DPP;
+            demageDetail.Chainage = model.DetailModel.Chainage;
             demageDetail.CreatedBy = System.Web.HttpContext.Current.Session["EmployeeName"].ToString();
             demageDetail.CreateDate = DateTime.Now;
             demageDetail.IsActive = true;
@@ -695,6 +714,8 @@ namespace KGERP.Service.Implementation
             billRequisitionMaster.BRDate = model.BRDate;
             billRequisitionMaster.BillRequisitionNo = model.BillRequisitionNo;
             billRequisitionMaster.BillRequisitionTypeId = model.BillRequisitionTypeId;
+            billRequisitionMaster.ProjectTypeId = model.ProjectTypeId;
+            billRequisitionMaster.BOQItemId = model.BOQItemId;
             billRequisitionMaster.CostCenterId = model.CostCenterId;
             billRequisitionMaster.Description = model.Description;
             billRequisitionMaster.StatusId = (int)model.StatusId;
@@ -716,6 +737,10 @@ namespace KGERP.Service.Implementation
                                           from t2 in t2_Join.DefaultIfEmpty()
                                           join t3 in _context.BillRequisitionTypes on t1.BillRequisitionTypeId equals t3.BillRequisitionTypeId into t3_Join
                                           from t3 in t3_Join.DefaultIfEmpty()
+                                          join t4 in _context.Accounting_CostCenterType on t1.ProjectTypeId equals t4.CostCenterTypeId into t4_Join
+                                          from t4 in t4_Join.DefaultIfEmpty()
+                                          join t5 in _context.BillBoQItems on t1.BOQItemId equals t5.BoQItemId into t5_Join
+                                          from t5 in t5_Join.DefaultIfEmpty()
 
                                           select new BillRequisitionMasterModel
                                           {
@@ -723,6 +748,10 @@ namespace KGERP.Service.Implementation
                                               BillRequisitionTypeId = t1.BillRequisitionTypeId,
                                               BRTypeName = t3.Name,
                                               CostCenterId = t1.CostCenterId,
+                                              ProjectTypeId = t1.ProjectTypeId,
+                                              ProjectTypeName = t4.Name,
+                                              BOQItemId = t1.BOQItemId,
+                                              BOQItemName = t5.Name,
                                               CostCenterName = t2.Name,
                                               Description = t1.Description,
                                               BRDate = t1.BRDate,
@@ -731,7 +760,7 @@ namespace KGERP.Service.Implementation
                                               CompanyFK = t1.CompanyId,
                                               CreatedDate = t1.CreateDate,
                                               CreatedBy = t1.CreatedBy,
-                                          }).FirstOrDefault());
+                                          }).FirstOrDefault()); 
             return v;
         }
         public async Task<long> BillRequisitionDetailDelete(long id)
@@ -787,10 +816,19 @@ namespace KGERP.Service.Implementation
                                               BillRequisitionMasterId = t1.BillRequisitionMasterId,
                                               BillRequisitionItemId = t1.BillRequisitionItemId,
                                               ItemName = t3.Name,
-                                              Qty = t1.Qty,
-                                              Description = t1.Description,
-                                              UnitPrice = t1.UnitPrice,
-                                              TotalAmount = t1.TotalAmount,
+                                              UnitId = t1.UnitId,
+                                              DemandQty = t1.DemandQty,
+                                              EstimatedQty = t1.EstimatedQty,
+                                              RemainingQty = t1.RemainingQty,
+                                              ReceivedSoFar = t1.ReceivedSoFar,
+                                              UnitRate = t1.UnitRate,
+                                              TotalPrice = t1.TotalPrice,
+                                              Ward = t1.Ward,
+                                              Floor = t1.Floor,
+                                              DPP = t1.DPP,
+                                              Chainage = t1.Chainage,
+                                              
+                                              Remarks = t1.Remarks,
                                           }).FirstOrDefault());
             return v;
         }
@@ -808,6 +846,8 @@ namespace KGERP.Service.Implementation
                                                                         {
                                                                             BillRequisitionMasterId = t1.BillRequisitionMasterId,
                                                                             BillRequisitionTypeId = t1.BillRequisitionTypeId,
+                                                                            BOQItemId = t1.BOQItemId,
+                                                                            ProjectTypeId = t1.ProjectTypeId,
                                                                             BRTypeName = t3.Name,
                                                                             CostCenterId = t1.CostCenterId,
                                                                             CostCenterName = t2.Name,
