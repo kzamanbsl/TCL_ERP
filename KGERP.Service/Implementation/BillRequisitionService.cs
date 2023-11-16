@@ -629,6 +629,8 @@ namespace KGERP.Service.Implementation
                                                                           from t2 in t2_Join.DefaultIfEmpty()
                                                                           join t3 in _context.BillRequisitionItems.Where(x => x.IsActive) on t1.BillRequisitionItemId equals t3.BillRequisitionItemId into t3_Join
                                                                           from t3 in t3_Join.DefaultIfEmpty()
+                                                                          join t4 in _context.Units.Where(x => x.IsActive) on t1.UnitId equals t4.UnitId into t4_Join
+                                                                          from t4 in t4_Join.DefaultIfEmpty()
 
                                                                           select new BillRequisitionDetailModel
                                                                           {
@@ -637,11 +639,13 @@ namespace KGERP.Service.Implementation
                                                                               BillRequisitionItemId = t1.BillRequisitionItemId,
                                                                               ItemName = t3.Name,
                                                                               UnitId = t1.UnitId,
+                                                                              UnitName = t4.Name,
                                                                               UnitRate = t1.UnitRate,
                                                                               TotalPrice = t1.TotalPrice,
                                                                               DemandQty = t1.DemandQty,
                                                                               ReceivedSoFar = t1.ReceivedSoFar,
                                                                               RemainingQty = t1.RemainingQty,
+                                                                              EstimatedQty = t1.EstimatedQty,
                                                                               Remarks = t1.Remarks,
                                                                           }).OrderByDescending(x => x.BillRequisitionDetailId).AsEnumerable());
 

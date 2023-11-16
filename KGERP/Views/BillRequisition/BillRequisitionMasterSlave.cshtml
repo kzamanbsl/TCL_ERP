@@ -55,29 +55,36 @@
                             <div class="col-md-10">
                                 <table class="table">
                                     <tr>
-                                        <th style="width:18%"> Date</th>
+                                        <th style="width:18%">Requisition Date</th>
                                         <th style="width:2%">:</th>
                                         @*<td style="width:30%">@Model.CreatedDate.ToShortDateString()</td>*@
-                                        <td style="width:30%">11-11-2023</td>
+                                        <td style="width:30%">@Model.BRDate.ToShortDateString()</td>
 
                                         <th>Status</th>
                                         <th>:</th>
                                         <td>Draft</td>
                                     </tr>
-
                                     <tr>
+                                        <th>Requisition No</th>
+                                        <th>:</th>
+                                        <td>@Model.BillRequisitionNo</td>
+                                        <th>Requisition Type </th>
+                                        <th>:</th>
+                                        <td>@Model.BRTypeName</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Project Type</th>
+                                        <th>:</th>
+                                        <td>@Model.ProjectTypeName</td>
                                         <th>Project </th>
                                         <th>:</th>
-                                        <td>Kalikoir Project</td>
-                                        <th>Project Manager</th>
-                                        <th>:</th>
-                                        <td>Mr. Tareq</td>
+                                        <td>@Model.CostCenterName</td>
                                     </tr>
 
                                     <tr>
                                         <th>Remarks</th>
                                         <th>:</th>
-                                        <td>@Model.Remarks</td>
+                                        <td>@Model.Description</td>
 
                                         <th>Created By</th>
                                         <th>:</th>
@@ -261,9 +268,14 @@
                                     <thead>
                                         <tr>
                                             <th style="padding:5px;text-align:center;">SL</th>
-                                            <th style="padding:5px;text-align:left;">Item</th>
-                                            <th style="padding:5px;text-align:right;">Quantity</th>
-                                            <th style="padding:5px;text-align:right;">Unit Price</th>
+                                            <th style="padding: 5px; text-align: left;">Item/ Mat.</th>
+                                            <th style="padding: 5px; text-align: left;">Unit</th>
+                                            <th style="padding: 5px; text-align: right;">Est. Qty</th>
+                                            <th style="padding: 5px; text-align: right; ">Recived So Far</th>
+                                            <th style="padding: 5px; text-align: right; ">Remaining Qty</th>
+                                            <th style="padding: 5px; text-align: right; ">Demand Qty</th>
+                                            <th style="padding: 5px; text-align: right; ">Unit Rate</th>
+                                            <th style="padding: 5px; text-align: right; ">Total Price</th>
                                             @if (Model.StatusId == EnumBillRequisitionStatus.Draft)
                                             {
                                                 <th style="padding:5px;text-align:center;">Action</th>
@@ -278,8 +290,14 @@
                                             <tr>
                                                 <td style="padding:5px">@(++sl)</td>
                                                 <td style="padding:5px;text-align:left;">@item.ItemName</td>
-                                                <td style="padding:5px;text-align:center;">@String.Format("{0:0.00}", item.DemandQty) </td>
-                                                <td style="padding:5px;text-align:right;">@String.Format("{0:0.00}", item.UnitRate)</td>
+                                                <td style="padding: 5px; text-align: left;">@item.UnitName</td>
+                                                <td style="padding:5px;text-align:right;">@String.Format("{0:0.00}", item.EstimatedQty)</td>
+                                                <td style="padding: 5px; text-align: right;">@String.Format("{0:0.00}", item.ReceivedSoFar)</td>
+                                                <td style="padding: 5px; text-align: right;">@String.Format("{0:0.00}", item.RemainingQty)</td>
+                                                <td style="padding: 5px; text-align: right;">@String.Format("{0:0.00}", item.DemandQty)</td>
+                                                <td style="padding: 5px; text-align: right;">@String.Format("{0:0.00}", item.UnitRate)</td>
+                                                <td style="padding: 5px; text-align: right;">@String.Format("{0:0.00}", item.TotalPrice)</td>
+
                                                 @{ if (Model.StatusId == EnumBillRequisitionStatus.Draft)
                                                     {
                                                         <td style="padding:5px;text-align:center;">
