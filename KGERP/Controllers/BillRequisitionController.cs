@@ -331,35 +331,96 @@ namespace KGERP.Controllers
             if (!fromDate.HasValue) fromDate = DateTime.Now.AddMonths(-2);
             if (!toDate.HasValue) toDate = DateTime.Now;
 
-            BillRequisitionMasterModel BillRequisitionMasterModel = new BillRequisitionMasterModel();
-            BillRequisitionMasterModel = await _service.GetBillRequisitionMasterList(companyId, fromDate, toDate, vStatus);
+            BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
+            billRequisitionMasterModel = await _service.GetBillRequisitionMasterList(companyId, fromDate, toDate, vStatus);
 
-            BillRequisitionMasterModel.StrFromDate = fromDate.Value.ToString("yyyy-MM-dd");
-            BillRequisitionMasterModel.StrToDate = toDate.Value.ToString("yyyy-MM-dd");
+            billRequisitionMasterModel.StrFromDate = fromDate.Value.ToString("yyyy-MM-dd");
+            billRequisitionMasterModel.StrToDate = toDate.Value.ToString("yyyy-MM-dd");
             if (vStatus == null)
             {
                 vStatus = -1;
             }
-            BillRequisitionMasterModel.StatusId = (EnumBillRequisitionStatus)vStatus;
+            billRequisitionMasterModel.StatusId = (EnumBillRequisitionStatus)vStatus;
             //BillRequisitionMasterModel.ZoneList = new SelectList(procurementService.ZonesDropDownList(companyId), "Value", "Text");
             //BillRequisitionMasterModel.StockInfos = _stockInfoService.GetStockInfoSelectModels(companyId);
-            return View(BillRequisitionMasterModel);
+            return View(billRequisitionMasterModel);
         }
 
         [HttpPost]
-        public ActionResult BillRequisitionMasterSearch(BillRequisitionMasterModel BillRequisitionMasterModel)
+        public ActionResult BillRequisitionMasterSearch(BillRequisitionMasterModel billRequisitionMasterModel)
         {
-            if (BillRequisitionMasterModel.CompanyFK > 0)
+            if (billRequisitionMasterModel.CompanyFK > 0)
             {
-                Session["CompanyId"] = BillRequisitionMasterModel.CompanyFK;
+                Session["CompanyId"] = billRequisitionMasterModel.CompanyFK;
             }
 
-            BillRequisitionMasterModel.FromDate = Convert.ToDateTime(BillRequisitionMasterModel.StrFromDate);
-            BillRequisitionMasterModel.ToDate = Convert.ToDateTime(BillRequisitionMasterModel.StrToDate);
-            return RedirectToAction(nameof(BillRequisitionMasterList), new { companyId = BillRequisitionMasterModel.CompanyFK, fromDate = BillRequisitionMasterModel.FromDate, toDate = BillRequisitionMasterModel.ToDate, vStatus = (int)BillRequisitionMasterModel.StatusId });
+            billRequisitionMasterModel.FromDate = Convert.ToDateTime(billRequisitionMasterModel.StrFromDate);
+            billRequisitionMasterModel.ToDate = Convert.ToDateTime(billRequisitionMasterModel.StrToDate);
+            return RedirectToAction(nameof(BillRequisitionMasterList), new { companyId = billRequisitionMasterModel.CompanyFK, fromDate = billRequisitionMasterModel.FromDate, toDate = billRequisitionMasterModel.ToDate, vStatus = (int)billRequisitionMasterModel.StatusId });
 
         }
 
         #endregion
+
+        #region 1.2  BillRequisition Received Circle
+
+        [HttpGet]
+        public async Task<ActionResult> PMBRReceivedSlave(int companyId = 0, long BillRequisitionMasterId = 0)
+        {
+            BillRequisitionMasterModel BillRequisitionMasterModel = new BillRequisitionMasterModel();
+
+            if (BillRequisitionMasterId > 0)
+            {
+                BillRequisitionMasterModel = await _service.GetBillRequisitionMasterDetail(companyId, BillRequisitionMasterId);
+                BillRequisitionMasterModel.DetailDataList = BillRequisitionMasterModel.DetailList.ToList();
+            }
+
+            return View(BillRequisitionMasterModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> PMBRReceivedSlave(BillRequisitionMasterModel BillRequisitionMasterModel)
+        {
+            var resutl = await _service.PMBillRequisitionReceived(BillRequisitionMasterModel);
+            return RedirectToAction(nameof(PMBRReceivedList), new { companyId = BillRequisitionMasterModel.CompanyFK });
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> PMBRReceivedList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
+        {
+            if (!fromDate.HasValue) fromDate = DateTime.Now.AddMonths(-2);
+            if (!toDate.HasValue) toDate = DateTime.Now;
+
+            BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
+            billRequisitionMasterModel = await _service.GetPMBillRequisitionMasterReceivedList(companyId, fromDate, toDate, vStatus);
+
+            billRequisitionMasterModel.StrFromDate = fromDate.Value.ToString("yyyy-MM-dd");
+            billRequisitionMasterModel.StrToDate = toDate.Value.ToString("yyyy-MM-dd");
+            if (vStatus == null)
+            {
+                vStatus = -1;
+            }
+            billRequisitionMasterModel.StatusId = (EnumBillRequisitionStatus)vStatus;
+
+            return View(billRequisitionMasterModel);
+        }
+
+        [HttpPost]
+        public ActionResult PMBillRequisitionMasterReceivedSearch(BillRequisitionMasterModel billRequisitionMasterModel)
+        {
+            if (billRequisitionMasterModel.CompanyFK > 0)
+            {
+                Session["CompanyId"] = billRequisitionMasterModel.CompanyFK;
+            }
+
+            billRequisitionMasterModel.FromDate = Convert.ToDateTime(billRequisitionMasterModel.StrFromDate);
+            billRequisitionMasterModel.ToDate = Convert.ToDateTime(billRequisitionMasterModel.StrToDate);
+            return RedirectToAction(nameof(PMBRReceivedList), new { companyId = billRequisitionMasterModel.CompanyFK, fromDate = billRequisitionMasterModel.FromDate, toDate = billRequisitionMasterModel.ToDate, vStatus = (int)billRequisitionMasterModel.StatusId });
+
+        }
+
+        #endregion
+
+
     }
 }
