@@ -325,8 +325,8 @@ namespace KGERP.Controllers
             BillRequisitionMasterModel BillRequisitionMasterModel = new BillRequisitionMasterModel();
             BillRequisitionMasterModel = await _service.GetBillRequisitionMasterList(companyId, fromDate, toDate, vStatus);
 
-            //BillRequisitionMasterModel.StrFromDate = fromDate.Value.ToString("yyyy-MM-dd");
-            //BillRequisitionMasterModel.StrToDate = toDate.Value.ToString("yyyy-MM-dd");
+            BillRequisitionMasterModel.StrFromDate = fromDate.Value.ToString("yyyy-MM-dd");
+            BillRequisitionMasterModel.StrToDate = toDate.Value.ToString("yyyy-MM-dd");
             if (vStatus == null)
             {
                 vStatus = -1;
@@ -337,19 +337,19 @@ namespace KGERP.Controllers
             return View(BillRequisitionMasterModel);
         }
 
-        //[HttpPost]
-        //public ActionResult DamageOrderSearch(BillRequisitionMasterModel BillRequisitionMasterModel)
-        //{
-        //    if (BillRequisitionMasterModel.CompanyFK > 0)
-        //    {
-        //        Session["CompanyId"] = BillRequisitionMasterModel.CompanyFK;
-        //    }
+        [HttpPost]
+        public ActionResult BillRequisitionMasterSearch(BillRequisitionMasterModel BillRequisitionMasterModel)
+        {
+            if (BillRequisitionMasterModel.CompanyFK > 0)
+            {
+                Session["CompanyId"] = BillRequisitionMasterModel.CompanyFK;
+            }
 
-        //    BillRequisitionMasterModel.FromDate = Convert.ToDateTime(BillRequisitionMasterModel.StrFromDate);
-        //    BillRequisitionMasterModel.ToDate = Convert.ToDateTime(BillRequisitionMasterModel.StrToDate);
-        //    return RedirectToAction(nameof(BillRequisitionMasterList), new { companyId = BillRequisitionMasterModel.CompanyId, fromDate = BillRequisitionMasterModel.FromDate, toDate = BillRequisitionMasterModel.ToDate, vStatus = (long)BillRequisitionMasterModel.StatusId });
+            BillRequisitionMasterModel.FromDate = Convert.ToDateTime(BillRequisitionMasterModel.StrFromDate);
+            BillRequisitionMasterModel.ToDate = Convert.ToDateTime(BillRequisitionMasterModel.StrToDate);
+            return RedirectToAction(nameof(BillRequisitionMasterList), new { companyId = BillRequisitionMasterModel.CompanyFK, fromDate = BillRequisitionMasterModel.FromDate, toDate = BillRequisitionMasterModel.ToDate, vStatus = (int)BillRequisitionMasterModel.StatusId });
 
-        //}
+        }
 
         #endregion
     }
