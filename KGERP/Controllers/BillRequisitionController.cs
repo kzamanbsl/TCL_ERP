@@ -32,6 +32,7 @@ namespace KGERP.Controllers
         {
             var viewData = new BillRequisitionBoqModel()
             {
+                CompanyFK = companyId,
                 BillBoQItems = _service.GetBillOfQuotationList()
             };
             return View(viewData);
@@ -70,6 +71,7 @@ namespace KGERP.Controllers
         {
             var viewData = new BillRequisitionItemModel()
             {
+                CompanyFK = companyId,
                 BillRequisitionItems = _service.GetBillRequisitionItemList()
             };
             return View(viewData);
@@ -146,6 +148,7 @@ namespace KGERP.Controllers
         {
             var viewData = new CostCenterTypeModel()
             {
+                CompanyFK = companyId,
                 CostCenterTypes = _service.GetCostCenterTypeList()
             };
             return View(viewData);
@@ -185,6 +188,7 @@ namespace KGERP.Controllers
         {
             var viewData = new CostCenterManagerMapModel()
             {
+                CompanyFK = companyId,
                 Projects = _service.GetProjectList(),
                 Employees = _service.GetEmployeeList(),
                 CostCenterManagerMaps = _service.GetCostCenterManagerMapList(),
