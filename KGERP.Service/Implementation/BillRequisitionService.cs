@@ -151,6 +151,8 @@ namespace KGERP.Service.Implementation
                     BillRequisitionItemId = item.BillRequisitionItemId,
                     Name = item.Name,
                     Description = item.Description,
+                    UnitId = item.UnitId,
+                    BoQItemId = item.BoQItemId
                 };
                 billRequisitionItems.Add(data);
             }
@@ -186,6 +188,7 @@ namespace KGERP.Service.Implementation
                         Name = model.Name,
                         Description = model.Description,
                         CompanyId = (int)model.CompanyFK,
+                        UnitId = model.UnitId,
                         IsActive = true,
                         CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
                         CreateDate = DateTime.Now
@@ -215,6 +218,7 @@ namespace KGERP.Service.Implementation
 
                     findBillRequisitionItem.Name = model.Name;
                     findBillRequisitionItem.Description = model.Description;
+                    findBillRequisitionItem.UnitId = model.UnitId;
                     findBillRequisitionItem.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
                     findBillRequisitionItem.ModifiedDate = DateTime.Now;
                     var count = _context.SaveChanges();
