@@ -136,9 +136,9 @@
                                                 }
                                             </td>
                                             <td>
-                                                @if (item.StatusId == EnumBillRequisitionStatus.Draft || item.StatusId == EnumBillRequisitionStatus.Submitted)
+                                                @if (item.StatusId == EnumBillRequisitionStatus.Draft)
                                                 {
-                                                    <a id="@item.BillRequisitionMasterId" onclick="makeSubmitble(@item.BillRequisitionMasterId)" class="linkPointer" data-toggle="modal" data-target="#submitFoodCustomerOrderModal" title="@statusTitle" data-placement="top">
+                                                    <a id="@item.BillRequisitionMasterId" onclick="makeSubmitble(@item.BillRequisitionMasterId)" class="linkPointer" data-toggle="modal" data-target="#submitBillRequisitionMastermodal" title="@statusTitle" data-placement="top">
                                                         @if (item.StatusId == EnumBillRequisitionStatus.Submitted)
                                                         {
                                                             <i>Undo Submit</i>
@@ -149,11 +149,11 @@
                                                         }
                                                     </a>
                                                 }
-                                                @if (item.StatusId == EnumBillRequisitionStatus.Approved)
+                                                else
                                                 {
-                                                    <span class="border:1px solid;border-color:#006400;"><i style="color:#006400;">Approved</i></span>
-                                                }
+                                                    <span class="border:1px solid;border-color:#006400;"><i style="color:#006400;">@item.StatusName</i></span>
 
+                                                }
                                             </td>
                                         </tr>
                                     }
@@ -210,11 +210,11 @@
 }
 
 
-@using (Html.BeginForm("DeleteBillRequisitionMasterById", "BillRequisition", FormMethod.Post))
+@using (Html.BeginForm("SubmitBillRequisitionMaster", "BillRequisition", FormMethod.Post))
 {
 
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="modal fade" id="submitFoodCustomerOrderModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
+    <div class="modal fade" id="submitBillRequisitionMastermodal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
 
@@ -296,9 +296,9 @@
 
                 $.ajax({
                         type: "POST",
-                        url: "@Url.Action("GetDamageMasterById", "Damage")",
+                        url: "@Url.Action("GetBillRequisitionMasterById", "BillRequisition")",
                         datatype: "Json",
-                        data: { damageMasterId: rowId },
+                    data: { BillRequisitionMasterId: rowId },
                     success: function (data) {
 
                             if (data.Status == 0) {
