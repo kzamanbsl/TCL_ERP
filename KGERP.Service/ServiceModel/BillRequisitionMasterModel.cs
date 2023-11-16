@@ -32,6 +32,7 @@ namespace KGERP.Service.ServiceModel
         public string StatusName { get { return BaseFunctionalities.GetEnumDescription(this.StatusId); } }
         public CostCenterManagerMapModel CostCenterManagerMapModel { get; set; } = new CostCenterManagerMapModel();
         public IEnumerable<BillRequisitionMasterModel> DataList { get; set; } = new List<BillRequisitionMasterModel>();
+        public List<BillRequisitionDetailModel> DetailDataList { get; set; } = new List<BillRequisitionDetailModel>();
         public BillRequisitionDetailModel DetailModel { get; set; } = new BillRequisitionDetailModel();
         public IEnumerable<BillRequisitionDetailModel> DetailList { get; set; } = new List<BillRequisitionDetailModel>();
 
