@@ -22,10 +22,9 @@ namespace KGERP.Controllers
         private readonly IBillRequisitionService _service;
         private readonly ConfigurationService _configurationService;
 
-        public BillRequisitionController(IBillRequisitionService billRequisitionService, ConfigurationService configurationService)
+        public BillRequisitionController(IBillRequisitionService billRequisitionService)
         {
             _service = billRequisitionService;
-            _configurationService = configurationService;
         }
 
         #region BoQ Item

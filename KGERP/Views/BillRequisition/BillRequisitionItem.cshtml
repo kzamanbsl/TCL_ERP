@@ -95,6 +95,7 @@
                                                 <th>SL</th>
                                                 <th>Name</th>
                                                 <th>Description</th>
+                                                <th>Unit Name</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -109,6 +110,7 @@
                                                     </td>
                                                     <td id="tdRequisitionItemName_@item.BillRequisitionItemId">@item.Name</td>
                                                     <td id="tdRequisitionItemDescription_@item.BillRequisitionItemId">@item.Description</td>
+                                                    <td id="tdRequisitionItemUnit_@item.BillRequisitionItemId">@Model.Units.FirstOrDefault(c => c.ID == item.UnitId).Name</td>
                                                     <td>
                                                         <a id="@item.BillRequisitionItemId" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
 
@@ -181,6 +183,7 @@
                 $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Update");
                 $('#txtRequisitionItemName').val($('#tdRequisitionItemName_' + rowId).text().trim());
                 $('#txtRequisitionItemDescription').val($('#tdRequisitionItemDescription_' + rowId).text().trim());
+                $('#selectUnit').val($('#tdRequisitionItemUnit_' + rowId).val().trim()).trigger('change');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
         }
