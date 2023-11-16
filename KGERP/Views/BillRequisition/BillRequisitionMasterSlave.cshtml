@@ -316,7 +316,7 @@
 
                     </div>
 
-                    @if (Model.BillRequisitionMasterId > 0)
+                    @if (Model.BillRequisitionMasterId > 0 && Model.StatusId == EnumBillRequisitionStatus.Draft)
                     {
                         <div class="box-footer">
 
