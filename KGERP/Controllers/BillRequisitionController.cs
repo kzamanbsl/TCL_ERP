@@ -28,10 +28,11 @@ namespace KGERP.Controllers
         #region BoQ Item
 
         [HttpGet]
-        public ActionResult BillOfQuotation(int companyId = 21)
+        public ActionResult BillOfQuotation(int companyId)
         {
             var viewData = new BillRequisitionBoqModel()
             {
+                CompanyFK = companyId,
                 BillBoQItems = _service.GetBillOfQuotationList()
             };
             return View(viewData);
@@ -66,10 +67,11 @@ namespace KGERP.Controllers
 
         #region Bill Requisition Item
 
-        public ActionResult BillRequisitionItem(int companyId = 21)
+        public ActionResult BillRequisitionItem(int companyId)
         {
             var viewData = new BillRequisitionItemModel()
             {
+                CompanyFK = companyId,
                 BillRequisitionItems = _service.GetBillRequisitionItemList()
             };
             return View(viewData);
@@ -104,7 +106,7 @@ namespace KGERP.Controllers
 
         #region Bill Requisition Type
 
-        public ActionResult BillRequisitionType(int companyId = 21)
+        public ActionResult BillRequisitionType(int companyId)
         {
             var viewData = new BillRequisitionTypeModel()
             {
@@ -146,6 +148,7 @@ namespace KGERP.Controllers
         {
             var viewData = new CostCenterTypeModel()
             {
+                CompanyFK = companyId,
                 CostCenterTypes = _service.GetCostCenterTypeList()
             };
             return View(viewData);
@@ -181,10 +184,11 @@ namespace KGERP.Controllers
         #region Cost Center Manager Map
 
         [HttpGet]
-        public ActionResult CostCenterManagerMap(int companyId = 21)
+        public ActionResult CostCenterManagerMap(int companyId)
         {
             var viewData = new CostCenterManagerMapModel()
             {
+                CompanyFK = companyId,
                 Projects = _service.GetProjectList(),
                 Employees = _service.GetEmployeeList(),
                 CostCenterManagerMaps = _service.GetCostCenterManagerMapList(),
