@@ -63,8 +63,7 @@ namespace KGERP.Service.Implementation
                     {
                         Name = model.Name,
                         Description = model.Description,
-                        //CompanyId = (int)model.CompanyFK,
-                        CompanyId = 21,
+                        CompanyId = (int)model.CompanyFK,
                         IsActive = true,
                         CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
                         CreateDate = DateTime.Now
@@ -167,8 +166,7 @@ namespace KGERP.Service.Implementation
                     {
                         Name = model.Name,
                         Description = model.Description,
-                        //CompanyId = (int)model.CompanyFK,
-                        CompanyId = 21,
+                        CompanyId = (int)model.CompanyFK,
                         IsActive = true,
                         CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
                         CreateDate = DateTime.Now
@@ -271,8 +269,7 @@ namespace KGERP.Service.Implementation
                     {
                         Name = model.Name,
                         Description = model.Description,
-                        //CompanyId = (int)model.CompanyFK,
-                        CompanyId = 21,
+                        CompanyId = (int)model.CompanyFK,
                         IsActive = true,
                         CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
                         CreateDate = DateTime.Now
@@ -373,8 +370,7 @@ namespace KGERP.Service.Implementation
                     Accounting_CostCenterType data = new Accounting_CostCenterType()
                     {
                         Name = model.Name,
-                        //CompanyId = (int)model.CompanyFK,
-                        CompanyId = 21,
+                        CompanyId = (int)model.CompanyFK,
                         IsActive = true,
                         CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
                         CreatedDate = DateTime.Now
@@ -511,8 +507,7 @@ namespace KGERP.Service.Implementation
                     {
                         CostCenterId = model.ProjectId,
                         ManagerId = model.EmployeeRowId,
-                        //CompanyId = (int)model.CompanyFK,
-                        CompanyId = 21,
+                        CompanyId = (int)model.CompanyFK,
                         IsMapActive = true,
                         IsActive = true,
                         CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
