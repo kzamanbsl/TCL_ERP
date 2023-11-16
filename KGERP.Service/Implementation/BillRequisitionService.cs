@@ -1,4 +1,5 @@
 ﻿using KGERP.Data.Models;
+using KGERP.Service.Implementation.Configuration;
 using KGERP.Service.Interface;
 using KGERP.Service.ServiceModel;
 using KGERP.Utility;
@@ -39,8 +40,8 @@ namespace KGERP.Service.Implementation
         public List<BillBoQItem> GetBillOfQuotationList()
         {
             List<BillBoQItem> billBoQItems = new List<BillBoQItem>();
-            var getbillBoQItems = _context.BillBoQItems.Where(c => c.IsActive == true).ToList();
-            foreach (var item in getbillBoQItems)
+            var getBillBoQItems = _context.BillBoQItems.Where(c => c.IsActive == true).ToList();
+            foreach (var item in getBillBoQItems)
             {
                 var data = new BillBoQItem()
                 {
@@ -149,11 +150,29 @@ namespace KGERP.Service.Implementation
                 {
                     BillRequisitionItemId = item.BillRequisitionItemId,
                     Name = item.Name,
-                    Description = item.Description
+                    Description = item.Description,
                 };
                 billRequisitionItems.Add(data);
             }
+            
             return billRequisitionItems;
+        }
+
+        public List<VMCommonUnit> GetUnitList(int companyId)
+        {
+            List<VMCommonUnit> commonUnits = new List<VMCommonUnit>();
+            var getCommonUnits = _context.Units.Where(c => c.IsActive == true).ToList();
+            foreach (var item in getCommonUnits)
+            {
+                var data = new VMCommonUnit()
+                {
+                    ID = item.UnitId,
+                    Name = item.Name,
+                };
+                commonUnits.Add(data);
+            }
+
+            return commonUnits;
         }
 
         public bool Add(BillRequisitionItemModel model)

@@ -20,9 +20,12 @@ namespace KGERP.Controllers
     public class BillRequisitionController : BaseController
     {
         private readonly IBillRequisitionService _service;
-        public BillRequisitionController(IBillRequisitionService billRequisitionService)
+        private readonly ConfigurationService _configurationService;
+
+        public BillRequisitionController(IBillRequisitionService billRequisitionService, ConfigurationService configurationService)
         {
             _service = billRequisitionService;
+            _configurationService = configurationService;
         }
 
         #region BoQ Item
@@ -72,6 +75,7 @@ namespace KGERP.Controllers
             var viewData = new BillRequisitionItemModel()
             {
                 CompanyFK = companyId,
+                Units = _service.GetUnitList(companyId),
                 BillRequisitionItems = _service.GetBillRequisitionItemList()
             };
             return View(viewData);
@@ -110,6 +114,7 @@ namespace KGERP.Controllers
         {
             var viewData = new BillRequisitionTypeModel()
             {
+                CompanyFK = companyId,
                 BillRequisitionTypes = _service.GetBillRequisitionTypeList()
             };
             return View(viewData);

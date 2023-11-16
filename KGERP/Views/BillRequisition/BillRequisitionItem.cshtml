@@ -50,6 +50,12 @@
                                 @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
 
                                 <div class="form-group">
+                                    <label asp-for="ProjectId">Select Unit</label>
+                                    @Html.DropDownListFor(model => model.UnitId, new SelectList(Model.Units, "ID", "Name"), "-- Select Unit --", new { id = "selectUnit", @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.UnitId, "", new { @class = "text-danger" })
+                                </div>
+
+                                <div class="form-group">
                                     <label asp-for="Name" class="form-control-label">Name:</label>
                                     @Html.TextBoxFor(model => model.Name, new { id = "txtRequisitionItemName", @class = "form-control", @placeholder = "Requisition Item Name", required = "true" })
                                     @Html.ValidationMessageFor(model => model.Name, "", new { id = "nameExist", @class = "text-danger" })
@@ -103,6 +109,7 @@
                                                     </td>
                                                     <td id="tdRequisitionItemName_@item.BillRequisitionItemId">@item.Name</td>
                                                     <td id="tdRequisitionItemDescription_@item.BillRequisitionItemId">@item.Description</td>
+                                                    <td id="tdRequisitionItemDescription_@item.Uni">@item.Description</td>
                                                     <td>
                                                         <a id="@item.BillRequisitionItemId" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
 

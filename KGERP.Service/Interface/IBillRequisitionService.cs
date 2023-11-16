@@ -1,4 +1,5 @@
 ﻿using KGERP.Data.Models;
+using KGERP.Service.Implementation.Configuration;
 using KGERP.Service.ServiceModel;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,7 @@ namespace KGERP.Service.Interface
         bool Edit(BillRequisitionItemModel model);
         bool Delete(BillRequisitionItemModel model);
         List<BillRequisitionItem> GetBillRequisitionItemList();
+        List<VMCommonUnit> GetUnitList(int companyId);
         #endregion
 
         #region Bill Requisition Type
