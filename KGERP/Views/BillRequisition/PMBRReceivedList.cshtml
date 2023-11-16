@@ -93,7 +93,6 @@
                                         <th>Project </th>
                                         <th>Status</th>
                                         <th>Action</th>
-                                        <th>Change Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -125,12 +124,11 @@
                                             <td>
                                                 @if (item.StatusId != EnumBillRequisitionStatus.Draft || item.StatusId == EnumBillRequisitionStatus.Submitted)
                                                 {
-                                                    <a id="@item.BillRequisitionMasterId" onclick="makeDeletale(@item.BillRequisitionMasterId)" class="linkPointer" data-toggle="modal" data-target="#deleteFoodCustomerOrderModal" title="Delete" data-placement="top"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>
-                                                    <a href="~/BillRequisition/BillRequisitionMasterSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
+                                                    <a href="~/BillRequisition/PMBRReceivedSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
                                                 }
                                                 else if (item.StatusId == EnumBillRequisitionStatus.Approved)
                                                 {
-                                                    <a href="~/BillRequisition/PMBillRequisitionReceivedSlave?companyId=@item.CompanyFK&damageMasterId=@item.BillRequisitionMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
+                                                    <a href="~/BillRequisition/PMBRReceivedSlave?companyId=@item.CompanyFK&damageMasterId=@item.BillRequisitionMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
 
                                                 }
                                                 else if (item.StatusId == EnumBillRequisitionStatus.Approved)

@@ -1002,168 +1002,65 @@ namespace KGERP.Service.Implementation
 
         #endregion
 
+      
         #region 1.2   BillRequisition received circle
 
-        //public async Task<long> DealerBillRequisitionReceived(BillRequisitionMasterModel BillRequisitionMasterModel)
-        //{
-        //    long result = -1;
-        //    if (BillRequisitionMasterModel.BillRequisitionMasterId <= 0) throw new Exception("Sorry! BillRequisition not found to Receive!");
-        //    if (BillRequisitionMasterModel.DetailDataList.Count() <= 0) throw new Exception("Sorry! BillRequisition  Detail not found to Receive!");
+        public async Task<long> PMBillRequisitionReceived(BillRequisitionMasterModel billRequisitionMasterModel)
+        {
+            long result = -1;
+            if (billRequisitionMasterModel.BillRequisitionMasterId <= 0) throw new Exception("Sorry! BillRequisition not found to Receive!");
+            if (billRequisitionMasterModel.DetailDataList.Count() <= 0) throw new Exception("Sorry! BillRequisition  Detail not found to Receive!");
 
-        //    var userName = System.Web.HttpContext.Current.User.Identity.Name;
+            var userName = System.Web.HttpContext.Current.User.Identity.Name;
 
-        //    BillRequisitionMaster BillRequisitionMaster = _context.BillRequisitionMasters.FirstOrDefault(c => c.BillRequisitionMasterId == BillRequisitionMasterModel.BillRequisitionMasterId);
-        //    BillRequisitionMaster.StatusId = (int)EnumBillRequisitionStatus.Received;
+            BillRequisitionMaster billRequisitionMaster = _context.BillRequisitionMasters.FirstOrDefault(c => c.BillRequisitionMasterId == billRequisitionMasterModel.BillRequisitionMasterId);
+            billRequisitionMaster.StatusId = (int)EnumBillRequisitionStatus.Approved;
 
-        //    BillRequisitionMaster.ModifiedBy = userName;
-        //    BillRequisitionMaster.ModifiedDate = DateTime.Now;
+            billRequisitionMaster.ModifiedBy = userName;
+            billRequisitionMaster.ModifiedDate = DateTime.Now;
 
-        //    List<BillRequisitionDetail> details = _context.BillRequisitionDetails.Where(c => c.BillRequisitionMasterId == BillRequisitionMasterModel.BillRequisitionMasterId && c.IsActive == true).ToList();
-        //    if (details?.Count() <= 0) throw new Exception("Sorry! BillRequisition  not found to Receive!");
+            if (await _context.SaveChangesAsync() > 0)
+            {
+                result = billRequisitionMasterModel.BillRequisitionMasterId;
+            }
+            return result;
+        }
+        public async Task<BillRequisitionMasterModel> GetPMBillRequisitionMasterReceivedList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
+        {
+            BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
+            billRequisitionMasterModel.CompanyFK = companyId;
+            billRequisitionMasterModel.DataList = await Task.Run(() => (from t1 in _context.BillRequisitionMasters.Where(x => x.IsActive
+                                                         && x.CompanyId == companyId
+                                                         && x.StatusId >= (int)EnumBillRequisitionStatus.Submitted)
+                                                                        join t2 in _context.Accounting_CostCenter on t1.CostCenterId equals t2.CostCenterId into t2_Join
+                                                                        from t2 in t2_Join.DefaultIfEmpty()
+                                                                        join t3 in _context.BillRequisitionTypes on t1.BillRequisitionTypeId equals t3.BillRequisitionTypeId into t3_Join
+                                                                        from t3 in t3_Join.DefaultIfEmpty()
+                                                                        select new BillRequisitionMasterModel
+                                                                        {
+                                                                            BillRequisitionMasterId = t1.BillRequisitionMasterId,
+                                                                            BillRequisitionTypeId = t1.BillRequisitionTypeId,
+                                                                            BOQItemId = t1.BOQItemId,
+                                                                            ProjectTypeId = t1.ProjectTypeId,
+                                                                            BRTypeName = t3.Name,
+                                                                            CostCenterId = t1.CostCenterId,
+                                                                            CostCenterName = t2.Name,
+                                                                            Description = t1.Description,
+                                                                            BRDate = t1.BRDate,
+                                                                            BillRequisitionNo = t1.BillRequisitionNo,
+                                                                            StatusId = (EnumBillRequisitionStatus)t1.StatusId,
+                                                                            CompanyFK = t1.CompanyId,
+                                                                            CreatedDate = t1.CreateDate,
+                                                                            CreatedBy = t1.CreatedBy,
+                                                                        }).OrderByDescending(x => x.BillRequisitionMasterId).AsEnumerable());
 
-        //    List<BillRequisitionDetailHistory> history = new List<BillRequisitionDetailHistory>();
-        //    foreach (var item in details)
-        //    {
-        //        history.Add(new BillRequisitionDetailHistory
-        //        {
-        //            BillRequisitionDetailHistoryId = 0,
-        //            BillRequisitionMasterId = item.BillRequisitionMasterId,
-        //            BillRequisitionDetailId = item.BillRequisitionDetailId,
-        //            BillRequisitionTypeId = item.BillRequisitionTypeId,
-        //            ProductId = item.ProductId,
-        //            BillRequisitionQty = item.BillRequisitionQty,
-        //            UnitPrice = item.UnitPrice,
-        //            TotalPrice = item.TotalPrice,
-        //            Remarks = item.Remarks,
-        //            CreatedBy = System.Web.HttpContext.Current.Session["EmployeeName"].ToString(),
-        //            CreateDate = DateTime.Now,
-        //            IsActive = true,
-        //        });
-        //    }
+            if (vStatus != -1 && vStatus != null)
+            {
+                billRequisitionMasterModel.DataList = billRequisitionMasterModel.DataList.Where(q => q.StatusId == (EnumBillRequisitionStatus)vStatus);
+            }
+            return billRequisitionMasterModel;
+        }
 
-        //    foreach (var dt in details)
-        //    {
-        //        var obj = BillRequisitionMasterModel.DetailDataList.FirstOrDefault(c => c.BillRequisitionDetailId == dt.BillRequisitionDetailId);
-        //        dt.BillRequisitionQty = obj.BillRequisitionQty;
-        //        dt.UnitPrice = obj.UnitPrice;
-        //        dt.Remarks = obj.Remarks;
-        //        dt.ModifiedBy = userName;
-        //        dt.ModifiedDate = DateTime.Now;
-        //    }
-
-        //    using (var scope = _context.Database.Beglongransaction())
-        //    {
-        //        _context.BillRequisitionDetailHistories.AddRange(history);
-        //        if (await _context.SaveChangesAsync() > 0)
-        //        {
-        //            result = BillRequisitionMasterModel.BillRequisitionMasterId;
-        //        }
-        //        scope.Commit();
-        //    }
-        //    return result;
-        //}
-        //public async Task<BillRequisitionMasterModel> GetDealerBillRequisitionMasterReceivedList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
-        //{
-        //    BillRequisitionMasterModel BillRequisitionMasterModel = new BillRequisitionMasterModel();
-        //    BillRequisitionMasterModel.CompanyFK = companyId;
-
-        //    BillRequisitionMasterModel.DataList = await Task.Run(() => (from t1 in _context.BillRequisitionMasters.Where(x => x.IsActive
-        //                                                  && x.CompanyId == companyId
-        //                                                  && x.BillRequisitionFromId == (long)EnumBillRequisitionFrom.Dealer
-        //                                                  && x.ToDeportId != null
-        //                                                  && x.FromDealerId != null
-        //                                                  && x.OperationDate >= fromDate && x.OperationDate <= toDate
-        //                                                  && x.StatusId <= (int)EnumBillRequisitionStatus.Received
-        //                                                  && x.StatusId != (int)EnumBillRequisitionStatus.Draft)
-        //                                                                join t3 in _context.Vendors on t1.FromDealerId equals t3.VendorId into t3_Join
-        //                                                                from t3 in t3_Join.DefaultIfEmpty()
-        //                                                                join t4 in _context.Vendors on t1.ToDeportId equals t4.VendorId into t4_Join
-        //                                                                from t4 in t4_Join.DefaultIfEmpty()
-        //                                                                select new BillRequisitionMasterModel
-        //                                                                {
-        //                                                                    BillRequisitionMasterId = t1.BillRequisitionMasterId,
-        //                                                                    OperationDate = t1.OperationDate,
-
-        //                                                                    DealerName = t3.Name,
-        //                                                                    DealerAddress = t3.Address,
-        //                                                                    DealerEmail = t3.Email,
-        //                                                                    DealerPhone = t3.Phone,
-
-        //                                                                    DeportName = t4.Name,
-        //                                                                    DeportEmail = t4.Email,
-        //                                                                    DeportPhone = t4.Phone,
-        //                                                                    DeportAddress = t4.Address,
-
-        //                                                                    BillRequisitionFromId = (EnumBillRequisitionFrom)t1.BillRequisitionFromId,
-        //                                                                    FromCustomerId = t1.FromCustomerId,
-        //                                                                    FromDealerId = t1.FromDealerId,
-        //                                                                    FromDeportId = t1.FromDeportId,
-        //                                                                    ToDealerId = t1.ToDealerId,
-        //                                                                    ToDeportId = t1.ToDeportId,
-        //                                                                    ToStockInfoId = t1.ToStockInfoId,
-        //                                                                    StatusId = (EnumBillRequisitionStatus)t1.StatusId,
-        //                                                                    CompanyFK = t1.CompanyId,
-        //                                                                    CompanyId = t1.CompanyId,
-        //                                                                    CreatedDate = t1.CreateDate,
-        //                                                                    CreatedBy = t1.CreatedBy,
-
-        //                                                                }).OrderByDescending(x => x.BillRequisitionMasterId).AsEnumerable());
-        //    if (vStatus != -1 && vStatus != null)
-        //    {
-        //        BillRequisitionMasterModel.DataList = BillRequisitionMasterModel.DataList.Where(q => q.StatusId == (EnumBillRequisitionStatus)vStatus);
-        //    }
-        //    return BillRequisitionMasterModel;
-        //}
-
-        //public async Task<BillRequisitionMasterModel> GetCustomerBillRequisitionMasterReceivedList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
-        //{
-        //    BillRequisitionMasterModel BillRequisitionMasterModel = new BillRequisitionMasterModel();
-        //    BillRequisitionMasterModel.CompanyFK = companyId;
-
-        //    BillRequisitionMasterModel.DataList = await Task.Run(() => (from t1 in _context.BillRequisitionMasters.Where(x => x.IsActive
-        //                                                  && x.CompanyId == companyId
-        //                                                  && x.BillRequisitionFromId == (long)EnumBillRequisitionFrom.Customer
-        //                                                  && x.ToDealerId != null
-        //                                                  && x.FromCustomerId != null
-        //                                                  && x.OperationDate >= fromDate && x.OperationDate <= toDate
-        //                                                  && x.StatusId <= (int)EnumBillRequisitionStatus.Received
-        //                                                  && x.StatusId != (int)EnumBillRequisitionStatus.Draft)
-        //                                                                join t2 in _context.Vendors on t1.FromCustomerId equals t2.VendorId into t2_Join
-        //                                                                from t2 in t2_Join.DefaultIfEmpty()
-        //                                                                join t3 in _context.Vendors on t1.ToDealerId equals t3.VendorId into t3_Join
-        //                                                                from t3 in t3_Join.DefaultIfEmpty()
-        //                                                                select new BillRequisitionMasterModel
-        //                                                                {
-        //                                                                    BillRequisitionMasterId = t1.BillRequisitionMasterId,
-        //                                                                    OperationDate = t1.OperationDate,
-        //                                                                    DealerName = t3.Name,
-        //                                                                    DealerAddress = t3.Address,
-        //                                                                    DealerEmail = t3.Email,
-        //                                                                    DealerPhone = t3.Phone,
-        //                                                                    CustomerName = t2.Name,
-        //                                                                    CustomerEmail = t2.Email,
-        //                                                                    CustomerPhone = t2.Phone,
-        //                                                                    CustomerAddress = t2.Address,
-        //                                                                    BillRequisitionFromId = (EnumBillRequisitionFrom)t1.BillRequisitionFromId,
-        //                                                                    FromCustomerId = t1.FromCustomerId,
-        //                                                                    FromDealerId = t1.FromDealerId,
-        //                                                                    FromDeportId = t1.FromDeportId,
-        //                                                                    ToDealerId = t1.ToDealerId,
-        //                                                                    ToDeportId = t1.ToDeportId,
-        //                                                                    ToStockInfoId = t1.ToStockInfoId,
-        //                                                                    StatusId = (EnumBillRequisitionStatus)t1.StatusId,
-        //                                                                    CompanyFK = t1.CompanyId,
-        //                                                                    CompanyId = t1.CompanyId,
-        //                                                                    CreatedDate = t1.CreateDate,
-        //                                                                    CreatedBy = t1.CreatedBy,
-
-        //                                                                }).OrderByDescending(x => x.BillRequisitionMasterId).AsEnumerable());
-        //    if (vStatus != -1 && vStatus != null)
-        //    {
-        //        BillRequisitionMasterModel.DataList = BillRequisitionMasterModel.DataList.Where(q => q.StatusId == (EnumBillRequisitionStatus)vStatus);
-        //    }
-        //    return BillRequisitionMasterModel;
-        //}
         #endregion
 
     }
