@@ -24,6 +24,10 @@ namespace KGERP.Service.ServiceModel
         public string BRTypeName { get; set; }
         public string Description { get; set; }
         public decimal TotalAmount { get; set; }
+        public DateTime FromDate { get; set; }
+        public DateTime ToDate { get; set; }
+        public string StrFromDate { get; set; }
+        public string StrToDate { get; set; }
         public EnumBillRequisitionStatus StatusId { get; set; }
         public string StatusName { get { return BaseFunctionalities.GetEnumDescription(this.StatusId); } }
         public CostCenterManagerMapModel CostCenterManagerMapModel { get; set; } = new CostCenterManagerMapModel();
@@ -36,7 +40,8 @@ namespace KGERP.Service.ServiceModel
         public SelectList BOQItemList { get; set; } = new SelectList(new List<object>());
         public SelectList ProjectTypeList { get; set; } = new SelectList(new List<object>());
         public SelectList RequisitionItemList { get; set; } = new SelectList(new List<object>());
-       
+        public SelectList EnumBRStatusList { get { return new SelectList(BaseFunctionalities.GetEnumList<EnumBillRequisitionStatus>(), "Value", "Text"); } }
+
     }
     public class BillRequisitionDetailModel : BaseVM
     {
