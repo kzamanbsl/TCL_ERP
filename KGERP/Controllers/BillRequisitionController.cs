@@ -110,6 +110,7 @@ namespace KGERP.Controllers
         {
             var viewData = new BillRequisitionTypeModel()
             {
+                CompanyFK = companyId,
                 BillRequisitionTypes = _service.GetBillRequisitionTypeList()
             };
             return View(viewData);
