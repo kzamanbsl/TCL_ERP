@@ -975,12 +975,15 @@ namespace KGERP.Service.Implementation
                                                                         from t2 in t2_Join.DefaultIfEmpty()
                                                                         join t3 in _context.BillRequisitionTypes on t1.BillRequisitionTypeId equals t3.BillRequisitionTypeId into t3_Join
                                                                         from t3 in t3_Join.DefaultIfEmpty()
+                                                                        join t4 in _context.Accounting_CostCenterType on t1.ProjectTypeId equals t4.CostCenterTypeId into t4_Join
+                                                                        from t4 in t3_Join.DefaultIfEmpty()
                                                                         select new BillRequisitionMasterModel
                                                                         {
                                                                             BillRequisitionMasterId = t1.BillRequisitionMasterId,
                                                                             BillRequisitionTypeId = t1.BillRequisitionTypeId,
                                                                             BOQItemId = t1.BOQItemId,
                                                                             ProjectTypeId = t1.ProjectTypeId,
+                                                                            ProjectTypeName = t4.Name,
                                                                             BRTypeName = t3.Name,
                                                                             CostCenterId = t1.CostCenterId,
                                                                             CostCenterName = t2.Name,
@@ -1036,12 +1039,15 @@ namespace KGERP.Service.Implementation
                                                                         from t2 in t2_Join.DefaultIfEmpty()
                                                                         join t3 in _context.BillRequisitionTypes on t1.BillRequisitionTypeId equals t3.BillRequisitionTypeId into t3_Join
                                                                         from t3 in t3_Join.DefaultIfEmpty()
+                                                                        join t4 in _context.Accounting_CostCenterType on t1.ProjectTypeId equals t4.CostCenterTypeId into t4_Join
+                                                                        from t4 in t3_Join.DefaultIfEmpty()
                                                                         select new BillRequisitionMasterModel
                                                                         {
                                                                             BillRequisitionMasterId = t1.BillRequisitionMasterId,
                                                                             BillRequisitionTypeId = t1.BillRequisitionTypeId,
                                                                             BOQItemId = t1.BOQItemId,
                                                                             ProjectTypeId = t1.ProjectTypeId,
+                                                                            ProjectTypeName = t4.Name,
                                                                             BRTypeName = t3.Name,
                                                                             CostCenterId = t1.CostCenterId,
                                                                             CostCenterName = t2.Name,
