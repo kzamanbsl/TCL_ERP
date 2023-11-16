@@ -61,7 +61,7 @@
 
                                             <th>Status</th>
                                             <th>:</th>
-                                            <td>Draft</td>
+                                            <td >@Model.StatusName</td>
                                         </tr>
                                         <tr>
                                             <th>Requisition No</th>
@@ -120,7 +120,7 @@
                                             {
 
                                                 <tr>
-                                                    <td style="padding: 10px; text-align: left;">
+                                                    <td style="text-align: center;">
                                                         @Html.HiddenFor(model => model.DetailDataList[i].BillRequisitionMasterId)
                                                         @(++sl)
                                                     </td>
@@ -141,6 +141,7 @@
                                         </tbody>
                                         <tfoot>
                                             <tr>
+                                                <td colspan="8"></td>
                                                 <td style="padding: 5px; text-align: right;"> <b>Total :</b> @String.Format("{0:0.00}", totalPrice)</td>
                                             </tr>
                                         </tfoot>
@@ -161,7 +162,7 @@
                             <div class="row">
                                 <div class="col-md-6"></div>
                                 <div class="col-md-6">
-                                    <button type="submit" id="btnSave" class="btn btn-primary btn-block">Receive</button>
+                                    <button type="submit" id="btnSave" class="btn btn-primary btn-block">Approve</button>
                                 </div>
                             </div>
                         </div>

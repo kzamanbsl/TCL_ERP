@@ -122,18 +122,13 @@
 
                                             <td>@item.StatusName</td>
                                             <td>
-                                                @if (item.StatusId != EnumBillRequisitionStatus.Draft || item.StatusId == EnumBillRequisitionStatus.Submitted)
+                                                @if (item.StatusId == EnumBillRequisitionStatus.Submitted)
                                                 {
-                                                    <a href="~/BillRequisition/PMBRReceivedSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
+                                                    <a href="~/BillRequisition/PMBRReceivedSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" title="Approve"><i class="glyphicon glyphicon-new-window"></i> Approve</a>
                                                 }
                                                 else if (item.StatusId == EnumBillRequisitionStatus.Approved)
                                                 {
-                                                    <a href="~/BillRequisition/PMBRReceivedSlave?companyId=@item.CompanyFK&damageMasterId=@item.BillRequisitionMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
-
-                                                }
-                                                else if (item.StatusId == EnumBillRequisitionStatus.Approved)
-                                                {
-                                                    <span class="border:1px solid;border-color:#006400;"><i style="color:#006400;">@item.StatusName</i></span>
+                                                    <a href="~/BillRequisition/PMBRReceivedSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i> Details</a>
 
                                                 }
                                             </td>
