@@ -214,7 +214,7 @@ namespace KGERP.Service.Implementation
             {
                 try
                 {
-                    var findBillRequisitionItem = _context.BillRequisitionItems.FirstOrDefault(c => c.BillRequisitionItemId == model.BillRequisitionItemId);
+                    var findBillRequisitionItem = _context.BillRequisitionItems.FirstOrDefault(c => c.BillRequisitionItemId == model.ID);
 
                     findBillRequisitionItem.Name = model.Name;
                     findBillRequisitionItem.Description = model.Description;

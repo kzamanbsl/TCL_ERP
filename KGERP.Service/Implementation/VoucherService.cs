@@ -247,7 +247,9 @@ namespace KGERP.Service.Implementation
 
             vouchersCount++;
             //voucherNo = voucherType.Code + "-" + vouchersCount.ToString().PadLeft(4, '0');
-            voucherNo = $"{voucherType.Code}-{DateTime.Now:yy}-{DateTime.Now:MM}-{vouchersCount.ToString().PadLeft(4, '0')}";
+            //voucherNo = $"{voucherType.Code}-{DateTime.Now:yy}-{DateTime.Now:MM}-{vouchersCount.ToString().PadLeft(4, '0')}";
+            //voucherNo = $"{voucherType.Code}-{voucherDate.Year}-{voucherDate.Month}-{vouchersCount.ToString().PadLeft(4, '0')}";
+            voucherNo = $"{voucherType.Code}-{voucherDate:yy}-{voucherDate:MM}-{vouchersCount.ToString().PadLeft(4, '0')}";
 
             return voucherNo;
         }
