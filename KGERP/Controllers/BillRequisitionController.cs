@@ -142,7 +142,7 @@ namespace KGERP.Controllers
 
         #region Cost Center Type
 
-        public ActionResult CostCenterType(int companyId)
+        public ActionResult CostCenterType(int companyId = 21)
         {
             var viewData = new CostCenterTypeModel()
             {
