@@ -163,7 +163,7 @@ namespace KGERP.Service.Implementation
         public List<VMCommonUnit> GetUnitList(int companyId)
         {
             List<VMCommonUnit> commonUnits = new List<VMCommonUnit>();
-            var getCommonUnits = _context.Units.Where(c => c.IsActive == true).ToList();
+            var getCommonUnits = _context.Units.Where(c => c.CompanyId == companyId && c.IsActive == true).ToList();
             foreach (var item in getCommonUnits)
             {
                 var data = new VMCommonUnit()
@@ -371,7 +371,7 @@ namespace KGERP.Service.Implementation
         public List<Accounting_CostCenterType> GetCostCenterTypeList()
         {
             List<Accounting_CostCenterType> costCenterTypes = new List<Accounting_CostCenterType>();
-            var getCostCenterTypes = _context.Accounting_CostCenterType.Where(c => c.IsActive == true).ToList();
+            var getCostCenterTypes = _context.Accounting_CostCenterType.Where(c => c.CompanyId == 21 && c.IsActive == true).ToList();
             foreach (var item in getCostCenterTypes)
             {
                 var data = new Accounting_CostCenterType()
@@ -606,7 +606,7 @@ namespace KGERP.Service.Implementation
         #endregion
 
         #region BillRequisition Master Detail
-        public async Task<BillRequisitionMasterModel> GetBillRequisitionMasterDetail(int companyId = 21, long billRequisitionMasterId)
+        public async Task<BillRequisitionMasterModel> GetBillRequisitionMasterDetail(int companyId = 21, long billRequisitionMasterId = 0)
         {
             BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
 

@@ -231,7 +231,7 @@ namespace KGERP.Controllers
 
          
         [HttpGet]
-        public async Task<ActionResult> BillRequisitionMasterSlave(int companyId = 0, long billRequisitionMasterId = 0)
+        public async Task<ActionResult> BillRequisitionMasterSlave(int companyId = 21, long billRequisitionMasterId = 0)
         {
             BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
 
@@ -244,11 +244,13 @@ namespace KGERP.Controllers
             {
                 billRequisitionMasterModel = await _service.GetBillRequisitionMasterDetail(companyId, billRequisitionMasterId);
             }
-            billRequisitionMasterModel.ProjectTypeList = new SelectList(_service.GetCostCenterTypeList().Where(x=>x.CompanyId== companyId).ToList(), "CostCenterTypeId", "Name");
+            billRequisitionMasterModel.ProjectTypeList = new SelectList(_service.GetCostCenterTypeList(), "CostCenterTypeId", "Name");
             billRequisitionMasterModel.ProjectList = new SelectList(_service.GetProjectList(), "CostCenterId", "Name");
             billRequisitionMasterModel.RequisitionTypeList = new SelectList(_service.GetBillRequisitionTypeList(), "BillRequisitionTypeId", "Name");
             billRequisitionMasterModel.RequisitionItemList = new SelectList(_service.GetBillRequisitionItemList(), "BillRequisitionItemId", "Name");
             billRequisitionMasterModel.BOQItemList = new SelectList(_service.GetBillOfQuotationList(), "BoQItemId", "Name");
+            billRequisitionMasterModel.UnitList = new SelectList(_service.GetUnitList(companyId), "UnitId", "Name");
+
             return View(billRequisitionMasterModel);
         }
 
