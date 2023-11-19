@@ -43,6 +43,8 @@ namespace KGERP.Service.ServiceModel
         public SelectList RequisitionItemList { get; set; } = new SelectList(new List<object>());
         public SelectList UnitList { get; set; } = new SelectList(new List<object>());
         public SelectList EnumBRStatusList { get { return new SelectList(BaseFunctionalities.GetEnumList<EnumBillRequisitionStatus>(), "Value", "Text"); } }
+        public SelectList EnumBRSignatoryList { get { return new SelectList(BaseFunctionalities.GetEnumList<EnumBRequisitionSignatory>(), "Value", "Text"); } }
+
     }
     public class BillRequisitionDetailModel : BaseVM
     {

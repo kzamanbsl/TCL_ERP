@@ -1,5 +1,13 @@
 ﻿namespace KGERP.Utility
 {
+    public enum EnumBRequisitionSignatory
+    {
+        Initiator = 1,
+        PM,
+        QS,
+        Director,
+        MD
+    }
     public enum EnumBillRequisitionStatus
     {
         Draft = 1,
