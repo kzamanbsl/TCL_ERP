@@ -864,7 +864,8 @@ namespace KGERP.Service.Implementation
                     {
                         billRequisitionApproval.AprrovalStatusId = (int)EnumBillRequisitionStatus.Pending;
                     }
-                    billRequisitionApproval.PriorityNo = priority + 1;
+                    priority = priority + 1;
+                    billRequisitionApproval.PriorityNo = priority;
                     billRequisitionApproval.IsActive = true;
                     billRequisitionApproval.IsSupremeApproved = false;
 
