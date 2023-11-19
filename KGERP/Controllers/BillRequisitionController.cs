@@ -254,6 +254,7 @@ namespace KGERP.Controllers
             billRequisitionMasterModel.UnitList = new SelectList(_service.GetUnitList(companyId), "UnitId", "Name");
 
             return View(billRequisitionMasterModel);
+
         }
 
         [HttpPost]
