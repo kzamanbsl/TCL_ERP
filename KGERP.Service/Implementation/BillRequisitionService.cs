@@ -712,7 +712,7 @@ namespace KGERP.Service.Implementation
             {
                 #region Generate Unique Requisition Number With Last Id
 
-                int getLastRowId = _context.BillRequisitionMasters.Where(c => c.CreateDate == DateTime.Now).Count();
+                int getLastRowId = _context.BillRequisitionMasters.Where(c => c.BRDate == DateTime.Today).Count();
 
                 string setZeroBeforeLastId(int lastRowId, int length)
                 {
