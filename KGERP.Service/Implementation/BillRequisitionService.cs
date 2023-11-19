@@ -829,22 +829,51 @@ namespace KGERP.Service.Implementation
                 throw new Exception("Sorry! item not found!");
             }
 
-            if (billRequisitionMaster.StatusId == (int)EnumBillRequisitionStatus.Draft)
-            {
-                billRequisitionMaster.StatusId = (int)EnumBillRequisitionStatus.Submitted;
-            }
-            else
-            {
-                billRequisitionMaster.StatusId = (int)EnumBillRequisitionStatus.Draft;
-            }
 
+            billRequisitionMaster.StatusId = (int)EnumBillRequisitionStatus.Submitted;
             billRequisitionMaster.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
             billRequisitionMaster.ModifiedDate = DateTime.Now;
 
-            if (await _context.SaveChangesAsync() > 0)
+            using (var scope = _context.Database.BeginTransaction())
             {
+                await _context.SaveChangesAsync();
+
+                BillRequisitionMasterModel model = new BillRequisitionMasterModel();
+                List<BillRequisitionApproval> billRequisitionApprovalList = new List<BillRequisitionApproval>();
+                int priority = 0;
+                foreach (var item in model.EnumBRSignatoryList)
+                {
+
+                    BillRequisitionApproval billRequisitionApproval = new BillRequisitionApproval();
+                    billRequisitionApproval.BillRequisitionMasterId = billRequisitionMaster.BillRequisitionMasterId;
+                    billRequisitionApproval.CompanyId = billRequisitionMaster.CompanyId;
+                    billRequisitionApproval.EmployeeId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
+
+                    billRequisitionApproval.SignatoryId = Convert.ToInt16(item.Value);
+
+                    if (billRequisitionApproval.SignatoryId == 1)
+                    {
+                        billRequisitionApproval.AprrovalStatusId = (int)EnumBillRequisitionStatus.Approved;
+                    }
+                    else
+                    {
+                        billRequisitionApproval.AprrovalStatusId = (int)EnumBillRequisitionStatus.Pending;
+                    }
+                    billRequisitionApproval.PriorityNo = priority + 1;
+                    billRequisitionApproval.IsActive = true;
+                    billRequisitionApproval.IsSupremeApproved = false;
+
+                    billRequisitionApproval.CreateDate = DateTime.Now;
+                    billRequisitionApproval.CreatedBy = billRequisitionMaster.CreatedBy;
+                    billRequisitionApprovalList.Add(billRequisitionApproval);
+                }
+                _context.BillRequisitionApprovals.AddRange(billRequisitionApprovalList);
+                _context.SaveChanges();
+
                 result = billRequisitionMaster.BillRequisitionMasterId;
+                scope.Commit();
             }
+
             return result;
         }
         public async Task<long> BillRequisitionMasterEdit(BillRequisitionMasterModel model)
