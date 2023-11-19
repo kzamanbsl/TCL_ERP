@@ -32,9 +32,9 @@ namespace KGERP.Data.Models
         public Nullable<int> BoQItemId { get; set; }
         public Nullable<int> UnitId { get; set; }
     
-        public virtual BillBoQItem BillBoQItem { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BillRequisitionDetail> BillRequisitionDetails { get; set; }
         public virtual Unit Unit { get; set; }
+        public virtual BillBoQItem BillBoQItem { get; set; }
     }
 }
