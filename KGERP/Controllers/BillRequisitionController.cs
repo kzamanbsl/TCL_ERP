@@ -13,6 +13,8 @@ using System.Web.Mvc;
 using System.Web.Services.Description;
 using DocumentFormat.OpenXml.EMMA;
 using System.Linq;
+using Remotion.Data.Linq;
+using Ninject.Activation;
 
 namespace KGERP.Controllers
 {
@@ -421,7 +423,21 @@ namespace KGERP.Controllers
         }
 
         #endregion
+        public JsonResult GetUnitNameWithId(int id)
+        {
+            var unitName = "";
+            var unitId = 0;
 
+            if (id > 0)
+            {
+                unitId = (int)_service.GetBillRequisitionItemList().FirstOrDefault(c => c.BillRequisitionItemId == id).UnitId;
+                unitName = _service.GetUnitList(21).FirstOrDefault(c => c.ID == unitId).Name;
+            }
+
+            var result = new { unitId = unitId, unitName = unitName };
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
 
     }
 }
