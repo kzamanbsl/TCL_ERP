@@ -712,7 +712,7 @@ namespace KGERP.Service.Implementation
             {
                 #region Generate Unique Requisition Number With Last Id
 
-                int getLastRowId = _context.BillRequisitionMasters.Where(c => c.CreateDate == DateTime.Today).Count();
+                int getLastRowId = _context.BillRequisitionMasters.Where(c => c.CreateDate == DateTime.Now).Count();
 
                 string setZeroBeforeLastId(int lastRowId, int length)
                 {
@@ -747,35 +747,42 @@ namespace KGERP.Service.Implementation
         public async Task<long> BillRequisitionDetailAdd(BillRequisitionMasterModel model)
         {
             long result = -1;
-            BillRequisitionDetail demageDetail = new BillRequisitionDetail
+            try
             {
-                BillRequisitionMasterId = model.BillRequisitionMasterId,
-                BillRequisitionDetailId = model.DetailModel.BillRequisitionDetailId,
-                BillRequisitionItemId = model.DetailModel.BillRequisitionItemId,
-                UnitRate = model.DetailModel.UnitRate,
-                DemandQty = model.DetailModel.DemandQty,
-                UnitId = model.DetailModel.UnitId,
-                ReceivedSoFar = model.DetailModel.ReceivedSoFar,
-                RemainingQty = model.DetailModel.RemainingQty,
-                EstimatedQty = model.DetailModel.EstimatedQty,
-                Floor = model.DetailModel.Floor,
-                Ward = model.DetailModel.Ward,
-                DPP = model.DetailModel.DPP,
-                Chainage = model.DetailModel.Chainage,
-                Remarks = model.DetailModel.Remarks,
-                CreatedBy = System.Web.HttpContext.Current.Session["EmployeeName"].ToString(),
-                CreateDate = DateTime.Now,
-                IsActive = true,
+                BillRequisitionDetail damageDetail = new BillRequisitionDetail
+                {
+                    BillRequisitionMasterId = model.BillRequisitionMasterId,
+                    BillRequisitionDetailId = model.DetailModel.BillRequisitionDetailId,
+                    BillRequisitionItemId = model.DetailModel.BillRequisitionItemId,
+                    UnitRate = model.DetailModel.UnitRate,
+                    DemandQty = model.DetailModel.DemandQty,
+                    UnitId = model.DetailModel.UnitId,
+                    ReceivedSoFar = model.DetailModel.ReceivedSoFar,
+                    RemainingQty = model.DetailModel.RemainingQty,
+                    EstimatedQty = model.DetailModel.EstimatedQty,
+                    Floor = model.DetailModel.Floor,
+                    Ward = model.DetailModel.Ward,
+                    DPP = model.DetailModel.DPP,
+                    Chainage = model.DetailModel.Chainage,
+                    Remarks = model.DetailModel.Remarks,
+                    CompanyId = (int)model.CompanyFK,
+                    CreatedBy = System.Web.HttpContext.Current.Session["EmployeeName"].ToString(),
+                    CreateDate = DateTime.Now,
+                    IsActive = true,
+                };
+                _context.BillRequisitionDetails.Add(damageDetail);
 
-            };
-            _context.BillRequisitionDetails.Add(demageDetail);
-
-            if (await _context.SaveChangesAsync() > 0)
-            {
-                result = demageDetail.BillRequisitionMasterId;
+                if (await _context.SaveChangesAsync() > 0)
+                {
+                    result = damageDetail.BillRequisitionMasterId;
+                }
+                return result;
             }
-
-            return result;
+            catch(Exception error)
+            {
+                return result;
+            }
+            
         }
         public async Task<long> BillRequisitionDetailEdit(BillRequisitionMasterModel model)
         {
