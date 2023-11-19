@@ -152,8 +152,6 @@
                                     </div>
                                 </div>
 
-
-
                             }
 
                             @if (Model.StatusId == EnumBillRequisitionStatus.Draft)
@@ -163,7 +161,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Requisition Item/ Material :</label>
-                                            @Html.DropDownListFor(model => model.DetailModel.BillRequisitionItemId, Model.RequisitionItemList as SelectList, "==Select Requisition Material==", new { id = "ddlRequisitionItemId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.DropDownListFor(model => model.DetailModel.BillRequisitionItemId, Model.RequisitionItemList as SelectList, "==Select Requisition Material==", new { id = "ddlRequisitionItemId", @class = "form-control searchingDropdown", style = "width:100%", required = "required", onchange = "getUnitName()" })
                                             @Html.ValidationMessageFor(model => model.DetailModel.BillRequisitionItemId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -508,6 +506,10 @@
             $('#ActionId').val(1);
         }
 
+        function getUnitName() {
+            var requisitionIdValue = $('#ddlRequisitionItemId').val();
+            $('#txtUnitId').val(requisitionIdValue);
+        }
 
     </script>
 }

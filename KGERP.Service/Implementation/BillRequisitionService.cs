@@ -472,8 +472,8 @@ namespace KGERP.Service.Implementation
         public List<Accounting_CostCenter> GetProjectList()
         {
             List<Accounting_CostCenter> projects = new List<Accounting_CostCenter>();
-            var getProject = _context.Accounting_CostCenter.Where(c => c.IsActive == true).ToList();
-            foreach (var project in getProject)
+            var getProjects = _context.Accounting_CostCenter.Where(c => c.CompanyId == 21 && c.IsActive == true).ToList();
+            foreach (var project in getProjects)
             {
                 var data = new Accounting_CostCenter()
                 {
@@ -606,7 +606,7 @@ namespace KGERP.Service.Implementation
         #endregion
 
         #region BillRequisition Master Detail
-        public async Task<BillRequisitionMasterModel> GetBillRequisitionMasterDetail(int companyId, long billRequisitionMasterId)
+        public async Task<BillRequisitionMasterModel> GetBillRequisitionMasterDetail(int companyId = 21, long billRequisitionMasterId)
         {
             BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
 
