@@ -17,8 +17,8 @@ namespace KGERP.Data.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public BillBoQItem()
         {
-            this.BillRequisitionMasters = new HashSet<BillRequisitionMaster>();
             this.BillRequisitionItems = new HashSet<BillRequisitionItem>();
+            this.BillRequisitionMasters = new HashSet<BillRequisitionMaster>();
         }
     
         public int BoQItemId { get; set; }
@@ -30,10 +30,11 @@ namespace KGERP.Data.Models
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public string ModifiedBy { get; set; }
         public bool IsActive { get; set; }
+        public Nullable<int> ProjectTypeId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BillRequisitionMaster> BillRequisitionMasters { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BillRequisitionItem> BillRequisitionItems { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BillRequisitionMaster> BillRequisitionMasters { get; set; }
     }
 }

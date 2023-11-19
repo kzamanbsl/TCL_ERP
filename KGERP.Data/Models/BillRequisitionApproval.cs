@@ -18,6 +18,7 @@ namespace KGERP.Data.Models
         public long BillRequisitionMasterId { get; set; }
         public int AprrovalStatusId { get; set; }
         public long EmployeeId { get; set; }
+        public int SignatoryId { get; set; }
         public int PriorityNo { get; set; }
         public bool IsSupremeApproved { get; set; }
         public int CompanyId { get; set; }
