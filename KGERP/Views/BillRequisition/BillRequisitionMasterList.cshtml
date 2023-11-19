@@ -131,7 +131,8 @@
                                                 }
                                                 else if (item.StatusId == EnumBillRequisitionStatus.Approved)
                                                 {
-                                                    <a href="~/BillRequisition/PMBillRequisitionReceivedSlave?companyId=@item.CompanyFK&damageMasterId=@item.BillRequisitionMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
+                                                    @*<a href="~/BillRequisition/PMBillRequisitionReceivedSlave?companyId=@item.CompanyFK&damageMasterId=@item.BillRequisitionMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>*@
+                                                    <a href="~/BillRequisition/BillRequisitionMasterSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
 
                                                 }
                                             </td>
