@@ -162,7 +162,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group hidden" id="inputWard">
                                         <label for="txtDescription" class="col-form-label">Ward :</label>
-                                        @Html.TextBoxFor(model => model.DetailModel.Ward, new { id = "txtWrad", placeholder = "Type remarks here...", @class = "form-control", rows = 2 })
+                                        @Html.TextBoxFor(model => model.DetailModel.Ward, new { id = "txtWrad", placeholder = "Ward", @class = "form-control"})
                                         @Html.ValidationMessageFor(model => model.DetailModel.Ward, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -170,7 +170,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group hidden" id="inputDPP">
                                         <label for="txtDescription" class="col-form-label">DPP :</label>
-                                        @Html.TextBoxFor(model => model.DetailModel.DPP, new { id = "txtDPP", placeholder = "Type remarks here...", @class = "form-control", rows = 2 })
+                                        @Html.TextBoxFor(model => model.DetailModel.DPP, new { id = "txtDPP", placeholder = "DPP", @class = "form-control"})
                                         @Html.ValidationMessageFor(model => model.DetailModel.DPP, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -178,7 +178,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group hidden" id="inputChainage">
                                         <label for="txtDescription" class="col-form-label">Chainage :</label>
-                                        @Html.TextBoxFor(model => model.DetailModel.Chainage, new { id = "txtChainage", placeholder = "Type remarks here...", @class = "form-control", rows = 2 })
+                                        @Html.TextBoxFor(model => model.DetailModel.Chainage, new { id = "txtChainage", placeholder = "Chainage", @class = "form-control"})
                                         @Html.ValidationMessageFor(model => model.DetailModel.Chainage, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -190,7 +190,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group hidden" id="inputFloor">
                                         <label for="txtDescription" class="col-form-label">Floor :</label>
-                                        @Html.TextBoxFor(model => model.DetailModel.Floor, new { id = "txtFloor", placeholder = "Type remarks here...", @class = "form-control", rows = 2 })
+                                        @Html.TextBoxFor(model => model.DetailModel.Floor, new { id = "txtFloor", placeholder = "Floor", @class = "form-control"})
                                         @Html.ValidationMessageFor(model => model.DetailModel.Floor, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -203,7 +203,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Requisition Item/ Material :</label>
-                                        @Html.DropDownListFor(model => model.DetailModel.BillRequisitionItemId, Model.RequisitionItemList as SelectList, "==Select Requisition Material==", new { id = "ddlRequisitionItemId", @class = "form-control searchingDropdown", style = "width:100%", required = "required", onchange = "getUnitName()" })
+                                        @Html.DropDownListFor(model => model.DetailModel.BillRequisitionItemId, Model.RequisitionItemList as SelectList, "==Select Requisition Material==", new { id = "ddlRequisitionItemId", onchange = "getUnitName()", @class = "form-control searchingDropdown", style = "width:100%", required = "required"})
                                         @Html.ValidationMessageFor(model => model.DetailModel.BillRequisitionItemId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -211,9 +211,9 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Material Unit :</label>
-                                        @Html.TextBoxFor(model => model.DetailModel.UnitId, new { id = "txtUnitId", @class = "form-control", placeholder = "Material Unit" })
+                                        @Html.TextBoxFor(model => model.DetailModel.UnitId, new { id = "txtUnitId", @class = "form-control", placeholder = "Material Unit", ReadOnly = true })
                                         @Html.ValidationMessageFor(model => model.DetailModel.UnitId, "", new { @class = "text-danger" })
-                                        <span id="showUnitName"></span>
+                                        <span id="showUnitName" class="hidden"></span>
                                     </div>
                                 </div>
 
@@ -551,10 +551,15 @@
         }
 
         function getUnitName() {
-            var requisitionIdValue = document.getElementById("inputWard");;
-            $('#showUnitName').val(requisitionIdValue);
-            console.log(requisitionIdValue);
+            var showElement = document.getElementById("showUnitName");
+
+            var getUnitIdValue = $("#ddlRequisitionItemId").val();
+            var requisitionIdValue = $("#txtUnitId");
+
+            requisitionIdValue.val(getUnitIdValue);
+            showElement.innerHTML = getUnitIdValue;
         }
+
 
         function showInput() {
             var Ward = document.getElementById("inputWard");
