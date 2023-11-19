@@ -618,7 +618,7 @@ namespace KGERP.Service.Implementation
                                                                join t3 in _context.BillRequisitionTypes on t1.BillRequisitionTypeId equals t3.BillRequisitionTypeId into t3_Join
                                                                from t3 in t3_Join.DefaultIfEmpty()
                                                                join t4 in _context.Accounting_CostCenterType on t1.ProjectTypeId equals t4.CostCenterTypeId into t4_Join
-                                                               from t4 in t3_Join.DefaultIfEmpty()
+                                                               from t4 in t4_Join.DefaultIfEmpty()
                                                                join t5 in _context.BillBoQItems on t1.BOQItemId equals t5.BoQItemId into t5_Join
                                                                from t5 in t5_Join.DefaultIfEmpty()
 

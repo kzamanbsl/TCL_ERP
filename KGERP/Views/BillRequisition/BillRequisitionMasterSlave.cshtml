@@ -162,7 +162,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group hidden" id="inputWard">
                                         <label for="txtDescription" class="col-form-label">Ward :</label>
-                                        @Html.TextBoxFor(model => model.DetailModel.Ward, new { id = "txtWrad", placeholder = "Ward", @class = "form-control"})
+                                        @Html.TextBoxFor(model => model.DetailModel.Ward, new { id = "txtWrad", placeholder = "Ward", @class = "form-control" })
                                         @Html.ValidationMessageFor(model => model.DetailModel.Ward, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -170,7 +170,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group hidden" id="inputDPP">
                                         <label for="txtDescription" class="col-form-label">DPP :</label>
-                                        @Html.TextBoxFor(model => model.DetailModel.DPP, new { id = "txtDPP", placeholder = "DPP", @class = "form-control"})
+                                        @Html.TextBoxFor(model => model.DetailModel.DPP, new { id = "txtDPP", placeholder = "DPP", @class = "form-control" })
                                         @Html.ValidationMessageFor(model => model.DetailModel.DPP, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -178,7 +178,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group hidden" id="inputChainage">
                                         <label for="txtDescription" class="col-form-label">Chainage :</label>
-                                        @Html.TextBoxFor(model => model.DetailModel.Chainage, new { id = "txtChainage", placeholder = "Chainage", @class = "form-control"})
+                                        @Html.TextBoxFor(model => model.DetailModel.Chainage, new { id = "txtChainage", placeholder = "Chainage", @class = "form-control" })
                                         @Html.ValidationMessageFor(model => model.DetailModel.Chainage, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -190,12 +190,56 @@
                                 <div class="col-md-3">
                                     <div class="form-group hidden" id="inputFloor">
                                         <label for="txtDescription" class="col-form-label">Floor :</label>
-                                        @Html.TextBoxFor(model => model.DetailModel.Floor, new { id = "txtFloor", placeholder = "Floor", @class = "form-control"})
+                                        @Html.TextBoxFor(model => model.DetailModel.Floor, new { id = "txtFloor", placeholder = "Floor", @class = "form-control" })
                                         @Html.ValidationMessageFor(model => model.DetailModel.Floor, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
 
                             </div>
+                            if (Model.ProjectTypeId == 8)
+                            {
+                                <div class="row">
+
+                                    <div class="col-md-3">
+                                        <div class="form-group " id="inputFloor">
+                                            <label for="txtDescription" class="col-form-label">Floor :</label>
+                                            @Html.TextBoxFor(model => model.DetailModel.Floor, new { id = "txtFloor", placeholder = "Floor", @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.DetailModel.Floor, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                </div>
+                            }
+                            else if (Model.ProjectTypeId == 9)
+                            {
+                                <div class="row">
+
+                                    <div class="col-md-3">
+                                        <div class="form-group " id="inputWard">
+                                            <label for="txtDescription" class="col-form-label">Ward :</label>
+                                            @Html.TextBoxFor(model => model.DetailModel.Ward, new { id = "txtWrad", placeholder = "Ward", @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.DetailModel.Ward, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group " id="inputDPP">
+                                            <label for="txtDescription" class="col-form-label">DPP :</label>
+                                            @Html.TextBoxFor(model => model.DetailModel.DPP, new { id = "txtDPP", placeholder = "DPP", @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.DetailModel.DPP, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group " id="inputChainage">
+                                            <label for="txtDescription" class="col-form-label">Chainage :</label>
+                                            @Html.TextBoxFor(model => model.DetailModel.Chainage, new { id = "txtChainage", placeholder = "Chainage", @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.DetailModel.Chainage, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                </div>
+                            }
                             <!--- dependable input -->
 
                             <div class="row">
@@ -203,7 +247,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Requisition Item/ Material :</label>
-                                        @Html.DropDownListFor(model => model.DetailModel.BillRequisitionItemId, Model.RequisitionItemList as SelectList, "==Select Requisition Material==", new { id = "ddlRequisitionItemId", onchange = "getUnitName()", @class = "form-control searchingDropdown", style = "width:100%", required = "required"})
+                                        @Html.DropDownListFor(model => model.DetailModel.BillRequisitionItemId, Model.RequisitionItemList as SelectList, "==Select Requisition Material==", new { id = "ddlRequisitionItemId", onchange = "getUnitName()", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
                                         @Html.ValidationMessageFor(model => model.DetailModel.BillRequisitionItemId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -332,7 +376,7 @@
                                             <tr>
                                                 <td style="padding:5px">@(++sl)</td>
                                                 <td style="padding:5px;text-align:left;">@item.ItemName</td>
-                                                <td style="padding: 5px; text-align: left;">@item.UnitName</td>
+                                                <td style="padding: 5px; text-align: left;">@item.UnitId</td>
                                                 <td style="padding:5px;text-align:right;">@String.Format("{0:0.00}", item.EstimatedQty)</td>
                                                 <td style="padding: 5px; text-align: right;">@String.Format("{0:0.00}", item.ReceivedSoFar)</td>
                                                 <td style="padding: 5px; text-align: right;">@String.Format("{0:0.00}", item.RemainingQty)</td>
@@ -567,7 +611,6 @@
             var Chainage = document.getElementById("inputChainage");
             var Floor = document.getElementById("inputFloor");
             var projectType = $('#projectTypeId').val();
-            console.log(projectType);
 
             if (projectType == 8) {
                 Ward.classList.remove("block");
