@@ -95,147 +95,189 @@
                             <div class="col-md-1"> </div>
                         }
 
-                        <div class="box-body">
+                    <div class="box-body">
 
-                            @if (Model.BillRequisitionMasterId == 0)
-                            {
-                                <div class="row">
+                        @if (Model.BillRequisitionMasterId == 0)
+                        {
+                            <div class="row">
 
-                                    <div class="col-md-3">
-                                        <label for="message-text" class="col-form-label">Requisition Date :</label>
-                                        <div class="form-group">
-                                            <input name="BRDate" asp-for="BRDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker " placeholder="Operation Date" autocomplete="off" id="txtOperationrDate">
-                                            @Html.ValidationMessageFor(model => model.BRDate, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label>Requisition Type :</label>
-                                            @Html.DropDownListFor(model => model.BillRequisitionTypeId, Model.RequisitionTypeList as SelectList, "==Select Requisition Type==", new { id = "ddlBRTypeId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
-                                            @Html.ValidationMessageFor(model => model.BillRequisitionTypeId, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label>Project Type :</label>
-                                            @Html.DropDownListFor(model => model.ProjectTypeId, Model.ProjectTypeList as SelectList, "==Select Project Type==", new { id = "projectTypeId", @class = "form-control searchingDropdown", style = "width:100%" })
-                                            @Html.ValidationMessageFor(model => model.ProjectTypeId, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label>Select Project :</label>
-                                            @Html.DropDownListFor(model => model.CostCenterId, Model.ProjectList as SelectList, "==Select Project==", new { id = "ddlCostCenterId", @class = "form-control searchingDropdown", style = "width:100%" })
-                                            @Html.ValidationMessageFor(model => model.CostCenterId, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label>Work Detail / BOQ Item :</label>
-                                            @Html.DropDownListFor(model => model.BOQItemId, Model.BOQItemList as SelectList, "==Select BOQ Item==", new { id = "ddlBOQItemId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
-                                            @Html.ValidationMessageFor(model => model.BOQItemId, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-9">
-                                        <div class="form-group">
-                                            <label for="txtDescription" class="col-form-label">Work Description :</label>
-                                            @Html.TextAreaFor(model => model.Description, new { id = "txtitemDescription", placeholder = "Type work description here...", @class = "form-control", rows = 1 })
-                                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-                                        </div>
+                                <div class="col-md-3">
+                                    <label for="message-text" class="col-form-label">Requisition Date :</label>
+                                    <div class="form-group">
+                                        <input name="BRDate" asp-for="BRDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker " placeholder="Operation Date" autocomplete="off" id="txtOperationrDate">
+                                        @Html.ValidationMessageFor(model => model.BRDate, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
 
-
-
-                            }
-
-                            @if (Model.StatusId == EnumBillRequisitionStatus.Draft)
-                            {
-                                <div class="row">
-
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label>Requisition Item/ Material :</label>
-                                            @Html.DropDownListFor(model => model.DetailModel.BillRequisitionItemId, Model.RequisitionItemList as SelectList, "==Select Requisition Material==", new { id = "ddlRequisitionItemId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
-                                            @Html.ValidationMessageFor(model => model.DetailModel.BillRequisitionItemId, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label>Material Unit :</label>
-                                            @Html.TextBoxFor(model => model.DetailModel.UnitId, new { id = "txtUnitId", @class = "form-control", placeholder = "Material Unit" })
-                                            @Html.ValidationMessageFor(model => model.DetailModel.UnitId, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label>Estimate Quantity :</label>
-                                            @Html.TextBoxFor(model => model.DetailModel.EstimatedQty, new { id = "decEstimatedQty", type = "number", step = "0.01", @class = "form-control", placeholder = "Estimate quantity" })
-                                            @Html.ValidationMessageFor(model => model.DetailModel.EstimatedQty, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label>Recived So Far :</label>
-                                            @Html.TextBoxFor(model => model.DetailModel.ReceivedSoFar, new { id = "decReceivedSoFar", type = "number", step = "0.01", @class = "form-control", placeholder = "Recived so far" })
-                                            @Html.ValidationMessageFor(model => model.DetailModel.ReceivedSoFar, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label>Remaining Quantity :</label>
-                                            @Html.TextBoxFor(model => model.DetailModel.RemainingQty, new { id = "decRemainingQty", type = "number", step = "0.01", @class = "form-control", placeholder = "Remaining quantity" })
-                                            @Html.ValidationMessageFor(model => model.DetailModel.RemainingQty, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label>Material Demand :</label>
-                                            @Html.TextBoxFor(model => model.DetailModel.DemandQty, new { id = "decDemandQty", type = "number", step = "0.01", @class = "form-control", placeholder = "Material demand" })
-                                            @Html.ValidationMessageFor(model => model.DetailModel.DemandQty, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label>Unit Rate :</label>
-                                            @Html.TextBoxFor(model => model.DetailModel.UnitRate, new { id = "decUnitRate", type = "number", step = "0.01", @class = "form-control", placeholder = "Unit rate" })
-                                            @Html.ValidationMessageFor(model => model.DetailModel.UnitRate, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label>Total Price :</label>
-                                            @Html.TextBoxFor(model => model.DetailModel.TotalPrice, new { id = "decTotalPrice", type = "number", step = "0.01", @class = "form-control", placeholder = "Total price" })
-                                            @Html.ValidationMessageFor(model => model.DetailModel.TotalPrice, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label for="txtDescription" class="col-form-label">Remarks :</label>
-                                            @Html.TextAreaFor(model => model.DetailModel.Remarks, new { id = "txtitemDescription", placeholder = "Type remarks here...", @class = "form-control", rows = 2 })
-                                            @Html.ValidationMessageFor(model => model.DetailModel.Remarks, "", new { @class = "text-danger" })
-                                        </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Requisition Type :</label>
+                                        @Html.DropDownListFor(model => model.BillRequisitionTypeId, Model.RequisitionTypeList as SelectList, "==Select Requisition Type==", new { id = "ddlBRTypeId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.BillRequisitionTypeId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
 
-                            }
-                        </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Project Type :</label>
+                                        @Html.DropDownListFor(model => model.ProjectTypeId, Model.ProjectTypeList as SelectList, "==Select Project Type==", new { id = "projectTypeId", onchange = "showInput()", @class = "form-control searchingDropdown", style = "width:100%" })
+                                        @Html.ValidationMessageFor(model => model.ProjectTypeId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Select Project :</label>
+                                        @Html.DropDownListFor(model => model.CostCenterId, Model.ProjectList as SelectList, "==Select Project==", new { id = "ddlCostCenterId", @class = "form-control searchingDropdown", style = "width:100%" })
+                                        @Html.ValidationMessageFor(model => model.CostCenterId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Work Detail / BOQ Item :</label>
+                                        @Html.DropDownListFor(model => model.BOQItemId, Model.BOQItemList as SelectList, "==Select BOQ Item==", new { id = "ddlBOQItemId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.BOQItemId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <label for="txtDescription" class="col-form-label">Work Description :</label>
+                                        @Html.TextAreaFor(model => model.Description, new { id = "txtitemDescription", placeholder = "Type work description here...", @class = "form-control", rows = 1 })
+                                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                        }
+
+                        @if (Model.StatusId == EnumBillRequisitionStatus.Draft)
+                        {
+                            <!--- dependable input -->
+                            <div class="row">
+
+                                <div class="col-md-3">
+                                    <div class="form-group hidden" id="inputWard">
+                                        <label for="txtDescription" class="col-form-label">Ward :</label>
+                                        @Html.TextBoxFor(model => model.DetailModel.Ward, new { id = "txtWrad", placeholder = "Type remarks here...", @class = "form-control", rows = 2 })
+                                        @Html.ValidationMessageFor(model => model.DetailModel.Ward, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group hidden" id="inputDPP">
+                                        <label for="txtDescription" class="col-form-label">DPP :</label>
+                                        @Html.TextBoxFor(model => model.DetailModel.DPP, new { id = "txtDPP", placeholder = "Type remarks here...", @class = "form-control", rows = 2 })
+                                        @Html.ValidationMessageFor(model => model.DetailModel.DPP, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group hidden" id="inputChainage">
+                                        <label for="txtDescription" class="col-form-label">Chainage :</label>
+                                        @Html.TextBoxFor(model => model.DetailModel.Chainage, new { id = "txtChainage", placeholder = "Type remarks here...", @class = "form-control", rows = 2 })
+                                        @Html.ValidationMessageFor(model => model.DetailModel.Chainage, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-md-3">
+                                    <div class="form-group hidden" id="inputFloor">
+                                        <label for="txtDescription" class="col-form-label">Floor :</label>
+                                        @Html.TextBoxFor(model => model.DetailModel.Floor, new { id = "txtFloor", placeholder = "Type remarks here...", @class = "form-control", rows = 2 })
+                                        @Html.ValidationMessageFor(model => model.DetailModel.Floor, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!--- dependable input -->
+
+                            <div class="row">
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Requisition Item/ Material :</label>
+                                        @Html.DropDownListFor(model => model.DetailModel.BillRequisitionItemId, Model.RequisitionItemList as SelectList, "==Select Requisition Material==", new { id = "ddlRequisitionItemId", @class = "form-control searchingDropdown", style = "width:100%", required = "required", onchange = "getUnitName()" })
+                                        @Html.ValidationMessageFor(model => model.DetailModel.BillRequisitionItemId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Material Unit :</label>
+                                        @Html.TextBoxFor(model => model.DetailModel.UnitId, new { id = "txtUnitId", @class = "form-control", placeholder = "Material Unit" })
+                                        @Html.ValidationMessageFor(model => model.DetailModel.UnitId, "", new { @class = "text-danger" })
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Estimate Quantity :</label>
+                                        @Html.TextBoxFor(model => model.DetailModel.EstimatedQty, new { id = "decEstimatedQty", type = "number", step = "0.01", @class = "form-control", placeholder = "Estimate quantity" })
+                                        @Html.ValidationMessageFor(model => model.DetailModel.EstimatedQty, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Recived So Far :</label>
+                                        @Html.TextBoxFor(model => model.DetailModel.ReceivedSoFar, new { id = "decReceivedSoFar", type = "number", step = "0.01", @class = "form-control", placeholder = "Recived so far" })
+                                        @Html.ValidationMessageFor(model => model.DetailModel.ReceivedSoFar, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Remaining Quantity :</label>
+                                        @Html.TextBoxFor(model => model.DetailModel.RemainingQty, new { id = "decRemainingQty", type = "number", step = "0.01", @class = "form-control", placeholder = "Remaining quantity" })
+                                        @Html.ValidationMessageFor(model => model.DetailModel.RemainingQty, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Material Demand :</label>
+                                        @Html.TextBoxFor(model => model.DetailModel.DemandQty, new { id = "decDemandQty", type = "number", step = "0.01", @class = "form-control", placeholder = "Material demand" })
+                                        @Html.ValidationMessageFor(model => model.DetailModel.DemandQty, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Unit Rate :</label>
+                                        @Html.TextBoxFor(model => model.DetailModel.UnitRate, new { id = "decUnitRate", type = "number", step = "0.01", @class = "form-control", placeholder = "Unit rate" })
+                                        @Html.ValidationMessageFor(model => model.DetailModel.UnitRate, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Total Price :</label>
+                                        @Html.TextBoxFor(model => model.DetailModel.TotalPrice, new { id = "decTotalPrice", type = "number", step = "0.01", @class = "form-control", placeholder = "Total price" })
+                                        @Html.ValidationMessageFor(model => model.DetailModel.TotalPrice, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="txtDescription" class="col-form-label">Remarks :</label>
+                                        @Html.TextAreaFor(model => model.DetailModel.Remarks, new { id = "txtitemDescription", placeholder = "Type remarks here...", @class = "form-control", rows = 2 })
+                                        @Html.ValidationMessageFor(model => model.DetailModel.Remarks, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                        }
+                    </div>
 
                         @if (Model.StatusId == EnumBillRequisitionStatus.Draft)
                         {
@@ -471,7 +513,7 @@
                         $("#CompanyFK").val(data.CompanyId);
                         $("#hiddenBillRequisitionDetailId").val(data.BillRequisitionDetailId);
                         $("#ddlRequisitionItemId").val(data.BillRequisitionItemId).trigger('change');
-                        
+
                         $("#txtUnitId").val(data.UnitId);
                         $("#decEstimatedQty").val(data.EstimatedQty);
                         $("#decReceivedSoFar").val(data.ReceivedSoFar);
@@ -508,6 +550,59 @@
             $('#ActionId').val(1);
         }
 
+        function getUnitName() {
+            var requisitionIdValue = $('#ddlRequisitionItemId').val();
+            $('#txtUnitId').val(requisitionIdValue);
+        }
+
+        function showInput() {
+            var Ward = document.getElementById("inputWard");
+            var Dpp = document.getElementById("inputDPP");
+            var Chainage = document.getElementById("inputChainage");
+            var Floor = document.getElementById("inputFloor");
+            var projectType = $('#projectTypeId').val();
+            console.log(projectType);
+
+            if (projectType == 8) {
+                Ward.classList.remove("block");
+                Ward.classList.add("hidden");
+
+                Dpp.classList.remove("block");
+                Dpp.classList.add("hidden");
+
+                Chainage.classList.remove("block");
+                Chainage.classList.add("hidden");
+
+                Floor.classList.remove("hidden");
+                Floor.classList.add("block");
+            }
+            else if (projectType == 9) {
+                Ward.classList.remove("hidden");
+                Ward.classList.add("block");
+
+                Dpp.classList.remove("hidden");
+                Dpp.classList.add("block");
+
+                Chainage.classList.remove("hidden");
+                Chainage.classList.add("block");
+
+                Floor.classList.remove("block");
+                Floor.classList.add("hidden");
+            }
+            else {
+                Ward.classList.remove("block");
+                Ward.classList.add("hidden");
+
+                Dpp.classList.remove("block");
+                Dpp.classList.add("hidden");
+
+                Chainage.classList.remove("block");
+                Chainage.classList.add("hidden");
+
+                Floor.classList.remove("block");
+                Floor.classList.add("hidden");
+            }
+        }
 
     </script>
 }
