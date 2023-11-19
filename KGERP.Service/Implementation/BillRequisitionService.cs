@@ -675,6 +675,11 @@ namespace KGERP.Service.Implementation
         {
             long result = -1;
 
+            if(model.StatusId == 0 || model.StatusId == null)
+            {
+                model.StatusId = EnumBillRequisitionStatus.Draft;
+            }
+
             try
             {
                 BillRequisitionMaster billRequisitionMaster = new BillRequisitionMaster

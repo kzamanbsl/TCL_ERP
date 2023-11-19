@@ -213,7 +213,7 @@
                                         <label>Material Unit :</label>
                                         @Html.TextBoxFor(model => model.DetailModel.UnitId, new { id = "txtUnitId", @class = "form-control", placeholder = "Material Unit" })
                                         @Html.ValidationMessageFor(model => model.DetailModel.UnitId, "", new { @class = "text-danger" })
-
+                                        <span id="showUnitName"></span>
                                     </div>
                                 </div>
 
@@ -551,8 +551,9 @@
         }
 
         function getUnitName() {
-            var requisitionIdValue = $('#ddlRequisitionItemId').val();
-            $('#txtUnitId').val(requisitionIdValue);
+            var requisitionIdValue = document.getElementById("inputWard");;
+            $('#showUnitName').val(requisitionIdValue);
+            console.log(requisitionIdValue);
         }
 
         function showInput() {
