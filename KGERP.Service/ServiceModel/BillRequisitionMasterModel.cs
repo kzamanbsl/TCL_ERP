@@ -2,6 +2,7 @@
 using KGERP.Utility;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,7 +29,10 @@ namespace KGERP.Service.ServiceModel
         public DateTime ToDate { get; set; }
         public string StrFromDate { get; set; }
         public string StrToDate { get; set; }
+        public long EmployeeId { get; set; }
+        public string EmployeeStringId { get; set; }
         public EnumBillRequisitionStatus StatusId { get; set; }
+
         public string StatusName { get { return BaseFunctionalities.GetEnumDescription(this.StatusId); } }
         public CostCenterManagerMapModel CostCenterManagerMapModel { get; set; } = new CostCenterManagerMapModel();
         public IEnumerable<BillRequisitionMasterModel> DataList { get; set; } = new List<BillRequisitionMasterModel>();
@@ -68,4 +72,5 @@ namespace KGERP.Service.ServiceModel
         public int CompanyId { get; set; }
 
     }
+
 }

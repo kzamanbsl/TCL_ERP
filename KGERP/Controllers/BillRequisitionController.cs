@@ -29,6 +29,24 @@ namespace KGERP.Controllers
             _service = billRequisitionService;
         }
 
+        #region Others / Common
+        public JsonResult GetUnitNameWithId(int id)
+        {
+            var unitName = "";
+            var unitId = 0;
+
+            if (id > 0)
+            {
+                unitId = (int)_service.GetBillRequisitionItemList().FirstOrDefault(c => c.BillRequisitionItemId == id).UnitId;
+                unitName = _service.GetUnitList(21).FirstOrDefault(c => c.ID == unitId).Name;
+            }
+
+            var result = new { unitId = unitId, unitName = unitName };
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+        
         #region BoQ Item
 
         [HttpGet]
@@ -369,7 +387,7 @@ namespace KGERP.Controllers
         #region 1.2  BillRequisition Received Circle
 
         [HttpGet]
-        public async Task<ActionResult> PMBRReceivedSlave(int companyId = 0, long BillRequisitionMasterId = 0)
+        public async Task<ActionResult> PMBRApproveSlave(int companyId = 0, long BillRequisitionMasterId = 0)
         {
             BillRequisitionMasterModel BillRequisitionMasterModel = new BillRequisitionMasterModel();
 
@@ -378,19 +396,38 @@ namespace KGERP.Controllers
                 BillRequisitionMasterModel = await _service.GetBillRequisitionMasterDetail(companyId, BillRequisitionMasterId);
                 BillRequisitionMasterModel.DetailDataList = BillRequisitionMasterModel.DetailList.ToList();
             }
-
             return View(BillRequisitionMasterModel);
         }
 
         [HttpPost]
-        public async Task<ActionResult> PMBRReceivedSlave(BillRequisitionMasterModel BillRequisitionMasterModel)
+        public async Task<ActionResult> PMBRApproveSlave(BillRequisitionMasterModel BillRequisitionMasterModel)
         {
             var resutl = await _service.PMBillRequisitionReceived(BillRequisitionMasterModel);
-            return RedirectToAction(nameof(PMBRReceivedList), new { companyId = BillRequisitionMasterModel.CompanyFK });
+            return RedirectToAction(nameof(PMBRApprovalList), new { companyId = BillRequisitionMasterModel.CompanyFK });
         }
 
         [HttpGet]
-        public async Task<ActionResult> PMBRReceivedList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
+        public async Task<ActionResult> PMBRRejectSlave(int companyId = 0, long BillRequisitionMasterId = 0)
+        {
+            BillRequisitionMasterModel BillRequisitionMasterModel = new BillRequisitionMasterModel();
+
+            if (BillRequisitionMasterId > 0)
+            {
+                BillRequisitionMasterModel = await _service.GetBillRequisitionMasterDetail(companyId, BillRequisitionMasterId);
+                BillRequisitionMasterModel.DetailDataList = BillRequisitionMasterModel.DetailList.ToList();
+            }
+            return View(BillRequisitionMasterModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> PMBRRejectSlave(BillRequisitionMasterModel BillRequisitionMasterModel)
+        {
+            var resutl = await _service.PMBillRequisitionReceived(BillRequisitionMasterModel);
+            return RedirectToAction(nameof(PMBRApprovalList), new { companyId = BillRequisitionMasterModel.CompanyFK });
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> PMBRApprovalList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
         {
             if (!fromDate.HasValue) fromDate = DateTime.Now.AddMonths(-2);
             if (!toDate.HasValue) toDate = DateTime.Now;
@@ -410,7 +447,7 @@ namespace KGERP.Controllers
         }
 
         [HttpPost]
-        public ActionResult PMBillRequisitionMasterReceivedSearch(BillRequisitionMasterModel billRequisitionMasterModel)
+        public ActionResult PMBRApprovalListSearch(BillRequisitionMasterModel billRequisitionMasterModel)
         {
             if (billRequisitionMasterModel.CompanyFK > 0)
             {
@@ -419,26 +456,12 @@ namespace KGERP.Controllers
 
             billRequisitionMasterModel.FromDate = Convert.ToDateTime(billRequisitionMasterModel.StrFromDate);
             billRequisitionMasterModel.ToDate = Convert.ToDateTime(billRequisitionMasterModel.StrToDate);
-            return RedirectToAction(nameof(PMBRReceivedList), new { companyId = billRequisitionMasterModel.CompanyFK, fromDate = billRequisitionMasterModel.FromDate, toDate = billRequisitionMasterModel.ToDate, vStatus = (int)billRequisitionMasterModel.StatusId });
+            return RedirectToAction(nameof(PMBRApprovalList), new { companyId = billRequisitionMasterModel.CompanyFK, fromDate = billRequisitionMasterModel.FromDate, toDate = billRequisitionMasterModel.ToDate, vStatus = (int)billRequisitionMasterModel.StatusId });
 
         }
 
         #endregion
-        public JsonResult GetUnitNameWithId(int id)
-        {
-            var unitName = "";
-            var unitId = 0;
-
-            if (id > 0)
-            {
-                unitId = (int)_service.GetBillRequisitionItemList().FirstOrDefault(c => c.BillRequisitionItemId == id).UnitId;
-                unitName = _service.GetUnitList(21).FirstOrDefault(c => c.ID == unitId).Name;
-            }
-
-            var result = new { unitId = unitId, unitName = unitName };
-
-            return Json(result, JsonRequestBehavior.AllowGet);
-        }
+      
 
     }
 }

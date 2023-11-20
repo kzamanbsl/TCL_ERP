@@ -14,6 +14,7 @@ namespace KGERP.Service.ServiceModel
         [Required]
         [Display(Name = "Select Project")]
         public int ProjectId { get; set; }
+        public string ProjecName { get; set; }
 
         [Required]
         [Display(Name = "Select Manager")]
