@@ -128,7 +128,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Select Project :</label>
-                                            @Html.DropDownListFor(model => model.CostCenterId, Model.ProjectList as SelectList, "==Select Project==", new { id = "ddlCostCenterId", @class = "form-control searchingDropdown", style = "width:100%" })
+                                            @Html.DropDownListFor(model => model.CostCenterId, Model.ProjectList as SelectList, "==Select Project==", new { id = "ddlCostCenterId", onchange = "showBoQ()", @class = "form-control searchingDropdown", style = "width:100%" })
                                             @Html.ValidationMessageFor(model => model.CostCenterId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -664,23 +664,47 @@
         }
 
         function getProjectList() {
-            var getProjectId = $("#projectTypeId option:selected");
-            var showprojectList = $("#ddlCostCenterId");
-
-            console.log("Selected Project ID:", getProjectId.val());
+            var getProjectTypeId = $("#projectTypeId option:selected");
+            var showProjectList = $("#ddlCostCenterId");
 
             $.ajax({
                 type: "GET",
                 url: "/BillRequisition/GetProjectList",
                 dataType: "json",
+                data: { id: getProjectTypeId.val() },
+                success: function (data) {
+
+                    showProjectList.empty();
+
+                    $.each(data, function (index, item) {
+                        showProjectList.append($('<option>', {
+                            value: item.CostCenterId,
+                            text: item.Name
+                        }));
+                    });
+                },
+                error: function (error) {
+                    console.error("Error in AJAX request:", error);
+                }
+            });
+        }
+
+        function showBoQ() {
+            var getProjectId = $("#ddlCostCenterId option:selected");
+            var showBoQList = $("#ddlBOQItemId");
+
+            $.ajax({
+                type: "GET",
+                url: "/BillRequisition/GetBoQList",
+                dataType: "json",
                 data: { id: getProjectId.val() },
                 success: function (data) {
 
-                    showprojectList.empty();
+                    showBoQList.empty();
 
                     $.each(data, function (index, item) {
-                        showprojectList.append($('<option>', {
-                            value: item.CostCenterId,
+                        showBoQList.append($('<option>', {
+                            value: item.BoQItemId,
                             text: item.Name
                         }));
                     });

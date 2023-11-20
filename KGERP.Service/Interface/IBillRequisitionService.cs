@@ -16,6 +16,7 @@ namespace KGERP.Service.Interface
         bool Edit(BillRequisitionBoqModel model);
         bool Delete(BillRequisitionBoqModel model);
         List<BillBoQItem> GetBillOfQuotationList();
+        List<BillBoQItem> GetBillOfQuotationListByProjectId(int id);
         #endregion
 
         #region Bill Requisition Item

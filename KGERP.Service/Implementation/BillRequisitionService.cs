@@ -58,6 +58,26 @@ namespace KGERP.Service.Implementation
             return billBoQItems;
         }
 
+        public List<BillBoQItem> GetBillOfQuotationListByProjectId(int id)
+        {
+            List<BillBoQItem> billBoQItems = new List<BillBoQItem>();
+            var getBillBoQItems = _context.BillBoQItems.Where(c => c.CostCenterId == id && c.IsActive == true).ToList();
+            foreach (var item in getBillBoQItems)
+            {
+                var data = new BillBoQItem()
+                {
+                    BoQItemId = item.BoQItemId,
+                    CostCenterId = item.CostCenterId,
+                    Name = item.Name,
+                    BoQQty = item.BoQQty,
+                    BoQAmount = item.BoQAmount,
+                    Description = item.Description
+                };
+                billBoQItems.Add(data);
+            }
+            return billBoQItems;
+        }
+
         public bool Add(BillRequisitionBoqModel model)
         {
             if (model != null)

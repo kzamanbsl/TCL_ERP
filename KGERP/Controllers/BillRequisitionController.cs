@@ -33,6 +33,7 @@ namespace KGERP.Controllers
 
         #region Others / Common
 
+        // Get Unit Info by Id
         public JsonResult GetUnitNameWithId(int id)
         {
             var unitName = "";
@@ -49,11 +50,20 @@ namespace KGERP.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        // Dependent Project List
         public JsonResult GetProjectList(int id)
         {
             var projectList = _service.GetProjectListByTypeId(id);
 
             return Json(projectList, JsonRequestBehavior.AllowGet);
+        }
+
+        // Dependent BoQ List
+        public JsonResult GetBoQList(int id)
+        {
+            var boQList = _service.GetBillOfQuotationListByProjectId(id);
+
+            return Json(boQList, JsonRequestBehavior.AllowGet);
         }
 
         #endregion
