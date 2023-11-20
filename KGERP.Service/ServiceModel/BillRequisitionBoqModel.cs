@@ -10,6 +10,9 @@ namespace KGERP.Service.ServiceModel
     public class BillRequisitionBoqModel : BaseVM
     {
         public int BoQItemId { get; set; }
+        public int CostCenterId { get; set; }
+        public decimal BoQAmount { get; set; }
+        public decimal BoQQty { get; set; }
 
         [Required]
         [MaxLength(100)]
@@ -22,5 +25,6 @@ namespace KGERP.Service.ServiceModel
         public string Description { get; set; }
 
         public List<BillBoQItem> BillBoQItems { get; set; }
+        public List<Accounting_CostCenterType> CostCenterTypes { get; set;}
     }
 }
