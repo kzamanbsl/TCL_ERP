@@ -1,4 +1,4 @@
-﻿using KGERP.Service.Implementation.Configuration;
+﻿ using KGERP.Service.Implementation.Configuration;
 using KGERP.Service.Implementation.Procurement;
 using KGERP.Service.Implementation;
 using KGERP.Service.Interface;
@@ -15,6 +15,8 @@ using DocumentFormat.OpenXml.EMMA;
 using System.Linq;
 using Remotion.Data.Linq;
 using Ninject.Activation;
+using KGERP.Data.CustomModel;
+using KGERP.Data.Models;
 
 namespace KGERP.Controllers
 {
@@ -30,6 +32,7 @@ namespace KGERP.Controllers
         }
 
         #region Others / Common
+
         public JsonResult GetUnitNameWithId(int id)
         {
             var unitName = "";
@@ -45,8 +48,16 @@ namespace KGERP.Controllers
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
+        public JsonResult GetProjectList(int id)
+        {
+            var projectList = _service.GetProjectListByTypeId(id);
+
+            return Json(projectList, JsonRequestBehavior.AllowGet);
+        }
+
         #endregion
-        
+
         #region BoQ Item
 
         [HttpGet]
@@ -461,7 +472,6 @@ namespace KGERP.Controllers
         }
 
         #endregion
-      
 
     }
 }

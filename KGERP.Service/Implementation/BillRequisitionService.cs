@@ -487,6 +487,23 @@ namespace KGERP.Service.Implementation
             return projects;
         }
 
+        public List<Accounting_CostCenter> GetProjectListByTypeId(int id)
+        {
+            List<Accounting_CostCenter> projects = new List<Accounting_CostCenter>();
+            var getProjects = _context.Accounting_CostCenter.Where(c => c.CompanyId == 21 && c.CostCenterTypeId == id && c.IsActive == true).ToList();
+            foreach (var project in getProjects)
+            {
+                var data = new Accounting_CostCenter()
+                {
+                    CompanyId = project.CompanyId,
+                    CostCenterId = project.CostCenterId,
+                    Name = project.Name
+                };
+                projects.Add(data);
+            }
+            return projects;
+        }
+        
         public List<Employee> GetEmployeeList()
         {
             List<Employee> employees = new List<Employee>();
