@@ -47,7 +47,10 @@ namespace KGERP.Service.Implementation
                 var data = new BillBoQItem()
                 {
                     BoQItemId = item.BoQItemId,
+                    CostCenterId = item.CostCenterId,
                     Name = item.Name,
+                    BoQQty = item.BoQQty,
+                    BoQAmount = item.BoQAmount,
                     Description = item.Description
                 };
                 billBoQItems.Add(data);
@@ -64,6 +67,9 @@ namespace KGERP.Service.Implementation
                     BillBoQItem data = new BillBoQItem()
                     {
                         Name = model.Name,
+                        CostCenterId = model.CostCenterId,
+                        BoQQty = model.BoQQty,
+                        BoQAmount = model.BoQAmount,
                         Description = model.Description,
                         CompanyId = (int)model.CompanyFK,
                         IsActive = true,
@@ -91,9 +97,12 @@ namespace KGERP.Service.Implementation
             {
                 try
                 {
-                    var findBillRequisitionBoQ = _context.BillBoQItems.FirstOrDefault(c => c.BoQItemId == model.BoQItemId);
+                    var findBillRequisitionBoQ = _context.BillBoQItems.FirstOrDefault(c => c.BoQItemId == model.ID);
 
                     findBillRequisitionBoQ.Name = model.Name;
+                    findBillRequisitionBoQ.CostCenterId = model.CostCenterId;
+                    findBillRequisitionBoQ.BoQQty = model.BoQQty;
+                    findBillRequisitionBoQ.BoQAmount = model.BoQAmount;
                     findBillRequisitionBoQ.Description = model.Description;
                     findBillRequisitionBoQ.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
                     findBillRequisitionBoQ.ModifiedDate = DateTime.Now;

@@ -34,14 +34,38 @@
                                 </div>*@
                             <!-- /.box-header -->
                             <div class="box-body">
-                                @Html.HiddenFor(model => model.ID, new { Value = "", id = "BoQItemId" })
+                                @Html.HiddenFor(model => model.ID, new { Value = "", id = "ReBoQItemId" })
                                 @Html.HiddenFor(model => model.ActionId, new { Value = "", id = "ActionId" })
                                 @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
+
+                                <div class="form-group">
+                                    <label>Project Type :</label>
+                                    @Html.DropDownListFor(model => model.CostCenterTypeId, new SelectList(Model.Accounting_CostCenterTypes, "CostCenterTypeId", "Name"), "-- Select Project Type --", new { id = "ddlCostCenterTypeId", onchange = "getProjectList()", @class = "form-control searchingDropdown", style = "width:100%" })
+                                    @Html.ValidationMessageFor(model => model.CostCenterTypeId, "", new { @class = "text-danger" })
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Select Project :</label>
+                                    @Html.DropDownListFor(model => model.CostCenterId, new SelectList(Model.Accounting_CostCenters, "CostCenterId", "Name"), "-- Select Project --", new { id = "ddlCostCenterId", @class = "form-control searchingDropdown", style = "width:100%" })
+                                    @Html.ValidationMessageFor(model => model.CostCenterId, "", new { @class = "text-danger" })
+                                </div>
 
                                 <div class="form-group">
                                     <label asp-for="Name" class="form-control-label">Name:</label>
                                     @Html.TextBoxFor(model => model.Name, new { id = "txtRequisitionBoqName", @class = "form-control", @placeholder = "Requisition BoQ Name", required = "true" })
                                     @Html.ValidationMessageFor(model => model.Name, "", new { id = "nameExist", @class = "text-danger" })
+                                </div>
+
+                                <div class="form-group">
+                                    <label asp-for="Name" class="form-control-label">Estimate Quantity:</label>
+                                    @Html.TextBoxFor(model => model.BoQQty, new { id = "txtEstitmateQuantity", @class = "form-control", @placeholder = "Estimate Quantity", required = "true" })
+                                    @Html.ValidationMessageFor(model => model.BoQQty, "", new { id = "nameExist", @class = "text-danger" })
+                                </div>
+
+                                <div class="form-group">
+                                    <label asp-for="Name" class="form-control-label">BoQ Amount:</label>
+                                    @Html.TextBoxFor(model => model.BoQAmount, new { id = "txtRequisitionBoqAmount", @class = "form-control", @placeholder = "BoQ Amount", required = "true" })
+                                    @Html.ValidationMessageFor(model => model.BoQAmount, "", new { id = "nameExist", @class = "text-danger" })
                                 </div>
 
                                 <div class="form-group">
@@ -76,33 +100,39 @@
                                         <thead>
                                             <tr>
                                                 <th>SL</th>
-                                                <th>Name</th>
+                                                <th>BoQ Name</th>
+                                                <th>Project Name</th>
+                                                <th>Estimate Quantity</th>
+                                                <th>BoQ Amount</th>
                                                 <th>Description</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         @{int sl = 0;}
-                                    <tbody>
-                                        @foreach (var item in Model.BillBoQItems)
-                                        {
-                                            <tr>
-                                                <td>
-                                                    @(++sl)
-                                                    <input type="hidden" id="requisitionBoQ_@item.BoQItemId" name="BoQItemId" value="@item.BoQItemId" />
-                                                </td>
-                                                <td id="tdRequisitionBoQName_@item.BoQItemId">@item.Name</td>
-                                                <td id="tdRequisitionBoQDescription_@item.BoQItemId">@item.Description</td>
-                                                <td>
-                                                    <a id="@item.BoQItemId" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
+                                        <tbody>
+                                            @foreach (var item in Model.BillBoQItems)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        @(++sl)
+                                                        <input type="hidden" id="requisitionBoQ_@item.BoQItemId" name="BoQItemId" value="@item.BoQItemId" />
+                                                    </td>
+                                                    <td id="tdRequisitionBoQName_@item.BoQItemId">@item.Name</td>
+                                                    <td id="tdRequisitionBoQProjectName_@item.BoQItemId">@Model.Accounting_CostCenters.FirstOrDefault(c=> c.CostCenterId == item.CostCenterId).Name</td>
+                                                    <td id="tdRequisitionBoQQuantity_@item.BoQItemId">@item.BoQQty</td>
+                                                    <td id="tdRequisitionBoQAmount_@item.BoQItemId">@item.BoQAmount</td>
+                                                    <td id="tdRequisitionBoQDescription_@item.BoQItemId">@item.Description</td>
+                                                    <td>
+                                                        <a id="@item.BoQItemId" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
 
-                                                    <a id="@item.BoQItemId" onclick="makeDeletable(@item.BoQItemId);" class="linkPointer" data-toggle="modal" data-target="#BillRequisitionBoQDeleteModal" title="Delete"
-                                                       data-placement="top">
-                                                        <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                        }
-                                    </tbody>
+                                                        <a id="@item.BoQItemId" onclick="makeDeletable(@item.BoQItemId);" class="linkPointer" data-toggle="modal" data-target="#BillRequisitionBoQDeleteModal" title="Delete"
+                                                           data-placement="top">
+                                                            <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
                                     </table>
                                 </div>
 
@@ -159,11 +189,14 @@
         function makeEditble(elem) {
             if (elem !== null) {
                 var rowId = elem.id;
-                $('#requisitionBoQ_').val(rowId);
+                $('#ReBoQItemId').val(rowId);
                 $('#ActionId').val(2);
                 $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Update");
                 $('#txtRequisitionBoqName').val($('#tdRequisitionBoQName_' + rowId).text().trim());
+                $('#txtEstitmateQuantity').val($('#tdRequisitionBoQQuantity_' + rowId).text().trim());
+                $('#txtRequisitionBoqAmount').val($('#tdRequisitionBoQAmount_' + rowId).text().trim());
                 $('#txtRequisitionBoqDescription').val($('#tdRequisitionBoQDescription_' + rowId).text().trim());
+                $('#ddlCostCenterId').val($('#tdRequisitionBoQProjectName_' + rowId).val().trim()).trigger('change');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
         }
@@ -179,6 +212,34 @@
         function resetForm() {
             $('#BillOfQuotationFormId')[0].reset();
             $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Add");
+        }
+
+        function getProjectList() {
+            var getProjectId = $("#ddlCostCenterTypeId option:selected");
+            var showprojectList = $("#ddlCostCenterId");
+
+            console.log("Selected Project ID:", getProjectId.val());
+
+            $.ajax({
+                type: "GET",
+                url: "/BillRequisition/GetProjectList",
+                dataType: "json",
+                data: { id: getProjectId.val() },
+                success: function (data) {
+
+                    showprojectList.empty();
+
+                    $.each(data, function (index, item) {
+                        showprojectList.append($('<option>', {
+                            value: item.CostCenterId,
+                            text: item.Name
+                        }));
+                    });
+                },
+                error: function (error) {
+                    console.error("Error in AJAX request:", error);
+                }
+            });
         }
     </script>
 }

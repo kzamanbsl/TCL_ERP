@@ -66,7 +66,9 @@ namespace KGERP.Controllers
             var viewData = new BillRequisitionBoqModel()
             {
                 CompanyFK = companyId,
-                BillBoQItems = _service.GetBillOfQuotationList()
+                BillBoQItems = _service.GetBillOfQuotationList(),
+                Accounting_CostCenters = _service.GetProjectList(),
+                Accounting_CostCenterTypes = _service.GetCostCenterTypeList()
             };
             return View(viewData);
         }
