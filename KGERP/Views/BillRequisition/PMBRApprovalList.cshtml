@@ -122,13 +122,17 @@
 
                                             <td>@item.StatusName</td>
                                             <td>
-                                                @if (item.StatusId == EnumBillRequisitionStatus.Submitted)
+                                                @if (item.StatusId != EnumBillRequisitionStatus.Draft && item.StatusId != EnumBillRequisitionStatus.Rejected && item.StatusId != EnumBillRequisitionStatus.Approved)
                                                 {
                                                     <a href="~/BillRequisition/PMBRApproveSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" title="Approve"><i class="glyphicon glyphicon-new-window"></i> Approve</a>
                                                 }
-                                                else if (item.StatusId == EnumBillRequisitionStatus.Approved)
+                                                else if (item.StatusId != EnumBillRequisitionStatus.Draft && item.StatusId != EnumBillRequisitionStatus.Rejected && item.StatusId != EnumBillRequisitionStatus.Approved)
                                                 {
-                                                    <a href="~/BillRequisition/PMBRApproveSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i> Details</a>
+                                                <a href="~/BillRequisition/PMBRRejectSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" title="Approve"><i class="glyphicon glyphicon-new-window"></i> Reject</a>
+                                                }
+                                                else if (item.StatusId == EnumBillRequisitionStatus.Approved || item.StatusId == EnumBillRequisitionStatus.Rejected)
+                                                {
+                                                <a href="~/BillRequisition/PMBRApproveSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i> Details</a>
 
                                                 }
                                             </td>
