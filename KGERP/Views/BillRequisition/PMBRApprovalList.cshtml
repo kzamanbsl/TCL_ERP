@@ -38,7 +38,7 @@
             <div class="box">
                 <div class="box-danger">
                     <div class="box-body">
-                        @using (Html.BeginForm("PMBillRequisitionMasterReceivedSearch", "BillRequisition", FormMethod.Post, new { id = "dealerReceivedListFormId", @class = "formValidator" }))
+                        @using (Html.BeginForm("PMBRApprovalListSearch", "BillRequisition", FormMethod.Post, new { id = "dealerReceivedListFormId", @class = "formValidator" }))
                         {
                             @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyId" })
 
@@ -103,10 +103,10 @@
                                         string statusTitle = "";
 
                                         if (item.StatusId != EnumBillRequisitionStatus.Approved)
-                                        { statusTitle = "Receive"; }
+                                        { statusTitle = "Approve"; }
 
                                         if (item.StatusId == EnumBillRequisitionStatus.Approved)
-                                        { statusTitle = "Undo Receive"; }
+                                        { statusTitle = "Undo Approve"; }
 
                                         #endregion
 
@@ -124,11 +124,11 @@
                                             <td>
                                                 @if (item.StatusId == EnumBillRequisitionStatus.Submitted)
                                                 {
-                                                    <a href="~/BillRequisition/PMBRReceivedSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" title="Approve"><i class="glyphicon glyphicon-new-window"></i> Approve</a>
+                                                    <a href="~/BillRequisition/PMBRApproveSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" title="Approve"><i class="glyphicon glyphicon-new-window"></i> Approve</a>
                                                 }
                                                 else if (item.StatusId == EnumBillRequisitionStatus.Approved)
                                                 {
-                                                    <a href="~/BillRequisition/PMBRReceivedSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i> Details</a>
+                                                    <a href="~/BillRequisition/PMBRApproveSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i> Details</a>
 
                                                 }
                                             </td>
