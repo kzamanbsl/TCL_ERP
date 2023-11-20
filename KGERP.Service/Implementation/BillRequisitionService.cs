@@ -1048,9 +1048,9 @@ namespace KGERP.Service.Implementation
 
         #endregion
       
-        #region 1.2   BillRequisition received circle
+        #region 1.2 BillRequisition Approve circle
 
-        public async Task<long> PMBillRequisitionReceived(BillRequisitionMasterModel billRequisitionMasterModel)
+        public async Task<long> PMBillRequisitionApproved(BillRequisitionMasterModel billRequisitionMasterModel)
         {
             long result = -1;
             if (billRequisitionMasterModel.BillRequisitionMasterId <= 0) throw new Exception("Sorry! BillRequisition not found to Receive!");
@@ -1078,8 +1078,37 @@ namespace KGERP.Service.Implementation
                 scope.Commit();
             }
             return result;
+        } 
+        public async Task<long> PMBillRequisitionRejected(BillRequisitionMasterModel billRequisitionMasterModel)
+        {
+            long result = -1;
+            if (billRequisitionMasterModel.BillRequisitionMasterId <= 0) throw new Exception("Sorry! BillRequisition not found to Receive!");
+            if (billRequisitionMasterModel.DetailDataList.Count() <= 0) throw new Exception("Sorry! BillRequisition  Detail not found to Receive!");
+
+            var userName = System.Web.HttpContext.Current.User.Identity.Name;
+
+            BillRequisitionMaster billRequisitionMaster = _context.BillRequisitionMasters.FirstOrDefault(c => c.BillRequisitionMasterId == billRequisitionMasterModel.BillRequisitionMasterId);
+            billRequisitionMaster.StatusId = (int)EnumBillRequisitionStatus.Rejected;
+
+            billRequisitionMaster.ModifiedBy = userName;
+            billRequisitionMaster.ModifiedDate = DateTime.Now;
+
+            using (var scope = _context.Database.BeginTransaction())
+            {
+                await _context.SaveChangesAsync();
+                var BRApproval = _context.BillRequisitionApprovals.FirstOrDefault(x => x.BillRequisitionMasterId == billRequisitionMasterModel.BillRequisitionMasterId && x.SignatoryId == (int)EnumBRequisitionSignatory.PM);
+
+                BRApproval.AprrovalStatusId = (int)EnumBillRequisitionStatus.Rejected;
+                BRApproval.EmployeeId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
+                BRApproval.ModifiedBy = userName;
+                BRApproval.ModifiedDate = DateTime.Now;
+
+                result = billRequisitionMasterModel.BillRequisitionMasterId;
+                scope.Commit();
+            }
+            return result;
         }
-        public async Task<BillRequisitionMasterModel> GetPMBillRequisitionMasterReceivedList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
+        public async Task<BillRequisitionMasterModel> GetPMBillRequisitionList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
         {
             BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
             long EmpId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
