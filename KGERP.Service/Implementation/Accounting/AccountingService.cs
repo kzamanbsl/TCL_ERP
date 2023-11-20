@@ -1386,7 +1386,8 @@ namespace KGERP.Service.Implementation.Accounting
                      && ((t1.AccName.Contains(prefix)) || (t1.AccCode.Contains(prefix)))
                      select new
                      {
-                         label = "[" + t1.AccCode + "] " + (t3.AccName != t1.AccName ? t3.AccName + " " + t1.AccName : t1.AccName),
+                         //label = "[" + t1.AccCode + "] " + (t3.AccName != t1.AccName ? t3.AccName + " " + t1.AccName : t1.AccName),
+                         label = "[" + t1.AccCode + "] " + (t3.AccName != t1.AccName ? t2.AccName + " " + t1.AccName : t1.AccName),
                          val = t1.Id
                      }).OrderBy(x => x.label).Take(150).ToList();
 

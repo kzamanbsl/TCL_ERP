@@ -675,12 +675,10 @@
                 dataType: "json",
                 data: { id: getProjectId.val() },
                 success: function (data) {
-                    console.log("Received data:", data);
 
                     showprojectList.empty();
 
                     $.each(data, function (index, item) {
-                        console.log("Processing item:", item);
                         showprojectList.append($('<option>', {
                             value: item.CostCenterId,
                             text: item.Name
