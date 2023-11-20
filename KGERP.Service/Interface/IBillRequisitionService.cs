@@ -46,6 +46,7 @@ namespace KGERP.Service.Interface
         bool Delete(CostCenterManagerMapModel model);
         List<Employee> GetEmployeeList();
         List<Accounting_CostCenter> GetProjectList();
+        List<Accounting_CostCenter> GetProjectListByTypeId(int id);
         List<CostCenterManagerMap> GetCostCenterManagerMapList();
         #endregion
 

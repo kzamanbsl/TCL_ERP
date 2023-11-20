@@ -124,6 +124,7 @@
                                             @Html.ValidationMessageFor(model => model.ProjectTypeId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
+
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Select Project :</label>
@@ -593,7 +594,6 @@
             $('#ActionId').val(1);
         }
 
-
         function getUnitName() {
             var getUnitIdValue = $("#ddlRequisitionItemId option:selected");
             var showName = $("#showUnitName");
@@ -602,18 +602,16 @@
             $.ajax({
                 type: "GET",
                 url: "/BillRequisition/GetUnitNameWithId",
-                dataType: "json", // Correct spelling for dataType
+                dataType: "json",
                 data: { id: getUnitIdValue.val() },
                 success: function (data) {
                     if (data) {
-                        showName.val(data.unitName); // Corrected property name
-                        showValue.val(data.unitId);   // Corrected property name
+                        showName.val(data.unitName);
+                        showValue.val(data.unitId);
                     }
                 }
             });
         }
-
-
 
         function showInput() {
             var Ward = document.getElementById("inputWard");
@@ -661,7 +659,40 @@
                 Floor.classList.remove("block");
                 Floor.classList.add("hidden");
             }
+
+            getProjectList();
         }
+
+        function getProjectList() {
+            var getProjectId = $("#projectTypeId option:selected");
+            var showprojectList = $("#ddlCostCenterId");
+
+            console.log("Selected Project ID:", getProjectId.val());
+
+            $.ajax({
+                type: "GET",
+                url: "/BillRequisition/GetProjectList",
+                dataType: "json",
+                data: { id: getProjectId.val() },
+                success: function (data) {
+                    console.log("Received data:", data);
+
+                    showprojectList.empty();
+
+                    $.each(data, function (index, item) {
+                        console.log("Processing item:", item);
+                        showprojectList.append($('<option>', {
+                            value: item.CostCenterId,
+                            text: item.Name
+                        }));
+                    });
+                },
+                error: function (error) {
+                    console.error("Error in AJAX request:", error);
+                }
+            });
+        }
+
 
     </script>
 }
