@@ -18,7 +18,7 @@
 <section class="content-header">
     <h1>
         <span>
-           Bill Requisition List
+            Bill Requisition List
         </span>
 
     </h1>
@@ -126,7 +126,12 @@
                                             <td>
                                                 @if (item.StatusId == EnumBillRequisitionStatus.Draft || item.StatusId == EnumBillRequisitionStatus.Submitted)
                                                 {
-                                                    <a id="@item.BillRequisitionMasterId" onclick="makeDeletale(@item.BillRequisitionMasterId)" class="linkPointer" data-toggle="modal" data-target="#deleteFoodCustomerOrderModal" title="Delete" data-placement="top"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>
+                                                    if (item.StatusId != EnumBillRequisitionStatus.Submitted)
+                                                    {
+                                                        <a id="@item.BillRequisitionMasterId" onclick="makeDeletale(@item.BillRequisitionMasterId)" class="linkPointer" data-toggle="modal" data-target="#deleteFoodCustomerOrderModal" title="Delete" data-placement="top"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>
+
+                                                    }
+
                                                     <a href="~/BillRequisition/BillRequisitionMasterSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
                                                 }
                                                 else if (item.StatusId == EnumBillRequisitionStatus.Approved)
@@ -340,8 +345,8 @@
             return date;
         }
 
-       
- 
+
+
 
     </script>
 }
