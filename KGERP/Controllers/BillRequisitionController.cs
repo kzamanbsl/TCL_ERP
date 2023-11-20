@@ -395,7 +395,7 @@ namespace KGERP.Controllers
 
         #endregion
 
-        #region 1.2  BillRequisition Received Circle
+        #region 1.2  BillRequisition Approval Circle
 
         [HttpGet]
         public async Task<ActionResult> PMBRApproveSlave(int companyId = 0, long BillRequisitionMasterId = 0)
@@ -413,7 +413,7 @@ namespace KGERP.Controllers
         [HttpPost]
         public async Task<ActionResult> PMBRApproveSlave(BillRequisitionMasterModel BillRequisitionMasterModel)
         {
-            var resutl = await _service.PMBillRequisitionReceived(BillRequisitionMasterModel);
+            var resutl = await _service.PMBillRequisitionApproved(BillRequisitionMasterModel);
             return RedirectToAction(nameof(PMBRApprovalList), new { companyId = BillRequisitionMasterModel.CompanyFK });
         }
 
@@ -433,7 +433,7 @@ namespace KGERP.Controllers
         [HttpPost]
         public async Task<ActionResult> PMBRRejectSlave(BillRequisitionMasterModel BillRequisitionMasterModel)
         {
-            var resutl = await _service.PMBillRequisitionReceived(BillRequisitionMasterModel);
+            var resutl = await _service.PMBillRequisitionRejected(BillRequisitionMasterModel);
             return RedirectToAction(nameof(PMBRApprovalList), new { companyId = BillRequisitionMasterModel.CompanyFK });
         }
 
@@ -444,7 +444,7 @@ namespace KGERP.Controllers
             if (!toDate.HasValue) toDate = DateTime.Now;
 
             BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
-            billRequisitionMasterModel = await _service.GetPMBillRequisitionMasterReceivedList(companyId, fromDate, toDate, vStatus);
+            billRequisitionMasterModel = await _service.GetPMBillRequisitionList(companyId, fromDate, toDate, vStatus);
 
             billRequisitionMasterModel.StrFromDate = fromDate.Value.ToString("yyyy-MM-dd");
             billRequisitionMasterModel.StrToDate = toDate.Value.ToString("yyyy-MM-dd");

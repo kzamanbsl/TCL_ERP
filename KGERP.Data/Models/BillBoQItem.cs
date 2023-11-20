@@ -24,14 +24,17 @@ namespace KGERP.Data.Models
         public int BoQItemId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public Nullable<decimal> BoQAmount { get; set; }
+        public Nullable<decimal> BoQQty { get; set; }
+        public Nullable<int> CostCenterId { get; set; }
         public int CompanyId { get; set; }
         public System.DateTime CreateDate { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public string ModifiedBy { get; set; }
         public bool IsActive { get; set; }
-        public Nullable<int> ProjectTypeId { get; set; }
     
+        public virtual Accounting_CostCenter Accounting_CostCenter { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BillRequisitionItem> BillRequisitionItems { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

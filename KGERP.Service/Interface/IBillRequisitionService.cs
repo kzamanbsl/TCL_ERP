@@ -65,8 +65,9 @@ namespace KGERP.Service.Interface
 
 
         #region 1.2 BillRequisition Received Circle
-        Task<long> PMBillRequisitionReceived(BillRequisitionMasterModel BillRequisitionMasterModel);
-        Task<BillRequisitionMasterModel> GetPMBillRequisitionMasterReceivedList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus);
+        Task<long> PMBillRequisitionApproved(BillRequisitionMasterModel BillRequisitionMasterModel);
+        Task<long> PMBillRequisitionRejected(BillRequisitionMasterModel BillRequisitionMasterModel);
+        Task<BillRequisitionMasterModel> GetPMBillRequisitionList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus);
         #endregion
         #endregion
     }
