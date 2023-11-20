@@ -63,7 +63,7 @@ namespace KGERP.Controllers
         public async Task<ActionResult> AccountingCostCenter(int companyId)
         {
             VMUserMenu vmUserMenu = await Task.Run(() => _service.AccountingCostCenterGet(companyId));
-
+            vmUserMenu.accounting_CostCenterTypes = _service.GetAccounting_CostCenterTypeList();
             return View(vmUserMenu);
         }
 

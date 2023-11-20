@@ -1046,7 +1046,6 @@ namespace KGERP.Service.Implementation
         }
 
         #endregion
-
       
         #region 1.2   BillRequisition received circle
 
