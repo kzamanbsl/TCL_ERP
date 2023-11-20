@@ -240,10 +240,29 @@ namespace KGERP.Service.Implementation.Configuration
                                    {
                                        ID = t1.CostCenterId,
                                        Name = t1.Name,
+                                       accounting_CostCenterTypeId = (int)t1.CostCenterTypeId,
                                        CompanyName = t2.Name,
                                        CompanyFK = t1.CompanyId
                                    }).OrderByDescending(x => x.ID).AsEnumerable();
             return vmUserMenu;
+        }
+
+        public List<Accounting_CostCenterType> GetAccounting_CostCenterTypeList()
+        {
+            List<Accounting_CostCenterType> accounting_CostCenterTypes = new List<Accounting_CostCenterType>();
+            var getAccounting_CostCenterTypes = _db.Accounting_CostCenterType.Where(c => c.CompanyId == 21 && c.IsActive == true).ToList();
+
+            foreach(var item in getAccounting_CostCenterTypes)
+            {
+                var data = new Accounting_CostCenterType()
+                {
+                    CostCenterTypeId = item.CostCenterTypeId,
+                    Name = item.Name,
+                };
+                accounting_CostCenterTypes.Add(data);
+            }
+
+            return accounting_CostCenterTypes;
         }
 
         public async Task<int> AccountingCostCenterAdd(VMUserMenu vmUserMenu)
@@ -255,7 +274,7 @@ namespace KGERP.Service.Implementation.Configuration
             {
 
                 Name = vmUserMenu.Name,
-
+                CostCenterTypeId = vmUserMenu.accounting_CostCenterTypeId,
                 CompanyId = vmUserMenu.CompanyFK.Value,
                 CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
                 CreatedDate = DateTime.Now,
@@ -274,9 +293,8 @@ namespace KGERP.Service.Implementation.Configuration
             var result = -1;
             Accounting_CostCenter costCenter = _db.Accounting_CostCenter.Find(vmUserMenu.ID);
             costCenter.Name = vmUserMenu.Name;
-
+            costCenter.CostCenterTypeId = vmUserMenu.accounting_CostCenterTypeId;
             costCenter.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
-
 
             if (await _db.SaveChangesAsync() > 0)
             {
