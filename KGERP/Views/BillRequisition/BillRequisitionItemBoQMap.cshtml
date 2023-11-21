@@ -28,30 +28,46 @@
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="box-danger">
                     <div class="box-body row">
-                        @Html.HiddenFor(model => model.ID, new { Value = "", id = "ReBoQItemId" })
+                        @Html.HiddenFor(model => model.ID, new { Value = "", id = "BoQItemMapId" })
                         @Html.HiddenFor(model => model.ActionId, new { Value = "", id = "ActionId" })
                         @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>S :</label>
-                                @Html.DropDownListFor(model => model.BoQItemId, new SelectList(Model.BillBoQItems, "BoQItemId", "Name"), "=== Select BoQ Item ===", new { id = "ddlCostCenterTypeId", onchange = "getProjectList()", @class = "form-control searchingDropdown", style = "width:100%" })
+                                <label>Select Project Type :</label>
+                                @Html.DropDownListFor(model => model.BoQItemId, new SelectList(Model.ProjectTypes, "CostCenterTypeId", "Name"), "=== Select Project Type ===", new { id = "ddlCostCenterTypeId", onchange = "getProjectList()", @class = "form-control searchingDropdown", style = "width:100%" })
                                 @Html.ValidationMessageFor(model => model.BoQItemId, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Select Project :</label>
-                                @Html.DropDownListFor(model => model.BillRequisitionItemId, new SelectList(Model.BillRequisitionItems, "BillRequisitionItemId", "Name"), "=== Select Requisition Item ===", new { id = "ddlCostCenterId", @class = "form-control searchingDropdown", style = "width:100%" })
+                                <label>Select Project:</label>
+                                @Html.DropDownListFor(model => model.BillRequisitionItemId, new SelectList(Model.Projects, "CostCenterId", "Name"), "=== Select Project ===", new { id = "ddlCostCenterId", onchange = "getBoQList()", @class = "form-control searchingDropdown", style = "width:100%" })
                                 @Html.ValidationMessageFor(model => model.BillRequisitionItemId, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label asp-for="Name" class="form-control-label">Name:</label>
-                                @Html.TextBoxFor(model => model.EstimateQuantity, new { id = "txtRequisitionBoqName", @class = "form-control", @placeholder = "Requisition BoQ Name", required = "true" })
+                                <label>Select BoQ :</label>
+                                @Html.DropDownListFor(model => model.BoQItemId, new SelectList(Model.BillBoQItems, "BoQItemId", "Name"), "=== Select BoQ ===", new { id = "ddlBoQId", onchange = "getItemList()", @class = "form-control searchingDropdown", style = "width:100%" })
+                                @Html.ValidationMessageFor(model => model.BoQItemId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Select Item/Material :</label>
+                                @Html.DropDownListFor(model => model.BillRequisitionItemId, new SelectList(Model.Products, "ProductId", "ProductName"), "=== Select Item/Material ===", new { id = "ddItemId", @class = "form-control searchingDropdown", style = "width:100%" })
+                                @Html.ValidationMessageFor(model => model.BillRequisitionItemId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Name" class="form-control-label">BoQ Quantity:</label>
+                                @Html.TextBoxFor(model => model.EstimateQuantity, new { id = "txtRequisitionBoqQuantity", @class = "form-control", @placeholder = "BoQ Quantity", required = "true" })
                                 @Html.ValidationMessageFor(model => model.EstimateQuantity, "", new { id = "nameExist", @class = "text-danger" })
                             </div>
                         </div>
@@ -65,8 +81,8 @@
                         </div>
 
 
-                        <div class="col-md-6">
-                            <div class="form-group" style="margin-top: 35px !important">
+                        <div class="col-md-12">
+                            <div class="form-group">
                                 <div class="col-md-6">
                                     <button type="button" onclick="resetForm()" class="btn btn-secondary" data-dismiss="modal" style="width:100% !important">Reset</button>
                                 </div>
@@ -98,9 +114,9 @@
                             <thead>
                                 <tr>
                                     <th>SL</th>
+                                    <th>Project Name</th>
                                     <th>BoQ Name</th>
                                     <th>Item/Material</th>
-                                    <th>Project Name</th>
                                     <th class="text-center">Est. Quantity</th>
                                     <th class="text-center">Est. Amount</th>
                                     <th>Action</th>
@@ -109,26 +125,27 @@
                             @{int sl = 0;}
                             <tbody>
                                 @*@foreach (var item in Model.BillBoQItems)
-                                {
-                                    <tr>
-                                        <td>
-                                            @(++sl)
-                                            <input type="hidden" id="requisitionBoQ_@item.BoQItemId" name="BoQItemId" value="@item.BoQItemId" />
-                                        </td>
-                                        <td id="tdRequisitionBoQName_@item.BoQItemId">@item.Name</td>
-                                        <td id="tdRequisitionBoQProjectName_@item.BoQItemId">@Model.Accounting_CostCenters.FirstOrDefault(c => c.CostCenterId == item.CostCenterId).Name</td>
-                                        <td id="tdRequisitionBoQAmount_@item.BoQItemId" class="text-center">@item.BoQAmount</td>
-                                        <td id="tdRequisitionBoQAmount_@item.BoQItemId" class="text-center">@item.BoQAmount</td>
-                                        <td>
-                                            <a id="@item.BoQItemId" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
+                                    {
+                                        <tr>
+                                            <td>
+                                                @(++sl)
+                                                <input type="hidden" id="requisitionBoQ_@item.BoQItemId" name="BoQItemId" value="@item.BoQItemId" />
+                                            </td>
+                                            <td id="tdBoQItemName_@item.BoQItemId">@Model.Accounting_CostCenters.FirstOrDefault(c => c.CostCenterId == item.CostCenterId).Name</td>
+                                            <td id="tdBoQName_@item.BoQItemId">@item.Name</td>
+                                            <td id="tdBoQItemName_@item.BoQItemId">@Model.Accounting_CostCenters.FirstOrDefault(c => c.CostCenterId == item.CostCenterId).Name</td>
+                                            <td id="tdEstimateQty_@item.BoQItemId" class="text-center">@item.BoQAmount</td>
+                                            <td id="tdEstimateAmount_@item.BoQItemId" class="text-center">@item.BoQAmount</td>
+                                            <td>
+                                                <a id="@item.BoQItemId" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
 
-                                            <a id="@item.BoQItemId" onclick="makeDeletable(@item.BoQItemId);" class="linkPointer" data-toggle="modal" data-target="#BillRequisitionBoQDeleteModal" title="Delete"
-                                               data-placement="top">
-                                                <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                }*@
+                                                <a id="@item.BoQItemId" onclick="makeDeletable(@item.BoQItemId);" class="linkPointer" data-toggle="modal" data-target="#BillRequisitionBoQDeleteModal" title="Delete"
+                                                   data-placement="top">
+                                                    <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }*@
                             </tbody>
                         </table>
                     </div>
@@ -176,33 +193,6 @@
             $('.formValidator').bootstrapValidator();
         });
 
-        function makeEditble(elem) {
-            if (elem !== null) {
-                var rowId = elem.id;
-                $('#ReBoQItemId').val(rowId);
-                $('#ActionId').val(2);
-                $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Update");
-                $('#txtRequisitionBoqName').val($('#tdRequisitionBoQName_' + rowId).text().trim());
-                $('#txtRequisitionBoqAmount').val($('#tdRequisitionBoQAmount_' + rowId).text().trim());
-                $('#txtRequisitionBoqDescription').val($('#tdRequisitionBoQDescription_' + rowId).text().trim());
-                $('#ddlCostCenterId').val($('#tdRequisitionBoQProjectName_' + rowId).val().trim()).trigger('change');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-        }
-
-        function makeDeletable(id) {
-            if (id !== null) {
-                $('#BillRequisitionBoQDelete').val(id);
-                $('#ActionIdDelete').val(3);
-                $("#CompanyFKDelete").val("@Model.CompanyFK");
-            }
-        }
-
-        function resetForm() {
-            $('#BillRequisitionItemBoQMapFormId')[0].reset();
-            $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Add");
-        }
-
         function getProjectList() {
             var getProjectId = $("#ddlCostCenterTypeId option:selected");
             var showprojectList = $("#ddlCostCenterId");
@@ -229,6 +219,33 @@
                     console.error("Error in AJAX request:", error);
                 }
             });
+        }
+
+        function makeEditble(elem) {
+            if (elem !== null) {
+                var rowId = elem.id;
+                $('#BoQItemMapId').val(rowId);
+                $('#ActionId').val(2);
+                $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Update");
+                $('#txtRequisitionBoqName').val($('#tdRequisitionBoQName_' + rowId).text().trim());
+                $('#txtRequisitionBoqAmount').val($('#tdRequisitionBoQAmount_' + rowId).text().trim());
+                $('#txtRequisitionBoqDescription').val($('#tdRequisitionBoQDescription_' + rowId).text().trim());
+                $('#ddlCostCenterId').val($('#tdRequisitionBoQProjectName_' + rowId).val().trim()).trigger('change');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function makeDeletable(id) {
+            if (id !== null) {
+                $('#BillRequisitionBoQDelete').val(id);
+                $('#ActionIdDelete').val(3);
+                $("#CompanyFKDelete").val("@Model.CompanyFK");
+            }
+        }
+
+        function resetForm() {
+            $('#BillRequisitionItemBoQMapFormId')[0].reset();
+            $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Add");
         }
     </script>
 }
