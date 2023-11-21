@@ -23,130 +23,126 @@
 {
     <section class="content">
         <div class="row">
-            <div class="col-md-12">
-                <div class="col-md-3">
-                    <div class="box">
-                        @Html.AntiForgeryToken()
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        <div class="box-danger">
-                            @*<div class="box-header">
-                                    <h4>Add DamageType</h4>
-                                </div>*@
-                            <!-- /.box-header -->
-                            <div class="box-body">
-                                @Html.HiddenFor(model => model.ID, new { Value = "", id = "ReBoQItemId" })
-                                @Html.HiddenFor(model => model.ActionId, new { Value = "", id = "ActionId" })
-                                @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
+            <div class="box">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="box-danger">
+                    <div class="box-body row">
+                        @Html.HiddenFor(model => model.ID, new { Value = "", id = "ReBoQItemId" })
+                        @Html.HiddenFor(model => model.ActionId, new { Value = "", id = "ActionId" })
+                        @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
 
-                                <div class="form-group">
-                                    <label>Project Type :</label>
-                                    @Html.DropDownListFor(model => model.CostCenterTypeId, new SelectList(Model.Accounting_CostCenterTypes, "CostCenterTypeId", "Name"), "-- Select Project Type --", new { id = "ddlCostCenterTypeId", onchange = "getProjectList()", @class = "form-control searchingDropdown", style = "width:100%" })
-                                    @Html.ValidationMessageFor(model => model.CostCenterTypeId, "", new { @class = "text-danger" })
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Select Project :</label>
-                                    @Html.DropDownListFor(model => model.CostCenterId, new SelectList(Model.Accounting_CostCenters, "CostCenterId", "Name"), "-- Select Project --", new { id = "ddlCostCenterId", @class = "form-control searchingDropdown", style = "width:100%" })
-                                    @Html.ValidationMessageFor(model => model.CostCenterId, "", new { @class = "text-danger" })
-                                </div>
-
-                                <div class="form-group">
-                                    <label asp-for="Name" class="form-control-label">Name:</label>
-                                    @Html.TextBoxFor(model => model.Name, new { id = "txtRequisitionBoqName", @class = "form-control", @placeholder = "Requisition BoQ Name", required = "true" })
-                                    @Html.ValidationMessageFor(model => model.Name, "", new { id = "nameExist", @class = "text-danger" })
-                                </div>
-
-                                <div class="form-group">
-                                    <label asp-for="Name" class="form-control-label">Estimate Quantity:</label>
-                                    @Html.TextBoxFor(model => model.BoQQty, new { id = "txtEstitmateQuantity", @class = "form-control", @placeholder = "Estimate Quantity", required = "true" })
-                                    @Html.ValidationMessageFor(model => model.BoQQty, "", new { id = "nameExist", @class = "text-danger" })
-                                </div>
-
-                                <div class="form-group">
-                                    <label asp-for="Name" class="form-control-label">BoQ Amount:</label>
-                                    @Html.TextBoxFor(model => model.BoQAmount, new { id = "txtRequisitionBoqAmount", @class = "form-control", @placeholder = "BoQ Amount", required = "true" })
-                                    @Html.ValidationMessageFor(model => model.BoQAmount, "", new { id = "nameExist", @class = "text-danger" })
-                                </div>
-
-                                <div class="form-group">
-                                    <label asp-for="Description" class="form-control-label">Description:</label>
-                                    @Html.TextAreaFor(model => model.Description, new { id = "txtRequisitionBoqDescription", @class = "form-control", @placeholder = "Requisition BoQ Description", required = "true" })
-                                    @Html.ValidationMessageFor(model => model.Description, "", new { id = "nameExist", @class = "text-danger" })
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-md-6">
-                                        <button type="button" onclick="resetForm()" class="btn btn-secondary" data-dismiss="modal" style="width:100% !important">Reset</button>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <button type="submit" id="btnSave" class="btn btn-primary btn-block" style="width:100% !important"><i class='fa fa-edit'></i> Add</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="box-footer">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Project Type :</label>
+                                @Html.DropDownListFor(model => model.CostCenterTypeId, new SelectList(Model.Accounting_CostCenterTypes, "CostCenterTypeId", "Name"), "=== Select Project Type ===", new { id = "ddlCostCenterTypeId", onchange = "getProjectList()", @class = "form-control searchingDropdown", style = "width:100%" })
+                                @Html.ValidationMessageFor(model => model.CostCenterTypeId, "", new { @class = "text-danger" })
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col-md-9">
-                    <div class="box">
 
-                        <div class="box-danger">
-                            <div class="box-header"></div>
-                            <!-- /.box-header -->
-                            <div class="box-body">
-
-                                <div class="table-responsive col-md-12">
-                                    <table id="KgErpDataTable" class="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>SL</th>
-                                                <th>BoQ Name</th>
-                                                <th>Project Name</th>
-                                                <th>Estimate Quantity</th>
-                                                <th>BoQ Amount</th>
-                                                <th>Description</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        @{int sl = 0;}
-                                        <tbody>
-                                            @foreach (var item in Model.BillBoQItems)
-                                            {
-                                                <tr>
-                                                    <td>
-                                                        @(++sl)
-                                                        <input type="hidden" id="requisitionBoQ_@item.BoQItemId" name="BoQItemId" value="@item.BoQItemId" />
-                                                    </td>
-                                                    <td id="tdRequisitionBoQName_@item.BoQItemId">@item.Name</td>
-                                                    <td id="tdRequisitionBoQProjectName_@item.BoQItemId">@Model.Accounting_CostCenters.FirstOrDefault(c=> c.CostCenterId == item.CostCenterId).Name</td>
-                                                    <td id="tdRequisitionBoQQuantity_@item.BoQItemId" class="text-right">@item.BoQQty</td>
-                                                    <td id="tdRequisitionBoQAmount_@item.BoQItemId" class="text-right">@item.BoQAmount</td>
-                                                    <td id="tdRequisitionBoQDescription_@item.BoQItemId">@item.Description</td>
-                                                    <td>
-                                                        <a id="@item.BoQItemId" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
-
-                                                        <a id="@item.BoQItemId" onclick="makeDeletable(@item.BoQItemId);" class="linkPointer" data-toggle="modal" data-target="#BillRequisitionBoQDeleteModal" title="Delete"
-                                                           data-placement="top">
-                                                            <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                            }
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                            </div>
-                            <div class="box-footer">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Select Project :</label>
+                                @Html.DropDownListFor(model => model.CostCenterId, new SelectList(Model.Accounting_CostCenters, "CostCenterId", "Name"), "=== Select Project ===", new { id = "ddlCostCenterId", @class = "form-control searchingDropdown", style = "width:100%" })
+                                @Html.ValidationMessageFor(model => model.CostCenterId, "", new { @class = "text-danger" })
                             </div>
                         </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Name" class="form-control-label">Name:</label>
+                                @Html.TextBoxFor(model => model.Name, new { id = "txtRequisitionBoqName", @class = "form-control", @placeholder = "Requisition BoQ Name", required = "true" })
+                                @Html.ValidationMessageFor(model => model.Name, "", new { id = "nameExist", @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Name" class="form-control-label">BoQ Amount:</label>
+                                @Html.TextBoxFor(model => model.BoQAmount, new { id = "txtRequisitionBoqAmount", @class = "form-control", @placeholder = "BoQ Amount", required = "true" })
+                                @Html.ValidationMessageFor(model => model.BoQAmount, "", new { id = "nameExist", @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Description" class="form-control-label">Description:</label>
+                                @Html.TextAreaFor(model => model.Description, new { id = "txtRequisitionBoqDescription", @class = "form-control", @placeholder = "Requisition BoQ Description", required = "true" })
+                                @Html.ValidationMessageFor(model => model.Description, "", new { id = "nameExist", @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group" style="margin-top: 35px !important">
+                                <div class="col-md-6">
+                                    <button type="button" onclick="resetForm()" class="btn btn-secondary" data-dismiss="modal" style="width:100% !important">Reset</button>
+                                </div>
+                                <div class="col-md-6">
+                                    <button type="submit" id="btnSave" class="btn btn-primary btn-block" style="width:100% !important"><i class='fa fa-edit'></i> Add</button>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
+
                 </div>
             </div>
-
         </div>
     </section>
 }
+
+
+<section class="content">
+    <div class="row">
+        <div class="box">
+            <div class="box-danger">
+                <div class="box-header">
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="table-responsive col-md-12">
+                        <table id="KgErpDataTable" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>SL</th>
+                                    <th>BoQ Name</th>
+                                    <th>Project Name</th>
+                                    <th class="text-center">BoQ Amount</th>
+                                    <th>Description</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            @{int sl = 0;}
+                            <tbody>
+                                @foreach (var item in Model.BillBoQItems)
+                                {
+                                    <tr>
+                                        <td>
+                                            @(++sl)
+                                            <input type="hidden" id="requisitionBoQ_@item.BoQItemId" name="BoQItemId" value="@item.BoQItemId" />
+                                        </td>
+                                        <td id="tdRequisitionBoQName_@item.BoQItemId">@item.Name</td>
+                                        <td id="tdRequisitionBoQProjectName_@item.BoQItemId">@Model.Accounting_CostCenters.FirstOrDefault(c => c.CostCenterId == item.CostCenterId).Name</td>
+                                        <td id="tdRequisitionBoQAmount_@item.BoQItemId" class="text-center">@item.BoQAmount</td>
+                                        <td id="tdRequisitionBoQDescription_@item.BoQItemId">@item.Description</td>
+                                        <td>
+                                            <a id="@item.BoQItemId" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
+
+                                            <a id="@item.BoQItemId" onclick="makeDeletable(@item.BoQItemId);" class="linkPointer" data-toggle="modal" data-target="#BillRequisitionBoQDeleteModal" title="Delete"
+                                               data-placement="top">
+                                                <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 @using (Html.BeginForm("BillOfQuotation", "BillRequisition", FormMethod.Post, new { id = "BillOfQuotationFormId", @class = "formValidator", onreset = "resetDDL();" }))
 {
@@ -193,7 +189,6 @@
                 $('#ActionId').val(2);
                 $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Update");
                 $('#txtRequisitionBoqName').val($('#tdRequisitionBoQName_' + rowId).text().trim());
-                $('#txtEstitmateQuantity').val($('#tdRequisitionBoQQuantity_' + rowId).text().trim());
                 $('#txtRequisitionBoqAmount').val($('#tdRequisitionBoQAmount_' + rowId).text().trim());
                 $('#txtRequisitionBoqDescription').val($('#tdRequisitionBoQDescription_' + rowId).text().trim());
                 $('#ddlCostCenterId').val($('#tdRequisitionBoQProjectName_' + rowId).val().trim()).trigger('change');

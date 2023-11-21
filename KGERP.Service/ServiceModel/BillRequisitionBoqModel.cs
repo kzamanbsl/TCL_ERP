@@ -14,7 +14,6 @@ namespace KGERP.Service.ServiceModel
         public int CostCenterTypeId { get; set; }
         public int CostCenterId { get; set; }
         public decimal BoQAmount { get; set; }
-        public decimal BoQQty { get; set; }
 
         [Required]
         [MaxLength(100)]
@@ -29,7 +28,5 @@ namespace KGERP.Service.ServiceModel
         public List<BillBoQItem> BillBoQItems { get; set; }
         public List<Accounting_CostCenter> Accounting_CostCenters { get; set; }
         public List<Accounting_CostCenterType> Accounting_CostCenterTypes { get; set; }
-        //public SelectList ProjectList { get; set; } = new SelectList(new List<object>());
-        //public SelectList ProjectTypeList { get; set; } = new SelectList(new List<object>());
     }
 }
