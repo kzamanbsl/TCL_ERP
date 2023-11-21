@@ -12,11 +12,11 @@ namespace KGERP.Data.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class BillRequisitionItemBoQMap
+    public partial class BoQItemProductMap
     {
-        public long BillRequisitionItemBoQMapId { get; set; }
+        public long BoQItemProductMapId { get; set; }
         public int BoQItemId { get; set; }
-        public int BillRequisitionItemId { get; set; }
+        public int ProductId { get; set; }
         public decimal EstimatedQty { get; set; }
         public decimal EstimatedAmount { get; set; }
         public int CompanyId { get; set; }
@@ -28,6 +28,6 @@ namespace KGERP.Data.Models
     
         public virtual Company Company { get; set; }
         public virtual BillBoQItem BillBoQItem { get; set; }
-        public virtual BillRequisitionItem BillRequisitionItem { get; set; }
+        public virtual Product Product { get; set; }
     }
 }
