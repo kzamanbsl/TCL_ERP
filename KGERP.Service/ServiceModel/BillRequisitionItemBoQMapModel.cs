@@ -16,6 +16,5 @@ namespace KGERP.Service.ServiceModel
         public decimal EstimateAmount { get; set; }
 
         public List<BillBoQItem> BillBoQItems { get; set; }
-        public List<BillRequisitionItem> BillRequisitionItems { get; set; }
     }
 }

@@ -9,7 +9,6 @@ namespace KGERP.Service.Interface
 {
     public interface IBillRequisitionService
     {
-        int GetRequisitionNo();
 
         #region Bill of Quotation
         bool Add(BillRequisitionBoqModel model);
@@ -18,15 +17,7 @@ namespace KGERP.Service.Interface
         List<BillBoQItem> GetBillOfQuotationList();
         List<BillBoQItem> GetBillOfQuotationListByProjectId(int id);
         #endregion
-
-        #region Bill Requisition Item
-        bool Add(BillRequisitionItemModel model);
-        bool Edit(BillRequisitionItemModel model);
-        bool Delete(BillRequisitionItemModel model);
-        List<BillRequisitionItem> GetBillRequisitionItemList();
-        List<VMCommonUnit> GetUnitList(int companyId);
-        #endregion
-
+        
         #region Bill Requisition Type
         bool Add(BillRequisitionTypeModel model);
         bool Edit(BillRequisitionTypeModel model);

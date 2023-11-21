@@ -118,9 +118,10 @@ namespace KGERP.Controllers
             BillRequisitionItemBoQMapModel viewData = new BillRequisitionItemBoQMapModel()
             {
                 BillBoQItems = _service.GetBillOfQuotationList(),
+                //BillRequisitionItems = _service.GetBillRequisitionItemList()
             };
 
-            return View();
+            return View(viewData);
         }
 
         [HttpPost]
@@ -128,46 +129,6 @@ namespace KGERP.Controllers
         {
             return View();
         }
-        #endregion
-
-        #region Bill Requisition Item
-
-        public ActionResult BillRequisitionItem(int companyId)
-        {
-            var viewData = new BillRequisitionItemModel()
-            {
-                CompanyFK = companyId,
-                Units = _service.GetUnitList(companyId),
-                BillRequisitionItems = _service.GetBillRequisitionItemList()
-            };
-            return View(viewData);
-        }
-
-        [HttpPost]
-        public ActionResult BillRequisitionItem(BillRequisitionItemModel model)
-        {
-            if (model.ActionEum == ActionEnum.Add)
-            {
-                //Add 
-                _service.Add(model);
-            }
-            else if (model.ActionEum == ActionEnum.Edit)
-            {
-                //Edit
-                _service.Edit(model);
-            }
-            else if (model.ActionEum == ActionEnum.Delete)
-            {
-                //Delete
-                _service.Delete(model);
-            }
-            else
-            {
-                return View("Error");
-            }
-            return RedirectToAction(nameof(BillRequisitionItem), new { companyId = model.CompanyFK });
-        }
-
         #endregion
 
         #region Bill Requisition Type

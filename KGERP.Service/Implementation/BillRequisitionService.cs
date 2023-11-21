@@ -21,20 +21,6 @@ namespace KGERP.Service.Implementation
         {
             _context = context;
         }
-        public int GetRequisitionNo()
-        {
-            int requisitionId = 0;
-            //var value = _context.Requisitions.OrderByDescending(x => x.RequisitionId).FirstOrDefault();
-            //if (value != null)
-            //{
-            //    requisitionId = value.RequisitionId + 1;
-            //}
-            //else
-            //{
-            //    requisitionId = requisitionId + 1;
-            //}
-            return requisitionId;
-        }
 
         #region Bill of Quotation
 
@@ -149,131 +135,6 @@ namespace KGERP.Service.Implementation
                     findBillRequisitionBoQ.IsActive = false;
                     findBillRequisitionBoQ.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
                     findBillRequisitionBoQ.ModifiedDate = DateTime.Now;
-                    var count = _context.SaveChanges();
-
-                    if (count > 0)
-                    {
-                        return true;
-                    }
-                }
-                catch (Exception e)
-                {
-                    return false;
-                }
-            }
-            return false;
-        }
-
-        #endregion
-
-        #region Bill Requisition Item
-
-        public List<BillRequisitionItem> GetBillRequisitionItemList()
-        {
-            List<BillRequisitionItem> billRequisitionItems = new List<BillRequisitionItem>();
-            var getBillRequisitionItems = _context.BillRequisitionItems.Where(c => c.IsActive == true).ToList();
-            foreach (var item in getBillRequisitionItems)
-            {
-                var data = new BillRequisitionItem()
-                {
-                    BillRequisitionItemId = item.BillRequisitionItemId,
-                    Name = item.Name,
-                    Description = item.Description,
-                    UnitId = item.UnitId,
-                   // BoQItemId = item.BoQItemId
-                };
-                billRequisitionItems.Add(data);
-            }
-            
-            return billRequisitionItems;
-        }
-
-        public List<VMCommonUnit> GetUnitList(int companyId)
-        {
-            List<VMCommonUnit> commonUnits = new List<VMCommonUnit>();
-            var getCommonUnits = _context.Units.Where(c => c.CompanyId == companyId && c.IsActive == true).ToList();
-            foreach (var item in getCommonUnits)
-            {
-                var data = new VMCommonUnit()
-                {
-                    ID = item.UnitId,
-                    Name = item.Name,
-                };
-                commonUnits.Add(data);
-            }
-
-            return commonUnits;
-        }
-
-        public bool Add(BillRequisitionItemModel model)
-        {
-            if (model != null)
-            {
-                try
-                {
-                    BillRequisitionItem data = new BillRequisitionItem()
-                    {
-                        Name = model.Name,
-                        Description = model.Description,
-                        CompanyId = (int)model.CompanyFK,
-                        UnitId = model.UnitId,
-                        IsActive = true,
-                        CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
-                        CreateDate = DateTime.Now
-                    };
-                    _context.BillRequisitionItems.Add(data);
-                    var count = _context.SaveChanges();
-                    if (count > 0)
-                    {
-                        return true;
-                    }
-                }
-                catch (Exception e)
-                {
-                    return false;
-                }
-            }
-            return false;
-        }
-
-        public bool Edit(BillRequisitionItemModel model)
-        {
-            if (model != null)
-            {
-                try
-                {
-                    var findBillRequisitionItem = _context.BillRequisitionItems.FirstOrDefault(c => c.BillRequisitionItemId == model.ID);
-
-                    findBillRequisitionItem.Name = model.Name;
-                    findBillRequisitionItem.Description = model.Description;
-                    findBillRequisitionItem.UnitId = model.UnitId;
-                    findBillRequisitionItem.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
-                    findBillRequisitionItem.ModifiedDate = DateTime.Now;
-                    var count = _context.SaveChanges();
-                    if (count > 0)
-                    {
-                        return true;
-                    }
-                }
-                catch (Exception e)
-                {
-                    return false;
-                }
-            }
-            return false;
-        }
-
-        public bool Delete(BillRequisitionItemModel model)
-        {
-            if (model.BillRequisitionItemId > 0 || model.BillRequisitionItemId != null)
-            {
-                try
-                {
-                    var findBillRequisitionItem = _context.BillRequisitionItems.FirstOrDefault(c => c.BillRequisitionItemId == model.BillRequisitionItemId);
-
-                    findBillRequisitionItem.IsActive = false;
-                    findBillRequisitionItem.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
-                    findBillRequisitionItem.ModifiedDate = DateTime.Now;
                     var count = _context.SaveChanges();
 
                     if (count > 0)
@@ -691,7 +552,7 @@ namespace KGERP.Service.Implementation
             billRequisitionMasterModel.DetailList = await Task.Run(() => (from t1 in _context.BillRequisitionDetails.Where(x => x.IsActive && x.BillRequisitionMasterId == billRequisitionMasterId)
                                                                           join t2 in _context.BillRequisitionMasters.Where(x => x.IsActive) on t1.BillRequisitionMasterId equals t2.BillRequisitionMasterId into t2_Join
                                                                           from t2 in t2_Join.DefaultIfEmpty()
-                                                                          join t3 in _context.BillRequisitionItems.Where(x => x.IsActive) on t1.BillRequisitionItemId equals t3.BillRequisitionItemId into t3_Join
+                                                                          join t3 in _context.Products.Where(x => x.IsActive) on t1.ProductId equals t3.ProductId into t3_Join
                                                                           from t3 in t3_Join.DefaultIfEmpty()
                                                                           join t4 in _context.Units.Where(x => x.IsActive) on t1.UnitId equals t4.UnitId into t4_Join
                                                                           from t4 in t4_Join.DefaultIfEmpty()
@@ -700,8 +561,8 @@ namespace KGERP.Service.Implementation
                                                                           {
                                                                               BillRequisitionDetailId = t1.BillRequisitionDetailId,
                                                                               BillRequisitionMasterId = t1.BillRequisitionMasterId,
-                                                                              BillRequisitionItemId = t1.BillRequisitionItemId,
-                                                                              ItemName = t3.Name,
+                                                                              ProductId = t1.ProductId,
+                                                                              ProductName = t3.ProductName,
                                                                               UnitId = t1.UnitId,
                                                                               UnitName = t4.Name,
                                                                               UnitRate = t1.UnitRate,
