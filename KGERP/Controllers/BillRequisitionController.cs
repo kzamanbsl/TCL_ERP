@@ -25,24 +25,27 @@ namespace KGERP.Controllers
     {
         private readonly IBillRequisitionService _service;
         private readonly ConfigurationService _configurationService;
+        private readonly ProductService _ProductService;
 
-        public BillRequisitionController(IBillRequisitionService billRequisitionService)
+        public BillRequisitionController(IBillRequisitionService billRequisitionService, ConfigurationService configurationService, ProductService productService)
         {
             _service = billRequisitionService;
+            _configurationService = configurationService;
+            _ProductService = productService;
         }
 
         #region Others / Common
 
         // Get Unit Info by Id
-        public JsonResult GetUnitNameWithId(int id)
+        public async Task<JsonResult> GetUnitNameWithId(int id)
         {
             var unitName = "";
             var unitId = 0;
 
             if (id > 0)
             {
-                unitId = (int)_service.GetBillRequisitionItemList().FirstOrDefault(c => c.BillRequisitionItemId == id).UnitId;
-                unitName = _service.GetUnitList(21).FirstOrDefault(c => c.ID == unitId).Name;
+                unitId = (int)_ProductService.GetProductJson().FirstOrDefault(c => c.ProductId == id).UnitId;
+                unitName = _configurationService.GetUnitForJson().FirstOrDefault(c=> c.UnitId == unitId).Name;
             }
 
             var result = new { unitId = unitId, unitName = unitName };
@@ -271,9 +274,9 @@ namespace KGERP.Controllers
             billRequisitionMasterModel.ProjectTypeList = new SelectList(_service.GetCostCenterTypeList(), "CostCenterTypeId", "Name");
             billRequisitionMasterModel.ProjectList = new SelectList(_service.GetProjectList(), "CostCenterId", "Name");
             billRequisitionMasterModel.RequisitionTypeList = new SelectList(_service.GetBillRequisitionTypeList(), "BillRequisitionTypeId", "Name");
-            billRequisitionMasterModel.RequisitionItemList = new SelectList(_service.GetBillRequisitionItemList(), "BillRequisitionItemId", "Name");
+            billRequisitionMasterModel.RequisitionItemList = new SelectList(_ProductService.GetProductJson(), "ProductId", "ProductName");
             billRequisitionMasterModel.BOQItemList = new SelectList(_service.GetBillOfQuotationList(), "BoQItemId", "Name");
-            billRequisitionMasterModel.UnitList = new SelectList(_service.GetUnitList(companyId), "UnitId", "Name");
+            billRequisitionMasterModel.UnitList = new SelectList(_configurationService.GetUnitForJson(), "UnitId", "Name");
 
             return View(billRequisitionMasterModel);
 
@@ -426,7 +429,7 @@ namespace KGERP.Controllers
         [HttpPost]
         public async Task<ActionResult> PMBRRejectSlave(BillRequisitionMasterModel BillRequisitionMasterModel)
         {
-            var resutl = await _service.PMBillRequisitionRejected(BillRequisitionMasterModel);
+            var result = await _service.PMBillRequisitionRejected(BillRequisitionMasterModel);
             return RedirectToAction(nameof(PMBRApprovalList), new { companyId = BillRequisitionMasterModel.CompanyFK });
         }
 

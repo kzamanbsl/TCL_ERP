@@ -248,8 +248,8 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Requisition Item/ Material :</label>
-                                            @Html.DropDownListFor(model => model.DetailModel.BillRequisitionItemId, Model.RequisitionItemList as SelectList, "==Select Requisition Material==", new { id = "ddlRequisitionItemId", onchange = "getUnitName()", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
-                                            @Html.ValidationMessageFor(model => model.DetailModel.BillRequisitionItemId, "", new { @class = "text-danger" })
+                                            @Html.DropDownListFor(model => model.DetailModel.ProductId, Model.RequisitionItemList as SelectList, "==Select Material==", new { id = "ddlRequisitionItemId", onchange = "getUnitName()", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.ValidationMessageFor(model => model.DetailModel.ProductId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
 
@@ -375,7 +375,7 @@
 
                                             <tr>
                                                 <td style="padding:5px">@(++sl)</td>
-                                                <td style="padding:5px;text-align:left;">@item.ItemName</td>
+                                                <td style="padding:5px;text-align:left;">@item.ProductName</td>
                                                 <td style="padding: 5px; text-align: left;">@item.UnitName</td>
                                                 <td style="padding:5px;text-align:right;">@String.Format("{0:0.00}", item.EstimatedQty)</td>
                                                 <td style="padding: 5px; text-align: right;">@String.Format("{0:0.00}", item.ReceivedSoFar)</td>

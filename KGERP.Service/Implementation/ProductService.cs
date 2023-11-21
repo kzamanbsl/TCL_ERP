@@ -348,6 +348,14 @@ namespace KGERP.Service.Implementation
             _context.Products.Remove(product);
             return _context.SaveChanges() > 0;
         }
+
+        public List<Product> GetProductJson()
+        {
+            List<Product> productList = _context.Products.Where(c => c.CompanyId == 21 && c.IsActive == true).ToList();
+
+            return productList;
+        }
+
         public async Task<ProductModel> GetProducts(int companyId, string type)
         {
             ProductModel productModel = new ProductModel();

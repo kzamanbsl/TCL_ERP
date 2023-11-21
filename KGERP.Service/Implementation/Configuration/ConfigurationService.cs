@@ -25,7 +25,7 @@ namespace KGERP.Service.Implementation.Configuration
             _db = db;
         }
 
-        //#region User role Menuitem
+        //#region User role MenuItem
         public async Task<VMUserMenuAssignment> UserMenuAssignmentGet(VMUserMenuAssignment vmUserMenuAssignment)
         {
             VMUserMenuAssignment vmMenuAssignment = new VMUserMenuAssignment();
@@ -662,6 +662,15 @@ namespace KGERP.Service.Implementation.Configuration
                                                           }).OrderByDescending(x => x.ID).AsEnumerable());
             return vmCommonUnit;
         }
+
+        public List<Unit> GetUnitForJson()
+        {
+            List<Unit> commonUnits = _db.Units.Where(c => c.CompanyId == 21 && c.IsActive == true).ToList();
+
+            return commonUnits;
+        }
+
+
         public async Task<VMCommonUnit> GetSingleCommonUnit(int id)
         {
 
