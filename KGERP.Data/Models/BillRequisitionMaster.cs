@@ -47,8 +47,8 @@ namespace KGERP.Data.Models
         public virtual BillRequisitionType BillRequisitionType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BillRequisitionVoucherMap> BillRequisitionVoucherMaps { get; set; }
+        public virtual BillBoQItem BillBoQItem { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BillRequisitionApproval> BillRequisitionApprovals { get; set; }
-        public virtual BillBoQItem BillBoQItem { get; set; }
     }
 }
