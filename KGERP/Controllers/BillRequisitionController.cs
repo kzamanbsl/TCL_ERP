@@ -110,6 +110,26 @@ namespace KGERP.Controllers
 
         #endregion
 
+        #region BoQ Requisition Item Map
+
+        [HttpGet]
+        public ActionResult BillRequisitionItemBoQMap(int companyId = 21)
+        {
+            BillRequisitionItemBoQMapModel viewData = new BillRequisitionItemBoQMapModel()
+            {
+                BillBoQItems = _service.GetBillOfQuotationList(),
+            };
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult BillRequisitionItemBoQMap(BillRequisitionItemBoQMapModel model)
+        {
+            return View();
+        }
+        #endregion
+
         #region Bill Requisition Item
 
         public ActionResult BillRequisitionItem(int companyId)
