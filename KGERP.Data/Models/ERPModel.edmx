@@ -3416,7 +3416,6 @@ warning 6002: The table/view 'TCLErp.dbo.TempFeedVoucherDetail' does not have a 
           <Property Name="Name" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="Description" Type="varchar" MaxLength="512" />
           <Property Name="BoQAmount" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="BoQQty" Type="decimal" Precision="18" Scale="0" />
           <Property Name="CostCenterId" Type="int" />
           <Property Name="CompanyId" Type="int" Nullable="false" />
           <Property Name="CreateDate" Type="datetime" Nullable="false" />
@@ -3482,8 +3481,23 @@ warning 6002: The table/view 'TCLErp.dbo.TempFeedVoucherDetail' does not have a 
           <Property Name="ModifiedDate" Type="datetime" />
           <Property Name="ModifiedBy" Type="varchar" MaxLength="255" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
-          <Property Name="BoQItemId" Type="int" />
           <Property Name="UnitId" Type="int" />
+        </EntityType>
+        <EntityType Name="BillRequisitionItemBoQMap">
+          <Key>
+            <PropertyRef Name="BillRequisitionItemBoQMapId" />
+          </Key>
+          <Property Name="BillRequisitionItemBoQMapId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BoQItemId" Type="int" Nullable="false" />
+          <Property Name="BillRequisitionItemId" Type="int" Nullable="false" />
+          <Property Name="EstimatedQty" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="EstimatedAmount" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="CompanyId" Type="int" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="255" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="BillRequisitionMaster">
           <Key>
@@ -6333,18 +6347,6 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_BillRequisitionItem_BillBoQItem">
-          <End Role="BillBoQItem" Type="Self.BillBoQItem" Multiplicity="0..1" />
-          <End Role="BillRequisitionItem" Type="Self.BillRequisitionItem" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BillBoQItem">
-              <PropertyRef Name="BoQItemId" />
-            </Principal>
-            <Dependent Role="BillRequisitionItem">
-              <PropertyRef Name="BoQItemId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_BillRequisitionItem_Unit">
           <End Role="Unit" Type="Self.Unit" Multiplicity="0..1" />
           <End Role="BillRequisitionItem" Type="Self.BillRequisitionItem" Multiplicity="*" />
@@ -6354,6 +6356,42 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             </Principal>
             <Dependent Role="BillRequisitionItem">
               <PropertyRef Name="UnitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BillRequisitionItemBoQMap_BillBoQItem">
+          <End Role="BillBoQItem" Type="Self.BillBoQItem" Multiplicity="1" />
+          <End Role="BillRequisitionItemBoQMap" Type="Self.BillRequisitionItemBoQMap" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BillBoQItem">
+              <PropertyRef Name="BoQItemId" />
+            </Principal>
+            <Dependent Role="BillRequisitionItemBoQMap">
+              <PropertyRef Name="BoQItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BillRequisitionItemBoQMap_BillRequisitionItem">
+          <End Role="BillRequisitionItem" Type="Self.BillRequisitionItem" Multiplicity="1" />
+          <End Role="BillRequisitionItemBoQMap" Type="Self.BillRequisitionItemBoQMap" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BillRequisitionItem">
+              <PropertyRef Name="BillRequisitionItemId" />
+            </Principal>
+            <Dependent Role="BillRequisitionItemBoQMap">
+              <PropertyRef Name="BillRequisitionItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BillRequisitionItemBoQMap_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="1" />
+          <End Role="BillRequisitionItemBoQMap" Type="Self.BillRequisitionItemBoQMap" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="BillRequisitionItemBoQMap">
+              <PropertyRef Name="CompanyId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -8788,6 +8826,7 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <EntitySet Name="BillRequisitionApproval" EntityType="Self.BillRequisitionApproval" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="BillRequisitionDetail" EntityType="Self.BillRequisitionDetail" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="BillRequisitionItem" EntityType="Self.BillRequisitionItem" Schema="Erp" store:Type="Tables" />
+          <EntitySet Name="BillRequisitionItemBoQMap" EntityType="Self.BillRequisitionItemBoQMap" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="BillRequisitionMaster" EntityType="Self.BillRequisitionMaster" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="BillRequisitionType" EntityType="Self.BillRequisitionType" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="BillRequisitionVoucherMap" EntityType="Self.BillRequisitionVoucherMap" Schema="Erp" store:Type="Tables" />
@@ -9626,13 +9665,21 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             <End Role="Company" EntitySet="Company" />
             <End Role="BillRequisitionDetail" EntitySet="BillRequisitionDetail" />
           </AssociationSet>
-          <AssociationSet Name="FK_BillRequisitionItem_BillBoQItem" Association="Self.FK_BillRequisitionItem_BillBoQItem">
-            <End Role="BillBoQItem" EntitySet="BillBoQItem" />
-            <End Role="BillRequisitionItem" EntitySet="BillRequisitionItem" />
-          </AssociationSet>
           <AssociationSet Name="FK_BillRequisitionItem_Unit" Association="Self.FK_BillRequisitionItem_Unit">
             <End Role="Unit" EntitySet="Unit" />
             <End Role="BillRequisitionItem" EntitySet="BillRequisitionItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BillRequisitionItemBoQMap_BillBoQItem" Association="Self.FK_BillRequisitionItemBoQMap_BillBoQItem">
+            <End Role="BillBoQItem" EntitySet="BillBoQItem" />
+            <End Role="BillRequisitionItemBoQMap" EntitySet="BillRequisitionItemBoQMap" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BillRequisitionItemBoQMap_BillRequisitionItem" Association="Self.FK_BillRequisitionItemBoQMap_BillRequisitionItem">
+            <End Role="BillRequisitionItem" EntitySet="BillRequisitionItem" />
+            <End Role="BillRequisitionItemBoQMap" EntitySet="BillRequisitionItemBoQMap" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BillRequisitionItemBoQMap_Company" Association="Self.FK_BillRequisitionItemBoQMap_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="BillRequisitionItemBoQMap" EntitySet="BillRequisitionItemBoQMap" />
           </AssociationSet>
           <AssociationSet Name="FK_BillRequisitionMaster_Accounting_CostCenter" Association="Self.FK_BillRequisitionMaster_Accounting_CostCenter">
             <End Role="Accounting_CostCenter" EntitySet="Accounting_CostCenter" />
@@ -11712,15 +11759,6 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             <End Role="BillRequisitionMaster" EntitySet="BillRequisitionMasters" />
             <End Role="BillRequisitionVoucherMap" EntitySet="BillRequisitionVoucherMaps" />
           </AssociationSet>
-          <EntitySet Name="BillRequisitionItems" EntityType="ERPModel.BillRequisitionItem" />
-          <AssociationSet Name="FK_BillRequisitionDetail_BillRequisitionItem" Association="ERPModel.FK_BillRequisitionDetail_BillRequisitionItem">
-            <End Role="BillRequisitionItem" EntitySet="BillRequisitionItems" />
-            <End Role="BillRequisitionDetail" EntitySet="BillRequisitionDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_BillRequisitionItem_Unit" Association="ERPModel.FK_BillRequisitionItem_Unit">
-            <End Role="Unit" EntitySet="Units" />
-            <End Role="BillRequisitionItem" EntitySet="BillRequisitionItems" />
-          </AssociationSet>
           <EntitySet Name="BillRequisitionApprovals" EntityType="ERPModel.BillRequisitionApproval" />
           <AssociationSet Name="FK_BillRequisitionApproval_Company" Association="ERPModel.FK_BillRequisitionApproval_Company">
             <End Role="Company" EntitySet="Companies" />
@@ -11735,17 +11773,35 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             <End Role="BillRequisitionApproval" EntitySet="BillRequisitionApprovals" />
           </AssociationSet>
           <EntitySet Name="BillBoQItems" EntityType="ERPModel.BillBoQItem" />
+          <EntitySet Name="BillRequisitionItems" EntityType="ERPModel.BillRequisitionItem" />
+          <EntitySet Name="BillRequisitionItemBoQMaps" EntityType="ERPModel.BillRequisitionItemBoQMap" />
           <AssociationSet Name="FK_BillBoQItem_Accounting_CostCenter" Association="ERPModel.FK_BillBoQItem_Accounting_CostCenter">
             <End Role="Accounting_CostCenter" EntitySet="Accounting_CostCenter" />
             <End Role="BillBoQItem" EntitySet="BillBoQItems" />
           </AssociationSet>
-          <AssociationSet Name="FK_BillRequisitionItem_BillBoQItem" Association="ERPModel.FK_BillRequisitionItem_BillBoQItem">
+          <AssociationSet Name="FK_BillRequisitionItemBoQMap_Company" Association="ERPModel.FK_BillRequisitionItemBoQMap_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="BillRequisitionItemBoQMap" EntitySet="BillRequisitionItemBoQMaps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BillRequisitionItemBoQMap_BillBoQItem" Association="ERPModel.FK_BillRequisitionItemBoQMap_BillBoQItem">
             <End Role="BillBoQItem" EntitySet="BillBoQItems" />
-            <End Role="BillRequisitionItem" EntitySet="BillRequisitionItems" />
+            <End Role="BillRequisitionItemBoQMap" EntitySet="BillRequisitionItemBoQMaps" />
           </AssociationSet>
           <AssociationSet Name="FK_BillRequisitionMaster_BillBoQItem" Association="ERPModel.FK_BillRequisitionMaster_BillBoQItem">
             <End Role="BillBoQItem" EntitySet="BillBoQItems" />
             <End Role="BillRequisitionMaster" EntitySet="BillRequisitionMasters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BillRequisitionDetail_BillRequisitionItem" Association="ERPModel.FK_BillRequisitionDetail_BillRequisitionItem">
+            <End Role="BillRequisitionItem" EntitySet="BillRequisitionItems" />
+            <End Role="BillRequisitionDetail" EntitySet="BillRequisitionDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BillRequisitionItem_Unit" Association="ERPModel.FK_BillRequisitionItem_Unit">
+            <End Role="Unit" EntitySet="Units" />
+            <End Role="BillRequisitionItem" EntitySet="BillRequisitionItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BillRequisitionItemBoQMap_BillRequisitionItem" Association="ERPModel.FK_BillRequisitionItemBoQMap_BillRequisitionItem">
+            <End Role="BillRequisitionItem" EntitySet="BillRequisitionItems" />
+            <End Role="BillRequisitionItemBoQMap" EntitySet="BillRequisitionItemBoQMaps" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="AdminPolicy">
@@ -17355,6 +17411,7 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <NavigationProperty Name="BillRequisitionMasters" Relationship="ERPModel.FK_BillRequisitionMaster_Company" FromRole="Company" ToRole="BillRequisitionMaster" />
           <NavigationProperty Name="BillRequisitionVoucherMaps" Relationship="ERPModel.FK_VoucherBillRequisitionMap_Company" FromRole="Company" ToRole="BillRequisitionVoucherMap" />
           <NavigationProperty Name="BillRequisitionApprovals" Relationship="ERPModel.FK_BillRequisitionApproval_Company" FromRole="Company" ToRole="BillRequisitionApproval" />
+          <NavigationProperty Name="BillRequisitionItemBoQMaps" Relationship="ERPModel.FK_BillRequisitionItemBoQMap_Company" FromRole="Company" ToRole="BillRequisitionItemBoQMap" />
         </EntityType>
         <Association Name="FK_Asset_Company">
           <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
@@ -20950,49 +21007,6 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="BillRequisitionItem">
-          <Key>
-            <PropertyRef Name="BillRequisitionItemId" />
-          </Key>
-          <Property Name="BillRequisitionItemId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Description" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
-          <Property Name="CompanyId" Type="Int32" Nullable="false" />
-          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
-          <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <Property Name="BoQItemId" Type="Int32" />
-          <Property Name="UnitId" Type="Int32" />
-          <NavigationProperty Name="BillRequisitionDetails" Relationship="ERPModel.FK_BillRequisitionDetail_BillRequisitionItem" FromRole="BillRequisitionItem" ToRole="BillRequisitionDetail" />
-          <NavigationProperty Name="Unit" Relationship="ERPModel.FK_BillRequisitionItem_Unit" FromRole="BillRequisitionItem" ToRole="Unit" />
-          <NavigationProperty Name="BillBoQItem" Relationship="ERPModel.FK_BillRequisitionItem_BillBoQItem" FromRole="BillRequisitionItem" ToRole="BillBoQItem" />
-        </EntityType>
-        <Association Name="FK_BillRequisitionDetail_BillRequisitionItem">
-          <End Type="ERPModel.BillRequisitionItem" Role="BillRequisitionItem" Multiplicity="1" />
-          <End Type="ERPModel.BillRequisitionDetail" Role="BillRequisitionDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BillRequisitionItem">
-              <PropertyRef Name="BillRequisitionItemId" />
-            </Principal>
-            <Dependent Role="BillRequisitionDetail">
-              <PropertyRef Name="BillRequisitionItemId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_BillRequisitionItem_Unit">
-          <End Type="ERPModel.Unit" Role="Unit" Multiplicity="0..1" />
-          <End Type="ERPModel.BillRequisitionItem" Role="BillRequisitionItem" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Unit">
-              <PropertyRef Name="UnitId" />
-            </Principal>
-            <Dependent Role="BillRequisitionItem">
-              <PropertyRef Name="UnitId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="BillRequisitionApproval">
           <Key>
             <PropertyRef Name="BRApprovalId" />
@@ -21058,7 +21072,6 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Description" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
           <Property Name="BoQAmount" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="BoQQty" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="CostCenterId" Type="Int32" />
           <Property Name="CompanyId" Type="Int32" Nullable="false" />
           <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
@@ -21067,8 +21080,45 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Accounting_CostCenter" Relationship="ERPModel.FK_BillBoQItem_Accounting_CostCenter" FromRole="BillBoQItem" ToRole="Accounting_CostCenter" />
-          <NavigationProperty Name="BillRequisitionItems" Relationship="ERPModel.FK_BillRequisitionItem_BillBoQItem" FromRole="BillBoQItem" ToRole="BillRequisitionItem" />
+          <NavigationProperty Name="BillRequisitionItemBoQMaps" Relationship="ERPModel.FK_BillRequisitionItemBoQMap_BillBoQItem" FromRole="BillBoQItem" ToRole="BillRequisitionItemBoQMap" />
           <NavigationProperty Name="BillRequisitionMasters" Relationship="ERPModel.FK_BillRequisitionMaster_BillBoQItem" FromRole="BillBoQItem" ToRole="BillRequisitionMaster" />
+        </EntityType>
+        <EntityType Name="BillRequisitionItem">
+          <Key>
+            <PropertyRef Name="BillRequisitionItemId" />
+          </Key>
+          <Property Name="BillRequisitionItemId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="UnitId" Type="Int32" />
+          <NavigationProperty Name="BillRequisitionDetails" Relationship="ERPModel.FK_BillRequisitionDetail_BillRequisitionItem" FromRole="BillRequisitionItem" ToRole="BillRequisitionDetail" />
+          <NavigationProperty Name="Unit" Relationship="ERPModel.FK_BillRequisitionItem_Unit" FromRole="BillRequisitionItem" ToRole="Unit" />
+          <NavigationProperty Name="BillRequisitionItemBoQMaps" Relationship="ERPModel.FK_BillRequisitionItemBoQMap_BillRequisitionItem" FromRole="BillRequisitionItem" ToRole="BillRequisitionItemBoQMap" />
+        </EntityType>
+        <EntityType Name="BillRequisitionItemBoQMap">
+          <Key>
+            <PropertyRef Name="BillRequisitionItemBoQMapId" />
+          </Key>
+          <Property Name="BillRequisitionItemBoQMapId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BoQItemId" Type="Int32" Nullable="false" />
+          <Property Name="BillRequisitionItemId" Type="Int32" Nullable="false" />
+          <Property Name="EstimatedQty" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="EstimatedAmount" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Company" Relationship="ERPModel.FK_BillRequisitionItemBoQMap_Company" FromRole="BillRequisitionItemBoQMap" ToRole="Company" />
+          <NavigationProperty Name="BillBoQItem" Relationship="ERPModel.FK_BillRequisitionItemBoQMap_BillBoQItem" FromRole="BillRequisitionItemBoQMap" ToRole="BillBoQItem" />
+          <NavigationProperty Name="BillRequisitionItem" Relationship="ERPModel.FK_BillRequisitionItemBoQMap_BillRequisitionItem" FromRole="BillRequisitionItemBoQMap" ToRole="BillRequisitionItem" />
         </EntityType>
         <Association Name="FK_BillBoQItem_Accounting_CostCenter">
           <End Type="ERPModel.Accounting_CostCenter" Role="Accounting_CostCenter" Multiplicity="0..1" />
@@ -21082,14 +21132,26 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_BillRequisitionItem_BillBoQItem">
-          <End Type="ERPModel.BillBoQItem" Role="BillBoQItem" Multiplicity="0..1" />
-          <End Type="ERPModel.BillRequisitionItem" Role="BillRequisitionItem" Multiplicity="*" />
+        <Association Name="FK_BillRequisitionItemBoQMap_Company">
+          <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
+          <End Type="ERPModel.BillRequisitionItemBoQMap" Role="BillRequisitionItemBoQMap" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="BillRequisitionItemBoQMap">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BillRequisitionItemBoQMap_BillBoQItem">
+          <End Type="ERPModel.BillBoQItem" Role="BillBoQItem" Multiplicity="1" />
+          <End Type="ERPModel.BillRequisitionItemBoQMap" Role="BillRequisitionItemBoQMap" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="BillBoQItem">
               <PropertyRef Name="BoQItemId" />
             </Principal>
-            <Dependent Role="BillRequisitionItem">
+            <Dependent Role="BillRequisitionItemBoQMap">
               <PropertyRef Name="BoQItemId" />
             </Dependent>
           </ReferentialConstraint>
@@ -21103,6 +21165,42 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             </Principal>
             <Dependent Role="BillRequisitionMaster">
               <PropertyRef Name="BOQItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BillRequisitionDetail_BillRequisitionItem">
+          <End Type="ERPModel.BillRequisitionItem" Role="BillRequisitionItem" Multiplicity="1" />
+          <End Type="ERPModel.BillRequisitionDetail" Role="BillRequisitionDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BillRequisitionItem">
+              <PropertyRef Name="BillRequisitionItemId" />
+            </Principal>
+            <Dependent Role="BillRequisitionDetail">
+              <PropertyRef Name="BillRequisitionItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BillRequisitionItem_Unit">
+          <End Type="ERPModel.Unit" Role="Unit" Multiplicity="0..1" />
+          <End Type="ERPModel.BillRequisitionItem" Role="BillRequisitionItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Unit">
+              <PropertyRef Name="UnitId" />
+            </Principal>
+            <Dependent Role="BillRequisitionItem">
+              <PropertyRef Name="UnitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BillRequisitionItemBoQMap_BillRequisitionItem">
+          <End Type="ERPModel.BillRequisitionItem" Role="BillRequisitionItem" Multiplicity="1" />
+          <End Type="ERPModel.BillRequisitionItemBoQMap" Role="BillRequisitionItemBoQMap" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BillRequisitionItem">
+              <PropertyRef Name="BillRequisitionItemId" />
+            </Principal>
+            <Dependent Role="BillRequisitionItemBoQMap">
+              <PropertyRef Name="BillRequisitionItemId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -26847,23 +26945,6 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="BillRequisitionItems">
-            <EntityTypeMapping TypeName="ERPModel.BillRequisitionItem">
-              <MappingFragment StoreEntitySet="BillRequisitionItem">
-                <ScalarProperty Name="UnitId" ColumnName="UnitId" />
-                <ScalarProperty Name="BoQItemId" ColumnName="BoQItemId" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="BillRequisitionItemId" ColumnName="BillRequisitionItemId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="BillRequisitionApprovals">
             <EntityTypeMapping TypeName="ERPModel.BillRequisitionApproval">
               <MappingFragment StoreEntitySet="BillRequisitionApproval">
@@ -26893,11 +26974,43 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
                 <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="CostCenterId" ColumnName="CostCenterId" />
-                <ScalarProperty Name="BoQQty" ColumnName="BoQQty" />
                 <ScalarProperty Name="BoQAmount" ColumnName="BoQAmount" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="BoQItemId" ColumnName="BoQItemId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BillRequisitionItems">
+            <EntityTypeMapping TypeName="ERPModel.BillRequisitionItem">
+              <MappingFragment StoreEntitySet="BillRequisitionItem">
+                <ScalarProperty Name="UnitId" ColumnName="UnitId" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="BillRequisitionItemId" ColumnName="BillRequisitionItemId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BillRequisitionItemBoQMaps">
+            <EntityTypeMapping TypeName="ERPModel.BillRequisitionItemBoQMap">
+              <MappingFragment StoreEntitySet="BillRequisitionItemBoQMap">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="EstimatedAmount" ColumnName="EstimatedAmount" />
+                <ScalarProperty Name="EstimatedQty" ColumnName="EstimatedQty" />
+                <ScalarProperty Name="BillRequisitionItemId" ColumnName="BillRequisitionItemId" />
+                <ScalarProperty Name="BoQItemId" ColumnName="BoQItemId" />
+                <ScalarProperty Name="BillRequisitionItemBoQMapId" ColumnName="BillRequisitionItemBoQMapId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

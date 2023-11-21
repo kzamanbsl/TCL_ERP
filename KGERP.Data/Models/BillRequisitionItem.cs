@@ -18,6 +18,7 @@ namespace KGERP.Data.Models
         public BillRequisitionItem()
         {
             this.BillRequisitionDetails = new HashSet<BillRequisitionDetail>();
+            this.BillRequisitionItemBoQMaps = new HashSet<BillRequisitionItemBoQMap>();
         }
     
         public int BillRequisitionItemId { get; set; }
@@ -29,12 +30,12 @@ namespace KGERP.Data.Models
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public string ModifiedBy { get; set; }
         public bool IsActive { get; set; }
-        public Nullable<int> BoQItemId { get; set; }
         public Nullable<int> UnitId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BillRequisitionDetail> BillRequisitionDetails { get; set; }
         public virtual Unit Unit { get; set; }
-        public virtual BillBoQItem BillBoQItem { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BillRequisitionItemBoQMap> BillRequisitionItemBoQMaps { get; set; }
     }
 }

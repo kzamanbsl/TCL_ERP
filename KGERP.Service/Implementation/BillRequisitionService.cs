@@ -49,7 +49,7 @@ namespace KGERP.Service.Implementation
                     BoQItemId = item.BoQItemId,
                     CostCenterId = item.CostCenterId,
                     Name = item.Name,
-                    BoQQty = item.BoQQty,
+                    //BoQQty = item.BoQQty,
                     BoQAmount = item.BoQAmount,
                     Description = item.Description
                 };
@@ -69,7 +69,7 @@ namespace KGERP.Service.Implementation
                     BoQItemId = item.BoQItemId,
                     CostCenterId = item.CostCenterId,
                     Name = item.Name,
-                    BoQQty = item.BoQQty,
+                    //BoQQty = item.BoQQty,
                     BoQAmount = item.BoQAmount,
                     Description = item.Description
                 };
@@ -88,7 +88,7 @@ namespace KGERP.Service.Implementation
                     {
                         Name = model.Name,
                         CostCenterId = model.CostCenterId,
-                        BoQQty = model.BoQQty,
+                        //BoQQty = model.BoQQty,
                         BoQAmount = model.BoQAmount,
                         Description = model.Description,
                         CompanyId = (int)model.CompanyFK,
@@ -121,7 +121,7 @@ namespace KGERP.Service.Implementation
 
                     findBillRequisitionBoQ.Name = model.Name;
                     findBillRequisitionBoQ.CostCenterId = model.CostCenterId;
-                    findBillRequisitionBoQ.BoQQty = model.BoQQty;
+                    //findBillRequisitionBoQ.BoQQty = model.BoQQty;
                     findBillRequisitionBoQ.BoQAmount = model.BoQAmount;
                     findBillRequisitionBoQ.Description = model.Description;
                     findBillRequisitionBoQ.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
@@ -182,7 +182,7 @@ namespace KGERP.Service.Implementation
                     Name = item.Name,
                     Description = item.Description,
                     UnitId = item.UnitId,
-                    BoQItemId = item.BoQItemId
+                   // BoQItemId = item.BoQItemId
                 };
                 billRequisitionItems.Add(data);
             }
