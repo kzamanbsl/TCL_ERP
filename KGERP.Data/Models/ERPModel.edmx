@@ -3431,7 +3431,7 @@ warning 6002: The table/view 'TCLErp.dbo.TempFeedVoucherDetail' does not have a 
           <Property Name="BRApprovalId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="BillRequisitionMasterId" Type="bigint" Nullable="false" />
           <Property Name="AprrovalStatusId" Type="int" Nullable="false" />
-          <Property Name="EmployeeId" Type="bigint" Nullable="false" />
+          <Property Name="EmployeeId" Type="bigint" />
           <Property Name="SignatoryId" Type="int" Nullable="false" />
           <Property Name="PriorityNo" Type="int" Nullable="false" />
           <Property Name="IsSupremeApproved" Type="bit" Nullable="false" />
@@ -6300,7 +6300,7 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_BillRequisitionApproval_Employee">
-          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
           <End Role="BillRequisitionApproval" Type="Self.BillRequisitionApproval" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Employee">
@@ -11759,19 +11759,6 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             <End Role="BillRequisitionMaster" EntitySet="BillRequisitionMasters" />
             <End Role="BillRequisitionVoucherMap" EntitySet="BillRequisitionVoucherMaps" />
           </AssociationSet>
-          <EntitySet Name="BillRequisitionApprovals" EntityType="ERPModel.BillRequisitionApproval" />
-          <AssociationSet Name="FK_BillRequisitionApproval_Company" Association="ERPModel.FK_BillRequisitionApproval_Company">
-            <End Role="Company" EntitySet="Companies" />
-            <End Role="BillRequisitionApproval" EntitySet="BillRequisitionApprovals" />
-          </AssociationSet>
-          <AssociationSet Name="FK_BillRequisitionApproval_Employee" Association="ERPModel.FK_BillRequisitionApproval_Employee">
-            <End Role="Employee" EntitySet="Employees" />
-            <End Role="BillRequisitionApproval" EntitySet="BillRequisitionApprovals" />
-          </AssociationSet>
-          <AssociationSet Name="FK_BillRequisitionApproval_BillRequisitionMaster" Association="ERPModel.FK_BillRequisitionApproval_BillRequisitionMaster">
-            <End Role="BillRequisitionMaster" EntitySet="BillRequisitionMasters" />
-            <End Role="BillRequisitionApproval" EntitySet="BillRequisitionApprovals" />
-          </AssociationSet>
           <EntitySet Name="BillBoQItems" EntityType="ERPModel.BillBoQItem" />
           <EntitySet Name="BillRequisitionItems" EntityType="ERPModel.BillRequisitionItem" />
           <EntitySet Name="BillRequisitionItemBoQMaps" EntityType="ERPModel.BillRequisitionItemBoQMap" />
@@ -11802,6 +11789,19 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <AssociationSet Name="FK_BillRequisitionItemBoQMap_BillRequisitionItem" Association="ERPModel.FK_BillRequisitionItemBoQMap_BillRequisitionItem">
             <End Role="BillRequisitionItem" EntitySet="BillRequisitionItems" />
             <End Role="BillRequisitionItemBoQMap" EntitySet="BillRequisitionItemBoQMaps" />
+          </AssociationSet>
+          <EntitySet Name="BillRequisitionApprovals" EntityType="ERPModel.BillRequisitionApproval" />
+          <AssociationSet Name="FK_BillRequisitionApproval_Company" Association="ERPModel.FK_BillRequisitionApproval_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="BillRequisitionApproval" EntitySet="BillRequisitionApprovals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BillRequisitionApproval_Employee" Association="ERPModel.FK_BillRequisitionApproval_Employee">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="BillRequisitionApproval" EntitySet="BillRequisitionApprovals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BillRequisitionApproval_BillRequisitionMaster" Association="ERPModel.FK_BillRequisitionApproval_BillRequisitionMaster">
+            <End Role="BillRequisitionMaster" EntitySet="BillRequisitionMasters" />
+            <End Role="BillRequisitionApproval" EntitySet="BillRequisitionApprovals" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="AdminPolicy">
@@ -17410,8 +17410,8 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <NavigationProperty Name="BillRequisitionDetails" Relationship="ERPModel.FK_BillRequisitionDetail_Company" FromRole="Company" ToRole="BillRequisitionDetail" />
           <NavigationProperty Name="BillRequisitionMasters" Relationship="ERPModel.FK_BillRequisitionMaster_Company" FromRole="Company" ToRole="BillRequisitionMaster" />
           <NavigationProperty Name="BillRequisitionVoucherMaps" Relationship="ERPModel.FK_VoucherBillRequisitionMap_Company" FromRole="Company" ToRole="BillRequisitionVoucherMap" />
-          <NavigationProperty Name="BillRequisitionApprovals" Relationship="ERPModel.FK_BillRequisitionApproval_Company" FromRole="Company" ToRole="BillRequisitionApproval" />
           <NavigationProperty Name="BillRequisitionItemBoQMaps" Relationship="ERPModel.FK_BillRequisitionItemBoQMap_Company" FromRole="Company" ToRole="BillRequisitionItemBoQMap" />
+          <NavigationProperty Name="BillRequisitionApprovals" Relationship="ERPModel.FK_BillRequisitionApproval_Company" FromRole="Company" ToRole="BillRequisitionApproval" />
         </EntityType>
         <Association Name="FK_Asset_Company">
           <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
@@ -20879,8 +20879,8 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <NavigationProperty Name="BillRequisitionDetails" Relationship="ERPModel.FK_BillRequisitionDetail_BillRequisitionMaster" FromRole="BillRequisitionMaster" ToRole="BillRequisitionDetail" />
           <NavigationProperty Name="BillRequisitionType" Relationship="ERPModel.FK_BillRequisitionMaster_BillRequisitionType" FromRole="BillRequisitionMaster" ToRole="BillRequisitionType" />
           <NavigationProperty Name="BillRequisitionVoucherMaps" Relationship="ERPModel.FK_VoucherBillRequisitionMap_BillRequisitionMaster" FromRole="BillRequisitionMaster" ToRole="BillRequisitionVoucherMap" />
-          <NavigationProperty Name="BillRequisitionApprovals" Relationship="ERPModel.FK_BillRequisitionApproval_BillRequisitionMaster" FromRole="BillRequisitionMaster" ToRole="BillRequisitionApproval" />
           <NavigationProperty Name="BillBoQItem" Relationship="ERPModel.FK_BillRequisitionMaster_BillBoQItem" FromRole="BillRequisitionMaster" ToRole="BillBoQItem" />
+          <NavigationProperty Name="BillRequisitionApprovals" Relationship="ERPModel.FK_BillRequisitionApproval_BillRequisitionMaster" FromRole="BillRequisitionMaster" ToRole="BillRequisitionApproval" />
         </EntityType>
         <EntityType Name="BillRequisitionVoucherMap">
           <Key>
@@ -21003,63 +21003,6 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
               <PropertyRef Name="BillRequisitionMasterId" />
             </Principal>
             <Dependent Role="BillRequisitionVoucherMap">
-              <PropertyRef Name="BillRequisitionMasterId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="BillRequisitionApproval">
-          <Key>
-            <PropertyRef Name="BRApprovalId" />
-          </Key>
-          <Property Name="BRApprovalId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="BillRequisitionMasterId" Type="Int64" Nullable="false" />
-          <Property Name="AprrovalStatusId" Type="Int32" Nullable="false" />
-          <Property Name="EmployeeId" Type="Int64" Nullable="false" />
-          <Property Name="SignatoryId" Type="Int32" Nullable="false" />
-          <Property Name="PriorityNo" Type="Int32" Nullable="false" />
-          <Property Name="IsSupremeApproved" Type="Boolean" Nullable="false" />
-          <Property Name="CompanyId" Type="Int32" Nullable="false" />
-          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
-          <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Company" Relationship="ERPModel.FK_BillRequisitionApproval_Company" FromRole="BillRequisitionApproval" ToRole="Company" />
-          <NavigationProperty Name="Employee" Relationship="ERPModel.FK_BillRequisitionApproval_Employee" FromRole="BillRequisitionApproval" ToRole="Employee" />
-          <NavigationProperty Name="BillRequisitionMaster" Relationship="ERPModel.FK_BillRequisitionApproval_BillRequisitionMaster" FromRole="BillRequisitionApproval" ToRole="BillRequisitionMaster" />
-        </EntityType>
-        <Association Name="FK_BillRequisitionApproval_Company">
-          <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
-          <End Type="ERPModel.BillRequisitionApproval" Role="BillRequisitionApproval" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Company">
-              <PropertyRef Name="CompanyId" />
-            </Principal>
-            <Dependent Role="BillRequisitionApproval">
-              <PropertyRef Name="CompanyId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_BillRequisitionApproval_Employee">
-          <End Type="ERPModel.Employee" Role="Employee" Multiplicity="1" />
-          <End Type="ERPModel.BillRequisitionApproval" Role="BillRequisitionApproval" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Employee">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="BillRequisitionApproval">
-              <PropertyRef Name="EmployeeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_BillRequisitionApproval_BillRequisitionMaster">
-          <End Type="ERPModel.BillRequisitionMaster" Role="BillRequisitionMaster" Multiplicity="1" />
-          <End Type="ERPModel.BillRequisitionApproval" Role="BillRequisitionApproval" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BillRequisitionMaster">
-              <PropertyRef Name="BillRequisitionMasterId" />
-            </Principal>
-            <Dependent Role="BillRequisitionApproval">
               <PropertyRef Name="BillRequisitionMasterId" />
             </Dependent>
           </ReferentialConstraint>
@@ -21201,6 +21144,63 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             </Principal>
             <Dependent Role="BillRequisitionItemBoQMap">
               <PropertyRef Name="BillRequisitionItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="BillRequisitionApproval">
+          <Key>
+            <PropertyRef Name="BRApprovalId" />
+          </Key>
+          <Property Name="BRApprovalId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BillRequisitionMasterId" Type="Int64" Nullable="false" />
+          <Property Name="AprrovalStatusId" Type="Int32" Nullable="false" />
+          <Property Name="EmployeeId" Type="Int64" />
+          <Property Name="SignatoryId" Type="Int32" Nullable="false" />
+          <Property Name="PriorityNo" Type="Int32" Nullable="false" />
+          <Property Name="IsSupremeApproved" Type="Boolean" Nullable="false" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Company" Relationship="ERPModel.FK_BillRequisitionApproval_Company" FromRole="BillRequisitionApproval" ToRole="Company" />
+          <NavigationProperty Name="Employee" Relationship="ERPModel.FK_BillRequisitionApproval_Employee" FromRole="BillRequisitionApproval" ToRole="Employee" />
+          <NavigationProperty Name="BillRequisitionMaster" Relationship="ERPModel.FK_BillRequisitionApproval_BillRequisitionMaster" FromRole="BillRequisitionApproval" ToRole="BillRequisitionMaster" />
+        </EntityType>
+        <Association Name="FK_BillRequisitionApproval_Company">
+          <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
+          <End Type="ERPModel.BillRequisitionApproval" Role="BillRequisitionApproval" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="BillRequisitionApproval">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BillRequisitionApproval_Employee">
+          <End Type="ERPModel.Employee" Role="Employee" Multiplicity="0..1" />
+          <End Type="ERPModel.BillRequisitionApproval" Role="BillRequisitionApproval" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BillRequisitionApproval">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BillRequisitionApproval_BillRequisitionMaster">
+          <End Type="ERPModel.BillRequisitionMaster" Role="BillRequisitionMaster" Multiplicity="1" />
+          <End Type="ERPModel.BillRequisitionApproval" Role="BillRequisitionApproval" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BillRequisitionMaster">
+              <PropertyRef Name="BillRequisitionMasterId" />
+            </Principal>
+            <Dependent Role="BillRequisitionApproval">
+              <PropertyRef Name="BillRequisitionMasterId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -26945,25 +26945,6 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="BillRequisitionApprovals">
-            <EntityTypeMapping TypeName="ERPModel.BillRequisitionApproval">
-              <MappingFragment StoreEntitySet="BillRequisitionApproval">
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
-                <ScalarProperty Name="IsSupremeApproved" ColumnName="IsSupremeApproved" />
-                <ScalarProperty Name="PriorityNo" ColumnName="PriorityNo" />
-                <ScalarProperty Name="SignatoryId" ColumnName="SignatoryId" />
-                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
-                <ScalarProperty Name="AprrovalStatusId" ColumnName="AprrovalStatusId" />
-                <ScalarProperty Name="BillRequisitionMasterId" ColumnName="BillRequisitionMasterId" />
-                <ScalarProperty Name="BRApprovalId" ColumnName="BRApprovalId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="BillBoQItems">
             <EntityTypeMapping TypeName="ERPModel.BillBoQItem">
               <MappingFragment StoreEntitySet="BillBoQItem">
@@ -27011,6 +26992,25 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
                 <ScalarProperty Name="BillRequisitionItemId" ColumnName="BillRequisitionItemId" />
                 <ScalarProperty Name="BoQItemId" ColumnName="BoQItemId" />
                 <ScalarProperty Name="BillRequisitionItemBoQMapId" ColumnName="BillRequisitionItemBoQMapId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BillRequisitionApprovals">
+            <EntityTypeMapping TypeName="ERPModel.BillRequisitionApproval">
+              <MappingFragment StoreEntitySet="BillRequisitionApproval">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="IsSupremeApproved" ColumnName="IsSupremeApproved" />
+                <ScalarProperty Name="PriorityNo" ColumnName="PriorityNo" />
+                <ScalarProperty Name="SignatoryId" ColumnName="SignatoryId" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="AprrovalStatusId" ColumnName="AprrovalStatusId" />
+                <ScalarProperty Name="BillRequisitionMasterId" ColumnName="BillRequisitionMasterId" />
+                <ScalarProperty Name="BRApprovalId" ColumnName="BRApprovalId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

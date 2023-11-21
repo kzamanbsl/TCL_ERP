@@ -687,6 +687,7 @@ namespace KGERP.Service.Implementation
                                                                    CreatedBy = t1.CreatedBy,
 
                                                                }).FirstOrDefault());
+
             billRequisitionMasterModel.DetailList = await Task.Run(() => (from t1 in _context.BillRequisitionDetails.Where(x => x.IsActive && x.BillRequisitionMasterId == billRequisitionMasterId)
                                                                           join t2 in _context.BillRequisitionMasters.Where(x => x.IsActive) on t1.BillRequisitionMasterId equals t2.BillRequisitionMasterId into t2_Join
                                                                           from t2 in t2_Join.DefaultIfEmpty()
@@ -704,7 +705,7 @@ namespace KGERP.Service.Implementation
                                                                               UnitId = t1.UnitId,
                                                                               UnitName = t4.Name,
                                                                               UnitRate = t1.UnitRate,
-                                                                              TotalPrice = t1.TotalPrice,
+                                                                              TotalPrice = t1.UnitRate * t1.DemandQty,
                                                                               DemandQty = t1.DemandQty,
                                                                               ReceivedSoFar = t1.ReceivedSoFar,
                                                                               RemainingQty = t1.RemainingQty,
@@ -712,6 +713,7 @@ namespace KGERP.Service.Implementation
                                                                               Remarks = t1.Remarks,
                                                                           }).OrderByDescending(x => x.BillRequisitionDetailId).AsEnumerable());
 
+            billRequisitionMasterModel.TotalAmount = billRequisitionMasterModel.DetailList.Select(x => x.TotalPrice).Sum();
 
             return billRequisitionMasterModel;
         }
@@ -897,12 +899,13 @@ namespace KGERP.Service.Implementation
                     BillRequisitionApproval billRequisitionApproval = new BillRequisitionApproval();
                     billRequisitionApproval.BillRequisitionMasterId = billRequisitionMaster.BillRequisitionMasterId;
                     billRequisitionApproval.CompanyId = billRequisitionMaster.CompanyId;
-                    billRequisitionApproval.EmployeeId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
+                   
 
                     billRequisitionApproval.SignatoryId = Convert.ToInt16(item.Value);
 
                     if (billRequisitionApproval.SignatoryId == 1)
                     {
+                        billRequisitionApproval.EmployeeId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
                         billRequisitionApproval.AprrovalStatusId = (int)EnumBillRequisitionStatus.Approved;
                     }
                     else

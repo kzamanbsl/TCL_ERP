@@ -544,10 +544,6 @@
         <AssociationConnector Association="ERPModel.FK_BillRequisitionDetail_BillRequisitionMaster" />
         <AssociationConnector Association="ERPModel.FK_BillRequisitionMaster_BillRequisitionType" />
         <AssociationConnector Association="ERPModel.FK_VoucherBillRequisitionMap_BillRequisitionMaster" />
-        <EntityTypeShape EntityType="ERPModel.BillRequisitionApproval" Width="1.5" PointX="54.125" PointY="43.5" />
-        <AssociationConnector Association="ERPModel.FK_BillRequisitionApproval_Company" />
-        <AssociationConnector Association="ERPModel.FK_BillRequisitionApproval_Employee" />
-        <AssociationConnector Association="ERPModel.FK_BillRequisitionApproval_BillRequisitionMaster" />
         <EntityTypeShape EntityType="ERPModel.BillBoQItem" Width="1.5" PointX="5.625" PointY="65.25" />
         <EntityTypeShape EntityType="ERPModel.BillRequisitionItem" Width="1.5" PointX="30.625" PointY="69.625" />
         <EntityTypeShape EntityType="ERPModel.BillRequisitionItemBoQMap" Width="1.5" PointX="7.875" PointY="54.625" />
@@ -558,6 +554,10 @@
         <AssociationConnector Association="ERPModel.FK_BillRequisitionDetail_BillRequisitionItem" />
         <AssociationConnector Association="ERPModel.FK_BillRequisitionItem_Unit" />
         <AssociationConnector Association="ERPModel.FK_BillRequisitionItemBoQMap_BillRequisitionItem" />
+        <EntityTypeShape EntityType="ERPModel.BillRequisitionApproval" Width="1.5" PointX="54.125" PointY="43.5" />
+        <AssociationConnector Association="ERPModel.FK_BillRequisitionApproval_Company" />
+        <AssociationConnector Association="ERPModel.FK_BillRequisitionApproval_Employee" />
+        <AssociationConnector Association="ERPModel.FK_BillRequisitionApproval_BillRequisitionMaster" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

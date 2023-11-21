@@ -31,6 +31,12 @@ namespace KGERP.Service.ServiceModel
         public string StrToDate { get; set; }
         public long EmployeeId { get; set; }
         public string EmployeeStringId { get; set; }
+        public bool IsPMApproved { get; set; }
+        public bool IsQSApproved { get; set; }
+        public bool IsDirectorApproved { get; set; }
+        public bool IsMDApproved { get; set; }
+
+
         public EnumBillRequisitionStatus StatusId { get; set; }
 
         public string StatusName { get { return BaseFunctionalities.GetEnumDescription(this.StatusId); } }
