@@ -60,8 +60,8 @@ namespace KGERP.Service.ServiceModel
     {
         public long BillRequisitionDetailId { get; set; }
         public long BillRequisitionMasterId { get; set; }
-        public int BillRequisitionItemId { get; set; }
-        public string ItemName { get; set; }
+        public int ProductId { get; set; }
+        public string ProductName { get; set; }
         public int UnitId { get; set; }
         public string UnitName { get; set; }
         public decimal EstimatedQty { get; set; }

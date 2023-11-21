@@ -805,7 +805,7 @@ namespace KGERP.Service.Implementation
                 {
                     BillRequisitionMasterId = model.BillRequisitionMasterId,
                     BillRequisitionDetailId = model.DetailModel.BillRequisitionDetailId,
-                    BillRequisitionItemId = model.DetailModel.BillRequisitionItemId,
+                    ProductId = model.DetailModel.ProductId,
                     UnitRate = model.DetailModel.UnitRate,
                     DemandQty = model.DetailModel.DemandQty,
                     UnitId = model.DetailModel.UnitId,
@@ -847,7 +847,7 @@ namespace KGERP.Service.Implementation
 
             demageDetail.BillRequisitionMasterId = model.BillRequisitionMasterId;
             demageDetail.BillRequisitionDetailId = model.DetailModel.BillRequisitionDetailId;
-            demageDetail.BillRequisitionItemId = model.DetailModel.BillRequisitionItemId;
+            demageDetail.ProductId = model.DetailModel.ProductId;
             demageDetail.UnitRate = model.DetailModel.UnitRate;
             demageDetail.DemandQty = model.DetailModel.DemandQty;
             demageDetail.EstimatedQty = model.DetailModel.EstimatedQty;
@@ -1030,15 +1030,15 @@ namespace KGERP.Service.Implementation
             var v = await Task.Run(() => (from t1 in _context.BillRequisitionDetails.Where(x => x.IsActive && x.BillRequisitionDetailId == id)
                                           join t2 in _context.BillRequisitionMasters.Where(x => x.IsActive) on t1.BillRequisitionMasterId equals t2.BillRequisitionMasterId into t2_Join
                                           from t2 in t2_Join.DefaultIfEmpty()
-                                          join t3 in _context.BillRequisitionItems.Where(x => x.IsActive) on t1.BillRequisitionItemId equals t3.BillRequisitionItemId into t3_Join
+                                          join t3 in _context.Products.Where(x => x.IsActive) on t1.ProductId equals t3.ProductId into t3_Join
                                           from t3 in t3_Join.DefaultIfEmpty()
 
                                           select new BillRequisitionDetailModel
                                           {
                                               BillRequisitionDetailId = t1.BillRequisitionDetailId,
                                               BillRequisitionMasterId = t1.BillRequisitionMasterId,
-                                              BillRequisitionItemId = t1.BillRequisitionItemId,
-                                              ItemName = t3.Name,
+                                              ProductId = t1.ProductId,
+                                              ProductName = t3.ProductName,
                                               UnitId = t1.UnitId,
                                               DemandQty = t1.DemandQty,
                                               EstimatedQty = t1.EstimatedQty,
