@@ -1047,7 +1047,7 @@ namespace KGERP.Service.Implementation
         {
             long result = -1;
             if (billRequisitionMasterModel.BillRequisitionMasterId <= 0) throw new Exception("Sorry! BillRequisition not found to Receive!");
-            if (billRequisitionMasterModel.DetailDataList.Count() <= 0) throw new Exception("Sorry! BillRequisition  Detail not found to Receive!");
+            //if (billRequisitionMasterModel.DetailDataList.Count() <= 0) throw new Exception("Sorry! BillRequisition  Detail not found to Receive!");
 
             var userName = System.Web.HttpContext.Current.User.Identity.Name;
 
