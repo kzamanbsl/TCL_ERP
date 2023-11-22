@@ -197,20 +197,40 @@
             var getProjectId = $("#ddlCostCenterTypeId option:selected");
             var showprojectList = $("#ddlCostCenterId");
 
-            console.log("Selected Project ID:", getProjectId.val());
-
             $.ajax({
                 type: "GET",
                 url: "/BillRequisition/GetProjectList",
                 dataType: "json",
                 data: { id: getProjectId.val() },
                 success: function (data) {
-
                     showprojectList.empty();
-
                     $.each(data, function (index, item) {
                         showprojectList.append($('<option>', {
                             value: item.CostCenterId,
+                            text: item.Name
+                        }));
+                    });
+                },
+                error: function (error) {
+                    console.error("Error in AJAX request:", error);
+                }
+            });
+        }
+
+        function getBoQList() {
+            var getProjectId = $("#ddlCostCenterId option:selected");
+            var showBoQList = $("#ddlBoQId");
+
+            $.ajax({
+                type: "GET",
+                url: "/BillRequisition/GetBoQList",
+                dataType: "json",
+                data: { id: getProjectId.val() },
+                success: function (data) {
+                    showBoQList.empty();
+                    $.each(data, function (index, item) {
+                        showBoQList.append($('<option>', {
+                            value: item.BoQItemId,
                             text: item.Name
                         }));
                     });
