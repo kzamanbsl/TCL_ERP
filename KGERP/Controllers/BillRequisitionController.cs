@@ -123,7 +123,8 @@ namespace KGERP.Controllers
                 Products = _ProductService.GetProductJson(),
                 ProjectTypes = _service.GetCostCenterTypeList(),
                 BillBoQItems = _service.GetBillOfQuotationList(),
-                Projects = _service.GetProjectList()
+                Projects = _service.GetProjectList(),
+                BoQItemProductMaps = _service.GetBoQProductMapList()
             };
 
             return View(viewData);
@@ -132,7 +133,26 @@ namespace KGERP.Controllers
         [HttpPost]
         public ActionResult BillRequisitionItemBoQMap(BillRequisitionItemBoQMapModel model)
         {
-            return View();
+            if (model.ActionEum == ActionEnum.Add)
+            {
+                //Add 
+                _service.Add(model);
+            }
+            else if (model.ActionEum == ActionEnum.Edit)
+            {
+                //Edit
+                //_service.Edit(model);
+            }
+            else if (model.ActionEum == ActionEnum.Delete)
+            {
+                //Delete
+                //_service.Delete(model);
+            }
+            else
+            {
+                return View("Error");
+            }
+            return RedirectToAction(nameof(BillRequisitionItemBoQMap), new { companyId = model.CompanyFK });
         }
         #endregion
 
