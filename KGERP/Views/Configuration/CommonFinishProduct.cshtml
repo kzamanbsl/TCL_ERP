@@ -2,7 +2,7 @@
 
 @{
 
-    ViewData["Title"] = "Finish Product";
+    ViewData["Title"] = "Requisition Item";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
 
@@ -16,11 +16,11 @@
 </style>
 <section class="content-header">
     <h1>
-        Finish Product
+        Requisition Item
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">Finish Product</li>
+        <li class="active">Requisition Item</li>
     </ol>
 </section>
 <section class="content">
@@ -41,97 +41,131 @@
                             @Html.HiddenFor(model => model.ActionId, new { id = "ActionId" })
                             @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
 
+                            <input type="hidden" id="txtCategoryName" name="CategoryName" value="Requisition Item" />
+                            <input type="hidden" id="ddlCommonProductCategoryFk" name="Common_ProductCategoryFk" value="265" />
+                            <input type="hidden" id="ddlCommonProductSubCategoryFk" name="Common_ProductSubCategoryFk" value="1242" />
+                            <input type="hidden" id="txtMRPPrice" name="MRPPrice" value="0.0" />
+                            <input type="hidden" id="txtTPPrice" name="TPPrice" value="0.0" />
+
                             <div class="row">
 
-
-                                <div class="col-md-4">
-                                    <div class="form-group" style="padding:0px">
-                                        <label for="message-text" class="col-form-label">Category:</label>
-                                        @Html.EditorFor(model => model.CategoryName, new { htmlAttributes = new { @autocomplete = "on", @class = "form-control", @name = "Brand", @id = "txtCategoryName" } })
-
-                                        @Html.HiddenFor(model => model.Common_ProductCategoryFk, new { id = "ddlCommonProductCategoryFk" })
-                                        @Html.ValidationMessageFor(model => model.Common_ProductCategoryFk, "", new { @class = "text-danger" })
+                                <div class="col-md-6">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="message-text" class="col-form-label">Item/Material Name :</label>
+                                            @Html.TextBoxFor(model => model.Name, new { id = "txtProductName", @class = "form-control", @placeholder = "Product Name", required = "required" })
+                                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                        </div>
                                     </div>
 
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        @if (Model.CompanyFK == 24)
-                                        {
-                                            <label for="message-text" class="col-form-label">Product:</label>
-
-                                        }
-                                        else
-                                        {
-                                            <label for="message-text" class="col-form-label">Subcategory:</label>
-
-                                        }
-
-                                        @Html.DropDownListFor(model => model.Common_ProductSubCategoryFk, Model.ProductSubCategoryList as SelectList, "---Select Subcategory---", new { id = "ddlCommonProductSubCategoryFk", @class = "form-control", required = "required" })
-                                        @Html.ValidationMessageFor(model => model.Common_ProductSubCategoryFk, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        @if (Model.CompanyFK == 24)
-                                        {
-                                            <label for="message-text" class="col-form-label">Pack Size:</label>
-
-                                        }
-                                        else
-                                        {
-                                            <label for="message-text" class="col-form-label">Product Name (Size & Style):</label>
-
-                                        }
-
-                                        @Html.TextBoxFor(model => model.Name, new { id = "txtProductName", @class = "form-control", @placeholder = "Product Name", required = "required" })
-                                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="message-text" class="col-form-label">Select Unit:</label>
+                                            @Html.DropDownListFor(model => model.Common_UnitFk, Model.UnitList as SelectList, "---Select Unit---", new { id = "ddlCommonUnitFk", @class = "form-control", required = "required" })
+                                            @Html.ValidationMessageFor(model => model.Common_UnitFk, "", new { @class = "text-danger" })
+                                        </div>
                                     </div>
                                 </div>
 
-                            </div>
-                            <div class="row">
-
-                                <div class="col-md-4">
+                                <div class="col-md-6" style="margin-top: 25px !important">
                                     <div class="form-group">
-                                        <label for="message-text" class="col-form-label">Unit:</label>
-                                        @Html.DropDownListFor(model => model.Common_UnitFk, Model.UnitList as SelectList, "---Select Unit---", new { id = "ddlCommonUnitFk", @class = "form-control", required = "required" })
-                                        @Html.ValidationMessageFor(model => model.Common_UnitFk, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="message-text" class="col-form-label">MRP:</label>
-                                        @Html.TextBoxFor(model => model.MRPPrice, new { id = "txtMRPPrice", @class = "form-control", @placeholder = "MRP", required = "required" })
-
-                                        @Html.ValidationMessageFor(model => model.MRPPrice, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="message-text" class="col-form-label">Wholesale Price:</label>
-                                        @Html.TextBoxFor(model => model.TPPrice, new { id = "txtTPPrice", @class = "form-control", @placeholder = "TP", required = "required" })
-
-                                        @Html.ValidationMessageFor(model => model.TPPrice, "", new { @class = "text-danger" })
+                                        <div class="col-md-6">
+                                            <button type="button" onclick="resetForm()" class="btn btn-secondary btn-block" data-dismiss="modal">Reset</button>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <button type="submit" id="btnSave" class="btn btn-primary btn-block"><i class='fa fa-plus'></i> Add</button>
+                                        </div>
                                     </div>
                                 </div>
 
                             </div>
 
-                            <div class="form-group">
-                                <div class="col-md-3">
-                                    @*<button type="button" onclick="resetForm()" class="btn btn-secondary" data-dismiss="modal">Reset</button>*@
-                                </div>
-                                <div class="col-md-9">
-                                    <button type="submit" id="btnSave" class="btn btn-primary btn-block"><i class='fa fa-plus'></i> Add</button>
+                            @*<div class="row">
 
-                                </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group" style="padding:0px">
+                                            <label for="message-text" class="col-form-label">Category:</label>
+                                            @Html.EditorFor(model => model.CategoryName, new { htmlAttributes = new { @autocomplete = "on", @class = "form-control", @name = "Brand", @id = "txtCategoryName" } })
 
-                            </div>
+                                            @Html.HiddenFor(model => model.Common_ProductCategoryFk, new { id = "ddlCommonProductCategoryFk" })
+                                            @Html.ValidationMessageFor(model => model.Common_ProductCategoryFk, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            @if (Model.CompanyFK == 24)
+                                            {
+                                                <label for="message-text" class="col-form-label">Product:</label>
+
+                                            }
+                                            else
+                                            {
+                                                <label for="message-text" class="col-form-label">Subcategory:</label>
+
+                                            }
+
+                                            @Html.DropDownListFor(model => model.Common_ProductSubCategoryFk, Model.ProductSubCategoryList as SelectList, "---Select Subcategory---", new { id = "ddlCommonProductSubCategoryFk", @class = "form-control", required = "required" })
+                                            @Html.ValidationMessageFor(model => model.Common_ProductSubCategoryFk, "", new { @class = "text-danger" })
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            @if (Model.CompanyFK == 24)
+                                            {
+                                                <label for="message-text" class="col-form-label">Pack Size:</label>
+
+                                            }
+                                            else
+                                            {
+                                                <label for="message-text" class="col-form-label">Item/Material Name :</label>
+
+                                            }
+
+
+                                            @Html.TextBoxFor(model => model.Name, new { id = "txtProductName", @class = "form-control", @placeholder = "Product Name", required = "required" })
+                                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                </div>*@
+
+                            @*<div class="row">
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="message-text" class="col-form-label">Unit:</label>
+                                            @Html.DropDownListFor(model => model.Common_UnitFk, Model.UnitList as SelectList, "---Select Unit---", new { id = "ddlCommonUnitFk", @class = "form-control", required = "required" })
+                                            @Html.ValidationMessageFor(model => model.Common_UnitFk, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="message-text" class="col-form-label">MRP:</label>
+                                            @Html.TextBoxFor(model => model.MRPPrice, new { id = "txtMRPPrice", @class = "form-control", @placeholder = "MRP", required = "required" })
+
+                                            @Html.ValidationMessageFor(model => model.MRPPrice, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="message-text" class="col-form-label">Wholesale Price:</label>
+                                            @Html.TextBoxFor(model => model.TPPrice, new { id = "txtTPPrice", @class = "form-control", @placeholder = "TP", required = "required" })
+
+                                            @Html.ValidationMessageFor(model => model.TPPrice, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                </div>*@
+
                         </div>
-                        <div class="box-footer">
-                        </div>
+
+                        <div class="box-footer"></div>
+
                         <div class="box">
                             <div class="box-danger">
                                 <div class="box-header">
@@ -143,100 +177,92 @@
                                             <thead>
                                                 <tr>
                                                     <th>SL</th>
-                                                    <th>
-                                                        Category
-                                                    </th>
-                                                    <th>
-                                                        @if (Model.CompanyFK == 24)
-                                                        {
-                                                            <label for="message-text" class="col-form-label">Product:</label>
+                                                    @*<th>
+                                                            Category
+                                                        </th>
 
-                                                        }
-                                                        else
-                                                        {
-                                                            <label for="message-text" class="col-form-label">Subcategory:</label>
+                                                        <th>
 
-                                                        }
-                                                        
-                                                    </th>
-                                                    <th>
+                                                            @if (Model.CompanyFK == 24)
+                                                            {
+                                                                <label for="message-text" class="col-form-label">Pack Size:</label>
+                                                            }
+                                                            else
+                                                            {
+                                                                <label for="message-text" class="col-form-label">Product Name (Size & Style):</label>
+                                                            }
 
-                                                        @if (Model.CompanyFK == 24)
-                                                        {
-                                                            <label for="message-text" class="col-form-label">Pack Size:</label>
-                                                        }
-                                                        else
-                                                        {
-                                                            <label for="message-text" class="col-form-label">Product Name (Size & Style):</label>
-                                                        }
-                                                        
-                                                    </th>
-                                                    <th>
-                                                        Unit
-                                                    </th>
+                                                        </th>
+                                                        <th>
+                                                            Unit
+                                                        </th>
 
 
-                                                    <th style="text-align:right;">
-                                                        MRP
-                                                    </th>
-                                                    <th style="text-align:right;">
-                                                        TP
-                                                    </th>
-                                                    @*<th style="text-align:right;">Costing Price</th>
-        <th style="text-align:right;">GP %</th>
-        <th style="text-align:right;">VAT %</th>*@
+                                                        <th style="text-align:right;">
+                                                            MRP
+                                                        </th>
+                                                        <th style="text-align:right;">
+                                                            TP
+                                                        </th>
+                                                        <th style="text-align:right;">Costing Price</th>
+                                                        <th style="text-align:right;">GP %</th>
+                                                        <th style="text-align:right;">VAT %</th>
+
+                                                        <th>Action</th>*@
+
+                                                    <th>Item/Material Name</th>
+
+                                                    <th>Unit Name</th>
 
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
-                                            @{int sl = 0;
-                                            }
+                                            @{int sl = 0;}
                                             <tbody>
                                                 @if (Model.DataList != null)
                                                 {
                                                     foreach (var item in Model.DataList)
                                                     {
 
-                                                <tr>
-                                                    <td>@(++sl)</td>
-                                                    <td>
-                                                        @item.CategoryName
-                                                    </td>
-                                                    <td>
-                                                        @item.SubCategoryName
-                                                    </td>
-                                                    <td>
-                                                        @item.Name
-                                                    </td>
-                                                    <td>
-                                                        @item.UnitName
-                                                    </td>
+                                                        <tr>
+                                                            <td>@(++sl)</td>
+                                                            @*<td>
+                                                                @item.CategoryName
+                                                            </td>
+                                                            <td>
+                                                                @item.SubCategoryName
+                                                            </td>*@
+                                                            <td>
+                                                                @item.Name
+                                                            </td>
+                                                            <td>
+                                                                @item.UnitName
+                                                            </td>
 
 
-                                                    <td style="text-align:right;">
-                                                        @String.Format("{0:0.00}", item.MRPPrice)
-                                                    </td>
-                                                    <td style="text-align:right;">
-                                                        @String.Format("{0:0.00}", item.TPPrice)
-                                                    </td>
-                                                    @*<td style="text-align:right;">@item.CostingPrice</td>
-        <td style="text-align:right;">
-            @String.Format("{0:0.00}", item.GPParcentage)%
-        </td>
+                                                            @*<td style="text-align:right;">
+                                                                @String.Format("{0:0.00}", item.MRPPrice)
+                                                            </td>
+                                                            <td style="text-align:right;">
+                                                                @String.Format("{0:0.00}", item.TPPrice)
+                                                            </td>
+                                                            <td style="text-align:right;">@item.CostingPrice</td>
+                                                            <td style="text-align:right;">
+                                                                @String.Format("{0:0.00}", item.GPParcentage)%
+                                                            </td>
 
-        <td style="text-align:right;">@String.Format("{0:0.00}", item.VATPercent)%</td>*@
+                                                            <td style="text-align:right;">@String.Format("{0:0.00}", item.VATPercent)%</td>*@
 
-                                                    <td>
-                                                        <a id="@item.ID" onclick=" makeEditble(@item.ID);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
-                                                        <a id="@item.ID" onclick="makeDeletable(@item.ID);" class="linkPointer" data-toggle="modal" data-target="#deleteModal" title="Delete"
-                                                           data-placement="top">
-                                                            <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
-                                                        </a>
+                                                            <td>
+                                                                <a id="@item.ID" onclick=" makeEditble(@item.ID);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
+                                                                <a id="@item.ID" onclick="makeDeletable(@item.ID);" class="linkPointer" data-toggle="modal" data-target="#deleteModal" title="Delete"
+                                                                   data-placement="top">
+                                                                    <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+                                                                </a>
 
-
-                                                        <a href="~/Configuration/CommonFinishProductBOM?companyId=@Model.CompanyFK&productId=@item.ID">Finish Product BOM</a>
-                                                    </td>
-                                                </tr>
+                                                                @*<a href="~/Configuration/CommonFinishProductBOM?companyId=@Model.CompanyFK&productId=@item.ID">Finish Product BOM</a>*@
+                                                            </td>
+                                                        </tr>
                                                     }
                                                 }
 
@@ -374,7 +400,7 @@
                     datatype: "json",
                     traditional: true,
                     success: function (data) {
-                      
+
 
                         $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Update");
                         $('#productId').val(data.ID);
