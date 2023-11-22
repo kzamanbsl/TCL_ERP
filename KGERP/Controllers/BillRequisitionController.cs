@@ -402,7 +402,7 @@ namespace KGERP.Controllers
 
             if (BillRequisitionMasterId > 0)
             {
-                BillRequisitionMasterModel = await _service.GetBillRequisitionMasterDetail(companyId, BillRequisitionMasterId);
+                BillRequisitionMasterModel = await _service.GetBillRequisitionMasterDetailWithApproval(companyId, BillRequisitionMasterId);
                 BillRequisitionMasterModel.DetailDataList = BillRequisitionMasterModel.DetailList.ToList();
             }
             return View(BillRequisitionMasterModel);

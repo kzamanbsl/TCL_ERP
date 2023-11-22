@@ -1,4 +1,5 @@
-﻿using KGERP.Service.Implementation.Configuration;
+﻿using KGERP.Data.Models;
+using KGERP.Service.Implementation.Configuration;
 using KGERP.Utility;
 using System;
 using System.Collections.Generic;
@@ -45,7 +46,8 @@ namespace KGERP.Service.ServiceModel
         public List<BillRequisitionDetailModel> DetailDataList { get; set; } = new List<BillRequisitionDetailModel>();
         public BillRequisitionDetailModel DetailModel { get; set; } = new BillRequisitionDetailModel();
         public IEnumerable<BillRequisitionDetailModel> DetailList { get; set; } = new List<BillRequisitionDetailModel>();
-
+        public BillRequisitionApprovalModel ApprovalModel { get; set; } = new BillRequisitionApprovalModel();
+        public IEnumerable<BillRequisitionApprovalModel> ApprovalModelList { get; set; } = new List<BillRequisitionApprovalModel>();
         public SelectList ProjectList { get; set; } = new SelectList(new List<object>());
         public SelectList RequisitionTypeList { get; set; } = new SelectList(new List<object>());
         public SelectList BOQItemList { get; set; } = new SelectList(new List<object>());
@@ -78,5 +80,26 @@ namespace KGERP.Service.ServiceModel
         public int CompanyId { get; set; }
 
     }
+    public partial class BillRequisitionApprovalModel
+    {
+        public long BRApprovalId { get; set; }
+        public long BillRequisitionMasterId { get; set; }
+        public int AprrovalStatusId { get; set; }
+        public string AprrovalStatusName { get { return BaseFunctionalities.GetEnumDescription((EnumBillRequisitionStatus)AprrovalStatusId); } }
+        public Nullable<long> EmployeeId { get; set; }
+        public string EmployeeName { get; set; }
+        public int SignatoryId { get; set; }
+        public string SignatoryName { get { return BaseFunctionalities.GetEnumDescription((EnumBRequisitionSignatory)SignatoryId); } }
+
+        public int PriorityNo { get; set; }
+        public bool IsSupremeApproved { get; set; }
+        public int CompanyId { get; set; }
+        public System.DateTime CreateDate { get; set; }
+        public string CreatedBy { get; set; }
+        public Nullable<System.DateTime> ModifiedDate { get; set; }
+        public string ModifiedBy { get; set; }
+        public bool IsActive { get; set; }
+    }
+
 
 }
