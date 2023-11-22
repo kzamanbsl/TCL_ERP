@@ -61,7 +61,7 @@
 
                                             <th>Status</th>
                                             <th>:</th>
-                                            <td >@Model.StatusName</td>
+                                            <td>@Model.StatusName</td>
                                         </tr>
                                         <tr>
                                             <th>Requisition No</th>
@@ -148,14 +148,48 @@
 
 
                                     </table>
+                                    <strong>
+                                        <span>
+                                            Requisition Approval Status:
+                                        </span>
+                                    </strong>
                                     <table class="table table-bordered">
-                                            <tr class="bg-success">
-                                                @foreach (var item in Model.ApprovalModelList)
+                                        <tr class="bg-gray">
+                                            @foreach (var item in Model.ApprovalModelList)
+                                            {
+                                                <th style="padding:5px;text-align:center;">@item.SignatoryName</th>
+
+
+                                            }
+                                        </tr>
+                                        <tr>
+                                            @foreach (var item in Model.ApprovalModelList)
+                                            {
+                                                if (item.AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
                                                 {
-                                                    <th style="padding:5px;text-align:center;">@item.SignatoryName</th>
-                                                    <td style="padding:5px;text-align:center;">@item.AprrovalStatusName</td>
+                                                    <td style="padding: 5px; text-align: center; color: orange;">@item.AprrovalStatusName</td>
+
                                                 }
-                                            </tr>
+                                                else if (item.AprrovalStatusId == (int)EnumBillRequisitionStatus.Rejected)
+                                                {
+                                                    <td style="padding: 5px; text-align: center; color: red;">@item.AprrovalStatusName</td>
+
+                                                }
+                                                else if (item.AprrovalStatusId == (int)EnumBillRequisitionStatus.Approved)
+                                                {
+                                                    <td style="padding:5px; text-align:center; color:green;">@item.AprrovalStatusName</td>
+
+                                                }
+                                                else
+                                                {
+                                                    <td style="padding:5px; text-align:center;">@item.AprrovalStatusName</td>
+
+                                                }
+
+
+                                            }
+                                        </tr>
+
                                     </table>
 
                                 </div>
