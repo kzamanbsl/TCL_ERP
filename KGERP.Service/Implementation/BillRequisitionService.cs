@@ -24,6 +24,135 @@ namespace KGERP.Service.Implementation
 
         #region Bill of Quotation
 
+        public List<BoQItemProductMap> GetBoQProductMapList()
+        {
+            List<BoQItemProductMap> boqMapList = new List<BoQItemProductMap>();
+            var boqMaps = _context.BoQItemProductMaps.Where(c => c.IsActive == true).ToList();
+            foreach (var item in boqMaps)
+            {
+                var data = new BoQItemProductMap()
+                {
+                    BoQItemProductMapId = item.BoQItemProductMapId,
+                    BoQItemId = item.BoQItemId,
+                    ProductId = item.ProductId,
+                    EstimatedQty = item.EstimatedQty,
+                    EstimatedAmount = item.EstimatedAmount
+                };
+                boqMapList.Add(data);
+            }
+            return boqMapList;
+        }
+
+        //public List<BillBoQItem> GetBillOfQuotationListByProjectId(int id)
+        //{
+        //    List<BillBoQItem> billBoQItems = new List<BillBoQItem>();
+        //    var getBillBoQItems = _context.BillBoQItems.Where(c => c.CostCenterId == id && c.IsActive == true).ToList();
+        //    foreach (var item in getBillBoQItems)
+        //    {
+        //        var data = new BillBoQItem()
+        //        {
+        //            BoQItemId = item.BoQItemId,
+        //            CostCenterId = item.CostCenterId,
+        //            Name = item.Name,
+        //            //BoQQty = item.BoQQty,
+        //            BoQAmount = item.BoQAmount,
+        //            Description = item.Description
+        //        };
+        //        billBoQItems.Add(data);
+        //    }
+        //    return billBoQItems;
+        //}
+
+        public bool Add(BillRequisitionItemBoQMapModel model)
+        {
+            if (model != null)
+            {
+                try
+                {
+                    BoQItemProductMap data = new BoQItemProductMap()
+                    {
+                        BoQItemId = model.BoQItemId,
+                        ProductId = model.BillRequisitionItemId,
+                        EstimatedQty = model.EstimateQuantity,
+                        EstimatedAmount = model.EstimateAmount,
+                        CompanyId = (int)model.CompanyFK,
+                        IsActive = true,
+                        CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                        CreateDate = DateTime.Now
+                    };
+                    _context.BoQItemProductMaps.Add(data);
+                    var count = _context.SaveChanges();
+                    if (count > 0)
+                    {
+                        return true;
+                    }
+                }
+                catch (Exception e)
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        public bool Edit(BillRequisitionItemBoQMapModel model)
+        {
+            if (model != null)
+            {
+                try
+                {
+                    var findBoQProductMap = _context.BoQItemProductMaps.FirstOrDefault(c => c.BoQItemProductMapId == model.ID);
+
+                    findBoQProductMap.BoQItemId = model.BoQItemId;
+                    findBoQProductMap.ProductId = model.BillRequisitionItemId;
+                    findBoQProductMap.EstimatedQty = model.EstimateQuantity;
+                    findBoQProductMap.EstimatedAmount = model.EstimateAmount;
+                    findBoQProductMap.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                    findBoQProductMap.ModifiedDate = DateTime.Now;
+                    var count = _context.SaveChanges();
+                    if (count > 0)
+                    {
+                        return true;
+                    }
+                }
+                catch (Exception e)
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        public bool Delete(BillRequisitionItemBoQMapModel model)
+        {
+            if (model.BoQItemProductMapId > 0 || model.BoQItemProductMapId != null)
+            {
+                try
+                {
+                    var findBoQProductMap = _context.BoQItemProductMaps.FirstOrDefault(c => c.BoQItemProductMapId == model.BoQItemProductMapId);
+
+                    findBoQProductMap.IsActive = false;
+                    findBoQProductMap.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                    findBoQProductMap.ModifiedDate = DateTime.Now;
+                    var count = _context.SaveChanges();
+
+                    if (count > 0)
+                    {
+                        return true;
+                    }
+                }
+                catch (Exception e)
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        #endregion
+
+        #region Bill of Quotation
+
         public List<BillBoQItem> GetBillOfQuotationList()
         {
             List<BillBoQItem> billBoQItems = new List<BillBoQItem>();
@@ -255,7 +384,7 @@ namespace KGERP.Service.Implementation
 
         #endregion
 
-        #region Bill Requisition Type
+        #region  Cost Center Type
 
         public List<Accounting_CostCenterType> GetCostCenterTypeList()
         {

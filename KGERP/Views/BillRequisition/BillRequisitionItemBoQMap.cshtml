@@ -124,28 +124,47 @@
                             </thead>
                             @{int sl = 0;}
                             <tbody>
-                                @*@foreach (var item in Model.BillBoQItems)
-                                    {
-                                        <tr>
-                                            <td>
-                                                @(++sl)
-                                                <input type="hidden" id="requisitionBoQ_@item.BoQItemId" name="BoQItemId" value="@item.BoQItemId" />
-                                            </td>
-                                            <td id="tdBoQItemName_@item.BoQItemId">@Model.Accounting_CostCenters.FirstOrDefault(c => c.CostCenterId == item.CostCenterId).Name</td>
-                                            <td id="tdBoQName_@item.BoQItemId">@item.Name</td>
-                                            <td id="tdBoQItemName_@item.BoQItemId">@Model.Accounting_CostCenters.FirstOrDefault(c => c.CostCenterId == item.CostCenterId).Name</td>
-                                            <td id="tdEstimateQty_@item.BoQItemId" class="text-center">@item.BoQAmount</td>
-                                            <td id="tdEstimateAmount_@item.BoQItemId" class="text-center">@item.BoQAmount</td>
-                                            <td>
-                                                <a id="@item.BoQItemId" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
+                                @foreach (var item in Model.BoQItemProductMaps)
+                                {
+                                    <tr>
+                                        <td>
+                                            @(++sl)
+                                            <input type="hidden" id="requisitionBoQ_@item.BoQItemId" name="BoQItemId" value="@item.BoQItemId" />
+                                        </td>
+                                        <td id="tdBoQItemName_@item.BoQItemId"></td>
+                                        <td id="tdBoQName_@item.BoQItemId">@item.Name</td>
+                                        <td id="tdBoQItemName_@item.BoQItemId"></td>
+                                        <td id="tdEstimateQty_@item.BoQItemId" class="text-center"></td>
+                                        <td id="tdEstimateAmount_@item.BoQItemId" class="text-center"></td>
+                                        <td>
+                                            <a id="@item.BoQItemId" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
 
-                                                <a id="@item.BoQItemId" onclick="makeDeletable(@item.BoQItemId);" class="linkPointer" data-toggle="modal" data-target="#BillRequisitionBoQDeleteModal" title="Delete"
-                                                   data-placement="top">
-                                                    <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    }*@
+                                            <a id="@item.BoQItemId" onclick="makeDeletable(@item.BoQItemId);" class="linkPointer" data-toggle="modal" data-target="#BillRequisitionBoQDeleteModal" title="Delete"
+                                               data-placement="top">
+                                                <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            @(++sl)
+                                            <input type="hidden" id="requisitionBoQ_@item.BoQItemId" name="BoQItemId" value="@item.BoQItemId" />
+                                        </td>
+                                        <td id="tdBoQItemName_@item.BoQItemId"></td>
+                                        <td id="tdBoQName_@item.BoQItemId">@item.Name</td>
+                                        <td id="tdBoQItemName_@item.BoQItemId"></td>
+                                        <td id="tdEstimateQty_@item.BoQItemId" class="text-center"></td>
+                                        <td id="tdEstimateAmount_@item.BoQItemId" class="text-center"></td>
+                                        <td>
+                                            <a id="@item.BoQItemId" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
+
+                                            <a id="@item.BoQItemId" onclick="makeDeletable(@item.BoQItemId);" class="linkPointer" data-toggle="modal" data-target="#BillRequisitionBoQDeleteModal" title="Delete"
+                                               data-placement="top">
+                                                <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
                             </tbody>
                         </table>
                     </div>

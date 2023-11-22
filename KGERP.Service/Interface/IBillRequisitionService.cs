@@ -9,6 +9,13 @@ namespace KGERP.Service.Interface
 {
     public interface IBillRequisitionService
     {
+        #region Bill of Quotation and Req. Item Map
+        bool Add(BillRequisitionItemBoQMapModel model);
+        bool Edit(BillRequisitionItemBoQMapModel model);
+        bool Delete(BillRequisitionItemBoQMapModel model);
+        List<BoQItemProductMap> GetBoQProductMapList();
+        //List<BoQItemProductMap> GetBoQProductMapByProjectId(int id);
+        #endregion
 
         #region Bill of Quotation
         bool Add(BillRequisitionBoqModel model);
