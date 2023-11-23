@@ -122,6 +122,8 @@
                                                 <tr>
                                                     <td style="text-align: center;">
                                                         @Html.HiddenFor(model => model.DetailDataList[i].BillRequisitionMasterId)
+                                                        @Html.HiddenFor(model => model.DetailDataList[i].BillRequisitionDetailId)
+                                                        @Html.HiddenFor(model => model.DetailDataList[i].DemandQty)
                                                         @(++sl)
                                                     </td>
                                                     <td style="padding:5px;text-align:left;">@item.ProductName</td>
@@ -129,9 +131,22 @@
                                                     <td style="padding:5px;text-align:right;">@String.Format("{0:0.00}", item.EstimatedQty)</td>
                                                     <td style="padding: 5px; text-align: right;">@String.Format("{0:0.00}", item.ReceivedSoFar)</td>
                                                     <td style="padding: 5px; text-align: right;">@String.Format("{0:0.00}", item.RemainingQty)</td>
-                                                    <td style="padding: 5px; text-align: right;">@String.Format("{0:0.00}", item.DemandQty)</td>
+                                                    <td style="padding: 5px; text-align: right;">
+                                                        @if (Model.ApprovalModelList.First(x=>x.SignatoryId == (int)EnumBRequisitionSignatory.PM).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
+                                                        {
+                                                            @Html.TextBoxFor(model => model.DetailDataList[i].DemandQty, new { id = i + "_Qty", @class = "form-control quantityValue" })
+                                                        }
+                                                        else
+                                                        {
+                                                            @String.Format("{0:0.00}", item.DemandQty)
+                                                        }
+                                                    </td>
+
+
                                                     <td style="padding: 5px; text-align: right;">@String.Format("{0:0.00}", item.UnitRate)</td>
                                                     <td style="padding: 5px; text-align: right;">@String.Format("{0:0.00}", item.TotalPrice)</td>
+
+
                                                     @{
                                                         totalPrice += item.TotalPrice;
                                                     };
@@ -193,8 +208,6 @@
                                                     <td style="padding:5px; text-align:center;">@item.AprrovalStatusName</td>
 
                                                 }
-
-
                                             }
                                         </tr>
 
@@ -206,7 +219,7 @@
                         }
                     </div>
 
-                    @if (Model.BillRequisitionMasterId > 0 && Model.StatusId != EnumBillRequisitionStatus.Approved)
+                    @if (Model.BillRequisitionMasterId > 0 && Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.PM).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
                     {
                         <div class="box-footer">
 
