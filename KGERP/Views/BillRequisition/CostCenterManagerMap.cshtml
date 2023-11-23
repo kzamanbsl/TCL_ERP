@@ -1,7 +1,7 @@
 ﻿@model KGERP.Service.ServiceModel.CostCenterManagerMapModel
 
 @{
-    ViewData["Title"] = "Cost Center Manager Map";
+    ViewData["Title"] = "Project Manager Map";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <style type="text/css">
@@ -15,19 +15,19 @@
         @if (Model.CostCenterManagerMapId > 0)
         {
             <span>
-                Cost Center Manager Map
+                Project Manager Map
             </span>
         }
         else
         {
             <span>
-                Cost Center Manager Map
+                Project Manager Map
             </span>
         }
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">Cost Center Manager</li>
+        <li class="active">Project Manager Map</li>
     </ol>
 
 </section>
@@ -54,16 +54,16 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label asp-for="ProjectId">Select Project</label>
-                                    @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.Projects, "CostCenterId", "Name"), "-- Select Project --", new { id = "selectProject", @class = "form-control" })
+                                    <label asp-for="ProjectId">Select Project : </label>
+                                    @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.Projects.OrderBy(order => order.Name), "CostCenterId", "Name"), "== Select Project ==", new { id = "selectProject", @class = "form-control" })
                                     @Html.ValidationMessageFor(model => model.ProjectId, "", new { @class = "text-danger" })
                                 </div>
                             </div>
 
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label asp-for="EmployeeRowId">Select Manager</label>
-                                    @Html.DropDownListFor(model => model.EmployeeRowId, new SelectList(Model.Employees, "Id", "Name"), "-- Select Manager --", new { id = "selectEmployee", @class = "form-control" })
+                                    <label asp-for="EmployeeRowId">Select Manager : </label>
+                                    @Html.DropDownListFor(model => model.EmployeeRowId, new SelectList(Model.Employees.OrderBy(order => order.Name), "Id", "Name"), "== Select Manager ==", new { id = "selectEmployee", @class = "form-control" })
 
                                 </div>
                                 @Html.ValidationMessageFor(model => model.EmployeeRowId, "", new { @class = "text-danger" })
@@ -103,13 +103,13 @@
                                 <tr>
                                     <th>SL</th>
                                     <th>Project Name</th>
-                                    <th>Manager</th>
+                                    <th>Manager Name</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             @{int sl = 0;}
                             <tbody>
-                                @foreach (var item in Model.CostCenterManagerMaps)
+                                @foreach (var item in Model.CostCenterManagerMaps.OrderBy(order => order.CreateDate))
                                 {
                                     <tr>
                                         <td>
@@ -187,6 +187,7 @@
                 $('#selectProject').val($('#costCenterId_' + rowId).val().trim()).trigger('change');
                 $('#selectEmployee').val($('#costCenterManagerId_' + rowId).val().trim()).trigger('change');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
+                console.log($('#costCenterManagerId_' + rowId).val().trim())
             }
         }
 

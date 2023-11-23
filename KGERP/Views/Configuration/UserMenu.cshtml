@@ -96,7 +96,7 @@
                                             @{int sl = 0;
                                             }
                                             <tbody>
-                                                @foreach (var item in Model.DataList)
+                                                @foreach (var item in Model.DataList.Where(c=> c.CompanyFK == 21)) // "Where(c=> c.CompanyFK == 21)" added for filter company menu if needed others comapny menu please remove the filter
                                                 {
 
                                                 <tr>

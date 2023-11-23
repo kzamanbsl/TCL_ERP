@@ -120,6 +120,7 @@ namespace KGERP.Controllers
         {
             BillRequisitionItemBoQMapModel viewData = new BillRequisitionItemBoQMapModel()
             {
+                CompanyFK = companyId,
                 Products = _ProductService.GetProductJson(),
                 ProjectTypes = _service.GetCostCenterTypeList(),
                 BillBoQItems = _service.GetBillOfQuotationList(),

@@ -115,7 +115,7 @@
                         @{int sl = 0;
                         }
                         <tbody>
-                            @foreach (var item in Model.DataList)
+                            @foreach (var item in Model.DataList.Where(c=> c.CompanyFK == 21))
                             {
                                 <tr>
                                     <td>@(++sl)</td>

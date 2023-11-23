@@ -50,8 +50,8 @@
                                 @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
 
                                 <div class="form-group">
-                                    <label asp-for="Name" class="form-control-label">Name:</label>
-                                    @Html.TextBoxFor(model => model.Name, new { id = "txtCostCenterTypeName", @class = "form-control", @placeholder = "Requisition Type Name", required = "true" })
+                                    <label asp-for="Name" class="form-control-label">Project Type Name : </label>
+                                    @Html.TextBoxFor(model => model.Name, new { id = "txtCostCenterTypeName", @class = "form-control", @placeholder = "Project Type", required = "true" })
                                     @Html.ValidationMessageFor(model => model.Name, "", new { id = "nameExist", @class = "text-danger" })
                                 </div>
 
@@ -82,13 +82,13 @@
                                         <thead>
                                             <tr>
                                                 <th>SL</th>
-                                                <th>Name</th>
+                                                <th>Project Type Name</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         @{int sl = 0;}
                                         <tbody>
-                                            @foreach (var item in Model.CostCenterTypes)
+                                            @foreach (var item in Model.CostCenterTypes.OrderBy(order=>order.Name))
                                             {
                                                 <tr>
                                                     <td>

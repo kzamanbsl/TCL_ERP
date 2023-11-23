@@ -407,7 +407,7 @@
           <Property Name="ModifiedDate" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp.dbo.Attendance_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp_Dev.dbo.Attendance_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Attendance_Shadow">
           <Key>
             <PropertyRef Name="Id" />
@@ -451,7 +451,7 @@ warning 6002: The table/view 'TCLErp.dbo.Attendance_Shadow' does not have a prim
           <Property Name="ModifiedDate" Type="smalldatetime" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp.dbo.AttendanceType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp_Dev.dbo.AttendanceType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="AttendanceType">
           <Key>
             <PropertyRef Name="EmployeeId" />
@@ -523,7 +523,7 @@ warning 6002: The table/view 'TCLErp.dbo.AttendanceType' does not have a primary
           <Property Name="TourDays" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp.dbo.AttendenceApproveApplication_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp_Dev.dbo.AttendenceApproveApplication_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="AttendenceApproveApplication_Shadow">
           <Key>
             <PropertyRef Name="Id" />
@@ -1304,7 +1304,7 @@ warning 6002: The table/view 'TCLErp.dbo.AttendenceApproveApplication_Shadow' do
           <Property Name="StockInfoId" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp.dbo.Employee_Audit' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp_Dev.dbo.Employee_Audit' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Employee_Audit">
           <Key>
             <PropertyRef Name="ChangId" />
@@ -1375,7 +1375,7 @@ warning 6002: The table/view 'TCLErp.dbo.Employee_Audit' does not have a primary
           <Property Name="Operation" Type="varchar" MaxLength="10" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp.dbo.Employee_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp_Dev.dbo.Employee_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Employee_Shadow">
           <Key>
             <PropertyRef Name="Id" />
@@ -1469,7 +1469,7 @@ warning 6002: The table/view 'TCLErp.dbo.Employee_Shadow' does not have a primar
           <Property Name="ManagerId" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp.dbo.EmployeeLeaveDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp_Dev.dbo.EmployeeLeaveDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="EmployeeLeaveDetail">
           <Key>
             <PropertyRef Name="sl_number" />
@@ -2408,7 +2408,7 @@ warning 6002: The table/view 'TCLErp.dbo.EmployeeLeaveDetail' does not have a pr
           <Property Name="OperationId" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp.dbo.LeaveApplication_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp_Dev.dbo.LeaveApplication_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="LeaveApplication_Shadow">
           <Key>
             <PropertyRef Name="LeaveApplicationId" />
@@ -2709,7 +2709,7 @@ warning 6002: The table/view 'TCLErp.dbo.LeaveApplication_Shadow' does not have 
           <Property Name="EDate" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp.dbo.ProcessAttenendance' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp_Dev.dbo.ProcessAttenendance' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ProcessAttenendance">
           <Key>
             <PropertyRef Name="EmployeeId" />
@@ -2734,7 +2734,7 @@ warning 6002: The table/view 'TCLErp.dbo.ProcessAttenendance' does not have a pr
           <Property Name="CompanyId" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp.dbo.ProcessLeave' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp_Dev.dbo.ProcessLeave' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ProcessLeave">
           <Key>
             <PropertyRef Name="Employee" />
@@ -2861,7 +2861,7 @@ warning 6002: The table/view 'TCLErp.dbo.ProcessLeave' does not have a primary k
           <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp.dbo.PS' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp_Dev.dbo.PS' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="PS">
           <Key>
             <PropertyRef Name="ProductId" />
@@ -2927,7 +2927,7 @@ warning 6002: The table/view 'TCLErp.dbo.PS' does not have a primary key defined
           <Property Name="Modifydate" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp.dbo.ServerConfig' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp_Dev.dbo.ServerConfig' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ServerConfig">
           <Key>
             <PropertyRef Name="Id" />
@@ -3058,7 +3058,7 @@ warning 6002: The table/view 'TCLErp.dbo.ServerConfig' does not have a primary k
           <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp.dbo.TempFeedVoucherDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp_Dev.dbo.TempFeedVoucherDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="TempFeedVoucherDetail">
           <Key>
             <PropertyRef Name="IsActive" />
@@ -3639,7 +3639,7 @@ warning 6002: The table/view 'TCLErp.dbo.TempFeedVoucherDetail' does not have a 
           <Property Name="RowNo" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp.Erp.ConvertedProductDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp_Dev.Erp.ConvertedProductDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ConvertedProductDetail">
           <Key>
             <PropertyRef Name="Qty" />
@@ -3914,7 +3914,7 @@ warning 6002: The table/view 'TCLErp.Erp.ConvertedProductDetail' does not have a
           <Property Name="COGS" Type="decimal" Precision="18" Scale="3" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp.Erp.FormulaHistory' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp_Dev.Erp.FormulaHistory' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="FormulaHistory">
           <Key>
             <PropertyRef Name="Id" />
@@ -4888,7 +4888,7 @@ warning 6002: The table/view 'TCLErp.Erp.FormulaHistory' does not have a primary
           <Property Name="TPPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp.Erp.RequisitionItemDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp_Dev.Erp.RequisitionItemDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="RequisitionItemDetail">
           <Key>
             <PropertyRef Name="RequistionItemDetailId" />
@@ -5175,6 +5175,7 @@ warning 6002: The table/view 'TCLErp.Erp.RequisitionItemDetail' does not have a 
           <Property Name="ModifiedBy" Type="nvarchar" MaxLength="128" />
           <Property Name="ModifiedDate" Type="datetime" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="IsBoQUnit" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="UpazilaAssign">
           <Key>
@@ -5402,7 +5403,7 @@ warning 6002: The table/view 'TCLErp.Erp.RequisitionItemDetail' does not have a 
           <Property Name="EmployeeId" Type="bigint" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp.dbo.vw_Attendence' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp_Dev.dbo.vw_Attendence' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_Attendence">
           <Key>
             <PropertyRef Name="Id" />
@@ -5433,7 +5434,7 @@ warning 6002: The table/view 'TCLErp.dbo.vw_Attendence' does not have a primary 
           <Property Name="SalaryTag" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp.dbo.vwAllHeads' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp_Dev.dbo.vwAllHeads' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwAllHeads">
           <Key>
             <PropertyRef Name="Id" />
@@ -5452,7 +5453,7 @@ warning 6002: The table/view 'TCLErp.dbo.vwAllHeads' does not have a primary key
           <Property Name="ModifiedDate" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp.dbo.vwDemandForSaleInvoice' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp_Dev.dbo.vwDemandForSaleInvoice' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwDemandForSaleInvoice">
           <Key>
             <PropertyRef Name="DemandId" />
@@ -5475,7 +5476,7 @@ warning 6002: The table/view 'TCLErp.dbo.vwDemandForSaleInvoice' does not have a
           <Property Name="SpecialDiscount" Type="decimal" Precision="18" Scale="3" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp.dbo.vwFTPFileInfo' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp_Dev.dbo.vwFTPFileInfo' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwFTPFileInfo">
           <Key>
             <PropertyRef Name="docid" />
@@ -5498,7 +5499,7 @@ warning 6002: The table/view 'TCLErp.dbo.vwFTPFileInfo' does not have a primary 
           <Property Name="RecDate" Type="datetime" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp.dbo.vwKGRECustomer' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp_Dev.dbo.vwKGRECustomer' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwKGRECustomer">
           <Key>
             <PropertyRef Name="ClientId" />
@@ -5535,7 +5536,7 @@ warning 6002: The table/view 'TCLErp.dbo.vwKGRECustomer' does not have a primary
           <Property Name="EmployeeId" Type="varchar" MaxLength="20" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp.dbo.vwProductPrice' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp_Dev.dbo.vwProductPrice' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwProductPrice">
           <Key>
             <PropertyRef Name="Id" />
@@ -5549,7 +5550,7 @@ warning 6002: The table/view 'TCLErp.dbo.vwProductPrice' does not have a primary
           <Property Name="ProductName" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp.dbo.vwSeedMaterialRcvList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp_Dev.dbo.vwSeedMaterialRcvList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwSeedMaterialRcvList">
           <Key>
             <PropertyRef Name="MaterialReceiveId" />
@@ -5581,7 +5582,7 @@ warning 6002: The table/view 'TCLErp.dbo.vwSeedMaterialRcvList' does not have a 
           <Property Name="Remarks" Type="varchar(max)" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp.dbo.vwSMSList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp_Dev.dbo.vwSMSList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwSMSList">
           <Key>
             <PropertyRef Name="Id" />
@@ -5609,7 +5610,7 @@ warning 6002: The table/view 'TCLErp.dbo.vwSMSList' does not have a primary key 
           <Property Name="CompanyName" Type="varchar" MaxLength="200" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp.dbo.vwTeamInfoList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamInfoList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwTeamInfoList">
           <Key>
             <PropertyRef Name="Id" />
@@ -5639,7 +5640,7 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamInfoList' does not have a primary
           <Property Name="CompanyName" Type="varchar" MaxLength="200" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwTeamLeaderList">
           <Key>
             <PropertyRef Name="Id" />
@@ -10519,7 +10520,6 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <EntitySet Name="ProductStores" EntityType="ERPModel.ProductStore" />
           <EntitySet Name="PurchaseOrderDetails" EntityType="ERPModel.PurchaseOrderDetail" />
           <EntitySet Name="PurchaseOrderTemplates" EntityType="ERPModel.PurchaseOrderTemplate" />
-          <EntitySet Name="Units" EntityType="ERPModel.Unit" />
           <EntitySet Name="UpazilaAssigns" EntityType="ERPModel.UpazilaAssign" />
           <EntitySet Name="VendorOffers" EntityType="ERPModel.VendorOffer" />
           <EntitySet Name="VendorTypes" EntityType="ERPModel.VendorType" />
@@ -10817,10 +10817,6 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             <End Role="Product" EntitySet="Products" />
             <End Role="PFormulaDetail" EntitySet="PFormulaDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK_Product_Unit" Association="ERPModel.FK_Product_Unit">
-            <End Role="Unit" EntitySet="Units" />
-            <End Role="Product" EntitySet="Products" />
-          </AssociationSet>
           <AssociationSet Name="FK_ProductDetails_Product" Association="ERPModel.FK_ProductDetails_Product">
             <End Role="Product" EntitySet="Products" />
             <End Role="ProductDetail" EntitySet="ProductDetails" />
@@ -11059,10 +11055,6 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <AssociationSet Name="FK_Store_Company1" Association="ERPModel.FK_Store_Company1">
             <End Role="Company" EntitySet="Companies" />
             <End Role="Store" EntitySet="Stores" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Unit_Company" Association="ERPModel.FK_Unit_Company">
-            <End Role="Company" EntitySet="Companies" />
-            <End Role="Unit" EntitySet="Units" />
           </AssociationSet>
           <EntitySet Name="OfficerAssigns" EntityType="ERPModel.OfficerAssign" />
           <AssociationSet Name="FK_OfficerAssign_Zone" Association="ERPModel.FK_OfficerAssign_Zone">
@@ -11363,10 +11355,6 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           </AssociationSet>
           <AssociationSet Name="FK_ProductionMaster_ProductSubCategory" Association="ERPModel.FK_ProductionMaster_ProductSubCategory">
             <End Role="ProductSubCategory" EntitySet="ProductSubCategories" />
-            <End Role="ProductionMaster" EntitySet="ProductionMasters" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ProductionMaster_Unit" Association="ERPModel.FK_ProductionMaster_Unit">
-            <End Role="Unit" EntitySet="Units" />
             <End Role="ProductionMaster" EntitySet="ProductionMasters" />
           </AssociationSet>
           <EntitySet Name="Expenses" EntityType="ERPModel.Expense" />
@@ -11765,6 +11753,19 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <AssociationSet Name="FK_BoQItemProductMap_Product" Association="ERPModel.FK_BoQItemProductMap_Product">
             <End Role="Product" EntitySet="Products" />
             <End Role="BoQItemProductMap" EntitySet="BoQItemProductMaps" />
+          </AssociationSet>
+          <EntitySet Name="Units" EntityType="ERPModel.Unit" />
+          <AssociationSet Name="FK_Unit_Company" Association="ERPModel.FK_Unit_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="Unit" EntitySet="Units" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Unit" Association="ERPModel.FK_Product_Unit">
+            <End Role="Unit" EntitySet="Units" />
+            <End Role="Product" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductionMaster_Unit" Association="ERPModel.FK_ProductionMaster_Unit">
+            <End Role="Unit" EntitySet="Units" />
+            <End Role="ProductionMaster" EntitySet="ProductionMasters" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="AdminPolicy">
@@ -13852,24 +13853,6 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <Property Name="ColumnName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="ColumnValue" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="Unit">
-          <Key>
-            <PropertyRef Name="UnitId" />
-          </Key>
-          <Property Name="UnitId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CompanyId" Type="Int32" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="ShortName" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="Remarks" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ModifiedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Products" Relationship="ERPModel.FK_Product_Unit" FromRole="Unit" ToRole="Product" />
-          <NavigationProperty Name="Company" Relationship="ERPModel.FK_Unit_Company" FromRole="Unit" ToRole="Company" />
-          <NavigationProperty Name="ProductionMasters" Relationship="ERPModel.FK_ProductionMaster_Unit" FromRole="Unit" ToRole="ProductionMaster" />
-        </EntityType>
         <EntityType Name="UpazilaAssign">
           <Key>
             <PropertyRef Name="UpazilaAssignId" />
@@ -15830,7 +15813,6 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <NavigationProperty Name="FacingInfo" Relationship="ERPModel.FK_Product_FacingInfo" FromRole="Product" ToRole="FacingInfo" />
           <NavigationProperty Name="IngredientStandards" Relationship="ERPModel.FK_IngredientStandard_Product1" FromRole="Product" ToRole="IngredientStandard" />
           <NavigationProperty Name="PFormulaDetails" Relationship="ERPModel.FK_PFormulaDetail_ProductFormula" FromRole="Product" ToRole="PFormulaDetail" />
-          <NavigationProperty Name="Unit" Relationship="ERPModel.FK_Product_Unit" FromRole="Product" ToRole="Unit" />
           <NavigationProperty Name="ProductDetails" Relationship="ERPModel.FK_ProductDetails_Product" FromRole="Product" ToRole="ProductDetail" />
           <NavigationProperty Name="ProductFormulas" Relationship="ERPModel.FK_ProductFormula_Product" FromRole="Product" ToRole="ProductFormula" />
           <NavigationProperty Name="StockTransferDetails" Relationship="ERPModel.FK_StockTransferDetail_Product" FromRole="Product" ToRole="StockTransferDetail" />
@@ -15844,6 +15826,7 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <NavigationProperty Name="ProductionDetails" Relationship="ERPModel.FK_ProductionDetails_Product" FromRole="Product" ToRole="ProductionDetail" />
           <NavigationProperty Name="BillRequisitionDetails" Relationship="ERPModel.FK_BillRequisitionDetail_Product1" FromRole="Product" ToRole="BillRequisitionDetail" />
           <NavigationProperty Name="BoQItemProductMaps" Relationship="ERPModel.FK_BoQItemProductMap_Product" FromRole="Product" ToRole="BoQItemProductMap" />
+          <NavigationProperty Name="Unit" Relationship="ERPModel.FK_Product_Unit" FromRole="Product" ToRole="Unit" />
         </EntityType>
         <Association Name="FK_Product_FacingInfo">
           <End Type="ERPModel.FacingInfo" Role="FacingInfo" Multiplicity="0..1" />
@@ -15878,18 +15861,6 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             </Principal>
             <Dependent Role="PFormulaDetail">
               <PropertyRef Name="RProductId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Product_Unit">
-          <End Type="ERPModel.Unit" Role="Unit" Multiplicity="0..1" />
-          <End Type="ERPModel.Product" Role="Product" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Unit">
-              <PropertyRef Name="UnitId" />
-            </Principal>
-            <Dependent Role="Product">
-              <PropertyRef Name="UnitId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -17353,7 +17324,6 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <NavigationProperty Name="LCInfoes" Relationship="ERPModel.FK_LCInfo_Company" FromRole="Company" ToRole="LCInfo" />
           <NavigationProperty Name="MonthlyTargets" Relationship="ERPModel.FK_MonthyTarget_Company" FromRole="Company" ToRole="MonthlyTarget" />
           <NavigationProperty Name="Stores" Relationship="ERPModel.FK_Store_Company1" FromRole="Company" ToRole="Store" />
-          <NavigationProperty Name="Units" Relationship="ERPModel.FK_Unit_Company" FromRole="Company" ToRole="Unit" />
           <NavigationProperty Name="Employees" Relationship="ERPModel.FK_Employee_Company" FromRole="Company" ToRole="Employee" />
           <NavigationProperty Name="ManagerProductMaps" Relationship="ERPModel.FK_ManagerProductMap_Company" FromRole="Company" ToRole="ManagerProductMap" />
           <NavigationProperty Name="ExpenseMasters" Relationship="ERPModel.FK_ExpenseMaster_Company" FromRole="Company" ToRole="ExpenseMaster" />
@@ -17376,6 +17346,7 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <NavigationProperty Name="BillRequisitionApprovals" Relationship="ERPModel.FK_BillRequisitionApproval_Company" FromRole="Company" ToRole="BillRequisitionApproval" />
           <NavigationProperty Name="BillRequisitionDetails" Relationship="ERPModel.FK_BillRequisitionDetail_Company" FromRole="Company" ToRole="BillRequisitionDetail" />
           <NavigationProperty Name="BoQItemProductMaps" Relationship="ERPModel.FK_BillRequisitionItemBoQMap_Company" FromRole="Company" ToRole="BoQItemProductMap" />
+          <NavigationProperty Name="Units" Relationship="ERPModel.FK_Unit_Company" FromRole="Company" ToRole="Unit" />
         </EntityType>
         <Association Name="FK_Asset_Company">
           <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
@@ -17541,18 +17512,6 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
               <PropertyRef Name="CompanyId" />
             </Principal>
             <Dependent Role="Store">
-              <PropertyRef Name="CompanyId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Unit_Company">
-          <End Type="ERPModel.Company" Role="Company" Multiplicity="0..1" />
-          <End Type="ERPModel.Unit" Role="Unit" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Company">
-              <PropertyRef Name="CompanyId" />
-            </Principal>
-            <Dependent Role="Unit">
               <PropertyRef Name="CompanyId" />
             </Dependent>
           </ReferentialConstraint>
@@ -19080,11 +19039,11 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <NavigationProperty Name="Company" Relationship="ERPModel.FK_ProductionMaster_Company" FromRole="ProductionMaster" ToRole="Company" />
           <NavigationProperty Name="ProductCategory" Relationship="ERPModel.FK_ProductionMaster_ProductCategory" FromRole="ProductionMaster" ToRole="ProductCategory" />
           <NavigationProperty Name="ProductSubCategory" Relationship="ERPModel.FK_ProductionMaster_ProductSubCategory" FromRole="ProductionMaster" ToRole="ProductSubCategory" />
-          <NavigationProperty Name="Unit" Relationship="ERPModel.FK_ProductionMaster_Unit" FromRole="ProductionMaster" ToRole="Unit" />
           <NavigationProperty Name="ProductionStage" Relationship="ERPModel.FK__Productio__Produ__5DC591CD" FromRole="ProductionMaster" ToRole="ProductionStage" />
           <NavigationProperty Name="ProductionStage1" Relationship="ERPModel.FK_ProductionMaster_ProductionStatus" FromRole="ProductionMaster" ToRole="ProductionStage" />
           <NavigationProperty Name="ProductionDetails" Relationship="ERPModel.FK__Productio__Produ__60A1FE78" FromRole="ProductionMaster" ToRole="ProductionDetail" />
           <NavigationProperty Name="MaterialReceives" Relationship="ERPModel.FK_MaterialReceive_ProductionMaster" FromRole="ProductionMaster" ToRole="MaterialReceive" />
+          <NavigationProperty Name="Unit" Relationship="ERPModel.FK_ProductionMaster_Unit" FromRole="ProductionMaster" ToRole="Unit" />
           </EntityType>
         <Association Name="FK_ProductionMaster_Company">
           <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
@@ -19119,18 +19078,6 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             </Principal>
             <Dependent Role="ProductionMaster">
               <PropertyRef Name="ProductSubCategoryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ProductionMaster_Unit">
-          <End Type="ERPModel.Unit" Role="Unit" Multiplicity="0..1" />
-          <End Type="ERPModel.ProductionMaster" Role="ProductionMaster" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Unit">
-              <PropertyRef Name="UnitId" />
-            </Principal>
-            <Dependent Role="ProductionMaster">
-              <PropertyRef Name="UnitId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -21135,6 +21082,61 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             </Principal>
             <Dependent Role="BoQItemProductMap">
               <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Unit">
+          <Key>
+            <PropertyRef Name="UnitId" />
+          </Key>
+          <Property Name="UnitId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyId" Type="Int32" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ShortName" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Remarks" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="IsBoQUnit" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Company" Relationship="ERPModel.FK_Unit_Company" FromRole="Unit" ToRole="Company" />
+          <NavigationProperty Name="Products" Relationship="ERPModel.FK_Product_Unit" FromRole="Unit" ToRole="Product" />
+          <NavigationProperty Name="ProductionMasters" Relationship="ERPModel.FK_ProductionMaster_Unit" FromRole="Unit" ToRole="ProductionMaster" />
+        </EntityType>
+        <Association Name="FK_Unit_Company">
+          <End Type="ERPModel.Company" Role="Company" Multiplicity="0..1" />
+          <End Type="ERPModel.Unit" Role="Unit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="Unit">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Unit">
+          <End Type="ERPModel.Unit" Role="Unit" Multiplicity="0..1" />
+          <End Type="ERPModel.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Unit">
+              <PropertyRef Name="UnitId" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="UnitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductionMaster_Unit">
+          <End Type="ERPModel.Unit" Role="Unit" Multiplicity="0..1" />
+          <End Type="ERPModel.ProductionMaster" Role="ProductionMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Unit">
+              <PropertyRef Name="UnitId" />
+            </Principal>
+            <Dependent Role="ProductionMaster">
+              <PropertyRef Name="UnitId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -23209,22 +23211,6 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
                 <ScalarProperty Name="ColumnName" ColumnName="ColumnName" />
                 <ScalarProperty Name="PurchaseOrderId" ColumnName="PurchaseOrderId" />
                 <ScalarProperty Name="PurchaseOrderTemplateId" ColumnName="PurchaseOrderTemplateId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Units">
-            <EntityTypeMapping TypeName="ERPModel.Unit">
-              <MappingFragment StoreEntitySet="Unit">
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
-                <ScalarProperty Name="ShortName" ColumnName="ShortName" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
-                <ScalarProperty Name="UnitId" ColumnName="UnitId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -26929,6 +26915,23 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />
                 <ScalarProperty Name="BoQItemId" ColumnName="BoQItemId" />
                 <ScalarProperty Name="BoQItemProductMapId" ColumnName="BoQItemProductMapId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Units">
+            <EntityTypeMapping TypeName="ERPModel.Unit">
+              <MappingFragment StoreEntitySet="Unit">
+                <ScalarProperty Name="IsBoQUnit" ColumnName="IsBoQUnit" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="UnitId" ColumnName="UnitId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
