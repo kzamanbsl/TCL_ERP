@@ -167,18 +167,26 @@
                                             {
                                                 if (item.AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
                                                 {
-                                                    <td style="padding: 5px; text-align: center; color: orange;">@item.AprrovalStatusName</td>
+                                                    <td style="text-align:center">
+                                                        <span class="btn btn-warning btn-xs" style="width:70px"> @item.AprrovalStatusName</span>
+
+                                                    </td>
+
 
                                                 }
                                                 else if (item.AprrovalStatusId == (int)EnumBillRequisitionStatus.Rejected)
                                                 {
-                                                    <td style="padding: 5px; text-align: center; color: red;">@item.AprrovalStatusName</td>
+                                                    <td style="text-align:center">
+                                                        <span class="btn btn-danger btn-xs" style="width:70px"> @item.AprrovalStatusName</span>
 
+                                                    </td>
                                                 }
                                                 else if (item.AprrovalStatusId == (int)EnumBillRequisitionStatus.Approved)
                                                 {
-                                                    <td style="padding:5px; text-align:center; color:green;">@item.AprrovalStatusName</td>
+                                                    <td style="text-align:center">
+                                                        <span class="btn btn-success btn-xs" style="width:70px"> @item.AprrovalStatusName</span>
 
+                                                    </td>
                                                 }
                                                 else
                                                 {

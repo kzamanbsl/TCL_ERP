@@ -91,7 +91,7 @@
                                         <th>Req. Type</th>
                                         <th>P. Type</th>
                                         <th>Project </th>
-                                        <th>Status</th>
+                                        <th>PM Approval</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -120,7 +120,22 @@
                                             <td>@item.ProjectTypeName</td>
                                             <td>@item.CostCenterName</td>
 
-                                            <td>@item.StatusName</td>
+                                            <td>
+
+                                                @if (@item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.PM).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
+                                                {
+                                                    <span class="btn btn-warning btn-xs" style="width:70px" > @item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.PM).AprrovalStatusName</span>
+                                                }
+                                                @if (@item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.PM).AprrovalStatusId == (int)EnumBillRequisitionStatus.Approved)
+                                                {
+                                                    <span class="btn btn-success btn-xs" style="width:70px" > @item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.PM).AprrovalStatusName</span>
+                                                }
+
+                                                @if (@item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.PM).AprrovalStatusId == (int)EnumBillRequisitionStatus.Rejected)
+                                                {
+                                                    <span class="btn btn-danger btn-xs" style="width:70px" > @item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.PM).AprrovalStatusName</span>
+                                                }
+                                            </td>
                                             <td>
                                                 @if (item.StatusId != EnumBillRequisitionStatus.Draft && item.StatusId != EnumBillRequisitionStatus.Rejected && item.StatusId != EnumBillRequisitionStatus.Approved)
                                                 {
