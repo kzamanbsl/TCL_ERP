@@ -72,7 +72,7 @@ namespace KGERP.Service.Implementation
                     BoQItemProductMap data = new BoQItemProductMap()
                     {
                         BoQItemId = model.BoQItemId,
-                        ProductId = model.BillRequisitionItemId,
+                        ProductId = model.MeterialId,
                         EstimatedQty = model.EstimateQuantity,
                         EstimatedAmount = model.EstimateAmount,
                         CompanyId = (int)model.CompanyFK,
@@ -104,7 +104,7 @@ namespace KGERP.Service.Implementation
                     var findBoQProductMap = _context.BoQItemProductMaps.FirstOrDefault(c => c.BoQItemProductMapId == model.ID);
 
                     findBoQProductMap.BoQItemId = model.BoQItemId;
-                    findBoQProductMap.ProductId = model.BillRequisitionItemId;
+                    findBoQProductMap.ProductId = model.MeterialId;
                     findBoQProductMap.EstimatedQty = model.EstimateQuantity;
                     findBoQProductMap.EstimatedAmount = model.EstimateAmount;
                     findBoQProductMap.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;

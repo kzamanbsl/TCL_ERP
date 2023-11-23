@@ -193,11 +193,10 @@ namespace KGERP.Controllers
             BillRequisitionItemBoQMapModel viewData = new BillRequisitionItemBoQMapModel()
             {
                 CompanyFK = companyId,
-                Products = _ProductService.GetProductJson(),
-                ProjectTypes = _service.GetCostCenterTypeList(),
-                BillBoQItems = _service.GetBillOfQuotationList(),
-                Projects = _service.GetProjectList(),
-                BoQItemProductMaps = _service.GetBoQProductMapList()
+                ProjectList = _service.GetProjectList(),
+                MaterialList = _ProductService.GetProductJson(),
+                BoQItemList = _service.GetBillOfQuotationList(),
+                BoQItemMapList = _service.GetBoQProductMapList()
             };
 
             return View(viewData);

@@ -1,6 +1,6 @@
 ﻿@model KGERP.Service.ServiceModel.BillRequisitionItemBoQMapModel
 @{
-    ViewData["Title"] = "Bill of Quotation";
+    ViewData["Title"] = "BoQ Item Map";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -11,11 +11,11 @@
 </style>
 <section class="content-header">
     <h1>
-        Bill of Quotation
+        BoQ Item Map
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">Requisition BOQ</li>
+        <li class="active">BoQ Item Map</li>
     </ol>
 </section>
 
@@ -34,39 +34,31 @@
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Select Project Type :</label>
-                                @Html.DropDownListFor(model => model.BoQItemId, new SelectList(Model.ProjectTypes, "CostCenterTypeId", "Name"), "=== Select Project Type ===", new { id = "ddlCostCenterTypeId", onchange = "getProjectList()", @class = "form-control searchingDropdown", style = "width:100%" })
+                                <label asp-for="ProjectId" class="form-control-label">Select Project:</label>
+                                @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.ProjectList.OrderBy(order=> order.Name), "CostCenterId", "Name"), "=== Select Project ===", new { id = "ddlCostCenterId", onchange = "getBoQList()", @class = "form-control searchingDropdown", style = "width:100%" })
+                                @Html.ValidationMessageFor(model => model.ProjectId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="BoQItemId" class="form-control-label">Select BoQ :</label>
+                                @Html.DropDownListFor(model => model.BoQItemId, new SelectList(Model.BoQItemList.OrderBy(order => order.Name), "BoQItemId", "Name"), "=== Select BoQ ===", new { id = "ddlBoQId", onchange = "getItemList()", @class = "form-control searchingDropdown", style = "width:100%" })
                                 @Html.ValidationMessageFor(model => model.BoQItemId, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Select Project:</label>
-                                @Html.DropDownListFor(model => model.BillRequisitionItemId, new SelectList(Model.Projects, "CostCenterId", "Name"), "=== Select Project ===", new { id = "ddlCostCenterId", onchange = "getBoQList()", @class = "form-control searchingDropdown", style = "width:100%" })
-                                @Html.ValidationMessageFor(model => model.BillRequisitionItemId, "", new { @class = "text-danger" })
+                                <label asp-for="MeterialId" class="form-control-label">Select Item/Material :</label>
+                                @Html.DropDownListFor(model => model.MeterialId, new SelectList(Model.MaterialList.OrderBy(order=> order.ProductName), "ProductId", "ProductName"), "=== Select Item/Material ===", new { id = "ddItemId", @class = "form-control searchingDropdown", style = "width:100%" })
+                                @Html.ValidationMessageFor(model => model.MeterialId, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Select BoQ :</label>
-                                @Html.DropDownListFor(model => model.BoQItemId, new SelectList(Model.BillBoQItems, "BoQItemId", "Name"), "=== Select BoQ ===", new { id = "ddlBoQId", onchange = "getItemList()", @class = "form-control searchingDropdown", style = "width:100%" })
-                                @Html.ValidationMessageFor(model => model.BoQItemId, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Select Item/Material :</label>
-                                @Html.DropDownListFor(model => model.BillRequisitionItemId, new SelectList(Model.Products, "ProductId", "ProductName"), "=== Select Item/Material ===", new { id = "ddItemId", @class = "form-control searchingDropdown", style = "width:100%" })
-                                @Html.ValidationMessageFor(model => model.BillRequisitionItemId, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label asp-for="Name" class="form-control-label">BoQ Quantity:</label>
+                                <label asp-for="EstimateQuantity" class="form-control-label">BoQ Quantity:</label>
                                 @Html.TextBoxFor(model => model.EstimateQuantity, new { id = "txtRequisitionBoqQuantity", @class = "form-control", @placeholder = "BoQ Quantity", required = "true" })
                                 @Html.ValidationMessageFor(model => model.EstimateQuantity, "", new { id = "nameExist", @class = "text-danger" })
                             </div>
@@ -81,8 +73,8 @@
                         </div>
 
 
-                        <div class="col-md-12">
-                            <div class="form-group">
+                        <div class="col-md-6">
+                            <div class="form-group" style="margin-top: 25px !important">
                                 <div class="col-md-6">
                                     <button type="button" onclick="resetForm()" class="btn btn-secondary" data-dismiss="modal" style="width:100% !important">Reset</button>
                                 </div>
@@ -114,7 +106,6 @@
                             <thead>
                                 <tr>
                                     <th>SL</th>
-                                    <th>Project Name</th>
                                     <th>BoQ Name</th>
                                     <th>Item/Material</th>
                                     <th class="text-center">Est. Quantity</th>
@@ -124,37 +115,18 @@
                             </thead>
                             @{int sl = 0;}
                             <tbody>
-                                @foreach (var item in Model.BoQItemProductMaps)
+                                @foreach (var item in Model.BoQItemMapList)
                                 {
+                                    
                                     <tr>
                                         <td>
                                             @(++sl)
                                             <input type="hidden" id="requisitionBoQ_@item.BoQItemId" name="BoQItemId" value="@item.BoQItemId" />
                                         </td>
-                                        <td id="tdBoQItemName_@item.BoQItemId"></td>
-                                        <td id="tdBoQName_@item.BoQItemId"></td>
-                                        <td id="tdBoQItemName_@item.BoQItemId"></td>
-                                        <td id="tdEstimateQty_@item.BoQItemId" class="text-center"></td>
-                                        <td id="tdEstimateAmount_@item.BoQItemId" class="text-center"></td>
-                                        <td>
-                                            <a id="@item.BoQItemId" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
-
-                                            <a id="@item.BoQItemId" onclick="makeDeletable(@item.BoQItemId);" class="linkPointer" data-toggle="modal" data-target="#BillRequisitionBoQDeleteModal" title="Delete"
-                                               data-placement="top">
-                                                <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            @(++sl)
-                                            <input type="hidden" id="requisitionBoQ_@item.BoQItemId" name="BoQItemId" value="@item.BoQItemId" />
-                                        </td>
-                                        <td id="tdBoQItemName_@item.BoQItemId"></td>
-                                        <td id="tdBoQName_@item.BoQItemId">@item</td>
-                                        <td id="tdBoQItemName_@item.BoQItemId"></td>
-                                        <td id="tdEstimateQty_@item.BoQItemId" class="text-center"></td>
-                                        <td id="tdEstimateAmount_@item.BoQItemId" class="text-center"></td>
+                                        <td id="tdBoQName_@item.BoQItemId">@Model.BoQItemList.FirstOrDefault(c => c.BoQItemId == item.BoQItemId).Name</td>
+                                        <td id="tdBoQItemName_@item.BoQItemId">@Model.MaterialList.FirstOrDefault(c => c.ProductId == item.ProductId).ProductName</td>
+                                        <td id="tdEstimateQty_@item.BoQItemId" class="text-center">@item.EstimatedQty</td>
+                                        <td id="tdEstimateAmount_@item.BoQItemId" class="text-center">@item.EstimatedAmount</td>
                                         <td>
                                             <a id="@item.BoQItemId" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
 
