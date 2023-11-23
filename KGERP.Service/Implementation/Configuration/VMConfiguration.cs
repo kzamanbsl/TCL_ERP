@@ -226,6 +226,7 @@ namespace KGERP.Service.Implementation.Configuration
         public string Name { get; set; }
         public string Description { get; set; }
         public bool IsLock { get; set; }
+        public bool IsBoQUnit { get; set; } = false;
 
         public IEnumerable<VMCommonUnit> DataList { get; set; }
     }
