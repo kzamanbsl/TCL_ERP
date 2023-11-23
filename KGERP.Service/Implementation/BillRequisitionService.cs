@@ -1220,7 +1220,7 @@ namespace KGERP.Service.Implementation
                                                                                      IsSupremeApproved = t1.IsSupremeApproved,
                                                                                      EmployeeId = t1.EmployeeId,
                                                                                      EmployeeName = t3.EmployeeId,
-                                                                                 }).OrderByDescending(x => x.BRApprovalId).AsEnumerable());
+                                                                                 }).OrderBy(x => x.BRApprovalId).AsEnumerable());
             return billRequisitionMasterModel;
         }
 
@@ -1285,7 +1285,7 @@ namespace KGERP.Service.Implementation
         public async Task<BillRequisitionMasterModel> GetPMBillRequisitionList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
         {
             BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
-            long EmpId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
+            var EmpId = Convert.ToInt32(System.Web.HttpContext.Current.Session["Id"]);
             billRequisitionMasterModel.CompanyFK = companyId;
             billRequisitionMasterModel.DataList = await Task.Run(() => (from t1 in _context.BillRequisitionMasters.Where(x => x.IsActive
                                                          && x.CompanyId == companyId
@@ -1298,7 +1298,7 @@ namespace KGERP.Service.Implementation
                                                                         from t4 in t4_Join.DefaultIfEmpty()
                                                                         join t5 in _context.CostCenterManagerMaps on t2.CostCenterId equals t5.CostCenterId into t5_Join
                                                                         from t5 in t5_Join.DefaultIfEmpty()
-                                                                        join t6 in _context.Employees on t5.ManagerId equals t6.Id into t6_Join
+                                                                        join t6 in _context.Employees.Where(e=>e.Id == EmpId) on t5.ManagerId equals t6.Id into t6_Join
                                                                         from t6 in t6_Join.DefaultIfEmpty()
                                                                         join t7 in _context.BillRequisitionApprovals on t1.BillRequisitionMasterId equals t7.BillRequisitionMasterId into t7_Join
                                                                         from t7 in t7_Join.DefaultIfEmpty()
@@ -1319,14 +1319,14 @@ namespace KGERP.Service.Implementation
                                                                             CompanyFK = t1.CompanyId,
                                                                             CreatedDate = t1.CreateDate,
                                                                             CreatedBy = t1.CreatedBy,
-                                                                            EmployeeId = t6.Id,
-                                                                            EmployeeStringId = t6.EmployeeId,
+                                                                            //EmployeeId = t6.Id,
+                                                                            //EmployeeStringId = t6.EmployeeId,
                                                                         }).OrderByDescending(x => x.BillRequisitionMasterId).AsEnumerable());
 
-            if (EmpId > 0)
-            {
-                billRequisitionMasterModel.DataList = billRequisitionMasterModel.DataList.Where(q => q.EmployeeId == EmpId);
-            }
+            //if (EmpId > 0)
+            //{
+            //    billRequisitionMasterModel.DataList = billRequisitionMasterModel.DataList.Where(q => q.EmployeeId == EmpId);
+            //}
             if (vStatus != -1 && vStatus != null)
             {
                 billRequisitionMasterModel.DataList = billRequisitionMasterModel.DataList.Where(q => q.StatusId == (EnumBillRequisitionStatus)vStatus);
