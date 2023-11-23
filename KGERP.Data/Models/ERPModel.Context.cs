@@ -139,7 +139,6 @@ namespace KGERP.Data.Models
         public virtual DbSet<ProductStore> ProductStores { get; set; }
         public virtual DbSet<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
         public virtual DbSet<PurchaseOrderTemplate> PurchaseOrderTemplates { get; set; }
-        public virtual DbSet<Unit> Units { get; set; }
         public virtual DbSet<UpazilaAssign> UpazilaAssigns { get; set; }
         public virtual DbSet<VendorOffer> VendorOffers { get; set; }
         public virtual DbSet<VendorType> VendorTypes { get; set; }
@@ -307,6 +306,7 @@ namespace KGERP.Data.Models
         public virtual DbSet<BillRequisitionApproval> BillRequisitionApprovals { get; set; }
         public virtual DbSet<BillRequisitionDetail> BillRequisitionDetails { get; set; }
         public virtual DbSet<BoQItemProductMap> BoQItemProductMaps { get; set; }
+        public virtual DbSet<Unit> Units { get; set; }
     
         public virtual ObjectResult<GetEmployeeListForTeam_Result> GetEmployeeListForTeam(Nullable<int> companyId)
         {

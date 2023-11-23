@@ -31,7 +31,6 @@ namespace KGERP.Data.Models
             this.LCInfoes = new HashSet<LCInfo>();
             this.MonthlyTargets = new HashSet<MonthlyTarget>();
             this.Stores = new HashSet<Store>();
-            this.Units = new HashSet<Unit>();
             this.Employees = new HashSet<Employee>();
             this.ManagerProductMaps = new HashSet<ManagerProductMap>();
             this.ExpenseMasters = new HashSet<ExpenseMaster>();
@@ -54,6 +53,7 @@ namespace KGERP.Data.Models
             this.BillRequisitionApprovals = new HashSet<BillRequisitionApproval>();
             this.BillRequisitionDetails = new HashSet<BillRequisitionDetail>();
             this.BoQItemProductMaps = new HashSet<BoQItemProductMap>();
+            this.Units = new HashSet<Unit>();
         }
     
         public int CompanyId { get; set; }
@@ -110,8 +110,6 @@ namespace KGERP.Data.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Store> Stores { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Unit> Units { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Employee> Employees { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ManagerProductMap> ManagerProductMaps { get; set; }
@@ -155,5 +153,7 @@ namespace KGERP.Data.Models
         public virtual ICollection<BillRequisitionDetail> BillRequisitionDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BoQItemProductMap> BoQItemProductMaps { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Unit> Units { get; set; }
     }
 }

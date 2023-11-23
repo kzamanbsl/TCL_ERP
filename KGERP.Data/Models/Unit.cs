@@ -31,10 +31,11 @@ namespace KGERP.Data.Models
         public string ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public bool IsActive { get; set; }
+        public bool IsBoQUnit { get; set; }
     
+        public virtual Company Company { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Product> Products { get; set; }
-        public virtual Company Company { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductionMaster> ProductionMasters { get; set; }
     }

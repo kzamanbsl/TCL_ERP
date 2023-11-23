@@ -75,7 +75,6 @@ namespace KGERP.Data.Models
         public virtual ICollection<IngredientStandard> IngredientStandards { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PFormulaDetail> PFormulaDetails { get; set; }
-        public virtual Unit Unit { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductDetail> ProductDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -98,5 +97,6 @@ namespace KGERP.Data.Models
         public virtual ICollection<BillRequisitionDetail> BillRequisitionDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BoQItemProductMap> BoQItemProductMaps { get; set; }
+        public virtual Unit Unit { get; set; }
     }
 }
