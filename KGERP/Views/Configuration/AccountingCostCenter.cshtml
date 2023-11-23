@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Project / Cost Center";
+    ViewData["Title"] = "Project Entry";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @model KGERP.Service.Implementation.Configuration.VMUserMenu
@@ -7,12 +7,12 @@
 
     <section class="content-header">
         <h1>
-            Project / Cost Center
+            Project Entry
         </h1>
         <ol class="breadcrumb">
             <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
            
-            <li class="active">Project / Cost Center</li>
+            <li class="active">Project Entry</li>
         </ol>
     </section>
     @using (Html.BeginForm("AccountingCostCenter", "Configuration", FormMethod.Post, new { id = "userMenuFormId", @class = "formValidator", onreset = "resetDDL();" }))
@@ -25,9 +25,7 @@
                             @Html.AntiForgeryToken()
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                             <div class="box-danger">
-                                <div class="box-header">
-                                    <h4>Add Project / Cost Center</h4>
-                                </div>
+                                <div class="box-header"></div>
                                 <!-- /.box-header -->
                                 <div class="box-body">
                                     @Html.HiddenFor(model => model.ID, new { id = "userMenuId" })
@@ -35,13 +33,14 @@
                                     @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
 
                                     <div class="form-group">
-                                        <label asp-for="ProjectId">Select Project</label>
-                                        @Html.DropDownListFor(model => model.accounting_CostCenterTypeId, new SelectList(Model.accounting_CostCenterTypes, "CostCenterTypeId", "Name"), "-- Select Project Type --", new { id = "selectProjectType", @class = "form-control" })
+                                        <label asp-for="ProjectId">Select Project Type : </label>
+                                        @Html.DropDownListFor(model => model.accounting_CostCenterTypeId, new SelectList(Model.accounting_CostCenterTypes.OrderBy(order => order.Name), "CostCenterTypeId", "Name"), "== Select Project Type ==", new { id = "selectProjectType", @class = "form-control" })
                                         @Html.ValidationMessageFor(model => model.accounting_CostCenterTypeId, "", new { @class = "text-danger" })
                                     </div>
 
                                     <div class="form-group">
-                                        @Html.TextBoxFor(model => model.Name, new { id = "txtMenuName", @class = "form-control input-sm", @placeholder = "Project/Cost Center Name" })
+                                        <label asp-for="ProjectId">Project Name : </label>
+                                        @Html.TextBoxFor(model => model.Name, new { id = "txtMenuName", @class = "form-control input-sm", @placeholder = "Project Name" })
                                         @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                     </div>
 
@@ -63,9 +62,7 @@
                         <div class="box">
 
                             <div class="box-danger">
-                                <div class="box-header">
-                                    <h4>Project / Cost Center List</h4>
-                                </div>
+                                <div class="box-header"></div>
                                 <!-- /.box-header -->
                                 <div class="box-body">
 
@@ -74,27 +71,31 @@
                                             <thead>
                                                 <tr>
                                                     <th>SL</th>
-                                                    <th>Company</th>
-                                                    <th>Project / Cost Center Name</th>                                                   
+                                                    <th>Project Name</th>                                            
+                                                    <th>Project Type</th>                                            
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
                                             @{int sl = 0;
                                             }
                                             <tbody>
-                                                @foreach (var item in Model.DataList)
+                                                @foreach (var item in Model.DataList.OrderBy(order=>order.Name))
                                                 {
-
+                                                    
                                                 <tr>
-                                                    <td>@(++sl)</td>
-                                                    <td id="tdCompanyFK_@item.ID">
-                                                        @item.CompanyName
+                                                    <td>
+                                                        @(++sl)
                                                         <input type="hidden" id="hidCompanyFK_@item.ID" value="@item.CompanyFK" />
-                                                        <input type="hidden" id="costCenterTypeId_@item.accounting_CostCenterTypeId" name="accounting_CostCenterTypeId" value="@item.accounting_CostCenterTypeId" />
+                                                        <input type="hidden" id="costCenterTypeId_@item.ID" name="accounting_CostCenterTypeId" value="@item.accounting_CostCenterTypeId" />
                                                     </td>
-                                                    <td id="tdprojectType_@item.ID">@Model.accounting_CostCenterTypes.FirstOrDefault(c=> c.CostCenterTypeId == item.accounting_CostCenterTypeId).Name</td>
 
-                                                    <td id="tdMenuName_@item.ID">@item.Name</td>
+                                                    <td id="tdProjectName_@item.ID">
+                                                        @item.Name
+                                                    </td>
+
+                                                    <td id="tdprojectType_@item.ID">
+                                                        @Model.accounting_CostCenterTypes.FirstOrDefault(c => c.CostCenterTypeId == item.accounting_CostCenterTypeId).Name
+                                                    </td>
 
                                                     <td>
                                                         <a id="@item.ID" onclick=" makeEditble(this);" class="linkPointer" data-toggle="modal" data-target="#exampleModal" title="Edit" data-placement="top"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
@@ -157,10 +158,9 @@
                     $('#userMenuId').val(rowId);
                     $('#ActionId').val(2);
                     $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Update");
-                    $('#txtMenuName').val($('#tdMenuName_' + rowId).text().trim());
+                    $('#txtMenuName').val($('#tdProjectName_' + rowId).text().trim());
                     $('#selectProjectType').val($('#costCenterTypeId_' + rowId).val().trim()).trigger('change');
                     window.scrollTo({ top: 0, behavior: 'smooth' });
-
                 }
             }
 
