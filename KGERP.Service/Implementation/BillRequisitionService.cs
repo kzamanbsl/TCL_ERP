@@ -1237,16 +1237,49 @@ namespace KGERP.Service.Implementation
 
             billRequisitionMaster.ModifiedBy = userName;
             billRequisitionMaster.ModifiedDate = DateTime.Now;
+            List<BillRequisitionDetail> details = _context.BillRequisitionDetails.Where(c => c.BillRequisitionMasterId == billRequisitionMasterModel.BillRequisitionMasterId && c.IsActive == true).ToList();
+            if (details?.Count() <= 0) throw new Exception("Sorry! Damage  not found to Receive!");
+
+            //List<DamageDetailHistory> history = new List<DamageDetailHistory>();
+            //foreach (var item in details)
+            //{
+            //    history.Add(new DamageDetailHistory
+            //    {
+            //        DamageDetailHistoryId = 0,
+            //        DamageMasterId = item.DamageMasterId,
+            //        DamageDetailId = item.DamageDetailId,
+            //        DamageTypeId = item.DamageTypeId,
+            //        ProductId = item.ProductId,
+            //        DamageQty = item.DamageQty,
+            //        UnitPrice = item.UnitPrice,
+            //        TotalPrice = item.TotalPrice,
+            //        Remarks = item.Remarks,
+            //        CreatedBy = System.Web.HttpContext.Current.Session["EmployeeName"].ToString(),
+            //        CreateDate = DateTime.Now,
+            //        IsActive = true,
+            //    });
+            //}
+
+            foreach (var dt in details)
+            {
+                var obj = billRequisitionMasterModel.DetailDataList.FirstOrDefault(c => c.BillRequisitionDetailId == dt.BillRequisitionDetailId);
+           
+                dt.DemandQty = obj.DemandQty;
+                dt.Remarks = obj.Remarks;
+                dt.ModifiedBy = userName;
+                dt.ModifiedDate = DateTime.Now;
+            }
+
+            var BRApproval = _context.BillRequisitionApprovals.FirstOrDefault(x => x.BillRequisitionMasterId == billRequisitionMasterModel.BillRequisitionMasterId && x.SignatoryId == (int)EnumBRequisitionSignatory.PM);
+            BRApproval.AprrovalStatusId = (int)EnumBillRequisitionStatus.Approved;
+            BRApproval.EmployeeId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
+            BRApproval.ModifiedBy = userName;
+            BRApproval.ModifiedDate = DateTime.Now;
 
             using (var scope = _context.Database.BeginTransaction())
             {
+                //_db.DamageDetailHistories.AddRange(history);
                 await _context.SaveChangesAsync();
-                var BRApproval = _context.BillRequisitionApprovals.FirstOrDefault(x => x.BillRequisitionMasterId == billRequisitionMasterModel.BillRequisitionMasterId && x.SignatoryId == (int)EnumBRequisitionSignatory.PM);
-
-                BRApproval.AprrovalStatusId = (int)EnumBillRequisitionStatus.Approved;
-                BRApproval.EmployeeId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
-                BRApproval.ModifiedBy = userName;
-                BRApproval.ModifiedDate = DateTime.Now;
 
                 result = billRequisitionMasterModel.BillRequisitionMasterId;
                 scope.Commit();
