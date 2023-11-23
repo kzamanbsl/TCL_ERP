@@ -1,4 +1,4 @@
-﻿ using KGERP.Service.Implementation.Configuration;
+﻿using KGERP.Service.Implementation.Configuration;
 using KGERP.Service.Implementation.Procurement;
 using KGERP.Service.Implementation;
 using KGERP.Service.Interface;
@@ -45,7 +45,7 @@ namespace KGERP.Controllers
             if (id > 0)
             {
                 unitId = (int)_ProductService.GetProductJson().FirstOrDefault(c => c.ProductId == id).UnitId;
-                unitName = _configurationService.GetUnitForJson().FirstOrDefault(c=> c.UnitId == unitId).Name;
+                unitName = _configurationService.GetUnitForJson().FirstOrDefault(c => c.UnitId == unitId).Name;
             }
 
             var result = new { unitId = unitId, unitName = unitName };
@@ -68,6 +68,78 @@ namespace KGERP.Controllers
 
             return Json(boQList, JsonRequestBehavior.AllowGet);
         }
+
+        #region BoQ Unit
+        public async Task<JsonResult> SingleCommonUnit(int id)
+        {
+
+            VMCommonUnit model = new VMCommonUnit();
+            model = await _configurationService.GetSingleCommonUnit(id);
+            return Json(model, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> CommonUnit(int companyId)
+        {
+
+            VMCommonUnit vmCommonUnit = new VMCommonUnit();
+            vmCommonUnit = await Task.Run(() => _configurationService.GetUnit(companyId));
+            return View(vmCommonUnit);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CommonUnit(VMCommonUnit vmCommonUnit)
+        {
+
+            if (vmCommonUnit.ActionEum == ActionEnum.Add)
+            {
+                if(vmCommonUnit.IsBoQUnit == false)
+                {
+                    vmCommonUnit.IsBoQUnit = true;
+                }
+                //Add 
+                await _configurationService.UnitAdd(vmCommonUnit);
+            }
+            else if (vmCommonUnit.ActionEum == ActionEnum.Edit)
+            {
+                //Edit
+                await _configurationService.UnitEdit(vmCommonUnit);
+            }
+            else if (vmCommonUnit.ActionEum == ActionEnum.Delete)
+            {
+                //Delete
+                await _configurationService.UnitDelete(vmCommonUnit.ID);
+            }
+            else
+            {
+                return View("Error");
+            }
+            return RedirectToAction(nameof(CommonUnit), new { companyId = vmCommonUnit.CompanyFK });
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CommonUnitDelete(VMCommonUnit vmCommonUnit)
+        {
+
+            if (vmCommonUnit.ActionEum == ActionEnum.Delete)
+            {
+                //Delete
+                await _configurationService.UnitDelete(vmCommonUnit.ID);
+            }
+            else
+            {
+                return View("Error");
+            }
+            return RedirectToAction(nameof(CommonUnit));
+        }
+
+        public async Task<ActionResult> CommonUnitGet(int companyId)
+        {
+            var dataList = await Task.Run(() => _configurationService.CompanyMenusGet(companyId));
+            var list = dataList.Select(x => new { Value = x.ID, Text = x.Name }).ToList();
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
 
         #endregion
 
@@ -279,7 +351,7 @@ namespace KGERP.Controllers
 
         #region 1.1 BillRequisition Basic CRUD Circle
 
-         
+
         [HttpGet]
         public async Task<ActionResult> BillRequisitionMasterSlave(int companyId = 21, long billRequisitionMasterId = 0)
         {

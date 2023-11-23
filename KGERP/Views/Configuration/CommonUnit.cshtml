@@ -32,9 +32,7 @@
                         @Html.AntiForgeryToken()
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         <div class="box-danger">
-                            <div class="box-header">
-                                <h4>Add Unit</h4>
-                            </div>
+                            <div class="box-header"></div>
                             <!-- /.box-header -->
                             <div class="box-body">
                                 @Html.HiddenFor(model => model.ID, new { Value = "", id = "unitId" })
@@ -42,6 +40,7 @@
                                 @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
 
                                 <div class="form-group">
+                                    <label>Unit Name :</label>
                                     @Html.TextBoxFor(model => model.Name, new { id = "txtUnitName", @class = "form-control input-sm", @placeholder = "Unit Name", required = "true", })
                                     @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                 </div>
@@ -66,9 +65,7 @@
                     <div class="box">
 
                         <div class="box-danger">
-                            <div class="box-header">
-                                <h4>Unit List</h4>
-                            </div>
+                            <div class="box-header"></div>
                             <!-- /.box-header -->
                             <div class="box-body">
 
@@ -84,7 +81,7 @@
                                         @{int sl = 0;
                                         }
                                         <tbody>
-                                            @foreach (var item in Model.DataList)
+                                            @foreach (var item in Model.DataList.Where(c => c.IsBoQUnit == false).OrderBy(order => order.Name))
                                             {
 
                                                 <tr>

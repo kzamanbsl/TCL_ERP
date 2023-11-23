@@ -165,13 +165,6 @@ namespace KGERP.Controllers
         }
         #endregion
 
-        public async Task<ActionResult> CommonUnitGet(int companyId)
-        {
-            var dataList = await Task.Run(() => _service.CompanyMenusGet(companyId));
-            var list = dataList.Select(x => new { Value = x.ID, Text = x.Name }).ToList();
-            return Json(list, JsonRequestBehavior.AllowGet);
-        }
-
         #region Unit
         public async Task<JsonResult> SingleCommonUnit(int id)
         {
@@ -232,6 +225,12 @@ namespace KGERP.Controllers
             return RedirectToAction(nameof(CommonUnit));
         }
 
+        public async Task<ActionResult> CommonUnitGet(int companyId)
+        {
+            var dataList = await Task.Run(() => _service.CompanyMenusGet(companyId));
+            var list = dataList.Select(x => new { Value = x.ID, Text = x.Name }).ToList();
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
         #endregion
 
         public async Task<JsonResult> SingleProductCategory(int id)
@@ -407,20 +406,20 @@ namespace KGERP.Controllers
         [HttpGet]
         public async Task<ActionResult> GetSubZoneList(int companyId, int zoneId = 0, int regionId = 0, int areaId = 0)
         {
-            var model = await Task.Run(() => _service.GetSubZoneSelectList(companyId, zoneId,regionId, areaId));
+            var model = await Task.Run(() => _service.GetSubZoneSelectList(companyId, zoneId, regionId, areaId));
             var list = model.Select(x => new { Value = x.Value, Text = x.Text }).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
-        public async Task<ActionResult> CommonSubZone(int companyId, int zoneId = 0, int regionId=0)
+        public async Task<ActionResult> CommonSubZone(int companyId, int zoneId = 0, int regionId = 0)
         {
 
             VMCommonSubZone vmCommonSubZone = new VMCommonSubZone();
             vmCommonSubZone = await Task.Run(() => _service.GetSubZones(companyId, zoneId));
             vmCommonSubZone.ZoneList = new SelectList(_service.CommonZonesDropDownList(companyId), "Value", "Text");
             vmCommonSubZone.RegionList = _service.GetRegionSelectList(companyId, zoneId);
-            vmCommonSubZone.AreaList = _service.GetAreaSelectList(companyId,zoneId, regionId);
+            vmCommonSubZone.AreaList = _service.GetAreaSelectList(companyId, zoneId, regionId);
             vmCommonSubZone.EmployeeList = _service.GetEmployeeSelectModels(companyId);
             return View(vmCommonSubZone);
         }
@@ -1089,7 +1088,7 @@ namespace KGERP.Controllers
             VMCommonSupplier vmCommonSupplier = new VMCommonSupplier();
             vmCommonSupplier = await Task.Run(() => _service.GetSupplier(companyId));
             vmCommonSupplier.CountryList = new SelectList(_service.CommonCountriesDropDownList(), "Value", "Text");
-            
+
             return View(vmCommonSupplier);
         }
 
@@ -1250,8 +1249,8 @@ namespace KGERP.Controllers
             vmCommonCustomer.UpazilasList = new SelectList(_service.CommonUpazilasDropDownList(), "Value", "Text");
             vmCommonCustomer.PaymentTypeList = new SelectList(_service.CommonCustomerPaymentType(), "Value", "Text");
             vmCommonCustomer.ZoneList = new SelectList(_service.CommonZonesDropDownList(companyId), "Value", "Text");
-            vmCommonCustomer.RegionList = new SelectList(_service.CommonRegionDropDownList(companyId,zoneId), "Value", "Text");
-            vmCommonCustomer.AreaList = new SelectList(_service.GetAreaSelectList(companyId,zoneId, regionId), "Value", "Text");
+            vmCommonCustomer.RegionList = new SelectList(_service.CommonRegionDropDownList(companyId, zoneId), "Value", "Text");
+            vmCommonCustomer.AreaList = new SelectList(_service.GetAreaSelectList(companyId, zoneId, regionId), "Value", "Text");
             vmCommonCustomer.TerritoryList = new SelectList(_service.CommonSubZonesDropDownList(companyId), "Value", "Text");
             return View(vmCommonCustomer);
         }
@@ -1657,7 +1656,7 @@ namespace KGERP.Controllers
         }
 
         #endregion
-        
+
 
         #region Common Raw Product Category
 
@@ -1695,7 +1694,7 @@ namespace KGERP.Controllers
             }
             return RedirectToAction(nameof(ProductCategoryProject), new { companyId = vmProductCategoryProject.CompanyFK, productType = vmProductCategoryProject.ProductType });
         }
-        
+
         #endregion
 
         #region Common Raw Product SubCategory

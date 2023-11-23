@@ -656,6 +656,7 @@ namespace KGERP.Service.Implementation.Configuration
                                                           {
                                                               ID = t1.UnitId,
                                                               Name = t1.Name,
+                                                              IsBoQUnit = t1.IsBoQUnit,
                                                               CompanyFK = t1.CompanyId,
                                                               CreatedBy = t1.CreatedBy
 
@@ -680,7 +681,8 @@ namespace KGERP.Service.Implementation.Configuration
                                           {
                                               ID = t1.UnitId,
                                               Name = t1.Name,
-                                              CompanyFK = t1.CompanyId
+                                              CompanyFK = t1.CompanyId,
+                                              IsBoQUnit = t1.IsBoQUnit,
                                           }).FirstOrDefault());
             return v;
         }
@@ -692,6 +694,7 @@ namespace KGERP.Service.Implementation.Configuration
                 Name = vmCommonUnit.Name,
                 CompanyId = vmCommonUnit.CompanyFK,
                 ShortName = vmCommonUnit.Name,
+                IsBoQUnit = vmCommonUnit.IsBoQUnit,
                 CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
                 CreatedDate = DateTime.Now,
                 IsActive = true
