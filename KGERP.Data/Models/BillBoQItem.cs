@@ -14,33 +14,19 @@ namespace KGERP.Data.Models
     
     public partial class BillBoQItem
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public BillBoQItem()
-        {
-            this.BoQItemProductMaps = new HashSet<BoQItemProductMap>();
-            this.BillRequisitionMasters = new HashSet<BillRequisitionMaster>();
-            this.BoQBudgetMasters = new HashSet<BoQBudgetMaster>();
-        }
-    
         public int BoQItemId { get; set; }
+        public string BoQNumber { get; set; }
         public string Name { get; set; }
+        public Nullable<decimal> BoqQuantity { get; set; }
         public string Description { get; set; }
+        public Nullable<int> BoqUnitId { get; set; }
         public Nullable<long> BoQDivisionId { get; set; }
-        public Nullable<int> CostCenterId { get; set; }
-        public int CompanyId { get; set; }
         public System.DateTime CreateDate { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public string ModifiedBy { get; set; }
         public bool IsActive { get; set; }
     
-        public virtual Accounting_CostCenter Accounting_CostCenter { get; set; }
-        public virtual BoQDivision BoQDivision { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BoQItemProductMap> BoQItemProductMaps { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BillRequisitionMaster> BillRequisitionMasters { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BoQBudgetMaster> BoQBudgetMasters { get; set; }
+        public virtual Unit Unit { get; set; }
     }
 }
