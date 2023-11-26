@@ -14,7 +14,13 @@ namespace KGERP.Data.Models
     
     public partial class BoQDivision
     {
-        public long BoQCategoryId { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public BoQDivision()
+        {
+            this.BoQBudgetMasters = new HashSet<BoQBudgetMaster>();
+        }
+    
+        public long BoQDivisionId { get; set; }
         public string Name { get; set; }
         public int CompanyId { get; set; }
         public string CreatedBy { get; set; }
@@ -22,5 +28,8 @@ namespace KGERP.Data.Models
         public string ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedOn { get; set; }
         public bool IsActive { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BoQBudgetMaster> BoQBudgetMasters { get; set; }
     }
 }

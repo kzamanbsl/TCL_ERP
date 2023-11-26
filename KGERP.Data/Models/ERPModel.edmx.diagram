@@ -556,10 +556,16 @@
         <AssociationConnector Association="ERPModel.FK_Unit_Company" />
         <AssociationConnector Association="ERPModel.FK_Product_Unit" />
         <AssociationConnector Association="ERPModel.FK_ProductionMaster_Unit" />
-        <EntityTypeShape EntityType="ERPModel.BoQDivision" Width="1.5" PointX="18.375" PointY="12.75" />
-        <EntityTypeShape EntityType="ERPModel.BoQBudgetDetail" Width="1.5" PointX="20.75" PointY="12.75" />
-        <EntityTypeShape EntityType="ERPModel.BoQBudgetMaster" Width="1.5" PointX="22.75" PointY="12.75" />
         <EntityTypeShape EntityType="ERPModel.UserLog" Width="1.5" PointX="0.75" PointY="4.75" />
+        <EntityTypeShape EntityType="ERPModel.BoQBudgetDetail" Width="1.5" PointX="13.125" PointY="58" />
+        <EntityTypeShape EntityType="ERPModel.BoQBudgetMaster" Width="1.5" PointX="8.875" PointY="47.125" />
+        <EntityTypeShape EntityType="ERPModel.BoQDivision" Width="1.5" PointX="6.625" PointY="53.875" />
+        <AssociationConnector Association="ERPModel.FK_BoQBudgetMaster_Accounting_CostCenter" />
+        <AssociationConnector Association="ERPModel.FK_BoQBudgetMaster_Company" />
+        <AssociationConnector Association="ERPModel.FK_BoQBudgetMaster_BillBoQItem" />
+        <AssociationConnector Association="ERPModel.FK_BoQBudgetDetail_BoQBudgetMaster" />
+        <AssociationConnector Association="ERPModel.FK_BoQBudgetDetail_Unit" />
+        <AssociationConnector Association="ERPModel.FK_BoQBudgetMaster_BoQDivision" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
