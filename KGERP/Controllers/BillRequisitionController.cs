@@ -192,10 +192,11 @@ namespace KGERP.Controllers
             var viewData = new BillRequisitionBoqModel()
             {
                 CompanyFK = companyId,
+                Projects = _service.GetProjectList(),
+                BoQDivisions = _service.BoQDivisionList(),
                 BillBoQItems = _service.GetBillOfQuotationList(),
-                Accounting_CostCenters = _service.GetProjectList(),
-                Accounting_CostCenterTypes = _service.GetCostCenterTypeList()
-            };
+                BoQUnits = _configurationService.GetUnitForJson()
+        };
             return View(viewData);
         }
 
@@ -222,6 +223,13 @@ namespace KGERP.Controllers
                 return View("Error");
             }
             return RedirectToAction(nameof(BillOfQuotation), new { companyId = model.CompanyFK });
+        }
+
+        // Filter with project id
+        public JsonResult getBoqDivisionList(long id)
+        {
+            var boqDivisionList = _service.BoQDivisionList().Where(c => c.ProjectId == id).ToList();
+            return Json(boqDivisionList, JsonRequestBehavior.AllowGet);
         }
 
         #endregion
@@ -837,7 +845,6 @@ namespace KGERP.Controllers
         }
 
         #endregion
-
         
         #region 1.6  MD  BillRequisition Approval Circle
 
@@ -916,7 +923,6 @@ namespace KGERP.Controllers
         }
 
         #endregion
-
 
     }
 }

@@ -260,7 +260,11 @@ namespace KGERP.Service.Implementation
                 var data = new BillBoQItem()
                 {
                     BoQItemId = item.BoQItemId,
+                    BoQNumber = item.BoQNumber,
                     Name = item.Name,
+                    BoqQuantity = item.BoqQuantity,
+                    BoqUnitId = item.BoqUnitId,
+                    BoQDivisionId = item.BoQDivisionId,
                     Description = item.Description
                 };
                 billBoQItems.Add(data);
@@ -277,7 +281,11 @@ namespace KGERP.Service.Implementation
                 var data = new BillBoQItem()
                 {
                     BoQItemId = item.BoQItemId,
+                    BoQNumber = item.BoQNumber,
                     Name = item.Name,
+                    BoqQuantity = item.BoqQuantity,
+                    BoqUnitId = item.BoqUnitId,
+                    BoQDivisionId = item.BoQDivisionId,
                     Description = item.Description
                 };
                 billBoQItems.Add(data);
@@ -293,7 +301,11 @@ namespace KGERP.Service.Implementation
                 {
                     BillBoQItem data = new BillBoQItem()
                     {
+                        BoQNumber = model.BoQNumber,
                         Name = model.Name,
+                        BoqQuantity = model.BoqQuantity,
+                        BoqUnitId = model.BoqUnitId,
+                        BoQDivisionId = model.BoQDivisionId,
                         Description = model.Description,
                         IsActive = true,
                         CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
@@ -322,7 +334,11 @@ namespace KGERP.Service.Implementation
                 {
                     var findBillRequisitionBoQ = _context.BillBoQItems.FirstOrDefault(c => c.BoQItemId == model.ID);
 
+                    findBillRequisitionBoQ.BoQNumber = model.BoQNumber;
                     findBillRequisitionBoQ.Name = model.Name;
+                    findBillRequisitionBoQ.BoqQuantity = model.BoqQuantity;
+                    findBillRequisitionBoQ.BoqUnitId = model.BoqUnitId;
+                    findBillRequisitionBoQ.BoQDivisionId = model.BoQDivisionId;
                     findBillRequisitionBoQ.Description = model.Description;
                     findBillRequisitionBoQ.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
                     findBillRequisitionBoQ.ModifiedDate = DateTime.Now;

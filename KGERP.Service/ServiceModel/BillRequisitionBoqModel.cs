@@ -11,22 +11,16 @@ namespace KGERP.Service.ServiceModel
     public class BillRequisitionBoqModel : BaseVM
     {
         public int BoQItemId { get; set; }
-        public int CostCenterTypeId { get; set; }
-        public int CostCenterId { get; set; }
-        public decimal BoQAmount { get; set; }
-
-        [Required]
-        [MaxLength(100)]
-        [Display(Name = "Name")]
+        public string BoQNumber { get; set; }
         public string Name { get; set; }
-
-        [Required]
-        [MaxLength(250)]
-        [Display(Name = "Description")]
+        public decimal BoqQuantity { get; set; }
         public string Description { get; set; }
-
+        public int BoqUnitId { get; set; }
+        public long BoQDivisionId { get; set; }
+        public int ProjectId { get; set; }
+        public List<Unit> BoQUnits { get; set; }
         public List<BillBoQItem> BillBoQItems { get; set; }
-        public List<Accounting_CostCenter> Accounting_CostCenters { get; set; }
-        public List<Accounting_CostCenterType> Accounting_CostCenterTypes { get; set; }
+        public List<BoQDivision> BoQDivisions { get; set; }
+        public List<Accounting_CostCenter> Projects { get; set; }
     }
 }
