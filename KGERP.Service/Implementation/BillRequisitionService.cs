@@ -1111,7 +1111,7 @@ namespace KGERP.Service.Implementation
                                                           SignatoryId = t5.SignatoryId,
                                                           AprrovalStatusId = t5.AprrovalStatusId,
                                                           IsSupremeApproved = t5.IsSupremeApproved,
-                                                      }).OrderBy(x => x.BRApprovalId).AsEnumerable(),
+                                                      }).OrderBy(x => x.BRApprovalId).ToList(),
 
 
                              }).OrderByDescending(x => x.BillRequisitionMasterId).AsEnumerable();
@@ -1221,7 +1221,7 @@ namespace KGERP.Service.Implementation
                                                                                      IsSupremeApproved = t1.IsSupremeApproved,
                                                                                      EmployeeId = t1.EmployeeId,
                                                                                      EmployeeName = t3.EmployeeId,
-                                                                                 }).OrderBy(x => x.BRApprovalId).AsEnumerable());
+                                                                                 }).OrderBy(x => x.BRApprovalId).ToList());
             return billRequisitionMasterModel;
         }
 
@@ -1369,7 +1369,7 @@ namespace KGERP.Service.Implementation
                                                                                                      SignatoryId = t7.SignatoryId,
                                                                                                      IsSupremeApproved = t7.IsSupremeApproved,
                                                                                                      AprrovalStatusId = t7.AprrovalStatusId,
-                                                                                                 }).OrderBy(m => m.BRApprovalId).AsEnumerable(),
+                                                                                                 }).OrderBy(m => m.BRApprovalId).ToList(),
 
 
                                                                         }).OrderByDescending(x => x.BillRequisitionMasterId).AsEnumerable());
@@ -1484,12 +1484,8 @@ namespace KGERP.Service.Implementation
         public async Task<BillRequisitionMasterModel> GetQSBillRequisitionList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
         {
             BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
-            var EmpId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
-            if (EmpId <= 0)
-            {
-                return billRequisitionMasterModel;
-
-            }
+            //var EmpId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
+           
             billRequisitionMasterModel.CompanyFK = companyId;
             billRequisitionMasterModel.DataList = await Task.Run(() => (from t1 in _context.BillRequisitionMasters.Where(x => x.IsActive
                                                          && x.CompanyId == companyId
@@ -1500,10 +1496,10 @@ namespace KGERP.Service.Implementation
                                                                         from t3 in t3_Join.DefaultIfEmpty()
                                                                         join t4 in _context.Accounting_CostCenterType on t1.ProjectTypeId equals t4.CostCenterTypeId into t4_Join
                                                                         from t4 in t4_Join.DefaultIfEmpty()
-                                                                        join t5 in _context.CostCenterManagerMaps on t2.CostCenterId equals t5.CostCenterId into t5_Join
-                                                                        from t5 in t5_Join.DefaultIfEmpty()
-                                                                        join t6 in _context.Employees on t5.ManagerId equals t6.Id into t6_Join
-                                                                        from t6 in t6_Join.DefaultIfEmpty()
+                                                                        //join t5 in _context.CostCenterManagerMaps on t2.CostCenterId equals t5.CostCenterId into t5_Join
+                                                                        //from t5 in t5_Join.DefaultIfEmpty()
+                                                                        //join t6 in _context.Employees on t5.ManagerId equals t6.Id into t6_Join
+                                                                        //from t6 in t6_Join.DefaultIfEmpty()
                                                                             //join t7 in _context.BillRequisitionApprovals on t1.BillRequisitionMasterId equals t7.BillRequisitionMasterId into t7_Join
                                                                             //from t7 in t7_Join.DefaultIfEmpty()
                                                                         select new BillRequisitionMasterModel
@@ -1523,8 +1519,8 @@ namespace KGERP.Service.Implementation
                                                                             CompanyFK = t1.CompanyId,
                                                                             CreatedDate = t1.CreateDate,
                                                                             CreatedBy = t1.CreatedBy,
-                                                                            EmployeeId = t6.Id,
-                                                                            EmployeeStringId = t6.EmployeeId,
+                                                                            //EmployeeId = t6.Id,
+                                                                            //EmployeeStringId = t6.EmployeeId,
                                                                             ApprovalModelList = (from t7 in _context.BillRequisitionApprovals.Where(b => b.BillRequisitionMasterId == t1.BillRequisitionMasterId && b.IsActive)
                                                                                                  join t8 in _context.BillRequisitionMasters on t7.BillRequisitionMasterId equals t8.BillRequisitionMasterId
                                                                                                  select new BillRequisitionApprovalModel
@@ -1534,15 +1530,14 @@ namespace KGERP.Service.Implementation
                                                                                                      SignatoryId = t7.SignatoryId,
                                                                                                      IsSupremeApproved = t7.IsSupremeApproved,
                                                                                                      AprrovalStatusId = t7.AprrovalStatusId,
-                                                                                                 }).OrderBy(m => m.BRApprovalId).AsEnumerable(),
+                                                                                                 }).OrderBy(m => m.BRApprovalId).ToList(),
 
 
                                                                         }).OrderByDescending(x => x.BillRequisitionMasterId).AsEnumerable());
+       
+            
 
-            if (EmpId > 0)
-            {
-                billRequisitionMasterModel.DataList = billRequisitionMasterModel.DataList.Where(q => q.EmployeeId == EmpId);
-            }
+      
             if (vStatus != -1 && vStatus != null)
             {
                 billRequisitionMasterModel.DataList = billRequisitionMasterModel.DataList.Where(q => q.StatusId == (EnumBillRequisitionStatus)vStatus);
@@ -1700,7 +1695,7 @@ namespace KGERP.Service.Implementation
                                                                                                      SignatoryId = t7.SignatoryId,
                                                                                                      IsSupremeApproved = t7.IsSupremeApproved,
                                                                                                      AprrovalStatusId = t7.AprrovalStatusId,
-                                                                                                 }).OrderBy(m => m.BRApprovalId).AsEnumerable(),
+                                                                                                 }).OrderBy(m => m.BRApprovalId).ToList(),
 
 
                                                                         }).OrderByDescending(x => x.BillRequisitionMasterId).AsEnumerable());
@@ -1864,7 +1859,7 @@ namespace KGERP.Service.Implementation
                                                                                                      SignatoryId = t7.SignatoryId,
                                                                                                      IsSupremeApproved = t7.IsSupremeApproved,
                                                                                                      AprrovalStatusId = t7.AprrovalStatusId,
-                                                                                                 }).OrderBy(m => m.BRApprovalId).AsEnumerable(),
+                                                                                                 }).OrderBy(m => m.BRApprovalId).ToList(),
 
 
                                                                         }).OrderByDescending(x => x.BillRequisitionMasterId).AsEnumerable());
@@ -2027,7 +2022,7 @@ namespace KGERP.Service.Implementation
                                                                                                      SignatoryId = t7.SignatoryId,
                                                                                                      IsSupremeApproved = t7.IsSupremeApproved,
                                                                                                      AprrovalStatusId = t7.AprrovalStatusId,
-                                                                                                 }).OrderBy(m => m.BRApprovalId).AsEnumerable(),
+                                                                                                 }).OrderBy(m => m.BRApprovalId).ToList(),
 
 
                                                                         }).OrderByDescending(x => x.BillRequisitionMasterId).AsEnumerable());
