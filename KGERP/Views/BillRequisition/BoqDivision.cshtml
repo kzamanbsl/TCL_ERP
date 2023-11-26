@@ -31,14 +31,17 @@
                         @Html.AntiForgeryToken()
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         <div class="box-danger">
-                            @*<div class="box-header">
-                                    <h4>Add DamageType</h4>
-                                </div>*@
-                            <!-- /.box-header -->
+                            <div class="box-header"></div>
                             <div class="box-body">
                                 @Html.HiddenFor(model => model.ID, new { Value = "", id = "BoqDivisionId" })
                                 @Html.HiddenFor(model => model.ActionId, new { Value = "", id = "ActionId" })
                                 @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
+
+                                <div class="form-group">
+                                    <label>Select Project : </label>
+                                    @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.Projecs, "CostCenterTypeId", "Name"), "=== Select Project ===", new { id = "ddlCostCenterTypeId", @class = "form-control searchingDropdown", style = "width:100%" })
+                                    @Html.ValidationMessageFor(model => model.ProjectId, "", new { @class = "text-danger" })
+                                </div>
 
                                 <div class="form-group">
                                     <label asp-for="Name" class="form-control-label">BoQ Division Name : </label>
