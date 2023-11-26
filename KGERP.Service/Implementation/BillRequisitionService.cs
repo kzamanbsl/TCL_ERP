@@ -1086,8 +1086,8 @@ namespace KGERP.Service.Implementation
         //}
         public async Task<BillRequisitionMasterModel> GetBillRequisitionMasterList(int companyId, DateTime? fromDate, DateTime? toDate, int? statusId)
         {
-            BillRequisitionMasterModel BillRequisitionMasterModel = new BillRequisitionMasterModel();
-            BillRequisitionMasterModel.CompanyFK = companyId;
+            BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
+            billRequisitionMasterModel.CompanyFK = companyId;
             var dataQuery = (from t1 in _context.BillRequisitionMasters
                              where t1.IsActive && t1.CompanyId == companyId
                              join t2 in _context.Accounting_CostCenter on t1.CostCenterId equals t2.CostCenterId into t2_Join
@@ -1113,6 +1113,19 @@ namespace KGERP.Service.Implementation
                                  CompanyFK = t1.CompanyId,
                                  CreatedDate = t1.CreateDate,
                                  CreatedBy = t1.CreatedBy,
+                                 ApprovalModelList = (from t5 in _context.BillRequisitionApprovals.Where(x => x.IsActive && x.BillRequisitionMasterId == t1.BillRequisitionMasterId)
+                                                      join t6 in _context.BillRequisitionMasters.Where(x => x.IsActive) on t1.BillRequisitionMasterId equals t6.BillRequisitionMasterId into t6_Join
+                                                      from t6 in t6_Join.DefaultIfEmpty()
+                                                      select new BillRequisitionApprovalModel
+                                                      {
+                                                          BRApprovalId = t5.BRApprovalId,
+                                                          BillRequisitionMasterId = t1.BillRequisitionMasterId,
+                                                          SignatoryId = t5.SignatoryId,
+                                                          AprrovalStatusId = t5.AprrovalStatusId,
+                                                          IsSupremeApproved = t5.IsSupremeApproved,
+                                                      }).OrderBy(x => x.BRApprovalId).AsEnumerable(),
+
+
                              }).OrderByDescending(x => x.BillRequisitionMasterId).AsEnumerable();
 
             if (statusId != -1 && statusId != null)
@@ -1120,22 +1133,22 @@ namespace KGERP.Service.Implementation
                 dataQuery = dataQuery.Where(q => q.StatusId == (EnumBillRequisitionStatus)statusId);
             }
 
-            BillRequisitionMasterModel.DataList = await Task.Run(() => dataQuery.ToList());
+            billRequisitionMasterModel.DataList = await Task.Run(() => dataQuery.ToList());
 
-            var masterIds = BillRequisitionMasterModel.DataList.Select(x => x.BillRequisitionMasterId);
+            var masterIds = billRequisitionMasterModel.DataList.Select(x => x.BillRequisitionMasterId);
 
             var matchingDetails = await _context.BillRequisitionDetails
                                         .Where(detail => masterIds.Contains(detail.BillRequisitionMasterId))
                                         .ToListAsync();
 
-            foreach (var master in BillRequisitionMasterModel.DataList)
+            foreach (var master in billRequisitionMasterModel.DataList)
             {
                 var detailsForMaster = matchingDetails.Where(detail => detail.BillRequisitionMasterId == master.BillRequisitionMasterId);
                 decimal total = detailsForMaster.Sum(detail => detail.UnitRate * detail.DemandQty);
                 master.TotalAmount = total;
             }
 
-            return BillRequisitionMasterModel;
+            return billRequisitionMasterModel;
         }
 
 
@@ -1263,7 +1276,7 @@ namespace KGERP.Service.Implementation
             foreach (var dt in details)
             {
                 var obj = billRequisitionMasterModel.DetailDataList.FirstOrDefault(c => c.BillRequisitionDetailId == dt.BillRequisitionDetailId);
-           
+
                 dt.DemandQty = obj.DemandQty;
                 dt.Remarks = obj.Remarks;
                 dt.ModifiedBy = userName;
@@ -1359,7 +1372,7 @@ namespace KGERP.Service.Implementation
                                                                             CreatedBy = t1.CreatedBy,
                                                                             EmployeeId = t6.Id,
                                                                             EmployeeStringId = t6.EmployeeId,
-                                                                            ApprovalModelList =  (from t7 in _context.BillRequisitionApprovals.Where(b => b.BillRequisitionMasterId == t1.BillRequisitionMasterId && b.IsActive)
+                                                                            ApprovalModelList = (from t7 in _context.BillRequisitionApprovals.Where(b => b.BillRequisitionMasterId == t1.BillRequisitionMasterId && b.IsActive)
                                                                                                  join t8 in _context.BillRequisitionMasters on t7.BillRequisitionMasterId equals t8.BillRequisitionMasterId
                                                                                                  select new BillRequisitionApprovalModel
                                                                                                  {

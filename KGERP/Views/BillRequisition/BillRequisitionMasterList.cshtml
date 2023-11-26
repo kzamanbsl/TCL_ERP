@@ -94,7 +94,7 @@
                                         <th>Project </th>
                                         <th style="text-align:right">Total</th>
                                         <th style="text-align:center">Action</th>
-                                        <th style="text-align:center">Change Status</th>
+                                        <th style="text-align:center"> Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -157,8 +157,26 @@
                                                 }
                                                 else
                                                 {
-                                                    <span class="border:1px solid;border-color:#006400;"><i style="color:#006400;">@item.StatusName</i></span>
+                                                    var mdApproved = item.ApprovalModelList.First(x => x.BillRequisitionMasterId == item.BillRequisitionMasterId && x.SignatoryId == (int)EnumBRequisitionSignatory.MD);
+                                                    if (mdApproved.IsSupremeApproved && mdApproved.AprrovalStatusId == (int)EnumBillRequisitionStatus.Approved)
+                                                    {
 
+
+                                                        <span class="btn btn-success btn-xs">Approved</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        foreach (var approval in item.ApprovalModelList)
+                                                        {
+
+                                                            if (approval.AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
+                                                            {
+                                                                <span class="btn btn-warning btn-xs"> @approval.AprrovalStatusName at  @approval.SignatoryName</span>
+
+                                                                break;
+                                                            }
+                                                        }
+                                                    }
                                                 }
                                             </td>
                                         </tr>
