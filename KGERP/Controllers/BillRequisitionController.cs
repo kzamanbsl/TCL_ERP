@@ -488,43 +488,43 @@ namespace KGERP.Controllers
         #region 1.2  BillRequisition Approval Circle
 
         [HttpGet]
-        public async Task<ActionResult> PMBRApproveSlave(int companyId = 0, long BillRequisitionMasterId = 0)
+        public async Task<ActionResult> PMBRApproveSlave(int companyId = 0, long billRequisitionMasterId = 0)
         {
-            BillRequisitionMasterModel BillRequisitionMasterModel = new BillRequisitionMasterModel();
+            BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
 
-            if (BillRequisitionMasterId > 0)
+            if (billRequisitionMasterId > 0)
             {
-                BillRequisitionMasterModel = await _service.GetBillRequisitionMasterDetailWithApproval(companyId, BillRequisitionMasterId);
-                BillRequisitionMasterModel.DetailDataList = BillRequisitionMasterModel.DetailList.ToList();
+                billRequisitionMasterModel = await _service.GetBillRequisitionMasterDetailWithApproval(companyId, billRequisitionMasterId);
+                billRequisitionMasterModel.DetailDataList = billRequisitionMasterModel.DetailList.ToList();
             }
-            return View(BillRequisitionMasterModel);
+            return View(billRequisitionMasterModel);
         }
 
         [HttpPost]
-        public async Task<ActionResult> PMBRApproveSlave(BillRequisitionMasterModel BillRequisitionMasterModel)
+        public async Task<ActionResult> PMBRApproveSlave(BillRequisitionMasterModel billRequisitionMasterModel)
         {
-            var resutl = await _service.PMBillRequisitionApproved(BillRequisitionMasterModel);
-            return RedirectToAction(nameof(PMBRApprovalList), new { companyId = BillRequisitionMasterModel.CompanyFK });
+            var resutl = await _service.PMBillRequisitionApproved(billRequisitionMasterModel);
+            return RedirectToAction(nameof(PMBRApprovalList), new { companyId = billRequisitionMasterModel.CompanyFK });
         }
 
         [HttpGet]
-        public async Task<ActionResult> PMBRRejectSlave(int companyId = 0, long BillRequisitionMasterId = 0)
+        public async Task<ActionResult> PMBRRejectSlave(int companyId = 0, long billRequisitionMasterId = 0)
         {
-            BillRequisitionMasterModel BillRequisitionMasterModel = new BillRequisitionMasterModel();
+            BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
 
-            if (BillRequisitionMasterId > 0)
+            if (billRequisitionMasterId > 0)
             {
-                BillRequisitionMasterModel = await _service.GetBillRequisitionMasterDetail(companyId, BillRequisitionMasterId);
-                BillRequisitionMasterModel.DetailDataList = BillRequisitionMasterModel.DetailList.ToList();
+                billRequisitionMasterModel = await _service.GetBillRequisitionMasterDetail(companyId, billRequisitionMasterId);
+                billRequisitionMasterModel.DetailDataList = billRequisitionMasterModel.DetailList.ToList();
             }
-            return View(BillRequisitionMasterModel);
+            return View(billRequisitionMasterModel);
         }
 
         [HttpPost]
-        public async Task<ActionResult> PMBRRejectSlave(BillRequisitionMasterModel BillRequisitionMasterModel)
+        public async Task<ActionResult> PMBRRejectSlave(BillRequisitionMasterModel billRequisitionMasterModel)
         {
-            var result = await _service.PMBillRequisitionRejected(BillRequisitionMasterModel);
-            return RedirectToAction(nameof(PMBRApprovalList), new { companyId = BillRequisitionMasterModel.CompanyFK });
+            var result = await _service.PMBillRequisitionRejected(billRequisitionMasterModel);
+            return RedirectToAction(nameof(PMBRApprovalList), new { companyId = billRequisitionMasterModel.CompanyFK });
         }
 
         [HttpGet]
