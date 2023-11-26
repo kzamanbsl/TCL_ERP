@@ -143,6 +143,46 @@ namespace KGERP.Controllers
 
         #endregion
 
+        #region BoQ Division
+
+        public ActionResult BoqDivision(int companyId)
+        {
+            BoqDivisionModel viewData = new BoqDivisionModel()
+            {
+                CompanyFK = companyId,
+                BoQDivisions = _service.BoQDivisionList()
+            };
+            return View(viewData);
+        }
+
+        [HttpPost]
+        public ActionResult BoqDivision(BoqDivisionModel model)
+        {
+            if (model.ActionEum == ActionEnum.Add)
+            {
+                //Add 
+                _service.Add(model);
+            }
+            else if (model.ActionEum == ActionEnum.Edit)
+            {
+                //Edit
+                _service.Edit(model);
+            }
+            else if (model.ActionEum == ActionEnum.Delete)
+            {
+                //Delete
+                _service.Delete(model);
+            }
+            else
+            {
+                return View("Error");
+            }
+            return RedirectToAction(nameof(BoqDivision), new { companyId = model.CompanyFK });
+        }
+
+
+        #endregion
+
         #region BoQ Item
 
         [HttpGet]
