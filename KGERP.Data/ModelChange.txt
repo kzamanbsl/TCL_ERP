@@ -51,7 +51,7 @@ Date: 26-11-2023
 	USE [TCLErp_Dev]
 	GO
 
-	/****** Object:  Table [Erp].[BoQBudgetMaster]    Script Date: 11/26/2023 12:05:04 PM ******/
+	/****** Object:  Table [Erp].[BoQBudgetMaster]    Script Date: 11/26/2023 1:34:33 PM ******/
 	SET ANSI_NULLS ON
 	GO
 
@@ -61,8 +61,8 @@ Date: 26-11-2023
 	CREATE TABLE [Erp].[BoQBudgetMaster](
 		[BoQBudgetMasterId] [bigint] IDENTITY(1,1) NOT NULL,
 		[ProjectId] [int] NOT NULL,
-		[BoQCategoryId] [bigint] NOT NULL,
-		[BillBoQItem] [bigint] NOT NULL,
+		[BoQDivisionId] [bigint] NOT NULL,
+		[BillBoQItemId] [int] NOT NULL,
 		[CompanyId] [int] NOT NULL,
 		[Description] [varchar](355) NOT NULL,
 		[CreatedBy] [varchar](255) NOT NULL,
@@ -80,6 +80,34 @@ Date: 26-11-2023
 	ALTER TABLE [Erp].[BoQBudgetMaster] ADD  CONSTRAINT [DF_BoQBudgetMaster_IsActive]  DEFAULT ((1)) FOR [IsActive]
 	GO
 
+	ALTER TABLE [Erp].[BoQBudgetMaster]  WITH CHECK ADD  CONSTRAINT [FK_BoQBudgetMaster_Accounting_CostCenter] FOREIGN KEY([ProjectId])
+	REFERENCES [dbo].[Accounting_CostCenter] ([CostCenterId])
+	GO
+
+	ALTER TABLE [Erp].[BoQBudgetMaster] CHECK CONSTRAINT [FK_BoQBudgetMaster_Accounting_CostCenter]
+	GO
+
+	ALTER TABLE [Erp].[BoQBudgetMaster]  WITH CHECK ADD  CONSTRAINT [FK_BoQBudgetMaster_BillBoQItem] FOREIGN KEY([BillBoQItemId])
+	REFERENCES [Erp].[BillBoQItem] ([BoQItemId])
+	GO
+
+	ALTER TABLE [Erp].[BoQBudgetMaster] CHECK CONSTRAINT [FK_BoQBudgetMaster_BillBoQItem]
+	GO
+
+	ALTER TABLE [Erp].[BoQBudgetMaster]  WITH CHECK ADD  CONSTRAINT [FK_BoQBudgetMaster_BoQDivision] FOREIGN KEY([BoQDivisionId])
+	REFERENCES [Erp].[BoQDivision] ([BoQDivisionId])
+	GO
+
+	ALTER TABLE [Erp].[BoQBudgetMaster] CHECK CONSTRAINT [FK_BoQBudgetMaster_BoQDivision]
+	GO
+
+	ALTER TABLE [Erp].[BoQBudgetMaster]  WITH CHECK ADD  CONSTRAINT [FK_BoQBudgetMaster_Company] FOREIGN KEY([CompanyId])
+	REFERENCES [dbo].[Company] ([CompanyId])
+	GO
+
+	ALTER TABLE [Erp].[BoQBudgetMaster] CHECK CONSTRAINT [FK_BoQBudgetMaster_Company]
+	GO
+
 
 Date: 26-11-2023
 ================
@@ -88,7 +116,7 @@ Date: 26-11-2023
 	USE [TCLErp_Dev]
 	GO
 
-	/****** Object:  Table [Erp].[BoQBudgetDetail]    Script Date: 11/26/2023 12:07:49 PM ******/
+	/****** Object:  Table [Erp].[BoQBudgetDetail]    Script Date: 11/26/2023 1:35:22 PM ******/
 	SET ANSI_NULLS ON
 	GO
 
@@ -115,6 +143,20 @@ Date: 26-11-2023
 	GO
 
 	ALTER TABLE [Erp].[BoQBudgetDetail] ADD  CONSTRAINT [DF_BoQBudgetDetail_IsActive]  DEFAULT ((1)) FOR [IsActive]
+	GO
+
+	ALTER TABLE [Erp].[BoQBudgetDetail]  WITH CHECK ADD  CONSTRAINT [FK_BoQBudgetDetail_BoQBudgetMaster] FOREIGN KEY([BoQBudgetMasterId])
+	REFERENCES [Erp].[BoQBudgetMaster] ([BoQBudgetMasterId])
+	GO
+
+	ALTER TABLE [Erp].[BoQBudgetDetail] CHECK CONSTRAINT [FK_BoQBudgetDetail_BoQBudgetMaster]
+	GO
+
+	ALTER TABLE [Erp].[BoQBudgetDetail]  WITH CHECK ADD  CONSTRAINT [FK_BoQBudgetDetail_Unit] FOREIGN KEY([ItemUnitId])
+	REFERENCES [Erp].[Unit] ([UnitId])
+	GO
+
+	ALTER TABLE [Erp].[BoQBudgetDetail] CHECK CONSTRAINT [FK_BoQBudgetDetail_Unit]
 	GO
 
 
