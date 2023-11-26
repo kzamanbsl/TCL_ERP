@@ -47,7 +47,7 @@ namespace KGERP.Service.ServiceModel
         public BillRequisitionDetailModel DetailModel { get; set; } = new BillRequisitionDetailModel();
         public IEnumerable<BillRequisitionDetailModel> DetailList { get; set; } = new List<BillRequisitionDetailModel>();
         public BillRequisitionApprovalModel ApprovalModel { get; set; } = new BillRequisitionApprovalModel();
-        public IEnumerable<BillRequisitionApprovalModel> ApprovalModelList { get; set; } = new List<BillRequisitionApprovalModel>();
+        public List<BillRequisitionApprovalModel> ApprovalModelList { get; set; } = new List<BillRequisitionApprovalModel>();
         public SelectList ProjectList { get; set; } = new SelectList(new List<object>());
         public SelectList RequisitionTypeList { get; set; } = new SelectList(new List<object>());
         public SelectList BOQItemList { get; set; } = new SelectList(new List<object>());
