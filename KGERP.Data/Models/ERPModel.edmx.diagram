@@ -552,21 +552,18 @@
         <EntityTypeShape EntityType="ERPModel.UserLog" Width="1.5" PointX="0.75" PointY="4.75" />
         <EntityTypeShape EntityType="ERPModel.BoQBudgetDetail" Width="1.5" PointX="13.125" PointY="58" />
         <EntityTypeShape EntityType="ERPModel.BoQBudgetMaster" Width="1.5" PointX="8.875" PointY="47.125" />
-        <EntityTypeShape EntityType="ERPModel.BoQDivision" Width="1.5" PointX="6.625" PointY="53.875" />
         <AssociationConnector Association="ERPModel.FK_BoQBudgetMaster_Accounting_CostCenter" />
         <AssociationConnector Association="ERPModel.FK_BoQBudgetMaster_Company" />
         <AssociationConnector Association="ERPModel.FK_BoQBudgetDetail_BoQBudgetMaster" />
         <AssociationConnector Association="ERPModel.FK_BoQBudgetDetail_Unit" />
-        <AssociationConnector Association="ERPModel.FK_BoQBudgetMaster_BoQDivision" />
         <EntityTypeShape EntityType="ERPModel.BoQItemProductMap" Width="1.5" PointX="38.5" PointY="41.125" />
         <AssociationConnector Association="ERPModel.FK_BillRequisitionItemBoQMap_Company" />
         <AssociationConnector Association="ERPModel.FK_BoQItemProductMap_Product" />
-        <EntityTypeShape EntityType="ERPModel.BillBoQItem" Width="1.5" PointX="13.875" PointY="36" />
-        <AssociationConnector Association="ERPModel.FK_BillBoQItem_Accounting_CostCenter" />
-        <AssociationConnector Association="ERPModel.FK_BillBoQItem_BoQDivision" />
-        <AssociationConnector Association="ERPModel.FK_BillRequisitionItemBoQMap_BillBoQItem" />
-        <AssociationConnector Association="ERPModel.FK_BillRequisitionMaster_BillBoQItem" />
-        <AssociationConnector Association="ERPModel.FK_BoQBudgetMaster_BillBoQItem" />
+        <EntityTypeShape EntityType="ERPModel.BillBoQItem" Width="1.5" PointX="5.25" PointY="65.75" />
+        <EntityTypeShape EntityType="ERPModel.BoQDivision" Width="1.5" PointX="11.625" PointY="47.625" />
+        <AssociationConnector Association="ERPModel.FK_BoQDivision_Accounting_CostCenter" />
+        <AssociationConnector Association="ERPModel.FK_BoQDivision_Company" />
+        <AssociationConnector Association="ERPModel.FK_BillBoQItem_Unit" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -36,7 +36,5 @@ namespace KGERP.Data.Models
         public virtual Company Company { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BoQBudgetDetail> BoQBudgetDetails { get; set; }
-        public virtual BoQDivision BoQDivision { get; set; }
-        public virtual BillBoQItem BillBoQItem { get; set; }
     }
 }

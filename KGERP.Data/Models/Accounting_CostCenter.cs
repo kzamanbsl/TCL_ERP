@@ -20,7 +20,7 @@ namespace KGERP.Data.Models
             this.CostCenterManagerMaps = new HashSet<CostCenterManagerMap>();
             this.BillRequisitionMasters = new HashSet<BillRequisitionMaster>();
             this.BoQBudgetMasters = new HashSet<BoQBudgetMaster>();
-            this.BillBoQItems = new HashSet<BillBoQItem>();
+            this.BoQDivisions = new HashSet<BoQDivision>();
         }
     
         public int CostCenterId { get; set; }
@@ -42,6 +42,6 @@ namespace KGERP.Data.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BoQBudgetMaster> BoQBudgetMasters { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BillBoQItem> BillBoQItems { get; set; }
+        public virtual ICollection<BoQDivision> BoQDivisions { get; set; }
     }
 }

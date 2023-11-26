@@ -257,7 +257,6 @@ namespace KGERP.Service.Implementation
                 var data = new BillBoQItem()
                 {
                     BoQItemId = item.BoQItemId,
-                    CostCenterId = item.CostCenterId,
                     Name = item.Name,
                     Description = item.Description
                 };
@@ -269,13 +268,12 @@ namespace KGERP.Service.Implementation
         public List<BillBoQItem> GetBillOfQuotationListByProjectId(int id)
         {
             List<BillBoQItem> billBoQItems = new List<BillBoQItem>();
-            var getBillBoQItems = _context.BillBoQItems.Where(c => c.CostCenterId == id && c.IsActive == true).ToList();
+            var getBillBoQItems = _context.BillBoQItems.Where(c => c.IsActive == true).ToList();
             foreach (var item in getBillBoQItems)
             {
                 var data = new BillBoQItem()
                 {
                     BoQItemId = item.BoQItemId,
-                    CostCenterId = item.CostCenterId,
                     Name = item.Name,
                     Description = item.Description
                 };
@@ -293,9 +291,7 @@ namespace KGERP.Service.Implementation
                     BillBoQItem data = new BillBoQItem()
                     {
                         Name = model.Name,
-                        CostCenterId = model.CostCenterId,
                         Description = model.Description,
-                        CompanyId = (int)model.CompanyFK,
                         IsActive = true,
                         CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
                         CreateDate = DateTime.Now
@@ -324,7 +320,6 @@ namespace KGERP.Service.Implementation
                     var findBillRequisitionBoQ = _context.BillBoQItems.FirstOrDefault(c => c.BoQItemId == model.ID);
 
                     findBillRequisitionBoQ.Name = model.Name;
-                    findBillRequisitionBoQ.CostCenterId = model.CostCenterId;
                     findBillRequisitionBoQ.Description = model.Description;
                     findBillRequisitionBoQ.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
                     findBillRequisitionBoQ.ModifiedDate = DateTime.Now;
