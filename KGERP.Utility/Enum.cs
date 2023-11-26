@@ -5,8 +5,8 @@
         Initiator = 1,
         PM,
         QS,
-        PD,
         Director,
+        PD,
         MD
     }
     public enum EnumBillRequisitionStatus
