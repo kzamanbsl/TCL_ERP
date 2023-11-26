@@ -563,5 +563,317 @@ namespace KGERP.Controllers
 
         #endregion
 
+        #region 1.3  QS  BillRequisition Approval Circle
+
+        [HttpGet]
+        public async Task<ActionResult> QSBRApproveSlave(int companyId = 0, long billRequisitionMasterId = 0)
+        {
+            BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
+
+            if (billRequisitionMasterId > 0)
+            {
+                billRequisitionMasterModel = await _service.GetBillRequisitionMasterDetailWithApproval(companyId, billRequisitionMasterId);
+                billRequisitionMasterModel.DetailDataList = billRequisitionMasterModel.DetailList.ToList();
+            }
+            return View(billRequisitionMasterModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> QSBRApproveSlave(BillRequisitionMasterModel billRequisitionMasterModel)
+        {
+            var resutl = await _service.QSBillRequisitionApproved(billRequisitionMasterModel);
+            return RedirectToAction(nameof(QSBRApprovalList), new { companyId = billRequisitionMasterModel.CompanyFK });
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> QSBRRejectSlave(int companyId = 0, long billRequisitionMasterId = 0)
+        {
+            BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
+
+            if (billRequisitionMasterId > 0)
+            {
+                billRequisitionMasterModel = await _service.GetBillRequisitionMasterDetail(companyId, billRequisitionMasterId);
+                billRequisitionMasterModel.DetailDataList = billRequisitionMasterModel.DetailList.ToList();
+            }
+            return View(billRequisitionMasterModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> QSBRRejectSlave(BillRequisitionMasterModel billRequisitionMasterModel)
+        {
+            var result = await _service.QSBillRequisitionRejected(billRequisitionMasterModel);
+            return RedirectToAction(nameof(QSBRApprovalList), new { companyId = billRequisitionMasterModel.CompanyFK });
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> QSBRApprovalList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
+        {
+            if (!fromDate.HasValue) fromDate = DateTime.Now.AddMonths(-2);
+            if (!toDate.HasValue) toDate = DateTime.Now;
+
+            BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
+            billRequisitionMasterModel = await _service.GetQSBillRequisitionList(companyId, fromDate, toDate, vStatus);
+
+            billRequisitionMasterModel.StrFromDate = fromDate.Value.ToString("yyyy-MM-dd");
+            billRequisitionMasterModel.StrToDate = toDate.Value.ToString("yyyy-MM-dd");
+            if (vStatus == null)
+            {
+                vStatus = -1;
+            }
+            billRequisitionMasterModel.StatusId = (EnumBillRequisitionStatus)vStatus;
+
+            return View(billRequisitionMasterModel);
+        }
+
+        [HttpPost]
+        public ActionResult QSBRApprovalListSearch(BillRequisitionMasterModel billRequisitionMasterModel)
+        {
+            if (billRequisitionMasterModel.CompanyFK > 0)
+            {
+                Session["CompanyId"] = billRequisitionMasterModel.CompanyFK;
+            }
+
+            billRequisitionMasterModel.FromDate = Convert.ToDateTime(billRequisitionMasterModel.StrFromDate);
+            billRequisitionMasterModel.ToDate = Convert.ToDateTime(billRequisitionMasterModel.StrToDate);
+            return RedirectToAction(nameof(QSBRApprovalList), new { companyId = billRequisitionMasterModel.CompanyFK, fromDate = billRequisitionMasterModel.FromDate, toDate = billRequisitionMasterModel.ToDate, vStatus = (int)billRequisitionMasterModel.StatusId });
+
+        }
+
+        #endregion
+
+        #region 1.4  PD  BillRequisition Approval Circle
+
+        [HttpGet]
+        public async Task<ActionResult> PDBRApproveSlave(int companyId = 0, long billRequisitionMasterId = 0)
+        {
+            BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
+
+            if (billRequisitionMasterId > 0)
+            {
+                billRequisitionMasterModel = await _service.GetBillRequisitionMasterDetailWithApproval(companyId, billRequisitionMasterId);
+                billRequisitionMasterModel.DetailDataList = billRequisitionMasterModel.DetailList.ToList();
+            }
+            return View(billRequisitionMasterModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> PDBRApproveSlave(BillRequisitionMasterModel billRequisitionMasterModel)
+        {
+            var resutl = await _service.PDBillRequisitionApproved(billRequisitionMasterModel);
+            return RedirectToAction(nameof(PDBRApprovalList), new { companyId = billRequisitionMasterModel.CompanyFK });
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> PDBRRejectSlave(int companyId = 0, long billRequisitionMasterId = 0)
+        {
+            BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
+
+            if (billRequisitionMasterId > 0)
+            {
+                billRequisitionMasterModel = await _service.GetBillRequisitionMasterDetail(companyId, billRequisitionMasterId);
+                billRequisitionMasterModel.DetailDataList = billRequisitionMasterModel.DetailList.ToList();
+            }
+            return View(billRequisitionMasterModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> PDBRRejectSlave(BillRequisitionMasterModel billRequisitionMasterModel)
+        {
+            var result = await _service.PDBillRequisitionRejected(billRequisitionMasterModel);
+            return RedirectToAction(nameof(PDBRApprovalList), new { companyId = billRequisitionMasterModel.CompanyFK });
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> PDBRApprovalList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
+        {
+            if (!fromDate.HasValue) fromDate = DateTime.Now.AddMonths(-2);
+            if (!toDate.HasValue) toDate = DateTime.Now;
+
+            BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
+            billRequisitionMasterModel = await _service.GetPDBillRequisitionList(companyId, fromDate, toDate, vStatus);
+
+            billRequisitionMasterModel.StrFromDate = fromDate.Value.ToString("yyyy-MM-dd");
+            billRequisitionMasterModel.StrToDate = toDate.Value.ToString("yyyy-MM-dd");
+            if (vStatus == null)
+            {
+                vStatus = -1;
+            }
+            billRequisitionMasterModel.StatusId = (EnumBillRequisitionStatus)vStatus;
+
+            return View(billRequisitionMasterModel);
+        }
+
+        [HttpPost]
+        public ActionResult PDBRApprovalListSearch(BillRequisitionMasterModel billRequisitionMasterModel)
+        {
+            if (billRequisitionMasterModel.CompanyFK > 0)
+            {
+                Session["CompanyId"] = billRequisitionMasterModel.CompanyFK;
+            }
+
+            billRequisitionMasterModel.FromDate = Convert.ToDateTime(billRequisitionMasterModel.StrFromDate);
+            billRequisitionMasterModel.ToDate = Convert.ToDateTime(billRequisitionMasterModel.StrToDate);
+            return RedirectToAction(nameof(PDBRApprovalList), new { companyId = billRequisitionMasterModel.CompanyFK, fromDate = billRequisitionMasterModel.FromDate, toDate = billRequisitionMasterModel.ToDate, vStatus = (int)billRequisitionMasterModel.StatusId });
+
+        }
+
+        #endregion
+
+        #region 1.5  Director  BillRequisition Approval Circle
+
+        [HttpGet]
+        public async Task<ActionResult> DirectorBRApproveSlave(int companyId = 0, long billRequisitionMasterId = 0)
+        {
+            BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
+
+            if (billRequisitionMasterId > 0)
+            {
+                billRequisitionMasterModel = await _service.GetBillRequisitionMasterDetailWithApproval(companyId, billRequisitionMasterId);
+                billRequisitionMasterModel.DetailDataList = billRequisitionMasterModel.DetailList.ToList();
+            }
+            return View(billRequisitionMasterModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DirectorBRApproveSlave(BillRequisitionMasterModel billRequisitionMasterModel)
+        {
+            var resutl = await _service.DirectorBillRequisitionApproved(billRequisitionMasterModel);
+            return RedirectToAction(nameof(DirectorBRApprovalList), new { companyId = billRequisitionMasterModel.CompanyFK });
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> DirectorBRRejectSlave(int companyId = 0, long billRequisitionMasterId = 0)
+        {
+            BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
+
+            if (billRequisitionMasterId > 0)
+            {
+                billRequisitionMasterModel = await _service.GetBillRequisitionMasterDetail(companyId, billRequisitionMasterId);
+                billRequisitionMasterModel.DetailDataList = billRequisitionMasterModel.DetailList.ToList();
+            }
+            return View(billRequisitionMasterModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DirectorBRRejectSlave(BillRequisitionMasterModel billRequisitionMasterModel)
+        {
+            var result = await _service.DirectorBillRequisitionRejected(billRequisitionMasterModel);
+            return RedirectToAction(nameof(DirectorBRApprovalList), new { companyId = billRequisitionMasterModel.CompanyFK });
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> DirectorBRApprovalList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
+        {
+            if (!fromDate.HasValue) fromDate = DateTime.Now.AddMonths(-2);
+            if (!toDate.HasValue) toDate = DateTime.Now;
+
+            BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
+            billRequisitionMasterModel = await _service.GetDirectorBillRequisitionList(companyId, fromDate, toDate, vStatus);
+
+            billRequisitionMasterModel.StrFromDate = fromDate.Value.ToString("yyyy-MM-dd");
+            billRequisitionMasterModel.StrToDate = toDate.Value.ToString("yyyy-MM-dd");
+            if (vStatus == null)
+            {
+                vStatus = -1;
+            }
+            billRequisitionMasterModel.StatusId = (EnumBillRequisitionStatus)vStatus;
+
+            return View(billRequisitionMasterModel);
+        }
+
+        [HttpPost]
+        public ActionResult DirectorBRApprovalListSearch(BillRequisitionMasterModel billRequisitionMasterModel)
+        {
+            if (billRequisitionMasterModel.CompanyFK > 0)
+            {
+                Session["CompanyId"] = billRequisitionMasterModel.CompanyFK;
+            }
+
+            billRequisitionMasterModel.FromDate = Convert.ToDateTime(billRequisitionMasterModel.StrFromDate);
+            billRequisitionMasterModel.ToDate = Convert.ToDateTime(billRequisitionMasterModel.StrToDate);
+            return RedirectToAction(nameof(DirectorBRApprovalList), new { companyId = billRequisitionMasterModel.CompanyFK, fromDate = billRequisitionMasterModel.FromDate, toDate = billRequisitionMasterModel.ToDate, vStatus = (int)billRequisitionMasterModel.StatusId });
+
+        }
+
+        #endregion
+
+
+        #region 1.6  MD  BillRequisition Approval Circle
+
+        [HttpGet]
+        public async Task<ActionResult> MDBRApproveSlave(int companyId = 0, long billRequisitionMasterId = 0)
+        {
+            BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
+
+            if (billRequisitionMasterId > 0)
+            {
+                billRequisitionMasterModel = await _service.GetBillRequisitionMasterDetailWithApproval(companyId, billRequisitionMasterId);
+                billRequisitionMasterModel.DetailDataList = billRequisitionMasterModel.DetailList.ToList();
+            }
+            return View(billRequisitionMasterModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> MDBRApproveSlave(BillRequisitionMasterModel billRequisitionMasterModel)
+        {
+            var resutl = await _service.MDBillRequisitionApproved(billRequisitionMasterModel);
+            return RedirectToAction(nameof(MDBRApprovalList), new { companyId = billRequisitionMasterModel.CompanyFK });
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> MDBRRejectSlave(int companyId = 0, long billRequisitionMasterId = 0)
+        {
+            BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
+
+            if (billRequisitionMasterId > 0)
+            {
+                billRequisitionMasterModel = await _service.GetBillRequisitionMasterDetail(companyId, billRequisitionMasterId);
+                billRequisitionMasterModel.DetailDataList = billRequisitionMasterModel.DetailList.ToList();
+            }
+            return View(billRequisitionMasterModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> MDBRRejectSlave(BillRequisitionMasterModel billRequisitionMasterModel)
+        {
+            var result = await _service.MDBillRequisitionRejected(billRequisitionMasterModel);
+            return RedirectToAction(nameof(MDBRApprovalList), new { companyId = billRequisitionMasterModel.CompanyFK });
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> MDBRApprovalList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
+        {
+            if (!fromDate.HasValue) fromDate = DateTime.Now.AddMonths(-2);
+            if (!toDate.HasValue) toDate = DateTime.Now;
+
+            BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
+            billRequisitionMasterModel = await _service.GetMDBillRequisitionList(companyId, fromDate, toDate, vStatus);
+
+            billRequisitionMasterModel.StrFromDate = fromDate.Value.ToString("yyyy-MM-dd");
+            billRequisitionMasterModel.StrToDate = toDate.Value.ToString("yyyy-MM-dd");
+            if (vStatus == null)
+            {
+                vStatus = -1;
+            }
+            billRequisitionMasterModel.StatusId = (EnumBillRequisitionStatus)vStatus;
+
+            return View(billRequisitionMasterModel);
+        }
+
+        [HttpPost]
+        public ActionResult MDBRApprovalListSearch(BillRequisitionMasterModel billRequisitionMasterModel)
+        {
+            if (billRequisitionMasterModel.CompanyFK > 0)
+            {
+                Session["CompanyId"] = billRequisitionMasterModel.CompanyFK;
+            }
+
+            billRequisitionMasterModel.FromDate = Convert.ToDateTime(billRequisitionMasterModel.StrFromDate);
+            billRequisitionMasterModel.ToDate = Convert.ToDateTime(billRequisitionMasterModel.StrToDate);
+            return RedirectToAction(nameof(MDBRApprovalList), new { companyId = billRequisitionMasterModel.CompanyFK, fromDate = billRequisitionMasterModel.FromDate, toDate = billRequisitionMasterModel.ToDate, vStatus = (int)billRequisitionMasterModel.StatusId });
+
+        }
+
+        #endregion
     }
 }
