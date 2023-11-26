@@ -35,8 +35,6 @@ namespace KGERP.Service.Implementation
                     BoQItemProductMapId = item.BoQItemProductMapId,
                     BoQItemId = item.BoQItemId,
                     ProductId = item.ProductId,
-                    EstimatedQty = item.EstimatedQty,
-                    EstimatedAmount = item.EstimatedAmount
                 };
                 boqMapList.Add(data);
             }
@@ -73,8 +71,6 @@ namespace KGERP.Service.Implementation
                     {
                         BoQItemId = model.BoQItemId,
                         ProductId = model.MeterialId,
-                        EstimatedQty = model.EstimateQuantity,
-                        EstimatedAmount = model.EstimateAmount,
                         CompanyId = (int)model.CompanyFK,
                         IsActive = true,
                         CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
@@ -105,8 +101,6 @@ namespace KGERP.Service.Implementation
 
                     findBoQProductMap.BoQItemId = model.BoQItemId;
                     findBoQProductMap.ProductId = model.MeterialId;
-                    findBoQProductMap.EstimatedQty = model.EstimateQuantity;
-                    findBoQProductMap.EstimatedAmount = model.EstimateAmount;
                     findBoQProductMap.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
                     findBoQProductMap.ModifiedDate = DateTime.Now;
                     var count = _context.SaveChanges();
@@ -164,8 +158,6 @@ namespace KGERP.Service.Implementation
                     BoQItemId = item.BoQItemId,
                     CostCenterId = item.CostCenterId,
                     Name = item.Name,
-                    //BoQQty = item.BoQQty,
-                    BoQAmount = item.BoQAmount,
                     Description = item.Description
                 };
                 billBoQItems.Add(data);
@@ -184,8 +176,6 @@ namespace KGERP.Service.Implementation
                     BoQItemId = item.BoQItemId,
                     CostCenterId = item.CostCenterId,
                     Name = item.Name,
-                    //BoQQty = item.BoQQty,
-                    BoQAmount = item.BoQAmount,
                     Description = item.Description
                 };
                 billBoQItems.Add(data);
@@ -203,7 +193,6 @@ namespace KGERP.Service.Implementation
                     {
                         Name = model.Name,
                         CostCenterId = model.CostCenterId,
-                        BoQAmount = model.BoQAmount,
                         Description = model.Description,
                         CompanyId = (int)model.CompanyFK,
                         IsActive = true,
@@ -235,7 +224,6 @@ namespace KGERP.Service.Implementation
 
                     findBillRequisitionBoQ.Name = model.Name;
                     findBillRequisitionBoQ.CostCenterId = model.CostCenterId;
-                    findBillRequisitionBoQ.BoQAmount = model.BoQAmount;
                     findBillRequisitionBoQ.Description = model.Description;
                     findBillRequisitionBoQ.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
                     findBillRequisitionBoQ.ModifiedDate = DateTime.Now;
