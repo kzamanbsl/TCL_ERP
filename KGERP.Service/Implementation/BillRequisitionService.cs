@@ -157,6 +157,7 @@ namespace KGERP.Service.Implementation
                 {
                     BoQDivisionId = item.BoQDivisionId,
                     Name = item.Name,
+                    ProjectId = item.ProjectId
                 };
                 BoQDivisionS.Add(data);
             }
@@ -172,6 +173,7 @@ namespace KGERP.Service.Implementation
                     BoQDivision data = new BoQDivision()
                     {
                         Name = model.Name,
+                        ProjectId = model.ProjectId,
                         CompanyId = (int)model.CompanyFK,
                         IsActive = true,
                         CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
@@ -201,6 +203,7 @@ namespace KGERP.Service.Implementation
                     var findBoqDivision = _context.BoQDivisions.FirstOrDefault(c => c.BoQDivisionId == model.ID);
 
                     findBoqDivision.Name = model.Name;
+                    findBoqDivision.ProjectId = model.ProjectId;
                     findBoqDivision.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
                     findBoqDivision.ModifiedOn = DateTime.Now;
                     var count = _context.SaveChanges();

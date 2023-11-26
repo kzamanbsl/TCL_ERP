@@ -150,8 +150,8 @@ namespace KGERP.Controllers
             BoqDivisionModel viewData = new BoqDivisionModel()
             {
                 CompanyFK = companyId,
-                BoQDivisions = _service.BoQDivisionList(),
-                Projecs = _service.GetProjectList()
+                Projecs = _service.GetProjectList(),
+                BoQDivisions = _service.BoQDivisionList()
             };
             return View(viewData);
         }

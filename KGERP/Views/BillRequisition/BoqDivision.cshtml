@@ -39,7 +39,7 @@
 
                                 <div class="form-group">
                                     <label>Select Project : </label>
-                                    @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.Projecs, "CostCenterTypeId", "Name"), "=== Select Project ===", new { id = "ddlCostCenterTypeId", @class = "form-control searchingDropdown", style = "width:100%" })
+                                    @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.Projecs, "CostCenterId", "Name"), "=== Select Project ===", new { id = "ddProjectId", @class = "form-control searchingDropdown", style = "width:100%" })
                                     @Html.ValidationMessageFor(model => model.ProjectId, "", new { @class = "text-danger" })
                                 </div>
 
@@ -77,6 +77,7 @@
                                             <tr>
                                                 <th>SL</th>
                                                 <th>BoQ Division Name</th>
+                                                <th>Project Name</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -90,9 +91,10 @@
                                                         <tr>
                                                             <td>
                                                                 @(++sl)
-                                                                <input type="hidden" id="BoqDivision_@item.BoQDivisionId" name="BoqDivisionId" value="@item.BoQDivisionId" />
+                                                                <input type="hidden" id="ddProjectId_@item.BoQDivisionId" name="ProjectId" value="@item.ProjectId" />
                                                             </td>
                                                             <td id=" tdBoqDivisionName_@item.BoQDivisionId">@item.Name</td>
+                                                            <td id=" tdBoqProjectname_@item.BoQDivisionId">@Model.Projecs.FirstOrDefault(c=> c.CostCenterId == item.ProjectId).Name</td>
                                                             <td>
                                                                 <a id="@item.BoQDivisionId" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
 
@@ -166,6 +168,7 @@
                 $('#ActionId').val(2);
                 $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Update");
                 $('#txtBoqDivisionName').val($('#tdBoqDivisionName_' + rowId).text().trim());
+                $('#ddProjectId').val($('#ddProjectId_' + rowId).val().trim()).trigger('change');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
                 console.log(rowId);
             }
