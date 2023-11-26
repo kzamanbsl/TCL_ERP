@@ -537,21 +537,14 @@
         <AssociationConnector Association="ERPModel.FK_BillRequisitionVoucherMap_Voucher" />
         <AssociationConnector Association="ERPModel.FK_BillRequisitionMaster_BillRequisitionType" />
         <AssociationConnector Association="ERPModel.FK_VoucherBillRequisitionMap_BillRequisitionMaster" />
-        <EntityTypeShape EntityType="ERPModel.BillBoQItem" Width="1.5" PointX="5.625" PointY="65.25" />
-        <AssociationConnector Association="ERPModel.FK_BillBoQItem_Accounting_CostCenter" />
-        <AssociationConnector Association="ERPModel.FK_BillRequisitionMaster_BillBoQItem" />
         <EntityTypeShape EntityType="ERPModel.BillRequisitionApproval" Width="1.5" PointX="54.125" PointY="43.5" />
         <AssociationConnector Association="ERPModel.FK_BillRequisitionApproval_Company" />
         <AssociationConnector Association="ERPModel.FK_BillRequisitionApproval_Employee" />
         <AssociationConnector Association="ERPModel.FK_BillRequisitionApproval_BillRequisitionMaster" />
         <EntityTypeShape EntityType="ERPModel.BillRequisitionDetail" Width="1.5" PointX="51.5" PointY="49" />
-        <EntityTypeShape EntityType="ERPModel.BoQItemProductMap" Width="1.5" PointX="38.5" PointY="40.875" />
         <AssociationConnector Association="ERPModel.FK_BillRequisitionDetail_Company" />
-        <AssociationConnector Association="ERPModel.FK_BillRequisitionItemBoQMap_Company" />
-        <AssociationConnector Association="ERPModel.FK_BillRequisitionItemBoQMap_BillBoQItem" />
         <AssociationConnector Association="ERPModel.FK_BillRequisitionDetail_BillRequisitionMaster" />
         <AssociationConnector Association="ERPModel.FK_BillRequisitionDetail_Product1" />
-        <AssociationConnector Association="ERPModel.FK_BoQItemProductMap_Product" />
         <EntityTypeShape EntityType="ERPModel.Unit" Width="1.5" PointX="3" PointY="68.5" />
         <AssociationConnector Association="ERPModel.FK_Unit_Company" />
         <AssociationConnector Association="ERPModel.FK_Product_Unit" />
@@ -562,10 +555,17 @@
         <EntityTypeShape EntityType="ERPModel.BoQDivision" Width="1.5" PointX="6.625" PointY="53.875" />
         <AssociationConnector Association="ERPModel.FK_BoQBudgetMaster_Accounting_CostCenter" />
         <AssociationConnector Association="ERPModel.FK_BoQBudgetMaster_Company" />
-        <AssociationConnector Association="ERPModel.FK_BoQBudgetMaster_BillBoQItem" />
         <AssociationConnector Association="ERPModel.FK_BoQBudgetDetail_BoQBudgetMaster" />
         <AssociationConnector Association="ERPModel.FK_BoQBudgetDetail_Unit" />
         <AssociationConnector Association="ERPModel.FK_BoQBudgetMaster_BoQDivision" />
+        <EntityTypeShape EntityType="ERPModel.BillBoQItem" Width="1.5" PointX="5.625" PointY="65.375" />
+        <EntityTypeShape EntityType="ERPModel.BoQItemProductMap" Width="1.5" PointX="38.5" PointY="41.125" />
+        <AssociationConnector Association="ERPModel.FK_BillBoQItem_Accounting_CostCenter" />
+        <AssociationConnector Association="ERPModel.FK_BillRequisitionItemBoQMap_Company" />
+        <AssociationConnector Association="ERPModel.FK_BillRequisitionItemBoQMap_BillBoQItem" />
+        <AssociationConnector Association="ERPModel.FK_BillRequisitionMaster_BillBoQItem" />
+        <AssociationConnector Association="ERPModel.FK_BoQBudgetMaster_BillBoQItem" />
+        <AssociationConnector Association="ERPModel.FK_BoQItemProductMap_Product" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

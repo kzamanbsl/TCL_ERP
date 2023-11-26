@@ -17,8 +17,6 @@ namespace KGERP.Data.Models
         public long BoQItemProductMapId { get; set; }
         public int BoQItemId { get; set; }
         public int ProductId { get; set; }
-        public decimal EstimatedQty { get; set; }
-        public decimal EstimatedAmount { get; set; }
         public int CompanyId { get; set; }
         public System.DateTime CreateDate { get; set; }
         public string CreatedBy { get; set; }

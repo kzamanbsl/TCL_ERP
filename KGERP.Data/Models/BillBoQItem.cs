@@ -17,15 +17,14 @@ namespace KGERP.Data.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public BillBoQItem()
         {
-            this.BillRequisitionMasters = new HashSet<BillRequisitionMaster>();
             this.BoQItemProductMaps = new HashSet<BoQItemProductMap>();
+            this.BillRequisitionMasters = new HashSet<BillRequisitionMaster>();
             this.BoQBudgetMasters = new HashSet<BoQBudgetMaster>();
         }
     
         public int BoQItemId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public Nullable<decimal> BoQAmount { get; set; }
         public Nullable<int> CostCenterId { get; set; }
         public int CompanyId { get; set; }
         public System.DateTime CreateDate { get; set; }
@@ -36,9 +35,9 @@ namespace KGERP.Data.Models
     
         public virtual Accounting_CostCenter Accounting_CostCenter { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BillRequisitionMaster> BillRequisitionMasters { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BoQItemProductMap> BoQItemProductMaps { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BillRequisitionMaster> BillRequisitionMasters { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BoQBudgetMaster> BoQBudgetMasters { get; set; }
     }
