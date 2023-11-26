@@ -22,7 +22,7 @@ namespace KGERP.Service.Implementation
             _context = context;
         }
 
-        #region Bill of Quotation
+        #region BoQ Requisition Item Map
 
         public List<BoQItemProductMap> GetBoQProductMapList()
         {
@@ -128,6 +128,107 @@ namespace KGERP.Service.Implementation
                     findBoQProductMap.IsActive = false;
                     findBoQProductMap.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
                     findBoQProductMap.ModifiedDate = DateTime.Now;
+                    var count = _context.SaveChanges();
+
+                    if (count > 0)
+                    {
+                        return true;
+                    }
+                }
+                catch (Exception e)
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        #endregion
+
+        #region  BoQ Division
+
+        public List<BoQDivision> BoQDivisionList()
+        {
+            List<BoQDivision> BoQDivisionS = new List<BoQDivision>();
+            var getBoQDivisionS = _context.BoQDivisions.Where(c => c.CompanyId == 21 && c.IsActive == true).ToList();
+            foreach (var item in getBoQDivisionS)
+            {
+                var data = new BoQDivision()
+                {
+                    BoQDivisionId = item.BoQDivisionId,
+                    Name = item.Name,
+                };
+                BoQDivisionS.Add(data);
+            }
+            return BoQDivisionS;
+        }
+
+        public bool Add(BoqDivisionModel model)
+        {
+            if (model != null)
+            {
+                try
+                {
+                    BoQDivision data = new BoQDivision()
+                    {
+                        Name = model.Name,
+                        CompanyId = (int)model.CompanyFK,
+                        IsActive = true,
+                        CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                        CreatedOn= DateTime.Now
+                    };
+                    _context.BoQDivisions.Add(data);
+                    var count = _context.SaveChanges();
+                    if (count > 0)
+                    {
+                        return true;
+                    }
+                }
+                catch (Exception e)
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        public bool Edit(BoqDivisionModel model)
+        {
+            if (model != null)
+            {
+                try
+                {
+                    var findBoqDivision = _context.BoQDivisions.FirstOrDefault(c => c.BoQDivisionId == model.ID);
+
+                    findBoqDivision.Name = model.Name;
+                    findBoqDivision.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                    findBoqDivision.ModifiedOn = DateTime.Now;
+                    var count = _context.SaveChanges();
+                   
+                    if (count > 0)
+                    {
+                        return true;
+                    }
+                }
+                catch (Exception e)
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        public bool Delete(BoqDivisionModel model)
+        {
+            if (model.BoqDivisionId > 0 || model.BoqDivisionId != null)
+            {
+                try
+                {
+                    var findBoqDivision = _context.BoQDivisions.FirstOrDefault(c => c.BoQDivisionId == model.BoqDivisionId);
+
+                    findBoqDivision.IsActive = false;
+                    findBoqDivision.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                    findBoqDivision.ModifiedOn = DateTime.Now;
                     var count = _context.SaveChanges();
 
                     if (count > 0)

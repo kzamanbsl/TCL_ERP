@@ -17,6 +17,13 @@ namespace KGERP.Service.Interface
         //List<BoQItemProductMap> GetBoQProductMapByProjectId(int id);
         #endregion
 
+        #region BoQ Division
+        bool Add(BoqDivisionModel model);
+        bool Edit(BoqDivisionModel model);
+        bool Delete(BoqDivisionModel model);
+        List<BoQDivision> BoQDivisionList();
+        #endregion
+
         #region Bill of Quotation
         bool Add(BillRequisitionBoqModel model);
         bool Edit(BillRequisitionBoqModel model);
