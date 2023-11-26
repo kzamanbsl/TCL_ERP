@@ -485,7 +485,7 @@ namespace KGERP.Controllers
 
         #endregion
 
-        #region 1.2  BillRequisition Approval Circle
+        #region 1.2 PM BillRequisition Approval Circle
 
         [HttpGet]
         public async Task<ActionResult> PMBRApproveSlave(int companyId = 0, long billRequisitionMasterId = 0)

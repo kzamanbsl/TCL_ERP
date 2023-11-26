@@ -2,7 +2,7 @@
 @using KGERP.Utility;
 
 @{
-    ViewData["Title"] = "Project Manager Requisition Approval";
+    ViewData["Title"] = "MD Requisition Approval";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     int sl = 0;
@@ -20,16 +20,16 @@
 <section class="content-header">
     <h1>
         <span>
-            Project Manager Requisition Approval
+            Requisition : MD Approval
         </span>
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">Project Manager Requisition Approval</li>
+        <li class="active">Requisition : MD Approval</li>
     </ol>
 </section>
 
-@using (Html.BeginForm("PMBRApproveSlave", "BillRequisition", FormMethod.Post, new { id = "pmBillRRSlaveReceiveFormId", @class = "formValidator" }))
+@using (Html.BeginForm("MDBRApproveSlave", "BillRequisition", FormMethod.Post, new { id = "pmBillRRSlaveReceiveFormId", @class = "formValidator" }))
 {
     <section class="content">
         <div class="row">
@@ -132,7 +132,7 @@
                                                     <td style="padding: 5px; text-align: right;">@String.Format("{0:0.00}", item.ReceivedSoFar)</td>
                                                     <td style="padding: 5px; text-align: right;">@String.Format("{0:0.00}", item.RemainingQty)</td>
                                                     <td style="padding: 5px; text-align: right;">
-                                                        @if (Model.ApprovalModelList.First(x=>x.SignatoryId == (int)EnumBRequisitionSignatory.PM).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
+                                                        @if (Model.ApprovalModelList.First(x=>x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
                                                         {
                                                             @Html.TextBoxFor(model => model.DetailDataList[i].DemandQty, new { id = i + "_Qty", @class = "form-control quantityValue" })
                                                         }
@@ -219,7 +219,7 @@
                         }
                     </div>
 
-                    @if (Model.BillRequisitionMasterId > 0 && Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.PM).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
+                    @if (Model.BillRequisitionMasterId > 0 && Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
                     {
                         <div class="box-footer">
 
