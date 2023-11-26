@@ -1635,10 +1635,8 @@ namespace KGERP.Service.Implementation
 
 
                                                                         }).OrderByDescending(x => x.BillRequisitionMasterId).AsEnumerable());
-       
-            
 
-      
+
             if (vStatus != -1 && vStatus != null)
             {
                 billRequisitionMasterModel.DataList = billRequisitionMasterModel.DataList.Where(q => q.StatusId == (EnumBillRequisitionStatus)vStatus);
