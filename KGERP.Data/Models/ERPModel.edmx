@@ -3601,6 +3601,51 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.TempFeedVoucherDetail' does not hav
           <Property Name="ModifiedDate" Type="datetime" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="BoQBudgetDetail">
+          <Key>
+            <PropertyRef Name="BoQBudgetDetailId" />
+          </Key>
+          <Property Name="BoQBudgetDetailId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BoQBudgetMasterId" Type="bigint" Nullable="false" />
+          <Property Name="ItemUnitId" Type="int" Nullable="false" />
+          <Property Name="Quantity" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="UnitPrice" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Remarks" Type="varchar" MaxLength="355" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="255" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BoQBudgetMaster">
+          <Key>
+            <PropertyRef Name="BoQBudgetMasterId" />
+          </Key>
+          <Property Name="BoQBudgetMasterId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProjectId" Type="int" Nullable="false" />
+          <Property Name="BoQCategoryId" Type="bigint" Nullable="false" />
+          <Property Name="BillBoQItem" Type="bigint" Nullable="false" />
+          <Property Name="CompanyId" Type="int" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="355" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="255" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BoQDivision">
+          <Key>
+            <PropertyRef Name="BoQCategoryId" />
+          </Key>
+          <Property Name="BoQCategoryId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CompanyId" Type="int" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="255" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="BoQItemProductMap">
           <Key>
             <PropertyRef Name="BoQItemProductMapId" />
@@ -5190,6 +5235,16 @@ warning 6002: The table/view 'TCLErp_Dev.Erp.RequisitionItemDetail' does not hav
           <Property Name="ModifiedBy" Type="nvarchar" MaxLength="32" />
           <Property Name="ModifiedDate" Type="datetime" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserLog">
+          <Key>
+            <PropertyRef Name="UserLogId" />
+          </Key>
+          <Property Name="UserLogId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ActionType" Type="int" Nullable="false" />
+          <Property Name="ActionTimeStamp" Type="datetime" Nullable="false" />
+          <Property Name="EmployeeId" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Details" Type="varchar" MaxLength="355" Nullable="false" />
         </EntityType>
         <EntityType Name="Vendor">
           <Key>
@@ -8807,6 +8862,9 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
           <EntitySet Name="BookingCostMapping" EntityType="Self.BookingCostMapping" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="BookingInstallmentSchedule" EntityType="Self.BookingInstallmentSchedule" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="BookingInstallmentType" EntityType="Self.BookingInstallmentType" Schema="Erp" store:Type="Tables" />
+          <EntitySet Name="BoQBudgetDetail" EntityType="Self.BoQBudgetDetail" Schema="Erp" store:Type="Tables" />
+          <EntitySet Name="BoQBudgetMaster" EntityType="Self.BoQBudgetMaster" Schema="Erp" store:Type="Tables" />
+          <EntitySet Name="BoQDivision" EntityType="Self.BoQDivision" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="BoQItemProductMap" EntityType="Self.BoQItemProductMap" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="ConvertedProduct" EntityType="Self.ConvertedProduct" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="CostCenterManagerMap" EntityType="Self.CostCenterManagerMap" Schema="Erp" store:Type="Tables" />
@@ -8879,6 +8937,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
           <EntitySet Name="TeamInfo" EntityType="Self.TeamInfo" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="Unit" EntityType="Self.Unit" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="UpazilaAssign" EntityType="Self.UpazilaAssign" Schema="Erp" store:Type="Tables" />
+          <EntitySet Name="UserLog" EntityType="Self.UserLog" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="Vendor" EntityType="Self.Vendor" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="VendorDeed" EntityType="Self.VendorDeed" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="VendorDeposit" EntityType="Self.VendorDeposit" Schema="Erp" store:Type="Tables" />
@@ -11767,6 +11826,10 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             <End Role="Unit" EntitySet="Units" />
             <End Role="ProductionMaster" EntitySet="ProductionMasters" />
           </AssociationSet>
+          <EntitySet Name="BoQDivisions" EntityType="ERPModel.BoQDivision" />
+          <EntitySet Name="BoQBudgetDetails" EntityType="ERPModel.BoQBudgetDetail" />
+          <EntitySet Name="BoQBudgetMasters" EntityType="ERPModel.BoQBudgetMaster" />
+          <EntitySet Name="UserLogs" EntityType="ERPModel.UserLog" />
           </EntityContainer>
         <EntityType Name="AdminPolicy">
           <Key>
@@ -21140,6 +21203,61 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="BoQDivision">
+          <Key>
+            <PropertyRef Name="BoQCategoryId" />
+          </Key>
+          <Property Name="BoQCategoryId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BoQBudgetDetail">
+          <Key>
+            <PropertyRef Name="BoQBudgetDetailId" />
+          </Key>
+          <Property Name="BoQBudgetDetailId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BoQBudgetMasterId" Type="Int64" Nullable="false" />
+          <Property Name="ItemUnitId" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="UnitPrice" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Remarks" Type="String" MaxLength="355" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BoQBudgetMaster">
+          <Key>
+            <PropertyRef Name="BoQBudgetMasterId" />
+          </Key>
+          <Property Name="BoQBudgetMasterId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProjectId" Type="Int32" Nullable="false" />
+          <Property Name="BoQCategoryId" Type="Int64" Nullable="false" />
+          <Property Name="BillBoQItem" Type="Int64" Nullable="false" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="355" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserLog">
+          <Key>
+            <PropertyRef Name="UserLogId" />
+          </Key>
+          <Property Name="UserLogId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ActionType" Type="Int32" Nullable="false" />
+          <Property Name="ActionTimeStamp" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EmployeeId" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Details" Type="String" Nullable="false" MaxLength="355" FixedLength="false" Unicode="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -26932,6 +27050,65 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="UnitId" ColumnName="UnitId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BoQDivisions">
+            <EntityTypeMapping TypeName="ERPModel.BoQDivision">
+              <MappingFragment StoreEntitySet="BoQDivision">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="BoQCategoryId" ColumnName="BoQCategoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BoQBudgetDetails">
+            <EntityTypeMapping TypeName="ERPModel.BoQBudgetDetail">
+              <MappingFragment StoreEntitySet="BoQBudgetDetail">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="ItemUnitId" ColumnName="ItemUnitId" />
+                <ScalarProperty Name="BoQBudgetMasterId" ColumnName="BoQBudgetMasterId" />
+                <ScalarProperty Name="BoQBudgetDetailId" ColumnName="BoQBudgetDetailId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BoQBudgetMasters">
+            <EntityTypeMapping TypeName="ERPModel.BoQBudgetMaster">
+              <MappingFragment StoreEntitySet="BoQBudgetMaster">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="BillBoQItem" ColumnName="BillBoQItem" />
+                <ScalarProperty Name="BoQCategoryId" ColumnName="BoQCategoryId" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="BoQBudgetMasterId" ColumnName="BoQBudgetMasterId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserLogs">
+            <EntityTypeMapping TypeName="ERPModel.UserLog">
+              <MappingFragment StoreEntitySet="UserLog">
+                <ScalarProperty Name="Details" ColumnName="Details" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="ActionTimeStamp" ColumnName="ActionTimeStamp" />
+                <ScalarProperty Name="ActionType" ColumnName="ActionType" />
+                <ScalarProperty Name="UserLogId" ColumnName="UserLogId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

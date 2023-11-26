@@ -9,3 +9,142 @@ Date: 23-11-2023
 ================
 * Unit Table
 	+ IsBoQUnit - bool
+
+Date: 26-11-2023
+================
++ BoQDivision 
+
+	USE [TCLErp_Dev]
+	GO
+
+	/****** Object:  Table [Erp].[BoQDivision]    Script Date: 11/26/2023 10:13:51 AM ******/
+	SET ANSI_NULLS ON
+	GO
+
+	SET QUOTED_IDENTIFIER ON
+	GO
+
+	CREATE TABLE [Erp].[BoQDivision](
+		[BoQCategoryId] [bigint] IDENTITY(1,1) NOT NULL,
+		[Name] [nvarchar](max) NOT NULL,
+		[CompanyId] [int] NOT NULL,
+		[CreatedBy] [varchar](255) NOT NULL,
+		[CreatedOn] [datetime] NOT NULL,
+		[ModifiedBy] [varchar](255) NULL,
+		[ModifiedOn] [datetime] NULL,
+		[IsActive] [bit] NOT NULL,
+	 CONSTRAINT [PK_BoQDivision] PRIMARY KEY CLUSTERED 
+	(
+		[BoQCategoryId] ASC
+	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+	) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+	GO
+
+	ALTER TABLE [Erp].[BoQDivision] ADD  CONSTRAINT [DF_BoQDivision_IsActive]  DEFAULT ((1)) FOR [IsActive]
+	GO
+
+
+Date: 26-11-2023
+================
+	+ BoQBudgetMaster 
+
+	USE [TCLErp_Dev]
+	GO
+
+	/****** Object:  Table [Erp].[BoQBudgetMaster]    Script Date: 11/26/2023 12:05:04 PM ******/
+	SET ANSI_NULLS ON
+	GO
+
+	SET QUOTED_IDENTIFIER ON
+	GO
+
+	CREATE TABLE [Erp].[BoQBudgetMaster](
+		[BoQBudgetMasterId] [bigint] IDENTITY(1,1) NOT NULL,
+		[ProjectId] [int] NOT NULL,
+		[BoQCategoryId] [bigint] NOT NULL,
+		[BillBoQItem] [bigint] NOT NULL,
+		[CompanyId] [int] NOT NULL,
+		[Description] [varchar](355) NOT NULL,
+		[CreatedBy] [varchar](255) NOT NULL,
+		[CreatedOn] [datetime] NOT NULL,
+		[ModifiedBy] [varchar](255) NULL,
+		[ModifiedOn] [datetime] NULL,
+		[IsActive] [bit] NOT NULL,
+	 CONSTRAINT [PK_BoQBudgetMaster] PRIMARY KEY CLUSTERED 
+	(
+		[BoQBudgetMasterId] ASC
+	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+	GO
+
+	ALTER TABLE [Erp].[BoQBudgetMaster] ADD  CONSTRAINT [DF_BoQBudgetMaster_IsActive]  DEFAULT ((1)) FOR [IsActive]
+	GO
+
+
+Date: 26-11-2023
+================
+	+ BoQBudgetDetail
+
+	USE [TCLErp_Dev]
+	GO
+
+	/****** Object:  Table [Erp].[BoQBudgetDetail]    Script Date: 11/26/2023 12:07:49 PM ******/
+	SET ANSI_NULLS ON
+	GO
+
+	SET QUOTED_IDENTIFIER ON
+	GO
+
+	CREATE TABLE [Erp].[BoQBudgetDetail](
+		[BoQBudgetDetailId] [bigint] IDENTITY(1,1) NOT NULL,
+		[BoQBudgetMasterId] [bigint] NOT NULL,
+		[ItemUnitId] [int] NOT NULL,
+		[Quantity] [decimal](18, 0) NOT NULL,
+		[UnitPrice] [decimal](18, 0) NOT NULL,
+		[Remarks] [varchar](355) NULL,
+		[CreatedBy] [varchar](255) NOT NULL,
+		[CreatedOn] [datetime] NOT NULL,
+		[ModifiedBy] [varchar](255) NULL,
+		[ModifiedOn] [datetime] NULL,
+		[IsActive] [bit] NOT NULL,
+	 CONSTRAINT [PK_BoQBudgetDetail] PRIMARY KEY CLUSTERED 
+	(
+		[BoQBudgetDetailId] ASC
+	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+	GO
+
+	ALTER TABLE [Erp].[BoQBudgetDetail] ADD  CONSTRAINT [DF_BoQBudgetDetail_IsActive]  DEFAULT ((1)) FOR [IsActive]
+	GO
+
+
+Date: 26-11-2023
+================
+	+ UserLog
+
+	USE [TCLErp_Dev]
+	GO
+
+	/****** Object:  Table [Erp].[UserLog]    Script Date: 11/26/2023 12:01:04 PM ******/
+	SET ANSI_NULLS ON
+	GO
+
+	SET QUOTED_IDENTIFIER ON
+	GO
+
+	CREATE TABLE [Erp].[UserLog](
+		[UserLogId] [bigint] IDENTITY(1,1) NOT NULL,
+		[ActionType] [int] NOT NULL,
+		[ActionTimeStamp] [datetime] NOT NULL,
+		[EmployeeId] [varchar](255) NOT NULL,
+		[Details] [varchar](355) NOT NULL,
+	 CONSTRAINT [PK_UserLog] PRIMARY KEY CLUSTERED 
+	(
+		[UserLogId] ASC
+	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+	GO
+
+
+Date: 26-11-2023
+================
