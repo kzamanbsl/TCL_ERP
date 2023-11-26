@@ -3601,6 +3601,19 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.TempFeedVoucherDetail' does not hav
           <Property Name="ModifiedDate" Type="datetime" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="BoQDivision">
+          <Key>
+            <PropertyRef Name="BoQCategoryId" />
+          </Key>
+          <Property Name="BoQCategoryId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CompanyId" Type="int" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="255" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="BoQItemProductMap">
           <Key>
             <PropertyRef Name="BoQItemProductMapId" />
@@ -8807,6 +8820,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
           <EntitySet Name="BookingCostMapping" EntityType="Self.BookingCostMapping" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="BookingInstallmentSchedule" EntityType="Self.BookingInstallmentSchedule" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="BookingInstallmentType" EntityType="Self.BookingInstallmentType" Schema="Erp" store:Type="Tables" />
+          <EntitySet Name="BoQDivision" EntityType="Self.BoQDivision" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="BoQItemProductMap" EntityType="Self.BoQItemProductMap" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="ConvertedProduct" EntityType="Self.ConvertedProduct" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="CostCenterManagerMap" EntityType="Self.CostCenterManagerMap" Schema="Erp" store:Type="Tables" />
@@ -11767,6 +11781,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             <End Role="Unit" EntitySet="Units" />
             <End Role="ProductionMaster" EntitySet="ProductionMasters" />
           </AssociationSet>
+          <EntitySet Name="BoQDivisions" EntityType="ERPModel.BoQDivision" />
           </EntityContainer>
         <EntityType Name="AdminPolicy">
           <Key>
@@ -21140,6 +21155,19 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="BoQDivision">
+          <Key>
+            <PropertyRef Name="BoQCategoryId" />
+          </Key>
+          <Property Name="BoQCategoryId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -26932,6 +26960,20 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="UnitId" ColumnName="UnitId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BoQDivisions">
+            <EntityTypeMapping TypeName="ERPModel.BoQDivision">
+              <MappingFragment StoreEntitySet="BoQDivision">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="BoQCategoryId" ColumnName="BoQCategoryId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

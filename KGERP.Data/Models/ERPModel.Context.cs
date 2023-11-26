@@ -307,6 +307,7 @@ namespace KGERP.Data.Models
         public virtual DbSet<BillRequisitionDetail> BillRequisitionDetails { get; set; }
         public virtual DbSet<BoQItemProductMap> BoQItemProductMaps { get; set; }
         public virtual DbSet<Unit> Units { get; set; }
+        public virtual DbSet<BoQDivision> BoQDivisions { get; set; }
     
         public virtual ObjectResult<GetEmployeeListForTeam_Result> GetEmployeeListForTeam(Nullable<int> companyId)
         {

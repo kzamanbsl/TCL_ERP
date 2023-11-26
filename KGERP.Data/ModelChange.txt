@@ -9,3 +9,36 @@ Date: 23-11-2023
 ================
 * Unit Table
 	+ IsBoQUnit - bool
+
+Date: 26-11-2023
+================
++ BoQDivision 
+
+	USE [TCLErp_Dev]
+	GO
+
+	/****** Object:  Table [Erp].[BoQDivision]    Script Date: 11/26/2023 10:13:51 AM ******/
+	SET ANSI_NULLS ON
+	GO
+
+	SET QUOTED_IDENTIFIER ON
+	GO
+
+	CREATE TABLE [Erp].[BoQDivision](
+		[BoQCategoryId] [bigint] IDENTITY(1,1) NOT NULL,
+		[Name] [nvarchar](max) NOT NULL,
+		[CompanyId] [int] NOT NULL,
+		[CreatedBy] [varchar](255) NOT NULL,
+		[CreatedOn] [datetime] NOT NULL,
+		[ModifiedBy] [varchar](255) NULL,
+		[ModifiedOn] [datetime] NULL,
+		[IsActive] [bit] NOT NULL,
+	 CONSTRAINT [PK_BoQDivision] PRIMARY KEY CLUSTERED 
+	(
+		[BoQCategoryId] ASC
+	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+	) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+	GO
+
+	ALTER TABLE [Erp].[BoQDivision] ADD  CONSTRAINT [DF_BoQDivision_IsActive]  DEFAULT ((1)) FOR [IsActive]
+	GO
