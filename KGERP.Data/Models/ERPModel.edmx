@@ -3415,6 +3415,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.TempFeedVoucherDetail' does not hav
           <Property Name="BoQItemId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="Description" Type="varchar" MaxLength="512" />
+          <Property Name="BoQDivisionId" Type="bigint" />
           <Property Name="CostCenterId" Type="int" />
           <Property Name="CompanyId" Type="int" Nullable="false" />
           <Property Name="CreateDate" Type="datetime" Nullable="false" />
@@ -6310,6 +6311,18 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             </Principal>
             <Dependent Role="BillBoQItem">
               <PropertyRef Name="CostCenterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BillBoQItem_BoQDivision">
+          <End Role="BoQDivision" Type="Self.BoQDivision" Multiplicity="0..1" />
+          <End Role="BillBoQItem" Type="Self.BillBoQItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BoQDivision">
+              <PropertyRef Name="BoQDivisionId" />
+            </Principal>
+            <Dependent Role="BillBoQItem">
+              <PropertyRef Name="BoQDivisionId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -9742,6 +9755,10 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             <End Role="Accounting_CostCenter" EntitySet="Accounting_CostCenter" />
             <End Role="BillBoQItem" EntitySet="BillBoQItem" />
           </AssociationSet>
+          <AssociationSet Name="FK_BillBoQItem_BoQDivision" Association="Self.FK_BillBoQItem_BoQDivision">
+            <End Role="BoQDivision" EntitySet="BoQDivision" />
+            <End Role="BillBoQItem" EntitySet="BillBoQItem" />
+          </AssociationSet>
           <AssociationSet Name="FK_BillRequisitionApproval_BillRequisitionMaster" Association="Self.FK_BillRequisitionApproval_BillRequisitionMaster">
             <End Role="BillRequisitionMaster" EntitySet="BillRequisitionMaster" />
             <End Role="BillRequisitionApproval" EntitySet="BillRequisitionApproval" />
@@ -11921,15 +11938,23 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             <End Role="BoQDivision" EntitySet="BoQDivisions" />
             <End Role="BoQBudgetMaster" EntitySet="BoQBudgetMasters" />
           </AssociationSet>
-          <EntitySet Name="BillBoQItems" EntityType="ERPModel.BillBoQItem" />
           <EntitySet Name="BoQItemProductMaps" EntityType="ERPModel.BoQItemProductMap" />
+          <AssociationSet Name="FK_BillRequisitionItemBoQMap_Company" Association="ERPModel.FK_BillRequisitionItemBoQMap_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="BoQItemProductMap" EntitySet="BoQItemProductMaps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BoQItemProductMap_Product" Association="ERPModel.FK_BoQItemProductMap_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="BoQItemProductMap" EntitySet="BoQItemProductMaps" />
+          </AssociationSet>
+          <EntitySet Name="BillBoQItems" EntityType="ERPModel.BillBoQItem" />
           <AssociationSet Name="FK_BillBoQItem_Accounting_CostCenter" Association="ERPModel.FK_BillBoQItem_Accounting_CostCenter">
             <End Role="Accounting_CostCenter" EntitySet="Accounting_CostCenter" />
             <End Role="BillBoQItem" EntitySet="BillBoQItems" />
           </AssociationSet>
-          <AssociationSet Name="FK_BillRequisitionItemBoQMap_Company" Association="ERPModel.FK_BillRequisitionItemBoQMap_Company">
-            <End Role="Company" EntitySet="Companies" />
-            <End Role="BoQItemProductMap" EntitySet="BoQItemProductMaps" />
+          <AssociationSet Name="FK_BillBoQItem_BoQDivision" Association="ERPModel.FK_BillBoQItem_BoQDivision">
+            <End Role="BoQDivision" EntitySet="BoQDivisions" />
+            <End Role="BillBoQItem" EntitySet="BillBoQItems" />
           </AssociationSet>
           <AssociationSet Name="FK_BillRequisitionItemBoQMap_BillBoQItem" Association="ERPModel.FK_BillRequisitionItemBoQMap_BillBoQItem">
             <End Role="BillBoQItem" EntitySet="BillBoQItems" />
@@ -11942,10 +11967,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
           <AssociationSet Name="FK_BoQBudgetMaster_BillBoQItem" Association="ERPModel.FK_BoQBudgetMaster_BillBoQItem">
             <End Role="BillBoQItem" EntitySet="BillBoQItems" />
             <End Role="BoQBudgetMaster" EntitySet="BoQBudgetMasters" />
-          </AssociationSet>
-          <AssociationSet Name="FK_BoQItemProductMap_Product" Association="ERPModel.FK_BoQItemProductMap_Product">
-            <End Role="Product" EntitySet="Products" />
-            <End Role="BoQItemProductMap" EntitySet="BoQItemProductMaps" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="AdminPolicy">
@@ -21287,6 +21308,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
           <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="BoQBudgetMasters" Relationship="ERPModel.FK_BoQBudgetMaster_BoQDivision" FromRole="BoQDivision" ToRole="BoQBudgetMaster" />
+          <NavigationProperty Name="BillBoQItems" Relationship="ERPModel.FK_BillBoQItem_BoQDivision" FromRole="BoQDivision" ToRole="BillBoQItem" />
         </EntityType>
         <Association Name="FK_BoQBudgetMaster_Accounting_CostCenter">
           <End Type="ERPModel.Accounting_CostCenter" Role="Accounting_CostCenter" Multiplicity="1" />
@@ -21348,25 +21370,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="BillBoQItem">
-          <Key>
-            <PropertyRef Name="BoQItemId" />
-          </Key>
-          <Property Name="BoQItemId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Description" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
-          <Property Name="CostCenterId" Type="Int32" />
-          <Property Name="CompanyId" Type="Int32" Nullable="false" />
-          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
-          <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Accounting_CostCenter" Relationship="ERPModel.FK_BillBoQItem_Accounting_CostCenter" FromRole="BillBoQItem" ToRole="Accounting_CostCenter" />
-          <NavigationProperty Name="BoQItemProductMaps" Relationship="ERPModel.FK_BillRequisitionItemBoQMap_BillBoQItem" FromRole="BillBoQItem" ToRole="BoQItemProductMap" />
-          <NavigationProperty Name="BillRequisitionMasters" Relationship="ERPModel.FK_BillRequisitionMaster_BillBoQItem" FromRole="BillBoQItem" ToRole="BillRequisitionMaster" />
-          <NavigationProperty Name="BoQBudgetMasters" Relationship="ERPModel.FK_BoQBudgetMaster_BillBoQItem" FromRole="BillBoQItem" ToRole="BoQBudgetMaster" />
-        </EntityType>
         <EntityType Name="BoQItemProductMap">
           <Key>
             <PropertyRef Name="BoQItemProductMapId" />
@@ -21381,8 +21384,53 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
           <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Company" Relationship="ERPModel.FK_BillRequisitionItemBoQMap_Company" FromRole="BoQItemProductMap" ToRole="Company" />
-          <NavigationProperty Name="BillBoQItem" Relationship="ERPModel.FK_BillRequisitionItemBoQMap_BillBoQItem" FromRole="BoQItemProductMap" ToRole="BillBoQItem" />
           <NavigationProperty Name="Product" Relationship="ERPModel.FK_BoQItemProductMap_Product" FromRole="BoQItemProductMap" ToRole="Product" />
+          <NavigationProperty Name="BillBoQItem" Relationship="ERPModel.FK_BillRequisitionItemBoQMap_BillBoQItem" FromRole="BoQItemProductMap" ToRole="BillBoQItem" />
+        </EntityType>
+        <Association Name="FK_BillRequisitionItemBoQMap_Company">
+          <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
+          <End Type="ERPModel.BoQItemProductMap" Role="BoQItemProductMap" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="BoQItemProductMap">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BoQItemProductMap_Product">
+          <End Type="ERPModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="ERPModel.BoQItemProductMap" Role="BoQItemProductMap" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="BoQItemProductMap">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="BillBoQItem">
+          <Key>
+            <PropertyRef Name="BoQItemId" />
+          </Key>
+          <Property Name="BoQItemId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <Property Name="BoQDivisionId" Type="Int64" />
+          <Property Name="CostCenterId" Type="Int32" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Accounting_CostCenter" Relationship="ERPModel.FK_BillBoQItem_Accounting_CostCenter" FromRole="BillBoQItem" ToRole="Accounting_CostCenter" />
+          <NavigationProperty Name="BoQDivision" Relationship="ERPModel.FK_BillBoQItem_BoQDivision" FromRole="BillBoQItem" ToRole="BoQDivision" />
+          <NavigationProperty Name="BoQItemProductMaps" Relationship="ERPModel.FK_BillRequisitionItemBoQMap_BillBoQItem" FromRole="BillBoQItem" ToRole="BoQItemProductMap" />
+          <NavigationProperty Name="BillRequisitionMasters" Relationship="ERPModel.FK_BillRequisitionMaster_BillBoQItem" FromRole="BillBoQItem" ToRole="BillRequisitionMaster" />
+          <NavigationProperty Name="BoQBudgetMasters" Relationship="ERPModel.FK_BoQBudgetMaster_BillBoQItem" FromRole="BillBoQItem" ToRole="BoQBudgetMaster" />
         </EntityType>
         <Association Name="FK_BillBoQItem_Accounting_CostCenter">
           <End Type="ERPModel.Accounting_CostCenter" Role="Accounting_CostCenter" Multiplicity="0..1" />
@@ -21396,15 +21444,15 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_BillRequisitionItemBoQMap_Company">
-          <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
-          <End Type="ERPModel.BoQItemProductMap" Role="BoQItemProductMap" Multiplicity="*" />
+        <Association Name="FK_BillBoQItem_BoQDivision">
+          <End Type="ERPModel.BoQDivision" Role="BoQDivision" Multiplicity="0..1" />
+          <End Type="ERPModel.BillBoQItem" Role="BillBoQItem" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Company">
-              <PropertyRef Name="CompanyId" />
+            <Principal Role="BoQDivision">
+              <PropertyRef Name="BoQDivisionId" />
             </Principal>
-            <Dependent Role="BoQItemProductMap">
-              <PropertyRef Name="CompanyId" />
+            <Dependent Role="BillBoQItem">
+              <PropertyRef Name="BoQDivisionId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -21441,18 +21489,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             </Principal>
             <Dependent Role="BoQBudgetMaster">
               <PropertyRef Name="BillBoQItemId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_BoQItemProductMap_Product">
-          <End Type="ERPModel.Product" Role="Product" Multiplicity="1" />
-          <End Type="ERPModel.BoQItemProductMap" Role="BoQItemProductMap" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="ProductId" />
-            </Principal>
-            <Dependent Role="BoQItemProductMap">
-              <PropertyRef Name="ProductId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -27276,22 +27312,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="BillBoQItems">
-            <EntityTypeMapping TypeName="ERPModel.BillBoQItem">
-              <MappingFragment StoreEntitySet="BillBoQItem">
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
-                <ScalarProperty Name="CostCenterId" ColumnName="CostCenterId" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="BoQItemId" ColumnName="BoQItemId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="BoQItemProductMaps">
             <EntityTypeMapping TypeName="ERPModel.BoQItemProductMap">
               <MappingFragment StoreEntitySet="BoQItemProductMap">
@@ -27304,6 +27324,23 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />
                 <ScalarProperty Name="BoQItemId" ColumnName="BoQItemId" />
                 <ScalarProperty Name="BoQItemProductMapId" ColumnName="BoQItemProductMapId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BillBoQItems">
+            <EntityTypeMapping TypeName="ERPModel.BillBoQItem">
+              <MappingFragment StoreEntitySet="BillBoQItem">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="CostCenterId" ColumnName="CostCenterId" />
+                <ScalarProperty Name="BoQDivisionId" ColumnName="BoQDivisionId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="BoQItemId" ColumnName="BoQItemId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
