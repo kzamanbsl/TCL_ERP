@@ -834,8 +834,8 @@ namespace KGERP.Service.Implementation
                     BillRequisitionNo = GetUniqueRequisitionNo(),
                     StatusId = (int)model.StatusId,
                     CompanyId = (int)model.CompanyFK,
-                    CreatedBy = System.Web.HttpContext.Current.Session["EmployeeName"].ToString(),
-                    CreateDate = DateTime.Now,
+                    CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                CreateDate = DateTime.Now,
                     IsActive = true
                 };
 
@@ -911,7 +911,7 @@ namespace KGERP.Service.Implementation
                     Chainage = model.DetailModel.Chainage,
                     Remarks = model.DetailModel.Remarks,
                     CompanyId = (int)model.CompanyFK,
-                    CreatedBy = System.Web.HttpContext.Current.Session["EmployeeName"].ToString(),
+                    CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
                     CreateDate = DateTime.Now,
                     IsActive = true,
                 };
@@ -951,11 +951,9 @@ namespace KGERP.Service.Implementation
             demageDetail.Floor = model.DetailModel.Floor;
             demageDetail.DPP = model.DetailModel.DPP;
             demageDetail.Chainage = model.DetailModel.Chainage;
-            demageDetail.CreatedBy = System.Web.HttpContext.Current.Session["EmployeeName"].ToString();
-            demageDetail.CreateDate = DateTime.Now;
-            demageDetail.IsActive = true;
-
-            demageDetail.IsActive = true;
+            //demageDetail.CreatedBy = System.Web.HttpContext.Current.User.Identity.Name; 
+            //demageDetail.CreateDate = DateTime.Now;
+            //demageDetail.IsActive = true;
             if (await _context.SaveChangesAsync() > 0)
             {
                 result = demageDetail.BillRequisitionDetailId;
@@ -1190,9 +1188,11 @@ namespace KGERP.Service.Implementation
         public async Task<BillRequisitionMasterModel> GetBillRequisitionMasterList(int companyId, DateTime? fromDate, DateTime? toDate, int? statusId)
         {
             BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
+            var user = System.Web.HttpContext.Current.User.Identity.Name;
             billRequisitionMasterModel.CompanyFK = companyId;
             var dataQuery = (from t1 in _context.BillRequisitionMasters
-                             where t1.IsActive && t1.CompanyId == companyId
+                             where t1.IsActive && t1.CompanyId == companyId 
+                             && t1.CreatedBy == user
                              join t2 in _context.Accounting_CostCenter on t1.CostCenterId equals t2.CostCenterId into t2_Join
                              from t2 in t2_Join.DefaultIfEmpty()
                              join t3 in _context.BillRequisitionTypes on t1.BillRequisitionTypeId equals t3.BillRequisitionTypeId into t3_Join
@@ -1349,7 +1349,7 @@ namespace KGERP.Service.Implementation
             var userName = System.Web.HttpContext.Current.User.Identity.Name;
 
             BillRequisitionMaster billRequisitionMaster = _context.BillRequisitionMasters.FirstOrDefault(c => c.BillRequisitionMasterId == billRequisitionMasterModel.BillRequisitionMasterId);
-            billRequisitionMaster.StatusId = (int)EnumBillRequisitionStatus.Approved;
+            billRequisitionMaster.StatusId = (int)EnumBillRequisitionStatus.Pending;
 
             billRequisitionMaster.ModifiedBy = userName;
             billRequisitionMaster.ModifiedDate = DateTime.Now;
@@ -1515,7 +1515,7 @@ namespace KGERP.Service.Implementation
             var userName = System.Web.HttpContext.Current.User.Identity.Name;
 
             BillRequisitionMaster billRequisitionMaster = _context.BillRequisitionMasters.FirstOrDefault(c => c.BillRequisitionMasterId == billRequisitionMasterModel.BillRequisitionMasterId);
-            billRequisitionMaster.StatusId = (int)EnumBillRequisitionStatus.Approved;
+            billRequisitionMaster.StatusId = (int)EnumBillRequisitionStatus.Pending;
 
             billRequisitionMaster.ModifiedBy = userName;
             billRequisitionMaster.ModifiedDate = DateTime.Now;
@@ -1676,7 +1676,7 @@ namespace KGERP.Service.Implementation
             var userName = System.Web.HttpContext.Current.User.Identity.Name;
 
             BillRequisitionMaster billRequisitionMaster = _context.BillRequisitionMasters.FirstOrDefault(c => c.BillRequisitionMasterId == billRequisitionMasterModel.BillRequisitionMasterId);
-            billRequisitionMaster.StatusId = (int)EnumBillRequisitionStatus.Approved;
+            billRequisitionMaster.StatusId = (int)EnumBillRequisitionStatus.Pending;
 
             billRequisitionMaster.ModifiedBy = userName;
             billRequisitionMaster.ModifiedDate = DateTime.Now;
@@ -1841,7 +1841,7 @@ namespace KGERP.Service.Implementation
             var userName = System.Web.HttpContext.Current.User.Identity.Name;
 
             BillRequisitionMaster billRequisitionMaster = _context.BillRequisitionMasters.FirstOrDefault(c => c.BillRequisitionMasterId == billRequisitionMasterModel.BillRequisitionMasterId);
-            billRequisitionMaster.StatusId = (int)EnumBillRequisitionStatus.Approved;
+            billRequisitionMaster.StatusId = (int)EnumBillRequisitionStatus.Pending;
 
             billRequisitionMaster.ModifiedBy = userName;
             billRequisitionMaster.ModifiedDate = DateTime.Now;
@@ -2044,6 +2044,7 @@ namespace KGERP.Service.Implementation
 
             var BRApproval = _context.BillRequisitionApprovals.FirstOrDefault(x => x.BillRequisitionMasterId == billRequisitionMasterModel.BillRequisitionMasterId && x.SignatoryId == (int)EnumBRequisitionSignatory.MD);
             BRApproval.AprrovalStatusId = (int)EnumBillRequisitionStatus.Approved;
+            BRApproval.IsSupremeApproved = true;
             BRApproval.EmployeeId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
             BRApproval.ModifiedBy = userName;
             BRApproval.ModifiedDate = DateTime.Now;
