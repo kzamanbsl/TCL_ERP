@@ -532,6 +532,67 @@ namespace KGERP.Controllers
 
         }
 
+        #region Common Bill Requisition List
+
+
+        [HttpGet]
+        public async Task<ActionResult> BillRequisitionMasterCommonSlave(int companyId = 21, long billRequisitionMasterId = 0)
+        {
+            BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
+
+            if (billRequisitionMasterId == 0)
+            {
+                billRequisitionMasterModel.CompanyFK = companyId;
+                billRequisitionMasterModel.StatusId = EnumBillRequisitionStatus.Draft;
+            }
+            else
+            {
+                billRequisitionMasterModel = await _service.GetBillRequisitionMasterDetail(companyId, billRequisitionMasterId);
+            }
+          
+            return View(billRequisitionMasterModel);
+
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> BillRequisitionMasterCommonList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
+        {
+            if (!fromDate.HasValue) fromDate = DateTime.Now.AddMonths(-2);
+            if (!toDate.HasValue) toDate = DateTime.Now;
+
+            BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
+            billRequisitionMasterModel = await _service.GetBillRequisitionMasterCommonList(companyId, fromDate, toDate, vStatus);
+
+            billRequisitionMasterModel.StrFromDate = fromDate.Value.ToString("yyyy-MM-dd");
+            billRequisitionMasterModel.StrToDate = toDate.Value.ToString("yyyy-MM-dd");
+            if (vStatus == null)
+            {
+                vStatus = -1;
+            }
+            billRequisitionMasterModel.StatusId = (EnumBillRequisitionStatus)vStatus;
+            //BillRequisitionMasterModel.ZoneList = new SelectList(procurementService.ZonesDropDownList(companyId), "Value", "Text");
+            //BillRequisitionMasterModel.StockInfos = _stockInfoService.GetStockInfoSelectModels(companyId);
+            return View(billRequisitionMasterModel);
+        }
+
+        [HttpPost]
+        public ActionResult BillRequisitionMasterCommonSearch(BillRequisitionMasterModel billRequisitionMasterModel)
+        {
+            if (billRequisitionMasterModel.CompanyFK > 0)
+            {
+                Session["CompanyId"] = billRequisitionMasterModel.CompanyFK;
+            }
+
+            billRequisitionMasterModel.FromDate = Convert.ToDateTime(billRequisitionMasterModel.StrFromDate);
+            billRequisitionMasterModel.ToDate = Convert.ToDateTime(billRequisitionMasterModel.StrToDate);
+            return RedirectToAction(nameof(BillRequisitionMasterCommonList), new { companyId = billRequisitionMasterModel.CompanyFK, fromDate = billRequisitionMasterModel.FromDate, toDate = billRequisitionMasterModel.ToDate, vStatus = (int)billRequisitionMasterModel.StatusId });
+
+        }
+
+        #endregion
+
+
+
         #endregion
 
         #region 1.2 PM BillRequisition Approval Circle

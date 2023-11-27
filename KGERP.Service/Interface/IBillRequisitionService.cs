@@ -68,7 +68,8 @@ namespace KGERP.Service.Interface
         Task<long> BillRequisitionMasterDelete(long id);
         Task<BillRequisitionDetailModel> GetSingleBillRequisitionDetails(long id);
         Task<BillRequisitionMasterModel> GetBillRequisitionMasterList(int companyId, DateTime? fromDate, DateTime? toDate, int? statusId);
-
+        Task<BillRequisitionMasterModel> GetBillRequisitionMasterCommonList(int companyId, DateTime? fromDate, DateTime? toDate, int? statusId);
+        
 
         #region 1.2 BillRequisition Approved Circle
         Task<BillRequisitionMasterModel> GetBillRequisitionMasterDetailWithApproval(int companyId, long billRequisitionMasterId);

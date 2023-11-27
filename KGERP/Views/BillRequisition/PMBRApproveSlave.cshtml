@@ -134,17 +134,17 @@
                                                     <td style="padding: 5px; text-align: right;">
                                                         @if (Model.ApprovalModelList.First(x=>x.SignatoryId == (int)EnumBRequisitionSignatory.PM).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
                                                         {
-                                                            @Html.TextBoxFor(model => model.DetailDataList[i].DemandQty, new { id = i + "_Qty", @class = "form-control quantityValue" })
-                                                        }
+                                                            @Html.TextBoxFor(model => model.DetailDataList[i].DemandQty, new { id = "demandQty_" + i, @class = "form -control quantityValue demand-quantity" })
+                                                       }
                                                         else
-                                                        {
-                                                            @String.Format("{0:0.00}", item.DemandQty)
+                                                            {
+                                                                @String.Format("{0:0.00}", item.DemandQty)
                                                         }
                                                     </td>
 
 
                                                     <td style="padding: 5px; text-align: right;">@String.Format("{0:0.00}", item.UnitRate)</td>
-                                                    <td style="padding: 5px; text-align: right;">@String.Format("{0:0.00}", item.TotalPrice)</td>
+                                                    <td class="rowTotal" style="padding: 5px;  text-align: right;">@String.Format("{0:0.00}", item.TotalPrice)</td>
 
 
                                                     @{
@@ -157,7 +157,7 @@
                                         <tfoot>
                                             <tr>
                                                 <td colspan="8"></td>
-                                                <td style="padding: 5px; text-align: right;"> <b>Total :</b> @String.Format("{0:0.00}", totalPrice)</td>
+                                                <td id="totalFooter" style="padding: 5px; text-align: right;"> <b>Total :</b> @String.Format("{0:0.00}", totalPrice)</td>
                                             </tr>
                                         </tfoot>
 
@@ -247,26 +247,17 @@
 
         $(document).ready(function () {
 
-            //$("#Qty").keyup(function () {
+            $('.demand-quantity').keyup(function () {
+                var row = $(this).closest('tr'); 
+                var demandQty = parseFloat($(this).val()); 
+                var unitRate = parseFloat(row.find('td:eq(7)').text());
+                var totalPrice = demandQty * unitRate; 
 
-            //    var qty = $("#txtOrderQuantity").val();
-            //    var Unit = $("#txtUnitPrice").val();
-            //    var specialDis = $("#SpcDis").val();
-            //    var ammount = qty * Unit;
-            //    var percentage = ((specialDis / ammount) * 100);
-            //    var totalPriceAfterTotalspecial = ammount - specialDis;
-            //    $("#disPercentage").val(percentage);
-            //    $("#totalAmount").val(totalPriceAfterTotalspecial);
-
-            //});
-
-            //function calculateAmount() {
-            //    var packQuantity = $('#txtPackQuantity').val();
-            //    var consumption = $("#txtConsumption").val();
-            //    var quantityInKg = (Number(packQuantity) * Number(consumption)) / 1000;
-            //    $('#txtOrderQuantity').val(Number((quantityInKg).toFixed(3)))
-            //}
+               
+                row.find('td:eq(8)').text(totalPrice.toFixed(2)); 
+            });
+        
         });
-
+  
     </script>
 }

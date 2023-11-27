@@ -1253,7 +1253,72 @@ namespace KGERP.Service.Implementation
 
             return billRequisitionMasterModel;
         }
+        public async Task<BillRequisitionMasterModel> GetBillRequisitionMasterCommonList(int companyId, DateTime? fromDate, DateTime? toDate, int? statusId)
+        {
+            BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
+            billRequisitionMasterModel.CompanyFK = companyId;
+            var dataQuery = (from t1 in _context.BillRequisitionMasters
+                             where t1.IsActive && t1.CompanyId == companyId
+                             join t2 in _context.Accounting_CostCenter on t1.CostCenterId equals t2.CostCenterId into t2_Join
+                             from t2 in t2_Join.DefaultIfEmpty()
+                             join t3 in _context.BillRequisitionTypes on t1.BillRequisitionTypeId equals t3.BillRequisitionTypeId into t3_Join
+                             from t3 in t3_Join.DefaultIfEmpty()
+                             join t4 in _context.Accounting_CostCenterType on t1.ProjectTypeId equals t4.CostCenterTypeId into t4_Join
+                             from t4 in t4_Join.DefaultIfEmpty()
+                             select new BillRequisitionMasterModel
+                             {
+                                 BillRequisitionMasterId = t1.BillRequisitionMasterId,
+                                 BillRequisitionTypeId = t1.BillRequisitionTypeId,
+                                 BOQItemId = t1.BOQItemId,
+                                 ProjectTypeId = t1.ProjectTypeId,
+                                 ProjectTypeName = t4.Name,
+                                 BRTypeName = t3.Name,
+                                 CostCenterId = t1.CostCenterId,
+                                 CostCenterName = t2.Name,
+                                 Description = t1.Description,
+                                 BRDate = t1.BRDate,
+                                 BillRequisitionNo = t1.BillRequisitionNo,
+                                 StatusId = (EnumBillRequisitionStatus)t1.StatusId,
+                                 CompanyFK = t1.CompanyId,
+                                 CreatedDate = t1.CreateDate,
+                                 CreatedBy = t1.CreatedBy,
+                                 ApprovalModelList = (from t5 in _context.BillRequisitionApprovals.Where(x => x.IsActive && x.BillRequisitionMasterId == t1.BillRequisitionMasterId)
+                                                      join t6 in _context.BillRequisitionMasters.Where(x => x.IsActive) on t1.BillRequisitionMasterId equals t6.BillRequisitionMasterId into t6_Join
+                                                      from t6 in t6_Join.DefaultIfEmpty()
+                                                      select new BillRequisitionApprovalModel
+                                                      {
+                                                          BRApprovalId = t5.BRApprovalId,
+                                                          BillRequisitionMasterId = t1.BillRequisitionMasterId,
+                                                          SignatoryId = t5.SignatoryId,
+                                                          AprrovalStatusId = t5.AprrovalStatusId,
+                                                          IsSupremeApproved = t5.IsSupremeApproved,
+                                                      }).OrderBy(x => x.BRApprovalId).ToList(),
 
+
+                             }).OrderByDescending(x => x.BillRequisitionMasterId).AsEnumerable();
+
+            if (statusId != -1 && statusId != null)
+            {
+                dataQuery = dataQuery.Where(q => q.StatusId == (EnumBillRequisitionStatus)statusId);
+            }
+
+            billRequisitionMasterModel.DataList = await Task.Run(() => dataQuery.ToList());
+
+            var masterIds = billRequisitionMasterModel.DataList.Select(x => x.BillRequisitionMasterId);
+
+            var matchingDetails = await _context.BillRequisitionDetails
+                                        .Where(detail => masterIds.Contains(detail.BillRequisitionMasterId))
+                                        .ToListAsync();
+
+            foreach (var master in billRequisitionMasterModel.DataList)
+            {
+                var detailsForMaster = matchingDetails.Where(detail => detail.BillRequisitionMasterId == master.BillRequisitionMasterId);
+                decimal total = detailsForMaster.Sum(detail => detail.UnitRate * detail.DemandQty);
+                master.TotalAmount = total;
+            }
+
+            return billRequisitionMasterModel;
+        }
 
         #endregion
 
