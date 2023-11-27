@@ -2,7 +2,7 @@
 
 @{
 
-    ViewData["Title"] = "Requisition Item";
+    ViewData["Title"] = "Material Iteam Entry";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
 
@@ -16,11 +16,11 @@
 </style>
 <section class="content-header">
     <h1>
-        Requisition Item
+        Material Iteam Entry
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">Requisition Item</li>
+        <li class="active">Material Iteam Entry</li>
     </ol>
 </section>
 <section class="content">
@@ -61,7 +61,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="message-text" class="col-form-label">Select Unit:</label>
-                                            @Html.DropDownListFor(model => model.Common_UnitFk, Model.UnitList as SelectList, "---Select Unit---", new { id = "ddlCommonUnitFk", @class = "form-control", required = "required" })
+                                            @Html.DropDownListFor(model => model.Common_UnitFk, Model.UnitList.OrderBy(order=> order.Text) as SelectList, "---Select Unit---", new { id = "ddlCommonUnitFk", @class = "form-control", required = "required" })
                                             @Html.ValidationMessageFor(model => model.Common_UnitFk, "", new { @class = "text-danger" })
                                         </div>
                                     </div>

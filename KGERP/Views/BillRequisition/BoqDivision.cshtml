@@ -39,7 +39,7 @@
 
                                 <div class="form-group">
                                     <label>Select Project : </label>
-                                    @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.Projecs, "CostCenterId", "Name"), "=== Select Project ===", new { id = "ddProjectId", @class = "form-control searchingDropdown", style = "width:100%" })
+                                    @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.Projecs.OrderBy(order => order.Name), "CostCenterId", "Name"), "=== Select Project ===", new { id = "ddProjectId", @class = "form-control searchingDropdown", style = "width:100%" })
                                     @Html.ValidationMessageFor(model => model.ProjectId, "", new { @class = "text-danger" })
                                 </div>
 
@@ -86,7 +86,7 @@
                                             @{
                                                 if (Model.BoQDivisions != null)
                                                 {
-                                                    foreach (var item in Model.BoQDivisions.OrderBy(order => order.Name))
+                                                    foreach (var item in Model.BoQDivisions.OrderBy(order => order.ProjectId))
                                                     {
                                                         <tr>
                                                             <td>

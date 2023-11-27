@@ -3218,7 +3218,7 @@ namespace KGERP.Service.Implementation.Configuration
         public List<object> UnitDropDownList(int companyId)
         {
             var unitList = new List<object>();
-            var units = _db.Units.Where(a => a.IsActive == true && a.CompanyId == companyId).ToList();
+            var units = _db.Units.Where(a => a.IsBoQUnit == false && a.IsActive == true && a.CompanyId == companyId).ToList();
             foreach (var x in units)
             {
                 unitList.Add(new { Text = x.Name, Value = x.UnitId });
