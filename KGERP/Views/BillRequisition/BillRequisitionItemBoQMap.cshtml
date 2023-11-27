@@ -28,14 +28,14 @@
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="box-danger">
                     <div class="box-body row">
-                        @Html.HiddenFor(model => model.ID, new { Value = "", id = "BoQItemMapId" })
+                        @Html.HiddenFor(model => model.ID, new { Value = "", id = "BoQItemProductMapId" })
                         @Html.HiddenFor(model => model.ActionId, new { Value = "", id = "ActionId" })
                         @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
 
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label asp-for="ProjectId" class="form-control-label">Select Project:</label>
-                                @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.Projects.OrderBy(order => order.Name), "CostCenterId", "Name"), "=== Select Project ===", new { id = "ddlCostCenterId", onchange = "getBoQList()", @class = "form-control searchingDropdown", style = "width:100%" })
+                                @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.Projects.OrderBy(order => order.Name), "CostCenterId", "Name"), "=== Select Project ===", new { id = "ddlProjectId", onchange = "getDivisionList()", @class = "form-control searchingDropdown", style = "width:100%" })
                                 @Html.ValidationMessageFor(model => model.ProjectId, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -43,7 +43,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label asp-for="BoQDivisionId" class="form-control-label">Select BoQ Division :</label>
-                                @Html.DropDownListFor(model => model.BoQDivisionId, new SelectList(Model.BoQDivisions.OrderBy(order => order.Name), "BoQDivisionId", "Name"), "=== Select BoQ Division ===", new { id = "ddlBoQId", onchange = "getItemList()", @class = "form-control searchingDropdown", style = "width:100%" })
+                                @Html.DropDownListFor(model => model.BoQDivisionId, new SelectList(Model.BoQDivisions.OrderBy(order => order.Name), "BoQDivisionId", "Name"), "=== Select BoQ Division ===", new { id = "ddlBoQDivisionId", onchange = "getBoqItemList()", @class = "form-control searchingDropdown", style = "width:100%" })
                                 @Html.ValidationMessageFor(model => model.BoQDivisionId, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -51,7 +51,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label asp-for="BoQItemId" class="form-control-label">Select BoQ Item :</label>
-                                @Html.DropDownListFor(model => model.BoQItemId, new SelectList(Model.BoQItems.OrderBy(order => order.Name), "BoQItemId", "Name"), "=== Select BoQ Item ===", new { id = "ddlBoQId", onchange = "getItemList()", @class = "form-control searchingDropdown", style = "width:100%" })
+                                @Html.DropDownListFor(model => model.BoQItemId, new SelectList(Model.BoQItems.OrderBy(order => order.Name), "BoQItemId", "Name"), "=== Select BoQ Item ===", new { id = "ddlBoQItemId", @class = "form-control searchingDropdown", style = "width:100%" })
                                 @Html.ValidationMessageFor(model => model.BoQItemId, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -59,13 +59,13 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label asp-for="MaterialItemId" class="form-control-label">Select BoQ Material :</label>
-                                @Html.DropDownListFor(model => model.MaterialItemId, new SelectList(Model.BoQMaterials.OrderBy(order => order.ProductName), "ProductId", "ProductName"), "=== Select BoQ Material ===", new { id = "ddItemId", @class = "form-control searchingDropdown", style = "width:100%" })
+                                @Html.DropDownListFor(model => model.MaterialItemId, new SelectList(Model.BoQMaterials.OrderBy(order => order.ProductName), "ProductId", "ProductName"), "=== Select BoQ Material ===", new { id = "ddlMaterialItemId", @class = "form-control searchingDropdown", style = "width:100%" })
                                 @Html.ValidationMessageFor(model => model.MaterialItemId, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
-                        <div class="col-md-6">
-                            <div class="form-group" style="margin-top: 25px !important">
+                        <div class="col-md-12">
+                            <div class="form-group">
                                 <div class="col-md-6">
                                     <button type="button" onclick="resetForm()" class="btn btn-secondary" data-dismiss="modal" style="width:100% !important">Reset</button>
                                 </div>
@@ -97,8 +97,9 @@
                             <thead>
                                 <tr>
                                     <th>SL</th>
-                                    <th>BoQ Name</th>
-                                    <th>Item/Material</th>
+                                    <th>Division Name</th>
+                                    <th>BoQ Item Name</th>
+                                    <th>Material Name</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -109,22 +110,32 @@
                                     {
                                         foreach (var item in Model.BoQItemProductMaps)
                                         {
-                                            @*<tr>
-                                                    <td>
-                                                        @(++sl)
-                                                        <input type="hidden" id="requisitionBoQ_@item.BoQItemId" name="BoQItemId" value="@item.BoQItemId" />
-                                                    </td>
-                                                    <td id="tdBoQName_@item.BoQItemId">@Model.BoQItemList.FirstOrDefault(c => c.BoQItemId == item.BoQItemId).Name</td>
-                                                    <td id="tdBoQItemName_@item.BoQItemId">@Model.MaterialList.FirstOrDefault(c => c.ProductId == item.ProductId).ProductName</td>
-                                                    <td>
-                                                        <a id="@item.BoQItemId" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
+                                            <tr>
+                                                <td>
+                                                    @(++sl)
+                                                    @{
+                                                        var diviId = Model.BoQItems.FirstOrDefault(c => c.BoQItemId == item.BoQItemId).BoQDivisionId;
 
-                                                        <a id="@item.BoQItemId" onclick="makeDeletable(@item.BoQItemId);" class="linkPointer" data-toggle="modal" data-target="#BillRequisitionBoQDeleteModal" title="Delete"
-                                                           data-placement="top">
-                                                            <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
-                                                        </a>
-                                                    </td>
-                                                </tr>*@
+                                                        var projId = Model.BoQDivisions.FirstOrDefault(c => c.BoQDivisionId == diviId).ProjectId;
+                                                    }
+
+                                                    <input type="hidden" id="project_@item.BoQItemProductMapId" name="ProjectId" value="@projId" />
+                                                    <input type="hidden" id="division_@item.BoQItemProductMapId" name="BoQDivisionId" value="@diviId" />
+                                                    <input type="hidden" id="boqItem_@item.BoQItemProductMapId" name="BoQItemId" value="@item.BoQItemId" />
+                                                    <input type="hidden" id="material_@item.BoQItemProductMapId" name="MaterialItemId" value="@item.ProductId" />
+                                                </td>
+                                                <td id="tdBoqDivisionName_@item.BoQItemProductMapId">@Model.BoQItems.FirstOrDefault(c => c.BoQItemId == item.BoQItemId).Name</td>
+                                                <td id="tdBoqItemName_@item.BoQItemProductMapId">@Model.BoQMaterials.FirstOrDefault(c => c.ProductId == item.ProductId).ProductName</td>
+                                                <td id="tdBoqMaterialName_@item.BoQItemProductMapId">@Model.BoQMaterials.FirstOrDefault(c => c.ProductId == item.ProductId).ProductName</td>
+                                                <td>
+                                                    <a id="@item.BoQItemProductMapId" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
+
+                                                    <a id="@item.BoQItemProductMapId" onclick="makeDeletable(@item.BoQItemProductMapId);" class="linkPointer" data-toggle="modal" data-target="#BillRequisitionBoQMapModelDeleteModal" title="Delete"
+                                                       data-placement="top">
+                                                        <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
                                         }
                                     }
                                 }
@@ -140,18 +151,18 @@
 @using (Html.BeginForm("BillRequisitionItemBoQMap", "BillRequisition", FormMethod.Post, new { id = "BillRequisitionItemBoQMapFormId", @class = "formValidator", onreset = "resetDDL();" }))
 {
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    @Html.HiddenFor(model => model.BoQItemId, new { Value = "", id = "BillRequisitionBoQDelete" })
+    @Html.HiddenFor(model => model.BoQItemProductMapId, new { Value = "", id = "BoQItemProductMapIdDelete" })
     @Html.HiddenFor(model => model.ActionId, new { Value = "", id = "ActionIdDelete" })
     @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFKDelete" })
 
-    <div class="modal fade" id="BillRequisitionBoQDeleteModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
+    <div class="modal fade" id="BillRequisitionBoQMapModelDeleteModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" onclick="resetForm()" class="close pull-right" data-dismiss="modal" aria-label="Close">
                         &times;
                     </button>
-                    <h5 class="modal-title"><b>Bill of Quotattion Delete</b></h5>
+                    <h5 class="modal-title"><b>BoQ Material Map Delete</b></h5>
 
                 </div>
                 <div class="modal-body">
@@ -175,71 +186,23 @@
             $('.formValidator').bootstrapValidator();
         });
 
-        function getProjectList() {
-            var getProjectId = $("#ddlCostCenterTypeId option:selected");
-            var showprojectList = $("#ddlCostCenterId");
-
-            $.ajax({
-                type: "GET",
-                url: "/BillRequisition/GetProjectList",
-                dataType: "json",
-                data: { id: getProjectId.val() },
-                success: function (data) {
-                    showprojectList.empty();
-                    $.each(data, function (index, item) {
-                        showprojectList.append($('<option>', {
-                            value: item.CostCenterId,
-                            text: item.Name
-                        }));
-                    });
-                },
-                error: function (error) {
-                    console.error("Error in AJAX request:", error);
-                }
-            });
-        }
-
-        function getBoQList() {
-            var getProjectId = $("#ddlCostCenterId option:selected");
-            var showBoQList = $("#ddlBoQId");
-
-            $.ajax({
-                type: "GET",
-                url: "/BillRequisition/GetBoQList",
-                dataType: "json",
-                data: { id: getProjectId.val() },
-                success: function (data) {
-                    showBoQList.empty();
-                    $.each(data, function (index, item) {
-                        showBoQList.append($('<option>', {
-                            value: item.BoQItemId,
-                            text: item.Name
-                        }));
-                    });
-                },
-                error: function (error) {
-                    console.error("Error in AJAX request:", error);
-                }
-            });
-        }
-
         function makeEditble(elem) {
             if (elem !== null) {
                 var rowId = elem.id;
-                $('#BoQItemMapId').val(rowId);
+                $('#BoQItemProductMapId').val(rowId);
                 $('#ActionId').val(2);
                 $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Update");
-                $('#txtRequisitionBoqName').val($('#tdRequisitionBoQName_' + rowId).text().trim());
-                $('#txtRequisitionBoqAmount').val($('#tdRequisitionBoQAmount_' + rowId).text().trim());
-                $('#txtRequisitionBoqDescription').val($('#tdRequisitionBoQDescription_' + rowId).text().trim());
-                $('#ddlCostCenterId').val($('#tdRequisitionBoQProjectName_' + rowId).val().trim()).trigger('change');
+                $('#ddlProjectId').val($('#project_' + rowId).val().trim()).trigger('change');
+                $('#ddlBoQDivisionId').val($('#division_' + rowId).val().trim()).trigger('change');
+                $('#ddlBoQItemId').val($('#boqItem_' + rowId).val().trim()).trigger('change');
+                $('#ddlMaterialItemId').val($('#material_' + rowId).val().trim()).trigger('change');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
         }
 
         function makeDeletable(id) {
             if (id !== null) {
-                $('#BillRequisitionBoQDelete').val(id);
+                $('#BoQItemProductMapIdDelete').val(id);
                 $('#ActionIdDelete').val(3);
                 $("#CompanyFKDelete").val("@Model.CompanyFK");
             }
