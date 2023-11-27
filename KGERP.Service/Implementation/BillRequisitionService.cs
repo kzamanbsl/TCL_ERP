@@ -1356,25 +1356,26 @@ namespace KGERP.Service.Implementation
             List<BillRequisitionDetail> details = _context.BillRequisitionDetails.Where(c => c.BillRequisitionMasterId == billRequisitionMasterModel.BillRequisitionMasterId && c.IsActive == true).ToList();
             if (details?.Count() <= 0) throw new Exception("Sorry! Damage  not found to Receive!");
 
-            //List<DamageDetailHistory> history = new List<DamageDetailHistory>();
-            //foreach (var item in details)
-            //{
-            //    history.Add(new DamageDetailHistory
-            //    {
-            //        DamageDetailHistoryId = 0,
-            //        DamageMasterId = item.DamageMasterId,
-            //        DamageDetailId = item.DamageDetailId,
-            //        DamageTypeId = item.DamageTypeId,
-            //        ProductId = item.ProductId,
-            //        DamageQty = item.DamageQty,
-            //        UnitPrice = item.UnitPrice,
-            //        TotalPrice = item.TotalPrice,
-            //        Remarks = item.Remarks,
-            //        CreatedBy = System.Web.HttpContext.Current.Session["EmployeeName"].ToString(),
-            //        CreateDate = DateTime.Now,
-            //        IsActive = true,
-            //    });
-            //}
+          
+            List<BillReqApprovalHistory> history = new List<BillReqApprovalHistory>();
+            foreach (var item in details)
+            {
+                history.Add(new BillReqApprovalHistory
+                {
+                    BillReqApprovalHistoryId = 0,
+                    BillRequisitionDetailId = item.BillRequisitionDetailId,
+                    BillRequisitionMasterId = item.BillRequisitionMasterId,
+                    DemandQty = item.DemandQty,
+                    RemainingQty = item.RemainingQty,
+                    ReceivedSoFar = item.ReceivedSoFar,
+                    UnitRate = item.UnitRate,
+                    TotalPrice = item.TotalPrice,
+                    CompanyId = item.CompanyId,
+                    EmployeeId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]),
+                    CreatedBy = System.Web.HttpContext.Current.Session["EmployeeName"].ToString(),
+                    CreateDate = DateTime.Now,
+                }) ;
+            }
 
             foreach (var dt in details)
             {
@@ -1394,7 +1395,7 @@ namespace KGERP.Service.Implementation
 
             using (var scope = _context.Database.BeginTransaction())
             {
-                //_db.DamageDetailHistories.AddRange(history);
+                _context.BillReqApprovalHistories.AddRange(history);
                 await _context.SaveChangesAsync();
 
                 result = billRequisitionMasterModel.BillRequisitionMasterId;
@@ -1521,25 +1522,25 @@ namespace KGERP.Service.Implementation
             List<BillRequisitionDetail> details = _context.BillRequisitionDetails.Where(c => c.BillRequisitionMasterId == billRequisitionMasterModel.BillRequisitionMasterId && c.IsActive == true).ToList();
             if (details?.Count() <= 0) throw new Exception("Sorry! Damage  not found to Receive!");
 
-            //List<DamageDetailHistory> history = new List<DamageDetailHistory>();
-            //foreach (var item in details)
-            //{
-            //    history.Add(new DamageDetailHistory
-            //    {
-            //        DamageDetailHistoryId = 0,
-            //        DamageMasterId = item.DamageMasterId,
-            //        DamageDetailId = item.DamageDetailId,
-            //        DamageTypeId = item.DamageTypeId,
-            //        ProductId = item.ProductId,
-            //        DamageQty = item.DamageQty,
-            //        UnitPrice = item.UnitPrice,
-            //        TotalPrice = item.TotalPrice,
-            //        Remarks = item.Remarks,
-            //        CreatedBy = System.Web.HttpContext.Current.Session["EmployeeName"].ToString(),
-            //        CreateDate = DateTime.Now,
-            //        IsActive = true,
-            //    });
-            //}
+            List<BillReqApprovalHistory> history = new List<BillReqApprovalHistory>();
+            foreach (var item in details)
+            {
+                history.Add(new BillReqApprovalHistory
+                {
+                    BillReqApprovalHistoryId = 0,
+                    BillRequisitionDetailId = item.BillRequisitionDetailId,
+                    BillRequisitionMasterId = item.BillRequisitionMasterId,
+                    DemandQty = item.DemandQty,
+                    RemainingQty = item.RemainingQty,
+                    ReceivedSoFar = item.ReceivedSoFar,
+                    UnitRate = item.UnitRate,
+                    TotalPrice = item.TotalPrice,
+                    CompanyId = item.CompanyId,
+                    EmployeeId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]),
+                    CreatedBy = System.Web.HttpContext.Current.Session["EmployeeName"].ToString(),
+                    CreateDate = DateTime.Now,
+                });
+            }
 
             foreach (var dt in details)
             {
@@ -1559,7 +1560,7 @@ namespace KGERP.Service.Implementation
 
             using (var scope = _context.Database.BeginTransaction())
             {
-                //_db.DamageDetailHistories.AddRange(history);
+                _context.BillReqApprovalHistories.AddRange(history);
                 await _context.SaveChangesAsync();
 
                 result = billRequisitionMasterModel.BillRequisitionMasterId;
@@ -1682,25 +1683,26 @@ namespace KGERP.Service.Implementation
             List<BillRequisitionDetail> details = _context.BillRequisitionDetails.Where(c => c.BillRequisitionMasterId == billRequisitionMasterModel.BillRequisitionMasterId && c.IsActive == true).ToList();
             if (details?.Count() <= 0) throw new Exception("Sorry! Damage  not found to Receive!");
 
-            //List<DamageDetailHistory> history = new List<DamageDetailHistory>();
-            //foreach (var item in details)
-            //{
-            //    history.Add(new DamageDetailHistory
-            //    {
-            //        DamageDetailHistoryId = 0,
-            //        DamageMasterId = item.DamageMasterId,
-            //        DamageDetailId = item.DamageDetailId,
-            //        DamageTypeId = item.DamageTypeId,
-            //        ProductId = item.ProductId,
-            //        DamageQty = item.DamageQty,
-            //        UnitPrice = item.UnitPrice,
-            //        TotalPrice = item.TotalPrice,
-            //        Remarks = item.Remarks,
-            //        CreatedBy = System.Web.HttpContext.Current.Session["EmployeeName"].ToString(),
-            //        CreateDate = DateTime.Now,
-            //        IsActive = true,
-            //    });
-            //}
+            List<BillReqApprovalHistory> history = new List<BillReqApprovalHistory>();
+            foreach (var item in details)
+            {
+                history.Add(new BillReqApprovalHistory
+                {
+                    BillReqApprovalHistoryId = 0,
+                    BillRequisitionDetailId = item.BillRequisitionDetailId,
+                    BillRequisitionMasterId = item.BillRequisitionMasterId,
+                    DemandQty = item.DemandQty,
+                    RemainingQty = item.RemainingQty,
+                    ReceivedSoFar = item.ReceivedSoFar,
+                    UnitRate = item.UnitRate,
+                    TotalPrice = item.TotalPrice,
+                    CompanyId = item.CompanyId,
+                    EmployeeId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]),
+                    CreatedBy = System.Web.HttpContext.Current.Session["EmployeeName"].ToString(),
+                    CreateDate = DateTime.Now,
+                });
+            }
+
 
             foreach (var dt in details)
             {
@@ -1720,7 +1722,7 @@ namespace KGERP.Service.Implementation
 
             using (var scope = _context.Database.BeginTransaction())
             {
-                //_db.DamageDetailHistories.AddRange(history);
+                _context.BillReqApprovalHistories.AddRange(history);
                 await _context.SaveChangesAsync();
 
                 result = billRequisitionMasterModel.BillRequisitionMasterId;
@@ -1846,25 +1848,25 @@ namespace KGERP.Service.Implementation
             List<BillRequisitionDetail> details = _context.BillRequisitionDetails.Where(c => c.BillRequisitionMasterId == billRequisitionMasterModel.BillRequisitionMasterId && c.IsActive == true).ToList();
             if (details?.Count() <= 0) throw new Exception("Sorry! Damage  not found to Receive!");
 
-            //List<DamageDetailHistory> history = new List<DamageDetailHistory>();
-            //foreach (var item in details)
-            //{
-            //    history.Add(new DamageDetailHistory
-            //    {
-            //        DamageDetailHistoryId = 0,
-            //        DamageMasterId = item.DamageMasterId,
-            //        DamageDetailId = item.DamageDetailId,
-            //        DamageTypeId = item.DamageTypeId,
-            //        ProductId = item.ProductId,
-            //        DamageQty = item.DamageQty,
-            //        UnitPrice = item.UnitPrice,
-            //        TotalPrice = item.TotalPrice,
-            //        Remarks = item.Remarks,
-            //        CreatedBy = System.Web.HttpContext.Current.Session["EmployeeName"].ToString(),
-            //        CreateDate = DateTime.Now,
-            //        IsActive = true,
-            //    });
-            //}
+            List<BillReqApprovalHistory> history = new List<BillReqApprovalHistory>();
+            foreach (var item in details)
+            {
+                history.Add(new BillReqApprovalHistory
+                {
+                    BillReqApprovalHistoryId = 0,
+                    BillRequisitionDetailId = item.BillRequisitionDetailId,
+                    BillRequisitionMasterId = item.BillRequisitionMasterId,
+                    DemandQty = item.DemandQty,
+                    RemainingQty = item.RemainingQty,
+                    ReceivedSoFar = item.ReceivedSoFar,
+                    UnitRate = item.UnitRate,
+                    TotalPrice = item.TotalPrice,
+                    CompanyId = item.CompanyId,
+                    EmployeeId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]),
+                    CreatedBy = System.Web.HttpContext.Current.Session["EmployeeName"].ToString(),
+                    CreateDate = DateTime.Now,
+                });
+            }
 
             foreach (var dt in details)
             {
@@ -1884,7 +1886,7 @@ namespace KGERP.Service.Implementation
 
             using (var scope = _context.Database.BeginTransaction())
             {
-                //_db.DamageDetailHistories.AddRange(history);
+                _context.BillReqApprovalHistories.AddRange(history);
                 await _context.SaveChangesAsync();
 
                 result = billRequisitionMasterModel.BillRequisitionMasterId;
@@ -2009,25 +2011,26 @@ namespace KGERP.Service.Implementation
             List<BillRequisitionDetail> details = _context.BillRequisitionDetails.Where(c => c.BillRequisitionMasterId == billRequisitionMasterModel.BillRequisitionMasterId && c.IsActive == true).ToList();
             if (details?.Count() <= 0) throw new Exception("Sorry! Damage  not found to Receive!");
 
-            //List<DamageDetailHistory> history = new List<DamageDetailHistory>();
-            //foreach (var item in details)
-            //{
-            //    history.Add(new DamageDetailHistory
-            //    {
-            //        DamageDetailHistoryId = 0,
-            //        DamageMasterId = item.DamageMasterId,
-            //        DamageDetailId = item.DamageDetailId,
-            //        DamageTypeId = item.DamageTypeId,
-            //        ProductId = item.ProductId,
-            //        DamageQty = item.DamageQty,
-            //        UnitPrice = item.UnitPrice,
-            //        TotalPrice = item.TotalPrice,
-            //        Remarks = item.Remarks,
-            //        CreatedBy = System.Web.HttpContext.Current.Session["EmployeeName"].ToString(),
-            //        CreateDate = DateTime.Now,
-            //        IsActive = true,
-            //    });
-            //}
+            List<BillReqApprovalHistory> history = new List<BillReqApprovalHistory>();
+            foreach (var item in details)
+            {
+                history.Add(new BillReqApprovalHistory
+                {
+                    BillReqApprovalHistoryId = 0,
+                    BillRequisitionDetailId = item.BillRequisitionDetailId,
+                    BillRequisitionMasterId = item.BillRequisitionMasterId,
+                    DemandQty = item.DemandQty,
+                    RemainingQty = item.RemainingQty,
+                    ReceivedSoFar = item.ReceivedSoFar,
+                    UnitRate = item.UnitRate,
+                    TotalPrice = item.TotalPrice,
+                    CompanyId = item.CompanyId,
+                    EmployeeId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]),
+                    CreatedBy = System.Web.HttpContext.Current.Session["EmployeeName"].ToString(),
+                    CreateDate = DateTime.Now,
+                });
+            }
+
 
             foreach (var dt in details)
             {
@@ -2047,7 +2050,7 @@ namespace KGERP.Service.Implementation
 
             using (var scope = _context.Database.BeginTransaction())
             {
-                //_db.DamageDetailHistories.AddRange(history);
+                _context.BillReqApprovalHistories.AddRange(history);
                 await _context.SaveChangesAsync();
 
                 result = billRequisitionMasterModel.BillRequisitionMasterId;
