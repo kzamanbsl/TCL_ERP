@@ -1,0 +1,349 @@
+﻿@model KGERP.Service.ServiceModel.BillRequisitionMasterModel
+@using KGERP.Utility;
+
+@{
+    ViewData["Title"] = "Requisition List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    int sl = 0;
+}
+
+<style type="text/css">
+
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
+
+<section class="content-header">
+    <h1>
+        <span>
+            Bill Requisition List
+        </span>
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
+        @*<li class="active">
+                <a href="~/Procurement/FoodCustomerSalesOrderSlave?companyId=@Model.CompanyFK&orderMasterId=0" class="btn btn-primary pull-right">
+                    <span class="fs fs-plus"></span> New Sales Invoice
+                </a>
+            </li>*@
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-danger">
+                    <div class="box-body">
+                        @using (Html.BeginForm("BillRequisitionMasterCommonSearch", "BillRequisition", FormMethod.Post, new { id = "BRMasterListFormId", @class = "formValidator" }))
+                        {
+                            @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyId" })
+
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        @Html.Label("Status:", htmlAttributes: new { @class = "control-label" })
+                                        <br />
+                                        @Html.DropDownListFor(model => model.StatusId, Model.EnumBRStatusList as SelectList, "==Select Status==", new { id = "ddlStatusEnumFK", @class = "form-control ddlReset searchingDropdown", style = "width:100%", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.StatusId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        @Html.Label("From Date:", htmlAttributes: new { @class = "control-label" })
+                                        <br />
+                                        @Html.EditorFor(model => model.StrFromDate, new { htmlAttributes = new { @class = "datepicker", @autocomplete = "off" } })
+                                        @Html.ValidationMessageFor(model => model.StrFromDate, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        @Html.Label("To Date:", htmlAttributes: new { @class = "control-label" })
+                                        <br />
+                                        @Html.EditorFor(model => model.StrToDate, new { htmlAttributes = new { @class = "datepicker", @autocomplete = "off" } })
+                                        @Html.ValidationMessageFor(model => model.StrToDate, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3" style="padding: 0px 2px 0px 8px;">
+                                    <div class="form-group">
+                                        <label>&nbsp;</label>
+                                        <button type="submit" id="btnSave" class="btn btn-primary btn-block">Show</button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        <hr />
+
+                        <div class="table-responsive">
+                            <table id="KgErpDataTable" class="table table-striped" style="width:100%; background-color:#ddd;">
+                                <thead>
+
+                                    <tr>
+                                        <th>SL</th>
+                                        <th>Date</th>
+                                        <th>Req. No</th>
+                                        <th>Req. Type</th>
+                                        <th>P. Type</th>
+                                        <th>Project </th>
+                                        <th style="text-align:right">Total</th>
+                                        <th style="text-align:center">Action</th>
+                                        <th style="text-align:center"> Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.DataList)
+                                    {
+                                        #region Link Title
+
+                                        string statusTitle = "";
+
+                                        if (item.StatusId == EnumBillRequisitionStatus.Draft)
+                                        { statusTitle = "Make Submit"; }
+
+                                        if (item.StatusId == EnumBillRequisitionStatus.Submitted)
+                                        { statusTitle = "Undo Submit"; }
+
+                                        #endregion
+
+                                        <tr>
+                                            <th>@(++sl)</th>
+                                            <td>@item.BRDate.ToString("dd-MM-yyyy")</td>
+
+
+                                            <td>@item.BillRequisitionNo</td>
+                                            <td>@item.BRTypeName</td>
+                                            <td>@item.ProjectTypeName</td>
+                                            <td>@item.CostCenterName</td>
+
+                                            <td style="text-align:right">@String.Format("{0:0.00}", item.TotalAmount)</td>
+                                            <td style="text-align:center">
+                                               
+                                                    <a href="~/BillRequisition/BillRequisitionMasterCommonSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
+
+                                            </td>
+                                            <td style="text-align:center">
+                                                @if (item.StatusId == EnumBillRequisitionStatus.Draft)
+                                                {
+                                                    <span class="btn btn-secondary btn-xs">Draft</span>
+                                                }
+                                                else
+                                                {
+                                                    var mdApproved = item.ApprovalModelList.First(x => x.BillRequisitionMasterId == item.BillRequisitionMasterId && x.SignatoryId == (int)EnumBRequisitionSignatory.MD);
+                                                    if (mdApproved.IsSupremeApproved && mdApproved.AprrovalStatusId == (int)EnumBillRequisitionStatus.Approved)
+                                                    {
+
+
+                                                        <span class="btn btn-success btn-xs">Approved</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        foreach (var approval in item.ApprovalModelList)
+                                                        {
+
+                                                            if (approval.AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
+                                                            {
+                                                                <span class="btn btn-warning btn-xs"> @approval.AprrovalStatusName at  @approval.SignatoryName</span>
+
+                                                                break;
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@using (Html.BeginForm("DeleteBillRequisitionMasterById", "BillRequisition", FormMethod.Post))
+{
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="modal fade" id="deleteFoodCustomerOrderModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
+                        &times;
+                    </button>
+                    <h5 class="modal-title"><b>Delete item</b></h5>
+                </div>
+
+                <div class="modal-body">
+
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    @Html.HiddenFor(model => model.BillRequisitionMasterId, new { id = "hidDeleteBRMasterId" })
+                    @Html.HiddenFor(model => model.CompanyFK, new { id = "SOdeleteCompanyFK" })
+                    @Html.HiddenFor(model => model.ActionId, new { id = "deleteActionId" })
+
+                    <div style="text-align:center">
+                        <h3>Are you sure to Delete this item?</h3>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="col-md-3">
+                        <button type="button" onclick="resetDamageEditForm()" class="btn btn-warning fa fa-close" data-dismiss="modal">&nbsp;NO</button>
+                    </div>
+                    <div class="col-md-9">
+                        <button type="submit" id="btnsave" style="width:100%" class="btn btn-primary fa fa-remove">&nbsp; Delete</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+
+
+@using (Html.BeginForm("SubmitBillRequisitionMaster", "BillRequisition", FormMethod.Post))
+{
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="modal fade" id="submitBillRequisitionMastermodal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
+                        &times;
+                    </button>
+                    <h5 class="modal-title"><b><span class="submitOrDraftText"></span> Damage (<span id="submitOrDraftSOCIdText"></span>)</b></h5>
+                </div>
+
+                <div class="modal-body">
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    @Html.HiddenFor(model => model.BillRequisitionMasterId, new { id = "hidSubmitBRMasterId" })
+                    @Html.HiddenFor(model => model.CompanyFK, new { id = "SOSubmitCompanyFK" })
+
+
+                    <div style="text-align:center">
+                        <h3>Are you sure to <span class="submitOrDraftText"></span> this item?</h3>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="col-md-3">
+                        <button type="button" onclick="resetDamageEditForm()" class="btn btn-warning fa fa-close" data-dismiss="modal">&nbsp;NO</button>
+                    </div>
+                    <div class="col-md-9">
+                        <button type="submit" id="btnSave" style="width:100%" class="btn btn-primary fa fa-remove">&nbsp;<span class="submitOrDraftText"></span></button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+
+
+@Scripts.Render("~/bundles/jqueryui")
+@Styles.Render("~/Content/cssjqryUi")
+
+@section scripts {
+
+    <script type="text/javascript">
+
+        $('.datepicker').datepicker({
+            dateFormat: "dd/mm/yy",
+            showOn: 'both',
+            buttonText: "<i class='fa fa-calendar'></i>",
+            changeMonth: true,
+            changeYear: true,
+            yearRange: "2001:+50"
+        });
+
+      $(document).ready(function () {
+          /*$("#ddlZoneFk").change(updateDropdowns);*/
+      });
+
+        function resetForm() {
+
+            $('#dealerDamageEditForm')[0].reset();
+                $('#DMEditActionId').val(1);
+        }
+
+        function makeCloseable(rowId, actionId) {
+
+            $('#hidcloseReopenSaleOrderId').val(rowId);
+            $('#hidcloseReopenActionId').val(actionId);
+
+            if (actionId == "@((int)ActionEnum.Close)") {
+                $('.closeReopenText').text("Close");
+            }
+            if (actionId == "@((int)ActionEnum.ReOpen)") {
+                $('.closeReopenText').text("Reopen");
+            }
+        }
+
+        function makeSubmitble(rowId) {
+
+                $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("GetBillRequisitionMasterById", "BillRequisition")",
+                        datatype: "Json",
+                    data: { BillRequisitionMasterId: rowId },
+                    success: function (data) {
+
+                            if (data.Status == 0) {
+                                $('.submitOrDraftText').text("Make Submit");
+                            }
+                            else {
+                                $('.submitOrDraftText').text("Make Draft");
+                            }
+                        }
+                 });
+                $('#hidSubmitBRMasterId').val(rowId);
+            }
+
+        function makeDeletale(rowId) {
+
+            $('#hidDeleteBRMasterId').val(rowId);
+                $('#deleteActionId').val(3);
+        }
+
+        function resetDamageEditForm() {
+
+            $('#dealerDamageEditForm')[0].reset();
+              $('#ActionId').val(1);
+        }
+
+        function DateCustom(orderDate) {
+
+            var dateString = orderDate.substr(6);
+            var currentTime = new Date(parseInt(dateString));
+            var month = currentTime.getMonth() + 1;
+            if (month < 10) {
+                month = "0" + month;
+            }
+
+            var day = currentTime.getDate();
+            var year = currentTime.getFullYear();
+            var date = year + "-" + month + "-" + day;
+            return date;
+        }
+
+
+
+
+    </script>
+}
+
