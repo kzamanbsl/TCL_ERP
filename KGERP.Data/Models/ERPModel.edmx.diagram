@@ -549,7 +549,6 @@
         <AssociationConnector Association="ERPModel.FK_Unit_Company" />
         <AssociationConnector Association="ERPModel.FK_Product_Unit" />
         <AssociationConnector Association="ERPModel.FK_ProductionMaster_Unit" />
-        <EntityTypeShape EntityType="ERPModel.UserLog" Width="1.5" PointX="0.75" PointY="4.75" />
         <EntityTypeShape EntityType="ERPModel.BoQBudgetDetail" Width="1.5" PointX="13.125" PointY="58" />
         <EntityTypeShape EntityType="ERPModel.BoQBudgetMaster" Width="1.5" PointX="8.875" PointY="47.125" />
         <AssociationConnector Association="ERPModel.FK_BoQBudgetMaster_Accounting_CostCenter" />
@@ -564,6 +563,14 @@
         <AssociationConnector Association="ERPModel.FK_BoQDivision_Accounting_CostCenter" />
         <AssociationConnector Association="ERPModel.FK_BoQDivision_Company" />
         <AssociationConnector Association="ERPModel.FK_BillBoQItem_Unit" />
+        <EntityTypeShape EntityType="ERPModel.BillReqApprovalHistory" Width="1.5" PointX="56.75" PointY="44.625" />
+        <AssociationConnector Association="ERPModel.FK_BillReqApprovalHistory_Company" />
+        <AssociationConnector Association="ERPModel.FK_BillReqApprovalHistory_Employee" />
+        <AssociationConnector Association="ERPModel.FK_BillReqApprovalHistory_BillRequisitionDetail" />
+        <AssociationConnector Association="ERPModel.FK_BillReqApprovalHistory_BillRequisitionMaster" />
+        <EntityTypeShape EntityType="ERPModel.UserLog" Width="1.5" PointX="56.125" PointY="39.5" />
+        <AssociationConnector Association="ERPModel.FK_UserLog_Company" />
+        <AssociationConnector Association="ERPModel.FK_UserLog_Employee" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

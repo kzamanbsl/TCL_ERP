@@ -2142,10 +2142,10 @@ namespace KGERP.Service.Implementation
 
                                                                         }).OrderByDescending(x => x.BillRequisitionMasterId).AsEnumerable());
 
-            var filteredMasterList = billRequisitionMasterModel.DataList.Where(
-            q => q.ApprovalModelList.FirstOrDefault(x => x.SignatoryId == (int)EnumBRequisitionSignatory.PD)?.AprrovalStatusId == (int)EnumBillRequisitionStatus.Approved);
+            //var filteredMasterList = billRequisitionMasterModel.DataList.Where(
+            //q => q.ApprovalModelList.FirstOrDefault(x => x.SignatoryId == (int)EnumBRequisitionSignatory.PD)?.AprrovalStatusId == (int)EnumBillRequisitionStatus.Approved);
 
-            billRequisitionMasterModel.DataList = filteredMasterList;
+            //billRequisitionMasterModel.DataList = filteredMasterList;
             if (vStatus != -1 && vStatus != null)
             {
                 billRequisitionMasterModel.DataList = billRequisitionMasterModel.DataList.Where(q => q.StatusId == (EnumBillRequisitionStatus)vStatus);

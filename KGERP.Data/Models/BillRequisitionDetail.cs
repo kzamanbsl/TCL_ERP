@@ -14,6 +14,12 @@ namespace KGERP.Data.Models
     
     public partial class BillRequisitionDetail
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public BillRequisitionDetail()
+        {
+            this.BillReqApprovalHistories = new HashSet<BillReqApprovalHistory>();
+        }
+    
         public long BillRequisitionDetailId { get; set; }
         public long BillRequisitionMasterId { get; set; }
         public int ProductId { get; set; }
@@ -39,5 +45,7 @@ namespace KGERP.Data.Models
         public virtual Company Company { get; set; }
         public virtual BillRequisitionMaster BillRequisitionMaster { get; set; }
         public virtual Product Product { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BillReqApprovalHistory> BillReqApprovalHistories { get; set; }
     }
 }

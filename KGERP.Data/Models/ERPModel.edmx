@@ -3425,6 +3425,23 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.TempFeedVoucherDetail' does not hav
           <Property Name="ModifiedBy" Type="varchar" MaxLength="255" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="BillReqApprovalHistory">
+          <Key>
+            <PropertyRef Name="BillReqApprovalHistoryId" />
+          </Key>
+          <Property Name="BillReqApprovalHistoryId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BillRequisitionMasterId" Type="bigint" Nullable="false" />
+          <Property Name="BillRequisitionDetailId" Type="bigint" />
+          <Property Name="EmployeeId" Type="bigint" />
+          <Property Name="DemandQty" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="UnitRate" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="TotalPrice" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="ReceivedSoFar" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="RemainingQty" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="CompanyId" Type="int" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
         <EntityType Name="BillRequisitionApproval">
           <Key>
             <PropertyRef Name="BRApprovalId" />
@@ -5242,9 +5259,11 @@ warning 6002: The table/view 'TCLErp_Dev.Erp.RequisitionItemDetail' does not hav
           </Key>
           <Property Name="UserLogId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ActionType" Type="int" Nullable="false" />
+          <Property Name="EmployeeId" Type="bigint" Nullable="false" />
+          <Property Name="EmpUserId" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="CompanyId" Type="int" Nullable="false" />
           <Property Name="ActionTimeStamp" Type="datetime" Nullable="false" />
-          <Property Name="EmployeeId" Type="varchar" MaxLength="255" Nullable="false" />
-          <Property Name="Details" Type="varchar" MaxLength="355" Nullable="false" />
+          <Property Name="Details" Type="varchar" MaxLength="512" />
         </EntityType>
         <EntityType Name="Vendor">
           <Key>
@@ -6313,6 +6332,54 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             </Principal>
             <Dependent Role="BillBoQItem">
               <PropertyRef Name="BoqUnitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BillReqApprovalHistory_BillRequisitionDetail">
+          <End Role="BillRequisitionDetail" Type="Self.BillRequisitionDetail" Multiplicity="0..1" />
+          <End Role="BillReqApprovalHistory" Type="Self.BillReqApprovalHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BillRequisitionDetail">
+              <PropertyRef Name="BillRequisitionDetailId" />
+            </Principal>
+            <Dependent Role="BillReqApprovalHistory">
+              <PropertyRef Name="BillRequisitionDetailId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BillReqApprovalHistory_BillRequisitionMaster">
+          <End Role="BillRequisitionMaster" Type="Self.BillRequisitionMaster" Multiplicity="1" />
+          <End Role="BillReqApprovalHistory" Type="Self.BillReqApprovalHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BillRequisitionMaster">
+              <PropertyRef Name="BillRequisitionMasterId" />
+            </Principal>
+            <Dependent Role="BillReqApprovalHistory">
+              <PropertyRef Name="BillRequisitionMasterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BillReqApprovalHistory_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="1" />
+          <End Role="BillReqApprovalHistory" Type="Self.BillReqApprovalHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="BillReqApprovalHistory">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BillReqApprovalHistory_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="BillReqApprovalHistory" Type="Self.BillReqApprovalHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BillReqApprovalHistory">
+              <PropertyRef Name="EmployeeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -8418,6 +8485,30 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_UserLog_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="1" />
+          <End Role="UserLog" Type="Self.UserLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="UserLog">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserLog_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="UserLog" Type="Self.UserLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserLog">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Vendor_Region">
           <End Role="Region" Type="Self.Region" Multiplicity="0..1" />
           <End Role="Vendor" Type="Self.Vendor" Multiplicity="*" />
@@ -8900,6 +8991,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
           <EntitySet Name="BatchPaymentDetail" EntityType="Self.BatchPaymentDetail" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="BatchPaymentMaster" EntityType="Self.BatchPaymentMaster" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="BillBoQItem" EntityType="Self.BillBoQItem" Schema="Erp" store:Type="Tables" />
+          <EntitySet Name="BillReqApprovalHistory" EntityType="Self.BillReqApprovalHistory" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="BillRequisitionApproval" EntityType="Self.BillRequisitionApproval" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="BillRequisitionDetail" EntityType="Self.BillRequisitionDetail" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="BillRequisitionMaster" EntityType="Self.BillRequisitionMaster" Schema="Erp" store:Type="Tables" />
@@ -9721,6 +9813,22 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             <End Role="Unit" EntitySet="Unit" />
             <End Role="BillBoQItem" EntitySet="BillBoQItem" />
           </AssociationSet>
+          <AssociationSet Name="FK_BillReqApprovalHistory_BillRequisitionDetail" Association="Self.FK_BillReqApprovalHistory_BillRequisitionDetail">
+            <End Role="BillRequisitionDetail" EntitySet="BillRequisitionDetail" />
+            <End Role="BillReqApprovalHistory" EntitySet="BillReqApprovalHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BillReqApprovalHistory_BillRequisitionMaster" Association="Self.FK_BillReqApprovalHistory_BillRequisitionMaster">
+            <End Role="BillRequisitionMaster" EntitySet="BillRequisitionMaster" />
+            <End Role="BillReqApprovalHistory" EntitySet="BillReqApprovalHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BillReqApprovalHistory_Company" Association="Self.FK_BillReqApprovalHistory_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="BillReqApprovalHistory" EntitySet="BillReqApprovalHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BillReqApprovalHistory_Employee" Association="Self.FK_BillReqApprovalHistory_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="BillReqApprovalHistory" EntitySet="BillReqApprovalHistory" />
+          </AssociationSet>
           <AssociationSet Name="FK_BillRequisitionApproval_BillRequisitionMaster" Association="Self.FK_BillRequisitionApproval_BillRequisitionMaster">
             <End Role="BillRequisitionMaster" EntitySet="BillRequisitionMaster" />
             <End Role="BillRequisitionApproval" EntitySet="BillRequisitionApproval" />
@@ -10420,6 +10528,14 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
           <AssociationSet Name="FK_Unit_Company" Association="Self.FK_Unit_Company">
             <End Role="Company" EntitySet="Company" />
             <End Role="Unit" EntitySet="Unit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserLog_Company" Association="Self.FK_UserLog_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="UserLog" EntitySet="UserLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserLog_Employee" Association="Self.FK_UserLog_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="UserLog" EntitySet="UserLog" />
           </AssociationSet>
           <AssociationSet Name="FK_Vendor_Region" Association="Self.FK_Vendor_Region">
             <End Role="Region" EntitySet="Region" />
@@ -11868,7 +11984,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             <End Role="Unit" EntitySet="Units" />
             <End Role="ProductionMaster" EntitySet="ProductionMasters" />
           </AssociationSet>
-          <EntitySet Name="UserLogs" EntityType="ERPModel.UserLog" />
           <EntitySet Name="BoQBudgetDetails" EntityType="ERPModel.BoQBudgetDetail" />
           <EntitySet Name="BoQBudgetMasters" EntityType="ERPModel.BoQBudgetMaster" />
           <AssociationSet Name="FK_BoQBudgetMaster_Accounting_CostCenter" Association="ERPModel.FK_BoQBudgetMaster_Accounting_CostCenter">
@@ -11909,6 +12024,32 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
           <AssociationSet Name="FK_BillBoQItem_Unit" Association="ERPModel.FK_BillBoQItem_Unit">
             <End Role="Unit" EntitySet="Units" />
             <End Role="BillBoQItem" EntitySet="BillBoQItems" />
+          </AssociationSet>
+          <EntitySet Name="BillReqApprovalHistories" EntityType="ERPModel.BillReqApprovalHistory" />
+          <AssociationSet Name="FK_BillReqApprovalHistory_Company" Association="ERPModel.FK_BillReqApprovalHistory_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="BillReqApprovalHistory" EntitySet="BillReqApprovalHistories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BillReqApprovalHistory_Employee" Association="ERPModel.FK_BillReqApprovalHistory_Employee">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="BillReqApprovalHistory" EntitySet="BillReqApprovalHistories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BillReqApprovalHistory_BillRequisitionDetail" Association="ERPModel.FK_BillReqApprovalHistory_BillRequisitionDetail">
+            <End Role="BillRequisitionDetail" EntitySet="BillRequisitionDetails" />
+            <End Role="BillReqApprovalHistory" EntitySet="BillReqApprovalHistories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BillReqApprovalHistory_BillRequisitionMaster" Association="ERPModel.FK_BillReqApprovalHistory_BillRequisitionMaster">
+            <End Role="BillRequisitionMaster" EntitySet="BillRequisitionMasters" />
+            <End Role="BillReqApprovalHistory" EntitySet="BillReqApprovalHistories" />
+          </AssociationSet>
+          <EntitySet Name="UserLogs" EntityType="ERPModel.UserLog" />
+          <AssociationSet Name="FK_UserLog_Company" Association="ERPModel.FK_UserLog_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="UserLog" EntitySet="UserLogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserLog_Employee" Association="ERPModel.FK_UserLog_Employee">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="UserLog" EntitySet="UserLogs" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="AdminPolicy">
@@ -17492,6 +17633,8 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
           <NavigationProperty Name="BoQBudgetMasters" Relationship="ERPModel.FK_BoQBudgetMaster_Company" FromRole="Company" ToRole="BoQBudgetMaster" />
           <NavigationProperty Name="BoQItemProductMaps" Relationship="ERPModel.FK_BillRequisitionItemBoQMap_Company" FromRole="Company" ToRole="BoQItemProductMap" />
           <NavigationProperty Name="BoQDivisions" Relationship="ERPModel.FK_BoQDivision_Company" FromRole="Company" ToRole="BoQDivision" />
+          <NavigationProperty Name="BillReqApprovalHistories" Relationship="ERPModel.FK_BillReqApprovalHistory_Company" FromRole="Company" ToRole="BillReqApprovalHistory" />
+          <NavigationProperty Name="UserLogs" Relationship="ERPModel.FK_UserLog_Company" FromRole="Company" ToRole="UserLog" />
         </EntityType>
         <Association Name="FK_Asset_Company">
           <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
@@ -17808,6 +17951,8 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
           <NavigationProperty Name="SaleReturns" Relationship="ERPModel.FK_SaleReturn_Employee" FromRole="Employee" ToRole="SaleReturn" />
           <NavigationProperty Name="CostCenterManagerMaps" Relationship="ERPModel.FK_CostCenterManagerMap_Employee" FromRole="Employee" ToRole="CostCenterManagerMap" />
           <NavigationProperty Name="BillRequisitionApprovals" Relationship="ERPModel.FK_BillRequisitionApproval_Employee" FromRole="Employee" ToRole="BillRequisitionApproval" />
+          <NavigationProperty Name="BillReqApprovalHistories" Relationship="ERPModel.FK_BillReqApprovalHistory_Employee" FromRole="Employee" ToRole="BillReqApprovalHistory" />
+          <NavigationProperty Name="UserLogs" Relationship="ERPModel.FK_UserLog_Employee" FromRole="Employee" ToRole="UserLog" />
         </EntityType>
         <Association Name="FK_AssetAssign_Employee">
           <End Type="ERPModel.Employee" Role="Employee" Multiplicity="1" />
@@ -20908,6 +21053,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
           <NavigationProperty Name="BillRequisitionVoucherMaps" Relationship="ERPModel.FK_VoucherBillRequisitionMap_BillRequisitionMaster" FromRole="BillRequisitionMaster" ToRole="BillRequisitionVoucherMap" />
           <NavigationProperty Name="BillRequisitionApprovals" Relationship="ERPModel.FK_BillRequisitionApproval_BillRequisitionMaster" FromRole="BillRequisitionMaster" ToRole="BillRequisitionApproval" />
           <NavigationProperty Name="BillRequisitionDetails" Relationship="ERPModel.FK_BillRequisitionDetail_BillRequisitionMaster" FromRole="BillRequisitionMaster" ToRole="BillRequisitionDetail" />
+          <NavigationProperty Name="BillReqApprovalHistories" Relationship="ERPModel.FK_BillReqApprovalHistory_BillRequisitionMaster" FromRole="BillRequisitionMaster" ToRole="BillReqApprovalHistory" />
         </EntityType>
         <EntityType Name="BillRequisitionVoucherMap">
           <Key>
@@ -21095,6 +21241,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
           <NavigationProperty Name="Company" Relationship="ERPModel.FK_BillRequisitionDetail_Company" FromRole="BillRequisitionDetail" ToRole="Company" />
           <NavigationProperty Name="BillRequisitionMaster" Relationship="ERPModel.FK_BillRequisitionDetail_BillRequisitionMaster" FromRole="BillRequisitionDetail" ToRole="BillRequisitionMaster" />
           <NavigationProperty Name="Product" Relationship="ERPModel.FK_BillRequisitionDetail_Product1" FromRole="BillRequisitionDetail" ToRole="Product" />
+          <NavigationProperty Name="BillReqApprovalHistories" Relationship="ERPModel.FK_BillReqApprovalHistory_BillRequisitionDetail" FromRole="BillRequisitionDetail" ToRole="BillReqApprovalHistory" />
         </EntityType>
         <Association Name="FK_BillRequisitionDetail_Company">
           <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
@@ -21189,16 +21336,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="UserLog">
-          <Key>
-            <PropertyRef Name="UserLogId" />
-          </Key>
-          <Property Name="UserLogId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ActionType" Type="Int32" Nullable="false" />
-          <Property Name="ActionTimeStamp" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="EmployeeId" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Details" Type="String" Nullable="false" MaxLength="355" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="BoQBudgetDetail">
           <Key>
             <PropertyRef Name="BoQBudgetDetailId" />
@@ -21391,6 +21528,113 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             </Principal>
             <Dependent Role="BillBoQItem">
               <PropertyRef Name="BoqUnitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="BillReqApprovalHistory">
+          <Key>
+            <PropertyRef Name="BillReqApprovalHistoryId" />
+          </Key>
+          <Property Name="BillReqApprovalHistoryId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BillRequisitionMasterId" Type="Int64" Nullable="false" />
+          <Property Name="BillRequisitionDetailId" Type="Int64" />
+          <Property Name="EmployeeId" Type="Int64" />
+          <Property Name="DemandQty" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="UnitRate" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="TotalPrice" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="ReceivedSoFar" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="RemainingQty" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Company" Relationship="ERPModel.FK_BillReqApprovalHistory_Company" FromRole="BillReqApprovalHistory" ToRole="Company" />
+          <NavigationProperty Name="Employee" Relationship="ERPModel.FK_BillReqApprovalHistory_Employee" FromRole="BillReqApprovalHistory" ToRole="Employee" />
+          <NavigationProperty Name="BillRequisitionDetail" Relationship="ERPModel.FK_BillReqApprovalHistory_BillRequisitionDetail" FromRole="BillReqApprovalHistory" ToRole="BillRequisitionDetail" />
+          <NavigationProperty Name="BillRequisitionMaster" Relationship="ERPModel.FK_BillReqApprovalHistory_BillRequisitionMaster" FromRole="BillReqApprovalHistory" ToRole="BillRequisitionMaster" />
+        </EntityType>
+        <Association Name="FK_BillReqApprovalHistory_Company">
+          <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
+          <End Type="ERPModel.BillReqApprovalHistory" Role="BillReqApprovalHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="BillReqApprovalHistory">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BillReqApprovalHistory_Employee">
+          <End Type="ERPModel.Employee" Role="Employee" Multiplicity="0..1" />
+          <End Type="ERPModel.BillReqApprovalHistory" Role="BillReqApprovalHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BillReqApprovalHistory">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BillReqApprovalHistory_BillRequisitionDetail">
+          <End Type="ERPModel.BillRequisitionDetail" Role="BillRequisitionDetail" Multiplicity="0..1" />
+          <End Type="ERPModel.BillReqApprovalHistory" Role="BillReqApprovalHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BillRequisitionDetail">
+              <PropertyRef Name="BillRequisitionDetailId" />
+            </Principal>
+            <Dependent Role="BillReqApprovalHistory">
+              <PropertyRef Name="BillRequisitionDetailId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BillReqApprovalHistory_BillRequisitionMaster">
+          <End Type="ERPModel.BillRequisitionMaster" Role="BillRequisitionMaster" Multiplicity="1" />
+          <End Type="ERPModel.BillReqApprovalHistory" Role="BillReqApprovalHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BillRequisitionMaster">
+              <PropertyRef Name="BillRequisitionMasterId" />
+            </Principal>
+            <Dependent Role="BillReqApprovalHistory">
+              <PropertyRef Name="BillRequisitionMasterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="UserLog">
+          <Key>
+            <PropertyRef Name="UserLogId" />
+          </Key>
+          <Property Name="UserLogId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ActionType" Type="Int32" Nullable="false" />
+          <Property Name="EmployeeId" Type="Int64" Nullable="false" />
+          <Property Name="EmpUserId" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="ActionTimeStamp" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Details" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Company" Relationship="ERPModel.FK_UserLog_Company" FromRole="UserLog" ToRole="Company" />
+          <NavigationProperty Name="Employee" Relationship="ERPModel.FK_UserLog_Employee" FromRole="UserLog" ToRole="Employee" />
+        </EntityType>
+        <Association Name="FK_UserLog_Company">
+          <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
+          <End Type="ERPModel.UserLog" Role="UserLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="UserLog">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserLog_Employee">
+          <End Type="ERPModel.Employee" Role="Employee" Multiplicity="1" />
+          <End Type="ERPModel.UserLog" Role="UserLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserLog">
+              <PropertyRef Name="EmployeeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -27155,17 +27399,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="UserLogs">
-            <EntityTypeMapping TypeName="ERPModel.UserLog">
-              <MappingFragment StoreEntitySet="UserLog">
-                <ScalarProperty Name="Details" ColumnName="Details" />
-                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
-                <ScalarProperty Name="ActionTimeStamp" ColumnName="ActionTimeStamp" />
-                <ScalarProperty Name="ActionType" ColumnName="ActionType" />
-                <ScalarProperty Name="UserLogId" ColumnName="UserLogId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="BoQBudgetDetails">
             <EntityTypeMapping TypeName="ERPModel.BoQBudgetDetail">
               <MappingFragment StoreEntitySet="BoQBudgetDetail">
@@ -27245,6 +27478,37 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
                 <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="BoQDivisionId" ColumnName="BoQDivisionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BillReqApprovalHistories">
+            <EntityTypeMapping TypeName="ERPModel.BillReqApprovalHistory">
+              <MappingFragment StoreEntitySet="BillReqApprovalHistory">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="RemainingQty" ColumnName="RemainingQty" />
+                <ScalarProperty Name="ReceivedSoFar" ColumnName="ReceivedSoFar" />
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+                <ScalarProperty Name="UnitRate" ColumnName="UnitRate" />
+                <ScalarProperty Name="DemandQty" ColumnName="DemandQty" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="BillRequisitionDetailId" ColumnName="BillRequisitionDetailId" />
+                <ScalarProperty Name="BillRequisitionMasterId" ColumnName="BillRequisitionMasterId" />
+                <ScalarProperty Name="BillReqApprovalHistoryId" ColumnName="BillReqApprovalHistoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserLogs">
+            <EntityTypeMapping TypeName="ERPModel.UserLog">
+              <MappingFragment StoreEntitySet="UserLog">
+                <ScalarProperty Name="Details" ColumnName="Details" />
+                <ScalarProperty Name="ActionTimeStamp" ColumnName="ActionTimeStamp" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="EmpUserId" ColumnName="EmpUserId" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="ActionType" ColumnName="ActionType" />
+                <ScalarProperty Name="UserLogId" ColumnName="UserLogId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
