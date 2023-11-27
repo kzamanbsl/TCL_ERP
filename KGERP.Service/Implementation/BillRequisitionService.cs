@@ -70,7 +70,7 @@ namespace KGERP.Service.Implementation
                     BoQItemProductMap data = new BoQItemProductMap()
                     {
                         BoQItemId = model.BoQItemId,
-                        ProductId = model.MeterialId,
+                        ProductId = model.MaterialItemId,
                         CompanyId = (int)model.CompanyFK,
                         IsActive = true,
                         CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
@@ -100,7 +100,7 @@ namespace KGERP.Service.Implementation
                     var findBoQProductMap = _context.BoQItemProductMaps.FirstOrDefault(c => c.BoQItemProductMapId == model.ID);
 
                     findBoQProductMap.BoQItemId = model.BoQItemId;
-                    findBoQProductMap.ProductId = model.MeterialId;
+                    findBoQProductMap.ProductId = model.MaterialItemId;
                     findBoQProductMap.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
                     findBoQProductMap.ModifiedDate = DateTime.Now;
                     var count = _context.SaveChanges();

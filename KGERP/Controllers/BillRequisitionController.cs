@@ -237,15 +237,16 @@ namespace KGERP.Controllers
         #region BoQ Requisition Item Map
 
         [HttpGet]
-        public ActionResult BillRequisitionItemBoQMap(int companyId = 21)
+        public ActionResult BillRequisitionItemBoQMap(int companyId)
         {
             BillRequisitionItemBoQMapModel viewData = new BillRequisitionItemBoQMapModel()
             {
                 CompanyFK = companyId,
-                ProjectList = _service.GetProjectList(),
-                MaterialList = _ProductService.GetProductJson(),
-                BoQItemList = _service.GetBillOfQuotationList(),
-                BoQItemMapList = _service.GetBoQProductMapList()
+                Projects = _service.GetProjectList(),
+                BoQDivisions = _service.BoQDivisionList(),
+                BoQItems = _service.GetBillOfQuotationList(),
+                BoQMaterials = _ProductService.GetProductJson(),
+                BoQItemProductMaps = _service.GetBoQProductMapList()
             };
 
             return View(viewData);
@@ -262,12 +263,12 @@ namespace KGERP.Controllers
             else if (model.ActionEum == ActionEnum.Edit)
             {
                 //Edit
-                //_service.Edit(model);
+                _service.Edit(model);
             }
             else if (model.ActionEum == ActionEnum.Delete)
             {
                 //Delete
-                //_service.Delete(model);
+                _service.Delete(model);
             }
             else
             {

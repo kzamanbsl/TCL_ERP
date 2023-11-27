@@ -11,15 +11,14 @@ namespace KGERP.Service.ServiceModel
     public class BillRequisitionItemBoQMapModel : BaseVM
     {
         public long BoQItemProductMapId { get; set; }
-        public int ProjectId { get; set; }
         public int BoQItemId { get; set; }
-        public int MeterialId { get; set; }
-        public int EstimateQuantity { get; set; }
-        public decimal EstimateAmount { get; set; }
-
-        public List<Product> MaterialList { get; set; }
-        public List<BillBoQItem> BoQItemList { get; set; }
-        public List<Accounting_CostCenter> ProjectList { get; set; }
-        public List<BoQItemProductMap> BoQItemMapList { get; set; }
+        public int MaterialItemId { get; set; }
+        public int ProjectId { get; set; }
+        public long BoQDivisionId { get; set; }
+        public List<BillBoQItem> BoQItems { get; set; }
+        public List<Product> BoQMaterials { get; set; }
+        public List<BoQDivision> BoQDivisions { get; set; }
+        public List<Accounting_CostCenter> Projects { get; set; }
+        public List<BoQItemProductMap> BoQItemProductMaps { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 ﻿@model KGERP.Service.ServiceModel.BillRequisitionItemBoQMapModel
 @{
-    ViewData["Title"] = "BoQ Item Map";
+    ViewData["Title"] = "BoQ Material Item Map";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -11,11 +11,11 @@
 </style>
 <section class="content-header">
     <h1>
-        BoQ Item Map
+        BoQ Material Item Map
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">BoQ Item Map</li>
+        <li class="active">BoQ Material Item Map</li>
     </ol>
 </section>
 
@@ -35,43 +35,34 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label asp-for="ProjectId" class="form-control-label">Select Project:</label>
-                                @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.ProjectList.OrderBy(order=> order.Name), "CostCenterId", "Name"), "=== Select Project ===", new { id = "ddlCostCenterId", onchange = "getBoQList()", @class = "form-control searchingDropdown", style = "width:100%" })
+                                @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.Projects.OrderBy(order => order.Name), "CostCenterId", "Name"), "=== Select Project ===", new { id = "ddlCostCenterId", onchange = "getBoQList()", @class = "form-control searchingDropdown", style = "width:100%" })
                                 @Html.ValidationMessageFor(model => model.ProjectId, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label asp-for="BoQItemId" class="form-control-label">Select BoQ :</label>
-                                @Html.DropDownListFor(model => model.BoQItemId, new SelectList(Model.BoQItemList.OrderBy(order => order.Name), "BoQItemId", "Name"), "=== Select BoQ ===", new { id = "ddlBoQId", onchange = "getItemList()", @class = "form-control searchingDropdown", style = "width:100%" })
+                                <label asp-for="BoQDivisionId" class="form-control-label">Select BoQ Division :</label>
+                                @Html.DropDownListFor(model => model.BoQDivisionId, new SelectList(Model.BoQDivisions.OrderBy(order => order.Name), "BoQDivisionId", "Name"), "=== Select BoQ Division ===", new { id = "ddlBoQId", onchange = "getItemList()", @class = "form-control searchingDropdown", style = "width:100%" })
+                                @Html.ValidationMessageFor(model => model.BoQDivisionId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="BoQItemId" class="form-control-label">Select BoQ Item :</label>
+                                @Html.DropDownListFor(model => model.BoQItemId, new SelectList(Model.BoQItems.OrderBy(order => order.Name), "BoQItemId", "Name"), "=== Select BoQ Item ===", new { id = "ddlBoQId", onchange = "getItemList()", @class = "form-control searchingDropdown", style = "width:100%" })
                                 @Html.ValidationMessageFor(model => model.BoQItemId, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label asp-for="MeterialId" class="form-control-label">Select Item/Material :</label>
-                                @Html.DropDownListFor(model => model.MeterialId, new SelectList(Model.MaterialList.OrderBy(order=> order.ProductName), "ProductId", "ProductName"), "=== Select Item/Material ===", new { id = "ddItemId", @class = "form-control searchingDropdown", style = "width:100%" })
-                                @Html.ValidationMessageFor(model => model.MeterialId, "", new { @class = "text-danger" })
+                                <label asp-for="MaterialItemId" class="form-control-label">Select BoQ Material :</label>
+                                @Html.DropDownListFor(model => model.MaterialItemId, new SelectList(Model.BoQMaterials.OrderBy(order => order.ProductName), "ProductId", "ProductName"), "=== Select BoQ Material ===", new { id = "ddItemId", @class = "form-control searchingDropdown", style = "width:100%" })
+                                @Html.ValidationMessageFor(model => model.MaterialItemId, "", new { @class = "text-danger" })
                             </div>
                         </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label asp-for="EstimateQuantity" class="form-control-label">BoQ Quantity:</label>
-                                @Html.TextBoxFor(model => model.EstimateQuantity, new { id = "txtRequisitionBoqQuantity", @class = "form-control", @placeholder = "BoQ Quantity", required = "true" })
-                                @Html.ValidationMessageFor(model => model.EstimateQuantity, "", new { id = "nameExist", @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label asp-for="Name" class="form-control-label">BoQ Amount:</label>
-                                @Html.TextBoxFor(model => model.EstimateAmount, new { id = "txtRequisitionBoqAmount", @class = "form-control", @placeholder = "BoQ Amount", required = "true" })
-                                @Html.ValidationMessageFor(model => model.EstimateAmount, "", new { id = "nameExist", @class = "text-danger" })
-                            </div>
-                        </div>
-
 
                         <div class="col-md-6">
                             <div class="form-group" style="margin-top: 25px !important">
@@ -108,34 +99,34 @@
                                     <th>SL</th>
                                     <th>BoQ Name</th>
                                     <th>Item/Material</th>
-                                    <th class="text-center">Est. Quantity</th>
-                                    <th class="text-center">Est. Amount</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             @{int sl = 0;}
                             <tbody>
-                                @foreach (var item in Model.BoQItemMapList)
-                                {
-                                    
-                                    <tr>
-                                        <td>
-                                            @(++sl)
-                                            <input type="hidden" id="requisitionBoQ_@item.BoQItemId" name="BoQItemId" value="@item.BoQItemId" />
-                                        </td>
-                                        <td id="tdBoQName_@item.BoQItemId">@Model.BoQItemList.FirstOrDefault(c => c.BoQItemId == item.BoQItemId).Name</td>
-                                        <td id="tdBoQItemName_@item.BoQItemId">@Model.MaterialList.FirstOrDefault(c => c.ProductId == item.ProductId).ProductName</td>
-                                        <td id="tdEstimateQty_@item.BoQItemId" class="text-center">@item.EstimatedQty</td>
-                                        <td id="tdEstimateAmount_@item.BoQItemId" class="text-center">@item.EstimatedAmount</td>
-                                        <td>
-                                            <a id="@item.BoQItemId" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
+                                @{
+                                    if (Model.BoQItemProductMaps != null)
+                                    {
+                                        foreach (var item in Model.BoQItemProductMaps)
+                                        {
+                                            @*<tr>
+                                                    <td>
+                                                        @(++sl)
+                                                        <input type="hidden" id="requisitionBoQ_@item.BoQItemId" name="BoQItemId" value="@item.BoQItemId" />
+                                                    </td>
+                                                    <td id="tdBoQName_@item.BoQItemId">@Model.BoQItemList.FirstOrDefault(c => c.BoQItemId == item.BoQItemId).Name</td>
+                                                    <td id="tdBoQItemName_@item.BoQItemId">@Model.MaterialList.FirstOrDefault(c => c.ProductId == item.ProductId).ProductName</td>
+                                                    <td>
+                                                        <a id="@item.BoQItemId" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
 
-                                            <a id="@item.BoQItemId" onclick="makeDeletable(@item.BoQItemId);" class="linkPointer" data-toggle="modal" data-target="#BillRequisitionBoQDeleteModal" title="Delete"
-                                               data-placement="top">
-                                                <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
+                                                        <a id="@item.BoQItemId" onclick="makeDeletable(@item.BoQItemId);" class="linkPointer" data-toggle="modal" data-target="#BillRequisitionBoQDeleteModal" title="Delete"
+                                                           data-placement="top">
+                                                            <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>*@
+                                        }
+                                    }
                                 }
                             </tbody>
                         </table>
