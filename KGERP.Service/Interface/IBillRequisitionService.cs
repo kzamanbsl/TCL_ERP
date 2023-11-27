@@ -14,7 +14,6 @@ namespace KGERP.Service.Interface
         bool Edit(BillRequisitionItemBoQMapModel model);
         bool Delete(BillRequisitionItemBoQMapModel model);
         List<BoQItemProductMap> GetBoQProductMapList();
-        //List<BoQItemProductMap> GetBoQProductMapByProjectId(int id);
         #endregion
 
         #region BoQ Division

@@ -69,252 +69,6 @@ namespace KGERP.Controllers
             return Json(boQList, JsonRequestBehavior.AllowGet);
         }
 
-        #region BoQ Unit
-        public async Task<JsonResult> SingleCommonUnit(int id)
-        {
-
-            VMCommonUnit model = new VMCommonUnit();
-            model = await _configurationService.GetSingleCommonUnit(id);
-            return Json(model, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpGet]
-        public async Task<ActionResult> CommonUnit(int companyId)
-        {
-
-            VMCommonUnit vmCommonUnit = new VMCommonUnit();
-            vmCommonUnit = await Task.Run(() => _configurationService.GetUnit(companyId));
-            return View(vmCommonUnit);
-        }
-
-        [HttpPost]
-        public async Task<ActionResult> CommonUnit(VMCommonUnit vmCommonUnit)
-        {
-
-            if (vmCommonUnit.ActionEum == ActionEnum.Add)
-            {
-                if(vmCommonUnit.IsBoQUnit == false)
-                {
-                    vmCommonUnit.IsBoQUnit = true;
-                }
-                //Add 
-                await _configurationService.UnitAdd(vmCommonUnit);
-            }
-            else if (vmCommonUnit.ActionEum == ActionEnum.Edit)
-            {
-                //Edit
-                await _configurationService.UnitEdit(vmCommonUnit);
-            }
-            else if (vmCommonUnit.ActionEum == ActionEnum.Delete)
-            {
-                //Delete
-                await _configurationService.UnitDelete(vmCommonUnit.ID);
-            }
-            else
-            {
-                return View("Error");
-            }
-            return RedirectToAction(nameof(CommonUnit), new { companyId = vmCommonUnit.CompanyFK });
-        }
-
-        [HttpPost]
-        public async Task<ActionResult> CommonUnitDelete(VMCommonUnit vmCommonUnit)
-        {
-
-            if (vmCommonUnit.ActionEum == ActionEnum.Delete)
-            {
-                //Delete
-                await _configurationService.UnitDelete(vmCommonUnit.ID);
-            }
-            else
-            {
-                return View("Error");
-            }
-            return RedirectToAction(nameof(CommonUnit));
-        }
-
-        public async Task<ActionResult> CommonUnitGet(int companyId)
-        {
-            var dataList = await Task.Run(() => _configurationService.CompanyMenusGet(companyId));
-            var list = dataList.Select(x => new { Value = x.ID, Text = x.Name }).ToList();
-            return Json(list, JsonRequestBehavior.AllowGet);
-        }
-        #endregion
-
-        #endregion
-
-        #region BoQ Division
-
-        public ActionResult BoqDivision(int companyId)
-        {
-            BoqDivisionModel viewData = new BoqDivisionModel()
-            {
-                CompanyFK = companyId,
-                Projecs = _service.GetProjectList(),
-                BoQDivisions = _service.BoQDivisionList()
-            };
-            return View(viewData);
-        }
-
-        [HttpPost]
-        public ActionResult BoqDivision(BoqDivisionModel model)
-        {
-            if (model.ActionEum == ActionEnum.Add)
-            {
-                //Add 
-                _service.Add(model);
-            }
-            else if (model.ActionEum == ActionEnum.Edit)
-            {
-                //Edit
-                _service.Edit(model);
-            }
-            else if (model.ActionEum == ActionEnum.Delete)
-            {
-                //Delete
-                _service.Delete(model);
-            }
-            else
-            {
-                return View("Error");
-            }
-            return RedirectToAction(nameof(BoqDivision), new { companyId = model.CompanyFK });
-        }
-
-
-        #endregion
-
-        #region BoQ Item
-
-        [HttpGet]
-        public ActionResult BillOfQuotation(int companyId)
-        {
-            var viewData = new BillRequisitionBoqModel()
-            {
-                CompanyFK = companyId,
-                Projects = _service.GetProjectList(),
-                BoQDivisions = _service.BoQDivisionList(),
-                BillBoQItems = _service.GetBillOfQuotationList(),
-                BoQUnits = _configurationService.GetUnitForJson()
-        };
-            return View(viewData);
-        }
-
-        [HttpPost]
-        public ActionResult BillOfQuotation(BillRequisitionBoqModel model)
-        {
-            if (model.ActionEum == ActionEnum.Add)
-            {
-                //Add 
-                _service.Add(model);
-            }
-            else if (model.ActionEum == ActionEnum.Edit)
-            {
-                //Edit
-                _service.Edit(model);
-            }
-            else if (model.ActionEum == ActionEnum.Delete)
-            {
-                //Delete
-                _service.Delete(model);
-            }
-            else
-            {
-                return View("Error");
-            }
-            return RedirectToAction(nameof(BillOfQuotation), new { companyId = model.CompanyFK });
-        }
-
-        // Filter with project id
-        public JsonResult getBoqDivisionList(long id)
-        {
-            var boqDivisionList = _service.BoQDivisionList().Where(c => c.ProjectId == id).ToList();
-            return Json(boqDivisionList, JsonRequestBehavior.AllowGet);
-        }
-
-        #endregion
-
-        #region BoQ Requisition Item Map
-
-        [HttpGet]
-        public ActionResult BillRequisitionItemBoQMap(int companyId)
-        {
-            BillRequisitionItemBoQMapModel viewData = new BillRequisitionItemBoQMapModel()
-            {
-                CompanyFK = companyId,
-                Projects = _service.GetProjectList(),
-                BoQDivisions = _service.BoQDivisionList(),
-                BoQItems = _service.GetBillOfQuotationList(),
-                BoQMaterials = _ProductService.GetProductJson(),
-                BoQItemProductMaps = _service.GetBoQProductMapList()
-            };
-
-            return View(viewData);
-        }
-
-        [HttpPost]
-        public ActionResult BillRequisitionItemBoQMap(BillRequisitionItemBoQMapModel model)
-        {
-            if (model.ActionEum == ActionEnum.Add)
-            {
-                //Add 
-                _service.Add(model);
-            }
-            else if (model.ActionEum == ActionEnum.Edit)
-            {
-                //Edit
-                _service.Edit(model);
-            }
-            else if (model.ActionEum == ActionEnum.Delete)
-            {
-                //Delete
-                _service.Delete(model);
-            }
-            else
-            {
-                return View("Error");
-            }
-            return RedirectToAction(nameof(BillRequisitionItemBoQMap), new { companyId = model.CompanyFK });
-        }
-        #endregion
-
-        #region Bill Requisition Type
-
-        public ActionResult BillRequisitionType(int companyId)
-        {
-            var viewData = new BillRequisitionTypeModel()
-            {
-                CompanyFK = companyId,
-                BillRequisitionTypes = _service.GetBillRequisitionTypeList()
-            };
-            return View(viewData);
-        }
-
-        [HttpPost]
-        public ActionResult BillRequisitionType(BillRequisitionTypeModel model)
-        {
-            if (model.ActionEum == ActionEnum.Add)
-            {
-                //Add 
-                _service.Add(model);
-            }
-            else if (model.ActionEum == ActionEnum.Edit)
-            {
-                //Edit
-                _service.Edit(model);
-            }
-            else if (model.ActionEum == ActionEnum.Delete)
-            {
-                //Delete
-                _service.Delete(model);
-            }
-            else
-            {
-                return View("Error");
-            }
-            return RedirectToAction(nameof(BillRequisitionType), new { companyId = model.CompanyFK });
-        }
-
         #endregion
 
         #region Cost Center Type
@@ -394,6 +148,259 @@ namespace KGERP.Controllers
                 return View("Error");
             }
             return RedirectToAction(nameof(CostCenterManagerMap), new { companyId = model.CompanyFK });
+        }
+
+        #endregion
+
+        #region BoQ Division
+
+        public ActionResult BoqDivision(int companyId)
+        {
+            BoqDivisionModel viewData = new BoqDivisionModel()
+            {
+                CompanyFK = companyId,
+                Projecs = _service.GetProjectList(),
+                BoQDivisions = _service.BoQDivisionList()
+            };
+            return View(viewData);
+        }
+
+        [HttpPost]
+        public ActionResult BoqDivision(BoqDivisionModel model)
+        {
+            if (model.ActionEum == ActionEnum.Add)
+            {
+                //Add 
+                _service.Add(model);
+            }
+            else if (model.ActionEum == ActionEnum.Edit)
+            {
+                //Edit
+                _service.Edit(model);
+            }
+            else if (model.ActionEum == ActionEnum.Delete)
+            {
+                //Delete
+                _service.Delete(model);
+            }
+            else
+            {
+                return View("Error");
+            }
+            return RedirectToAction(nameof(BoqDivision), new { companyId = model.CompanyFK });
+        }
+
+
+        #endregion
+
+        #region BoQ Unit
+        public async Task<JsonResult> SingleCommonUnit(int id)
+        {
+
+            VMCommonUnit model = new VMCommonUnit();
+            model = await _configurationService.GetSingleCommonUnit(id);
+            return Json(model, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> CommonUnit(int companyId)
+        {
+
+            VMCommonUnit vmCommonUnit = new VMCommonUnit();
+            vmCommonUnit = await Task.Run(() => _configurationService.GetUnit(companyId));
+            return View(vmCommonUnit);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CommonUnit(VMCommonUnit vmCommonUnit)
+        {
+
+            if (vmCommonUnit.ActionEum == ActionEnum.Add)
+            {
+                if (vmCommonUnit.IsBoQUnit == false)
+                {
+                    vmCommonUnit.IsBoQUnit = true;
+                }
+                //Add 
+                await _configurationService.UnitAdd(vmCommonUnit);
+            }
+            else if (vmCommonUnit.ActionEum == ActionEnum.Edit)
+            {
+                //Edit
+                await _configurationService.UnitEdit(vmCommonUnit);
+            }
+            else if (vmCommonUnit.ActionEum == ActionEnum.Delete)
+            {
+                //Delete
+                await _configurationService.UnitDelete(vmCommonUnit.ID);
+            }
+            else
+            {
+                return View("Error");
+            }
+            return RedirectToAction(nameof(CommonUnit), new { companyId = vmCommonUnit.CompanyFK });
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CommonUnitDelete(VMCommonUnit vmCommonUnit)
+        {
+
+            if (vmCommonUnit.ActionEum == ActionEnum.Delete)
+            {
+                //Delete
+                await _configurationService.UnitDelete(vmCommonUnit.ID);
+            }
+            else
+            {
+                return View("Error");
+            }
+            return RedirectToAction(nameof(CommonUnit));
+        }
+
+        public async Task<ActionResult> CommonUnitGet(int companyId)
+        {
+            var dataList = await Task.Run(() => _configurationService.CompanyMenusGet(companyId));
+            var list = dataList.Select(x => new { Value = x.ID, Text = x.Name }).ToList();
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+
+        #region BoQ Item
+
+        [HttpGet]
+        public ActionResult BillOfQuotation(int companyId)
+        {
+            var viewData = new BillRequisitionBoqModel()
+            {
+                CompanyFK = companyId,
+                Projects = _service.GetProjectList(),
+                BoQDivisions = _service.BoQDivisionList(),
+                BillBoQItems = _service.GetBillOfQuotationList(),
+                BoQUnits = _configurationService.GetUnitForJson()
+            };
+            return View(viewData);
+        }
+
+        [HttpPost]
+        public ActionResult BillOfQuotation(BillRequisitionBoqModel model)
+        {
+            if (model.ActionEum == ActionEnum.Add)
+            {
+                //Add 
+                _service.Add(model);
+            }
+            else if (model.ActionEum == ActionEnum.Edit)
+            {
+                //Edit
+                _service.Edit(model);
+            }
+            else if (model.ActionEum == ActionEnum.Delete)
+            {
+                //Delete
+                _service.Delete(model);
+            }
+            else
+            {
+                return View("Error");
+            }
+            return RedirectToAction(nameof(BillOfQuotation), new { companyId = model.CompanyFK });
+        }
+
+        // Filter with project id
+        public JsonResult getBoqDivisionList(long id)
+        {
+            var boqDivisionList = _service.BoQDivisionList().Where(c => c.ProjectId == id).ToList();
+            return Json(boqDivisionList, JsonRequestBehavior.AllowGet);
+        }
+
+        // Filter with boq division id
+        public JsonResult getBoqItemList(long id)
+        {
+            var boqItemList = _service.GetBillOfQuotationList().Where(c => c.BoQDivisionId == id).ToList();
+            return Json(boqItemList, JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion
+
+        #region BoQ item Material Map
+
+        [HttpGet]
+        public ActionResult BillRequisitionItemBoQMap(int companyId)
+        {
+            BillRequisitionItemBoQMapModel viewData = new BillRequisitionItemBoQMapModel()
+            {
+                CompanyFK = companyId,
+                Projects = _service.GetProjectList(),
+                BoQDivisions = _service.BoQDivisionList(),
+                BoQItems = _service.GetBillOfQuotationList(),
+                BoQMaterials = _ProductService.GetProductJson(),
+                BoQItemProductMaps = _service.GetBoQProductMapList()
+            };
+
+            return View(viewData);
+        }
+
+        [HttpPost]
+        public ActionResult BillRequisitionItemBoQMap(BillRequisitionItemBoQMapModel model)
+        {
+            if (model.ActionEum == ActionEnum.Add)
+            {
+                //Add 
+                _service.Add(model);
+            }
+            else if (model.ActionEum == ActionEnum.Edit)
+            {
+                //Edit
+                _service.Edit(model);
+            }
+            else if (model.ActionEum == ActionEnum.Delete)
+            {
+                //Delete
+                _service.Delete(model);
+            }
+            else
+            {
+                return View("Error");
+            }
+            return RedirectToAction(nameof(BillRequisitionItemBoQMap), new { companyId = model.CompanyFK });
+        }
+        #endregion
+
+        #region Bill Requisition Type
+
+        public ActionResult BillRequisitionType(int companyId)
+        {
+            var viewData = new BillRequisitionTypeModel()
+            {
+                CompanyFK = companyId,
+                BillRequisitionTypes = _service.GetBillRequisitionTypeList()
+            };
+            return View(viewData);
+        }
+
+        [HttpPost]
+        public ActionResult BillRequisitionType(BillRequisitionTypeModel model)
+        {
+            if (model.ActionEum == ActionEnum.Add)
+            {
+                //Add 
+                _service.Add(model);
+            }
+            else if (model.ActionEum == ActionEnum.Edit)
+            {
+                //Edit
+                _service.Edit(model);
+            }
+            else if (model.ActionEum == ActionEnum.Delete)
+            {
+                //Delete
+                _service.Delete(model);
+            }
+            else
+            {
+                return View("Error");
+            }
+            return RedirectToAction(nameof(BillRequisitionType), new { companyId = model.CompanyFK });
         }
 
         #endregion
@@ -550,7 +557,7 @@ namespace KGERP.Controllers
             {
                 billRequisitionMasterModel = await _service.GetBillRequisitionMasterDetail(companyId, billRequisitionMasterId);
             }
-          
+
             return View(billRequisitionMasterModel);
 
         }
@@ -907,7 +914,7 @@ namespace KGERP.Controllers
         }
 
         #endregion
-        
+
         #region 1.6  MD  BillRequisition Approval Circle
 
         [HttpGet]

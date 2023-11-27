@@ -254,12 +254,10 @@
                             text: item.Name
                         }));
                     });
+                    showBoqDivisionList.val($('#boqDivisionId_' + rowId).val().trim()).trigger('change');
                 },
                 error: function (error) {
                     console.error("Error in AJAX request:", error);
-                },
-                complete: function () {
-                    showBoqDivisionList.val($('#boqDivisionId_' + rowId).val().trim()).trigger('change');
                 }
             });
         }

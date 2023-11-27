@@ -35,7 +35,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label asp-for="ProjectId" class="form-control-label">Select Project:</label>
-                                @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.Projects.OrderBy(order => order.Name), "CostCenterId", "Name"), "=== Select Project ===", new { id = "ddlProjectId", onchange = "getDivisionList()", @class = "form-control searchingDropdown", style = "width:100%" })
+                                @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.Projects.OrderBy(order => order.Name), "CostCenterId", "Name"), "=== Select Project ===", new { id = "ddlProjectId", onchange = "getBoqDivisionList()", @class = "form-control searchingDropdown", style = "width:100%" })
                                 @Html.ValidationMessageFor(model => model.ProjectId, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -124,8 +124,8 @@
                                                     <input type="hidden" id="boqItem_@item.BoQItemProductMapId" name="BoQItemId" value="@item.BoQItemId" />
                                                     <input type="hidden" id="material_@item.BoQItemProductMapId" name="MaterialItemId" value="@item.ProductId" />
                                                 </td>
-                                                <td id="tdBoqDivisionName_@item.BoQItemProductMapId">@Model.BoQItems.FirstOrDefault(c => c.BoQItemId == item.BoQItemId).Name</td>
-                                                <td id="tdBoqItemName_@item.BoQItemProductMapId">@Model.BoQMaterials.FirstOrDefault(c => c.ProductId == item.ProductId).ProductName</td>
+                                                <td id="tdBoqDivisionName_@item.BoQItemProductMapId">@Model.BoQDivisions.FirstOrDefault(c => c.BoQDivisionId == diviId).Name</td>
+                                                <td id="tdBoqItemName_@item.BoQItemProductMapId">@Model.BoQItems.FirstOrDefault(c => c.BoQItemId == item.BoQItemId).Name</td>
                                                 <td id="tdBoqMaterialName_@item.BoQItemProductMapId">@Model.BoQMaterials.FirstOrDefault(c => c.ProductId == item.ProductId).ProductName</td>
                                                 <td>
                                                     <a id="@item.BoQItemProductMapId" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
@@ -193,8 +193,8 @@
                 $('#ActionId').val(2);
                 $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Update");
                 $('#ddlProjectId').val($('#project_' + rowId).val().trim()).trigger('change');
-                $('#ddlBoQDivisionId').val($('#division_' + rowId).val().trim()).trigger('change');
-                $('#ddlBoQItemId').val($('#boqItem_' + rowId).val().trim()).trigger('change');
+                getBoqDivisionList(rowId);
+                getBoqItemList(rowId);
                 $('#ddlMaterialItemId').val($('#material_' + rowId).val().trim()).trigger('change');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
@@ -211,6 +211,58 @@
         function resetForm() {
             $('#BillRequisitionItemBoQMapFormId')[0].reset();
             $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Add");
+        }
+
+        function getBoqDivisionList(rowId) {
+            var getProjectId = $("#ddlProjectId option:selected");
+            var showBoqDivisionList = $("#ddlBoQDivisionId");
+
+            $.ajax({
+                type: "GET",
+                url: "/BillRequisition/getBoqDivisionList",
+                dataType: "json",
+                data: { id: getProjectId.val() },
+                success: function (data) {
+                    showBoqDivisionList.empty();
+
+                    $.each(data, function (index, item) {
+                        showBoqDivisionList.append($('<option>', {
+                            value: item.BoQDivisionId,
+                            text: item.Name
+                        }));
+                    });
+                    showBoqDivisionList.val($('#division_' + rowId).val().trim()).trigger('change');
+                },
+                error: function (error) {
+                    console.error("Error in AJAX request:", error);
+                }
+            });
+        }
+
+        function getBoqItemList(rowId) {
+            var getBoqDivisionId = $("#ddlBoQDivisionId option:selected");
+            var showBoqItemList = $("#ddlBoQItemId");
+
+            $.ajax({
+                type: "GET",
+                url: "/BillRequisition/getBoqItemList",
+                dataType: "json",
+                data: { id: getBoqDivisionId.val() },
+                success: function (data) {
+                    showBoqItemList.empty();
+
+                    $.each(data, function (index, item) {
+                        showBoqItemList.append($('<option>', {
+                            value: item.BoQDivisionId,
+                            text: item.Name
+                        }));
+                    });
+                    showBoqItemList.val($('#boqItem_' + rowId).val().trim()).trigger('change');
+                },
+                error: function (error) {
+                    console.error("Error in AJAX request:", error);
+                }
+            });
         }
     </script>
 }

@@ -1,6 +1,6 @@
 ﻿@model KGERP.Service.ServiceModel.BillRequisitionTypeModel
 @{
-    ViewData["Title"] = "DamageType";
+    ViewData["Title"] = "Requisition Type";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -50,13 +50,13 @@
                                 @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
 
                                 <div class="form-group">
-                                    <label asp-for="Name" class="form-control-label">Name:</label>
+                                    <label asp-for="Name" class="form-control-label">Requisition Type Name :</label>
                                     @Html.TextBoxFor(model => model.Name, new { id = "txtRequisitionTypeName", @class = "form-control", @placeholder = "Requisition Type Name", required = "true" })
                                     @Html.ValidationMessageFor(model => model.Name, "", new { id = "nameExist", @class = "text-danger" })
                                 </div>
 
                                 <div class="form-group">
-                                    <label asp-for="Description" class="form-control-label">Description:</label>
+                                    <label asp-for="Description" class="form-control-label">Description :</label>
                                     @Html.TextAreaFor(model => model.Description, new { id = "txtRequisitionTypeDescription", @class = "form-control", @placeholder = "Requisition Type Description", required = "true" })
                                     @Html.ValidationMessageFor(model => model.Description, "", new { id = "nameExist", @class = "text-danger" })
                                 </div>
@@ -87,14 +87,14 @@
                                         <thead>
                                             <tr>
                                                 <th>SL</th>
-                                                <th>Name</th>
+                                                <th>Requisition Type Name</th>
                                                 <th>Description</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         @{int sl = 0;}
                                         <tbody>
-                                            @foreach (var item in Model.BillRequisitionTypes)
+                                            @foreach (var item in Model.BillRequisitionTypes.OrderBy(order=> order.Name))
                                             {
                                                 <tr>
                                                     <td>
