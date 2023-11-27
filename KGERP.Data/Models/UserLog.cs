@@ -16,8 +16,13 @@ namespace KGERP.Data.Models
     {
         public long UserLogId { get; set; }
         public int ActionType { get; set; }
+        public long EmployeeId { get; set; }
+        public string EmpUserId { get; set; }
+        public int CompanyId { get; set; }
         public System.DateTime ActionTimeStamp { get; set; }
-        public string EmployeeId { get; set; }
         public string Details { get; set; }
+    
+        public virtual Company Company { get; set; }
+        public virtual Employee Employee { get; set; }
     }
 }

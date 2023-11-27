@@ -56,6 +56,8 @@ namespace KGERP.Data.Models
             this.BoQBudgetMasters = new HashSet<BoQBudgetMaster>();
             this.BoQItemProductMaps = new HashSet<BoQItemProductMap>();
             this.BoQDivisions = new HashSet<BoQDivision>();
+            this.BillReqApprovalHistories = new HashSet<BillReqApprovalHistory>();
+            this.UserLogs = new HashSet<UserLog>();
         }
     
         public int CompanyId { get; set; }
@@ -161,5 +163,9 @@ namespace KGERP.Data.Models
         public virtual ICollection<BoQItemProductMap> BoQItemProductMaps { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BoQDivision> BoQDivisions { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BillReqApprovalHistory> BillReqApprovalHistories { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserLog> UserLogs { get; set; }
     }
 }

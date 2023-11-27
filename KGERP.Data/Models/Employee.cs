@@ -41,6 +41,8 @@ namespace KGERP.Data.Models
             this.SaleReturns = new HashSet<SaleReturn>();
             this.CostCenterManagerMaps = new HashSet<CostCenterManagerMap>();
             this.BillRequisitionApprovals = new HashSet<BillRequisitionApproval>();
+            this.BillReqApprovalHistories = new HashSet<BillReqApprovalHistory>();
+            this.UserLogs = new HashSet<UserLog>();
         }
     
         public long Id { get; set; }
@@ -179,5 +181,9 @@ namespace KGERP.Data.Models
         public virtual ICollection<CostCenterManagerMap> CostCenterManagerMaps { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BillRequisitionApproval> BillRequisitionApprovals { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BillReqApprovalHistory> BillReqApprovalHistories { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserLog> UserLogs { get; set; }
     }
 }
