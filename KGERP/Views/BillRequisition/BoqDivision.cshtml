@@ -1,6 +1,6 @@
 ﻿@model KGERP.Service.ServiceModel.BoqDivisionModel
 @{
-    ViewData["Title"] = "BoQ Division";
+    ViewData["Title"] = "BoQ Division/Category";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -11,9 +11,7 @@
 </style>
 <section class="content-header">
     <h1>
-        <span>
-            BoQ Division
-        </span>
+        BoQ Division
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
@@ -94,7 +92,7 @@
                                                                 <input type="hidden" id="ddProjectId_@item.BoQDivisionId" name="ProjectId" value="@item.ProjectId" />
                                                             </td>
                                                             <td id=" tdBoqDivisionName_@item.BoQDivisionId">@item.Name</td>
-                                                            <td id=" tdBoqProjectname_@item.BoQDivisionId">@Model.Projecs.FirstOrDefault(c=> c.CostCenterId == item.ProjectId).Name</td>
+                                                            <td id=" tdBoqProjectname_@item.BoQDivisionId">@Model.Projecs.FirstOrDefault(c => c.CostCenterId == item.ProjectId).Name</td>
                                                             <td>
                                                                 <a id="@item.BoQDivisionId" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
 
