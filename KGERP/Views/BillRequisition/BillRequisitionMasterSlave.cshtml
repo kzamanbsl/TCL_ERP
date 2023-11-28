@@ -741,12 +741,16 @@
 
             MaterialDemandInputValue.on('input', function () {
                 var demandDecimalValue = parseFloat(MaterialDemandInputValue.val());
-                if (demandDecimalValue <= remainingDecimalValue) {
+
+                if (demandDecimalValue <= remainingDecimalValue || demandDecimalValue == 0 || demandDecimalValue == null) {
+                    $("#demandValidate").text("");
+                    MaterialDemandInputValue.val(demandDecimalValue);
                     updateResult();
                 }
                 else {
                     $("#demandValidate").text("Demand cannot exceed the remaining amount!");
                     MaterialDemandInputValue.val(remainingDecimalValue);
+                    updateResult();
                 }
             });
             

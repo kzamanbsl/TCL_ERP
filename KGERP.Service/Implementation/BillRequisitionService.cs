@@ -35,6 +35,9 @@ namespace KGERP.Service.Implementation
                     BoQItemProductMapId = item.BoQItemProductMapId,
                     BoQItemId = item.BoQItemId,
                     ProductId = item.ProductId,
+                    EstimatedQty = item.EstimatedQty,
+                    UnitRate = item.UnitRate,
+                    EstimatedAmount = item.EstimatedAmount,
                 };
                 boqMapList.Add(data);
             }
@@ -45,6 +48,7 @@ namespace KGERP.Service.Implementation
         {
             if (model != null)
             {
+                var amount = model.EstimatedQty * model.UnitRate;
                 try
                 {
                     BoQItemProductMap data = new BoQItemProductMap()
@@ -52,6 +56,9 @@ namespace KGERP.Service.Implementation
                         BoQItemId = model.BoQItemId,
                         ProductId = model.MaterialItemId,
                         CompanyId = (int)model.CompanyFK,
+                        EstimatedQty = model.EstimatedQty,
+                        UnitRate = model.UnitRate,
+                        EstimatedAmount = amount,
                         IsActive = true,
                         CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
                         CreateDate = DateTime.Now
@@ -75,12 +82,16 @@ namespace KGERP.Service.Implementation
         {
             if (model != null)
             {
+                var amount = model.EstimatedQty * model.UnitRate;
                 try
                 {
                     var findBoQProductMap = _context.BoQItemProductMaps.FirstOrDefault(c => c.BoQItemProductMapId == model.ID);
 
                     findBoQProductMap.BoQItemId = model.BoQItemId;
                     findBoQProductMap.ProductId = model.MaterialItemId;
+                    findBoQProductMap.EstimatedQty = model.EstimatedQty;
+                    findBoQProductMap.UnitRate = model.UnitRate;
+                    findBoQProductMap.EstimatedAmount = amount;
                     findBoQProductMap.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
                     findBoQProductMap.ModifiedDate = DateTime.Now;
                     var count = _context.SaveChanges();

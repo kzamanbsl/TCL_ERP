@@ -13,6 +13,9 @@ namespace KGERP.Service.ServiceModel
         public long BoQItemProductMapId { get; set; }
         public int BoQItemId { get; set; }
         public int MaterialItemId { get; set; }
+        public decimal EstimatedQty { get; set; }
+        public decimal EstimatedAmount { get; set; }
+        public decimal UnitRate { get; set; }
         public int ProjectId { get; set; }
         public long BoQDivisionId { get; set; }
         public List<BillBoQItem> BoQItems { get; set; }

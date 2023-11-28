@@ -1,6 +1,6 @@
 ﻿@model KGERP.Service.ServiceModel.BillRequisitionItemBoQMapModel
 @{
-    ViewData["Title"] = "BoQ Material Item Map";
+    ViewData["Title"] = "BoQ Budget & Estimating";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -11,11 +11,11 @@
 </style>
 <section class="content-header">
     <h1>
-        BoQ Material Item Map
+        BoQ Budget & Estimating
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">BoQ Material Item Map</li>
+        <li class="active">BoQ Budget & Estimating</li>
     </ol>
 </section>
 
@@ -64,6 +64,22 @@
                             </div>
                         </div>
 
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="EstimatedQty" class="form-control-label">Estimated Quantity :</label>
+                                @Html.TextBoxFor(model => model.EstimatedQty, new { id = "txtEstimateQty", @class = "form-control", @placeholder = "BoQ Item Number", required = "true" })
+                                @Html.ValidationMessageFor(model => model.EstimatedQty, "", new { id = "nameExist", @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="UnitRate" class="form-control-label">Unit Price :</label>
+                                @Html.TextBoxFor(model => model.UnitRate, new { id = "txtUnitRate", @class = "form-control", @placeholder = "BoQ Item Number", required = "true" })
+                                @Html.ValidationMessageFor(model => model.UnitRate, "", new { id = "nameExist", @class = "text-danger" })
+                            </div>
+                        </div>
+
                         <div class="col-md-12">
                             <div class="form-group">
                                 <div class="col-md-6">
@@ -100,6 +116,9 @@
                                     <th>Division Name</th>
                                     <th>BoQ Item Name</th>
                                     <th>Material Name</th>
+                                    <th>Estimated Amount</th>
+                                    <th>Unit Price</th>
+                                    <th>Estimated Amount</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -127,6 +146,9 @@
                                                 <td id="tdBoqDivisionName_@item.BoQItemProductMapId">@Model.BoQDivisions.FirstOrDefault(c => c.BoQDivisionId == diviId).Name</td>
                                                 <td id="tdBoqItemName_@item.BoQItemProductMapId">@Model.BoQItems.FirstOrDefault(c => c.BoQItemId == item.BoQItemId).Name</td>
                                                 <td id="tdBoqMaterialName_@item.BoQItemProductMapId">@Model.BoQMaterials.FirstOrDefault(c => c.ProductId == item.ProductId).ProductName</td>
+                                                <td id="tdBoqEstimateQty_@item.BoQItemProductMapId">@item.EstimatedQty</td>
+                                                <td id="tdBoqUnitRate_@item.BoQItemProductMapId">@item.UnitRate</td>
+                                                <td id="tdBoqEstimateAmount_@item.BoQItemProductMapId">@item.EstimatedAmount</td>
                                                 <td>
                                                     <a id="@item.BoQItemProductMapId" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
 
@@ -196,6 +218,8 @@
                 getBoqDivisionList(rowId);
                 getBoqItemList(rowId);
                 $('#ddlMaterialItemId').val($('#material_' + rowId).val().trim()).trigger('change');
+                $('#txtEstimateQty').val($('#tdBoqEstimateQty_' + rowId).text().trim());
+                $('#txtUnitRate').val($('#tdBoqUnitRate_' + rowId).text().trim());
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
         }
