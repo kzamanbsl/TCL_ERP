@@ -98,7 +98,7 @@
                             <div class="row">
                                 <div class="table-responsive text-nowrap">
 
-                                    <table class="table table-bordered">
+                                    <table id="itemTable" class="table table-bordered">
                                         <thead>
                                             <tr class="bg-success">
                                                 <th style="padding:5px;text-align:center;">SL</th>
@@ -130,21 +130,21 @@
                                                     <td style="padding: 5px; text-align: left;">@item.UnitName</td>
                                                     <td style="padding:5px;text-align:right;">@String.Format("{0:0.00}", item.EstimatedQty)</td>
                                                     <td style="padding: 5px; text-align: right;">@String.Format("{0:0.00}", item.ReceivedSoFar)</td>
-                                                    <td style="padding: 5px; text-align: right;">@String.Format("{0:0.00}", item.RemainingQty)</td>
+                                                    <td class="remainingQty" style="padding: 5px; text-align: right;">@String.Format("{0:0.00}", item.RemainingQty)</td>
                                                     <td style="padding: 5px; text-align: right;">
-                                                        @if (Model.ApprovalModelList.First(x=>x.SignatoryId == (int)EnumBRequisitionSignatory.PM).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
+                                                        @if (Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.PM).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
                                                         {
-                                                            @Html.TextBoxFor(model => model.DetailDataList[i].DemandQty, new { id = "demandQty_" + i, @class = "form -control quantityValue demand-quantity" })
-                                                       }
+                                                            @Html.TextBoxFor(model => model.DetailDataList[i].DemandQty, new { id = "demandQty_" + i, @class = "form -control quantityValue demandQty" })
+                                                        }
                                                         else
-                                                            {
-                                                                @String.Format("{0:0.00}", item.DemandQty)
+                                                        {
+                                                            @String.Format("{0:0.00}", item.DemandQty)
                                                         }
                                                     </td>
 
 
-                                                    <td style="padding: 5px; text-align: right;">@String.Format("{0:0.00}", item.UnitRate)</td>
-                                                    <td class="rowTotal" style="padding: 5px;  text-align: right;">@String.Format("{0:0.00}", item.TotalPrice)</td>
+                                                    <td class="unitRate" style="padding: 5px; text-align: right;">@String.Format("{0:0.00}", item.UnitRate)</td>
+                                                    <td class="lineTotal" style="padding: 5px;  text-align: right;">@String.Format("{0:0.00}", item.TotalPrice)</td>
 
 
                                                     @{
@@ -157,11 +157,9 @@
                                         <tfoot>
                                             <tr>
                                                 <td colspan="8"></td>
-                                                <td id="totalFooter" style="padding: 5px; text-align: right;"> <b>Total :</b> @String.Format("{0:0.00}", totalPrice)</td>
+                                                <td id="totalFooter" style="padding: 5px; text-align: right;"> <b>Total :</b><span id="total">@String.Format("{0:0.00}", totalPrice)</span> </td>
                                             </tr>
                                         </tfoot>
-
-
                                     </table>
                                     <strong>
                                         <span>
@@ -243,21 +241,40 @@
 
 @section scripts {
 
-    <script type="text/javascript">
-
+   
+    <script>
         $(document).ready(function () {
+            recalculateTotals();
 
-            $('.demand-quantity').keyup(function () {
-                var row = $(this).closest('tr'); 
-                var demandQty = parseFloat($(this).val()); 
-                var unitRate = parseFloat(row.find('td:eq(7)').text());
-                var totalPrice = demandQty * unitRate; 
-
-               
-                row.find('td:eq(8)').text(totalPrice.toFixed(2)); 
+            $('.demandQty').keyup(function () {
+                recalculateTotals();
             });
-        
         });
-  
+
+        function recalculateTotals() {
+            var total = 0;
+
+            $('#itemTable tbody tr').each(function () {
+                var demandQty = parseFloat($(this).find('.demandQty').val());
+                var unitRate = parseFloat($(this).find('.unitRate').text());
+                var remainingQty = parseFloat($(this).find('.remainingQty').text());
+
+                if (!isNaN(demandQty) && !isNaN(unitRate)) {
+                    if (demandQty > remainingQty) {
+                        // Update the input or show an error message indicating exceeding remaining quantity
+                        // For demonstration, I'm setting the value to remainingQty
+                        $(this).find('.demandQty').val(remainingQty);
+                        demandQty = remainingQty; // Update demandQty to remainingQty
+                    }
+
+                    var lineTotal = demandQty * unitRate;
+
+                    $(this).find('.lineTotal').text(lineTotal.toFixed(2));
+                    total += lineTotal;
+                }
+            });
+
+            $('#total').text(total.toFixed(2));
+        }
     </script>
 }
