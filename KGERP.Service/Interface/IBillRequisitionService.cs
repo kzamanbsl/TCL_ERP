@@ -9,6 +9,9 @@ namespace KGERP.Service.Interface
 {
     public interface IBillRequisitionService
     {
+        List<dynamic> GetMaterialDetailWithNameAndUnitId(long boqId);
+        decimal ReceivedSoFarTotal(int id);
+
         #region Bill of Quotation and Req. Item Map
         bool Add(BillRequisitionItemBoQMapModel model);
         bool Edit(BillRequisitionItemBoQMapModel model);

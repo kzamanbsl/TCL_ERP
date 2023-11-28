@@ -22,6 +22,52 @@ namespace KGERP.Service.Implementation
             _context = context;
         }
 
+        public List<dynamic> GetMaterialDetailWithNameAndUnitId(long boqId)
+        {
+            var materialDetail = _context.BoQItemProductMaps
+                .Where(c => c.BoQItemId == boqId)
+                .Join(
+                    _context.Products,
+                    boqItem => boqItem.ProductId,
+                    product => product.ProductId,
+                    (boqItem, product) => new
+                    {
+                        MaterialId = product.ProductId,
+                        MaterialName = product.ProductName,
+                        UnitId = product.UnitId,
+                    }
+                )
+                .Join(
+                    _context.Units,
+                    result => result.UnitId,
+                    unit => unit.UnitId,
+                    (result, unit) => new
+                    {
+                        result.MaterialName,
+                        result.MaterialId,
+                        result.UnitId,
+                        UnitName = unit.Name,
+                    }
+                )
+                .ToList<dynamic>();
+
+            return materialDetail;
+        }
+
+        public decimal ReceivedSoFarTotal(int id)
+        {
+            decimal total = 0;
+            var receivedData = _context.BillRequisitionDetails.Where(c => c.CompanyId == 21 && c.ProductId == id && c.IsActive == true).ToList();
+            if(receivedData != null)
+            {
+                foreach(var item in receivedData)
+                {
+                    total += item.DemandQty;
+                }
+            }
+            return total;
+        }
+
         #region BoQ Requisition Item Map
 
         public List<BoQItemProductMap> GetBoQProductMapList()
@@ -826,7 +872,7 @@ namespace KGERP.Service.Implementation
                     StatusId = (int)model.StatusId,
                     CompanyId = (int)model.CompanyFK,
                     CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
-                CreateDate = DateTime.Now,
+                    CreateDate = DateTime.Now,
                     IsActive = true
                 };
 
@@ -1182,7 +1228,7 @@ namespace KGERP.Service.Implementation
             var user = System.Web.HttpContext.Current.User.Identity.Name;
             billRequisitionMasterModel.CompanyFK = companyId;
             var dataQuery = (from t1 in _context.BillRequisitionMasters
-                             where t1.IsActive && t1.CompanyId == companyId 
+                             where t1.IsActive && t1.CompanyId == companyId
                              && t1.CreatedBy == user
                              join t2 in _context.Accounting_CostCenter on t1.CostCenterId equals t2.CostCenterId into t2_Join
                              from t2 in t2_Join.DefaultIfEmpty()
@@ -1412,7 +1458,7 @@ namespace KGERP.Service.Implementation
             List<BillRequisitionDetail> details = _context.BillRequisitionDetails.Where(c => c.BillRequisitionMasterId == billRequisitionMasterModel.BillRequisitionMasterId && c.IsActive == true).ToList();
             if (details?.Count() <= 0) throw new Exception("Sorry! Damage  not found to Receive!");
 
-          
+
             List<BillReqApprovalHistory> history = new List<BillReqApprovalHistory>();
             foreach (var item in details)
             {
@@ -1430,7 +1476,7 @@ namespace KGERP.Service.Implementation
                     EmployeeId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]),
                     CreatedBy = System.Web.HttpContext.Current.Session["EmployeeName"].ToString(),
                     CreateDate = DateTime.Now,
-                }) ;
+                });
             }
 
             foreach (var dt in details)

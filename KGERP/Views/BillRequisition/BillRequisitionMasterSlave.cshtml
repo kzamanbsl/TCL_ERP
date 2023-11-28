@@ -13,6 +13,19 @@
     input, select, textarea {
         max-width: 100%;
     }
+
+    .ui-datepicker-trigger {
+        width: 37px !important;
+        height: 33px !important;
+        margin-left: 5px !important;
+    }
+
+    .dateCustom {
+        width: 86% !important;
+        border-radius: 3px !important;
+        border: 1px solid #d2d6de !important;
+        height: 33px !important;
+    }
 </style>
 
 <section class="content-header">
@@ -101,83 +114,88 @@
                             {
                                 <div class="row">
 
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
                                         <label for="message-text" class="col-form-label">Requisition Date :</label>
                                         <div class="form-group">
-                                            <input name="BRDate" asp-for="BRDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker " placeholder="Operation Date" autocomplete="off" id="txtOperationrDate">
+                                            <input name="BRDate" asp-for="BRDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker w-100 dateCustom" placeholder="Operation Date" autocomplete="off" id="txtOperationrDate">
                                             @Html.ValidationMessageFor(model => model.BRDate, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
 
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>Requisition Type :</label>
-                                            @Html.DropDownListFor(model => model.BillRequisitionTypeId, Model.RequisitionTypeList as SelectList, "==Select Requisition Type==", new { id = "ddlBRTypeId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            <label>Select Requisition Type :</label>
+                                            @Html.DropDownListFor(model => model.BillRequisitionTypeId, Model.RequisitionTypeList as SelectList, "===Select Requisition Type===", new { id = "ddlBRTypeId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
                                             @Html.ValidationMessageFor(model => model.BillRequisitionTypeId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
 
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>Project Type :</label>
-                                            @Html.DropDownListFor(model => model.ProjectTypeId, Model.ProjectTypeList as SelectList, "==Select Project Type==", new { id = "projectTypeId", onchange = "showInput()", @class = "form-control searchingDropdown", style = "width:100%" })
+                                            <label>Select Project Type :</label>
+                                            @Html.DropDownListFor(model => model.ProjectTypeId, Model.ProjectTypeList as SelectList, "===Select Project Type===", new { id = "projectTypeId", onchange = "showInput()", @class = "form-control searchingDropdown", style = "width:100%" })
                                             @Html.ValidationMessageFor(model => model.ProjectTypeId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
 
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>Select Project :</label>
-                                            @Html.DropDownListFor(model => model.CostCenterId, Model.ProjectList as SelectList, "==Select Project==", new { id = "ddlCostCenterId", onchange = "showBoQ()", @class = "form-control searchingDropdown", style = "width:100%" })
+                                            <label>Select Project For Requisition :</label>
+                                            @Html.DropDownListFor(model => model.CostCenterId, Model.ProjectList as SelectList, "===Select Project===", new { id = "ddlCostCenterId", onchange = "showDivision()", @class = "form-control searchingDropdown", style = "width:100%" })
                                             @Html.ValidationMessageFor(model => model.CostCenterId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="row">
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>Work Detail / BOQ Item :</label>
-                                            @Html.DropDownListFor(model => model.BOQItemId, Model.BOQItemList as SelectList, "==Select BOQ Item==", new { id = "ddlBOQItemId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            <label>Select BoQ Division :</label>
+                                            @Html.DropDownListFor(model => model.CostCenterId, Model.ProjectList as SelectList, "===Select BoQ Division===", new { id = "ddlDivisionId", onchange = "showBoQItem()", @class = "form-control searchingDropdown", style = "width:100%" })
+                                            @Html.ValidationMessageFor(model => model.CostCenterId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Select BoQ Item :</label>
+                                            @Html.DropDownListFor(model => model.BOQItemId, Model.BOQItemList as SelectList, "===Select BoQ Item===", new { id = "ddlBOQItemId", onchange = "showBoQMaterial()", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
                                             @Html.ValidationMessageFor(model => model.BOQItemId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
 
-                                    <div class="col-md-9">
+                                    <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="txtDescription" class="col-form-label">Work Description :</label>
-                                            @Html.TextAreaFor(model => model.Description, new { id = "txtitemDescription", placeholder = "Type work description here...", @class = "form-control", rows = 1 })
+                                            <label for="txtDescription" class="col-form-label">Work Deatils :</label>
+                                            @Html.TextAreaFor(model => model.Description, new { id = "txtitemDescription", placeholder = "Type work details here", @class = "form-control", rows = 2 })
                                             @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
-                                </div>
 
+                                </div>
                             }
 
                             @if (Model.StatusId == EnumBillRequisitionStatus.Draft)
                             {
-                                <!--- dependable input -->
+                                @* dependable input field *@
                                 <div class="row">
-
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
                                         <div class="form-group hidden" id="inputWard">
-                                            <label for="txtDescription" class="col-form-label">Ward :</label>
+                                            <label for="txtWrad" class="col-form-label">Ward :</label>
                                             @Html.TextBoxFor(model => model.DetailModel.Ward, new { id = "txtWrad", placeholder = "Ward", @class = "form-control" })
                                             @Html.ValidationMessageFor(model => model.DetailModel.Ward, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
 
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
                                         <div class="form-group hidden" id="inputDPP">
-                                            <label for="txtDescription" class="col-form-label">DPP :</label>
+                                            <label for="txtDPP" class="col-form-label">DPP :</label>
                                             @Html.TextBoxFor(model => model.DetailModel.DPP, new { id = "txtDPP", placeholder = "DPP", @class = "form-control" })
                                             @Html.ValidationMessageFor(model => model.DetailModel.DPP, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
 
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
                                         <div class="form-group hidden" id="inputChainage">
-                                            <label for="txtDescription" class="col-form-label">Chainage :</label>
+                                            <label for="txtChainage" class="col-form-label">Chainage :</label>
                                             @Html.TextBoxFor(model => model.DetailModel.Chainage, new { id = "txtChainage", placeholder = "Chainage", @class = "form-control" })
                                             @Html.ValidationMessageFor(model => model.DetailModel.Chainage, "", new { @class = "text-danger" })
                                         </div>
@@ -185,22 +203,33 @@
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
                                         <div class="form-group hidden" id="inputFloor">
-                                            <label for="txtDescription" class="col-form-label">Floor :</label>
+                                            <label for="txtFloor" class="col-form-label">Floor :</label>
                                             @Html.TextBoxFor(model => model.DetailModel.Floor, new { id = "txtFloor", placeholder = "Floor", @class = "form-control" })
                                             @Html.ValidationMessageFor(model => model.DetailModel.Floor, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group hidden" id="inputChainageRunway">
+                                            <label for="txtChainage" class="col-form-label">Chainage :</label>
+                                            @Html.TextBoxFor(model => model.DetailModel.Chainage, new { id = "txtChainage", placeholder = "Chainage", @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.DetailModel.Chainage, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                @* dependable input field *@
 
+                                <!--- dependable input with value -->
                                 if (Model.ProjectTypeId == 8)
                                 {
                                     <div class="row">
 
-                                        <div class="col-md-3">
+                                        <div class="col-md-4">
                                             <div class="form-group " id="inputFloor">
-                                                <label for="txtDescription" class="col-form-label">Floor :</label>
+                                                <label for="txtFloor" class="col-form-label">Floor :</label>
                                                 @Html.TextBoxFor(model => model.DetailModel.Floor, new { id = "txtFloor", placeholder = "Floor", @class = "form-control" })
                                                 @Html.ValidationMessageFor(model => model.DetailModel.Floor, "", new { @class = "text-danger" })
                                             </div>
@@ -212,25 +241,25 @@
                                 {
                                     <div class="row">
 
-                                        <div class="col-md-3">
+                                        <div class="col-md-4">
                                             <div class="form-group " id="inputWard">
-                                                <label for="txtDescription" class="col-form-label">Ward :</label>
+                                                <label for="txtWrad" class="col-form-label">Ward :</label>
                                                 @Html.TextBoxFor(model => model.DetailModel.Ward, new { id = "txtWrad", placeholder = "Ward", @class = "form-control" })
                                                 @Html.ValidationMessageFor(model => model.DetailModel.Ward, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
 
-                                        <div class="col-md-3">
+                                        <div class="col-md-4">
                                             <div class="form-group " id="inputDPP">
-                                                <label for="txtDescription" class="col-form-label">DPP :</label>
+                                                <label for="txtDPP" class="col-form-label">DPP :</label>
                                                 @Html.TextBoxFor(model => model.DetailModel.DPP, new { id = "txtDPP", placeholder = "DPP", @class = "form-control" })
                                                 @Html.ValidationMessageFor(model => model.DetailModel.DPP, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
 
-                                        <div class="col-md-3">
+                                        <div class="col-md-4">
                                             <div class="form-group " id="inputChainage">
-                                                <label for="txtDescription" class="col-form-label">Chainage :</label>
+                                                <label for="txtChainage" class="col-form-label">Chainage :</label>
                                                 @Html.TextBoxFor(model => model.DetailModel.Chainage, new { id = "txtChainage", placeholder = "Chainage", @class = "form-control" })
                                                 @Html.ValidationMessageFor(model => model.DetailModel.Chainage, "", new { @class = "text-danger" })
                                             </div>
@@ -238,7 +267,19 @@
 
                                     </div>
                                 }
-                                <!--- dependable input -->
+                                else if (Model.ProjectTypeId == 13)
+                                {
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group " id="inputChainageRunway">
+                                                <label for="txtChainage" class="col-form-label">Chainage :</label>
+                                                @Html.TextBoxFor(model => model.DetailModel.Chainage, new { id = "txtChainage", placeholder = "Chainage", @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.DetailModel.Chainage, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                <!--- dependable input with value -->
 
                                 <div class="row">
 
@@ -294,7 +335,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Unit Rate :</label>
-                                            @Html.TextBoxFor(model => model.DetailModel.UnitRate, new { id = "decUnitRate", type = "number", step = "0.01", @class = "form-control", placeholder = "Unit rate" })
+                                            @Html.TextBoxFor(model => model.DetailModel.UnitRate, new { id = "decUnitRate", type = "number", step = "0.01", @class = "form-control", placeholder = "Unit rate", ReadOnly = "true" })
                                             @Html.ValidationMessageFor(model => model.DetailModel.UnitRate, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -312,7 +353,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="txtDescription" class="col-form-label">Remarks :</label>
-                                            @Html.TextAreaFor(model => model.DetailModel.Remarks, new { id = "txtitemDescription", placeholder = "Type remarks here...", @class = "form-control", rows = 2 })
+                                            @Html.TextAreaFor(model => model.DetailModel.Remarks, new { id = "txtitemDescription", placeholder = "Type remarks here", @class = "form-control", rows = 2 })
                                             @Html.ValidationMessageFor(model => model.DetailModel.Remarks, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -457,7 +498,7 @@
                         <button type="button" class="btn btn-warning fa fa-close" data-dismiss="modal">&nbsp;NO</button>
                     </div>
                     <div class="col-md-9">
-                        <button type="submit" id="btnDelete2" onclick="makeSubmitble(this)" style="width:100%" class="btn btn-primary fa fa-remove">&nbsp;<span class="submitOrDraftText"></span></button>
+                        <button type="submit" id="btnDelete2" onclick="makeSubmitble(this)" style="width:100%" class="btn btn-primary fa fa-check">&nbsp;<span class="submitOrDraftText"></span>Yes</button>
                     </div>
                 </div>
             </div>
@@ -510,21 +551,11 @@
 @section scripts {
 
     <script type="text/javascript">
+
         let unitPrice = 0;
-        var normal= 0;
+        var normal = 0;
+
         $(document).ready(function () {
-
-
-            //$('#BRMasterSlaveFormId').on('keyup keypress', function (e) {
-
-            //    var keyCode = e.keyCode || e.which;
-            //    if (keyCode === 13) {
-            //        e.preventDefault();
-            //        return false;
-            //    }
-            //});
-
-
             $('#datePickerById').datepicker({
                 format: "dd/MM/yyyy",
                 todayHighlight: true,
@@ -536,38 +567,37 @@
                     $(this).parents('form').bootstrapValidator('revalidateField', $(this));
                 }
             });
-
         });
-           function makeEditble(rowId) {
 
-                $.ajax({
+        function makeEditble(rowId) {
 
-                    type: "POST",
-                    url: "@Url.Action("SingleBillRequisitionDetails", "BillRequisition")",
-                    datatype: "Json",
-                    data: { id: rowId },
-                    success: function (data) {
-                        unitPrice = data.UnitPrice;
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("SingleBillRequisitionDetails", "BillRequisition")",
+                datatype: "Json",
+                data: { id: rowId },
+                success: function (data) {
+                    unitPrice = data.UnitPrice;
 
-                        $('#soCreateBtn').val("Update");
-                        $("#hidBRMasterId").val(data.BillRequisitionMasterId);
-                        $('#ActionId').val(2);
-                        $("#CompanyFK").val(data.CompanyId);
-                        $("#hiddenBillRequisitionDetailId").val(data.BillRequisitionDetailId);
-                        $("#ddlRequisitionItemId").val(data.BillRequisitionItemId).trigger('change');
+                    $('#soCreateBtn').val("Update");
+                    $("#hidBRMasterId").val(data.BillRequisitionMasterId);
+                    $('#ActionId').val(2);
+                    $("#CompanyFK").val(data.CompanyId);
+                    $("#hiddenBillRequisitionDetailId").val(data.BillRequisitionDetailId);
+                    $("#ddlRequisitionItemId").val(data.BillRequisitionItemId).trigger('change');
 
-                        $("#txtUnitId").val(data.UnitId);
-                        $("#decEstimatedQty").val(data.EstimatedQty);
-                        $("#decReceivedSoFar").val(data.ReceivedSoFar);
-                        $("#decRemainingQty").val(data.RemainingQty);
-                        $("#decDemandQty").val(data.DemandQty);
-                        $("#decUnitRate").val(data.UnitRate);
-                        $("#decTotalPrice").val(data.TotalPrice);
-                        $("#txtitemDescription").val(data.Remarks);
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                    }
-                });
-            }
+                    $("#txtUnitId").val(data.UnitId);
+                    $("#decEstimatedQty").val(data.EstimatedQty);
+                    $("#decReceivedSoFar").val(data.ReceivedSoFar);
+                    $("#decRemainingQty").val(data.RemainingQty);
+                    $("#decDemandQty").val(data.DemandQty);
+                    $("#decUnitRate").val(data.UnitRate);
+                    $("#decTotalPrice").val(data.TotalPrice);
+                    $("#txtitemDescription").val(data.Remarks);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            });
+        }
 
         function makeSubmitble(rowId) {
 
@@ -592,46 +622,24 @@
             $('#ActionId').val(1);
         }
 
-        function getUnitName() {
-            var getUnitIdValue = $("#ddlRequisitionItemId option:selected");
-            var showName = $("#showUnitName");
-            var showValue = $("#txtUnitId");
-
-            $.ajax({
-                type: "GET",
-                url: "/BillRequisition/GetUnitNameWithId",
-                dataType: "json",
-                data: { id: getUnitIdValue.val() },
-                success: function (data) {
-                    if (data) {
-                        showName.val(data.unitName);
-                        showValue.val(data.unitId);
-                    }
-                }
-            });
-        }
-
         function showInput() {
             var Ward = document.getElementById("inputWard");
             var Dpp = document.getElementById("inputDPP");
             var Chainage = document.getElementById("inputChainage");
+            var Runway = document.getElementById("inputChainageRunway");
             var Floor = document.getElementById("inputFloor");
             var projectType = $('#projectTypeId').val();
 
-            if (projectType == 8) {
-                Ward.classList.remove("block");
-                Ward.classList.add("hidden");
+            Ward.classList.add("hidden");
+            Dpp.classList.add("hidden");
+            Chainage.classList.add("hidden");
+            Runway.classList.add("hidden");
+            Floor.classList.add("hidden");
 
-                Dpp.classList.remove("block");
-                Dpp.classList.add("hidden");
-
-                Chainage.classList.remove("block");
-                Chainage.classList.add("hidden");
-
+            if (projectType === '8') {
                 Floor.classList.remove("hidden");
                 Floor.classList.add("block");
-            }
-            else if (projectType == 9) {
+            } else if (projectType === '9') {
                 Ward.classList.remove("hidden");
                 Ward.classList.add("block");
 
@@ -640,27 +648,15 @@
 
                 Chainage.classList.remove("hidden");
                 Chainage.classList.add("block");
-
-                Floor.classList.remove("block");
-                Floor.classList.add("hidden");
-            }
-            else {
-                Ward.classList.remove("block");
-                Ward.classList.add("hidden");
-
-                Dpp.classList.remove("block");
-                Dpp.classList.add("hidden");
-
-                Chainage.classList.remove("block");
-                Chainage.classList.add("hidden");
-
-                Floor.classList.remove("block");
-                Floor.classList.add("hidden");
+            } else if (projectType === '13') {
+                Runway.classList.remove("hidden");
+                Runway.classList.add("block");
             }
 
             getProjectList();
         }
 
+        // get project list
         function getProjectList() {
             var getProjectTypeId = $("#projectTypeId option:selected");
             var showProjectList = $("#ddlCostCenterId");
@@ -671,8 +667,8 @@
                 dataType: "json",
                 data: { id: getProjectTypeId.val() },
                 success: function (data) {
-
                     showProjectList.empty();
+                    showProjectList.append("<option selected disabled>===Select Project===</option>");
 
                     $.each(data, function (index, item) {
                         showProjectList.append($('<option>', {
@@ -687,22 +683,22 @@
             });
         }
 
-        function showBoQ() {
+        // get division list
+        function showDivision() {
             var getProjectId = $("#ddlCostCenterId option:selected");
-            var showBoQList = $("#ddlBOQItemId");
-
+            var showBoqDivisionList = $("#ddlDivisionId");
             $.ajax({
                 type: "GET",
-                url: "/BillRequisition/GetBoQList",
+                url: "/BillRequisition/getBoqDivisionList",
                 dataType: "json",
                 data: { id: getProjectId.val() },
                 success: function (data) {
-
-                    showBoQList.empty();
+                    showBoqDivisionList.empty();
+                    showBoqDivisionList.append("<option selected disabled>===Select BoQ Division===</option>");
 
                     $.each(data, function (index, item) {
-                        showBoQList.append($('<option>', {
-                            value: item.BoQItemId,
+                        showBoqDivisionList.append($('<option>', {
+                            value: item.BoQDivisionId,
                             text: item.Name
                         }));
                     });
@@ -713,11 +709,108 @@
             });
         }
 
-        // Calculation with static data
-        $(document).ready(function () {
-            'use strict';
+        // get boq item list
+        function showBoQItem() {
+            var getBoqDivisionId = $("#ddlDivisionId option:selected");
+            var showBoqItemList = $("#ddlBOQItemId");
 
-            // Getting input element IDs as constant variables
+            $.ajax({
+                type: "GET",
+                url: "/BillRequisition/getBoqItemList",
+                dataType: "json",
+                data: { id: getBoqDivisionId.val() },
+                success: function (data) {
+                    showBoqItemList.empty();
+                    showBoqItemList.append("<option selected disabled>===Select BoQ Item===</option>");
+
+                    $.each(data, function (index, item) {
+                        showBoqItemList.append($('<option>', {
+                            value: item.BoQDivisionId,
+                            text: item.Name
+                        }));
+                    });
+                },
+                error: function (error) {
+                    console.error("Error in AJAX request:", error);
+                }
+            });
+        }
+
+        // get boq material list
+        function showBoQMaterial() {
+            var getBoqItemId = $("#ddlBOQItemId option:selected");
+            var showBoqMaterialList = $("#ddlRequisitionItemId");
+
+            $.ajax({
+                type: "GET",
+                url: "/BillRequisition/getBoqMaterialList",
+                dataType: "json",
+                data: { id: getBoqItemId.val() },
+                success: function (data) {
+                    showBoqMaterialList.empty();
+                    showBoqMaterialList.append("<option selected disabled>===Select Material===</option>");
+
+                    $.each(data, function (index, item) {
+                        showBoqMaterialList.append($('<option>', {
+                            value: item.MaterialId,
+                            text: item.MaterialName
+                        }));
+                    });
+                },
+                error: function (error) {
+                    console.error("Error in AJAX request:", error);
+                }
+            });
+        }
+
+        // get selected material unit name
+        function getUnitName() {
+            var getUnitIdValue = $("#ddlRequisitionItemId option:selected");
+            var showName = $("#showUnitName");
+            var showValue = $("#txtUnitId");
+            console.log("ok unit");
+            $.ajax({
+                type: "GET",
+                url: "/BillRequisition/GetUnitNameWithId",
+                dataType: "json",
+                data: { id: getUnitIdValue.val() },
+                success: function (data) {
+                    if (data) {
+                        showName.val(data.unitName);
+                        showValue.val(data.unitId);
+                    }
+                }
+            });
+
+            getBudgetInfo();
+        }
+
+        // get product wise estimate budget
+        function getBudgetInfo() {
+            var getProductId = $("#ddlRequisitionItemId option:selected");
+            var showEstimateQty = $("#decEstimatedQty");
+            var showUnitRate = $("#decUnitRate");
+            var showReceivedSoFar = $("#decReceivedSoFar");
+            console.log("ok budget");
+            $.ajax({
+                type: "GET",
+                url: "/BillRequisition/GetBudgetInfoByProductId",
+                dataType: "json",
+                data: { id: getProductId.val() },
+                success: function (data) {
+                    if (data) {
+                        showEstimateQty.val(data.EstimateQty);
+                        showUnitRate.val(data.UnitRate);
+                        showReceivedSoFar.val(data.ReceivedSoFar);
+                    }
+                }
+            });
+
+            CalCulateData(showReceivedSoFar.val(), showEstimateQty.val());
+        }
+
+        // Getting input element IDs as constant variables
+        function CalCulateData(estimatingQty,receivedSoFar) {
             const EstimateQunatityInputValue = $('#decEstimatedQty');
             const RecievedSoFarInputValue = $('#decReceivedSoFar');
             const RemainingQuantityInputValue = $('#decRemainingQty');
@@ -726,47 +819,57 @@
             const TotalPriceInputValue = $('#decTotalPrice');
 
             // Set initial values
-            EstimateQunatityInputValue.val(1000000);
-            RecievedSoFarInputValue.val(1000);
+            EstimateQunatityInputValue.val(receivedSoFar);
+            RecievedSoFarInputValue.val(estimatingQty);
 
             // Calculate remaining quantity with static data
             var estimateDecimalValue = parseFloat(EstimateQunatityInputValue.val());
             var receivedDecimalValue = parseFloat(RecievedSoFarInputValue.val());
             if (!isNaN(estimateDecimalValue) && !isNaN(receivedDecimalValue)) {
-                let remainingDecimalValue = estimateDecimalValue - receivedDecimalValue;
-                RemainingQuantityInputValue.val(remainingDecimalValue);
+                if (estimateDecimalValue >= receivedDecimalValue) {
+
+                    let remainingDecimalValue = estimateDecimalValue - receivedDecimalValue;
+                    RemainingQuantityInputValue.val(remainingDecimalValue);
+
+                    MaterialDemandInputValue.on('input', function () {
+                        var demandDecimalValue = parseFloat(MaterialDemandInputValue.val());
+
+                        if (demandDecimalValue <= remainingDecimalValue || demandDecimalValue == 0 || demandDecimalValue == null) {
+                            $("#demandValidate").text("");
+                            MaterialDemandInputValue.val(demandDecimalValue);
+                            updateResult();
+                        }
+                        else {
+                            $("#demandValidate").text("Demand cannot exceed the remaining amount!");
+                            MaterialDemandInputValue.val(remainingDecimalValue);
+                            updateResult();
+                        }
+                    });
+
+                }
+                RemainingQuantityInputValue.val(estimateDecimalValue);
             }
 
-            var remainingDecimalValue = parseFloat(RemainingQuantityInputValue.val());
+            //UnitRateInputValue.on('input', function () {
+            //    updateResult();
+            //});
 
-            MaterialDemandInputValue.on('input', function () {
-                var demandDecimalValue = parseFloat(MaterialDemandInputValue.val());
-
-                if (demandDecimalValue <= remainingDecimalValue || demandDecimalValue == 0 || demandDecimalValue == null) {
-                    $("#demandValidate").text("");
-                    MaterialDemandInputValue.val(demandDecimalValue);
-                    updateResult();
-                }
-                else {
-                    $("#demandValidate").text("Demand cannot exceed the remaining amount!");
-                    MaterialDemandInputValue.val(remainingDecimalValue);
-                    updateResult();
-                }
-            });
-            
-            UnitRateInputValue.on('input', function () {
-                updateResult(); 
-            });
-              
-           
             function updateResult() {
+
                 let demandValue = parseFloat(MaterialDemandInputValue.val()) || 0;
                 let rateValue = parseFloat(UnitRateInputValue.val()) || 0;
-
                 let result = demandValue * rateValue;
-
                 TotalPriceInputValue.val(result);
             }
+        }
+
+
+
+        // Calculation with static data
+        $(document).ready(function () {
+            'use strict';
+
+
 
         });
 

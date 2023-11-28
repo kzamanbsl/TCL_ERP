@@ -69,6 +69,33 @@ namespace KGERP.Controllers
             return Json(boQList, JsonRequestBehavior.AllowGet);
         }
 
+        // Dependent BoQ material List
+        public JsonResult getBoqMaterialList(int id)
+        {
+            var materialList = _service.GetMaterialDetailWithNameAndUnitId(id);
+
+            return Json(materialList, JsonRequestBehavior.AllowGet);
+        }
+
+        // Get Material Info by Product Id
+        public async Task<JsonResult> GetBudgetInfoByProductId(int id)
+        {
+            decimal EstimateQty = 0;
+            decimal ReceivedSoFar = 0;
+            decimal UnitRate = 0;
+
+            if (id > 0)
+            {
+                EstimateQty = (decimal) _service.GetBoQProductMapList().FirstOrDefault(c=>c.ProductId == id).EstimatedQty;
+                UnitRate = (decimal) _service.GetBoQProductMapList().FirstOrDefault(c=>c.ProductId == id).UnitRate;
+                ReceivedSoFar = _service.ReceivedSoFarTotal(id);
+            }
+
+            var result = new { EstimateQty = EstimateQty, UnitRate = UnitRate, ReceivedSoFar = ReceivedSoFar };
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
         #endregion
 
         #region Cost Center Type
