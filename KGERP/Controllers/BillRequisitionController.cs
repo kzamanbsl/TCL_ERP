@@ -407,9 +407,8 @@ namespace KGERP.Controllers
 
         #region 1.1 BillRequisition Basic CRUD Circle
 
-
         [HttpGet]
-        public async Task<ActionResult> BillRequisitionMasterSlave(int companyId = 21, long billRequisitionMasterId = 0)
+        public async Task<ActionResult> BillRequisitionMasterSlave(int companyId, long billRequisitionMasterId = 0)
         {
             BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
 
@@ -453,15 +452,12 @@ namespace KGERP.Controllers
             return RedirectToAction(nameof(BillRequisitionMasterSlave), new { companyId = billRequisitionMasterModel.CompanyFK, billRequisitionMasterId = billRequisitionMasterModel.BillRequisitionMasterId });
         }
 
-
-
         [HttpPost]
         public async Task<ActionResult> SubmitBillRequisitionMaster(BillRequisitionMasterModel billRequisitionMasterModel)
         {
             billRequisitionMasterModel.BillRequisitionMasterId = await _service.SubmitBillRequisitionMaster(billRequisitionMasterModel.BillRequisitionMasterId);
             return RedirectToAction(nameof(BillRequisitionMasterSlave), new { companyId = billRequisitionMasterModel.CompanyFK, BillRequisitionMasterId = billRequisitionMasterModel.BillRequisitionMasterId });
         }
-
 
         [HttpPost]
         public async Task<ActionResult> BillRequisitionMasterEdit(BillRequisitionMasterModel model)
@@ -537,14 +533,13 @@ namespace KGERP.Controllers
             billRequisitionMasterModel.FromDate = Convert.ToDateTime(billRequisitionMasterModel.StrFromDate);
             billRequisitionMasterModel.ToDate = Convert.ToDateTime(billRequisitionMasterModel.StrToDate);
             return RedirectToAction(nameof(BillRequisitionMasterList), new { companyId = billRequisitionMasterModel.CompanyFK, fromDate = billRequisitionMasterModel.FromDate, toDate = billRequisitionMasterModel.ToDate, vStatus = (int)billRequisitionMasterModel.StatusId });
-
         }
 
         #region Common Bill Requisition List
 
 
         [HttpGet]
-        public async Task<ActionResult> BillRequisitionMasterCommonSlave(int companyId = 21, long billRequisitionMasterId = 0)
+        public async Task<ActionResult> BillRequisitionMasterCommonSlave(int companyId, long billRequisitionMasterId = 0)
         {
             BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
 
@@ -598,8 +593,6 @@ namespace KGERP.Controllers
         }
 
         #endregion
-
-
 
         #endregion
 

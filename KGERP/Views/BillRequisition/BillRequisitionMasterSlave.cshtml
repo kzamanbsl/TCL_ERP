@@ -132,7 +132,6 @@
                                             @Html.ValidationMessageFor(model => model.CostCenterId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
-
                                 </div>
 
                                 <div class="row">
@@ -183,11 +182,9 @@
                                             @Html.ValidationMessageFor(model => model.DetailModel.Chainage, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
-
                                 </div>
 
                                 <div class="row">
-
                                     <div class="col-md-3">
                                         <div class="form-group hidden" id="inputFloor">
                                             <label for="txtDescription" class="col-form-label">Floor :</label>
@@ -195,8 +192,8 @@
                                             @Html.ValidationMessageFor(model => model.DetailModel.Floor, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
-
                                 </div>
+
                                 if (Model.ProjectTypeId == 8)
                                 {
                                     <div class="row">
@@ -264,7 +261,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Estimate Quantity :</label>
-                                            @Html.TextBoxFor(model => model.DetailModel.EstimatedQty, new { id = "decEstimatedQty", type = "number", step = "0.01", @class = "form-control", placeholder = "Estimate quantity" })
+                                            @Html.TextBoxFor(model => model.DetailModel.EstimatedQty, new { id = "decEstimatedQty", type = "number", step = "0.01", @class = "form-control", placeholder = "Estimate quantity", ReadOnly = "true" })
                                             @Html.ValidationMessageFor(model => model.DetailModel.EstimatedQty, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -272,7 +269,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Recived So Far :</label>
-                                            @Html.TextBoxFor(model => model.DetailModel.ReceivedSoFar, new { id = "decReceivedSoFar", type = "number", step = "0.01", @class = "form-control", placeholder = "Recived so far" })
+                                            @Html.TextBoxFor(model => model.DetailModel.ReceivedSoFar, new { id = "decReceivedSoFar", type = "number", step = "0.01", @class = "form-control", placeholder = "Recived so far", ReadOnly = "true" })
                                             @Html.ValidationMessageFor(model => model.DetailModel.ReceivedSoFar, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -280,7 +277,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Remaining Quantity :</label>
-                                            @Html.TextBoxFor(model => model.DetailModel.RemainingQty, new { id = "decRemainingQty", type = "number", step = "0.01", @class = "form-control", placeholder = "Remaining quantity" })
+                                            @Html.TextBoxFor(model => model.DetailModel.RemainingQty, new { id = "decRemainingQty", type = "number", step = "0.01", @class = "form-control", placeholder = "Remaining quantity", ReadOnly = "true" })
                                             @Html.ValidationMessageFor(model => model.DetailModel.RemainingQty, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -290,6 +287,7 @@
                                             <label>Material Demand :</label>
                                             @Html.TextBoxFor(model => model.DetailModel.DemandQty, new { id = "decDemandQty", type = "number", step = "0.01", @class = "form-control", placeholder = "Material demand" })
                                             @Html.ValidationMessageFor(model => model.DetailModel.DemandQty, "", new { @class = "text-danger" })
+                                            <span class="text-danger" id="demandValidate"></span>
                                         </div>
                                     </div>
 
@@ -304,7 +302,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Total Price :</label>
-                                            @Html.TextBoxFor(model => model.DetailModel.TotalPrice, new { id = "decTotalPrice", type = "number", step = "0.01", @class = "form-control", placeholder = "Total price" })
+                                            @Html.TextBoxFor(model => model.DetailModel.TotalPrice, new { id = "decTotalPrice", type = "number", step = "0.01", @class = "form-control", placeholder = "Total price", ReadOnly = "true" })
                                             @Html.ValidationMessageFor(model => model.DetailModel.TotalPrice, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -714,6 +712,59 @@
                 }
             });
         }
+
+        // Calculation with static data
+        $(document).ready(function () {
+            'use strict';
+
+            // Getting input element IDs as constant variables
+            const EstimateQunatityInputValue = $('#decEstimatedQty');
+            const RecievedSoFarInputValue = $('#decReceivedSoFar');
+            const RemainingQuantityInputValue = $('#decRemainingQty');
+            const MaterialDemandInputValue = $('#decDemandQty');
+            const UnitRateInputValue = $('#decUnitRate');
+            const TotalPriceInputValue = $('#decTotalPrice');
+
+            // Set initial values
+            EstimateQunatityInputValue.val(1000000);
+            RecievedSoFarInputValue.val(1000);
+
+            // Calculate remaining quantity with static data
+            var estimateDecimalValue = parseFloat(EstimateQunatityInputValue.val());
+            var receivedDecimalValue = parseFloat(RecievedSoFarInputValue.val());
+            if (!isNaN(estimateDecimalValue) && !isNaN(receivedDecimalValue)) {
+                let remainingDecimalValue = estimateDecimalValue - receivedDecimalValue;
+                RemainingQuantityInputValue.val(remainingDecimalValue);
+            }
+
+            var remainingDecimalValue = parseFloat(RemainingQuantityInputValue.val());
+
+            MaterialDemandInputValue.on('input', function () {
+                var demandDecimalValue = parseFloat(MaterialDemandInputValue.val());
+                if (demandDecimalValue <= remainingDecimalValue) {
+                    updateResult();
+                }
+                else {
+                    $("#demandValidate").text("Demand cannot exceed the remaining amount!");
+                    MaterialDemandInputValue.val(remainingDecimalValue);
+                }
+            });
+            
+            UnitRateInputValue.on('input', function () {
+                updateResult(); 
+            });
+              
+           
+            function updateResult() {
+                let demandValue = parseFloat(MaterialDemandInputValue.val()) || 0;
+                let rateValue = parseFloat(UnitRateInputValue.val()) || 0;
+
+                let result = demandValue * rateValue;
+
+                TotalPriceInputValue.val(result);
+            }
+
+        });
 
     </script>
 }
