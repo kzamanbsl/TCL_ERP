@@ -23,6 +23,9 @@ namespace KGERP.Data.Models
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public string ModifiedBy { get; set; }
         public bool IsActive { get; set; }
+        public Nullable<decimal> EstimatedQty { get; set; }
+        public Nullable<decimal> UnitRate { get; set; }
+        public Nullable<decimal> EstimatedAmount { get; set; }
     
         public virtual Company Company { get; set; }
         public virtual Product Product { get; set; }

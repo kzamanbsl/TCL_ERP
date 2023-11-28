@@ -182,7 +182,7 @@
                                                 if (item.AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
                                                 {
                                                     <td style="text-align:center">
-                                                        <span class="btn btn-warning btn-xs" style="width:70px"> @item.AprrovalStatusName</span>
+                                                        <span class="btn btn-warning btn-xs"> @item.AprrovalStatusName</span>
 
                                                     </td>
 
@@ -191,16 +191,41 @@
                                                 else if (item.AprrovalStatusId == (int)EnumBillRequisitionStatus.Rejected)
                                                 {
                                                     <td style="text-align:center">
-                                                        <span class="btn btn-danger btn-xs" style="width:70px"> @item.AprrovalStatusName</span>
+                                                        <span class="btn btn-danger btn-xs"> @item.AprrovalStatusName</span>
 
                                                     </td>
                                                 }
                                                 else if (item.AprrovalStatusId == (int)EnumBillRequisitionStatus.Approved)
                                                 {
                                                     <td style="text-align:center">
-                                                        <span class="btn btn-success btn-xs" style="width:70px"> @item.AprrovalStatusName</span>
+                                                        @if (item.SignatoryId == (int)EnumBRequisitionSignatory.Initiator)
+                                                        {
+
+                                                            <span class="btn btn-success btn-xs"> Prepared</span>
+                                                        }
+                                                        else if (item.SignatoryId == (int)EnumBRequisitionSignatory.PM)
+                                                        {
+                                                            <span class="btn btn-success btn-xs"> Checked</span>
+                                                        }
+                                                        else if (item.SignatoryId == (int)EnumBRequisitionSignatory.QS)
+                                                        {
+                                                            <span class="btn btn-success btn-xs"> Forwarded</span>
+                                                        }
+                                                        else if (item.SignatoryId == (int)EnumBRequisitionSignatory.Director)
+                                                        {
+                                                            <span class="btn btn-success btn-xs"> Forwarded</span>
+                                                        }
+                                                        else if (item.SignatoryId == (int)EnumBRequisitionSignatory.PD)
+                                                        {
+                                                    <span class="btn btn-success btn-xs"> Recommended</span>
+                                                        }
+                                                        else if (item.SignatoryId == (int)EnumBRequisitionSignatory.MD)
+                                                        {
+                                                            <span class="btn btn-success btn-xs"> Approved</span>
+                                                        }
 
                                                     </td>
+
                                                 }
                                                 else
                                                 {
