@@ -752,6 +752,84 @@ namespace KGERP.Controllers
 
         #endregion
 
+        #region 1.3.1  ITHead  BillRequisition Approval Circle
+
+        [HttpGet]
+        public async Task<ActionResult> ITHeadBRApproveSlave(int companyId = 0, long billRequisitionMasterId = 0)
+        {
+            BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
+
+            if (billRequisitionMasterId > 0)
+            {
+                billRequisitionMasterModel = await _service.GetBillRequisitionMasterDetailWithApproval(companyId, billRequisitionMasterId);
+                billRequisitionMasterModel.DetailDataList = billRequisitionMasterModel.DetailList.ToList();
+            }
+            return View(billRequisitionMasterModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ITHeadBRApproveSlave(BillRequisitionMasterModel billRequisitionMasterModel)
+        {
+            var resutl = await _service.ITHeadBillRequisitionApproved(billRequisitionMasterModel);
+            return RedirectToAction(nameof(ITHeadBRApprovalList), new { companyId = billRequisitionMasterModel.CompanyFK });
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> ITHeadBRRejectSlave(int companyId = 0, long billRequisitionMasterId = 0)
+        {
+            BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
+
+            if (billRequisitionMasterId > 0)
+            {
+                billRequisitionMasterModel = await _service.GetBillRequisitionMasterDetail(companyId, billRequisitionMasterId);
+                billRequisitionMasterModel.DetailDataList = billRequisitionMasterModel.DetailList.ToList();
+            }
+            return View(billRequisitionMasterModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ITHeadBRRejectSlave(BillRequisitionMasterModel billRequisitionMasterModel)
+        {
+            var result = await _service.ITHeadBillRequisitionRejected(billRequisitionMasterModel);
+            return RedirectToAction(nameof(ITHeadBRApprovalList), new { companyId = billRequisitionMasterModel.CompanyFK });
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> ITHeadBRApprovalList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
+        {
+            if (!fromDate.HasValue) fromDate = DateTime.Now.AddMonths(-2);
+            if (!toDate.HasValue) toDate = DateTime.Now;
+
+            BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
+            billRequisitionMasterModel = await _service.GetITHeadBillRequisitionList(companyId, fromDate, toDate, vStatus);
+
+            billRequisitionMasterModel.StrFromDate = fromDate.Value.ToString("yyyy-MM-dd");
+            billRequisitionMasterModel.StrToDate = toDate.Value.ToString("yyyy-MM-dd");
+            if (vStatus == null)
+            {
+                vStatus = -1;
+            }
+            billRequisitionMasterModel.StatusId = (EnumBillRequisitionStatus)vStatus;
+
+            return View(billRequisitionMasterModel);
+        }
+
+        [HttpPost]
+        public ActionResult ITHeadBRApprovalListSearch(BillRequisitionMasterModel billRequisitionMasterModel)
+        {
+            if (billRequisitionMasterModel.CompanyFK > 0)
+            {
+                Session["CompanyId"] = billRequisitionMasterModel.CompanyFK;
+            }
+
+            billRequisitionMasterModel.FromDate = Convert.ToDateTime(billRequisitionMasterModel.StrFromDate);
+            billRequisitionMasterModel.ToDate = Convert.ToDateTime(billRequisitionMasterModel.StrToDate);
+            return RedirectToAction(nameof(ITHeadBRApprovalList), new { companyId = billRequisitionMasterModel.CompanyFK, fromDate = billRequisitionMasterModel.FromDate, toDate = billRequisitionMasterModel.ToDate, vStatus = (int)billRequisitionMasterModel.StatusId });
+
+        }
+
+        #endregion
+
         #region 1.4  Director  BillRequisition Approval Circle
 
         [HttpGet]

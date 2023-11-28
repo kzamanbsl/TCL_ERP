@@ -84,6 +84,12 @@ namespace KGERP.Service.Interface
         Task<BillRequisitionMasterModel> GetQSBillRequisitionList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus);
         #endregion
 
+        #region 1.3.1 ITHead BillRequisition Approved Circle
+        Task<long> ITHeadBillRequisitionApproved(BillRequisitionMasterModel BillRequisitionMasterModel);
+        Task<long> ITHeadBillRequisitionRejected(BillRequisitionMasterModel BillRequisitionMasterModel);
+        Task<BillRequisitionMasterModel> GetITHeadBillRequisitionList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus);
+        #endregion
+
         #region 1.4 QS BillRequisition Approved Circle
         Task<long> PDBillRequisitionApproved(BillRequisitionMasterModel BillRequisitionMasterModel);
         Task<long> PDBillRequisitionRejected(BillRequisitionMasterModel BillRequisitionMasterModel);
