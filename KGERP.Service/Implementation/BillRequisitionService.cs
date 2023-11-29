@@ -671,7 +671,7 @@ namespace KGERP.Service.Implementation
                 {
                     Id = emp.Id,
                     EmployeeId = emp.EmployeeId,
-                    Name = emp.Name
+                    Name = emp.EmployeeId + "-" + emp.Name
                 };
                 employees.Add(data);
             }
