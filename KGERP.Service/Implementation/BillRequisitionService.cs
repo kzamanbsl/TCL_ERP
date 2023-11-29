@@ -1482,8 +1482,9 @@ namespace KGERP.Service.Implementation
             foreach (var dt in details)
             {
                 var obj = billRequisitionMasterModel.DetailDataList.FirstOrDefault(c => c.BillRequisitionDetailId == dt.BillRequisitionDetailId);
-
+                
                 dt.DemandQty = obj.DemandQty;
+                dt.TotalPrice = obj.DemandQty * obj.UnitRate;
                 dt.Remarks = obj.Remarks;
                 dt.ModifiedBy = userName;
                 dt.ModifiedDate = DateTime.Now;
@@ -1650,6 +1651,7 @@ namespace KGERP.Service.Implementation
                 var obj = billRequisitionMasterModel.DetailDataList.FirstOrDefault(c => c.BillRequisitionDetailId == dt.BillRequisitionDetailId);
 
                 dt.DemandQty = obj.DemandQty;
+                dt.TotalPrice = obj.DemandQty * obj.UnitRate;
                 dt.Remarks = obj.Remarks;
                 dt.ModifiedBy = userName;
                 dt.ModifiedDate = DateTime.Now;
@@ -1810,6 +1812,7 @@ namespace KGERP.Service.Implementation
                 var obj = billRequisitionMasterModel.DetailDataList.FirstOrDefault(c => c.BillRequisitionDetailId == dt.BillRequisitionDetailId);
 
                 dt.DemandQty = obj.DemandQty;
+                dt.TotalPrice = obj.DemandQty * obj.UnitRate;
                 dt.Remarks = obj.Remarks;
                 dt.ModifiedBy = userName;
                 dt.ModifiedDate = DateTime.Now;
@@ -1972,6 +1975,7 @@ namespace KGERP.Service.Implementation
                 var obj = billRequisitionMasterModel.DetailDataList.FirstOrDefault(c => c.BillRequisitionDetailId == dt.BillRequisitionDetailId);
 
                 dt.DemandQty = obj.DemandQty;
+                dt.TotalPrice = obj.DemandQty * obj.UnitRate;
                 dt.Remarks = obj.Remarks;
                 dt.ModifiedBy = userName;
                 dt.ModifiedDate = DateTime.Now;
@@ -2136,6 +2140,7 @@ namespace KGERP.Service.Implementation
                 var obj = billRequisitionMasterModel.DetailDataList.FirstOrDefault(c => c.BillRequisitionDetailId == dt.BillRequisitionDetailId);
 
                 dt.DemandQty = obj.DemandQty;
+                dt.TotalPrice = obj.DemandQty * obj.UnitRate;
                 dt.Remarks = obj.Remarks;
                 dt.ModifiedBy = userName;
                 dt.ModifiedDate = DateTime.Now;
@@ -2300,6 +2305,7 @@ namespace KGERP.Service.Implementation
                 var obj = billRequisitionMasterModel.DetailDataList.FirstOrDefault(c => c.BillRequisitionDetailId == dt.BillRequisitionDetailId);
 
                 dt.DemandQty = obj.DemandQty;
+                dt.TotalPrice = obj.DemandQty * obj.UnitRate;
                 dt.Remarks = obj.Remarks;
                 dt.ModifiedBy = userName;
                 dt.ModifiedDate = DateTime.Now;
