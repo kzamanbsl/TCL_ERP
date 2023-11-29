@@ -34,7 +34,7 @@ namespace KGERP.Controllers
             _ProductService = productService;
         }
 
-        #region Others / Common
+        #region All Json Action Method for Requisition
 
         // Get Unit Info by Id
         public async Task<JsonResult> GetUnitNameWithId(int id)
@@ -96,48 +96,71 @@ namespace KGERP.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        // Filter with project id
+        public JsonResult getBoqDivisionList(long id)
+        {
+            var boqDivisionList = _service.BoQDivisionList().Where(c => c.ProjectId == id).ToList();
+            return Json(boqDivisionList, JsonRequestBehavior.AllowGet);
+        }
+
+        // Filter with boq division id
+        public JsonResult getBoqItemList(long id)
+        {
+            var boqItemList = _service.GetBillOfQuotationList().Where(c => c.BoQDivisionId == id).ToList();
+            return Json(boqItemList, JsonRequestBehavior.AllowGet);
+        }
+
         #endregion
 
-        #region Cost Center Type
+        #region Project Type
 
-        public ActionResult CostCenterType(int companyId)
+        public async Task<ActionResult> CostCenterType(int companyId)
         {
             var viewData = new CostCenterTypeModel()
             {
                 CompanyFK = companyId,
-                CostCenterTypes = _service.GetCostCenterTypeList()
+                CostCenterTypes = await _service.GetCostCenterTypeList(companyId)
             };
             return View(viewData);
         }
 
         [HttpPost]
-        public ActionResult CostCenterType(CostCenterTypeModel model)
+        public async Task<ActionResult> CostCenterType(CostCenterTypeModel model)
         {
-            if (model.ActionEum == ActionEnum.Add)
+            try
             {
-                //Add 
-                _service.Add(model);
+                if (model.ActionEum == ActionEnum.Add)
+                {
+                    // Add 
+                    await _service.Add(model);
+                }
+                else if (model.ActionEum == ActionEnum.Edit)
+                {
+                    // Edit
+                    await _service.Edit(model);
+                }
+                else if (model.ActionEum == ActionEnum.Delete)
+                {
+                    // Delete
+                    await _service.Delete(model);
+                }
+                else
+                {
+                    return View("Error");
+                }
+
+                return RedirectToAction(nameof(CostCenterType), new { companyId = model.CompanyFK });
             }
-            else if (model.ActionEum == ActionEnum.Edit)
+            catch (Exception ex)
             {
-                //Edit
-                _service.Edit(model);
-            }
-            else if (model.ActionEum == ActionEnum.Delete)
-            {
-                //Delete
-                _service.Delete(model);
-            }
-            else
-            {
+                // Handle exceptions, log the error, or return an error view
                 return View("Error");
             }
-            return RedirectToAction(nameof(CostCenterType), new { companyId = model.CompanyFK });
         }
 
         #endregion
 
-        #region Cost Center Manager Map
+        #region Project Manager Assign
 
         [HttpGet]
         public ActionResult CostCenterManagerMap(int companyId)
@@ -176,47 +199,6 @@ namespace KGERP.Controllers
             }
             return RedirectToAction(nameof(CostCenterManagerMap), new { companyId = model.CompanyFK });
         }
-
-        #endregion
-
-        #region BoQ Division
-
-        public ActionResult BoqDivision(int companyId)
-        {
-            BoqDivisionModel viewData = new BoqDivisionModel()
-            {
-                CompanyFK = companyId,
-                Projecs = _service.GetProjectList(),
-                BoQDivisions = _service.BoQDivisionList()
-            };
-            return View(viewData);
-        }
-
-        [HttpPost]
-        public ActionResult BoqDivision(BoqDivisionModel model)
-        {
-            if (model.ActionEum == ActionEnum.Add)
-            {
-                //Add 
-                _service.Add(model);
-            }
-            else if (model.ActionEum == ActionEnum.Edit)
-            {
-                //Edit
-                _service.Edit(model);
-            }
-            else if (model.ActionEum == ActionEnum.Delete)
-            {
-                //Delete
-                _service.Delete(model);
-            }
-            else
-            {
-                return View("Error");
-            }
-            return RedirectToAction(nameof(BoqDivision), new { companyId = model.CompanyFK });
-        }
-
 
         #endregion
 
@@ -292,7 +274,47 @@ namespace KGERP.Controllers
         }
         #endregion
 
-        #region BoQ Item
+        #region BoQ Division
+
+        public ActionResult BoqDivision(int companyId)
+        {
+            BoqDivisionModel viewData = new BoqDivisionModel()
+            {
+                CompanyFK = companyId,
+                Projecs = _service.GetProjectList(),
+                BoQDivisions = _service.BoQDivisionList()
+            };
+            return View(viewData);
+        }
+
+        [HttpPost]
+        public ActionResult BoqDivision(BoqDivisionModel model)
+        {
+            if (model.ActionEum == ActionEnum.Add)
+            {
+                //Add 
+                _service.Add(model);
+            }
+            else if (model.ActionEum == ActionEnum.Edit)
+            {
+                //Edit
+                _service.Edit(model);
+            }
+            else if (model.ActionEum == ActionEnum.Delete)
+            {
+                //Delete
+                _service.Delete(model);
+            }
+            else
+            {
+                return View("Error");
+            }
+            return RedirectToAction(nameof(BoqDivision), new { companyId = model.CompanyFK });
+        }
+
+        #endregion
+
+        #region Bill of Quotation
 
         [HttpGet]
         public ActionResult BillOfQuotation(int companyId)
@@ -333,23 +355,9 @@ namespace KGERP.Controllers
             return RedirectToAction(nameof(BillOfQuotation), new { companyId = model.CompanyFK });
         }
 
-        // Filter with project id
-        public JsonResult getBoqDivisionList(long id)
-        {
-            var boqDivisionList = _service.BoQDivisionList().Where(c => c.ProjectId == id).ToList();
-            return Json(boqDivisionList, JsonRequestBehavior.AllowGet);
-        }
-
-        // Filter with boq division id
-        public JsonResult getBoqItemList(long id)
-        {
-            var boqItemList = _service.GetBillOfQuotationList().Where(c => c.BoQDivisionId == id).ToList();
-            return Json(boqItemList, JsonRequestBehavior.AllowGet);
-        }
-
         #endregion
 
-        #region BoQ item Material Map
+        #region Budget & Estimating
 
         [HttpGet]
         public ActionResult BillRequisitionItemBoQMap(int companyId)
@@ -393,7 +401,7 @@ namespace KGERP.Controllers
         }
         #endregion
 
-        #region Bill Requisition Type
+        #region Requisition Type
 
         public ActionResult BillRequisitionType(int companyId)
         {
@@ -448,7 +456,7 @@ namespace KGERP.Controllers
             {
                 billRequisitionMasterModel = await _service.GetBillRequisitionMasterDetail(companyId, billRequisitionMasterId);
             }
-            billRequisitionMasterModel.ProjectTypeList = new SelectList(_service.GetCostCenterTypeList(), "CostCenterTypeId", "Name");
+            billRequisitionMasterModel.ProjectTypeList = new SelectList(await _service.GetCostCenterTypeList(companyId), "CostCenterTypeId", "Name");
             billRequisitionMasterModel.ProjectList = new SelectList(_service.GetProjectList(), "CostCenterId", "Name");
             billRequisitionMasterModel.RequisitionTypeList = new SelectList(_service.GetBillRequisitionTypeList(), "BillRequisitionTypeId", "Name");
             billRequisitionMasterModel.RequisitionItemList = new SelectList(_ProductService.GetProductJson(), "ProductId", "ProductName");

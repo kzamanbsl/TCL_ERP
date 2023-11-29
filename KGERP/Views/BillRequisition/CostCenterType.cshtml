@@ -40,10 +40,7 @@
                         @Html.AntiForgeryToken()
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         <div class="box-danger">
-                            @*<div class="box-header">
-                                    <h4>Add DamageType</h4>
-                                </div>*@
-                            <!-- /.box-header -->
+                            <div class="box-header"></div>
                             <div class="box-body">
                                 @Html.HiddenFor(model => model.ID, new { Value = "", id = "CostCenterTypeId" })
                                 @Html.HiddenFor(model => model.ActionId, new { Value = "", id = "ActionId" })
@@ -86,25 +83,30 @@
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
-                                        @{int sl = 0;}
                                         <tbody>
-                                            @foreach (var item in Model.CostCenterTypes.OrderBy(order=>order.Name))
-                                            {
-                                                <tr>
-                                                    <td>
-                                                        @(++sl)
-                                                        <input type="hidden" id="costCentertype_@item.CostCenterTypeId" name="CostCenterTypeId" value="@item.CostCenterTypeId" />
-                                                    </td>
-                                                    <td id="tdCostCenterTypeName_@item.CostCenterTypeId">@item.Name</td>
-                                                    <td>
-                                                        <a id="@item.CostCenterTypeId" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
+                                            @{
+                                                if (Model.CostCenterTypes != null)
+                                                {
+                                                    int sl = 0;
+                                                    foreach (var item in Model.CostCenterTypes.OrderBy(order => order.Name))
+                                                    {
+                                                        <tr>
+                                                            <td>
+                                                                @(++sl)
+                                                                <input type="hidden" id="costCentertype_@item.CostCenterTypeId" name="CostCenterTypeId" value="@item.CostCenterTypeId" />
+                                                            </td>
+                                                            <td id="tdCostCenterTypeName_@item.CostCenterTypeId">@item.Name</td>
+                                                            <td>
+                                                                <a id="@item.CostCenterTypeId" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
 
-                                                        <a id="@item.CostCenterTypeId" onclick="makeDeletable(@item.CostCenterTypeId);" class="linkPointer" data-toggle="modal" data-target="#CostCenterTypeDeleteModal" title="Delete"
-                                                           data-placement="top">
-                                                            <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
-                                                        </a>
-                                                    </td>
-                                                </tr>
+                                                                <a id="@item.CostCenterTypeId" onclick="makeDeletable(@item.CostCenterTypeId);" class="linkPointer" data-toggle="modal" data-target="#CostCenterTypeDeleteModal" title="Delete"
+                                                                   data-placement="top">
+                                                                    <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                }
                                             }
                                         </tbody>
                                     </table>

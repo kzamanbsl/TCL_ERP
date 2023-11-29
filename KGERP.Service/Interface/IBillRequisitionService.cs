@@ -9,14 +9,21 @@ namespace KGERP.Service.Interface
 {
     public interface IBillRequisitionService
     {
-        List<dynamic> GetMaterialDetailWithNameAndUnitId(long boqId);
-        decimal ReceivedSoFarTotal(int id);
+        #region Project Type
+        Task<bool> Add(CostCenterTypeModel model);
+        Task<bool> Edit(CostCenterTypeModel model);
+        Task<bool> Delete(CostCenterTypeModel model);
+        Task<List<Accounting_CostCenterType>> GetCostCenterTypeList(int companyId);
+        #endregion
 
-        #region Bill of Quotation and Req. Item Map
-        bool Add(BillRequisitionItemBoQMapModel model);
-        bool Edit(BillRequisitionItemBoQMapModel model);
-        bool Delete(BillRequisitionItemBoQMapModel model);
-        List<BoQItemProductMap> GetBoQProductMapList();
+        #region Project Manager Assign
+        bool Add(CostCenterManagerMapModel model);
+        bool Edit(CostCenterManagerMapModel model);
+        bool Delete(CostCenterManagerMapModel model);
+        List<Employee> GetEmployeeList();
+        List<Accounting_CostCenter> GetProjectList();
+        List<Accounting_CostCenter> GetProjectListByTypeId(int id);
+        List<CostCenterManagerMap> GetCostCenterManagerMapList();
         #endregion
 
         #region BoQ Division
@@ -33,29 +40,19 @@ namespace KGERP.Service.Interface
         List<BillBoQItem> GetBillOfQuotationList();
         List<BillBoQItem> GetBillOfQuotationListByProjectId(int id);
         #endregion
+
+        #region Budget & Estimating
+        bool Add(BillRequisitionItemBoQMapModel model);
+        bool Edit(BillRequisitionItemBoQMapModel model);
+        bool Delete(BillRequisitionItemBoQMapModel model);
+        List<BoQItemProductMap> GetBoQProductMapList();
+        #endregion
         
-        #region Bill Requisition Type
+        #region Requisition Type
         bool Add(BillRequisitionTypeModel model);
         bool Edit(BillRequisitionTypeModel model);
         bool Delete(BillRequisitionTypeModel model);
         List<BillRequisitionType> GetBillRequisitionTypeList();
-        #endregion
-
-        #region Cost Center Type
-        bool Add(CostCenterTypeModel model);
-        bool Edit(CostCenterTypeModel model);
-        bool Delete(CostCenterTypeModel model);
-        List<Accounting_CostCenterType> GetCostCenterTypeList();
-        #endregion
-
-        #region Cost Center Manager Map
-        bool Add(CostCenterManagerMapModel model);
-        bool Edit(CostCenterManagerMapModel model);
-        bool Delete(CostCenterManagerMapModel model);
-        List<Employee> GetEmployeeList();
-        List<Accounting_CostCenter> GetProjectList();
-        List<Accounting_CostCenter> GetProjectListByTypeId(int id);
-        List<CostCenterManagerMap> GetCostCenterManagerMapList();
         #endregion
 
         #region BillRequisition Master Detail
@@ -112,5 +109,8 @@ namespace KGERP.Service.Interface
         #endregion
 
         #endregion
+
+        List<dynamic> GetMaterialDetailWithNameAndUnitId(long boqId);
+        decimal ReceivedSoFarTotal(int id);
     }
 }

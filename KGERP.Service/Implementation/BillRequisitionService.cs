@@ -22,94 +22,202 @@ namespace KGERP.Service.Implementation
             _context = context;
         }
 
-        public List<dynamic> GetMaterialDetailWithNameAndUnitId(long boqId)
-        {
-            var materialDetail = _context.BoQItemProductMaps
-                .Where(c => c.BoQItemId == boqId)
-                .Join(
-                    _context.Products,
-                    boqItem => boqItem.ProductId,
-                    product => product.ProductId,
-                    (boqItem, product) => new
-                    {
-                        MaterialId = product.ProductId,
-                        MaterialName = product.ProductName,
-                        UnitId = product.UnitId,
-                    }
-                )
-                .Join(
-                    _context.Units,
-                    result => result.UnitId,
-                    unit => unit.UnitId,
-                    (result, unit) => new
-                    {
-                        result.MaterialName,
-                        result.MaterialId,
-                        result.UnitId,
-                        UnitName = unit.Name,
-                    }
-                )
-                .ToList<dynamic>();
+        #region  Project Type
 
-            return materialDetail;
-        }
-
-        public decimal ReceivedSoFarTotal(int id)
+        public async Task<List<Accounting_CostCenterType>> GetCostCenterTypeList(int companyId)
         {
-            decimal total = 0;
-            var receivedData = _context.BillRequisitionDetails.Where(c => c.CompanyId == 21 && c.ProductId == id && c.IsActive == true).ToList();
-            if(receivedData != null)
+            List<Accounting_CostCenterType> sendData = new List<Accounting_CostCenterType>();
+            var projectTypes = await _context.Accounting_CostCenterType.Where(c => c.CompanyId == companyId && c.IsActive).ToListAsync();
+
+            foreach (var item in projectTypes)
             {
-                foreach(var item in receivedData)
+                var data = new Accounting_CostCenterType()
                 {
-                    total += item.DemandQty;
-                }
-            }
-            return total;
-        }
-
-        #region BoQ Requisition Item Map
-
-        public List<BoQItemProductMap> GetBoQProductMapList()
-        {
-            List<BoQItemProductMap> boqMapList = new List<BoQItemProductMap>();
-            var boqMaps = _context.BoQItemProductMaps.Where(c => c.IsActive == true).ToList();
-            foreach (var item in boqMaps)
-            {
-                var data = new BoQItemProductMap()
-                {
-                    BoQItemProductMapId = item.BoQItemProductMapId,
-                    BoQItemId = item.BoQItemId,
-                    ProductId = item.ProductId,
-                    EstimatedQty = item.EstimatedQty,
-                    UnitRate = item.UnitRate,
-                    EstimatedAmount = item.EstimatedAmount,
+                    CostCenterTypeId = item.CostCenterTypeId,
+                    Name = item.Name,
+                    CompanyId = item.CompanyId,
+                    CreatedBy = item.CreatedBy,
+                    CreatedDate = item.CreatedDate,
+                    ModifiedBy = item.ModifiedBy,
+                    ModifiedDate = item.ModifiedDate,
                 };
-                boqMapList.Add(data);
+                sendData.Add(data);
             }
-            return boqMapList;
+
+            return sendData;
         }
 
-        public bool Add(BillRequisitionItemBoQMapModel model)
+        public async Task<bool> Add(CostCenterTypeModel model)
         {
             if (model != null)
             {
-                var amount = model.EstimatedQty * model.UnitRate;
                 try
                 {
-                    BoQItemProductMap data = new BoQItemProductMap()
+                    Accounting_CostCenterType data = new Accounting_CostCenterType()
                     {
-                        BoQItemId = model.BoQItemId,
-                        ProductId = model.MaterialItemId,
+                        Name = model.Name,
                         CompanyId = (int)model.CompanyFK,
-                        EstimatedQty = model.EstimatedQty,
-                        UnitRate = model.UnitRate,
-                        EstimatedAmount = amount,
+                        IsActive = true,
+                        CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                        CreatedDate = DateTime.Now,
+                    };
+
+                    _context.Accounting_CostCenterType.Add(data);
+                    var count = await _context.SaveChangesAsync();
+
+                    return count > 0;
+                }
+                catch (Exception error)
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        public async Task<bool> Edit(CostCenterTypeModel model)
+        {
+            if (model != null)
+            {
+                try
+                {
+                    var findCostCenterType = await _context.Accounting_CostCenterType.FirstOrDefaultAsync(c => c.CostCenterTypeId == model.ID);
+
+                    if (findCostCenterType != null)
+                    {
+                        findCostCenterType.Name = model.Name;
+                        findCostCenterType.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                        findCostCenterType.ModifiedDate = DateTime.Now.ToString();
+                        var count = await _context.SaveChangesAsync();
+
+                        model.CompanyFK = findCostCenterType.CompanyId;
+
+                        return count > 0;
+                    }
+                }
+                catch (Exception error)
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        public async Task<bool> Delete(CostCenterTypeModel model)
+        {
+            if (model.CostCenterTypeId > 0)
+            {
+                try
+                {
+                    var findCostCenterType = await _context.Accounting_CostCenterType.FirstOrDefaultAsync(c => c.CostCenterTypeId == model.CostCenterTypeId);
+
+                    if (findCostCenterType != null)
+                    {
+                        findCostCenterType.IsActive = false;
+                        findCostCenterType.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                        findCostCenterType.ModifiedDate = DateTime.Now.ToString();
+                        var count = await _context.SaveChangesAsync();
+
+                        return count > 0;
+                    }
+                }
+                catch (Exception error)
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        #endregion
+
+        #region Project Manager Assign
+
+        public List<Accounting_CostCenter> GetProjectList()
+        {
+            List<Accounting_CostCenter> projects = new List<Accounting_CostCenter>();
+            var getProjects = _context.Accounting_CostCenter.Where(c => c.CompanyId == 21 && c.IsActive == true).ToList();
+            foreach (var project in getProjects)
+            {
+                var data = new Accounting_CostCenter()
+                {
+                    CompanyId = project.CompanyId,
+                    CostCenterId = project.CostCenterId,
+                    Name = project.Name
+                };
+                projects.Add(data);
+            }
+            return projects;
+        }
+
+        public List<Accounting_CostCenter> GetProjectListByTypeId(int id)
+        {
+            List<Accounting_CostCenter> projects = new List<Accounting_CostCenter>();
+            var getProjects = _context.Accounting_CostCenter.Where(c => c.CompanyId == 21 && c.CostCenterTypeId == id && c.IsActive == true).ToList();
+            foreach (var project in getProjects)
+            {
+                var data = new Accounting_CostCenter()
+                {
+                    CompanyId = project.CompanyId,
+                    CostCenterId = project.CostCenterId,
+                    Name = project.Name
+                };
+                projects.Add(data);
+            }
+            return projects;
+        }
+
+        public List<Employee> GetEmployeeList()
+        {
+            List<Employee> employees = new List<Employee>();
+            var getEmployee = _context.Employees.Where(c => c.Active == true).ToList();
+            foreach (var emp in getEmployee)
+            {
+                var data = new Employee()
+                {
+                    Id = emp.Id,
+                    EmployeeId = emp.EmployeeId,
+                    Name = emp.Name
+                };
+                employees.Add(data);
+            }
+            return employees;
+        }
+
+        public List<CostCenterManagerMap> GetCostCenterManagerMapList()
+        {
+            List<CostCenterManagerMap> costCenterManagerMap = new List<CostCenterManagerMap>();
+            var getCostCenterManagerMaps = _context.CostCenterManagerMaps.Where(c => c.IsActive == true).ToList();
+            foreach (var item in getCostCenterManagerMaps)
+            {
+                var data = new CostCenterManagerMap()
+                {
+                    CostCenterManagerMapId = item.CostCenterManagerMapId,
+                    CostCenterId = item.CostCenterId,
+                    ManagerId = item.ManagerId,
+                };
+                costCenterManagerMap.Add(data);
+            }
+            return costCenterManagerMap;
+        }
+
+        public bool Add(CostCenterManagerMapModel model)
+        {
+            if (model != null)
+            {
+                try
+                {
+                    CostCenterManagerMap data = new CostCenterManagerMap()
+                    {
+                        CostCenterId = model.ProjectId,
+                        ManagerId = model.EmployeeRowId,
+                        CompanyId = (int)model.CompanyFK,
+                        IsMapActive = true,
                         IsActive = true,
                         CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
                         CreateDate = DateTime.Now
                     };
-                    _context.BoQItemProductMaps.Add(data);
+                    _context.CostCenterManagerMaps.Add(data);
                     var count = _context.SaveChanges();
                     if (count > 0)
                     {
@@ -124,22 +232,18 @@ namespace KGERP.Service.Implementation
             return false;
         }
 
-        public bool Edit(BillRequisitionItemBoQMapModel model)
+        public bool Edit(CostCenterManagerMapModel model)
         {
             if (model != null)
             {
-                var amount = model.EstimatedQty * model.UnitRate;
                 try
                 {
-                    var findBoQProductMap = _context.BoQItemProductMaps.FirstOrDefault(c => c.BoQItemProductMapId == model.ID);
+                    var findCostCenterManagerMap = _context.CostCenterManagerMaps.FirstOrDefault(c => c.CostCenterManagerMapId == model.CostCenterManagerMapId);
 
-                    findBoQProductMap.BoQItemId = model.BoQItemId;
-                    findBoQProductMap.ProductId = model.MaterialItemId;
-                    findBoQProductMap.EstimatedQty = model.EstimatedQty;
-                    findBoQProductMap.UnitRate = model.UnitRate;
-                    findBoQProductMap.EstimatedAmount = amount;
-                    findBoQProductMap.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
-                    findBoQProductMap.ModifiedDate = DateTime.Now;
+                    findCostCenterManagerMap.CostCenterId = model.ProjectId;
+                    findCostCenterManagerMap.ManagerId = model.EmployeeRowId;
+                    findCostCenterManagerMap.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                    findCostCenterManagerMap.ModifiedDate = DateTime.Now;
                     var count = _context.SaveChanges();
                     if (count > 0)
                     {
@@ -154,17 +258,17 @@ namespace KGERP.Service.Implementation
             return false;
         }
 
-        public bool Delete(BillRequisitionItemBoQMapModel model)
+        public bool Delete(CostCenterManagerMapModel model)
         {
-            if (model.BoQItemProductMapId > 0 || model.BoQItemProductMapId != null)
+            if (model.CostCenterManagerMapId > 0 || model.CostCenterManagerMapId != null)
             {
                 try
                 {
-                    var findBoQProductMap = _context.BoQItemProductMaps.FirstOrDefault(c => c.BoQItemProductMapId == model.BoQItemProductMapId);
+                    var findCostCenterManagerMap = _context.CostCenterManagerMaps.FirstOrDefault(c => c.CostCenterManagerMapId == model.CostCenterManagerMapId);
 
-                    findBoQProductMap.IsActive = false;
-                    findBoQProductMap.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
-                    findBoQProductMap.ModifiedDate = DateTime.Now;
+                    findCostCenterManagerMap.IsActive = false;
+                    findCostCenterManagerMap.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                    findCostCenterManagerMap.ModifiedDate = DateTime.Now;
                     var count = _context.SaveChanges();
 
                     if (count > 0)
@@ -421,7 +525,121 @@ namespace KGERP.Service.Implementation
 
         #endregion
 
-        #region Bill Requisition Type
+        #region Budget & Estimating
+
+        public List<BoQItemProductMap> GetBoQProductMapList()
+        {
+            List<BoQItemProductMap> boqMapList = new List<BoQItemProductMap>();
+            var boqMaps = _context.BoQItemProductMaps.Where(c => c.IsActive == true).ToList();
+            foreach (var item in boqMaps)
+            {
+                var data = new BoQItemProductMap()
+                {
+                    BoQItemProductMapId = item.BoQItemProductMapId,
+                    BoQItemId = item.BoQItemId,
+                    ProductId = item.ProductId,
+                    EstimatedQty = item.EstimatedQty,
+                    UnitRate = item.UnitRate,
+                    EstimatedAmount = item.EstimatedAmount,
+                };
+                boqMapList.Add(data);
+            }
+            return boqMapList;
+        }
+
+        public bool Add(BillRequisitionItemBoQMapModel model)
+        {
+            if (model != null)
+            {
+                var amount = model.EstimatedQty * model.UnitRate;
+                try
+                {
+                    BoQItemProductMap data = new BoQItemProductMap()
+                    {
+                        BoQItemId = model.BoQItemId,
+                        ProductId = model.MaterialItemId,
+                        CompanyId = (int)model.CompanyFK,
+                        EstimatedQty = model.EstimatedQty,
+                        UnitRate = model.UnitRate,
+                        EstimatedAmount = amount,
+                        IsActive = true,
+                        CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                        CreateDate = DateTime.Now
+                    };
+                    _context.BoQItemProductMaps.Add(data);
+                    var count = _context.SaveChanges();
+                    if (count > 0)
+                    {
+                        return true;
+                    }
+                }
+                catch (Exception e)
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        public bool Edit(BillRequisitionItemBoQMapModel model)
+        {
+            if (model != null)
+            {
+                var amount = model.EstimatedQty * model.UnitRate;
+                try
+                {
+                    var findBoQProductMap = _context.BoQItemProductMaps.FirstOrDefault(c => c.BoQItemProductMapId == model.ID);
+
+                    findBoQProductMap.BoQItemId = model.BoQItemId;
+                    findBoQProductMap.ProductId = model.MaterialItemId;
+                    findBoQProductMap.EstimatedQty = model.EstimatedQty;
+                    findBoQProductMap.UnitRate = model.UnitRate;
+                    findBoQProductMap.EstimatedAmount = amount;
+                    findBoQProductMap.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                    findBoQProductMap.ModifiedDate = DateTime.Now;
+                    var count = _context.SaveChanges();
+                    if (count > 0)
+                    {
+                        return true;
+                    }
+                }
+                catch (Exception e)
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        public bool Delete(BillRequisitionItemBoQMapModel model)
+        {
+            if (model.BoQItemProductMapId > 0 || model.BoQItemProductMapId != null)
+            {
+                try
+                {
+                    var findBoQProductMap = _context.BoQItemProductMaps.FirstOrDefault(c => c.BoQItemProductMapId == model.BoQItemProductMapId);
+
+                    findBoQProductMap.IsActive = false;
+                    findBoQProductMap.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                    findBoQProductMap.ModifiedDate = DateTime.Now;
+                    var count = _context.SaveChanges();
+
+                    if (count > 0)
+                    {
+                        return true;
+                    }
+                }
+                catch (Exception e)
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        #endregion
+
+        #region Requisition Type
 
         public List<BillRequisitionType> GetBillRequisitionTypeList()
         {
@@ -507,262 +725,6 @@ namespace KGERP.Service.Implementation
                     findBillRequisitionType.IsActive = false;
                     findBillRequisitionType.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
                     findBillRequisitionType.ModifiedDate = DateTime.Now;
-                    var count = _context.SaveChanges();
-
-                    if (count > 0)
-                    {
-                        return true;
-                    }
-                }
-                catch (Exception e)
-                {
-                    return false;
-                }
-            }
-            return false;
-        }
-
-        #endregion
-
-        #region  Cost Center Type
-
-        public List<Accounting_CostCenterType> GetCostCenterTypeList()
-        {
-            List<Accounting_CostCenterType> costCenterTypes = new List<Accounting_CostCenterType>();
-            var getCostCenterTypes = _context.Accounting_CostCenterType.Where(c => c.CompanyId == 21 && c.IsActive == true).ToList();
-            foreach (var item in getCostCenterTypes)
-            {
-                var data = new Accounting_CostCenterType()
-                {
-                    CostCenterTypeId = item.CostCenterTypeId,
-                    Name = item.Name,
-                };
-                costCenterTypes.Add(data);
-            }
-            return costCenterTypes;
-        }
-
-        public bool Add(CostCenterTypeModel model)
-        {
-            if (model != null)
-            {
-                try
-                {
-                    Accounting_CostCenterType data = new Accounting_CostCenterType()
-                    {
-                        Name = model.Name,
-                        CompanyId = (int)model.CompanyFK,
-                        IsActive = true,
-                        CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
-                        CreatedDate = DateTime.Now
-                    };
-                    _context.Accounting_CostCenterType.Add(data);
-                    var count = _context.SaveChanges();
-                    if (count > 0)
-                    {
-                        return true;
-                    }
-                }
-                catch (Exception e)
-                {
-                    return false;
-                }
-            }
-            return false;
-        }
-
-        public bool Edit(CostCenterTypeModel model)
-        {
-            if (model != null)
-            {
-                try
-                {
-                    var findCostCenterType = _context.Accounting_CostCenterType.FirstOrDefault(c => c.CostCenterTypeId == model.ID);
-
-                    findCostCenterType.Name = model.Name;
-                    findCostCenterType.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
-                    findCostCenterType.ModifiedDate = DateTime.Now.ToString();
-                    var count = _context.SaveChanges();
-                    model.CompanyFK = findCostCenterType.CompanyId;
-                    if (count > 0)
-                    {
-                        return true;
-                    }
-                }
-                catch (Exception e)
-                {
-                    return false;
-                }
-            }
-            return false;
-        }
-
-        public bool Delete(CostCenterTypeModel model)
-        {
-            if (model.CostCenterTypeId > 0 || model.CostCenterTypeId != null)
-            {
-                try
-                {
-                    var findCostCenterType = _context.Accounting_CostCenterType.FirstOrDefault(c => c.CostCenterTypeId == model.CostCenterTypeId);
-
-                    findCostCenterType.IsActive = false;
-                    findCostCenterType.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
-                    findCostCenterType.ModifiedDate = DateTime.Now.ToString();
-                    var count = _context.SaveChanges();
-
-                    if (count > 0)
-                    {
-                        return true;
-                    }
-                }
-                catch (Exception e)
-                {
-                    return false;
-                }
-            }
-            return false;
-        }
-
-        #endregion
-
-        #region Cost Center Manager Map
-
-        public List<Accounting_CostCenter> GetProjectList()
-        {
-            List<Accounting_CostCenter> projects = new List<Accounting_CostCenter>();
-            var getProjects = _context.Accounting_CostCenter.Where(c => c.CompanyId == 21 && c.IsActive == true).ToList();
-            foreach (var project in getProjects)
-            {
-                var data = new Accounting_CostCenter()
-                {
-                    CompanyId = project.CompanyId,
-                    CostCenterId = project.CostCenterId,
-                    Name = project.Name
-                };
-                projects.Add(data);
-            }
-            return projects;
-        }
-
-        public List<Accounting_CostCenter> GetProjectListByTypeId(int id)
-        {
-            List<Accounting_CostCenter> projects = new List<Accounting_CostCenter>();
-            var getProjects = _context.Accounting_CostCenter.Where(c => c.CompanyId == 21 && c.CostCenterTypeId == id && c.IsActive == true).ToList();
-            foreach (var project in getProjects)
-            {
-                var data = new Accounting_CostCenter()
-                {
-                    CompanyId = project.CompanyId,
-                    CostCenterId = project.CostCenterId,
-                    Name = project.Name
-                };
-                projects.Add(data);
-            }
-            return projects;
-        }
-
-        public List<Employee> GetEmployeeList()
-        {
-            List<Employee> employees = new List<Employee>();
-            var getEmployee = _context.Employees.Where(c => c.Active == true).ToList();
-            foreach (var emp in getEmployee)
-            {
-                var data = new Employee()
-                {
-                    Id = emp.Id,
-                    EmployeeId = emp.EmployeeId,
-                    Name = emp.Name
-                };
-                employees.Add(data);
-            }
-            return employees;
-        }
-
-        public List<CostCenterManagerMap> GetCostCenterManagerMapList()
-        {
-            List<CostCenterManagerMap> costCenterManagerMap = new List<CostCenterManagerMap>();
-            var getCostCenterManagerMaps = _context.CostCenterManagerMaps.Where(c => c.IsActive == true).ToList();
-            foreach (var item in getCostCenterManagerMaps)
-            {
-                var data = new CostCenterManagerMap()
-                {
-                    CostCenterManagerMapId = item.CostCenterManagerMapId,
-                    CostCenterId = item.CostCenterId,
-                    ManagerId = item.ManagerId,
-                };
-                costCenterManagerMap.Add(data);
-            }
-            return costCenterManagerMap;
-        }
-
-        public bool Add(CostCenterManagerMapModel model)
-        {
-            if (model != null)
-            {
-                try
-                {
-                    CostCenterManagerMap data = new CostCenterManagerMap()
-                    {
-                        CostCenterId = model.ProjectId,
-                        ManagerId = model.EmployeeRowId,
-                        CompanyId = (int)model.CompanyFK,
-                        IsMapActive = true,
-                        IsActive = true,
-                        CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
-                        CreateDate = DateTime.Now
-                    };
-                    _context.CostCenterManagerMaps.Add(data);
-                    var count = _context.SaveChanges();
-                    if (count > 0)
-                    {
-                        return true;
-                    }
-                }
-                catch (Exception e)
-                {
-                    return false;
-                }
-            }
-            return false;
-        }
-
-        public bool Edit(CostCenterManagerMapModel model)
-        {
-            if (model != null)
-            {
-                try
-                {
-                    var findCostCenterManagerMap = _context.CostCenterManagerMaps.FirstOrDefault(c => c.CostCenterManagerMapId == model.CostCenterManagerMapId);
-
-                    findCostCenterManagerMap.CostCenterId = model.ProjectId;
-                    findCostCenterManagerMap.ManagerId = model.EmployeeRowId;
-                    findCostCenterManagerMap.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
-                    findCostCenterManagerMap.ModifiedDate = DateTime.Now;
-                    var count = _context.SaveChanges();
-                    if (count > 0)
-                    {
-                        return true;
-                    }
-                }
-                catch (Exception e)
-                {
-                    return false;
-                }
-            }
-            return false;
-        }
-
-        public bool Delete(CostCenterManagerMapModel model)
-        {
-            if (model.CostCenterManagerMapId > 0 || model.CostCenterManagerMapId != null)
-            {
-                try
-                {
-                    var findCostCenterManagerMap = _context.CostCenterManagerMaps.FirstOrDefault(c => c.CostCenterManagerMapId == model.CostCenterManagerMapId);
-
-                    findCostCenterManagerMap.IsActive = false;
-                    findCostCenterManagerMap.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
-                    findCostCenterManagerMap.ModifiedDate = DateTime.Now;
                     var count = _context.SaveChanges();
 
                     if (count > 0)
@@ -1606,7 +1568,6 @@ namespace KGERP.Service.Implementation
 
         #endregion
 
-
         #region 1.3 QS BillRequisition Approve circle
 
         public async Task<long> QSBillRequisitionApproved(BillRequisitionMasterModel billRequisitionMasterModel)
@@ -2093,7 +2054,6 @@ namespace KGERP.Service.Implementation
 
         #endregion
 
-
         #region 1.5 Director BillRequisition Approve circle
         public async Task<long> DirectorBillRequisitionApproved(BillRequisitionMasterModel billRequisitionMasterModel)
         {
@@ -2422,6 +2382,51 @@ namespace KGERP.Service.Implementation
 
         #endregion
 
+        public List<dynamic> GetMaterialDetailWithNameAndUnitId(long boqId)
+        {
+            var materialDetail = _context.BoQItemProductMaps
+                .Where(c => c.BoQItemId == boqId)
+                .Join(
+                    _context.Products,
+                    boqItem => boqItem.ProductId,
+                    product => product.ProductId,
+                    (boqItem, product) => new
+                    {
+                        MaterialId = product.ProductId,
+                        MaterialName = product.ProductName,
+                        UnitId = product.UnitId,
+                    }
+                )
+                .Join(
+                    _context.Units,
+                    result => result.UnitId,
+                    unit => unit.UnitId,
+                    (result, unit) => new
+                    {
+                        result.MaterialName,
+                        result.MaterialId,
+                        result.UnitId,
+                        UnitName = unit.Name,
+                    }
+                )
+                .ToList<dynamic>();
+
+            return materialDetail;
+        }
+
+        public decimal ReceivedSoFarTotal(int id)
+        {
+            decimal total = 0;
+            var receivedData = _context.BillRequisitionDetails.Where(c => c.CompanyId == 21 && c.ProductId == id && c.IsActive == true).ToList();
+            if (receivedData != null)
+            {
+                foreach (var item in receivedData)
+                {
+                    total += item.DemandQty;
+                }
+            }
+            return total;
+        }
 
     }
 }
