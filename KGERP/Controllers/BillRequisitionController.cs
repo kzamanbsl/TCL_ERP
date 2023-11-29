@@ -86,7 +86,7 @@ namespace KGERP.Controllers
 
             if (id > 0)
             {
-                EstimateQty = (decimal) _service.GetBoQProductMapList().FirstOrDefault(c=>c.ProductId == id).EstimatedQty;
+                EstimateQty = (decimal) _service.GetBoQProductMapList().FirstOrDefault(c=>c.ProductId == id).EstimatedQty ;
                 UnitRate = (decimal) _service.GetBoQProductMapList().FirstOrDefault(c=>c.ProductId == id).UnitRate;
                 ReceivedSoFar = _service.ReceivedSoFarTotal(id);
             }
