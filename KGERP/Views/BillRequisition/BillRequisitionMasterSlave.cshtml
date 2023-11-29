@@ -21,8 +21,8 @@
     }
 
     .dateCustom {
-        width: 86% !important;
-        border-radius: 3px !important;
+        width: 85% !important;
+        border-radius: 1px !important;
         border: 1px solid #d2d6de !important;
         height: 33px !important;
     }
@@ -845,7 +845,6 @@
                             updateResult();
                         }
                     });
-
                 }
                 RemainingQuantityInputValue.val(estimateDecimalValue);
             }
@@ -862,14 +861,21 @@
                 TotalPriceInputValue.val(result);
             }
         }
-
-
-
-        // Calculation with static data
+        
         $(document).ready(function () {
             'use strict';
 
+            $("#ddlCostCenterId").empty();
+            $("#ddlCostCenterId").append("<option selected disabled>===Select Project Type First===</option>");
 
+            $("#ddlDivisionId").empty();
+            $("#ddlDivisionId").append("<option selected disabled>===Select Project First===</option>");
+
+            $("#ddlBOQItemId").empty();
+            $("#ddlBOQItemId").append("<option selected disabled>===Select Division First===</option>");
+
+            $("#ddlRequisitionItemId").empty();
+            $("#ddlRequisitionItemId").append("<option selected disabled>===Select BoQ First===</option>");
 
         });
 
