@@ -9,6 +9,7 @@ using System.Data.Entity;
 using System.Data.Entity.Core.Common.CommandTrees;
 using System.IdentityModel.Tokens;
 using System.Linq;
+using System.Linq.Dynamic;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,29 +23,83 @@ namespace KGERP.Service.Implementation
             _context = context;
         }
 
+        #region Employee
+        public async Task<List<Employee>> GetEmployeeList(int companyId)
+        {
+            var employees = await _context.Employees.Where(c => c.CompanyId == companyId && c.Active).ToListAsync();
+            var returnData = employees
+                .Select(employee => new Employee
+                {
+                    Id = employee.Id,
+                    EmployeeId = employee.EmployeeId,
+                    Name = employee.Name,
+                }).ToList();
+
+            return returnData;
+        }
+        #endregion
+
+        #region Project
+        public async Task<List<Accounting_CostCenter>> GetProjectList(int companyId)
+        {
+            var projects = await _context.Accounting_CostCenter
+                .Where(c => c.CompanyId == companyId && c.IsActive)
+                .ToListAsync();
+
+            var returnData = projects.Select(project => new Accounting_CostCenter
+            {
+                CostCenterTypeId = project.CostCenterTypeId,
+                CostCenterId = project.CostCenterId,
+                Name = project.Name,
+                CompanyId = project.CompanyId,
+                CreatedBy = project.CreatedBy,
+                CreatedDate = project.CreatedDate,
+                ModifiedBy = project.ModifiedBy,
+                ModifiedDate = project.ModifiedDate,
+            }).ToList();
+
+            return returnData;
+        }
+
+        public List<Accounting_CostCenter> GetProjectListByTypeId(int id)
+        {
+            List<Accounting_CostCenter> projects = new List<Accounting_CostCenter>();
+            var getProjects = _context.Accounting_CostCenter.Where(c => c.CompanyId == 21 && c.CostCenterTypeId == id && c.IsActive == true).ToList();
+            foreach (var project in getProjects)
+            {
+                var data = new Accounting_CostCenter()
+                {
+                    CompanyId = project.CompanyId,
+                    CostCenterId = project.CostCenterId,
+                    Name = project.Name
+                };
+                projects.Add(data);
+            }
+            return projects;
+        }
+
+        #endregion
+
         #region  Project Type
 
         public async Task<List<Accounting_CostCenterType>> GetCostCenterTypeList(int companyId)
         {
-            List<Accounting_CostCenterType> sendData = new List<Accounting_CostCenterType>();
-            var projectTypes = await _context.Accounting_CostCenterType.Where(c => c.CompanyId == companyId && c.IsActive).ToListAsync();
+            var projectTypes = await _context.Accounting_CostCenterType
+                .Where(c => c.CompanyId == companyId && c.IsActive)
+                .ToListAsync();
 
-            foreach (var item in projectTypes)
+            var returnData = projectTypes.Select(projectType => new Accounting_CostCenterType
             {
-                var data = new Accounting_CostCenterType()
-                {
-                    CostCenterTypeId = item.CostCenterTypeId,
-                    Name = item.Name,
-                    CompanyId = item.CompanyId,
-                    CreatedBy = item.CreatedBy,
-                    CreatedDate = item.CreatedDate,
-                    ModifiedBy = item.ModifiedBy,
-                    ModifiedDate = item.ModifiedDate,
-                };
-                sendData.Add(data);
-            }
+                CostCenterTypeId = projectType.CostCenterTypeId,
+                Name = projectType.Name,
+                CompanyId = projectType.CompanyId,
+                CreatedBy = projectType.CreatedBy,
+                CreatedDate = projectType.CreatedDate,
+                ModifiedBy = projectType.ModifiedBy,
+                ModifiedDate = projectType.ModifiedDate,
+            }).ToList();
 
-            return sendData;
+            return returnData;
         }
 
         public async Task<bool> Add(CostCenterTypeModel model)
@@ -132,82 +187,26 @@ namespace KGERP.Service.Implementation
         #endregion
 
         #region Project Manager Assign
-
-        public List<Accounting_CostCenter> GetProjectList()
+        public async Task<List<CostCenterManagerMapModel>> GetCostCenterManagerMapList(int companyId)
         {
-            List<Accounting_CostCenter> projects = new List<Accounting_CostCenter>();
-            var getProjects = _context.Accounting_CostCenter.Where(c => c.CompanyId == 21 && c.IsActive == true).ToList();
-            foreach (var project in getProjects)
-            {
-                var data = new Accounting_CostCenter()
-                {
-                    CompanyId = project.CompanyId,
-                    CostCenterId = project.CostCenterId,
-                    Name = project.Name
-                };
-                projects.Add(data);
-            }
-            return projects;
-        }
-
-        public List<Accounting_CostCenter> GetProjectListByTypeId(int id)
-        {
-            List<Accounting_CostCenter> projects = new List<Accounting_CostCenter>();
-            var getProjects = _context.Accounting_CostCenter.Where(c => c.CompanyId == 21 && c.CostCenterTypeId == id && c.IsActive == true).ToList();
-            foreach (var project in getProjects)
-            {
-                var data = new Accounting_CostCenter()
-                {
-                    CompanyId = project.CompanyId,
-                    CostCenterId = project.CostCenterId,
-                    Name = project.Name
-                };
-                projects.Add(data);
-            }
-            return projects;
-        }
-
-        public List<Employee> GetEmployeeList()
-        {
-            List<Employee> employees = new List<Employee>();
-            var getEmployee = _context.Employees.Where(c => c.Active == true).ToList();
-            foreach (var emp in getEmployee)
-            {
-                var data = new Employee()
-                {
-                    Id = emp.Id,
-                    EmployeeId = emp.EmployeeId,
-                    Name = emp.Name
-                };
-                employees.Add(data);
-            }
-            return employees;
-        }
-
-        public List<CostCenterManagerMap> GetCostCenterManagerMapList()
-        {
-            List<CostCenterManagerMap> costCenterManagerMap = new List<CostCenterManagerMap>();
-            var getCostCenterManagerMaps = _context.CostCenterManagerMaps.Where(c => c.IsActive == true).ToList();
-            foreach (var item in getCostCenterManagerMaps)
-            {
-                var data = new CostCenterManagerMap()
+            return await _context.CostCenterManagerMaps
+                .Where(c => c.CompanyId == companyId && c.IsActive)
+                .Select(item => new CostCenterManagerMapModel
                 {
                     CostCenterManagerMapId = item.CostCenterManagerMapId,
-                    CostCenterId = item.CostCenterId,
-                    ManagerId = item.ManagerId,
-                };
-                costCenterManagerMap.Add(data);
-            }
-            return costCenterManagerMap;
+                    ProjectId = item.CostCenterId,
+                    EmployeeRowId = item.ManagerId,
+                })
+                .ToListAsync();
         }
 
         public bool Add(CostCenterManagerMapModel model)
         {
-            if (model != null)
+            try
             {
-                try
+                if (model != null)
                 {
-                    CostCenterManagerMap data = new CostCenterManagerMap()
+                    var data = new CostCenterManagerMap
                     {
                         CostCenterId = model.ProjectId,
                         ManagerId = model.EmployeeRowId,
@@ -217,71 +216,67 @@ namespace KGERP.Service.Implementation
                         CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
                         CreateDate = DateTime.Now
                     };
+
                     _context.CostCenterManagerMaps.Add(data);
-                    var count = _context.SaveChanges();
-                    if (count > 0)
-                    {
-                        return true;
-                    }
+                    return _context.SaveChanges() > 0;
                 }
-                catch (Exception e)
-                {
-                    return false;
-                }
+                return false;
             }
-            return false;
+            catch
+            {
+                return false;
+            }
         }
 
         public bool Edit(CostCenterManagerMapModel model)
         {
-            if (model != null)
+            try
             {
-                try
+                if (model != null)
                 {
-                    var findCostCenterManagerMap = _context.CostCenterManagerMaps.FirstOrDefault(c => c.CostCenterManagerMapId == model.CostCenterManagerMapId);
+                    var findCostCenterManagerMap = _context.CostCenterManagerMaps.Find(model.CostCenterManagerMapId);
 
-                    findCostCenterManagerMap.CostCenterId = model.ProjectId;
-                    findCostCenterManagerMap.ManagerId = model.EmployeeRowId;
-                    findCostCenterManagerMap.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
-                    findCostCenterManagerMap.ModifiedDate = DateTime.Now;
-                    var count = _context.SaveChanges();
-                    if (count > 0)
+                    if (findCostCenterManagerMap != null)
                     {
-                        return true;
+                        findCostCenterManagerMap.CostCenterId = model.ProjectId;
+                        findCostCenterManagerMap.ManagerId = model.EmployeeRowId;
+                        findCostCenterManagerMap.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                        findCostCenterManagerMap.ModifiedDate = DateTime.Now;
+
+                        return _context.SaveChanges() > 0;
                     }
                 }
-                catch (Exception e)
-                {
-                    return false;
-                }
+                return false;
             }
-            return false;
+            catch
+            {
+                return false;
+            }
         }
 
         public bool Delete(CostCenterManagerMapModel model)
         {
-            if (model.CostCenterManagerMapId > 0 || model.CostCenterManagerMapId != null)
+            try
             {
-                try
+                if (model.CostCenterManagerMapId > 0)
                 {
-                    var findCostCenterManagerMap = _context.CostCenterManagerMaps.FirstOrDefault(c => c.CostCenterManagerMapId == model.CostCenterManagerMapId);
+                    var findCostCenterManagerMap = _context.CostCenterManagerMaps.Find(model.CostCenterManagerMapId);
 
-                    findCostCenterManagerMap.IsActive = false;
-                    findCostCenterManagerMap.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
-                    findCostCenterManagerMap.ModifiedDate = DateTime.Now;
-                    var count = _context.SaveChanges();
-
-                    if (count > 0)
+                    if (findCostCenterManagerMap != null)
                     {
-                        return true;
+                        findCostCenterManagerMap.IsActive = false;
+                        findCostCenterManagerMap.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                        findCostCenterManagerMap.ModifiedDate = DateTime.Now;
+
+                        return _context.SaveChanges() > 0;
                     }
                 }
-                catch (Exception e)
-                {
-                    return false;
-                }
+                return false;
             }
-            return false;
+            catch
+            {
+                return false;
+            }
         }
 
         #endregion
@@ -526,6 +521,27 @@ namespace KGERP.Service.Implementation
         #endregion
 
         #region Budget & Estimating
+
+        public async Task<BoQItemProductMap> BoqMaterialBudget(long boqId, long productId)
+        {
+            var data = await _context.BoQItemProductMaps
+                .FirstOrDefaultAsync(c => c.BoQItemId == boqId && c.ProductId == productId);
+
+            if (data == null)
+            {
+                return null; 
+            }
+
+            return new BoQItemProductMap
+            {
+                BoQItemProductMapId = data.BoQItemProductMapId,
+                BoQItemId = data.BoQItemId,
+                ProductId = data.ProductId,
+                EstimatedQty = data.EstimatedQty,
+                UnitRate = data.UnitRate,
+            };
+        }
+
 
         public List<BoQItemProductMap> GetBoQProductMapList()
         {
@@ -1444,7 +1460,7 @@ namespace KGERP.Service.Implementation
             foreach (var dt in details)
             {
                 var obj = billRequisitionMasterModel.DetailDataList.FirstOrDefault(c => c.BillRequisitionDetailId == dt.BillRequisitionDetailId);
-                
+
                 dt.DemandQty = obj.DemandQty;
                 dt.TotalPrice = obj.DemandQty * obj.UnitRate;
                 dt.Remarks = obj.Remarks;
@@ -2420,16 +2436,23 @@ namespace KGERP.Service.Implementation
             return materialDetail;
         }
 
-        public decimal ReceivedSoFarTotal(int id)
+        public async Task<decimal> ReceivedSoFarTotal(long boqId, long productId)
         {
             decimal total = 0;
-            var receivedData = _context.BillRequisitionDetails.Where(c => c.CompanyId == 21 && c.ProductId == id && c.IsActive == true).ToList();
-            if (receivedData != null)
+
+            var boqMaster = await _context.BillRequisitionMasters.Where(c => c.BOQItemId == boqId && c.IsActive == true).ToListAsync();
+            var boqDetail = await _context.BillRequisitionDetails.Where(c => c.CompanyId == 21 && c.IsActive == true).ToListAsync();
+            if (boqMaster != null && boqDetail != null)
             {
-                foreach (var item in receivedData)
+                foreach (var master in boqMaster)
                 {
-                    total += item.DemandQty;
+                   var mData = boqDetail.Where(c => c.BillRequisitionMasterId == master.BillRequisitionMasterId && c.ProductId == productId).ToList();
+                   foreach(var detail in boqDetail)
+                    {
+                        total += detail.DemandQty;
+                    }
                 }
+                
             }
             return total;
         }

@@ -305,6 +305,29 @@
                                     }
                                 </div>
 
+                                <div class="row hidden" id="overHead">
+                                    @if (Model.BillRequisitionTypeId == 3)
+                                    {
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Material Demand :</label>
+                                                @Html.TextBoxFor(model => model.DetailModel.DemandQty, new { id = "decDemandQtyIt", type = "number", step = "0.01", @class = "form-control", placeholder = "Material demand" })
+                                                @Html.ValidationMessageFor(model => model.DetailModel.DemandQty, "", new { @class = "text-danger" })
+
+                                                @Html.HiddenFor(model => model.DetailModel.ProductId, new { @value = 111 })
+                                                @Html.HiddenFor(model => model.DetailModel.UnitId, new { @value = 111 })
+                                                @Html.HiddenFor(model => model.DetailModel.EstimatedQty, new { @value = 111 })
+                                                @Html.HiddenFor(model => model.DetailModel.ReceivedSoFar, new { @value = 111 })
+                                                @Html.HiddenFor(model => model.DetailModel.RemainingQty, new { @value = 111 })
+                                                @Html.HiddenFor(model => model.DetailModel.UnitRate, new { @value = 111 })
+                                                @Html.HiddenFor(model => model.DetailModel.TotalPrice, new { @value = 111 })
+                                                @Html.HiddenFor(model => model.DetailModel.Remarks, new { @value = "" })
+
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+
                                 <div class="row " id="general">
 
                                     <div class="col-md-3">
@@ -359,7 +382,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Unit Rate :</label>
-                                            @Html.TextBoxFor(model => model.DetailModel.UnitRate, new { id = "decUnitRate", type = "number", step = "0.01", @class = "form-control", placeholder = "Unit rate", ReadOnly = "true" })
+                                            @Html.TextBoxFor(model => model.DetailModel.UnitRate, new { id = "decUnitRate", type = "number", step = "0.01", @class = "form-control", placeholder = "Unit rate", })
                                             @Html.ValidationMessageFor(model => model.DetailModel.UnitRate, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -711,6 +734,7 @@
         function showDivision() {
             var getProjectId = $("#ddlCostCenterId option:selected");
             var showBoqDivisionList = $("#ddlDivisionId");
+
             $.ajax({
                 type: "GET",
                 url: "/BillRequisition/getBoqDivisionList",
@@ -792,7 +816,7 @@
             var getUnitIdValue = $("#ddlRequisitionItemId option:selected");
             var showName = $("#showUnitName");
             var showValue = $("#txtUnitId");
-            console.log("ok unit");
+
             $.ajax({
                 type: "GET",
                 url: "/BillRequisition/GetUnitNameWithId",
@@ -809,81 +833,71 @@
             getBudgetInfo();
         }
 
-        // get product wise estimate budget
+        // get budget info
         function getBudgetInfo() {
-            var getProductId = $("#ddlRequisitionItemId option:selected");
-            var showEstimateQty = $("#decEstimatedQty");
+            var productId = $("#ddlRequisitionItemId option:selected");
+            var boqId = $("#ddlBOQItemId option:selected");
+            var showEstimate = $("#decEstimatedQty");
             var showUnitRate = $("#decUnitRate");
             var showReceivedSoFar = $("#decReceivedSoFar");
-            console.log("ok budget");
+            var showRemaining = $("#decRemainingQty");
+            var intputDemand = $("#decDemandQty");
+            var totalAmount = $("#decTotalPrice");
+            var demandAbility;
+
             $.ajax({
                 type: "GET",
-                url: "/BillRequisition/GetBudgetInfoByProductId",
+                url: "/BillRequisition/GetMaterialBudgetInfo",
                 dataType: "json",
-                data: { id: getProductId.val() },
+                data: { boqId: boqId.val(), productId: productId.val()},
                 success: function (data) {
                     if (data) {
-                        showEstimateQty.val(data.EstimateQty);
+                        showEstimate.val(data.EstimateQty);
                         showUnitRate.val(data.UnitRate);
                         showReceivedSoFar.val(data.ReceivedSoFar);
+                        showRemaining.val(data.RemainingQty);
+
+                        if (showReceivedSoFar <= showEstimate) {
+                            demandAbility = true
+                        }
                     }
                 }
             });
 
-            CalCulateData(showReceivedSoFar.val(), showEstimateQty.val());
+            if (!demandAbility) {
+                intputDemand.val(showEstimate.val());
+            }
+            Calculate();
         }
 
-        // Getting input element IDs as constant variables
-        function CalCulateData(estimatingQty,receivedSoFar) {
-            const EstimateQunatityInputValue = $('#decEstimatedQty');
-            const RecievedSoFarInputValue = $('#decReceivedSoFar');
-            const RemainingQuantityInputValue = $('#decRemainingQty');
-            const MaterialDemandInputValue = $('#decDemandQty');
-            const UnitRateInputValue = $('#decUnitRate');
-            const TotalPriceInputValue = $('#decTotalPrice');
+        // calculate data
+        function Calculate() {
+            var remaining = $("#decRemainingQty");
+            var demand = $("#decDemandQty");
+            var rate = $("#decUnitRate");
+            var total = $("#decTotalPrice");
 
-            // Set initial values
-            EstimateQunatityInputValue.val(receivedSoFar);
-            RecievedSoFarInputValue.val(estimatingQty);
+            function updateTotal() {
+                var remainingValue = parseFloat(remaining.val());
+                var demandValue = parseFloat(demand.val());
+                var rateValue = parseFloat(rate.val());
 
-            // Calculate remaining quantity with static data
-            var estimateDecimalValue = parseFloat(EstimateQunatityInputValue.val());
-            var receivedDecimalValue = parseFloat(RecievedSoFarInputValue.val());
-            if (!isNaN(estimateDecimalValue) && !isNaN(receivedDecimalValue)) {
-                if (estimateDecimalValue >= receivedDecimalValue) {
-
-                    let remainingDecimalValue = estimateDecimalValue - receivedDecimalValue;
-                    RemainingQuantityInputValue.val(remainingDecimalValue);
-
-                    MaterialDemandInputValue.on('input', function () {
-                        var demandDecimalValue = parseFloat(MaterialDemandInputValue.val());
-
-                        if (demandDecimalValue <= remainingDecimalValue || demandDecimalValue == 0 || demandDecimalValue == null) {
-                            $("#demandValidate").text("");
-                            MaterialDemandInputValue.val(demandDecimalValue);
-                            updateResult();
-                        }
-                        else {
-                            $("#demandValidate").text("Demand cannot exceed the remaining amount!");
-                            MaterialDemandInputValue.val(remainingDecimalValue);
-                            updateResult();
-                        }
-                    });
+                if (!isNaN(remainingValue) && !isNaN(demandValue) && !isNaN(rateValue)) {
+                    if (demandValue <= remainingValue || demandValue === 0) {
+                        $("#demandValidate").text("");
+                        total.val(demandValue * rateValue);
+                    } else {
+                        $("#demandValidate").text("Demand cannot exceed the remaining amount!");
+                        demand.val(remainingValue);
+                        $("#demandValidate").text("");
+                        total.val(demandValue * rateValue);
+                    }
                 }
-                RemainingQuantityInputValue.val(estimateDecimalValue);
             }
 
-            //UnitRateInputValue.on('input', function () {
-            //    updateResult();
-            //});
-
-            function updateResult() {
-
-                let demandValue = parseFloat(MaterialDemandInputValue.val()) || 0;
-                let rateValue = parseFloat(UnitRateInputValue.val()) || 0;
-                let result = demandValue * rateValue;
-                TotalPriceInputValue.val(result);
-            }
+            demand.on('input', updateTotal);
+            rate.on('input', updateTotal);
+            updateTotal();
         }
 
         function general() {
@@ -896,6 +910,11 @@
                 ItEquipment.classList.add("block");
                 General.classList.add("hidden");
             }
+            else if (projectType === '3') {
+                ItEquipment.classList.remove("hidden");
+                ItEquipment.classList.add("block");
+                General.classList.add("hidden");
+            }
             else {
                 ItEquipment.classList.remove("block");
                 ItEquipment.classList.add("hidden");
@@ -903,6 +922,7 @@
                 General.classList.remove("hidden");
                 General.classList.add("block");
             }
+            
         }
 
         $(document).ready(function () {
@@ -921,6 +941,39 @@
             $("#ddlRequisitionItemId").append("<option selected disabled>===Select BoQ First===</option>");
 
         });
+
+
+        $(document).ready(function () {
+            $('#ddlBRTypeId').on('change', function () {
+                var selectedOption = $('#ddlBRTypeId option:selected');
+                var r = selectedOption.val();
+
+                if (r == 3) {
+                    OverHead(r);
+                }
+            });
+
+            function OverHead(r) {
+                var ItEquipment = document.getElementById("overHead");
+                var General = document.getElementById("general");
+                var projectType = $('#ddlBRTypeId').val();
+
+                if (parseInt(projectType) === r) {
+                    ItEquipment.classList.remove("hidden");
+                    ItEquipment.classList.add("block");
+                    General.classList.add("hidden");
+                } else {
+                    ItEquipment.classList.remove("block");
+                    ItEquipment.classList.add("hidden");
+
+                    General.classList.remove("hidden");
+                    General.classList.add("block");
+                }
+
+                console.log('over');
+            }
+        });
+
 
     </script>
 }

@@ -3,178 +3,178 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @model KGERP.Service.Implementation.Configuration.VMUserMenu
-    <script src="~/bower_components/jquery/dist/jquery.min.js"></script>
+<script src="~/bower_components/jquery/dist/jquery.min.js"></script>
 
-    <section class="content-header">
-        <h1>
-            Project Entry
-        </h1>
-        <ol class="breadcrumb">
-            <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-           
-            <li class="active">Project Entry</li>
-        </ol>
-    </section>
-    @using (Html.BeginForm("AccountingCostCenter", "Configuration", FormMethod.Post, new { id = "userMenuFormId", @class = "formValidator", onreset = "resetDDL();" }))
-    {
-        <section class="content">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="col-md-3">
-                        <div class="box">
-                            @Html.AntiForgeryToken()
-                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                            <div class="box-danger">
-                                <div class="box-header"></div>
-                                <!-- /.box-header -->
-                                <div class="box-body">
-                                    @Html.HiddenFor(model => model.ID, new { id = "userMenuId" })
-                                    @Html.HiddenFor(model => model.ActionId, new { id = "ActionId" })
-                                    @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
+<section class="content-header">
+    <h1>
+        Project Entry
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
 
-                                    <div class="form-group">
-                                        <label asp-for="ProjectId">Select Project Type : </label>
-                                        @Html.DropDownListFor(model => model.accounting_CostCenterTypeId, new SelectList(Model.accounting_CostCenterTypes.OrderBy(order => order.Name), "CostCenterTypeId", "Name"), "== Select Project Type ==", new { id = "selectProjectType", @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => model.accounting_CostCenterTypeId, "", new { @class = "text-danger" })
-                                    </div>
+        <li class="active">Project Entry</li>
+    </ol>
+</section>
+@using (Html.BeginForm("AccountingCostCenter", "Configuration", FormMethod.Post, new { id = "userMenuFormId", @class = "formValidator", onreset = "resetDDL();" }))
+{
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-3">
+                    <div class="box">
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="box-danger">
+                            <div class="box-header"></div>
+                            <!-- /.box-header -->
+                            <div class="box-body">
+                                @Html.HiddenFor(model => model.ID, new { id = "userMenuId" })
+                                @Html.HiddenFor(model => model.ActionId, new { id = "ActionId" })
+                                @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
 
-                                    <div class="form-group">
-                                        <label asp-for="ProjectId">Project Name : </label>
-                                        @Html.TextBoxFor(model => model.Name, new { id = "txtMenuName", @class = "form-control input-sm", @placeholder = "Project Name" })
-                                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-                                    </div>
-
-                                    <div class="form-group">
-                                        <div class="col-md-4">
-                                            <button type="button" onclick="resetForm()" class="btn btn-secondary" data-dismiss="modal">Reset</button>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <button type="submit" id="btnSave" class="btn btn-primary btn-block"><i class='fa fa-edit'></i> Add</button>
-                                        </div>
-                                    </div>
+                                <div class="form-group">
+                                    <label asp-for="ProjectId">Select Project Type : </label>
+                                    @Html.DropDownListFor(model => model.accounting_CostCenterTypeId, new SelectList(Model.accounting_CostCenterTypes.OrderBy(order => order.Name), "CostCenterTypeId", "Name"), "== Select Project Type ==", new { id = "selectProjectType", @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.accounting_CostCenterTypeId, "", new { @class = "text-danger" })
                                 </div>
-                                <div class="box-footer">
+
+                                <div class="form-group">
+                                    <label asp-for="ProjectId">Project Name : </label>
+                                    @Html.TextBoxFor(model => model.Name, new { id = "txtMenuName", @class = "form-control input-sm", @placeholder = "Project Name" })
+                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <button type="button" onclick="resetForm()" class="btn btn-secondary" data-dismiss="modal">Reset</button>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <button type="submit" id="btnSave" class="btn btn-primary btn-block"><i class='fa fa-edit'></i> Add</button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-md-9">
-                        <div class="box">
-
-                            <div class="box-danger">
-                                <div class="box-header"></div>
-                                <!-- /.box-header -->
-                                <div class="box-body">
-
-                                    <div class="table-responsive col-md-12">
-                                        <table id="KgErpDataTable" class="table table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th>SL</th>
-                                                    <th>Project Name</th>                                            
-                                                    <th>Project Type</th>                                            
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            @{int sl = 0;
-                                            }
-                                            <tbody>
-                                                @foreach (var item in Model.DataList.OrderBy(order=>order.Name))
-                                                {
-                                                    
-                                                <tr>
-                                                    <td>
-                                                        @(++sl)
-                                                        <input type="hidden" id="hidCompanyFK_@item.ID" value="@item.CompanyFK" />
-                                                        <input type="hidden" id="costCenterTypeId_@item.ID" name="accounting_CostCenterTypeId" value="@item.accounting_CostCenterTypeId" />
-                                                    </td>
-
-                                                    <td id="tdProjectName_@item.ID">
-                                                        @item.Name
-                                                    </td>
-
-                                                    <td id="tdprojectType_@item.ID">
-                                                        @Model.accounting_CostCenterTypes.FirstOrDefault(c => c.CostCenterTypeId == item.accounting_CostCenterTypeId).Name
-                                                    </td>
-
-                                                    <td>
-                                                        <a id="@item.ID" onclick=" makeEditble(this);" class="linkPointer" data-toggle="modal" data-target="#exampleModal" title="Edit" data-placement="top"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                                                        <a id="@item.ID" onclick="makeDeletable(@item.ID);" class="linkPointer" data-toggle="modal" data-target="#itemActionModal" title="Delete"
-                                                           data-placement="top">
-                                                            <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                                }
-                                            </tbody>
-                                        </table>
-                                    </div>
-
-                                </div>
-                                <div class="box-footer">
-                                </div>
+                            <div class="box-footer">
                             </div>
                         </div>
                     </div>
                 </div>
+                <div class="col-md-9">
+                    <div class="box">
+                        <div class="box-danger">
+                            <div class="box-header"></div>
+                            <!-- /.box-header -->
+                            <div class="box-body">
 
-            </div>
-        </section>
+                                <div class="table-responsive col-md-12">
+                                    <table id="KgErpDataTable" class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>SL</th>
+                                                <th>Project Name</th>
+                                                <th>Project Type</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{
+                                                if (Model.DataList != null)
+                                                {
+                                                    int sl = 0;
+                                                    foreach (var item in Model.DataList.OrderBy(order => order.Name))
+                                                    {
+                                                        <tr>
+                                                            <td>
+                                                                @(++sl)
+                                                                <input type="hidden" id="hidCompanyFK_@item.ID" value="@item.CompanyFK" />
+                                                                <input type="hidden" id="costCenterTypeId_@item.ID" name="accounting_CostCenterTypeId" value="@item.accounting_CostCenterTypeId" />
+                                                            </td>
 
-        <div class="modal fade" id="itemActionModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" onclick="resetForm()" class="close pull-right" data-dismiss="modal" aria-label="Close">
-                            &times;
-                        </button>
-                        <h5 class="modal-title"><b>Project / Cost Center Delete</b></h5>
+                                                            <td id="tdProjectName_@item.ID">
+                                                                @item.Name
+                                                            </td>
 
-                    </div>
-                    <div class="modal-body">
-                        <div style="text-align:center">
-                            <h3>Are you sure to delete?</h3>
+                                                            <td id="tdprojectType_@item.ID">
+                                                                @Model.accounting_CostCenterTypes.FirstOrDefault(c => c.CostCenterTypeId == item.accounting_CostCenterTypeId).Name
+                                                            </td>
+
+                                                            <td>
+                                                                <a id="@item.ID" onclick=" makeEditble(this);" class="linkPointer" data-toggle="modal" data-target="#exampleModal" title="Edit" data-placement="top"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                                                <a id="@item.ID" onclick="makeDeletable(@item.ID);" class="linkPointer" data-toggle="modal" data-target="#itemActionModal" title="Delete"
+                                                                   data-placement="top">
+                                                                    <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="box-footer">
+                            </div>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" id="btnClose" onclick="resetForm()" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" id="btnDelete" class="deleteId btn btn-primary"><i class="glyphicon glyphicon-check"></i> Confirm</button>
                     </div>
                 </div>
             </div>
         </div>
-    }
+    </section>
+
+    <div class="modal fade" id="itemActionModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" onclick="resetForm()" class="close pull-right" data-dismiss="modal" aria-label="Close">
+                        &times;
+                    </button>
+                    <h5 class="modal-title"><b>Project / Cost Center Delete</b></h5>
+
+                </div>
+                <div class="modal-body">
+                    <div style="text-align:center">
+                        <h3>Are you sure to delete?</h3>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnClose" onclick="resetForm()" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" id="btnDelete" class="deleteId btn btn-primary"><i class="glyphicon glyphicon-check"></i> Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
 
 
-    @section scripts {
-        <script type="text/javascript">
-            $(document).ready(function () {
-                $('.formValidator').bootstrapValidator();
-            });
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.formValidator').bootstrapValidator();
+        });
 
-            function makeEditble(elem) {
-                if (elem !== null) {
-                    var rowId = elem.id;
-                    $('#userMenuId').val(rowId);
-                    $('#ActionId').val(2);
-                    $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Update");
-                    $('#txtMenuName').val($('#tdProjectName_' + rowId).text().trim());
-                    $('#selectProjectType').val($('#costCenterTypeId_' + rowId).val().trim()).trigger('change');
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                }
+        function makeEditble(elem) {
+            if (elem !== null) {
+                var rowId = elem.id;
+                $('#userMenuId').val(rowId);
+                $('#ActionId').val(2);
+                $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Update");
+                $('#txtMenuName').val($('#tdProjectName_' + rowId).text().trim());
+                $('#selectProjectType').val($('#costCenterTypeId_' + rowId).val().trim()).trigger('change');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             }
+        }
 
-            function makeDeletable(id) {
-                if (id !== null) {
-                    $('#userMenuId').val(id);
-                    $('#ActionId').val(3);
+        function makeDeletable(id) {
+            if (id !== null) {
+                $('#userMenuId').val(id);
+                $('#ActionId').val(3);
 
-                }
             }
-            function resetForm() {
-                $('#userMenuFormId')[0].reset();
-                $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Add");
-            }
+        }
+        function resetForm() {
+            $('#userMenuFormId')[0].reset();
+            $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Add");
+        }
 
-        </script>
-    }
+    </script>
+}

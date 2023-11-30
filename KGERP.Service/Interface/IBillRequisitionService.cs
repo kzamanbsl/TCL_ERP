@@ -9,6 +9,15 @@ namespace KGERP.Service.Interface
 {
     public interface IBillRequisitionService
     {
+        #region Employee
+        Task<List<Employee>> GetEmployeeList(int companyId);
+        #endregion
+
+        #region Project
+        Task<List<Accounting_CostCenter>> GetProjectList(int companyId);
+        List<Accounting_CostCenter> GetProjectListByTypeId(int id);
+        #endregion
+
         #region Project Type
         Task<bool> Add(CostCenterTypeModel model);
         Task<bool> Edit(CostCenterTypeModel model);
@@ -20,10 +29,7 @@ namespace KGERP.Service.Interface
         bool Add(CostCenterManagerMapModel model);
         bool Edit(CostCenterManagerMapModel model);
         bool Delete(CostCenterManagerMapModel model);
-        List<Employee> GetEmployeeList();
-        List<Accounting_CostCenter> GetProjectList();
-        List<Accounting_CostCenter> GetProjectListByTypeId(int id);
-        List<CostCenterManagerMap> GetCostCenterManagerMapList();
+        Task<List<CostCenterManagerMapModel>> GetCostCenterManagerMapList(int companyId);
         #endregion
 
         #region BoQ Division
@@ -111,6 +117,8 @@ namespace KGERP.Service.Interface
         #endregion
 
         List<dynamic> GetMaterialDetailWithNameAndUnitId(long boqId);
-        decimal ReceivedSoFarTotal(int id);
+        Task<decimal> ReceivedSoFarTotal(long boqId, long productId);
+
+        Task<BoQItemProductMap> BoqMaterialBudget(long boqId, long productId);
     }
 }

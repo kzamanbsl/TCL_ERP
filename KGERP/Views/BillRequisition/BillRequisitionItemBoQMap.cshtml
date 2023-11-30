@@ -35,7 +35,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label asp-for="ProjectId" class="form-control-label">Select Project:</label>
-                                @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.Projects.OrderBy(order => order.Name), "CostCenterId", "Name"), "=== Select Project ===", new { id = "ddlProjectId", onchange = "getBoqDivisionList()", @class = "form-control searchingDropdown", style = "width:100%" })
+                                @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.Projects.OrderBy(order => order.Name), "CostCenterId", "Name"), "=== Select Project ===", new { id = "ddlProjectId", onchange = "showDivision()", @class = "form-control searchingDropdown", style = "width:100%" })
                                 @Html.ValidationMessageFor(model => model.ProjectId, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -43,7 +43,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label asp-for="BoQDivisionId" class="form-control-label">Select BoQ Division :</label>
-                                @Html.DropDownListFor(model => model.BoQDivisionId, new SelectList(Model.BoQDivisions.OrderBy(order => order.Name), "BoQDivisionId", "Name"), "=== Select BoQ Division ===", new { id = "ddlBoQDivisionId", onchange = "getBoqItemList()", @class = "form-control searchingDropdown", style = "width:100%" })
+                                @Html.DropDownListFor(model => model.BoQDivisionId, new SelectList(Model.BoQDivisions.OrderBy(order => order.Name), "BoQDivisionId", "Name"), "=== Select BoQ Division ===", new { id = "ddlBoQDivisionId", onchange = "showBoQItem()", @class = "form-control searchingDropdown", style = "width:100%" })
                                 @Html.ValidationMessageFor(model => model.BoQDivisionId, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -138,14 +138,14 @@
                                                         var projId = Model.BoQDivisions.FirstOrDefault(c => c.BoQDivisionId == diviId).ProjectId;
                                                     }
 
-                                                    <input type="hidden" id="project_@item.BoQItemProductMapId" name="ProjectId" value="@projId" />
-                                                    <input type="hidden" id="division_@item.BoQItemProductMapId" name="BoQDivisionId" value="@diviId" />
-                                                    <input type="hidden" id="boqItem_@item.BoQItemProductMapId" name="BoQItemId" value="@item.BoQItemId" />
-                                                    <input type="hidden" id="material_@item.BoQItemProductMapId" name="MaterialItemId" value="@item.ProductId" />
+                                                    <input type="hidden" id="project_@item.BoQItemProductMapId" value="@projId" />
+                                                    <input type="hidden" id="division_@item.BoQItemProductMapId" value="@diviId" />
+                                                    <input type="hidden" id="boqItem_@item.BoQItemProductMapId"  value="@item.BoQItemId" />
+                                                    <input type="hidden" id="material_@item.BoQItemProductMapId"  value="@item.ProductId" />
                                                 </td>
-                                                <td id="tdBoqDivisionName_@item.BoQItemProductMapId">@Model.BoQDivisions.FirstOrDefault(c => c.BoQDivisionId == diviId).Name</td>
-                                                <td id="tdBoqItemName_@item.BoQItemProductMapId">@Model.BoQItems.FirstOrDefault(c => c.BoQItemId == item.BoQItemId).Name</td>
-                                                <td id="tdBoqMaterialName_@item.BoQItemProductMapId">@Model.BoQMaterials.FirstOrDefault(c => c.ProductId == item.ProductId).ProductName</td>
+                                                <td id="tdBoqDivisionName_@item.BoQItemProductMapId">@Model.Projects.FirstOrDefault(c=>c.CostCenterId == projId).Name</td>
+                                                <td id="tdBoqItemName_@item.BoQItemProductMapId">@Model.BoQItems.FirstOrDefault(c=> c.BoQItemId == item.BoQItemId).Name</td>
+                                                <td id="tdBoqMaterialName_@item.BoQItemProductMapId">@Model.BoQMaterials.FirstOrDefault(c=> c.ProductId == item.ProductId).ProductName</td>
                                                 <td id="tdBoqEstimateQty_@item.BoQItemProductMapId">@item.EstimatedQty</td>
                                                 <td id="tdBoqUnitRate_@item.BoQItemProductMapId">@item.UnitRate</td>
                                                 <td id="tdBoqEstimateAmount_@item.BoQItemProductMapId">@item.EstimatedAmount</td>
@@ -237,10 +237,11 @@
             $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Add");
         }
 
-        function getBoqDivisionList(rowId) {
+        // get division list
+        function showDivision() {
             var getProjectId = $("#ddlProjectId option:selected");
+            console.log("pro" + getProjectId.val());
             var showBoqDivisionList = $("#ddlBoQDivisionId");
-
             $.ajax({
                 type: "GET",
                 url: "/BillRequisition/getBoqDivisionList",
@@ -248,6 +249,7 @@
                 data: { id: getProjectId.val() },
                 success: function (data) {
                     showBoqDivisionList.empty();
+                    showBoqDivisionList.append("<option selected disabled>===Select BoQ Division===</option>");
 
                     $.each(data, function (index, item) {
                         showBoqDivisionList.append($('<option>', {
@@ -255,7 +257,6 @@
                             text: item.Name
                         }));
                     });
-                    showBoqDivisionList.val($('#division_' + rowId).val().trim()).trigger('change');
                 },
                 error: function (error) {
                     console.error("Error in AJAX request:", error);
@@ -263,8 +264,10 @@
             });
         }
 
-        function getBoqItemList(rowId) {
+        // get boq item list
+        function showBoQItem() {
             var getBoqDivisionId = $("#ddlBoQDivisionId option:selected");
+            console.log("divi" + getBoqDivisionId.val());
             var showBoqItemList = $("#ddlBoQItemId");
 
             $.ajax({
@@ -274,19 +277,62 @@
                 data: { id: getBoqDivisionId.val() },
                 success: function (data) {
                     showBoqItemList.empty();
+                    showBoqItemList.append("<option selected disabled>===Select BoQ Item===</option>");
 
                     $.each(data, function (index, item) {
                         showBoqItemList.append($('<option>', {
-                            value: item.BoQDivisionId,
+                            value: item.BoQItemId,
                             text: item.Name
                         }));
                     });
-                    showBoqItemList.val($('#boqItem_' + rowId).val().trim()).trigger('change');
                 },
                 error: function (error) {
                     console.error("Error in AJAX request:", error);
                 }
             });
         }
+
+        /* get boq material list*/
+        //function showBoQMaterial() {
+        //    var getBoqItemId = $("#ddlBoQItemId option:selected");
+        //    console.log("divi" + getBoqItemId.val());
+        //    var showBoqMaterialList = $("#ddlMaterialItemId");
+
+        //    $.ajax({
+        //        type: "GET",
+        //        url: "/BillRequisition/getBoqMaterialList",
+        //        dataType: "json",
+        //        data: { id: getBoqItemId.val() },
+        //        success: function (data) {
+        //            showBoqMaterialList.empty();
+        //            showBoqMaterialList.append("<option selected disabled>===Select Material===</option>");
+
+        //            $.each(data, function (index, item) {
+        //                showBoqMaterialList.append($('<option>', {
+        //                    value: item.MaterialId,
+        //                    text: item.MaterialName
+        //                }));
+        //            });
+        //        },
+        //        error: function (error) {
+        //            console.error("Error in AJAX request:", error);
+        //        }
+        //    });
+        //}
+
+        $(document).ready(function () {
+            'use strict';
+
+            $("#ddlBoQDivisionId").empty();
+            $("#ddlBoQDivisionId").append("<option selected disabled>===Select Project First===</option>");
+
+            $("#ddlBoQItemId").empty();
+            $("#ddlBoQItemId").append("<option selected disabled>===Select Division First===</option>");
+
+            //$("#ddlMaterialItemId").empty();
+            //$("#ddlMaterialItemId").append("<option selected disabled>===Select BoQ First===</option>");
+
+        });
+
     </script>
 }

@@ -12,17 +12,16 @@ namespace KGERP.Service.ServiceModel
         public int CostCenterManagerMapId { get; set; }
 
         [Required]
-        [Display(Name = "Select Project")]
         public int ProjectId { get; set; }
-        public string ProjecName { get; set; }
-
         [Required]
-        [Display(Name = "Select Manager")]
         public long EmployeeRowId { get; set; }
+
+        public string ProjectName { get; set; }
+        public string EmployeeName { get; set; }
         public string EmployeeId { get; set; }
 
         public List<Employee> Employees { get; set; }
         public List<Accounting_CostCenter> Projects { get; set; }
-        public List<CostCenterManagerMap> CostCenterManagerMaps { get; set; }
+        public List<CostCenterManagerMapModel> CostCenterManagerMapModels { get; set; }
     }
 }

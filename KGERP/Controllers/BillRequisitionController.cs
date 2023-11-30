@@ -36,12 +36,31 @@ namespace KGERP.Controllers
 
         #region All Json Action Method for Requisition
 
+        // get material budget info
+        public async Task<JsonResult> GetMaterialBudgetInfo(long boqId, long productId )
+        {
+            decimal EstimateQty = 0;
+            decimal UnitRate = 0;
+            decimal ReceivedSoFar = 0;
+            decimal RemainingQty = 0;
+
+            var getData = await _service.BoqMaterialBudget(boqId, productId);
+            if(getData != null)
+            {
+                EstimateQty = (decimal) getData.EstimatedQty;
+                UnitRate = (decimal)getData.UnitRate;
+                ReceivedSoFar = await _service.ReceivedSoFarTotal(boqId, productId);
+                RemainingQty = EstimateQty - ReceivedSoFar;
+            }
+
+            return Json(new { EstimateQty = EstimateQty, UnitRate = UnitRate, ReceivedSoFar = ReceivedSoFar, RemainingQty = RemainingQty }, JsonRequestBehavior.AllowGet);
+        }
+
         // Get Unit Info by Id
         public async Task<JsonResult> GetUnitNameWithId(int id)
         {
             var unitName = "";
             var unitId = 0;
-
             if (id > 0)
             {
                 unitId = (int)_ProductService.GetProductJson().FirstOrDefault(c => c.ProductId == id).UnitId;
@@ -86,9 +105,9 @@ namespace KGERP.Controllers
 
             if (id > 0)
             {
-                EstimateQty = (_service.GetBoQProductMapList().FirstOrDefault(c => c.ProductId == id).EstimatedQty == null)?  EstimateQty = 0 : (decimal) _service.GetBoQProductMapList().FirstOrDefault(c => c.ProductId == id).EstimatedQty;
-                UnitRate = (_service.GetBoQProductMapList().FirstOrDefault(c => c.ProductId == id).UnitRate == null) ? UnitRate = 0 : (decimal) _service.GetBoQProductMapList().FirstOrDefault(c => c.ProductId == id).UnitRate;
-                ReceivedSoFar = _service.ReceivedSoFarTotal(id);
+                EstimateQty = (_service.GetBoQProductMapList().FirstOrDefault(c => c.ProductId == id).EstimatedQty == null) ? EstimateQty = 0 : (decimal)_service.GetBoQProductMapList().FirstOrDefault(c => c.ProductId == id).EstimatedQty;
+                UnitRate = (_service.GetBoQProductMapList().FirstOrDefault(c => c.ProductId == id).UnitRate == null) ? UnitRate = 0 : (decimal)_service.GetBoQProductMapList().FirstOrDefault(c => c.ProductId == id).UnitRate;
+                //ReceivedSoFar = _service.ReceivedSoFarTotal(id);
             }
 
             var result = new { EstimateQty = EstimateQty, UnitRate = UnitRate, ReceivedSoFar = ReceivedSoFar };
@@ -161,45 +180,49 @@ namespace KGERP.Controllers
         #endregion
 
         #region Project Manager Assign
-
         [HttpGet]
-        public ActionResult CostCenterManagerMap(int companyId)
+        public async Task<ActionResult> CostCenterManagerMap(int companyId)
         {
             var viewData = new CostCenterManagerMapModel()
             {
                 CompanyFK = companyId,
-                Projects = _service.GetProjectList(),
-                Employees = _service.GetEmployeeList(),
-                CostCenterManagerMaps = _service.GetCostCenterManagerMapList(),
+                Projects = await _service.GetProjectList(companyId),
+                Employees = await _service.GetEmployeeList(companyId),
+                CostCenterManagerMapModels = await _service.GetCostCenterManagerMapList(companyId),
             };
+
             return View(viewData);
         }
 
         [HttpPost]
         public ActionResult CostCenterManagerMap(CostCenterManagerMapModel model)
         {
-            if (model.ActionEum == ActionEnum.Add)
+            try
             {
-                //Add 
-                _service.Add(model);
+                if (model.ActionEum == ActionEnum.Add)
+                {
+                    _service.Add(model);
+                }
+                else if (model.ActionEum == ActionEnum.Edit)
+                {
+                    _service.Edit(model);
+                }
+                else if (model.ActionEum == ActionEnum.Delete)
+                {
+                    _service.Delete(model);
+                }
+                else
+                {
+                    return View("Error");
+                }
+
+                return RedirectToAction(nameof(CostCenterManagerMap), new { companyId = model.CompanyFK });
             }
-            else if (model.ActionEum == ActionEnum.Edit)
-            {
-                //Edit
-                _service.Edit(model);
-            }
-            else if (model.ActionEum == ActionEnum.Delete)
-            {
-                //Delete
-                _service.Delete(model);
-            }
-            else
+            catch (Exception ex)
             {
                 return View("Error");
             }
-            return RedirectToAction(nameof(CostCenterManagerMap), new { companyId = model.CompanyFK });
         }
-
         #endregion
 
         #region BoQ Unit
@@ -276,12 +299,12 @@ namespace KGERP.Controllers
 
         #region BoQ Division
 
-        public ActionResult BoqDivision(int companyId)
+        public async Task<ActionResult> BoqDivision(int companyId)
         {
             BoqDivisionModel viewData = new BoqDivisionModel()
             {
                 CompanyFK = companyId,
-                Projecs = _service.GetProjectList(),
+                Projecs = await _service.GetProjectList(companyId),
                 BoQDivisions = _service.BoQDivisionList()
             };
             return View(viewData);
@@ -317,12 +340,12 @@ namespace KGERP.Controllers
         #region Bill of Quotation
 
         [HttpGet]
-        public ActionResult BillOfQuotation(int companyId)
+        public async Task<ActionResult> BillOfQuotation(int companyId)
         {
             var viewData = new BillRequisitionBoqModel()
             {
                 CompanyFK = companyId,
-                Projects = _service.GetProjectList(),
+                Projects = await _service.GetProjectList(companyId),
                 BoQDivisions = _service.BoQDivisionList(),
                 BillBoQItems = _service.GetBillOfQuotationList(),
                 BoQUnits = _configurationService.GetUnitForJson()
@@ -360,12 +383,12 @@ namespace KGERP.Controllers
         #region Budget & Estimating
 
         [HttpGet]
-        public ActionResult BillRequisitionItemBoQMap(int companyId)
+        public async Task<ActionResult> BillRequisitionItemBoQMap(int companyId)
         {
             BillRequisitionItemBoQMapModel viewData = new BillRequisitionItemBoQMapModel()
             {
                 CompanyFK = companyId,
-                Projects = _service.GetProjectList(),
+                Projects = await _service.GetProjectList(companyId),
                 BoQDivisions = _service.BoQDivisionList(),
                 BoQItems = _service.GetBillOfQuotationList(),
                 BoQMaterials = _ProductService.GetProductJson(),
@@ -457,7 +480,7 @@ namespace KGERP.Controllers
                 billRequisitionMasterModel = await _service.GetBillRequisitionMasterDetail(companyId, billRequisitionMasterId);
             }
             billRequisitionMasterModel.ProjectTypeList = new SelectList(await _service.GetCostCenterTypeList(companyId), "CostCenterTypeId", "Name");
-            billRequisitionMasterModel.ProjectList = new SelectList(_service.GetProjectList(), "CostCenterId", "Name");
+            billRequisitionMasterModel.ProjectList = new SelectList(await _service.GetProjectList(companyId), "CostCenterId", "Name");
             billRequisitionMasterModel.RequisitionTypeList = new SelectList(_service.GetBillRequisitionTypeList(), "BillRequisitionTypeId", "Name");
             billRequisitionMasterModel.RequisitionItemList = new SelectList(_ProductService.GetProductJson(), "ProductId", "ProductName");
             billRequisitionMasterModel.BOQItemList = new SelectList(_service.GetBillOfQuotationList(), "BoQItemId", "Name");
