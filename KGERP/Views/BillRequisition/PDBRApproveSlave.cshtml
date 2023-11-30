@@ -134,6 +134,18 @@
                                                     <td style="padding: 5px; text-align: right;">
                                                         @if (Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.PD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
                                                         {
+                                                            @Html.TextBoxFor(model => model.DetailDataList[i].UnitRate, new { id = "unitRate_" + i, @class = "form -control quantityValue unitRate" })
+
+                                                        }
+                                                        else
+                                                        {
+                                                            @String.Format("{0:0.00}", item.UnitRate)
+                                                        }
+                                                    </td>
+
+                                                    <td style="padding: 5px; text-align: right;">
+                                                        @if (Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.PD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
+                                                        {
                                                             @Html.TextBoxFor(model => model.DetailDataList[i].DemandQty, new { id = "demandQty_" + i, @class = "form -control quantityValue demandQty" })
                                                         }
                                                         else
@@ -143,7 +155,7 @@
                                                     </td>
 
 
-                                                    <td class="unitRate" style="padding: 5px; text-align: right;">@String.Format("{0:0.00}", item.UnitRate)</td>
+                                                    @*<td class="unitRate" style="padding: 5px; text-align: right;">@String.Format("{0:0.00}", item.UnitRate)</td>*@
                                                     <td class="lineTotal" style="padding: 5px;  text-align: right;">@String.Format("{0:0.00}", item.TotalPrice)</td>
 
 
@@ -170,8 +182,10 @@
                                         <tr class="bg-gray">
                                             @foreach (var item in Model.ApprovalModelList)
                                             {
-                                                <th style="padding:5px;text-align:center;">@item.SignatoryName</th>
-
+                                                @*<th style="padding:5px;text-align:center;">@item.SignatoryName</th>*@
+                                                <th style="padding:5px;text-align:center;">
+                                                    @((item.SignatoryName == "QS") ? "QS/ Head/ IT / Engineer" : item.SignatoryName)
+                                                </th>
 
                                             }
                                         </tr>
@@ -216,7 +230,7 @@
                                                         }
                                                         else if (item.SignatoryId == (int)EnumBRequisitionSignatory.PD)
                                                         {
-                                                    <span class="btn btn-success btn-xs"> Recommended</span>
+                                                            <span class="btn btn-success btn-xs"> Recommended</span>
                                                         }
                                                         else if (item.SignatoryId == (int)EnumBRequisitionSignatory.MD)
                                                         {
@@ -245,10 +259,13 @@
                     @if (Model.BillRequisitionMasterId > 0 && Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.PD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
                     {
                         <div class="box-footer">
-
                             <div class="row">
-                                <div class="col-md-6"></div>
-                                <div class="col-md-6">
+                                <div class="col-md-3"></div>
+                                <div class="col-md-3"></div>
+                                <div class="col-md-3">
+                                    <button type="submit" id="btnSave" class="btn btn-danger btn-block">Reject</button>
+                                </div>
+                                <div class="col-md-3">
                                     <button type="submit" id="btnSave" class="btn btn-primary btn-block">Approve</button>
                                 </div>
                             </div>

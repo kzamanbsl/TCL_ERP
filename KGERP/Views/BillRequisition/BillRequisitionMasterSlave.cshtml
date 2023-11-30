@@ -305,29 +305,6 @@
                                     }
                                 </div>
 
-                                <div class="row hidden" id="overHead">
-                                    @if (Model.BillRequisitionTypeId == 3)
-                                    {
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label>Material Demand :</label>
-                                                @Html.TextBoxFor(model => model.DetailModel.DemandQty, new { id = "decDemandQtyIt", type = "number", step = "0.01", @class = "form-control", placeholder = "Material demand" })
-                                                @Html.ValidationMessageFor(model => model.DetailModel.DemandQty, "", new { @class = "text-danger" })
-
-                                                @Html.HiddenFor(model => model.DetailModel.ProductId, new { @value = 111 })
-                                                @Html.HiddenFor(model => model.DetailModel.UnitId, new { @value = 111 })
-                                                @Html.HiddenFor(model => model.DetailModel.EstimatedQty, new { @value = 111 })
-                                                @Html.HiddenFor(model => model.DetailModel.ReceivedSoFar, new { @value = 111 })
-                                                @Html.HiddenFor(model => model.DetailModel.RemainingQty, new { @value = 111 })
-                                                @Html.HiddenFor(model => model.DetailModel.UnitRate, new { @value = 111 })
-                                                @Html.HiddenFor(model => model.DetailModel.TotalPrice, new { @value = 111 })
-                                                @Html.HiddenFor(model => model.DetailModel.Remarks, new { @value = "" })
-
-                                            </div>
-                                        </div>
-                                    }
-                                </div>
-
                                 <div class="row " id="general">
 
                                     <div class="col-md-3">
@@ -942,37 +919,36 @@
 
         });
 
+        //$(document).ready(function () {
+        //    $('#ddlBRTypeId').on('change', function () {
+        //        var selectedOption = $('#ddlBRTypeId option:selected');
+        //        var r = selectedOption.val();
 
-        $(document).ready(function () {
-            $('#ddlBRTypeId').on('change', function () {
-                var selectedOption = $('#ddlBRTypeId option:selected');
-                var r = selectedOption.val();
+        //        if (r == 3) {
+        //            OverHead(r);
+        //        }
+        //    });
 
-                if (r == 3) {
-                    OverHead(r);
-                }
-            });
+        //    function OverHead(r) {
+        //        var ItEquipment = document.getElementById("overHead");
+        //        var General = document.getElementById("general");
+        //        var projectType = $('#ddlBRTypeId').val();
 
-            function OverHead(r) {
-                var ItEquipment = document.getElementById("overHead");
-                var General = document.getElementById("general");
-                var projectType = $('#ddlBRTypeId').val();
+        //        if (parseInt(projectType) === r) {
+        //            ItEquipment.classList.remove("hidden");
+        //            ItEquipment.classList.add("block");
+        //            General.classList.add("hidden");
+        //        } else {
+        //            ItEquipment.classList.remove("block");
+        //            ItEquipment.classList.add("hidden");
 
-                if (parseInt(projectType) === r) {
-                    ItEquipment.classList.remove("hidden");
-                    ItEquipment.classList.add("block");
-                    General.classList.add("hidden");
-                } else {
-                    ItEquipment.classList.remove("block");
-                    ItEquipment.classList.add("hidden");
+        //            General.classList.remove("hidden");
+        //            General.classList.add("block");
+        //        }
 
-                    General.classList.remove("hidden");
-                    General.classList.add("block");
-                }
-
-                console.log('over');
-            }
-        });
+        //        console.log('over');
+        //    }
+        //});
 
 
     </script>
