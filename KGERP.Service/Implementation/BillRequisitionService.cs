@@ -1484,32 +1484,30 @@ namespace KGERP.Service.Implementation
             }
             return result;
         }
-        public async Task<long> PMBillRequisitionRejected(BillRequisitionMasterModel billRequisitionMasterModel)
+        public async Task<int> PMBillRequisitionRejected(long billRequisitionMasterId)
         {
-            long result = -1;
-            if (billRequisitionMasterModel.BillRequisitionMasterId <= 0) throw new Exception("Sorry! BillRequisition not found to Receive!");
+            int result = -1;
+            if (billRequisitionMasterId <= 0) throw new Exception("Sorry! BillRequisition not found to Receive!");
             //if (billRequisitionMasterModel.DetailDataList.Count() <= 0) throw new Exception("Sorry! BillRequisition  Detail not found to Receive!");
 
             var userName = System.Web.HttpContext.Current.User.Identity.Name;
 
-            BillRequisitionMaster billRequisitionMaster = _context.BillRequisitionMasters.FirstOrDefault(c => c.BillRequisitionMasterId == billRequisitionMasterModel.BillRequisitionMasterId);
+            BillRequisitionMaster billRequisitionMaster = _context.BillRequisitionMasters.FirstOrDefault(c => c.BillRequisitionMasterId == billRequisitionMasterId);
             billRequisitionMaster.StatusId = (int)EnumBillRequisitionStatus.Rejected;
-
             billRequisitionMaster.ModifiedBy = userName;
             billRequisitionMaster.ModifiedDate = DateTime.Now;
+
+            var BRApproval = _context.BillRequisitionApprovals.FirstOrDefault(x => x.BillRequisitionMasterId == billRequisitionMasterId && x.SignatoryId == (int)EnumBRequisitionSignatory.PM);
+            BRApproval.AprrovalStatusId = (int)EnumBillRequisitionStatus.Rejected;
+            BRApproval.EmployeeId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
+            BRApproval.ModifiedBy = userName;
+            BRApproval.ModifiedDate = DateTime.Now;
 
             using (var scope = _context.Database.BeginTransaction())
             {
                 await _context.SaveChangesAsync();
-                var BRApproval = _context.BillRequisitionApprovals.FirstOrDefault(x => x.BillRequisitionMasterId == billRequisitionMasterModel.BillRequisitionMasterId && x.SignatoryId == (int)EnumBRequisitionSignatory.PM);
-
-                BRApproval.AprrovalStatusId = (int)EnumBillRequisitionStatus.Rejected;
-                BRApproval.EmployeeId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
-                BRApproval.ModifiedBy = userName;
-                BRApproval.ModifiedDate = DateTime.Now;
-
-                result = billRequisitionMasterModel.BillRequisitionMasterId;
                 scope.Commit();
+                result = billRequisitionMaster.CompanyId;
             }
             return result;
         }
@@ -1650,32 +1648,30 @@ namespace KGERP.Service.Implementation
             }
             return result;
         }
-        public async Task<long> QSBillRequisitionRejected(BillRequisitionMasterModel billRequisitionMasterModel)
+        public async Task<int> QSBillRequisitionRejected(long billRequisitionMasterId)
         {
-            long result = -1;
-            if (billRequisitionMasterModel.BillRequisitionMasterId <= 0) throw new Exception("Sorry! BillRequisition not found to Receive!");
+            int result = -1;
+            if (billRequisitionMasterId <= 0) throw new Exception("Sorry! BillRequisition not found to Receive!");
             //if (billRequisitionMasterModel.DetailDataList.Count() <= 0) throw new Exception("Sorry! BillRequisition  Detail not found to Receive!");
 
             var userName = System.Web.HttpContext.Current.User.Identity.Name;
 
-            BillRequisitionMaster billRequisitionMaster = _context.BillRequisitionMasters.FirstOrDefault(c => c.BillRequisitionMasterId == billRequisitionMasterModel.BillRequisitionMasterId);
+            BillRequisitionMaster billRequisitionMaster = _context.BillRequisitionMasters.FirstOrDefault(c => c.BillRequisitionMasterId == billRequisitionMasterId);
             billRequisitionMaster.StatusId = (int)EnumBillRequisitionStatus.Rejected;
-
             billRequisitionMaster.ModifiedBy = userName;
             billRequisitionMaster.ModifiedDate = DateTime.Now;
+
+            var BRApproval = _context.BillRequisitionApprovals.FirstOrDefault(x => x.BillRequisitionMasterId == billRequisitionMasterId && x.SignatoryId == (int)EnumBRequisitionSignatory.QS);
+            BRApproval.AprrovalStatusId = (int)EnumBillRequisitionStatus.Rejected;
+            BRApproval.EmployeeId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
+            BRApproval.ModifiedBy = userName;
+            BRApproval.ModifiedDate = DateTime.Now;
 
             using (var scope = _context.Database.BeginTransaction())
             {
                 await _context.SaveChangesAsync();
-                var BRApproval = _context.BillRequisitionApprovals.FirstOrDefault(x => x.BillRequisitionMasterId == billRequisitionMasterModel.BillRequisitionMasterId && x.SignatoryId == (int)EnumBRequisitionSignatory.QS);
-
-                BRApproval.AprrovalStatusId = (int)EnumBillRequisitionStatus.Rejected;
-                BRApproval.EmployeeId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
-                BRApproval.ModifiedBy = userName;
-                BRApproval.ModifiedDate = DateTime.Now;
-
-                result = billRequisitionMasterModel.BillRequisitionMasterId;
                 scope.Commit();
+                result = billRequisitionMaster.CompanyId;
             }
             return result;
         }
@@ -1811,35 +1807,34 @@ namespace KGERP.Service.Implementation
             }
             return result;
         }
-        public async Task<long> ITHeadBillRequisitionRejected(BillRequisitionMasterModel billRequisitionMasterModel)
+        public async Task<int> ITHeadBillRequisitionRejected(long billRequisitionMasterId)
         {
-            long result = -1;
-            if (billRequisitionMasterModel.BillRequisitionMasterId <= 0) throw new Exception("Sorry! BillRequisition not found to Receive!");
+            int result = -1;
+            if (billRequisitionMasterId <= 0) throw new Exception("Sorry! BillRequisition not found to Receive!");
             //if (billRequisitionMasterModel.DetailDataList.Count() <= 0) throw new Exception("Sorry! BillRequisition  Detail not found to Receive!");
 
             var userName = System.Web.HttpContext.Current.User.Identity.Name;
 
-            BillRequisitionMaster billRequisitionMaster = _context.BillRequisitionMasters.FirstOrDefault(c => c.BillRequisitionMasterId == billRequisitionMasterModel.BillRequisitionMasterId);
+            BillRequisitionMaster billRequisitionMaster = _context.BillRequisitionMasters.FirstOrDefault(c => c.BillRequisitionMasterId == billRequisitionMasterId);
             billRequisitionMaster.StatusId = (int)EnumBillRequisitionStatus.Rejected;
-
             billRequisitionMaster.ModifiedBy = userName;
             billRequisitionMaster.ModifiedDate = DateTime.Now;
+
+            var BRApproval = _context.BillRequisitionApprovals.FirstOrDefault(x => x.BillRequisitionMasterId == billRequisitionMasterId && x.SignatoryId == (int)EnumBRequisitionSignatory.QS);
+            BRApproval.AprrovalStatusId = (int)EnumBillRequisitionStatus.Rejected;
+            BRApproval.EmployeeId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
+            BRApproval.ModifiedBy = userName;
+            BRApproval.ModifiedDate = DateTime.Now;
 
             using (var scope = _context.Database.BeginTransaction())
             {
                 await _context.SaveChangesAsync();
-                var BRApproval = _context.BillRequisitionApprovals.FirstOrDefault(x => x.BillRequisitionMasterId == billRequisitionMasterModel.BillRequisitionMasterId && x.SignatoryId == (int)EnumBRequisitionSignatory.QS);
-
-                BRApproval.AprrovalStatusId = (int)EnumBillRequisitionStatus.Rejected;
-                BRApproval.EmployeeId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
-                BRApproval.ModifiedBy = userName;
-                BRApproval.ModifiedDate = DateTime.Now;
-
-                result = billRequisitionMasterModel.BillRequisitionMasterId;
                 scope.Commit();
+                result = billRequisitionMaster.CompanyId;
             }
             return result;
         }
+
         public async Task<BillRequisitionMasterModel> GetITHeadBillRequisitionList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
         {
             BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
@@ -1974,35 +1969,34 @@ namespace KGERP.Service.Implementation
             }
             return result;
         }
-        public async Task<long> PDBillRequisitionRejected(BillRequisitionMasterModel billRequisitionMasterModel)
+        public async Task<int> PDBillRequisitionRejected(long billRequisitionMasterId)
         {
-            long result = -1;
-            if (billRequisitionMasterModel.BillRequisitionMasterId <= 0) throw new Exception("Sorry! BillRequisition not found to Receive!");
+            int result = -1;
+            if (billRequisitionMasterId <= 0) throw new Exception("Sorry! BillRequisition not found to Receive!");
             //if (billRequisitionMasterModel.DetailDataList.Count() <= 0) throw new Exception("Sorry! BillRequisition  Detail not found to Receive!");
 
             var userName = System.Web.HttpContext.Current.User.Identity.Name;
 
-            BillRequisitionMaster billRequisitionMaster = _context.BillRequisitionMasters.FirstOrDefault(c => c.BillRequisitionMasterId == billRequisitionMasterModel.BillRequisitionMasterId);
+            BillRequisitionMaster billRequisitionMaster = _context.BillRequisitionMasters.FirstOrDefault(c => c.BillRequisitionMasterId == billRequisitionMasterId);
             billRequisitionMaster.StatusId = (int)EnumBillRequisitionStatus.Rejected;
-
             billRequisitionMaster.ModifiedBy = userName;
             billRequisitionMaster.ModifiedDate = DateTime.Now;
+
+            var BRApproval = _context.BillRequisitionApprovals.FirstOrDefault(x => x.BillRequisitionMasterId == billRequisitionMasterId && x.SignatoryId == (int)EnumBRequisitionSignatory.PD);
+            BRApproval.AprrovalStatusId = (int)EnumBillRequisitionStatus.Rejected;
+            BRApproval.EmployeeId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
+            BRApproval.ModifiedBy = userName;
+            BRApproval.ModifiedDate = DateTime.Now;
 
             using (var scope = _context.Database.BeginTransaction())
             {
                 await _context.SaveChangesAsync();
-                var BRApproval = _context.BillRequisitionApprovals.FirstOrDefault(x => x.BillRequisitionMasterId == billRequisitionMasterModel.BillRequisitionMasterId && x.SignatoryId == (int)EnumBRequisitionSignatory.PD);
-
-                BRApproval.AprrovalStatusId = (int)EnumBillRequisitionStatus.Rejected;
-                BRApproval.EmployeeId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
-                BRApproval.ModifiedBy = userName;
-                BRApproval.ModifiedDate = DateTime.Now;
-
-                result = billRequisitionMasterModel.BillRequisitionMasterId;
                 scope.Commit();
+                result = billRequisitionMaster.CompanyId;
             }
             return result;
         }
+
         public async Task<BillRequisitionMasterModel> GetPDBillRequisitionList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
         {
             BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
@@ -2138,35 +2132,34 @@ namespace KGERP.Service.Implementation
             }
             return result;
         }
-        public async Task<long> DirectorBillRequisitionRejected(BillRequisitionMasterModel billRequisitionMasterModel)
+        public async Task<int> DirectorBillRequisitionRejected(long billRequisitionMasterId)
         {
-            long result = -1;
-            if (billRequisitionMasterModel.BillRequisitionMasterId <= 0) throw new Exception("Sorry! BillRequisition not found to Receive!");
+            int result = -1;
+            if (billRequisitionMasterId <= 0) throw new Exception("Sorry! BillRequisition not found to Receive!");
             //if (billRequisitionMasterModel.DetailDataList.Count() <= 0) throw new Exception("Sorry! BillRequisition  Detail not found to Receive!");
 
             var userName = System.Web.HttpContext.Current.User.Identity.Name;
 
-            BillRequisitionMaster billRequisitionMaster = _context.BillRequisitionMasters.FirstOrDefault(c => c.BillRequisitionMasterId == billRequisitionMasterModel.BillRequisitionMasterId);
+            BillRequisitionMaster billRequisitionMaster = _context.BillRequisitionMasters.FirstOrDefault(c => c.BillRequisitionMasterId == billRequisitionMasterId);
             billRequisitionMaster.StatusId = (int)EnumBillRequisitionStatus.Rejected;
-
             billRequisitionMaster.ModifiedBy = userName;
             billRequisitionMaster.ModifiedDate = DateTime.Now;
+
+            var BRApproval = _context.BillRequisitionApprovals.FirstOrDefault(x => x.BillRequisitionMasterId == billRequisitionMasterId && x.SignatoryId == (int)EnumBRequisitionSignatory.Director);
+            BRApproval.AprrovalStatusId = (int)EnumBillRequisitionStatus.Rejected;
+            BRApproval.EmployeeId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
+            BRApproval.ModifiedBy = userName;
+            BRApproval.ModifiedDate = DateTime.Now;
 
             using (var scope = _context.Database.BeginTransaction())
             {
                 await _context.SaveChangesAsync();
-                var BRApproval = _context.BillRequisitionApprovals.FirstOrDefault(x => x.BillRequisitionMasterId == billRequisitionMasterModel.BillRequisitionMasterId && x.SignatoryId == (int)EnumBRequisitionSignatory.Director);
-
-                BRApproval.AprrovalStatusId = (int)EnumBillRequisitionStatus.Rejected;
-                BRApproval.EmployeeId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
-                BRApproval.ModifiedBy = userName;
-                BRApproval.ModifiedDate = DateTime.Now;
-
-                result = billRequisitionMasterModel.BillRequisitionMasterId;
                 scope.Commit();
+                result = billRequisitionMaster.CompanyId;
             }
             return result;
         }
+
         public async Task<BillRequisitionMasterModel> GetDirectorBillRequisitionList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
         {
             BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
@@ -2304,35 +2297,34 @@ namespace KGERP.Service.Implementation
             }
             return result;
         }
-        public async Task<long> MDBillRequisitionRejected(BillRequisitionMasterModel billRequisitionMasterModel)
+        public async Task<int> MDBillRequisitionRejected(long billRequisitionMasterId)
         {
-            long result = -1;
-            if (billRequisitionMasterModel.BillRequisitionMasterId <= 0) throw new Exception("Sorry! BillRequisition not found to Receive!");
+            int result = -1;
+            if (billRequisitionMasterId <= 0) throw new Exception("Sorry! BillRequisition not found to Receive!");
             //if (billRequisitionMasterModel.DetailDataList.Count() <= 0) throw new Exception("Sorry! BillRequisition  Detail not found to Receive!");
 
             var userName = System.Web.HttpContext.Current.User.Identity.Name;
 
-            BillRequisitionMaster billRequisitionMaster = _context.BillRequisitionMasters.FirstOrDefault(c => c.BillRequisitionMasterId == billRequisitionMasterModel.BillRequisitionMasterId);
+            BillRequisitionMaster billRequisitionMaster = _context.BillRequisitionMasters.FirstOrDefault(c => c.BillRequisitionMasterId == billRequisitionMasterId);
             billRequisitionMaster.StatusId = (int)EnumBillRequisitionStatus.Rejected;
-
             billRequisitionMaster.ModifiedBy = userName;
             billRequisitionMaster.ModifiedDate = DateTime.Now;
+
+            var BRApproval = _context.BillRequisitionApprovals.FirstOrDefault(x => x.BillRequisitionMasterId == billRequisitionMasterId && x.SignatoryId == (int)EnumBRequisitionSignatory.MD);
+            BRApproval.AprrovalStatusId = (int)EnumBillRequisitionStatus.Rejected;
+            BRApproval.EmployeeId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
+            BRApproval.ModifiedBy = userName;
+            BRApproval.ModifiedDate = DateTime.Now;
 
             using (var scope = _context.Database.BeginTransaction())
             {
                 await _context.SaveChangesAsync();
-                var BRApproval = _context.BillRequisitionApprovals.FirstOrDefault(x => x.BillRequisitionMasterId == billRequisitionMasterModel.BillRequisitionMasterId && x.SignatoryId == (int)EnumBRequisitionSignatory.MD);
-
-                BRApproval.AprrovalStatusId = (int)EnumBillRequisitionStatus.Rejected;
-                BRApproval.EmployeeId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
-                BRApproval.ModifiedBy = userName;
-                BRApproval.ModifiedDate = DateTime.Now;
-
-                result = billRequisitionMasterModel.BillRequisitionMasterId;
                 scope.Commit();
+                result = billRequisitionMaster.CompanyId;
             }
             return result;
         }
+
         public async Task<BillRequisitionMasterModel> GetMDBillRequisitionList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
         {
             BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
