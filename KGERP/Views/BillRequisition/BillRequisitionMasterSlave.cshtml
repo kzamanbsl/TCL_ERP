@@ -223,7 +223,7 @@
                                 @* dependable input field *@
 
                                 <!--- dependable input with value -->
-                                if (Model.ProjectTypeId == 8)
+                                if (Model.ProjectTypeId == (int)EnumBillReqProjectType.Building)
                                 {
                                     <div class="row">
 
@@ -237,7 +237,7 @@
 
                                     </div>
                                 }
-                                else if (Model.ProjectTypeId == 9)
+                                else if (Model.ProjectTypeId == (int)EnumBillReqProjectType.Road)
                                 {
                                     <div class="row">
 
@@ -267,7 +267,7 @@
 
                                     </div>
                                 }
-                                else if (Model.ProjectTypeId == 13)
+                                else if (Model.ProjectTypeId == (int)EnumBillReqProjectType.Runway)
                                 {
                                     <div class="row">
                                         <div class="col-md-4">
@@ -282,9 +282,9 @@
 
                                 <!--- dependable input with value -->
 
-                                <div class="row hidden" id="itEquipment">
-                                    @if (Model.BillRequisitionTypeId == 5)
-                                    {
+                                if (Model.BillRequisitionTypeId == (int)EnumBillRequisitionType.ItEquipment)
+                                {
+                                    <div class="row hidden" id="itEquipment">
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>Material Demand :</label>
@@ -302,8 +302,12 @@
 
                                             </div>
                                         </div>
-                                    }
-                                </div>
+                                    </div>
+                                }
+                                else if (Model.BillRequisitionTypeId == (int)EnumBillRequisitionType.Overhead)
+                                {
+
+                                }
 
                                 <div class="row " id="general">
 
@@ -899,7 +903,7 @@
                 General.classList.remove("hidden");
                 General.classList.add("block");
             }
-            
+
         }
 
         $(document).ready(function () {
