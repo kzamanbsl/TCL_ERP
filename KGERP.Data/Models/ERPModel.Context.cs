@@ -300,18 +300,18 @@ namespace KGERP.Data.Models
         public virtual DbSet<CostCenterManagerMap> CostCenterManagerMaps { get; set; }
         public virtual DbSet<Accounting_CostCenter> Accounting_CostCenter { get; set; }
         public virtual DbSet<Accounting_CostCenterType> Accounting_CostCenterType { get; set; }
-        public virtual DbSet<BillRequisitionMaster> BillRequisitionMasters { get; set; }
-        public virtual DbSet<BillRequisitionVoucherMap> BillRequisitionVoucherMaps { get; set; }
-        public virtual DbSet<BillRequisitionApproval> BillRequisitionApprovals { get; set; }
-        public virtual DbSet<BillRequisitionDetail> BillRequisitionDetails { get; set; }
         public virtual DbSet<Unit> Units { get; set; }
         public virtual DbSet<BoQBudgetDetail> BoQBudgetDetails { get; set; }
         public virtual DbSet<BoQBudgetMaster> BoQBudgetMasters { get; set; }
         public virtual DbSet<BillBoQItem> BillBoQItems { get; set; }
         public virtual DbSet<BoQDivision> BoQDivisions { get; set; }
-        public virtual DbSet<BillReqApprovalHistory> BillReqApprovalHistories { get; set; }
         public virtual DbSet<UserLog> UserLogs { get; set; }
         public virtual DbSet<BoQItemProductMap> BoQItemProductMaps { get; set; }
+        public virtual DbSet<BillReqApprovalHistory> BillReqApprovalHistories { get; set; }
+        public virtual DbSet<BillRequisitionApproval> BillRequisitionApprovals { get; set; }
+        public virtual DbSet<BillRequisitionDetail> BillRequisitionDetails { get; set; }
+        public virtual DbSet<BillRequisitionMaster> BillRequisitionMasters { get; set; }
+        public virtual DbSet<BillRequisitionVoucherMap> BillRequisitionVoucherMaps { get; set; }
     
         public virtual ObjectResult<GetEmployeeListForTeam_Result> GetEmployeeListForTeam(Nullable<int> companyId)
         {

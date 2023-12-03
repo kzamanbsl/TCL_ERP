@@ -22,12 +22,12 @@ namespace KGERP.Data.Models
     
         public long BillRequisitionDetailId { get; set; }
         public long BillRequisitionMasterId { get; set; }
-        public int ProductId { get; set; }
-        public int UnitId { get; set; }
-        public decimal EstimatedQty { get; set; }
-        public decimal DemandQty { get; set; }
-        public decimal UnitRate { get; set; }
-        public decimal TotalPrice { get; set; }
+        public Nullable<int> ProductId { get; set; }
+        public Nullable<int> UnitId { get; set; }
+        public Nullable<decimal> EstimatedQty { get; set; }
+        public Nullable<decimal> DemandQty { get; set; }
+        public Nullable<decimal> UnitRate { get; set; }
+        public Nullable<decimal> TotalPrice { get; set; }
         public Nullable<decimal> ReceivedSoFar { get; set; }
         public Nullable<decimal> RemainingQty { get; set; }
         public string Floor { get; set; }
@@ -43,9 +43,9 @@ namespace KGERP.Data.Models
         public bool IsActive { get; set; }
     
         public virtual Company Company { get; set; }
-        public virtual BillRequisitionMaster BillRequisitionMaster { get; set; }
-        public virtual Product Product { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BillReqApprovalHistory> BillReqApprovalHistories { get; set; }
+        public virtual BillRequisitionMaster BillRequisitionMaster { get; set; }
+        public virtual Product Product { get; set; }
     }
 }

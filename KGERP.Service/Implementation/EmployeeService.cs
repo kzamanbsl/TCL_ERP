@@ -116,9 +116,9 @@ namespace KGERP.Service.Implementation
 
         private string GetEmployeeId(string employeeId)
         {
-            string kg = employeeId.Substring(0, 3);
+            string kg = employeeId.Substring(0, 4);
 
-            string kgNumber = employeeId.Substring(3);
+            string kgNumber = employeeId.Substring(4);
             int num = 0;
             if (employeeId != string.Empty)
             {
@@ -166,7 +166,7 @@ namespace KGERP.Service.Implementation
 
                 if (lastEmployee == null)
                 {
-                    return new EmployeeModel() { EmployeeId = "KG0001" };
+                    return new EmployeeModel() { EmployeeId = "TCL00000" };
                 }
                 return new EmployeeModel()
                 {
