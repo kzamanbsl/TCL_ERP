@@ -1262,7 +1262,7 @@ namespace KGERP.Service.Implementation
             foreach (var master in billRequisitionMasterModel.DataList)
             {
                 var detailsForMaster = matchingDetails.Where(detail => detail.BillRequisitionMasterId == master.BillRequisitionMasterId);
-                decimal total = detailsForMaster.Sum(detail => detail.UnitRate * detail.DemandQty);
+                decimal? total = detailsForMaster.Sum(detail => detail.UnitRate * detail.DemandQty);
                 master.TotalAmount = total;
             }
 
@@ -1328,7 +1328,7 @@ namespace KGERP.Service.Implementation
             foreach (var master in billRequisitionMasterModel.DataList)
             {
                 var detailsForMaster = matchingDetails.Where(detail => detail.BillRequisitionMasterId == master.BillRequisitionMasterId);
-                decimal total = detailsForMaster.Sum(detail => detail.UnitRate * detail.DemandQty);
+                decimal? total = detailsForMaster.Sum(detail => detail.UnitRate * detail.DemandQty);
                 master.TotalAmount = total;
             }
 
@@ -2428,9 +2428,9 @@ namespace KGERP.Service.Implementation
             return materialDetail;
         }
 
-        public async Task<decimal> ReceivedSoFarTotal(long boqId, long productId)
+        public async Task<decimal?> ReceivedSoFarTotal(long boqId, long productId)
         {
-            decimal total = 0;
+            decimal? total = 0;
 
             var boqMaster = await _context.BillRequisitionMasters.Where(c => c.BOQItemId == boqId && c.IsActive == true).ToListAsync();
             var boqDetail = await _context.BillRequisitionDetails.Where(c => c.CompanyId == 21 && c.IsActive == true).ToListAsync();
@@ -2441,7 +2441,7 @@ namespace KGERP.Service.Implementation
                    var mData = boqDetail.Where(c => c.BillRequisitionMasterId == master.BillRequisitionMasterId && c.ProductId == productId).ToList();
                    foreach(var detail in boqDetail)
                     {
-                        total += detail.DemandQty;
+                        total += (detail.DemandQty == null) ? 0 : detail.DemandQty;
                     }
                 }
                 

@@ -26,7 +26,7 @@ namespace KGERP.Service.ServiceModel
         public int BillRequisitionTypeId { get; set; }
         public string BRTypeName { get; set; }
         public string Description { get; set; }
-        public decimal TotalAmount { get; set; }
+        public decimal? TotalAmount { get; set; }
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
         public string StrFromDate { get; set; }
@@ -63,14 +63,14 @@ namespace KGERP.Service.ServiceModel
     {
         public long BillRequisitionDetailId { get; set; }
         public long BillRequisitionMasterId { get; set; }
-        public int ProductId { get; set; }
+        public int? ProductId { get; set; }
         public string ProductName { get; set; }
-        public int UnitId { get; set; }
+        public int? UnitId { get; set; }
         public string UnitName { get; set; }
-        public decimal EstimatedQty { get; set; }
-        public decimal DemandQty { get; set; }
-        public decimal UnitRate { get; set; }
-        public decimal TotalPrice { get; set; }
+        public decimal? EstimatedQty { get; set; }
+        public decimal? DemandQty { get; set; }
+        public decimal? UnitRate { get; set; }
+        public decimal? TotalPrice { get; set; }
         public Nullable<decimal> ReceivedSoFar { get; set; }
         public Nullable<decimal> RemainingQty { get; set; }
         public string Floor { get; set; }

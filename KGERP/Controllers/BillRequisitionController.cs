@@ -41,8 +41,8 @@ namespace KGERP.Controllers
         {
             decimal EstimateQty = 0;
             decimal UnitRate = 0;
-            decimal ReceivedSoFar = 0;
-            decimal RemainingQty = 0;
+            decimal? ReceivedSoFar = 0;
+            decimal? RemainingQty = 0;
 
             var getData = await _service.BoqMaterialBudget(boqId, productId);
             if(getData != null)
