@@ -3083,83 +3083,91 @@ namespace KGERP.Service.Implementation.Configuration
         public async Task<int> ProductAdd(VMCommonProduct vmCommonProduct)
         {
             var result = -1;
-            #region Genarate Product No
-            int lsatProduct = _db.Products.Select(x => x.ProductId).OrderByDescending(ID => ID).FirstOrDefault();
-            if (lsatProduct == 0)
+            try
             {
-                lsatProduct = 1;
-            }
-            else
-            {
-                lsatProduct++;
-            }
-
-            var productId = vmCommonProduct.ProductType + lsatProduct.ToString().PadLeft(6, '0');
-            #endregion
-
-            Product commonProduct = new Product
-            {
-                ProductCode = productId,
-                ShortName = vmCommonProduct.ShortName,
-                ProductName = vmCommonProduct.Name,
-                UnitPrice = vmCommonProduct.MRPPrice,
-                TPPrice = vmCommonProduct.TPPrice,
-                CreditSalePrice = vmCommonProduct.CreditSalePrice,
-
-                ProductCategoryId = vmCommonProduct.Common_ProductCategoryFk,
-                ProductSubCategoryId = vmCommonProduct.Common_ProductSubCategoryFk,
-                UnitId = vmCommonProduct.Common_UnitFk,
-                Remarks = vmCommonProduct.Remarks,
-                CompanyId = vmCommonProduct.CompanyFK,
-                CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
-                CreatedDate = DateTime.Now,
-                DieSize = vmCommonProduct.DieSize,
-                PackId = vmCommonProduct.PackId,
-                PackSize = vmCommonProduct.PackSize,
-                ProcessLoss = vmCommonProduct.ProcessLoss,
-                FormulaQty = vmCommonProduct.FormulaQty,
-
-                IsActive = true,
-                ProductType = vmCommonProduct.ProductType,
-                OrderNo = 0
-
-            };
-            _db.Products.Add(commonProduct);
-            if (await _db.SaveChangesAsync() > 0)
-            {
-
-
-                if (commonProduct.CompanyId == (int)CompanyNameEnum.KrishibidFeedLimited)
+                
+                #region Genarate Product No
+                int lsatProduct = _db.Products.Select(x => x.ProductId).OrderByDescending(ID => ID).FirstOrDefault();
+                if (lsatProduct == 0)
                 {
-                    result = commonProduct.ProductId;
-
-                    Product product = await _db.Products.FindAsync(commonProduct.ProductId);
-
-                    VMHeadIntegration integration = new VMHeadIntegration
-                    {
-                        AccName = product.ProductName,
-                        LayerNo = 6,
-                        Remarks = "6 Layer",
-                        IsIncomeHead = false,
-                        ProductType = product.ProductType,
-                        CompanyFK = commonProduct.CompanyId,
-                        CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
-                        CreatedDate = DateTime.Now
-                    };
-
-
-                    int headGl = ProductHeadGlPush(integration, commonProduct);
-
-                    //if (headGlId != null)
-                    //{
-                    //    await GLDLBlockCodeAndHeadGLIdEdit(commonProductSubCategory.ProductSubCategoryId, headGlId, head5Id);
-                    //}
+                    lsatProduct = 1;
+                }
+                else
+                {
+                    lsatProduct++;
                 }
 
+                var productId = vmCommonProduct.ProductType + lsatProduct.ToString().PadLeft(6, '0');
+                #endregion
 
-                result = commonProduct.ProductId;
+                Product commonProduct = new Product
+                {
+                    ProductCode = productId,
+                    ShortName = vmCommonProduct.ShortName,
+                    ProductName = vmCommonProduct.Name,
+                    UnitPrice = vmCommonProduct.MRPPrice,
+                    TPPrice = vmCommonProduct.TPPrice,
+                    CreditSalePrice = vmCommonProduct.CreditSalePrice,
+
+                    ProductCategoryId = vmCommonProduct.Common_ProductCategoryFk,
+                    ProductSubCategoryId = vmCommonProduct.Common_ProductSubCategoryFk,
+                    UnitId = vmCommonProduct.Common_UnitFk,
+                    Remarks = vmCommonProduct.Remarks,
+                    CompanyId = vmCommonProduct.CompanyFK,
+                    CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                    CreatedDate = DateTime.Now,
+                    DieSize = vmCommonProduct.DieSize,
+                    PackId = vmCommonProduct.PackId,
+                    PackSize = vmCommonProduct.PackSize,
+                    ProcessLoss = vmCommonProduct.ProcessLoss,
+                    FormulaQty = vmCommonProduct.FormulaQty,
+
+                    IsActive = true,
+                    ProductType = vmCommonProduct.ProductType,
+                    OrderNo = 0
+
+                };
+                _db.Products.Add(commonProduct);
+                if (await _db.SaveChangesAsync() > 0)
+                {
+
+
+                    if (commonProduct.CompanyId == (int)CompanyNameEnum.KrishibidFeedLimited)
+                    {
+                        result = commonProduct.ProductId;
+
+                        Product product = await _db.Products.FindAsync(commonProduct.ProductId);
+
+                        VMHeadIntegration integration = new VMHeadIntegration
+                        {
+                            AccName = product.ProductName,
+                            LayerNo = 6,
+                            Remarks = "6 Layer",
+                            IsIncomeHead = false,
+                            ProductType = product.ProductType,
+                            CompanyFK = commonProduct.CompanyId,
+                            CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                            CreatedDate = DateTime.Now
+                        };
+
+
+                        int headGl = ProductHeadGlPush(integration, commonProduct);
+
+                        //if (headGlId != null)
+                        //{
+                        //    await GLDLBlockCodeAndHeadGLIdEdit(commonProductSubCategory.ProductSubCategoryId, headGlId, head5Id);
+                        //}
+                    }
+
+
+                    result = commonProduct.ProductId;
+                }
+                return result;
             }
-            return result;
+            catch(Exception e)
+            {
+                return result;
+            }
         }
         public async Task<int> ProductEdit(VMCommonProduct vmCommonProduct)
         {

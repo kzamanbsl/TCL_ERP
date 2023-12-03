@@ -398,6 +398,35 @@
                                     </div>
                                 }
 
+                                <!--hidden-->
+                        <div class="row">
+                            <div class="col-md-4 hidden" id="inputDemandQtyHidden">
+                                <div class="form-group">
+                                    <label>Material Demand :</label>
+                                    @Html.TextBoxFor(model => model.DetailModel.DemandQty, new { id = "decDemandQtyH", type = "number", step = "0.01", @class = "form-control", placeholder = "Material demand" })
+                                    @Html.ValidationMessageFor(model => model.DetailModel.DemandQty, "", new { @class = "text-danger" })
+                                    <span class="text-danger" id="demandValidate"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 hidden" id="inputUnitRateHidden">
+                                <div class="form-group">
+                                    <label>Unit Rate :</label>
+                                    @Html.TextBoxFor(model => model.DetailModel.UnitRate, new { id = "decUnitRateH", type = "number", step = "0.01", @class = "form-control", placeholder = "Unit rate", })
+                                    @Html.ValidationMessageFor(model => model.DetailModel.UnitRate, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 hidden" id="inputTotalPriceHidden">
+                                <div class="form-group">
+                                    <label>Total Price :</label>
+                                    @Html.TextBoxFor(model => model.DetailModel.TotalPrice, new { id = "decTotalPriceH", type = "number", step = "0.01", @class = "form-control", placeholder = "Total price", ReadOnly = "true" })
+                                    @Html.ValidationMessageFor(model => model.DetailModel.TotalPrice, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                                <!--hidden-->
+
                                 <div class="row">
                                     <div class="col-md-3 hidden" id="inputMaterial">
                                         <div class="form-group">
@@ -762,6 +791,11 @@
             var UnitRate = document.getElementById("inputUnitRate");
             var TotalPrice = document.getElementById("inputTotalPrice");
             var Remarks = document.getElementById("inputRemarks");
+
+            var DemandQtyHidden = document.getElementById("inputDemandQtyHidden");
+            var UnitRateHidden = document.getElementById("inputUnitRateHidden");
+            var TotalPriceHidden = document.getElementById("inputTotalPriceHidden");
+
             var RequisitionTypeId = parseInt($('#ddlBRTypeId').val());
 
             Material.classList.add("hidden");
@@ -773,6 +807,9 @@
             UnitRate.classList.add("hidden");
             TotalPrice.classList.add("hidden");
             Remarks.classList.add("hidden");
+            DemandQtyHidden.classList.add("hidden")
+            UnitRateHidden.classList.add("hidden")
+            TotalPriceHidden.classList.add("hidden")
 
             var enumConstruction = @((int)EnumBillRequisitionType.Construction);
             var enumItEquipment = @((int)EnumBillRequisitionType.ItEquipment);
@@ -789,67 +826,73 @@
                 TotalPrice.classList.remove("hidden");
                 Remarks.classList.remove("hidden");
 
-                Material.classList.add("block");
-                Unit.classList.add("block");
-                EstimateQty.classList.add("block");
-                ReceivedSoFar.classList.add("block");
-                RemainingQty.classList.add("block");
-                DemandQty.classList.add("block");
-                UnitRate.classList.add("block");
-                TotalPrice.classList.add("block");
-                Remarks.classList.add("block");
+                Material.classList.add("d-block");
+                Unit.classList.add("d-block");
+                EstimateQty.classList.add("d-block");
+                ReceivedSoFar.classList.add("d-block");
+                RemainingQty.classList.add("d-block");
+                DemandQty.classList.add("d-block");
+                UnitRate.classList.add("d-block");
+                TotalPrice.classList.add("d-block");
+                Remarks.classList.add("d-block");
 
-                DemandQty.classList.remove("col-md-4");
-                DemandQty.classList.add("col-md-3");
-
-                UnitRate.classList.remove("col-md-4");
-                UnitRate.classList.add("col-md-3");
-
-                TotalPrice.classList.remove("col-md-4");
-                TotalPrice.classList.add("col-md-3");
                 showMasterForm();
 
             } else if (RequisitionTypeId === enumItEquipment) {
-                DemandQty.classList.remove("hidden");
-                UnitRate.classList.remove("hidden");
-                TotalPrice.classList.remove("hidden");
+                DemandQtyHidden.classList.remove("hidden");
+                UnitRateHidden.classList.remove("hidden");
+                TotalPriceHidden.classList.remove("hidden");
                 Remarks.classList.remove("hidden");
 
-                DemandQty.classList.add("block");
-                UnitRate.classList.add("block");
-                TotalPrice.classList.add("block");
-                Remarks.classList.add("block");
+                DemandQtyHidden.classList.add("d-block");
+                UnitRateHidden.classList.add("d-block");
+                TotalPriceHidden.classList.add("d-block");
+                Remarks.classList.add("d-block");
 
-                DemandQty.classList.remove("col-md-3");
-                DemandQty.classList.add("col-md-4");
-
-                UnitRate.classList.remove("col-md-3");
-                UnitRate.classList.add("col-md-4");
-
-                TotalPrice.classList.remove("col-md-3");
-                TotalPrice.classList.add("col-md-4");
                 showMasterForm();
 
+                var demand = $("#decDemandQtyH");
+                var rate = $("#decUnitRateH");
+                var total = $("#decTotalPriceH");
+
+                function updateTotal() {
+                    var demandValue = parseFloat(demand.val());
+                    var rateValue = parseFloat(rate.val());
+
+                    total.val(demandValue * rateValue);
+                }
+
+                demand.on('input', updateTotal);
+                rate.on('input', updateTotal);
+                updateTotal();
+
             } else if (RequisitionTypeId === enumOverhead) {
-                DemandQty.classList.remove("hidden");
-                UnitRate.classList.remove("hidden");
-                TotalPrice.classList.remove("hidden");
+                DemandQtyHidden.classList.remove("hidden");
+                UnitRateHidden.classList.remove("hidden");
+                TotalPriceHidden.classList.remove("hidden");
                 Remarks.classList.remove("hidden");
 
-                DemandQty.classList.add("block");
-                UnitRate.classList.add("block");
-                TotalPrice.classList.add("block");
-                Remarks.classList.add("block");
-
-                DemandQty.classList.remove("col-md-3");
-                DemandQty.classList.add("col-md-4");
-
-                UnitRate.classList.remove("col-md-3");
-                UnitRate.classList.add("col-md-4");
-
-                TotalPrice.classList.remove("col-md-3");
-                TotalPrice.classList.add("col-md-4");
+                DemandQtyHidden.classList.add("d-block");
+                UnitRateHidden.classList.add("d-block");
+                TotalPriceHidden.classList.add("d-block");
+                Remarks.classList.add("d-block");
+               
                 hideMasterForm();
+
+                var demand = $("#decDemandQtyH");
+                var rate = $("#decUnitRateH");
+                var total = $("#decTotalPriceH");
+
+                function updateTotal() {
+                    var demandValue = parseFloat(demand.val());
+                    var rateValue = parseFloat(rate.val());
+
+                    total.val(demandValue * rateValue);
+                }
+
+                demand.on('input', updateTotal);
+                rate.on('input', updateTotal);
+                updateTotal();
             }
         }
 
