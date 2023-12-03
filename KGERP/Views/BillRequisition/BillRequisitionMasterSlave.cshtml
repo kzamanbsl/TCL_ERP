@@ -147,7 +147,7 @@
                                     </div>
 
                                     <div class="col-md-4">
-                                        <div class="form-group">
+                                        <div class="form-group " id="inputDivision">
                                             <label>Select BoQ Division :</label>
                                             @Html.DropDownListFor(model => model.CostCenterId, Model.ProjectList as SelectList, "===Select BoQ Division===", new { id = "ddlDivisionId", onchange = "showBoQItem()", @class = "form-control searchingDropdown", style = "width:100%" })
                                             @Html.ValidationMessageFor(model => model.CostCenterId, "", new { @class = "text-danger" })
@@ -155,7 +155,7 @@
                                     </div>
 
                                     <div class="col-md-4">
-                                        <div class="form-group">
+                                        <div class="form-group " id="inputBoq">
                                             <label>Select BoQ Item :</label>
                                             @Html.DropDownListFor(model => model.BOQItemId, Model.BOQItemList as SelectList, "===Select BoQ Item===", new { id = "ddlBOQItemId", onchange = "showBoQMaterial()", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
                                             @Html.ValidationMessageFor(model => model.BOQItemId, "", new { @class = "text-danger" })
@@ -749,7 +749,7 @@
 
             $('#BRMasterSlaveFormId')[0].reset();
             $('#ActionId').val(1);
-        }       
+        }
 
         // Dependable form
         function showForm() {
@@ -798,6 +798,17 @@
                 UnitRate.classList.add("block");
                 TotalPrice.classList.add("block");
                 Remarks.classList.add("block");
+
+                DemandQty.classList.remove("col-md-4");
+                DemandQty.classList.add("col-md-3");
+
+                UnitRate.classList.remove("col-md-4");
+                UnitRate.classList.add("col-md-3");
+
+                TotalPrice.classList.remove("col-md-4");
+                TotalPrice.classList.add("col-md-3");
+                showMasterForm();
+
             } else if (RequisitionTypeId === enumItEquipment) {
                 DemandQty.classList.remove("hidden");
                 UnitRate.classList.remove("hidden");
@@ -817,6 +828,8 @@
 
                 TotalPrice.classList.remove("col-md-3");
                 TotalPrice.classList.add("col-md-4");
+                showMasterForm();
+
             } else if (RequisitionTypeId === enumOverhead) {
                 DemandQty.classList.remove("hidden");
                 UnitRate.classList.remove("hidden");
@@ -836,7 +849,40 @@
 
                 TotalPrice.classList.remove("col-md-3");
                 TotalPrice.classList.add("col-md-4");
+                hideMasterForm();
             }
+        }
+
+        // hide master form
+        function hideMasterForm() {
+            var Division = document.getElementById("inputDivision");
+            var Boq = document.getElementById("inputBoq");
+
+            Division.classList.add("d-block");
+            Boq.classList.add("d-block");
+
+            Division.classList.remove("d-block");
+            Boq.classList.remove("d-block");
+
+            Division.classList.add("hidden");
+            Boq.classList.add("hidden");
+
+        }
+
+        // show master form
+        function showMasterForm() {
+            var Division = document.getElementById("inputDivision");
+            var Boq = document.getElementById("inputBoq");
+
+            Division.classList.add("hidden");
+            Boq.classList.add("hidden");
+
+            Division.classList.remove("hidden");
+            Boq.classList.remove("hidden");
+
+            Division.classList.add("d-block");
+            Boq.classList.add("d-block");
+
         }
 
         // Dependable input
