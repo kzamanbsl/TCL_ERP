@@ -77,7 +77,6 @@ namespace KGERP.Service.ServiceModel
         public string Ward { get; set; }
         public string DPP { get; set; }
         public string Chainage { get; set; }
-        public string Remarks { get; set; }
         public int CompanyId { get; set; }
 
     }

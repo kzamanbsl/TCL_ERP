@@ -18,11 +18,20 @@
         Rejected,
         Closed
     }
+    public enum EnumBillRequisitionType
+    {
+        Construction = 1,
+        ItEquipment,
+        Overhead
+    }
     public enum EnumBillReqProjectType
     {
-        Building = 1,
-        Road = 5,
-      
+        Agro = 1,
+        Bridge,
+        Building,
+        General,
+        Road,
+        Runway,
     }
     public enum FLatCompletionStatusEnum
     {
