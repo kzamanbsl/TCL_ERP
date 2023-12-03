@@ -125,7 +125,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Select Requisition Type :</label>
-                                            @Html.DropDownListFor(model => model.BillRequisitionTypeId, Model.RequisitionTypeList as SelectList, "===Select Requisition Type===", new { id = "ddlBRTypeId", onchange = "general()", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.DropDownListFor(model => model.BillRequisitionTypeId, Model.RequisitionTypeList as SelectList, "===Select Requisition Type===", new { id = "ddlBRTypeId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
                                             @Html.ValidationMessageFor(model => model.BillRequisitionTypeId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -304,12 +304,9 @@
                                         </div>
                                     </div>
                                 }
-                                else if (Model.BillRequisitionTypeId == (int)EnumBillRequisitionType.Overhead)
-                                {
+                                
 
-                                }
-
-                                <div class="row " id="general">
+                                <div class="row " id="normalForm">
 
                                     <div class="col-md-3">
                                         <div class="form-group">
@@ -584,6 +581,20 @@
         var normal = 0;
 
         $(document).ready(function () {
+            'use strict';
+
+            $("#ddlCostCenterId").empty();
+            $("#ddlCostCenterId").append("<option selected disabled>===Select Project Type First===</option>");
+
+            $("#ddlDivisionId").empty();
+            $("#ddlDivisionId").append("<option selected disabled>===Select Project First===</option>");
+
+            $("#ddlBOQItemId").empty();
+            $("#ddlBOQItemId").append("<option selected disabled>===Select Division First===</option>");
+
+            $("#ddlRequisitionItemId").empty();
+            $("#ddlRequisitionItemId").append("<option selected disabled>===Select BoQ First===</option>");
+
             $('#datePickerById').datepicker({
                 format: "dd/MM/yyyy",
                 todayHighlight: true,
@@ -656,7 +667,7 @@
             var Chainage = document.getElementById("inputChainage");
             var Runway = document.getElementById("inputChainageRunway");
             var Floor = document.getElementById("inputFloor");
-            var projectType = $('#projectTypeId').val();
+            var projectType = parseInt($('#projectTypeId').val());
 
             Ward.classList.add("hidden");
             Dpp.classList.add("hidden");
@@ -664,10 +675,15 @@
             Runway.classList.add("hidden");
             Floor.classList.add("hidden");
 
-            if (projectType === '8') {
+            var enumBuilding = @((int)EnumBillReqProjectType.Building);
+            var enumRoad = @((int)EnumBillReqProjectType.Road);
+            var enumRunway = @((int)EnumBillReqProjectType.Runway);
+
+            if (projectType === enumBuilding) {
                 Floor.classList.remove("hidden");
                 Floor.classList.add("block");
-            } else if (projectType === '9') {
+                console.log("ok");
+            } else if (projectType === enumRoad) {
                 Ward.classList.remove("hidden");
                 Ward.classList.add("block");
 
@@ -676,7 +692,7 @@
 
                 Chainage.classList.remove("hidden");
                 Chainage.classList.add("block");
-            } else if (projectType === '13') {
+            } else if (projectType === enumRunway) {
                 Runway.classList.remove("hidden");
                 Runway.classList.add("block");
             }
@@ -880,80 +896,6 @@
             rate.on('input', updateTotal);
             updateTotal();
         }
-
-        function general() {
-            var ItEquipment = document.getElementById("itEquipment");
-            var General = document.getElementById("general");
-            var projectType = $('#ddlBRTypeId').val();
-
-            if (projectType === '5') {
-                ItEquipment.classList.remove("hidden");
-                ItEquipment.classList.add("block");
-                General.classList.add("hidden");
-            }
-            else if (projectType === '3') {
-                ItEquipment.classList.remove("hidden");
-                ItEquipment.classList.add("block");
-                General.classList.add("hidden");
-            }
-            else {
-                ItEquipment.classList.remove("block");
-                ItEquipment.classList.add("hidden");
-
-                General.classList.remove("hidden");
-                General.classList.add("block");
-            }
-
-        }
-
-        $(document).ready(function () {
-            'use strict';
-
-            $("#ddlCostCenterId").empty();
-            $("#ddlCostCenterId").append("<option selected disabled>===Select Project Type First===</option>");
-
-            $("#ddlDivisionId").empty();
-            $("#ddlDivisionId").append("<option selected disabled>===Select Project First===</option>");
-
-            $("#ddlBOQItemId").empty();
-            $("#ddlBOQItemId").append("<option selected disabled>===Select Division First===</option>");
-
-            $("#ddlRequisitionItemId").empty();
-            $("#ddlRequisitionItemId").append("<option selected disabled>===Select BoQ First===</option>");
-
-        });
-
-        //$(document).ready(function () {
-        //    $('#ddlBRTypeId').on('change', function () {
-        //        var selectedOption = $('#ddlBRTypeId option:selected');
-        //        var r = selectedOption.val();
-
-        //        if (r == 3) {
-        //            OverHead(r);
-        //        }
-        //    });
-
-        //    function OverHead(r) {
-        //        var ItEquipment = document.getElementById("overHead");
-        //        var General = document.getElementById("general");
-        //        var projectType = $('#ddlBRTypeId').val();
-
-        //        if (parseInt(projectType) === r) {
-        //            ItEquipment.classList.remove("hidden");
-        //            ItEquipment.classList.add("block");
-        //            General.classList.add("hidden");
-        //        } else {
-        //            ItEquipment.classList.remove("block");
-        //            ItEquipment.classList.add("hidden");
-
-        //            General.classList.remove("hidden");
-        //            General.classList.add("block");
-        //        }
-
-        //        console.log('over');
-        //    }
-        //});
-
 
     </script>
 }

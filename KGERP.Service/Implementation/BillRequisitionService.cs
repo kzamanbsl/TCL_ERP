@@ -710,7 +710,7 @@ namespace KGERP.Service.Implementation
             {
                 try
                 {
-                    var findBillRequisitionType = _context.BillRequisitionTypes.FirstOrDefault(c => c.BillRequisitionTypeId == model.BillRequisitionTypeId);
+                    var findBillRequisitionType = _context.BillRequisitionTypes.FirstOrDefault(c => c.BillRequisitionTypeId == model.ID);
 
                     findBillRequisitionType.Name = model.Name;
                     findBillRequisitionType.Description = model.Description;

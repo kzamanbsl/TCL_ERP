@@ -170,7 +170,7 @@
         function makeEditble(elem) {
             if (elem !== null) {
                 var rowId = elem.id;
-                $('#requisitionType_').val(rowId);
+                $('#BillRequisitionTypeId').val(rowId);
                 $('#ActionId').val(2);
                 $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Update");
                 $('#txtRequisitionTypeName').val($('#tdRequisitionTypeName_' + rowId).text().trim());
