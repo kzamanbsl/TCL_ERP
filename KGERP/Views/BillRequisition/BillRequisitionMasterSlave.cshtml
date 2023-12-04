@@ -399,32 +399,32 @@
                                 }
 
                                 <!--hidden-->
-                        <div class="row">
-                            <div class="col-md-4 hidden" id="inputDemandQtyHidden">
-                                <div class="form-group">
-                                    <label>Material Demand :</label>
-                                    @Html.TextBoxFor(model => model.DetailModel.DemandQty, new { id = "decDemandQtyH", type = "number", step = "0.01", @class = "form-control", placeholder = "Material demand" })
-                                    @Html.ValidationMessageFor(model => model.DetailModel.DemandQty, "", new { @class = "text-danger" })
-                                    <span class="text-danger" id="demandValidate"></span>
-                                </div>
-                            </div>
+                                <div class="row">
+                                    @*<div class="col-md-4 hidden" id="inputDemandQtyHidden">
+                                            <div class="form-group">
+                                                <label>Material Demand :</label>
+                                                @Html.TextBoxFor(model => model.DetailModel.DemandQty, new { id = "decDemandQtyH", type = "number", step = "0.01", @class = "form-control", placeholder = "Material demand" })
+                                                @Html.ValidationMessageFor(model => model.DetailModel.DemandQty, "", new { @class = "text-danger" })
+                                                <span class="text-danger" id="demandValidate"></span>
+                                            </div>
+                                        </div>
 
-                            <div class="col-md-4 hidden" id="inputUnitRateHidden">
-                                <div class="form-group">
-                                    <label>Unit Rate :</label>
-                                    @Html.TextBoxFor(model => model.DetailModel.UnitRate, new { id = "decUnitRateH", type = "number", step = "0.01", @class = "form-control", placeholder = "Unit rate", })
-                                    @Html.ValidationMessageFor(model => model.DetailModel.UnitRate, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
+                                        <div class="col-md-4 hidden" id="inputUnitRateHidden">
+                                            <div class="form-group">
+                                                <label>Unit Rate :</label>
+                                                @Html.TextBoxFor(model => model.DetailModel.UnitRate, new { id = "decUnitRateH", type = "number", step = "0.01", @class = "form-control", placeholder = "Unit rate", })
+                                                @Html.ValidationMessageFor(model => model.DetailModel.UnitRate, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
 
-                            <div class="col-md-4 hidden" id="inputTotalPriceHidden">
-                                <div class="form-group">
-                                    <label>Total Price :</label>
-                                    @Html.TextBoxFor(model => model.DetailModel.TotalPrice, new { id = "decTotalPriceH", type = "number", step = "0.01", @class = "form-control", placeholder = "Total price", ReadOnly = "true" })
-                                    @Html.ValidationMessageFor(model => model.DetailModel.TotalPrice, "", new { @class = "text-danger" })
+                                        <div class="col-md-4 hidden" id="inputTotalPriceHidden">
+                                            <div class="form-group">
+                                                <label>Total Price :</label>
+                                                @Html.TextBoxFor(model => model.DetailModel.TotalPrice, new { id = "decTotalPriceH", type = "number", step = "0.01", @class = "form-control", placeholder = "Total price", ReadOnly = "true" })
+                                                @Html.ValidationMessageFor(model => model.DetailModel.TotalPrice, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>*@
                                 </div>
-                            </div>
-                        </div>
                                 <!--hidden-->
 
                                 <div class="row">
@@ -492,6 +492,32 @@
                                             @Html.ValidationMessageFor(model => model.DetailModel.TotalPrice, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
+                                    <!-- hide-->
+                                    <div class="col-md-4 hidden" id="inputDemandQtyHidden">
+                                        <div class="form-group">
+                                            <label>Material Demand :</label>
+                                            @Html.TextBoxFor(model => model.DetailModel.DemandQty, new { id = "decDemandQtyH", type = "number", step = "0.01", @class = "form-control", placeholder = "Material demand" })
+                                            @Html.ValidationMessageFor(model => model.DetailModel.DemandQty, "", new { @class = "text-danger" })
+                                            <span class="text-danger" id="demandValidate"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 hidden" id="inputUnitRateHidden">
+                                        <div class="form-group">
+                                            <label>Unit Rate :</label>
+                                            @Html.TextBoxFor(model => model.DetailModel.UnitRate, new { id = "decUnitRateH", type = "number", step = "0.01", @class = "form-control", placeholder = "Unit rate", })
+                                            @Html.ValidationMessageFor(model => model.DetailModel.UnitRate, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 hidden" id="inputTotalPriceHidden">
+                                        <div class="form-group">
+                                            <label>Total Price :</label>
+                                            @Html.TextBoxFor(model => model.DetailModel.TotalPrice, new { id = "decTotalPriceH", type = "number", step = "0.01", @class = "form-control", placeholder = "Total price", ReadOnly = "true" })
+                                            @Html.ValidationMessageFor(model => model.DetailModel.TotalPrice, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <!--hide-->
                                 </div>
 
                                 <div class="row">
@@ -876,7 +902,7 @@
                 UnitRateHidden.classList.add("d-block");
                 TotalPriceHidden.classList.add("d-block");
                 Remarks.classList.add("d-block");
-               
+
                 hideMasterForm();
 
                 var demand = $("#decDemandQtyH");
