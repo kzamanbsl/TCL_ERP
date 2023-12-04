@@ -2,7 +2,7 @@
 
 @{
 
-    ViewData["Title"] = "Material Item Entry";
+    ViewData["Title"] = "Material Iteam Entry";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
 
@@ -16,17 +16,17 @@
 </style>
 <section class="content-header">
     <h1>
-        Material Item Entry
+        Material Iteam Entry
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">Material Item Entry</li>
+        <li class="active">Material Iteam Entry</li>
     </ol>
 </section>
 <section class="content">
     <div class="row">
         <div class="col-md-12">
-            @using (Html.BeginForm("CommonFinishProduct", "Configuration", FormMethod.Post, new { id = "commonProductformId", @class = "formValidator", @enctype = "multipart/form-data" }))
+            @using (Html.BeginForm("CommonFinishProductRequisition", "Configuration", FormMethod.Post, new { id = "commonProductformId", @class = "formValidator", @enctype = "multipart/form-data" }))
             {
                 <div class="box">
                     @Html.AntiForgeryToken()
@@ -288,7 +288,7 @@
 
 
 
-@using (Html.BeginForm("CommonFinishProduct", "Configuration", FormMethod.Post, new { id = "commonProductformId", @class = "formValidator", @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("CommonFinishProductRequisition", "Configuration", FormMethod.Post, new { id = "commonProductformId", @class = "formValidator", @enctype = "multipart/form-data" }))
 {
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     @Html.HiddenFor(model => model.ID, new { Value = "", id = "productIdDelete" })

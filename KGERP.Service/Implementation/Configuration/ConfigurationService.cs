@@ -2907,6 +2907,28 @@ namespace KGERP.Service.Implementation.Configuration
 
             return vmCommonProduct;
         }
+        public async Task<VMCommonProduct> GetRequisitionProduct(int companyId)
+        {
+            VMCommonProduct vmCommonProduct = new VMCommonProduct();
+           
+            vmCommonProduct.DataList = await (from t1 in _db.Products.Where(x => x.CompanyId == companyId)
+                                              join t2 in _db.ProductSubCategories on t1.ProductSubCategoryId equals 1 into t2_Join
+                                              from t2 in t2_Join.DefaultIfEmpty()
+                                              join t3 in _db.ProductCategories on t2.ProductCategoryId equals 1 into t3_Join
+                                              from t3 in t3_Join.DefaultIfEmpty()
+                                              join t4 in _db.Units on t1.UnitId equals t4.UnitId into t4_Join
+                                              from t4 in t4_Join.DefaultIfEmpty()
+                                             
+                                              where t1.IsActive == true
+                                              select new VMCommonProduct
+                                              {
+                                                  ID = t1.ProductId,
+                                                  Name = t1.ProductName,
+                                                  UnitName = t4.Name
+                                              }).OrderByDescending(x => x.ID).ToListAsync();//.AsEnumerable()
+
+            return vmCommonProduct;
+        }
         public async Task<VMCommonProduct> GetProductByBinSlaveId(int binSlaveID)
         {
             VMCommonProduct vmCommonProduct = new VMCommonProduct();
