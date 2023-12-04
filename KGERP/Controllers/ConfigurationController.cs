@@ -546,6 +546,74 @@ namespace KGERP.Controllers
             return View(vmCommonProduct);
         }
 
+        #region product as Requisition material but not used yet
+
+        public async Task<ActionResult> CommonFinishProductRequisition(int companyId)
+        {
+
+            VMCommonProduct vmCommonProduct = new VMCommonProduct();
+            vmCommonProduct = await Task.Run(() => _service.GetRequisitionProduct(companyId));
+
+            vmCommonProduct.UnitList = new SelectList(_service.UnitDropDownList(companyId), "Value", "Text");
+
+
+            return View(vmCommonProduct);
+        }
+        [HttpPost]
+        public async Task<ActionResult> CommonFinishProductRequisition(VMCommonProduct vmCommonProduct)
+        {
+
+            //if (vmCommonProduct.ImageFile != null)
+            //{
+            //    vmCommonProduct.Image = _service.UploadFile(vmCommonProduct.ImageFile, "Product", _webHostEnvironment.WebRootPath);
+            //}
+            if (vmCommonProduct.ActionEum == ActionEnum.Add)
+            {
+                //Add 
+                vmCommonProduct.ProductType = "F";
+                if (vmCommonProduct.Common_ProductCategoryFk == null || vmCommonProduct.Common_ProductCategoryFk == 0)
+                {
+                    vmCommonProduct.Common_ProductCategoryFk = 1;
+                }
+                if (vmCommonProduct.Common_ProductSubCategoryFk == null || vmCommonProduct.Common_ProductSubCategoryFk == 0)
+                {
+                    vmCommonProduct.Common_ProductSubCategoryFk = 1;
+                }
+
+
+                await _service.ProductAdd(vmCommonProduct);
+            }
+            else if (vmCommonProduct.ActionEum == ActionEnum.Edit)
+            {
+                //Edit
+                if (vmCommonProduct.Common_ProductCategoryFk == null || vmCommonProduct.Common_ProductCategoryFk == 0)
+                {
+                    vmCommonProduct.Common_ProductCategoryFk = 1;
+                }
+                if (vmCommonProduct.Common_ProductSubCategoryFk == null || vmCommonProduct.Common_ProductSubCategoryFk == 0)
+                {
+                    vmCommonProduct.Common_ProductSubCategoryFk = 1;
+                }
+                await _service.ProductEdit(vmCommonProduct);
+            }
+            else if (vmCommonProduct.ActionEum == ActionEnum.Delete)
+            {
+                //Delete
+                await _service.ProductDelete(vmCommonProduct.ID);
+            }
+            else
+            {
+                return RedirectToAction("Error");
+            }
+
+
+
+            return RedirectToAction(nameof(CommonFinishProductRequisition), new { companyId = vmCommonProduct.CompanyFK });
+        }
+
+        #endregion
+
+
         public async Task<ActionResult> FeedCommonFinishProduct(int companyId, int categoryId = 0, int subCategoryId = 0)
         {
 
@@ -582,12 +650,29 @@ namespace KGERP.Controllers
             {
                 //Add 
                 vmCommonProduct.ProductType = "F";
+                if (vmCommonProduct.Common_ProductCategoryFk == null || vmCommonProduct.Common_ProductCategoryFk == 0)
+                {
+                    vmCommonProduct.Common_ProductCategoryFk = 1;
+                }
+                if (vmCommonProduct.Common_ProductSubCategoryFk == null || vmCommonProduct.Common_ProductSubCategoryFk == 0)
+                {
+                    vmCommonProduct.Common_ProductSubCategoryFk = 1;
+                }
+
 
                 await _service.ProductAdd(vmCommonProduct);
             }
             else if (vmCommonProduct.ActionEum == ActionEnum.Edit)
             {
                 //Edit
+                if (vmCommonProduct.Common_ProductCategoryFk == null || vmCommonProduct.Common_ProductCategoryFk == 0)
+                {
+                    vmCommonProduct.Common_ProductCategoryFk = 1;
+                }
+                if (vmCommonProduct.Common_ProductSubCategoryFk == null || vmCommonProduct.Common_ProductSubCategoryFk == 0)
+                {
+                    vmCommonProduct.Common_ProductSubCategoryFk = 1;
+                }
                 await _service.ProductEdit(vmCommonProduct);
             }
             else if (vmCommonProduct.ActionEum == ActionEnum.Delete)

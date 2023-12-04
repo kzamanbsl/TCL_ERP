@@ -26,7 +26,7 @@
 <section class="content">
     <div class="row">
         <div class="col-md-12">
-            @using (Html.BeginForm("CommonFinishProduct", "Configuration", FormMethod.Post, new { id = "commonProductformId", @class = "formValidator", @enctype = "multipart/form-data" }))
+            @using (Html.BeginForm("CommonFinishProductRequisition", "Configuration", FormMethod.Post, new { id = "commonProductformId", @class = "formValidator", @enctype = "multipart/form-data" }))
             {
                 <div class="box">
                     @Html.AntiForgeryToken()
@@ -288,7 +288,7 @@
 
 
 
-@using (Html.BeginForm("CommonFinishProduct", "Configuration", FormMethod.Post, new { id = "commonProductformId", @class = "formValidator", @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("CommonFinishProductRequisition", "Configuration", FormMethod.Post, new { id = "commonProductformId", @class = "formValidator", @enctype = "multipart/form-data" }))
 {
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     @Html.HiddenFor(model => model.ID, new { Value = "", id = "productIdDelete" })
