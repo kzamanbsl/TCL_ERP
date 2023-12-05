@@ -81,20 +81,20 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-3">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">Country:</label>
                                         @Html.DropDownListFor(model => model.Common_CountriesFk, Model.CountryList as SelectList, "---Select Country---", new { id = "ddlCommon_CountriesFk", @class = "searchingDropdown form-control", required = "required" })
                                         @Html.ValidationMessageFor(model => model.Common_CountriesFk, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                @*<div class="col-md-3">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">Supplier Type:</label>
                                         @Html.DropDownListFor(model => model.SupplierTypeFk, Model.SupplierTypeList as SelectList, "--Supplier Type--", new { id = "ddSupplierTypeFk", @class = "form-control", required = "true" })
                                         @Html.ValidationMessageFor(model => model.SupplierTypeFk, "", new { @class = "text-danger" })
                                     </div>
-                                </div>
+                                </div>*@
 
                             </div>
                             <div class="row">
@@ -170,7 +170,7 @@
                                                     <th>Email</th>
                                                     <th>Contact Person</th>
                                                     <th>Address</th>
-                                                    <th>Supplier Type</th>
+                                                    @*<th>Supplier Type</th>*@
                                                     <th>Type</th>
                                                     <th>A/C Name</th>
                                                     <th>A/C No</th>
@@ -204,9 +204,9 @@
                                                     <td>
                                                         @item.Address, @item.Country
                                                     </td>
-                                                    <td>
+                                                    @*<td>
                                                          @item.SupplierType
-                                                    </td>
+                                                    </td>*@
                                                     <td>
                                                         @if (item.IsForeign == true)
                                                         {
@@ -236,7 +236,7 @@
                                                            data-placement="top">
                                                             <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
                                                         </a>
-                                                        <a href="/SupplierProduct/SupplierProductBOM?vendorId=@item.ID&&companyId=@item.CompanyFK" class="linkPointer" title="Supplier Product"><i class="fa fa-plus-square-o"></i></a>
+                                                        @*<a href="/SupplierProduct/SupplierProductBOM?vendorId=@item.ID&&companyId=@item.CompanyFK" class="linkPointer" title="Supplier Product"><i class="fa fa-plus-square-o"></i></a>*@
                                                     </td>
                                                 </tr>
                                                 }
@@ -330,7 +330,7 @@
                             $('#chkIsForeign').prop('checked', false);
                         }
                         $('#ddlCommon_CountriesFk').val(data.Common_CountriesFk).change();
-                        $('#ddSupplierTypeFk').val(data.SupplierTypeFk);
+                      /*  $('#ddSupplierTypeFk').val(data.SupplierTypeFk);*/
                         $('#txtAddress').val(data.Address);
 
                         $('#txtBranchName').val(data.BranchName);

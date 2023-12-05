@@ -1002,7 +1002,7 @@ namespace KGERP.Service.Implementation.Configuration
                                                                   Country = t2.CountryName,
                                                                   CompanyFK = t1.CompanyId,
                                                                   Common_CountriesFk = t1.CountryId.Value,
-                                                                  SupplierTypeFk = t1.CustomerTypeFK, //used for both supplier and customer
+                                                                  //SupplierTypeFk = t1.CustomerTypeFK, //used for both supplier and customer
                                                                   HeadGLId = t1.HeadGLId,
                                                                   ContactPerson = t1.ContactName,
                                                                   Address = t1.Address,
@@ -1051,7 +1051,7 @@ namespace KGERP.Service.Implementation.Configuration
                 IsForeign = vmCommonSupplier.IsForeign,
                 CompanyId = vmCommonSupplier.CompanyFK.Value,
                 CountryId = vmCommonSupplier.Common_CountriesFk,
-                CustomerTypeFK = vmCommonSupplier.SupplierTypeFk, //Used for both customer and supplier type
+                //CustomerTypeFK = vmCommonSupplier.SupplierTypeFk, //Used for both customer and supplier type
                 CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
                 CreatedDate = DateTime.Now,
                 BranchName = vmCommonSupplier.BranchName,
@@ -1071,66 +1071,69 @@ namespace KGERP.Service.Implementation.Configuration
                 //31016 Account Payable Head for Seed Company
 
             }
-            if (result > 0)
-            {
-                VMHeadIntegration vmHeadIntegration = new VMHeadIntegration();
+            #region Accounting
+            //if (result > 0)
+            //{
+            //    VMHeadIntegration vmHeadIntegration = new VMHeadIntegration();
 
-                if (commonSupplier.CompanyId == (int)CompanyNameEnum.KrishibidSeedLimited)
-                {
-                    vmHeadIntegration = new VMHeadIntegration
-                    {
-                        AccName = commonSupplier.Name,
-                        LayerNo = 6,
-                        Remarks = "GL Layer",
-                        IsIncomeHead = false,
-                        ParentId = 31016,
-                        IsActive = true,
+            //    if (commonSupplier.CompanyId == (int)CompanyNameEnum.KrishibidSeedLimited)
+            //    {
+            //        vmHeadIntegration = new VMHeadIntegration
+            //        {
+            //            AccName = commonSupplier.Name,
+            //            LayerNo = 6,
+            //            Remarks = "GL Layer",
+            //            IsIncomeHead = false,
+            //            ParentId = 31016,
+            //            IsActive = true,
 
-                        CompanyFK = commonSupplier.CompanyId,
-                        CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
-                        CreatedDate = DateTime.Now,
+            //            CompanyFK = commonSupplier.CompanyId,
+            //            CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+            //            CreatedDate = DateTime.Now,
 
-                    };
-                }
-                if (commonSupplier.CompanyId == (int)CompanyNameEnum.GloriousCropCareLimited)
-                {
-                    vmHeadIntegration = new VMHeadIntegration
-                    {
-                        AccName = commonSupplier.Name,
-                        LayerNo = 6,
-                        Remarks = "GL Layer",
-                        IsIncomeHead = false,
-                        ParentId = 39195,
-                        IsActive = true,
+            //        };
+            //    }
+            //    if (commonSupplier.CompanyId == (int)CompanyNameEnum.GloriousCropCareLimited)
+            //    {
+            //        vmHeadIntegration = new VMHeadIntegration
+            //        {
+            //            AccName = commonSupplier.Name,
+            //            LayerNo = 6,
+            //            Remarks = "GL Layer",
+            //            IsIncomeHead = false,
+            //            ParentId = 39195,
+            //            IsActive = true,
 
-                        CompanyFK = commonSupplier.CompanyId,
-                        CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
-                        CreatedDate = DateTime.Now,
-                    };
-                }
+            //            CompanyFK = commonSupplier.CompanyId,
+            //            CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+            //            CreatedDate = DateTime.Now,
+            //        };
+            //    }
 
-                if (commonSupplier.CompanyId == (int)CompanyNameEnum.KrishibidFeedLimited)
-                {
-                    vmHeadIntegration = new VMHeadIntegration
-                    {
-                        AccName = commonSupplier.Name,
-                        LayerNo = 6,
-                        Remarks = "GL Layer",
-                        IsIncomeHead = false,
-                        ParentId = 5283,
+            //    if (commonSupplier.CompanyId == (int)CompanyNameEnum.KrishibidFeedLimited)
+            //    {
+            //        vmHeadIntegration = new VMHeadIntegration
+            //        {
+            //            AccName = commonSupplier.Name,
+            //            LayerNo = 6,
+            //            Remarks = "GL Layer",
+            //            IsIncomeHead = false,
+            //            ParentId = 5283,
 
-                        CompanyFK = commonSupplier.CompanyId,
-                        CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
-                        CreatedDate = DateTime.Now,
-                    };
-                }
+            //            CompanyFK = commonSupplier.CompanyId,
+            //            CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+            //            CreatedDate = DateTime.Now,
+            //        };
+            //    }
 
-                HeadGL headGl = await PayableHeadIntegrationAdd(vmHeadIntegration);
-                if (headGl != null)
-                {
-                    await VendorsCodeAndHeadGLIdEdit(commonSupplier.VendorId, headGl);
-                }
-            }
+            //    HeadGL headGl = await PayableHeadIntegrationAdd(vmHeadIntegration);
+            //    if (headGl != null)
+            //    {
+            //        await VendorsCodeAndHeadGLIdEdit(commonSupplier.VendorId, headGl);
+            //    }
+            //}
+            #endregion
+
 
 
             return result;
@@ -1149,7 +1152,7 @@ namespace KGERP.Service.Implementation.Configuration
             commonSupplier.IsForeign = vmCommonSupplier.IsForeign;
 
             commonSupplier.CountryId = vmCommonSupplier.Common_CountriesFk;
-            commonSupplier.CustomerTypeFK = vmCommonSupplier.SupplierTypeFk;
+           // commonSupplier.CustomerTypeFK = vmCommonSupplier.SupplierTypeFk;
             commonSupplier.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
             commonSupplier.ModifiedDate = DateTime.Now;
             commonSupplier.BranchName = vmCommonSupplier.BranchName;
@@ -3394,7 +3397,7 @@ namespace KGERP.Service.Implementation.Configuration
                          Country = t2.CountryName,
                          CompanyFK = t1.CompanyId,
                          Common_CountriesFk = t1.CountryId.Value,
-                         SupplierTypeFk = t1.CustomerTypeFK,
+                         //SupplierTypeFk = t1.CustomerTypeFK,
                          BranchName = t1.BranchName,
                          ACName = t1.ACName,
                          ACNo = t1.ACNo,
