@@ -153,9 +153,7 @@
                                                         }
                                                     </td>
 
-                                                    @*<td class="unitRate" style="padding: 5px; text-align: right;">@String.Format("{0:0.00}", item.UnitRate)</td>*@
                                                     <td class="lineTotal" style="padding: 5px;  text-align: right;">@String.Format("{0:0.00}", item.TotalPrice)</td>
-
 
                                                     @{
                                                         totalPrice += item.TotalPrice;
@@ -180,9 +178,8 @@
                                         <tr class="bg-gray">
                                             @foreach (var item in Model.ApprovalModelList)
                                             {
-                                                @*<th style="padding:5px;text-align:center;">@item.SignatoryName</th>*@
                                                 <th style="padding:5px;text-align:center;">
-                                                    @((item.SignatoryName == "QS") ? "QS/ Head/ IT / Engineer" : item.SignatoryName)
+                                                    @((item.SignatoryName == "QS") ? "QS/ Engr./ HOD" : item.SignatoryName)
                                                 </th>
                                             }
                                         </tr>
@@ -193,16 +190,12 @@
                                                 {
                                                     <td style="text-align:center">
                                                         <span class="btn btn-warning btn-xs"> @item.AprrovalStatusName</span>
-
                                                     </td>
-
-
                                                 }
                                                 else if (item.AprrovalStatusId == (int)EnumBillRequisitionStatus.Rejected)
                                                 {
                                                     <td style="text-align:center">
                                                         <span class="btn btn-danger btn-xs"> @item.AprrovalStatusName</span>
-
                                                     </td>
                                                 }
                                                 else if (item.AprrovalStatusId == (int)EnumBillRequisitionStatus.Approved)
@@ -210,7 +203,6 @@
                                                     <td style="text-align:center">
                                                         @if (item.SignatoryId == (int)EnumBRequisitionSignatory.Initiator)
                                                         {
-
                                                             <span class="btn btn-success btn-xs"> Prepared</span>
                                                         }
                                                         else if (item.SignatoryId == (int)EnumBRequisitionSignatory.PM)
@@ -233,23 +225,17 @@
                                                         {
                                                             <span class="btn btn-success btn-xs"> Approved</span>
                                                         }
-
                                                     </td>
-
                                                 }
                                                 else
                                                 {
                                                     <td style="padding:5px; text-align:center;">@item.AprrovalStatusName</td>
-
                                                 }
                                             }
                                         </tr>
-
                                     </table>
-
                                 </div>
                             </div>
-
                         }
                     </div>
 
@@ -293,29 +279,58 @@
         });
 
         function recalculateTotals() {
-            var total = 0;
 
             $('#itemTable tbody tr').each(function () {
-                var demandQty = parseFloat($(this).find('.demandQty').val());
-                var unitRate = parseFloat($(this).find('.unitRate').text());
+                var demandQtyInput = $(this).find('.demandQty');
+                var unitRateInput = $(this).find('.unitRate');
                 var remainingQty = parseFloat($(this).find('.remainingQty').text());
+                var linetotal = parseFloat($(this).find('.lineTotal').text());
 
-                if (!isNaN(demandQty) && !isNaN(unitRate)) {
-                    if (demandQty > remainingQty) {
-                        // Update the input or show an error message indicating exceeding remaining quantity
-                        // For demonstration, I'm setting the value to remainingQty
-                        $(this).find('.demandQty').val(remainingQty);
-                        demandQty = remainingQty; // Update demandQty to remainingQty
+                demandQtyInput.on('input', function (event) {
+                    var demandQty = parseFloat(demandQtyInput.val());
+                    var unitRate = parseFloat(unitRateInput.val());
+
+                    if (!isNaN(demandQty) && !isNaN(unitRate)) {
+                        if (demandQty > remainingQty) {
+                            demandQtyInput.val(remainingQty);
+                            demandQty = remainingQty;
+                        }
+
+                        lineTotal = demandQty * unitRate;
+
+                        $('.lineTotal').text(lineTotal.toFixed(2));
                     }
+                    totalCount();
+                });
 
-                    var lineTotal = demandQty * unitRate;
+                unitRateInput.on('input', function (event) {
+                    var demandQty = parseFloat(demandQtyInput.val());
+                    var unitRate = parseFloat(unitRateInput.val());
 
-                    $(this).find('.lineTotal').text(lineTotal.toFixed(2));
-                    total += lineTotal;
-                }
+                    if (!isNaN(demandQty) && !isNaN(unitRate)) {
+                        if (demandQty > remainingQty) {
+                            demandQtyInput.val(remainingQty);
+                            demandQty = remainingQty;
+                        }
+
+                        lineTotal = demandQty * unitRate;
+
+                        $('.lineTotal').text(lineTotal.toFixed(2));
+                    }
+                    totalCount();
+                });
+            });
+            totalCount();
+        }
+
+        function totalCount() {
+            var total = 0;
+            $('#itemTable tbody tr').each(function () {
+                var linetotal = parseFloat($(this).find('.lineTotal').text());
+                total += linetotal;
             });
 
-            $('#total').text(total.toFixed(2));
+            $("#total").text(total.toFixed(2));
         }
 
     </script>
