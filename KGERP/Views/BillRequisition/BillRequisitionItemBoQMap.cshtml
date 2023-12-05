@@ -114,9 +114,10 @@
                                 <tr>
                                     <th>SL</th>
                                     <th>Division Name</th>
+                                    <th>BoQ Number</th>
                                     <th>BoQ Item Name</th>
                                     <th>Material Name</th>
-                                    <th>Estimated Amount</th>
+                                    <th>Estimated Quantity</th>
                                     <th>Unit Price</th>
                                     <th>Estimated Amount</th>
                                     <th>Action</th>
@@ -142,8 +143,11 @@
                                                     <input type="hidden" id="division_@item.BoQItemProductMapId" value="@diviId" />
                                                     <input type="hidden" id="boqItem_@item.BoQItemProductMapId"  value="@item.BoQItemId" />
                                                     <input type="hidden" id="material_@item.BoQItemProductMapId"  value="@item.ProductId" />
+                                                    <input type="hidden" id="Quantity_@item.BoQItemProductMapId"  value="@item.EstimatedQty" />
+                                                    <input type="hidden" id="UnitRate_@item.BoQItemProductMapId"  value="@item.UnitRate" />
                                                 </td>
                                                 <td id="tdBoqDivisionName_@item.BoQItemProductMapId">@Model.Projects.FirstOrDefault(c=>c.CostCenterId == projId).Name</td>
+                                                <td id="tdBoqItemNo_@item.BoQItemProductMapId">@Model.BoQItems.FirstOrDefault(c=> c.BoQItemId == item.BoQItemId).BoQNumber</td>
                                                 <td id="tdBoqItemName_@item.BoQItemProductMapId">@Model.BoQItems.FirstOrDefault(c=> c.BoQItemId == item.BoQItemId).Name</td>
                                                 <td id="tdBoqMaterialName_@item.BoQItemProductMapId">@Model.BoQMaterials.FirstOrDefault(c=> c.ProductId == item.ProductId).ProductName</td>
                                                 <td id="tdBoqEstimateQty_@item.BoQItemProductMapId">@item.EstimatedQty</td>
@@ -205,6 +209,14 @@
 @section scripts {
     <script type="text/javascript">
         $(document).ready(function () {
+            'use strict';
+
+            $("#ddlBoQDivisionId").empty();
+            $("#ddlBoQDivisionId").append("<option selected disabled>===Select Project First===</option>");
+
+            $("#ddlBoQItemId").empty();
+            $("#ddlBoQItemId").append("<option selected disabled>===Select Division First===</option>");
+
             $('.formValidator').bootstrapValidator();
         });
 
@@ -215,14 +227,17 @@
                 $('#ActionId').val(2);
                 $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Update");
                 $('#ddlProjectId').val($('#project_' + rowId).val().trim()).trigger('change');
-                getBoqDivisionList(rowId);
-                getBoqItemList(rowId);
+                showDivision(rowId);
+                $('#ddlBoQDivisionId').val($('#division_' + rowId).val().trim()).trigger('change');
+                showBoQItem(rowId);
+                $('#ddlBoQItemId').val($('#boqItem_' + rowId).val().trim()).trigger('change');
                 $('#ddlMaterialItemId').val($('#material_' + rowId).val().trim()).trigger('change');
-                $('#txtEstimateQty').val($('#tdBoqEstimateQty_' + rowId).text().trim());
-                $('#txtUnitRate').val($('#tdBoqUnitRate_' + rowId).text().trim());
+                $('#txtEstimateQty').val($('#Quantity_' + rowId).val().trim());
+                $('#txtUnitRate').val($('#UnitRate_' + rowId).val().trim());
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
         }
+
 
         function makeDeletable(id) {
             if (id !== null) {
@@ -238,9 +253,8 @@
         }
 
         // get division list
-        function showDivision() {
+        function showDivision(rowId) {
             var getProjectId = $("#ddlProjectId option:selected");
-            console.log("pro" + getProjectId.val());
             var showBoqDivisionList = $("#ddlBoQDivisionId");
             $.ajax({
                 type: "GET",
@@ -265,9 +279,8 @@
         }
 
         // get boq item list
-        function showBoQItem() {
+        function showBoQItem(rowId) {
             var getBoqDivisionId = $("#ddlBoQDivisionId option:selected");
-            console.log("divi" + getBoqDivisionId.val());
             var showBoqItemList = $("#ddlBoQItemId");
 
             $.ajax({
@@ -291,48 +304,6 @@
                 }
             });
         }
-
-        /* get boq material list*/
-        //function showBoQMaterial() {
-        //    var getBoqItemId = $("#ddlBoQItemId option:selected");
-        //    console.log("divi" + getBoqItemId.val());
-        //    var showBoqMaterialList = $("#ddlMaterialItemId");
-
-        //    $.ajax({
-        //        type: "GET",
-        //        url: "/BillRequisition/getBoqMaterialList",
-        //        dataType: "json",
-        //        data: { id: getBoqItemId.val() },
-        //        success: function (data) {
-        //            showBoqMaterialList.empty();
-        //            showBoqMaterialList.append("<option selected disabled>===Select Material===</option>");
-
-        //            $.each(data, function (index, item) {
-        //                showBoqMaterialList.append($('<option>', {
-        //                    value: item.MaterialId,
-        //                    text: item.MaterialName
-        //                }));
-        //            });
-        //        },
-        //        error: function (error) {
-        //            console.error("Error in AJAX request:", error);
-        //        }
-        //    });
-        //}
-
-        $(document).ready(function () {
-            'use strict';
-
-            $("#ddlBoQDivisionId").empty();
-            $("#ddlBoQDivisionId").append("<option selected disabled>===Select Project First===</option>");
-
-            $("#ddlBoQItemId").empty();
-            $("#ddlBoQItemId").append("<option selected disabled>===Select Division First===</option>");
-
-            //$("#ddlMaterialItemId").empty();
-            //$("#ddlMaterialItemId").append("<option selected disabled>===Select BoQ First===</option>");
-
-        });
 
     </script>
 }
