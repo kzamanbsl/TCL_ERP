@@ -21,6 +21,7 @@ namespace KGERP.Service.ServiceModel
         public string EmployeeId { get; set; }
 
         public List<Employee> Employees { get; set; }
+        public List<Employee> EmployeesWithId { get; set; }
         public List<Accounting_CostCenter> Projects { get; set; }
         public List<CostCenterManagerMapModel> CostCenterManagerMapModels { get; set; }
     }
