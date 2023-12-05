@@ -28,7 +28,7 @@
         else
         {
             <span>
-                Purchase Order
+                Work Order
             </span>
         }
 
@@ -36,7 +36,7 @@
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">Purchase Order</li>
+        <li class="active">Work Order</li>
     </ol>
 </section>
 
@@ -110,7 +110,7 @@
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label>PO Date:</label>
+                                        <label>Date:</label>
                                         <input name="OrderDate" asp-for="OrderDate" type="text" value="@DateTime.Today.ToString("yyyy-MM-dd")" required="required" class="datePicker form-control" id="txtOrderDate" placeholder="Date" autocomplete="off">
                                         @Html.ValidationMessageFor(model => model.OrderDate, "", new { @class = "text-danger" })
                                     </div>
@@ -289,7 +289,7 @@
                                 </div>
                             </div>
 
-                            <div class="row">
+                            <div class="row" style="display:none;">
                                 <div class="col-12 text-right">
                                     <div class="form-group">
                                         @Html.CheckBoxFor(model => model.IsOpening, new { id = "checkboxOpening", @class = "form-check" })
