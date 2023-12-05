@@ -183,11 +183,25 @@ namespace KGERP.Controllers
         [HttpGet]
         public async Task<ActionResult> CostCenterManagerMap(int companyId)
         {
+
+            var getEmployee = await _service.GetEmployeeList(companyId);
+            List<Employee> EmployeeNameWithId = new List<Employee>();
+            foreach (var item in getEmployee)
+            {
+                var data = new Employee()
+                {
+                    Id = item.Id,
+                    Name = "[" + item.Id + "] - " + item.Name
+                };
+                EmployeeNameWithId.Add(data);
+            }
+
             var viewData = new CostCenterManagerMapModel()
             {
                 CompanyFK = companyId,
                 Projects = await _service.GetProjectList(companyId),
                 Employees = await _service.GetEmployeeList(companyId),
+                EmployeesWithId = EmployeeNameWithId,
                 CostCenterManagerMapModels = await _service.GetCostCenterManagerMapList(companyId),
             };
 

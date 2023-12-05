@@ -53,7 +53,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label asp-for="ProjectId">Select Project : </label>
-                                    @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.Projects.OrderBy(order => order.Name), "CostCenterId", "Name"), "== Select Project ==", new { id = "selectProject", @class = "form-control" })
+                                    @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.Projects.OrderBy(order => order.Name), "CostCenterId", "Name"), "== Select Project ==", new { id = "selectProject", @class = "form-control searchingDropdown" })
                                     @Html.ValidationMessageFor(model => model.ProjectId, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -61,7 +61,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label asp-for="EmployeeRowId">Select Manager : </label>
-                                    @Html.DropDownListFor(model => model.EmployeeRowId, new SelectList(Model.Employees.OrderBy(order => order.Name), "Id", "Name"), "== Select Manager ==", new { id = "selectEmployee", @class = "form-control" })
+                                    @Html.DropDownListFor(model => model.EmployeeRowId, new SelectList(Model.EmployeesWithId.OrderBy(order => order.Name), "Id", "Name"), "== Select Manager ==", new { id = "selectEmployee", @class = "form-control searchingDropdown" })
                                     @Html.ValidationMessageFor(model => model.EmployeeRowId, "", new { @class = "text-danger" })
                                 </div>
                             </div>
