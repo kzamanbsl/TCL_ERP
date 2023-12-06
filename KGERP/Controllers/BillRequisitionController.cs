@@ -129,6 +129,23 @@ namespace KGERP.Controllers
             return Json(boqItemList, JsonRequestBehavior.AllowGet);
         }
 
+        // Filter with boq division id
+        public JsonResult getBoqItemListWithBoqNumber(long id)
+        {
+            var boqItemList = _service.GetBillOfQuotationList().Where(c => c.BoQDivisionId == id).ToList();
+            List<BillBoQItem> boqItemWithId = new List<BillBoQItem>();
+            foreach (var item in boqItemList)
+            {
+                var data = new BillBoQItem()
+                {
+                    BoQItemId = item.BoQItemId,
+                    Name = item.BoQNumber + " -- " + item.Name,
+                };
+                boqItemWithId.Add(data);
+            }
+            return Json(boqItemWithId, JsonRequestBehavior.AllowGet);
+        }
+
         #endregion
 
         #region Project Type

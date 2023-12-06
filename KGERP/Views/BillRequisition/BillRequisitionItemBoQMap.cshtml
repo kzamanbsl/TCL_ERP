@@ -285,7 +285,8 @@
 
             $.ajax({
                 type: "GET",
-                url: "/BillRequisition/getBoqItemList",
+                //url: "/BillRequisition/getBoqItemList",
+                url: "/BillRequisition/getBoqItemListWithBoqNumber",
                 dataType: "json",
                 data: { id: getBoqDivisionId.val() },
                 success: function (data) {
