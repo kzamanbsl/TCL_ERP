@@ -137,7 +137,6 @@ namespace KGERP.Data.Models
         public virtual DbSet<ProductFormula> ProductFormulas { get; set; }
         public virtual DbSet<ProductPrice> ProductPrices { get; set; }
         public virtual DbSet<ProductStore> ProductStores { get; set; }
-        public virtual DbSet<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
         public virtual DbSet<PurchaseOrderTemplate> PurchaseOrderTemplates { get; set; }
         public virtual DbSet<UpazilaAssign> UpazilaAssigns { get; set; }
         public virtual DbSet<VendorOffer> VendorOffers { get; set; }
@@ -265,7 +264,6 @@ namespace KGERP.Data.Models
         public virtual DbSet<P> PS { get; set; }
         public virtual DbSet<StockTransfer> StockTransfers { get; set; }
         public virtual DbSet<ManagerProductMap> ManagerProductMaps { get; set; }
-        public virtual DbSet<PurchaseOrder> PurchaseOrders { get; set; }
         public virtual DbSet<ExpenseMaster> ExpenseMasters { get; set; }
         public virtual DbSet<Region> Regions { get; set; }
         public virtual DbSet<SaleSetting> SaleSettings { get; set; }
@@ -298,7 +296,6 @@ namespace KGERP.Data.Models
         public virtual DbSet<Vendor> Vendors { get; set; }
         public virtual DbSet<BillRequisitionType> BillRequisitionTypes { get; set; }
         public virtual DbSet<CostCenterManagerMap> CostCenterManagerMaps { get; set; }
-        public virtual DbSet<Accounting_CostCenter> Accounting_CostCenter { get; set; }
         public virtual DbSet<Accounting_CostCenterType> Accounting_CostCenterType { get; set; }
         public virtual DbSet<Unit> Units { get; set; }
         public virtual DbSet<BoQBudgetDetail> BoQBudgetDetails { get; set; }
@@ -312,6 +309,9 @@ namespace KGERP.Data.Models
         public virtual DbSet<BillRequisitionDetail> BillRequisitionDetails { get; set; }
         public virtual DbSet<BillRequisitionMaster> BillRequisitionMasters { get; set; }
         public virtual DbSet<BillRequisitionVoucherMap> BillRequisitionVoucherMaps { get; set; }
+        public virtual DbSet<PurchaseOrder> PurchaseOrders { get; set; }
+        public virtual DbSet<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
+        public virtual DbSet<Accounting_CostCenter> Accounting_CostCenter { get; set; }
     
         public virtual ObjectResult<GetEmployeeListForTeam_Result> GetEmployeeListForTeam(Nullable<int> companyId)
         {

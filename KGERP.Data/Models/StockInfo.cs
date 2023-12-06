@@ -18,12 +18,12 @@ namespace KGERP.Data.Models
         public StockInfo()
         {
             this.Employees = new HashSet<Employee>();
-            this.PurchaseOrders = new HashSet<PurchaseOrder>();
             this.StockTransfers = new HashSet<StockTransfer>();
             this.StockTransfers1 = new HashSet<StockTransfer>();
             this.Stores = new HashSet<Store>();
             this.PurchaseReturns = new HashSet<PurchaseReturn>();
             this.OrderDelivers = new HashSet<OrderDeliver>();
+            this.PurchaseOrders = new HashSet<PurchaseOrder>();
         }
     
         public int StockInfoId { get; set; }
@@ -38,8 +38,6 @@ namespace KGERP.Data.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Employee> Employees { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PurchaseOrder> PurchaseOrders { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StockTransfer> StockTransfers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StockTransfer> StockTransfers1 { get; set; }
@@ -49,5 +47,7 @@ namespace KGERP.Data.Models
         public virtual ICollection<PurchaseReturn> PurchaseReturns { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderDeliver> OrderDelivers { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PurchaseOrder> PurchaseOrders { get; set; }
     }
 }

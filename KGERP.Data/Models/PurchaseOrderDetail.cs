@@ -23,7 +23,7 @@ namespace KGERP.Data.Models
         public decimal PurchaseRate { get; set; }
         public decimal QCRate { get; set; }
         public decimal PurchaseAmount { get; set; }
-        public int PackSize { get; set; }
+        public Nullable<int> PackSize { get; set; }
         public Nullable<int> CompanyId { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
@@ -31,7 +31,9 @@ namespace KGERP.Data.Models
         public string ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public Nullable<int> FinishProductBOMId { get; set; }
+        public Nullable<long> BillRequisitionDetailId { get; set; }
     
+        public virtual BillRequisitionDetail BillRequisitionDetail { get; set; }
         public virtual PurchaseOrder PurchaseOrder { get; set; }
     }
 }

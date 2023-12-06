@@ -16,7 +16,7 @@ namespace KGERP.Data.Models
     {
         public long BoQDivisionId { get; set; }
         public string Name { get; set; }
-        public Nullable<int> ProjectId { get; set; }
+        public int ProjectId { get; set; }
         public int CompanyId { get; set; }
         public string CreatedBy { get; set; }
         public System.DateTime CreatedOn { get; set; }
@@ -24,7 +24,7 @@ namespace KGERP.Data.Models
         public Nullable<System.DateTime> ModifiedOn { get; set; }
         public bool IsActive { get; set; }
     
-        public virtual Accounting_CostCenter Accounting_CostCenter { get; set; }
         public virtual Company Company { get; set; }
+        public virtual Accounting_CostCenter Accounting_CostCenter { get; set; }
     }
 }
