@@ -208,7 +208,7 @@ namespace KGERP.Controllers
                 var data = new Employee()
                 {
                     Id = item.Id,
-                    Name = "[" + item.Id + "] - " + item.Name
+                    Name = item.EmployeeId + " -- " + item.Name
                 };
                 EmployeeNameWithId.Add(data);
             }
