@@ -17,7 +17,7 @@ namespace KGERP.Service.ServiceModel
         public DateTime BRDate { get; set; }
         public int ProjectTypeId { get; set; }
         public string ProjectTypeName { get; set; }
-        public int BOQItemId { get; set; }
+        public int? BOQItemId { get; set; }
         public string BOQItemName { get; set; }
         public string BillRequisitionNo { get; set; }
         public int CostCenterId { get; set; }

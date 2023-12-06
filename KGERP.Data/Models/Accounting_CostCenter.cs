@@ -17,10 +17,9 @@ namespace KGERP.Data.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Accounting_CostCenter()
         {
-            this.CostCenterManagerMaps = new HashSet<CostCenterManagerMap>();
             this.BoQBudgetMasters = new HashSet<BoQBudgetMaster>();
             this.BoQDivisions = new HashSet<BoQDivision>();
-            this.BillRequisitionMasters = new HashSet<BillRequisitionMaster>();
+            this.CostCenterManagerMaps = new HashSet<CostCenterManagerMap>();
         }
     
         public int CostCenterId { get; set; }
@@ -36,12 +35,10 @@ namespace KGERP.Data.Models
     
         public virtual Accounting_CostCenterType Accounting_CostCenterType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CostCenterManagerMap> CostCenterManagerMaps { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BoQBudgetMaster> BoQBudgetMasters { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BoQDivision> BoQDivisions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BillRequisitionMaster> BillRequisitionMasters { get; set; }
+        public virtual ICollection<CostCenterManagerMap> CostCenterManagerMaps { get; set; }
     }
 }

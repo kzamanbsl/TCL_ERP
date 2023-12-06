@@ -52,10 +52,10 @@ namespace KGERP.Data.Models
         public Nullable<decimal> ProcessedQty { get; set; }
     
         public virtual ProductionMaster ProductionMaster { get; set; }
-        public virtual PurchaseOrder PurchaseOrder { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MaterialReceiveDetail> MaterialReceiveDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PurchaseReturn> PurchaseReturns { get; set; }
+        public virtual PurchaseOrder PurchaseOrder { get; set; }
     }
 }
