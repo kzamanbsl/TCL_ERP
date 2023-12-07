@@ -123,7 +123,7 @@
                                                     <td style="text-align: center;">
                                                         @Html.HiddenFor(model => model.DetailDataList[i].BillRequisitionMasterId)
                                                         @Html.HiddenFor(model => model.DetailDataList[i].BillRequisitionDetailId)
-                                                        @Html.HiddenFor(model => model.DetailDataList[i].UnitRate)
+                                                       @*@Html.HiddenFor(model => model.DetailDataList[i].UnitRate)*@
                                                         @(++sl)
                                                     </td>
                                                     <td style="padding:5px;text-align:left;">@item.ProductName</td>
@@ -134,7 +134,7 @@
                                                     <td style="padding: 5px; text-align: right;">
                                                         @if (Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
                                                         {
-                                                            @Html.TextBoxFor(model => model.DetailDataList[i].DemandQty, new { id = "demandQty_" + i, @class = "form -control quantityValue demandQty" })
+                                                            @Html.TextBoxFor(model => model.DetailDataList[i].DemandQty, new { id = "demandQty_" + i, @class = "form-control quantityValue demandQty" })
                                                         }
                                                         else
                                                         {
@@ -145,7 +145,7 @@
                                                     <td style="padding: 5px; text-align: right;">
                                                         @if (Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
                                                         {
-                                                            @Html.TextBoxFor(model => model.DetailDataList[i].UnitRate, new { id = "unitRate_" + i, @class = "form -control quantityValue unitRate" })
+                                                            @Html.TextBoxFor(model => model.DetailDataList[i].UnitRate, new { id = "unitRate_" + i, @class = "form-control quantityValue unitRate" })
                                                         }
                                                         else
                                                         {
