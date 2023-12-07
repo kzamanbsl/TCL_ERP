@@ -2402,56 +2402,47 @@ namespace KGERP.Service.Implementation
 
         #endregion
 
-        public List<dynamic> GetMaterialDetailWithNameAndUnitId(long boqId)
+        public List<Product> GetMaterialByBoqId(long boqId)
         {
-            var materialDetail = _context.BoQItemProductMaps
-                .Where(c => c.BoQItemId == boqId)
-                .Join(
-                    _context.Products,
-                    boqItem => boqItem.ProductId,
-                    product => product.ProductId,
-                    (boqItem, product) => new
-                    {
-                        MaterialId = product.ProductId,
-                        MaterialName = product.ProductName,
-                        UnitId = product.UnitId,
-                    }
-                )
-                .Join(
-                    _context.Units,
-                    result => result.UnitId,
-                    unit => unit.UnitId,
-                    (result, unit) => new
-                    {
-                        result.MaterialName,
-                        result.MaterialId,
-                        result.UnitId,
-                        UnitName = unit.Name,
-                    }
-                )
-                .ToList<dynamic>();
+            var materials = (
+                from t1 in _context.BoQItemProductMaps
+                    .Where(x => x.BoQItemId == boqId && x.IsActive)
+                join t2 in _context.Products
+                    .Where(x => x.IsActive) on t1.ProductId equals t2.ProductId
+                select new
+                {
+                    t1.ProductId,
+                    t2.ProductName
+                }).ToList();
 
-            return materialDetail;
+            var productList = materials.Select(x => new Product
+            {
+                ProductId = x.ProductId,
+                ProductName = x.ProductName
+            }).ToList();
+
+            return productList;
         }
 
         public async Task<decimal?> ReceivedSoFarTotal(long boqId, long productId)
         {
             decimal? total = 0;
 
-            var boqMaster = await _context.BillRequisitionMasters.Where(c => c.BOQItemId == boqId && c.IsActive == true).ToListAsync();
-            var boqDetail = await _context.BillRequisitionDetails.Where(c => c.CompanyId == 21 && c.IsActive == true).ToListAsync();
-            if (boqMaster != null && boqDetail != null)
-            {
-                foreach (var master in boqMaster)
+            var getRequisitionByBoqId = (
+                from t1 in _context.BillRequisitionMasters
+                    .Where(c=> c.BOQItemId == boqId && c.StatusId == (int)EnumBillRequisitionStatus.Approved && c.IsActive == true)
+                join t2 in _context.BillRequisitionDetails
+                    .Where(c=> c.ProductId == productId && c.IsActive == true) on t1.BillRequisitionMasterId equals t2.BillRequisitionMasterId
+                select new
                 {
-                   var mData = boqDetail.Where(c => c.BillRequisitionMasterId == master.BillRequisitionMasterId && c.ProductId == productId).ToList();
-                   foreach(var detail in boqDetail)
-                    {
-                        total += (detail.DemandQty == null) ? 0 : detail.DemandQty;
-                    }
-                }
-                
+                    t2.DemandQty
+                }).ToList();
+
+            foreach(var item in getRequisitionByBoqId)
+            {
+                total += item.DemandQty;
             }
+
             return total;
         }
 

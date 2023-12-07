@@ -89,9 +89,9 @@ namespace KGERP.Controllers
         }
 
         // Dependent BoQ material List
-        public JsonResult getBoqMaterialList(int id)
+        public JsonResult getBoqMaterialList(long id)
         {
-            var materialList = _service.GetMaterialDetailWithNameAndUnitId(id);
+            var materialList = _service.GetMaterialByBoqId(id);
 
             return Json(materialList, JsonRequestBehavior.AllowGet);
         }
