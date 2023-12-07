@@ -116,7 +116,7 @@ namespace KGERP.Service.Interface
 
         #endregion
 
-        List<dynamic> GetMaterialDetailWithNameAndUnitId(long boqId);
+        List<Product> GetMaterialByBoqId(long boqId);
         Task<decimal?> ReceivedSoFarTotal(long boqId, long productId);
 
         Task<BoQItemProductMap> BoqMaterialBudget(long boqId, long productId);

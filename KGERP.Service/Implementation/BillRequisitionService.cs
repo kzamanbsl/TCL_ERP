@@ -2396,36 +2396,27 @@ namespace KGERP.Service.Implementation
 
         #endregion
 
-        public List<dynamic> GetMaterialDetailWithNameAndUnitId(long boqId)
+        public List<Product> GetMaterialByBoqId(long boqId)
         {
-            var materialDetail = _context.BoQItemProductMaps
-                .Where(c => c.BoQItemId == boqId)
-                .Join(
-                    _context.Products,
-                    boqItem => boqItem.ProductId,
-                    product => product.ProductId,
-                    (boqItem, product) => new
-                    {
-                        MaterialId = product.ProductId,
-                        MaterialName = product.ProductName,
-                        UnitId = product.UnitId,
-                    }
-                )
-                .Join(
-                    _context.Units,
-                    result => result.UnitId,
-                    unit => unit.UnitId,
-                    (result, unit) => new
-                    {
-                        result.MaterialName,
-                        result.MaterialId,
-                        result.UnitId,
-                        UnitName = unit.Name,
-                    }
-                )
-                .ToList<dynamic>();
+            var materials = (
+                from t1 in _context.BoQItemProductMaps
+                    .Where(x => x.BoQItemId == boqId && x.IsActive)
+                join t2 in _context.Products
+                    .Where(x => x.IsActive) on t1.ProductId equals t2.ProductId
+                select new
+                {
+                    t1.ProductId,
+                    t2.ProductName
+                }).ToList();
 
-            return materialDetail;
+            // Convert the anonymous type to List<Product>
+            var productList = materials.Select(x => new Product
+            {
+                ProductId = x.ProductId,
+                ProductName = x.ProductName
+            }).ToList();
+
+            return productList;
         }
 
         public async Task<decimal?> ReceivedSoFarTotal(long boqId, long productId)

@@ -203,6 +203,9 @@
 @section scripts {
     <script type="text/javascript">
         $(document).ready(function () {
+            $("#ddlBoQDivisionId").empty();
+            $("#ddlBoQDivisionId").append("<option selected disabled>===Select Project First===</option>");
+
             $('.formValidator').bootstrapValidator();
         });
 
@@ -247,7 +250,7 @@
                 data: { id: getProjectId.val() },
                 success: function (data) {
                     showBoqDivisionList.empty();
-
+                    showBoqDivisionList.append("<option selected disabled>===Select BoQ Division===</option>");
                     $.each(data, function (index, item) {
                         showBoqDivisionList.append($('<option>', {
                             value: item.BoQDivisionId,
