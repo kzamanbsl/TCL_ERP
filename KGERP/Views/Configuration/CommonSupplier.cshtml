@@ -15,11 +15,11 @@
 </style>
 <section class="content-header">
     <h1>
-        Suppliers/ Exporters
+        Suppliers
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">Suppliers/ Exporters</li>
+        <li class="active">Suppliers</li>
     </ol>
 </section>
 <section class="content">
@@ -43,7 +43,7 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="message-text" class="col-form-label">Supplier/ Exporter Name:</label>
+                                        <label for="message-text" class="col-form-label">Supplier:</label>
                                         @Html.TextBoxFor(model => model.Name, new { id = "txtSupplierName", @class = "form-control", @placeholder = "Supplier Name", required = "required" })
                                         @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                     </div>
@@ -67,46 +67,44 @@
 
 
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">Contact Person:</label>
                                         @Html.TextBoxFor(model => model.ContactPerson, new { id = "txtContactPerson", @class = "form-control", @placeholder = "Contact Person" })
                                         @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <label for="message-text" class="col-form-label"> Is Foreign?:</label>
-                                        @Html.CheckBoxFor(model => model.IsForeign, new { id = "chkIsForeign" })
-                                    </div>
-                                </div>
+                                @*<div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="message-text" class="col-form-label"> Is Foreign?:</label>
+                                            @Html.CheckBoxFor(model => model.IsForeign, new { id = "chkIsForeign" })
+                                        </div>
+                                    </div>*@
 
-                                <div class="col-md-6">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">Country:</label>
                                         @Html.DropDownListFor(model => model.Common_CountriesFk, Model.CountryList as SelectList, "---Select Country---", new { id = "ddlCommon_CountriesFk", @class = "searchingDropdown form-control", required = "required" })
                                         @Html.ValidationMessageFor(model => model.Common_CountriesFk, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-                                @*<div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="message-text" class="col-form-label">Supplier Type:</label>
-                                        @Html.DropDownListFor(model => model.SupplierTypeFk, Model.SupplierTypeList as SelectList, "--Supplier Type--", new { id = "ddSupplierTypeFk", @class = "form-control", required = "true" })
-                                        @Html.ValidationMessageFor(model => model.SupplierTypeFk, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>*@
-
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">Address:</label>
-                                        @Html.TextAreaFor(model => model.Address, new { id = "txtAddress", @class = "form-control", @placeholder = "Address" })
+                                        @Html.TextAreaFor(model => model.Address, new { id = "txtAddress", @class = "form-control", @placeholder = "Address" ,@rows="1"})
                                         @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
+                                @*<div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="message-text" class="col-form-label">Supplier Type:</label>
+                                            @Html.DropDownListFor(model => model.SupplierTypeFk, Model.SupplierTypeList as SelectList, "--Supplier Type--", new { id = "ddSupplierTypeFk", @class = "form-control", required = "true" })
+                                            @Html.ValidationMessageFor(model => model.SupplierTypeFk, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>*@
 
                             </div>
+                          
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
@@ -171,7 +169,7 @@
                                                     <th>Contact Person</th>
                                                     <th>Address</th>
                                                     @*<th>Supplier Type</th>*@
-                                                    <th>Type</th>
+                                                    @*<th>Type</th>*@
                                                     <th>A/C Name</th>
                                                     <th>A/C No</th>
                                                     <th>Bank Name</th>
@@ -184,61 +182,61 @@
                                             <tbody>
                                                 @foreach (var item in Model.DataList)
                                                 {
-                                                <tr>
-                                                    <td>@(++sl)</td>
-                                                    <td>
-                                                        @item.Code
-                                                    </td>
-                                                    <td>
-                                                        @item.Name
-                                                    </td>
-                                                    <td>
-                                                        @item.Phone
-                                                    </td>
-                                                    <td>
-                                                        @item.Email
-                                                    </td>
-                                                    <td>
-                                                        @item.ContactPerson
-                                                    </td>
-                                                    <td>
-                                                        @item.Address, @item.Country
-                                                    </td>
-                                                    @*<td>
-                                                         @item.SupplierType
-                                                    </td>*@
-                                                    <td>
-                                                        @if (item.IsForeign == true)
-                                                        {
-                                                            <span class="label label-success">Exporter</span>
-                                                        }
-                                                        else
-                                                        {
-                                                            <span class="label label-primary">Local Supplier</span>
-                                                        }
-                                                    </td>
+                                                    <tr>
+                                                        <td>@(++sl)</td>
+                                                        <td>
+                                                            @item.Code
+                                                        </td>
+                                                        <td>
+                                                            @item.Name
+                                                        </td>
+                                                        <td>
+                                                            @item.Phone
+                                                        </td>
+                                                        <td>
+                                                            @item.Email
+                                                        </td>
+                                                        <td>
+                                                            @item.ContactPerson
+                                                        </td>
+                                                        <td>
+                                                            @item.Address, @item.Country
+                                                        </td>
+                                                        @*<td>
+                                                                 @item.SupplierType
+                                                            </td>*@
+                                                        @*<td>
+                                                            @if (item.IsForeign == true)
+                                                            {
+                                                                <span class="label label-success">Exporter</span>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span class="label label-primary">Local Supplier</span>
+                                                            }
+                                                        </td>*@
 
-                                                    <td>
-                                                        @item.ACName
-                                                    </td>
-                                                    <td>
-                                                        @item.ACNo
-                                                    </td>
-                                                    <td>
-                                                        @item.BankName
-                                                    </td>
-                                                    <td>
-                                                        @item.BranchName
-                                                    </td>
-                                                    <td>
-                                                        <a id="@item.ID" onclick="makeEditble(@item.ID);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
-                                                        <a id="@item.ID" onclick="makeDeletable(@item.ID);" class="linkPointer" data-toggle="modal" data-target="#deleteModal" title="Delete"
-                                                           data-placement="top">
-                                                            <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
-                                                        </a>
-                                                        @*<a href="/SupplierProduct/SupplierProductBOM?vendorId=@item.ID&&companyId=@item.CompanyFK" class="linkPointer" title="Supplier Product"><i class="fa fa-plus-square-o"></i></a>*@
-                                                    </td>
-                                                </tr>
+                                                        <td>
+                                                            @item.ACName
+                                                        </td>
+                                                        <td>
+                                                            @item.ACNo
+                                                        </td>
+                                                        <td>
+                                                            @item.BankName
+                                                        </td>
+                                                        <td>
+                                                            @item.BranchName
+                                                        </td>
+                                                        <td>
+                                                            <a id="@item.ID" onclick="makeEditble(@item.ID);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
+                                                            <a id="@item.ID" onclick="makeDeletable(@item.ID);" class="linkPointer" data-toggle="modal" data-target="#deleteModal" title="Delete"
+                                                               data-placement="top">
+                                                                <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+                                                            </a>
+                                                            @*<a href="/SupplierProduct/SupplierProductBOM?vendorId=@item.ID&&companyId=@item.CompanyFK" class="linkPointer" title="Supplier Product"><i class="fa fa-plus-square-o"></i></a>*@
+                                                        </td>
+                                                    </tr>
                                                 }
                                             </tbody>
                                         </table>
@@ -323,12 +321,12 @@
                         $('#txtPhone').val(data.Phone);
                         $('#txtEmail').val(data.Email);
                         $('#txtContactPerson').val(data.ContactPerson);
-                        if (data.IsForeign == true) {
-                            $('#chkIsForeign').prop('checked', true);
-                        }
-                        else {
-                            $('#chkIsForeign').prop('checked', false);
-                        }
+                        //if (data.IsForeign == true) {
+                        //    $('#chkIsForeign').prop('checked', true);
+                        //}
+                        //else {
+                        //    $('#chkIsForeign').prop('checked', false);
+                        //}
                         $('#ddlCommon_CountriesFk').val(data.Common_CountriesFk).change();
                       /*  $('#ddSupplierTypeFk').val(data.SupplierTypeFk);*/
                         $('#txtAddress').val(data.Address);

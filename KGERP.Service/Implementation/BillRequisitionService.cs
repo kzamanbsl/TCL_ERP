@@ -1463,6 +1463,7 @@ namespace KGERP.Service.Implementation
 
                 dt.DemandQty = obj.DemandQty;
                 dt.TotalPrice = obj.DemandQty * obj.UnitRate;
+                dt.UnitRate = obj.UnitRate;
                 dt.Remarks = obj.Remarks;
                 dt.ModifiedBy = userName;
                 dt.ModifiedDate = DateTime.Now;
@@ -1627,6 +1628,7 @@ namespace KGERP.Service.Implementation
 
                 dt.DemandQty = obj.DemandQty;
                 dt.TotalPrice = obj.DemandQty * obj.UnitRate;
+                dt.UnitRate = obj.UnitRate;
                 dt.Remarks = obj.Remarks;
                 dt.ModifiedBy = userName;
                 dt.ModifiedDate = DateTime.Now;
@@ -1786,6 +1788,7 @@ namespace KGERP.Service.Implementation
 
                 dt.DemandQty = obj.DemandQty;
                 dt.TotalPrice = obj.DemandQty * obj.UnitRate;
+                dt.UnitRate = obj.UnitRate;
                 dt.Remarks = obj.Remarks;
                 dt.ModifiedBy = userName;
                 dt.ModifiedDate = DateTime.Now;
@@ -1948,6 +1951,7 @@ namespace KGERP.Service.Implementation
 
                 dt.DemandQty = obj.DemandQty;
                 dt.TotalPrice = obj.DemandQty * obj.UnitRate;
+                dt.UnitRate = obj.UnitRate;
                 dt.Remarks = obj.Remarks;
                 dt.ModifiedBy = userName;
                 dt.ModifiedDate = DateTime.Now;
@@ -2111,6 +2115,7 @@ namespace KGERP.Service.Implementation
 
                 dt.DemandQty = obj.DemandQty;
                 dt.TotalPrice = obj.DemandQty * obj.UnitRate;
+                dt.UnitRate = obj.UnitRate;
                 dt.Remarks = obj.Remarks;
                 dt.ModifiedBy = userName;
                 dt.ModifiedDate = DateTime.Now;
@@ -2275,6 +2280,7 @@ namespace KGERP.Service.Implementation
 
                 dt.DemandQty = obj.DemandQty;
                 dt.TotalPrice = obj.DemandQty * obj.UnitRate;
+                dt.UnitRate = obj.UnitRate;
                 dt.Remarks = obj.Remarks;
                 dt.ModifiedBy = userName;
                 dt.ModifiedDate = DateTime.Now;

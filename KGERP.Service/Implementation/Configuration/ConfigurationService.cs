@@ -1038,7 +1038,16 @@ namespace KGERP.Service.Implementation.Configuration
 
             var newString = totalSupplier.ToString().PadLeft(4, '0');
             #endregion
-
+            int bdId = _db.Countries.FirstOrDefault(x => x.CountryName == "Bangladesh").CountryId;
+            vmCommonSupplier.IsForeign = false;
+            if (vmCommonSupplier.Common_CountriesFk > 0)
+            {
+                if(vmCommonSupplier.Common_CountriesFk != bdId)
+                {
+                    vmCommonSupplier.IsForeign = true;
+                }
+            }
+           
             Vendor commonSupplier = new Vendor
             {
                 Code = newString,
@@ -1144,6 +1153,15 @@ namespace KGERP.Service.Implementation.Configuration
             var result = -1;
             Vendor commonSupplier = await _db.Vendors.FindAsync(vmCommonSupplier.ID);
 
+            int bdId = _db.Countries.FirstOrDefault(x => x.CountryName == "Bangladesh").CountryId;
+            vmCommonSupplier.IsForeign = false;
+            if (vmCommonSupplier.Common_CountriesFk > 0)
+            {
+                if (vmCommonSupplier.Common_CountriesFk != bdId)
+                {
+                    vmCommonSupplier.IsForeign = true;
+                }
+            }
             commonSupplier.Name = vmCommonSupplier.Name;
             commonSupplier.Phone = vmCommonSupplier.Phone;
             commonSupplier.ContactName = vmCommonSupplier.ContactPerson;
@@ -1164,7 +1182,7 @@ namespace KGERP.Service.Implementation.Configuration
             {
                 result = commonSupplier.VendorId;
             }
-            await IntegratedAccountsHeadEdit(commonSupplier.Name, commonSupplier.HeadGLId.Value);
+            //await IntegratedAccountsHeadEdit(commonSupplier.Name, commonSupplier.HeadGLId.Value);
             return result;
         }
 
