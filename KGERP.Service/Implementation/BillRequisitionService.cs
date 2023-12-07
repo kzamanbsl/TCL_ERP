@@ -2409,7 +2409,6 @@ namespace KGERP.Service.Implementation
                     t2.ProductName
                 }).ToList();
 
-            // Convert the anonymous type to List<Product>
             var productList = materials.Select(x => new Product
             {
                 ProductId = x.ProductId,
@@ -2423,20 +2422,21 @@ namespace KGERP.Service.Implementation
         {
             decimal? total = 0;
 
-            var boqMaster = await _context.BillRequisitionMasters.Where(c => c.BOQItemId == boqId && c.IsActive == true).ToListAsync();
-            var boqDetail = await _context.BillRequisitionDetails.Where(c => c.CompanyId == 21 && c.IsActive == true).ToListAsync();
-            if (boqMaster != null && boqDetail != null)
-            {
-                foreach (var master in boqMaster)
+            var getRequisitionByBoqId = (
+                from t1 in _context.BillRequisitionMasters
+                    .Where(c=> c.BOQItemId == boqId && c.StatusId == (int)EnumBillRequisitionStatus.Approved && c.IsActive == true)
+                join t2 in _context.BillRequisitionDetails
+                    .Where(c=> c.ProductId == productId && c.IsActive == true) on t1.BillRequisitionMasterId equals t2.BillRequisitionMasterId
+                select new
                 {
-                   var mData = boqDetail.Where(c => c.BillRequisitionMasterId == master.BillRequisitionMasterId && c.ProductId == productId).ToList();
-                   foreach(var detail in boqDetail)
-                    {
-                        total += (detail.DemandQty == null) ? 0 : detail.DemandQty;
-                    }
-                }
-                
+                    t2.DemandQty
+                }).ToList();
+
+            foreach(var item in getRequisitionByBoqId)
+            {
+                total += item.DemandQty;
             }
+
             return total;
         }
 

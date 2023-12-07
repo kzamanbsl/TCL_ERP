@@ -1132,7 +1132,6 @@
             var showRemaining = $("#decRemainingQty");
             var intputDemand = $("#decDemandQty");
             var totalAmount = $("#decTotalPrice");
-            var demandAbility;
 
             $.ajax({
                 type: "GET",
@@ -1145,7 +1144,8 @@
                         showUnitRate.val(data.UnitRate);
                         showReceivedSoFar.val(data.ReceivedSoFar);
                         showRemaining.val(data.RemainingQty);
-
+                        intputDemand.val(0);
+                        totalAmount.val(0);
                         if (showReceivedSoFar <= showEstimate) {
                             demandAbility = true
                         }
@@ -1153,9 +1153,6 @@
                 }
             });
 
-            if (!demandAbility) {
-                intputDemand.val(showEstimate.val());
-            }
             Calculate();
         }
 
