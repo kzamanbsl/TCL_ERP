@@ -3,7 +3,7 @@
 
 
 @{
-    ViewData["Title"] = "Purchase Order";
+    ViewData["Title"] = "Work Order";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     int sl = 0;
@@ -103,242 +103,287 @@
                             <div class="col-md-1"> </div>
                         }
 
-                    <div class="box-body">
+                        <div class="box-body">
 
-                        @if (Model.PurchaseOrderId == 0)
-                        {
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>Date:</label>
-                                        <input name="OrderDate" asp-for="OrderDate" type="text" value="@DateTime.Today.ToString("yyyy-MM-dd")" required="required" class="datePicker form-control" id="txtOrderDate" placeholder="Date" autocomplete="off">
-                                        @Html.ValidationMessageFor(model => model.OrderDate, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>Payment Method:</label>
-                                        @Html.DropDownListFor(model => model.SupplierPaymentMethodEnumFK, Model.POPaymentMethodList as SelectList, "==Select Payment Method==", new { id = "ddlSupplierPaymentMethodEnumFK", @class = "form-control ddlReset", style = "width:100%", required = "required" })
-                                        @Html.ValidationMessageFor(model => model.SupplierPaymentMethodEnumFK, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label class="control-label">Stock At:</label>
-                                        <div class="">
-                                            @Html.DropDownListFor(model => model.StockInfoId, new SelectList(Model.StockInfoList, "Value", "Text"), "---Select---",
-                                                new { @class = "dropdownsize form-control", @id = "stockInfoId", required = "required" })
-                                            @Html.ValidationMessageFor(model => model.StockInfoId, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-3">
-                                    <div class="form-group" style="padding:0px">
-                                        <label>Supplier:</label>
-                                        @Html.EditorFor(model => model.SupplierName, new { htmlAttributes = new { @autocomplete = "on", @class = "form-control", @name = "Supplier Name", @id = "txtSupplierName", required = "required" } })
-
-                                        @Html.HiddenFor(model => model.Common_SupplierFK, new { id = "ddlCommon_SupplierFK" })
-                                        @Html.ValidationMessageFor(model => model.Common_SupplierFK, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>Delivery Date:</label>
-                                        <input name="DeliveryDate" asp-for="DeliveryDate" type="text" required="required" class="datePicker form-control" id="txtDeliveryDate" placeholder="Delivery Date" autocomplete="off">
-                                        @Html.ValidationMessageFor(model => model.DeliveryDate, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Delivery Address:</label>
-                                        @Html.TextAreaFor(model => model.DeliveryAddress, new { id = "txtDeliveryAddress", @class = "form-control", placeholder = "Delivery Address", rows = 1 })
-                                        @Html.ValidationMessageFor(model => model.DeliveryAddress, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="TermsAndCondition" class="col-form-label">T&C Type:</label>
-                                        @Html.DropDownListFor(model => model.TermsAndConditionFk, Model.TermNCondition as SelectList, "==Terms & Condition==", new { id = "TermsAndConditionid", @class = "searchingDropdown form-control ddlReset", style = "width:100%" })
-                                        @Html.ValidationMessageFor(model => model.TermsAndConditionFk, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                                <!-- /.box-body -->
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="txtDescription" class="col-form-label">Description:</label>
-                                        @Html.TextAreaFor(model => model.Description, new { id = "txtDescription", placeholder = "Description", @class = "form-control", rows = 2 })
-                                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="txtDescription" class="col-form-label">Terms & Condition:</label>
-                                        @Html.TextAreaFor(model => model.TermsAndCondition, new { id = "txtTermsAndCondition", @class = "form-control", style = "width:100%", rows = 2, placeholder = "Terms & Conditions" })
-                                        @Html.ValidationMessageFor(model => model.TermsAndCondition, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <!-- /.box-body -->
-                            </div>
-                            <div id="piReletedDivId" style="display:none;">
+                            @if (Model.PurchaseOrderId == 0)
+                            {
                                 <div class="row">
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label>PI No:</label>
-                                            @Html.EditorFor(model => model.PINo, new { htmlAttributes = new { id = "txtDeliveryAddress", @class = "form-control" } })
+                                            <label>Date:</label>
+                                            <input name="OrderDate" asp-for="OrderDate" type="text" value="@DateTime.Today.ToString("yyyy-MM-dd")" required="required" class="datePicker form-control" id="txtOrderDate" placeholder="Date" autocomplete="off">
+                                            @Html.ValidationMessageFor(model => model.OrderDate, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="message-text" class="col-form-label">Shipped By:</label>
-                                            @Html.DropDownListFor(model => model.ShippedBy, Model.ShippedByList as SelectList, "---Select Shipped By---", new { id = "ddlShippedBy", @class = "form-control" })
+                                            <label>Payment Method:</label>
+                                            @Html.DropDownListFor(model => model.SupplierPaymentMethodEnumFK, Model.POPaymentMethodList as SelectList, "==Select Payment Method==", new { id = "ddlSupplierPaymentMethodEnumFK", @class = "form-control ddlReset", style = "width:100%", required = "required" })
+                                            @Html.ValidationMessageFor(model => model.SupplierPaymentMethodEnumFK, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label">Stock At:</label>
+                                            <div class="">
+                                                @Html.DropDownListFor(model => model.StockInfoId, new SelectList(Model.StockInfoList, "Value", "Text"), "---Select---",
+                                                    new { @class = "dropdownsize form-control", @id = "stockInfoId", required = "required" })
+                                                @Html.ValidationMessageFor(model => model.StockInfoId, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group" style="padding:0px">
+                                            <label>Supplier:</label>
+                                            @Html.EditorFor(model => model.SupplierName, new { htmlAttributes = new { @autocomplete = "on", @class = "form-control", @name = "Supplier Name", @id = "txtSupplierName", required = "required" } })
+
+                                            @Html.HiddenFor(model => model.Common_SupplierFK, new { id = "ddlCommon_SupplierFK" })
+                                            @Html.ValidationMessageFor(model => model.Common_SupplierFK, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
 
 
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label>Port of Loading:</label>
-                                            @Html.EditorFor(model => model.PortOfLoading, new { htmlAttributes = new { id = "txtPortOfLoading", @class = "form-control" } })
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label>Port of Discharge:</label>
-                                            @Html.EditorFor(model => model.PortOfDischarge, new { htmlAttributes = new { id = "txtPortOfDischarge", @class = "form-control" } })
-                                        </div>
-                                    </div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="message-text" class="col-form-label">Country of Origin:</label>
-                                            @Html.DropDownListFor(model => model.CountryId, Model.CountryList as SelectList, "-- Country of Origun--", new { id = "ddlCountryId", @class = "searchingDropdown form-control", @style = "width:100%" })
+                                            <label>Delivery Date:</label>
+                                            <input name="DeliveryDate" asp-for="DeliveryDate" type="text" required="required" class="datePicker form-control" id="txtDeliveryDate" placeholder="Delivery Date" autocomplete="off">
+                                            @Html.ValidationMessageFor(model => model.DeliveryDate, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Delivery Address:</label>
+                                            @Html.TextAreaFor(model => model.DeliveryAddress, new { id = "txtDeliveryAddress", @class = "form-control", placeholder = "Delivery Address", rows = 1 })
+                                            @Html.ValidationMessageFor(model => model.DeliveryAddress, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="message-text" class="col-form-label">Final Destination:</label>
-                                            @Html.DropDownListFor(model => model.FinalDestinationCountryFk, Model.CountryList as SelectList, "--Final Destination--", new { id = "ddlFinalDestinationCountryFk", @class = "searchingDropdown form-control", @style = "width:100%" })
+                                            <label for="TermsAndCondition" class="col-form-label">T&C Type:</label>
+                                            @Html.DropDownListFor(model => model.TermsAndConditionFk, Model.TermNCondition as SelectList, "==Terms & Condition==", new { id = "TermsAndConditionid", @class = "searchingDropdown form-control ddlReset", style = "width:100%" })
+                                            @Html.ValidationMessageFor(model => model.TermsAndConditionFk, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label>Freight Charge:</label>
-                                            @Html.EditorFor(model => model.FreightCharge, new { htmlAttributes = new { id = "txtFreightCharge", @class = "form-control" } })
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label>Other Charge:</label>
-                                            @Html.EditorFor(model => model.OtherCharge, new { htmlAttributes = new { id = "txtOtherCharge", @class = "form-control" } })
-                                        </div>
-                                    </div>
+                                    <!-- /.box-body -->
                                 </div>
 
                                 <div class="row">
-                                    @if (Model.CompanyFK == (int)CompanyNameEnum.KrishibidSeedLimited)
-                                    {
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="txtDescription" class="col-form-label">Description:</label>
+                                            @Html.TextAreaFor(model => model.Description, new { id = "txtDescription", placeholder = "Description", @class = "form-control", rows = 2 })
+                                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="txtDescription" class="col-form-label">Terms & Condition:</label>
+                                            @Html.TextAreaFor(model => model.TermsAndCondition, new { id = "txtTermsAndCondition", @class = "form-control", style = "width:100%", rows = 2, placeholder = "Terms & Conditions" })
+                                            @Html.ValidationMessageFor(model => model.TermsAndCondition, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <!-- /.box-body -->
+                                </div>
+                                <div id="piReletedDivId" style="display:none;">
+                                    <div class="row">
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <label class="col-form-label">LC No:</label>
-                                                @Html.DropDownListFor(model => model.LCHeadGLId, Model.LCList as SelectList, "==Select L/C==", new { id = "ddlLCNo", @class = "searchingDropdown form-control", style = "width:100%" })
-                                                @Html.ValidationMessageFor(model => model.LCHeadGLId, "", new { @class = "text-danger" })
+                                                <label>PI No:</label>
+                                                @Html.EditorFor(model => model.PINo, new { htmlAttributes = new { id = "txtDeliveryAddress", @class = "form-control" } })
                                             </div>
                                         </div>
-                                    }
-                                    else
-                                    {
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <label>LC No:</label>
-                                                @Html.EditorFor(model => model.LCNo, new { htmlAttributes = new { id = "txtLCNo", @class = "form-control" } })
+                                                <label for="message-text" class="col-form-label">Shipped By:</label>
+                                                @Html.DropDownListFor(model => model.ShippedBy, Model.ShippedByList as SelectList, "---Select Shipped By---", new { id = "ddlShippedBy", @class = "form-control" })
                                             </div>
                                         </div>
-                                    }
 
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label>L/C Value:</label>
-                                            @Html.EditorFor(model => model.LCValue, new { htmlAttributes = new { id = "txtLCValue", @class = "form-control" } })
+
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Port of Loading:</label>
+                                                @Html.EditorFor(model => model.PortOfLoading, new { htmlAttributes = new { id = "txtPortOfLoading", @class = "form-control" } })
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label>Insurance No:</label>
-                                            @Html.EditorFor(model => model.InsuranceNo, new { htmlAttributes = new { id = "txtInsuranceNo", @class = "form-control" } })
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label>Premium Value:</label>
-                                            @Html.EditorFor(model => model.PremiumValue, new { htmlAttributes = new { id = "txtPremiumValue", @class = "form-control" } })
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row" style="display:none;">
-                                <div class="col-12 text-right">
-                                    <div class="form-group">
-                                        @Html.CheckBoxFor(model => model.IsOpening, new { id = "checkboxOpening", @class = "form-check" })
-                                        <label for="checkboxOpening" class="form-check-label">Is Opening?</label>
-                                    </div>
-                                </div>
-                            </div>
-                        }
-                        @if (Model.Status == (int)POStatusEnum.Draft)
-                        {
-                            <div class="row">
-                                <div class="col-md-5">
-                                    <div class="form-group" style="padding:0px">
-                                        <label for="message-text" class="col-form-label">Raw Item:</label>
-
-                                        @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @autocomplete = "on", @class = "form-control", @name = "Product Name", @id = "txtProductName" } })
-
-                                        @Html.HiddenFor(model => model.Common_ProductFK, new { id = "ddlRProductFK" })
-                                        @Html.ValidationMessageFor(model => model.Common_ProductFK, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Purchasing Qty:</label>
-                                        <div class="input-group">
-                                            @Html.TextBoxFor(model => model.PurchaseQuantity, new { id = "txtPurchaseQuantity", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Purchase Quantity", required = "Required" })
-                                            @Html.ValidationMessageFor(model => model.PurchaseQuantity, "", new { @class = "text-danger" })
-
-                                            <div class="input-group-addon">
-                                                <span class="txtUnitName"></span>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Port of Discharge:</label>
+                                                @Html.EditorFor(model => model.PortOfDischarge, new { htmlAttributes = new { id = "txtPortOfDischarge", @class = "form-control" } })
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>Unit Price:</label>
-                                        @Html.TextBoxFor(model => model.PurchasingPrice, new { id = "txtPurchasingPrice", type = "number", step = "0.01", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Purchasing Price", required = "Required" })
-                                        @Html.ValidationMessageFor(model => model.PurchasingPrice, "", new { @class = "text-danger" })
 
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="message-text" class="col-form-label">Country of Origin:</label>
+                                                @Html.DropDownListFor(model => model.CountryId, Model.CountryList as SelectList, "-- Country of Origun--", new { id = "ddlCountryId", @class = "searchingDropdown form-control", @style = "width:100%" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="message-text" class="col-form-label">Final Destination:</label>
+                                                @Html.DropDownListFor(model => model.FinalDestinationCountryFk, Model.CountryList as SelectList, "--Final Destination--", new { id = "ddlFinalDestinationCountryFk", @class = "searchingDropdown form-control", @style = "width:100%" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Freight Charge:</label>
+                                                @Html.EditorFor(model => model.FreightCharge, new { htmlAttributes = new { id = "txtFreightCharge", @class = "form-control" } })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Other Charge:</label>
+                                                @Html.EditorFor(model => model.OtherCharge, new { htmlAttributes = new { id = "txtOtherCharge", @class = "form-control" } })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        @if (Model.CompanyFK == (int)CompanyNameEnum.KrishibidSeedLimited)
+                                        {
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label class="col-form-label">LC No:</label>
+                                                    @Html.DropDownListFor(model => model.LCHeadGLId, Model.LCList as SelectList, "==Select L/C==", new { id = "ddlLCNo", @class = "searchingDropdown form-control", style = "width:100%" })
+                                                    @Html.ValidationMessageFor(model => model.LCHeadGLId, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>LC No:</label>
+                                                    @Html.EditorFor(model => model.LCNo, new { htmlAttributes = new { id = "txtLCNo", @class = "form-control" } })
+                                                </div>
+                                            </div>
+                                        }
+
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>L/C Value:</label>
+                                                @Html.EditorFor(model => model.LCValue, new { htmlAttributes = new { id = "txtLCValue", @class = "form-control" } })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Insurance No:</label>
+                                                @Html.EditorFor(model => model.InsuranceNo, new { htmlAttributes = new { id = "txtInsuranceNo", @class = "form-control" } })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Premium Value:</label>
+                                                @Html.EditorFor(model => model.PremiumValue, new { htmlAttributes = new { id = "txtPremiumValue", @class = "form-control" } })
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
+                                <div class="row" style="display:none;">
+                                    <div class="col-12 text-right">
+                                        <div class="form-group">
+                                            @Html.CheckBoxFor(model => model.IsOpening, new { id = "checkboxOpening", @class = "form-check" })
+                                            <label for="checkboxOpening" class="form-check-label">Is Opening?</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            @if (Model.Status == (int)POStatusEnum.Draft)
+                            {
+                                <div class="row">
 
-                            </div>
-                        }
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="message-text" class="col-form-label">Select Requisition No:</label>
+                                            @Html.DropDownListFor(model => model.RequisitionMasterId, Model.Requisitions as SelectList, "---Select Requisition No ---", new { id = "ddlRequisitionId", onchange = "showBoQMaterial()", @class = "form-control searchingDropdown" })
+                                            @Html.ValidationMessageFor(model => model.RequisitionMasterId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
 
-                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Select Material Item :</label>
+                                            @Html.DropDownListFor(model => model.MaterialItemId, Model.MaterialItemList as SelectList, "===Select Material Item===", new { id = "ddlMaterialItemId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.ValidationMessageFor(model => model.MaterialItemId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group" style="padding:0px">
+                                            <label for="message-text" class="col-form-label">Unit Name:</label>
+                                            @Html.TextBoxFor(model => model.UnitName, new { id = "showUnitName", @class = "form-control", placeholder = "Material Unit", ReadOnly = true })
+                                            @*@Html.HiddenFor(model => model.UnitId, new { id = "txtUnitId" })*@
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Approved Demand:</label>
+                                            @Html.TextBoxFor(model => model.PurchasingPrice, new { id = "txtPurchasingPrice", type = "number", step = "0.01", @class = "form-control", placeholder = "Unit Price", required = "Required", Readonly = "true" })
+                                            @Html.ValidationMessageFor(model => model.PurchasingPrice, "", new { @class = "text-danger" })
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Received So far Demand:</label>
+                                            @Html.TextBoxFor(model => model.PurchasingPrice, new { id = "txtPurchasingPrice", type = "number", step = "0.01", @class = "form-control", placeholder = "Unit Price", required = "Required", Readonly = "true" })
+                                            @Html.ValidationMessageFor(model => model.PurchasingPrice, "", new { @class = "text-danger" })
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Remaining Demand:</label>
+                                            @Html.TextBoxFor(model => model.PurchasingPrice, new { id = "txtPurchasingPrice", type = "number", step = "0.01", @class = "form-control", placeholder = "Unit Price", required = "Required", Readonly = "true" })
+                                            @Html.ValidationMessageFor(model => model.PurchasingPrice, "", new { @class = "text-danger" })
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Workable Demand:</label>
+                                            @Html.TextBoxFor(model => model.PurchasingPrice, new { id = "txtPurchasingPrice", type = "number", step = "0.01", @class = "form-control", placeholder = "Unit Price", required = "Required" })
+                                            @Html.ValidationMessageFor(model => model.PurchasingPrice, "", new { @class = "text-danger" })
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Unit Price:</label>
+                                            @Html.TextBoxFor(model => model.PurchasingPrice, new { id = "txtPurchasingPrice", type = "number", step = "0.01", @class = "form-control", placeholder = "Unit Price", required = "Required" })
+                                            @Html.ValidationMessageFor(model => model.PurchasingPrice, "", new { @class = "text-danger" })
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Total Price:</label>
+                                            @Html.TextBoxFor(model => model.PurchasingPrice, new { id = "txtPurchasingPrice", type = "number", step = "0.01", @class = "form-control", placeholder = "total Price", required = "Required", Readonly = "true" })
+                                            @Html.ValidationMessageFor(model => model.PurchasingPrice, "", new { @class = "text-danger" })
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            }
+
+                        </div>
                         <div class="box-footer">
                             <div class="row">
                                 <div class="col-md-8">
@@ -349,11 +394,11 @@
                                         <i class='fa fa-plus'></i>
                                         @if (Model.PurchaseOrderId > 0)
                                         {
-                                            <span>Add Item In PO</span>
+                                            <span>Add Item In WO</span>
                                         }
                                         else
                                         {
-                                            <span>Create PO</span>
+                                            <span>Create WO</span>
                                         }
                                     </button>
                                 </div>
@@ -570,6 +615,9 @@
         $(document).ready(function () {
             $('.formValidator').bootstrapValidator();
 
+            $("#ddlMaterialItemId").empty();
+            $("#ddlMaterialItemId").append("<option selected disabled>===Select Requisition First===</option>");
+
             $("#ddlFinalDestinationCountryFk").val(19).change();
               $("#txtProductName").autocomplete({
                   source: function (request, response) {
@@ -701,7 +749,7 @@
                   datatype: "Json",
                   data: { id: rowId },
                   success: function (data) {
-                    
+
                       $('#poCreateBtn').html("<i class='fa fa-edit'></i>&nbsp;Update");
                       $("#hidPurchaseOrderId").val(data.PurchaseOrderId);
                       $('#ActionId').val(2);
@@ -725,7 +773,7 @@
                         datatype: "Json",
                         data: { id: rowId },
                         success: function (data) {
-                           
+
                             $('#submitOrDraftPOCIDText').text(data.CID);
 
                             if (data.Status == 0) {
@@ -738,6 +786,32 @@
                         }
                  });
             $('#hidsubmitProcurementPurchaseOrderId').val(rowId);
+        }
+
+        // get requisition depends material list
+        function showBoQMaterial() {
+            var getRequisitionId = $("#ddlRequisitionId option:selected");
+            var showBoqMaterialList = $("#ddlMaterialItemId");
+            $.ajax({
+                type: "GET",
+                url: "/Procurement/GetMaterialByRequisitionId",
+                dataType: "json",
+                data: { companyId: 21, requisitionId: getRequisitionId.val() },
+                success: function (data) {
+                    showBoqMaterialList.empty();
+                    showBoqMaterialList.append("<option selected disabled>===Select Material===</option>");
+
+                    $.each(data, function (index, item) {
+                        showBoqMaterialList.append($('<option>', {
+                            value: item.ProductId,
+                            text: item.ProductName
+                        }));
+                    });
+                },
+                error: function (error) {
+                    console.error("Error in AJAX request:", error);
+                }
+            });
         }
 
     </script>

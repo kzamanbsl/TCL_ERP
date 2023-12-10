@@ -34,6 +34,52 @@ namespace KGERP.Service.Implementation.Procurement
 
         }
 
+        // approved requisition no
+        public List<object> ApprovedRequisitionList(int companyId)
+        {
+            var list = new List<object>();
+            foreach (var item in _db.BillRequisitionMasters.Where(a => a.StatusId == (int)EnumBillRequisitionStatus.Approved && a.IsActive == true).ToList())
+            {
+                list.Add(new { Text = item.BillRequisitionNo, Value = item.BillRequisitionMasterId });
+            }
+            return list;
+
+        }
+
+        // approved material item by requisition id
+        public List<Product> ApprovedMaterialList(int companyId, long requisitionId)
+        {
+            var list = new List<Product>();
+            if (requisitionId > 0 && requisitionId != null)
+            {
+                var materials = (
+                    from t1 in _db.BillRequisitionDetails
+                        .Where(x => x.BillRequisitionMasterId == requisitionId && x.CompanyId == companyId && x.IsActive)
+                    join t2 in _db.Products
+                        .Where(x => x.IsActive) on t1.ProductId equals t2.ProductId
+                    select new
+                    {
+                        t1.ProductId,
+                        t2.ProductName
+                    }).ToList();
+
+                list = materials.Select(x => new Product
+                {
+                    ProductId = (int)x.ProductId,
+                    ProductName = x.ProductName
+                }).ToList();
+
+                return list;
+            }
+
+            foreach (var item in _db.Products.Where(a => a.IsActive == true).ToList())
+            {
+                list.Add(new Product() { ProductId = item.ProductId, ProductName = item.ProductName });
+            }
+            return list;
+
+        }
+
         public List<object> CountriesDropDownList(int companyId)
         {
             var list = new List<object>();
@@ -355,9 +401,9 @@ namespace KGERP.Service.Implementation.Procurement
 
                                                           join t2 in _db.Vendors on t1.CustomerId equals t2.VendorId
                                                           join t3 in _db.StockInfoes on t1.StockInfoId equals t3.StockInfoId into t3_Join
-                                                         from t3 in t3_Join.DefaultIfEmpty()
+                                                          from t3 in t3_Join.DefaultIfEmpty()
 
-                                                         select new VMSalesOrder
+                                                          select new VMSalesOrder
                                                           {
                                                               OrderMasterId = t1.OrderMasterId,
                                                               CustomerId = t1.CustomerId.Value,
@@ -1044,7 +1090,7 @@ namespace KGERP.Service.Implementation.Procurement
             int result = -1;
             VendorDeposit vendorDeposit = _db.VendorDeposits.Find(vendorDepositId);
             vendorDeposit.IsSubmit = true;
-            if(_db.SaveChanges() > 0)
+            if (_db.SaveChanges() > 0)
             {
                 result = vendorDeposit.VendorDepositId;
             }
@@ -2511,12 +2557,12 @@ namespace KGERP.Service.Implementation.Procurement
             int result = -1;
             VendorDeposit vendorDeposit = _db.VendorDeposits.Find(vendorDepositId);
             vendorDeposit.IsSubmit = true;
-            if(_db.SaveChanges() > 0)
+            if (_db.SaveChanges() > 0)
             {
                 result = vendorDeposit.VendorDepositId;
             }
             return result;
-            
+
             #region accounting integrated but not useful now, may be later.
             //var supplier = _db.Vendors.FirstOrDefault(x => x.VendorId == vendorDeposit.VendorId);
             //var costCenter = _db.Accounting_CostCenter.FirstOrDefault(x => x.CompanyId == supplier.CompanyId);
