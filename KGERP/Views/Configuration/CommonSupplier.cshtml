@@ -135,17 +135,17 @@
                                         @Html.ValidationMessageFor(model => model.BranchName, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-                            </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="col-md-6">
+                                            <button type="button" onclick="resetForm()" class="btn btn-secondary btn-block w-100" data-dismiss="modal">Reset</button>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <button type="submit" id="btnSave" class="btn btn-primary btn-block w-100"><i class='fa fa-plus'></i> Add</button>
 
-                            <div class="form-group">
-                                <div class="col-md-3">
-                                    <button type="button" onclick="resetForm()" class="btn btn-secondary" data-dismiss="modal">Reset</button>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-md-9">
-                                    <button type="submit" id="btnSave" class="btn btn-primary btn-block"><i class='fa fa-plus'></i> Add</button>
-
-                                </div>
-
                             </div>
                         </div>
                         <div class="box-footer">
