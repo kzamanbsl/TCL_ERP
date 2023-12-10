@@ -48,6 +48,7 @@
                                         @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
+
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">Phone:</label>
@@ -55,6 +56,7 @@
                                         @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
+
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">Email:</label>
@@ -65,7 +67,6 @@
 
                             </div>
 
-
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
@@ -74,12 +75,6 @@
                                         @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-                                @*<div class="col-md-2">
-                                        <div class="form-group">
-                                            <label for="message-text" class="col-form-label"> Is Foreign?:</label>
-                                            @Html.CheckBoxFor(model => model.IsForeign, new { id = "chkIsForeign" })
-                                        </div>
-                                    </div>*@
 
                                 <div class="col-md-3">
                                     <div class="form-group">
@@ -88,23 +83,16 @@
                                         @Html.ValidationMessageFor(model => model.Common_CountriesFk, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
+
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">Address:</label>
-                                        @Html.TextAreaFor(model => model.Address, new { id = "txtAddress", @class = "form-control", @placeholder = "Address" ,@rows="1"})
+                                        @Html.TextAreaFor(model => model.Address, new { id = "txtAddress", @class = "form-control", @placeholder = "Address", @rows = "1" })
                                         @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-                                @*<div class="col-md-3">
-                                        <div class="form-group">
-                                            <label for="message-text" class="col-form-label">Supplier Type:</label>
-                                            @Html.DropDownListFor(model => model.SupplierTypeFk, Model.SupplierTypeList as SelectList, "--Supplier Type--", new { id = "ddSupplierTypeFk", @class = "form-control", required = "true" })
-                                            @Html.ValidationMessageFor(model => model.SupplierTypeFk, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>*@
-
                             </div>
-                          
+
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
@@ -113,6 +101,7 @@
                                         @Html.ValidationMessageFor(model => model.ACName, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
+
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">A/C NO:</label>
@@ -128,6 +117,7 @@
                                         @Html.ValidationMessageFor(model => model.BankName, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
+
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">Branch Name:</label>
@@ -135,6 +125,7 @@
                                         @Html.ValidationMessageFor(model => model.BranchName, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
+
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <div class="col-md-6">
@@ -142,14 +133,14 @@
                                         </div>
                                         <div class="col-md-6">
                                             <button type="submit" id="btnSave" class="btn btn-primary btn-block w-100"><i class='fa fa-plus'></i> Add</button>
-
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="box-footer">
-                        </div>
+
+                        <div class="box-footer"></div>
+
                         <div class="box">
                             <div class="box-danger">
                                 <div class="box-header">
@@ -206,15 +197,15 @@
                                                                  @item.SupplierType
                                                             </td>*@
                                                         @*<td>
-                                                            @if (item.IsForeign == true)
-                                                            {
-                                                                <span class="label label-success">Exporter</span>
-                                                            }
-                                                            else
-                                                            {
-                                                                <span class="label label-primary">Local Supplier</span>
-                                                            }
-                                                        </td>*@
+                                                                @if (item.IsForeign == true)
+                                                                {
+                                                                    <span class="label label-success">Exporter</span>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <span class="label label-primary">Local Supplier</span>
+                                                                }
+                                                            </td>*@
 
                                                         <td>
                                                             @item.ACName
