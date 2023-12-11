@@ -863,11 +863,7 @@
                 var approvedDemand = parseFloat(inputWorkableDemand.val()) || 0;
                 var unitPrice = parseFloat(inputUnitPrice.val()) || 0;
 
-                console.log(approvedDemand);
-                console.log(unitPrice);
-
                 var totalPrice = approvedDemand * unitPrice;
-                
                 showTotalPrice.val(totalPrice.toFixed(2));
             }
 

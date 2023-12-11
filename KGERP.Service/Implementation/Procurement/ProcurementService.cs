@@ -1289,7 +1289,7 @@ namespace KGERP.Service.Implementation.Procurement
         {
             long result = -1;
             var poMax = _db.PurchaseOrders.Count(x => x.CompanyId == vmPurchaseOrderSlave.CompanyFK) + 1;
-            string poCid = @"PO-" +
+            string poCid = @"WO-" +
                             DateTime.Now.ToString("yy") +
                             DateTime.Now.ToString("MM") +
                             DateTime.Now.ToString("dd") + "-" +
@@ -1322,7 +1322,7 @@ namespace KGERP.Service.Implementation.Procurement
                 PortOfDischarge = vmPurchaseOrderSlave.PortOfDischarge,
                 FreightCharge = vmPurchaseOrderSlave.FreightCharge,
                 OtherCharge = vmPurchaseOrderSlave.OtherCharge,
-
+                BillRequisitionMasterId = vmPurchaseOrderSlave.MaterialItemId,
                 CompanyId = vmPurchaseOrderSlave.CompanyFK,
                 CreatedBy = System.Web.HttpContext.Current.Session["EmployeeName"].ToString(),
                 CreatedDate = DateTime.Now,
