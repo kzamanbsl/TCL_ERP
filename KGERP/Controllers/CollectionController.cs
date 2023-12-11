@@ -277,6 +277,56 @@ namespace KGERP.Controllers
 
         #endregion
 
+
+        #region BillRequisition wise Payment
+
+        [SessionExpire]
+        [HttpGet]
+        public async Task<ActionResult> BillRequisitionPayment(int companyId)
+        {
+            VMPayment vmPayment = new VMPayment();
+            
+            if (companyId == (int)CompanyNameEnum.KrishibidSeedLimited)
+            {
+                vmPayment.BankOrCashParantList = new SelectList(_accountingService.SeedCashAndBankDropDownList(companyId), "Value", "Text");
+
+            }
+            return View(vmPayment);
+        }
+
+        [SessionExpire]
+        [HttpPost]
+        public async Task<ActionResult> BillRequisitionPayment(VMPayment vmPayment)
+        {
+
+            if (vmPayment.ActionEum == ActionEnum.Add)
+            {
+                if (vmPayment.PaymentMasterId == 0)
+                {
+                    vmPayment.PaymentMasterId = await _service.PaymentMasterAdd(vmPayment);
+
+                }
+                await _service.PaymentAdd(vmPayment);
+
+            }
+            else if (vmPayment.ActionEum == ActionEnum.Finalize)
+            {
+
+                await _service.SubmitPaymentMasters(vmPayment);
+
+            }
+
+            else
+            {
+                return View("Error");
+            }
+
+            return RedirectToAction(nameof(BillRequisitionPayment), new { companyId = vmPayment.CompanyFK});
+        }
+
+        #endregion
+
+
         [SessionExpire]
         [HttpGet]
         public async Task<ActionResult> POWiseSupplierLedgerOpening(int companyId, int supplierId)
