@@ -103,10 +103,16 @@ namespace KGERP.Service.Implementation.Procurement
         public int PaymentId { get; set; }
 
         public long RequisitionMasterId { get; set; }
-        public SelectList Requisitions { get; set; } = new SelectList(new List<object>());
-
         public long MaterialItemId { get; set; }
+        public SelectList Requisitions { get; set; } = new SelectList(new List<object>());
         public SelectList MaterialItemList { get; set; } = new SelectList(new List<Product>());
+
+        public decimal ApprovedDemand { get; set; }
+        public decimal ReceivedDemand { get; set; }
+        public decimal RemainingDemand { get; set; }
+        public decimal WorkableDemand { get; set; }
+        public decimal UnitId { get; set; }
+        public decimal UnitPrice { get; set; }
     }
 
     public class VMPurchaseOrderSlave : VMPurchaseOrder

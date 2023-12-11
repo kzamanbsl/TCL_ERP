@@ -304,8 +304,8 @@
 
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="message-text" class="col-form-label">Select Requisition No:</label>
-                                            @Html.DropDownListFor(model => model.RequisitionMasterId, Model.Requisitions as SelectList, "---Select Requisition No ---", new { id = "ddlRequisitionId", onchange = "showBoQMaterial()", @class = "form-control searchingDropdown" })
+                                            <label>Select Requisition No :</label>
+                                            @Html.DropDownListFor(model => model.RequisitionMasterId, Model.Requisitions as SelectList, "===Select Requisition No===", new { id = "ddlRequisitionId", onchange = "showBoQMaterial()", @class = "form-control searchingDropdown" })
                                             @Html.ValidationMessageFor(model => model.RequisitionMasterId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -313,70 +313,64 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Select Material Item :</label>
-                                            @Html.DropDownListFor(model => model.MaterialItemId, Model.MaterialItemList as SelectList, "===Select Material Item===", new { id = "ddlMaterialItemId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.DropDownListFor(model => model.MaterialItemId, Model.MaterialItemList as SelectList, "===Select Material Item===", new { id = "ddlMaterialItemId", onchange = "getUnitName()", @class = "form-control searchingDropdown", required = "required" })
                                             @Html.ValidationMessageFor(model => model.MaterialItemId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
 
                                     <div class="col-md-4">
-                                        <div class="form-group" style="padding:0px">
-                                            <label for="message-text" class="col-form-label">Unit Name:</label>
+                                        <div class="form-group">
+                                            <label>Unit Name:</label>
                                             @Html.TextBoxFor(model => model.UnitName, new { id = "showUnitName", @class = "form-control", placeholder = "Material Unit", ReadOnly = true })
-                                            @*@Html.HiddenFor(model => model.UnitId, new { id = "txtUnitId" })*@
+                                            @Html.HiddenFor(model => model.UnitId, new { id = "txtUnitId" })
                                         </div>
                                     </div>
 
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>Approved Demand:</label>
-                                            @Html.TextBoxFor(model => model.PurchasingPrice, new { id = "txtPurchasingPrice", type = "number", step = "0.01", @class = "form-control", placeholder = "Unit Price", required = "Required", Readonly = "true" })
-                                            @Html.ValidationMessageFor(model => model.PurchasingPrice, "", new { @class = "text-danger" })
-
+                                            <label>Approved Demand :</label>
+                                            @Html.TextBoxFor(model => model.ApprovedDemand, new { id = "txtApprovedDemand", type = "number", step = "0.01", @class = "form-control", placeholder = "Approved Demand", required = "Required", Readonly = "true" })
+                                            @Html.ValidationMessageFor(model => model.ApprovedDemand, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
 
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>Received So far Demand:</label>
-                                            @Html.TextBoxFor(model => model.PurchasingPrice, new { id = "txtPurchasingPrice", type = "number", step = "0.01", @class = "form-control", placeholder = "Unit Price", required = "Required", Readonly = "true" })
-                                            @Html.ValidationMessageFor(model => model.PurchasingPrice, "", new { @class = "text-danger" })
-
+                                            <label>Received So far Demand :</label>
+                                            @Html.TextBoxFor(model => model.ReceivedDemand, new { id = "txtRecievedDemand", type = "number", step = "0.01", @class = "form-control", placeholder = "Received So far Demand", required = "Required", Readonly = "true" })
+                                            @Html.ValidationMessageFor(model => model.ReceivedDemand, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
 
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>Remaining Demand:</label>
-                                            @Html.TextBoxFor(model => model.PurchasingPrice, new { id = "txtPurchasingPrice", type = "number", step = "0.01", @class = "form-control", placeholder = "Unit Price", required = "Required", Readonly = "true" })
-                                            @Html.ValidationMessageFor(model => model.PurchasingPrice, "", new { @class = "text-danger" })
-
+                                            <label>Remaining Demand :</label>
+                                            @Html.TextBoxFor(model => model.RemainingDemand, new { id = "txtRemainingDemand", type = "number", step = "0.01", @class = "form-control", placeholder = "Remaining Demand", required = "Required", Readonly = "true" })
+                                            @Html.ValidationMessageFor(model => model.RemainingDemand, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
 
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>Workable Demand:</label>
-                                            @Html.TextBoxFor(model => model.PurchasingPrice, new { id = "txtPurchasingPrice", type = "number", step = "0.01", @class = "form-control", placeholder = "Unit Price", required = "Required" })
-                                            @Html.ValidationMessageFor(model => model.PurchasingPrice, "", new { @class = "text-danger" })
-
+                                            <label>Workable Demand :</label>
+                                            @Html.TextBoxFor(model => model.WorkableDemand, new { id = "txtWorkableDemand", type = "number", step = "0.01", @class = "form-control", placeholder = "Workable Demand", required = "Required" })
+                                            @Html.ValidationMessageFor(model => model.WorkableDemand, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
 
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>Unit Price:</label>
-                                            @Html.TextBoxFor(model => model.PurchasingPrice, new { id = "txtPurchasingPrice", type = "number", step = "0.01", @class = "form-control", placeholder = "Unit Price", required = "Required" })
-                                            @Html.ValidationMessageFor(model => model.PurchasingPrice, "", new { @class = "text-danger" })
-
+                                            <label>Unit Price :</label>
+                                            @Html.TextBoxFor(model => model.UnitPrice, new { id = "txtUnitPrice", type = "number", step = "0.01", @class = "form-control", placeholder = "Unit Price", required = "Required" })
+                                            @Html.ValidationMessageFor(model => model.UnitPrice, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
 
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Total Price:</label>
-                                            @Html.TextBoxFor(model => model.PurchasingPrice, new { id = "txtPurchasingPrice", type = "number", step = "0.01", @class = "form-control", placeholder = "total Price", required = "Required", Readonly = "true" })
-                                            @Html.ValidationMessageFor(model => model.PurchasingPrice, "", new { @class = "text-danger" })
-
+                                            @Html.TextBoxFor(model => model.TotalPrice, new { id = "txtTotalPrice", type = "number", step = "0.01", @class = "form-control", placeholder = "Total Price", required = "Required", Readonly = "true" })
+                                            @Html.ValidationMessageFor(model => model.TotalPrice, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
 
@@ -810,6 +804,26 @@
                 },
                 error: function (error) {
                     console.error("Error in AJAX request:", error);
+                }
+            });
+        }
+
+        // get selected material unit name
+        function getUnitName() {
+            var getUnitIdValue = $("#ddlMaterialItemId option:selected");
+            var showName = $("#showUnitName");
+            var showValue = $("#txtUnitId");
+
+            $.ajax({
+                type: "GET",
+                url: "/BillRequisition/GetUnitNameWithId",
+                dataType: "json",
+                data: { id: getUnitIdValue.val() },
+                success: function (data) {
+                    if (data) {
+                        showName.val(data.unitName);
+                        showValue.val(data.unitId);
+                    }
                 }
             });
         }
