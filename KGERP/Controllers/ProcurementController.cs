@@ -515,6 +515,7 @@ namespace KGERP.Controllers
             return View(vmPurchaseOrderSlave);
         }
 
+        [HttpGet]
         public JsonResult GetMaterialByRequisitionId(int companyId, long requisitionId)
         {
             return Json(_service.ApprovedMaterialList(companyId, requisitionId), JsonRequestBehavior.AllowGet);

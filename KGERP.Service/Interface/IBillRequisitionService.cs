@@ -118,7 +118,7 @@ namespace KGERP.Service.Interface
 
         List<Product> GetMaterialByBoqId(long boqId);
         Task<decimal?> ReceivedSoFarTotal(long boqId, long productId);
-
         Task<BoQItemProductMap> BoqMaterialBudget(long boqId, long productId);
+        Task<object> ApprovedRequisitionDemand(long requisitionId, long materialId);
     }
 }

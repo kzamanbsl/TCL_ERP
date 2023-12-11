@@ -146,6 +146,28 @@ namespace KGERP.Controllers
             return Json(boqItemWithId, JsonRequestBehavior.AllowGet);
         }
 
+        // get material info
+        public async Task<JsonResult> GetMaterialInfo(long requisitionId, long productId)
+        {
+            decimal approvedDemand = 0M;
+            decimal unitPrice = 0M;
+
+            try
+            {
+                var getData = await _service.ApprovedRequisitionDemand(requisitionId, productId);
+                if (getData != null)
+                {
+                    return Json(getData, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+
+            return Json(new { ApprovedDemand = approvedDemand, UnitPrice = unitPrice }, JsonRequestBehavior.AllowGet);
+        }
+
         #endregion
 
         #region Project Type

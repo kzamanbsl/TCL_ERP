@@ -810,7 +810,7 @@
 
         // get selected material unit name
         function getUnitName() {
-            var getUnitIdValue = $("#ddlMaterialItemId option:selected");
+            var getMaterialId = $("#ddlMaterialItemId option:selected");
             var showName = $("#showUnitName");
             var showValue = $("#txtUnitId");
 
@@ -818,11 +818,34 @@
                 type: "GET",
                 url: "/BillRequisition/GetUnitNameWithId",
                 dataType: "json",
-                data: { id: getUnitIdValue.val() },
+                data: { id: getMaterialId.val() },
                 success: function (data) {
                     if (data) {
                         showName.val(data.unitName);
                         showValue.val(data.unitId);
+                    }
+                }
+            });
+
+            getRequisitionsInfo();
+        }
+
+        // get requisition info
+        function getRequisitionsInfo() {
+            var requisitionId = $("#ddlRequisitionId option:selected");
+            var materialId = $("#ddlMaterialItemId option:selected");
+            var showApprovedDemand = $("#txtApprovedDemand");
+            var showUnitPrice = $("#txtUnitPrice");
+
+            $.ajax({
+                type: "GET",
+                url: "/BillRequisition/GetMaterialInfo",
+                dataType: "json",
+                data: { requisitionId: requisitionId.val(), productId: materialId.val() },
+                success: function (data) {
+                    if (data) {
+                        showApprovedDemand.val(data.ApprovedDemand);
+                        showUnitPrice.val(data.UnitPrice);
                     }
                 }
             });

@@ -2446,5 +2446,19 @@ namespace KGERP.Service.Implementation
             return total;
         }
 
+        // approved requisition demand
+        public async Task<object> ApprovedRequisitionDemand(long requisitionId, long materialId)
+        {
+            var getReqInfo = await _context.BillRequisitionDetails
+                .FirstOrDefaultAsync(a => a.BillRequisitionMasterId == requisitionId && a.ProductId == materialId && a.IsActive);
+
+            if (getReqInfo != null)
+            {
+                return new { ApprovedDemand = getReqInfo.DemandQty, UnitPrice = getReqInfo.UnitRate };
+            }
+
+            return null;
+        }
+
     }
 }
