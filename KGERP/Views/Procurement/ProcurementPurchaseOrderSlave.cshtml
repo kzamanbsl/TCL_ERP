@@ -851,5 +851,29 @@
             });
         }
 
+        // claculate workable demand with unit rate and show to total
+        $(document).ready(function () {
+
+            var inputWorkableDemand = $("#txtWorkableDemand");
+            var inputUnitPrice = $("#txtUnitPrice");
+            var showTotalPrice = $("#txtTotalPrice");
+        
+            function calculateTotalPrice() {
+
+                var approvedDemand = parseFloat(inputWorkableDemand.val()) || 0;
+                var unitPrice = parseFloat(inputUnitPrice.val()) || 0;
+
+                console.log(approvedDemand);
+                console.log(unitPrice);
+
+                var totalPrice = approvedDemand * unitPrice;
+                
+                showTotalPrice.val(totalPrice.toFixed(2));
+            }
+
+            inputWorkableDemand.on("input", calculateTotalPrice);
+            inputUnitPrice.on("input", calculateTotalPrice);
+        });
+
     </script>
 }
