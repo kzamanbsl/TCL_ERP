@@ -69,31 +69,31 @@
                                 <div class="col-md-10">
                                     <table class="table">
                                         <tr>
-                                            <th>Requisition No</th>
+                                            <th style="width:17% !important">Requisition No</th>
                                             <th>:</th>
                                             <td>@Model.BillRequisitionNo</td>
 
-                                            <th>Requisition Status</th>
+                                            <th style="width:17% !important">Requisition Status</th>
                                             <th>:</th>
                                             <td>@Model.StatusName</td>
                                         </tr>
 
                                         <tr>
-                                            <th>Requisition Date</th>
+                                            <th style="width:17% !important">Requisition Date</th>
                                             <th>:</th>
                                             <td>@Model.BRDate.ToShortDateString()</td>
 
-                                            <th>Requisition Type</th>
+                                            <th style="width:17% !important">Requisition Type</th>
                                             <th>:</th>
                                             <td>@Model.BRTypeName</td>
                                         </tr>
 
                                         <tr>
-                                            <th>Project Type</th>
+                                            <th style="width:17% !important">Project Type</th>
                                             <th>:</th>
                                             <td>@Model.ProjectTypeName</td>
 
-                                            <th>Project Name</th>
+                                            <th style="width:17% !important">Project Name</th>
                                             <th>:</th>
                                             <td>@Model.CostCenterName</td>
                                         </tr>
@@ -105,14 +105,14 @@
                                                     Division Name
                                                 </th>
                                                 <th>:</th>
-                                                <td>@Model.BoQDivisionId</td>
+                                                <td>@Model.BoQDivisionName</td>
 
                                                 <th>BoQ Item Name</th>
                                                 <th>:</th>
                                                 <td>@Model.BOQItemName</td>
                                             </tr>
                                         }
-
+                                        <input type="number" value="@Model.BOQItemId" id="hiddenBoqItemId" hidden/>
                                         <tr>
                                             <th>
                                                 @((Model.BillRequisitionTypeId == (int)EnumBillRequisitionType.Overhead)? "Item Description" : "Work Details")
@@ -171,7 +171,7 @@
                                     <div class="col-md-4 d-block" id="inputDivision">
                                         <div class="form-group">
                                             <label>Select BoQ Division :</label>
-                                            @Html.DropDownListFor(model => model.CostCenterId, Model.ProjectList as SelectList, "===Select BoQ Division===", new { id = "ddlDivisionId", onchange = "showBoQItem()", @class = "form-control searchingDropdown", style = "width:100%" })
+                                            @Html.DropDownListFor(model => model.BoQDivisionId, Model.BOQDivisionList as SelectList, "===Select BoQ Division===", new { id = "ddlDivisionId", onchange = "showBoQItem()", @class = "form-control searchingDropdown", style = "width:100%" })
                                             @Html.ValidationMessageFor(model => model.CostCenterId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -536,7 +536,6 @@
     <script type="text/javascript">
         // Make editable form
         function makeEditble(rowId) {
-
             $.ajax({
                 type: "POST",
                 url: "@Url.Action("SingleBillRequisitionDetails", "BillRequisition")",
@@ -550,8 +549,12 @@
                     $('#ActionId').val(2);
                     $("#CompanyFK").val(data.CompanyId);
                     $("#hiddenBillRequisitionDetailId").val(data.BillRequisitionDetailId);
-                    $("#ddlRequisitionItemId").val(data.BillRequisitionItemId).trigger('change');
+                    $("#ddlRequisitionItemId").val(data.ProductId).trigger('change');
 
+                    $("#txtFloor").val(data.Floor);
+                    $("#txtWrad").val(data.Ward);
+                    $("#txtDPP").val(data.DPP);
+                    $("#txtChainage").val(data.Chainage);
                     $("#txtUnitId").val(data.UnitId);
                     $("#decEstimatedQty").val(data.EstimatedQty);
                     $("#decReceivedSoFar").val(data.ReceivedSoFar);
@@ -697,6 +700,34 @@
                 }
             });
         }
+
+        // get boq material list for draf
+        function showBoQMaterialForDraf() {
+            var showBoqMaterialList = $("#ddlRequisitionItemId");
+            var boqId = @((Model.BOQItemId == 0 || Model.BOQItemId == null)? 0 : Model.BOQItemId);
+            $.ajax({
+                type: "GET",
+                url: "/BillRequisition/getBoqMaterialList",
+                dataType: "json",
+                data: { id: boqId },
+                success: function (data) {
+                    showBoqMaterialList.empty();
+                    showBoqMaterialList.append("<option selected disabled>===Select Material===</option>");
+
+                    $.each(data, function (index, item) {
+                        showBoqMaterialList.append($('<option>', {
+                            value: item.ProductId,
+                            text: item.ProductName
+                        }));
+                    });
+                },
+                error: function (error) {
+                    console.error("Error in AJAX request:", error);
+                }
+            });
+        }
+
+        showBoQMaterialForDraf();
 
         // get selected material unit name
         function getUnitName() {

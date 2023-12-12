@@ -91,7 +91,11 @@ namespace KGERP.Controllers
         // Dependent BoQ material List
         public JsonResult getBoqMaterialList(long id)
         {
-            var materialList = _service.GetMaterialByBoqId(id);
+            List<Product> materialList = null;
+            if (id > 0)
+            {
+                 materialList = _service.GetMaterialByBoqId(id);
+            }
 
             return Json(materialList, JsonRequestBehavior.AllowGet);
         }
@@ -536,6 +540,7 @@ namespace KGERP.Controllers
             billRequisitionMasterModel.ProjectList = new SelectList(await _service.GetProjectList(companyId), "CostCenterId", "Name");
             billRequisitionMasterModel.RequisitionTypeList = new SelectList(_service.GetBillRequisitionTypeList(), "BillRequisitionTypeId", "Name");
             billRequisitionMasterModel.RequisitionItemList = new SelectList(_ProductService.GetProductJson(), "ProductId", "ProductName");
+            billRequisitionMasterModel.BOQDivisionList = new SelectList(_service.BoQDivisionList(), "BoQDivisionId", "Name");
             billRequisitionMasterModel.BOQItemList = new SelectList(_service.GetBillOfQuotationList(), "BoQItemId", "Name");
             billRequisitionMasterModel.UnitList = new SelectList(_configurationService.GetUnitForJson(), "UnitId", "Name");
 

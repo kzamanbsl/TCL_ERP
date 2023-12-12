@@ -774,6 +774,8 @@ namespace KGERP.Service.Implementation
                                                                from t4 in t4_Join.DefaultIfEmpty()
                                                                join t5 in _context.BillBoQItems on t1.BOQItemId equals t5.BoQItemId into t5_Join
                                                                from t5 in t5_Join.DefaultIfEmpty()
+                                                               join t6 in _context.BoQDivisions on t1.BoQDivisionId equals t6.BoQDivisionId into t6_Join
+                                                               from t6 in t6_Join.DefaultIfEmpty()
 
                                                                select new BillRequisitionMasterModel
                                                                {
@@ -782,6 +784,8 @@ namespace KGERP.Service.Implementation
                                                                    BRTypeName = t3.Name,
                                                                    ProjectTypeId = t1.ProjectTypeId,
                                                                    ProjectTypeName = t4.Name,
+                                                                   BoQDivisionId = (t1.BoQDivisionId == null || t1.BoQDivisionId == 0)? 0 : (int)t1.BoQDivisionId,
+                                                                   BoQDivisionName = t6.Name,
                                                                    BOQItemId = t1.BOQItemId,
                                                                    BOQItemName = t5.Name,
                                                                    CostCenterId = t1.CostCenterId,
@@ -818,6 +822,10 @@ namespace KGERP.Service.Implementation
                                                                               ReceivedSoFar = t1.ReceivedSoFar,
                                                                               RemainingQty = t1.RemainingQty,
                                                                               EstimatedQty = t1.EstimatedQty,
+                                                                              Floor = t1.Floor,
+                                                                              Ward = t1.Ward,
+                                                                              DPP = t1.DPP,
+                                                                              Chainage = t1.Chainage,
                                                                               Remarks = t1.Remarks,
                                                                           }).OrderByDescending(x => x.BillRequisitionDetailId).AsEnumerable());
 
@@ -921,6 +929,7 @@ namespace KGERP.Service.Implementation
                     ReceivedSoFar = model.DetailModel.ReceivedSoFar,
                     RemainingQty = model.DetailModel.RemainingQty,
                     EstimatedQty = model.DetailModel.EstimatedQty,
+                    TotalPrice =  model.DetailModel.TotalPrice,
                     Floor = model.DetailModel.Floor,
                     Ward = model.DetailModel.Ward,
                     DPP = model.DetailModel.DPP,
@@ -1157,7 +1166,6 @@ namespace KGERP.Service.Implementation
                                               Floor = t1.Floor,
                                               DPP = t1.DPP,
                                               Chainage = t1.Chainage,
-
                                               Remarks = t1.Remarks,
                                           }).FirstOrDefault());
             return v;
