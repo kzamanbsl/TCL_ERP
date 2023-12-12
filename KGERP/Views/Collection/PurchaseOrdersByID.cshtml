@@ -157,14 +157,14 @@
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-md-3">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>Type</label>
                                                 @Html.DropDownListFor(model => model.Accounting_BankOrCashParantId, Model.BankOrCashParantList as SelectList, "==Select Type==", new { id = "ddlAccounting_BankOrCashParantId", @class = "form-control ddlReset", style = "width:100%", required = "required" })
                                                 @Html.ValidationMessageFor(model => model.Accounting_BankOrCashParantId, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>Bank/Cash</label>
                                                 @Html.DropDownListFor(model => model.Accounting_BankOrCashId, Model.BankOrCashGLList as SelectList, new { id = "ddlAccounting_BankOrCashId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
@@ -179,12 +179,12 @@
                                                 @Html.ValidationMessageFor(model => model.ReferenceNo, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
-                                        <div class="col-md-2 text-right">
+                                        @*<div class="col-md-2 text-right">
                                             <div class="form-group">
                                                 @Html.CheckBoxFor(model => model.IsAdjust, new { id = "checkboxAdjust", @class = "form-check" })
                                                 <label for="checkboxAdjust" class="form-check-label">Adjust From Deposit?</label>
                                             </div>
-                                        </div>
+                                        </div>*@
                                     </div>
                                 }
 
@@ -193,8 +193,8 @@
 
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="message-text" class="col-form-label">PO No:</label>
-                                            @Html.DropDownListFor(model => model.PurchaseOrderId, Model.OrderMusterList as SelectList, "--PO No--", new { id = "ddlPurchaseOrderId", @class = "searchingDropdown form-control", required = "true" })
+                                            <label for="message-text" class="col-form-label">Work Order No:</label>
+                                            @Html.DropDownListFor(model => model.PurchaseOrderId, Model.OrderMusterList as SelectList, "--WO No--", new { id = "ddlPurchaseOrderId", @class = "searchingDropdown form-control", required = "true" })
                                             @Html.ValidationMessageFor(model => model.PurchaseOrderId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -243,10 +243,10 @@
                                                 <tr>
                                                     <th>SL</th>
                                                     <th>
-                                                        PO No
+                                                       WO No
                                                     </th>
                                                     <th>
-                                                        PO Date
+                                                        WO Date
                                                     </th>
 
                                                     <th style="text-align:right;">
