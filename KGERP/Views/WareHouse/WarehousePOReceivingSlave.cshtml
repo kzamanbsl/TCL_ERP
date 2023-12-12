@@ -57,232 +57,232 @@
 
                     </div>
                     <!-- /.box-header -->
-                <div class="box-body">
-                @if (Model.MaterialReceiveId > 0)
-                {
-                    @Html.HiddenFor(x => x.CompanyFK, new { id = "CompanyFK" })
+                    <div class="box-body">
+                        @if (Model.MaterialReceiveId > 0)
+                        {
+                            @Html.HiddenFor(x => x.CompanyFK, new { id = "CompanyFK" })
 
 
-                    <div class="col-md-1"> </div>
-                    <div class="col-md-10">
-                        <table class="table">
-                            <tr>
-                                <td><b>Challan</b></td>
-                                <td>:</td>
-                                <td colspan="4"><b>@Model.ChallanCID</b></td>
-
-                            </tr>
-                            <tr>
-                                <td width="18%"><b>Supplier Challan</b></td>
-                                <td width="5%">:</td>
-                                <td width="27%">@Model.Challan</td>
-
-                                <td width="18%"><b>Challan Date</b></td>
-                                <td width="5%">:</td>
-                                <td width="27%"></td>
-                            </tr>
-                            <tr>
-                                <td><b>Purchase Order</b></td>
-                                <td>:</td>
-                                @*<td><a href="#" title="See All Receiving History of This PO">@Model.POCID</a> </td>*@
-                                <td><a href="~/Warehouse/WarehousePOSlaveReceivingDetailsByPO/@Model.Procurement_PurchaseOrderFk" target="_blank" title="See All Receiving History of This PO">@Model.POCID</a> </td>
-
-                                <td><b>PO Date</b></td>
-                                <td>:</td>
-                                <td>@Model.PODate.Value.ToString("dd/MM/yyyy")</td>
-                            </tr>
-                            <tr>
-                                <td><b>Supplier Name</b></td>
-                                <td>:</td>
-                                <td>@Model.SupplierName</td>
-
-                                <td><b>Delivery Address</b></td>
-                                <td>:</td>
-                                <td>@Model.DeliveryAddress</td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="col-md-1"> </div>
-
-                }
-                else
-                {
-                    <div class="row">
-                        <!-- left column -->
-                        <div class="col-md-4">
-                            <!-- general form elements -->
-                            <!-- /.box-header -->
-                            <!-- form start -->
-                            <div class="box-body">
-
-                                <div class="form-group">
-                                    <label for="message-text" class="col-form-label">Receive Date:</label>
-                                    <input name="ReceivedDate" asp-for="ReceivedDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker form-control " placeholder="MRR Date" autocomplete="off">
-                                    @Html.ValidationMessageFor(model => model.ReceivedDate, "", new { @class = "text-danger" })
-                                </div>
-                                <div class="form-group">
-                                    <div class="form-group">
-                                        <label for="message-text" class="col-form-label">PO Date:</label>
-                                        @*@Html.Editor("PODate", new { htmlAttributes = new { @style = "width:240px", @class = "datepicker form-control" } })*@
-                                        <input name="PODate" asp-for="PODate" type="text" value="" required="required" class="datePicker form-control" id="txtDate" placeholder="Po Date" autocomplete="off">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="form-group">
-                                        <label for="message-text" class="col-form-label">Driver Name:</label>
-                                        @Html.EditorFor(model => model.DriverName, new { htmlAttributes = new { @class = "form-control", @autocomplete = "off" } })
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="col-form-label">Labour Bill:</label>
-                                    <label class="radio-inline">
-                                        @Html.RadioButtonFor(model => model.AllowLabourBill, "true", new { @id = "rbtnYes" })<b>Allow</b>
-                                    </label>
-                                    <label class="radio-inline">
-                                        @Html.RadioButtonFor(model => model.AllowLabourBill, "false", new { @id = "rbtnNo" })<b>Not Allow</b>
-                                    </label>
-                                    @Html.EditorFor(model => model.LabourBill, new { htmlAttributes = new { @id = "txtLabourBill", @class = "form-control", @autocomplete = "off", @style = "width: 100%;" } })
-
-                                </div>
-
-
-                            </div>
-                            <!-- /.box-body -->
-                            <!-- /.box -->
-                        </div>
-                        <div class="col-md-4">
-                            <div class="box-body">
-                                <div class="form-group">
-                                    <div class="form-group">
-                                        <label for="message-text" class="col-form-label">Supplier:</label>
-                                        @Html.EditorFor(model => model.SupplierName, new { htmlAttributes = new { @class = "form-control", @name = "supplier", @id = "supplier", @autocomplete = "on" } })
-                                        @Html.HiddenFor(x => x.Common_SupplierFK, new { @id = "supplierId", @name = "supplierId" })
-                                        @Html.ValidationMessageFor(model => model.SupplierName, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Challan No:</label>
-                                    @Html.TextBoxFor(model => model.Challan, new { @class = "form-control ", @placeholder = "Challan No", @required = "required", data_bv_message = "Challan no is required.", })
-                                    @Html.ValidationMessageFor(model => model.Challan, "", new { @class = "text-danger" })
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="message-text" class="col-form-label"> Truck Fare:</label>
-                                    @Html.EditorFor(model => model.TruckFare, new { htmlAttributes = new { @class = "form-control", @autocomplete = "off" } })
-                                    @Html.ValidationMessageFor(model => model.TruckFare, "", new { @class = "text-danger" })
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="form-group">
-                                        <label for="message-text" class="col-form-label"> Receive By:</label>
-                                        @Html.EditorFor(model => model.EmployeeName, new { htmlAttributes = new { @class = "form-control", @name = "receiverName", @id = "receiverName" } })
-                                        @Html.HiddenFor(x => x.ReceivedBy, new { @id = "receivedBy", @name = "receivedBy" })
-                                    </div>
-                                </div>
-
-                            </div>
-                            <!-- /.box-body -->
-                            <!-- /.box -->
-                        </div>
-
-                        <!--/.col (left) -->
-                        <!-- left column -->
-                        <div class="col-md-4">
-                            <!-- general form elements -->
-                            <!-- /.box-header -->
-                            <!-- form start -->
-
-                            <div class="box-body">
-
-                                <div class="form-group">
-                                    <label for="message-text" class="col-form-label">Purchase Order Number:</label>
-                                    @Html.DropDownListFor(model => model.Procurement_PurchaseOrderFk, new SelectList(Model.PurchaseOrders, "Value", "Text"), "---Select---", new { @class = "dropdownsize form-control", @id = "ddlPurchaseOrderNo" })
-
-                                    @Html.ValidationMessageFor(model => model.Procurement_PurchaseOrderFk, "", new { @class = "text-danger" })
-                                </div>
-
-
-                                <div class="form-group">
-                                    <label>Challan Date:</label>
-                                    @*@Html.EditorFor(model => model.ChallanDate, new {id = "txtDate", @class = "datePicker form-control ", @placeholder = "Challan Date", @required = "required", data_bv_message = "Challan date is required.", autocomplete = "off" })*@
-
-                                    <input name="ChallanDate" asp-for="ChallanDate" type="text" value="@DateTime.Now.ToString("yyyy-MM-dd")" required="required" class="datePicker form-control" id="txtDate" placeholder="Challan Date" autocomplete="off">
-
-                                    @Html.ValidationMessageFor(model => model.ChallanDate, "", new { @class = "text-danger" })
-                                </div>
-                                <div class="form-group">
-                                    <div class="form-group">
-                                        <label for="message-text" class="col-form-label"> Truck No:</label>
-                                        @Html.EditorFor(model => model.TruckNo, new { htmlAttributes = new { @class = "form-control", @autocomplete = "off" } })
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                        <!-- /.box-body -->
-
-                    </div>
-
-                    <br />
-                    <div class="col-md-12">
-                        <div class="box">
-
-                            <div class="box-footer">
-                                <div id="procurementPurchaseOrderSlaveData"></div>
-                            </div>
-                        </div>
-                        <!-- /.box -->
-                    </div>
-                }
-
-                <!--Body Will by Start Here-->
-
-                @{
-                    if (Model.MaterialReceiveId > 0)
-                    {
-                        <div class="box-header" style="clear:both">
-                            <h4><b>Received Item:</b> </h4>
-                        </div>
-
-                        <div class="table-responsive col-md-12 text-nowrap">
-                            <table id="KgErpDataTable" class="table table-striped">
-                                <thead>
-                                <tr>
-                                    <th>SL</th>
-                                    <th class="center">Item Name </th>
-                                    <th class="center">PO Quantity</th>
-                                    <th class="center">Received Quantity</th>
-                                    <th class="center">Total Received</th>
-                                    <th>Return Quantity</th>
-                                    <th class="center">Remaining Quantity</th>
-
-                                </tr>
-                                </thead>
-                                @{
-                                    int sl = 0;
-                                }
-                                <tbody>
-                                @foreach (var item in Model.DataListSlave)
-                                {
+                            <div class="col-md-1"> </div>
+                            <div class="col-md-10">
+                                <table class="table">
                                     <tr>
-                                        <td>@(++sl)</td>
-                                        <td>@item.ProductSubCategory @item.ProductName</td>
-                                        <td>@item.POQuantity</td>
-                                        <th>@item.ReceivedQuantity</th>
-                                        <td>@item.PriviousReceivedQuantity</td>
-                                        <td>@item.ReturnQuantity</td>
-                                        <td>@item.RemainingQuantity</td>
+                                        <td><b>Challan</b></td>
+                                        <td>:</td>
+                                        <td colspan="4"><b>@Model.ChallanCID</b></td>
+
                                     </tr>
-                                }
-                                </tbody>
-                            </table>
-                        </div>
-                    }
-                }
-                </div>
+                                    <tr>
+                                        <td width="18%"><b>Supplier Challan</b></td>
+                                        <td width="5%">:</td>
+                                        <td width="27%">@Model.Challan</td>
+
+                                        <td width="18%"><b>Challan Date</b></td>
+                                        <td width="5%">:</td>
+                                        <td width="27%"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Purchase Order</b></td>
+                                        <td>:</td>
+                                        @*<td><a href="#" title="See All Receiving History of This PO">@Model.POCID</a> </td>*@
+                                        <td><a href="~/Warehouse/WarehousePOSlaveReceivingDetailsByPO/@Model.Procurement_PurchaseOrderFk" target="_blank" title="See All Receiving History of This PO">@Model.POCID</a> </td>
+
+                                        <td><b>PO Date</b></td>
+                                        <td>:</td>
+                                        <td>@Model.PODate.Value.ToString("dd/MM/yyyy")</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Supplier Name</b></td>
+                                        <td>:</td>
+                                        <td>@Model.SupplierName</td>
+
+                                        <td><b>Delivery Address</b></td>
+                                        <td>:</td>
+                                        <td>@Model.DeliveryAddress</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-md-1"> </div>
+
+                        }
+                        else
+                        {
+                            <div class="row">
+                                <!-- left column -->
+                                <div class="col-md-4">
+                                    <!-- general form elements -->
+                                    <!-- /.box-header -->
+                                    <!-- form start -->
+                                    <div class="box-body">
+
+                                        <div class="form-group">
+                                            <label for="message-text" class="col-form-label">Receive Date:</label>
+                                            <input name="ReceivedDate" asp-for="ReceivedDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker form-control " placeholder="MRR Date" autocomplete="off">
+                                            @Html.ValidationMessageFor(model => model.ReceivedDate, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="form-group">
+                                                <label for="message-text" class="col-form-label">PO Date:</label>
+                                                @*@Html.Editor("PODate", new { htmlAttributes = new { @style = "width:240px", @class = "datepicker form-control" } })*@
+                                                <input name="PODate" asp-for="PODate" type="text" value="" required="required" class="datePicker form-control" id="txtDate" placeholder="Po Date" autocomplete="off">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="form-group">
+                                                <label for="message-text" class="col-form-label">Driver Name:</label>
+                                                @Html.EditorFor(model => model.DriverName, new { htmlAttributes = new { @class = "form-control", @autocomplete = "off" } })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-form-label">Labour Bill:</label>
+                                            <label class="radio-inline">
+                                                @Html.RadioButtonFor(model => model.AllowLabourBill, "true", new { @id = "rbtnYes" })<b>Allow</b>
+                                            </label>
+                                            <label class="radio-inline">
+                                                @Html.RadioButtonFor(model => model.AllowLabourBill, "false", new { @id = "rbtnNo" })<b>Not Allow</b>
+                                            </label>
+                                            @Html.EditorFor(model => model.LabourBill, new { htmlAttributes = new { @id = "txtLabourBill", @class = "form-control", @autocomplete = "off", @style = "width: 100%;" } })
+
+                                        </div>
+
+
+                                    </div>
+                                    <!-- /.box-body -->
+                                    <!-- /.box -->
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="box-body">
+                                        <div class="form-group">
+                                            <div class="form-group">
+                                                <label for="message-text" class="col-form-label">Supplier:</label>
+                                                @Html.EditorFor(model => model.SupplierName, new { htmlAttributes = new { @class = "form-control", @name = "supplier", @id = "supplier", @autocomplete = "on" } })
+                                                @Html.HiddenFor(x => x.Common_SupplierFK, new { @id = "supplierId", @name = "supplierId" })
+                                                @Html.ValidationMessageFor(model => model.SupplierName, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Challan No:</label>
+                                            @Html.TextBoxFor(model => model.Challan, new { @class = "form-control ", @placeholder = "Challan No", @required = "required", data_bv_message = "Challan no is required.", })
+                                            @Html.ValidationMessageFor(model => model.Challan, "", new { @class = "text-danger" })
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="message-text" class="col-form-label"> Truck Fare:</label>
+                                            @Html.EditorFor(model => model.TruckFare, new { htmlAttributes = new { @class = "form-control", @autocomplete = "off" } })
+                                            @Html.ValidationMessageFor(model => model.TruckFare, "", new { @class = "text-danger" })
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="form-group">
+                                                <label for="message-text" class="col-form-label"> Receive By:</label>
+                                                @Html.EditorFor(model => model.EmployeeName, new { htmlAttributes = new { @class = "form-control", @name = "receiverName", @id = "receiverName" } })
+                                                @Html.HiddenFor(x => x.ReceivedBy, new { @id = "receivedBy", @name = "receivedBy" })
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <!-- /.box-body -->
+                                    <!-- /.box -->
+                                </div>
+
+                                <!--/.col (left) -->
+                                <!-- left column -->
+                                <div class="col-md-4">
+                                    <!-- general form elements -->
+                                    <!-- /.box-header -->
+                                    <!-- form start -->
+
+                                    <div class="box-body">
+
+                                        <div class="form-group">
+                                            <label for="message-text" class="col-form-label">Purchase Order Number:</label>
+                                            @Html.DropDownListFor(model => model.Procurement_PurchaseOrderFk, new SelectList(Model.PurchaseOrders, "Value", "Text"), "---Select---", new { @class = "dropdownsize form-control", @id = "ddlPurchaseOrderNo" })
+
+                                            @Html.ValidationMessageFor(model => model.Procurement_PurchaseOrderFk, "", new { @class = "text-danger" })
+                                        </div>
+
+
+                                        <div class="form-group">
+                                            <label>Challan Date:</label>
+                                            @*@Html.EditorFor(model => model.ChallanDate, new {id = "txtDate", @class = "datePicker form-control ", @placeholder = "Challan Date", @required = "required", data_bv_message = "Challan date is required.", autocomplete = "off" })*@
+
+                                            <input name="ChallanDate" asp-for="ChallanDate" type="text" value="@DateTime.Now.ToString("yyyy-MM-dd")" required="required" class="datePicker form-control" id="txtDate" placeholder="Challan Date" autocomplete="off">
+
+                                            @Html.ValidationMessageFor(model => model.ChallanDate, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="form-group">
+                                                <label for="message-text" class="col-form-label"> Truck No:</label>
+                                                @Html.EditorFor(model => model.TruckNo, new { htmlAttributes = new { @class = "form-control", @autocomplete = "off" } })
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <!-- /.box-body -->
+
+                            </div>
+
+                            <br />
+                            <div class="col-md-12">
+                                <div class="box">
+
+                                    <div class="box-footer">
+                                        <div id="procurementPurchaseOrderSlaveData"></div>
+                                    </div>
+                                </div>
+                                <!-- /.box -->
+                            </div>
+                        }
+
+                        <!--Body Will by Start Here-->
+
+                        @{
+                            if (Model.MaterialReceiveId > 0)
+                            {
+                                <div class="box-header" style="clear:both">
+                                    <h4><b>Received Item:</b> </h4>
+                                </div>
+
+                                <div class="table-responsive col-md-12 text-nowrap">
+                                    <table id="KgErpDataTable" class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>SL</th>
+                                                <th class="center">Item Name </th>
+                                                <th class="center">PO Quantity</th>
+                                                <th class="center">Received Quantity</th>
+                                                <th class="center">Total Received</th>
+                                                <th>Return Quantity</th>
+                                                <th class="center">Remaining Quantity</th>
+
+                                            </tr>
+                                        </thead>
+                                        @{
+                                            int sl = 0;
+                                        }
+                                        <tbody>
+                                            @foreach (var item in Model.DataListSlave)
+                                            {
+                                                <tr>
+                                                    <td>@(++sl)</td>
+                                                    <td>@item.ProductSubCategory @item.ProductName</td>
+                                                    <td>@item.POQuantity</td>
+                                                    <th>@item.ReceivedQuantity</th>
+                                                    <td>@item.PriviousReceivedQuantity</td>
+                                                    <td>@item.ReturnQuantity</td>
+                                                    <td>@item.RemainingQuantity</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            }
+                        }
+                    </div>
 
                     @if (Model.MaterialReceiveId > 0)
                     {
@@ -485,21 +485,21 @@
                      success: function (data) {
                          $("#procurementPurchaseOrderSlaveData").html(data);
 
-            $.ajax({
-                    type: "POST",
-                    url: "@Url.Action("ProcurementPurchaseOrderSlaveData2", "Warehouse")",
-                    datatype: "Json",
-                     data: { poId: b },
-                     success: function (data) {
-                         for (var i = 0; i < data.length; i++) {
-                             var txtdate = DateCustom(data[i].PODate);
-                             $("#txtDate").val(txtdate)
-                             $("#sbmtbtn").css("display", "block")
-                         }
+                        $.ajax({
+                                type: "POST",
+                                url: "@Url.Action("ProcurementPurchaseOrderSlaveData2", "Warehouse")",
+                                datatype: "Json",
+                                 data: { poId: b },
+                                 success: function (data) {
+                                     for (var i = 0; i < data.length; i++) {
+                                         var txtdate = DateCustom(data[i].PODate);
+                                         $("#txtDate").val(txtdate)
+                                         $("#sbmtbtn").css("display", "block")
+                                     }
 
 
-                    }
-                });
+                                }
+                            });
 
                     }
                 });
