@@ -1,4 +1,6 @@
-﻿namespace KGERP.Utility
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace KGERP.Utility
 {
     public enum EnumBRequisitionSignatory
     {
@@ -20,9 +22,23 @@
     }
     public enum EnumBillRequisitionType
     {
-        Construction = 1,
-        ItEquipment,
-        Overhead
+        [Display(Name = "Construction Materials")]
+        Materials = 1,
+
+        [Display(Name = "P & M (Paint, Equipment, Machineries and Tools)")]
+        Rent,
+
+        [Display(Name = "Construction Equipment Repair")]
+        Repair,
+
+        [Display(Name = "Construction Labor")]
+        Labor,
+
+        [Display(Name = "IT Equipment")]
+        It,
+
+        [Display(Name = "Overhead")]
+        Overhead,
     }
     public enum EnumBillReqProjectType
     {

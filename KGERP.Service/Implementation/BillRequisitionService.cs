@@ -1685,7 +1685,7 @@ namespace KGERP.Service.Implementation
             billRequisitionMasterModel.CompanyFK = companyId;
             billRequisitionMasterModel.DataList = await Task.Run(() => (from t1 in _context.BillRequisitionMasters.Where(x => x.IsActive
                                                          && x.CompanyId == companyId
-                                                         && x.BillRequisitionTypeId != (int)EnumBillRequisitionType.ItEquipment
+                                                         && x.BillRequisitionTypeId != (int)EnumBillRequisitionType.It
                                                          && x.StatusId >= (int)EnumBillRequisitionStatus.Submitted)
                                                                         join t2 in _context.Accounting_CostCenter on t1.CostCenterId equals t2.CostCenterId into t2_Join
                                                                         from t2 in t2_Join.DefaultIfEmpty()
@@ -1846,7 +1846,7 @@ namespace KGERP.Service.Implementation
             billRequisitionMasterModel.CompanyFK = companyId;
             billRequisitionMasterModel.DataList = await Task.Run(() => (from t1 in _context.BillRequisitionMasters.Where(x => x.IsActive
                                                          && x.CompanyId == companyId
-                                                         && x.BillRequisitionTypeId == (int)EnumBillRequisitionType.ItEquipment
+                                                         && x.BillRequisitionTypeId == (int)EnumBillRequisitionType.It
                                                          && x.StatusId >= (int)EnumBillRequisitionStatus.Submitted)
                                                                         join t2 in _context.Accounting_CostCenter on t1.CostCenterId equals t2.CostCenterId into t2_Join
                                                                         from t2 in t2_Join.DefaultIfEmpty()
