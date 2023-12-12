@@ -10,6 +10,7 @@ using System.Data.Entity.Core.Common.CommandTrees;
 using System.IdentityModel.Tokens;
 using System.Linq;
 using System.Linq.Dynamic;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -529,7 +530,7 @@ namespace KGERP.Service.Implementation
 
             if (data == null)
             {
-                return null; 
+                return null;
             }
 
             return new BoQItemProductMap
@@ -784,7 +785,7 @@ namespace KGERP.Service.Implementation
                                                                    BRTypeName = t3.Name,
                                                                    ProjectTypeId = t1.ProjectTypeId,
                                                                    ProjectTypeName = t4.Name,
-                                                                   BoQDivisionId = (t1.BoQDivisionId == null || t1.BoQDivisionId == 0)? 0 : (int)t1.BoQDivisionId,
+                                                                   BoQDivisionId = (t1.BoQDivisionId == null || t1.BoQDivisionId == 0) ? 0 : (int)t1.BoQDivisionId,
                                                                    BoQDivisionName = t6.Name,
                                                                    BOQItemId = t1.BOQItemId,
                                                                    BOQItemName = t5.Name,
@@ -929,7 +930,7 @@ namespace KGERP.Service.Implementation
                     ReceivedSoFar = model.DetailModel.ReceivedSoFar,
                     RemainingQty = model.DetailModel.RemainingQty,
                     EstimatedQty = model.DetailModel.EstimatedQty,
-                    TotalPrice =  model.DetailModel.TotalPrice,
+                    TotalPrice = model.DetailModel.TotalPrice,
                     Floor = model.DetailModel.Floor,
                     Ward = model.DetailModel.Ward,
                     DPP = model.DetailModel.DPP,
@@ -2432,27 +2433,69 @@ namespace KGERP.Service.Implementation
 
             return productList;
         }
+        public List<Product> GetMaterialByBoqOverhead()
+        {
+            var materials = (
+                from t1 in _context.Products
+                    .Where(x => x.ProductCategoryId == 3 && x.ProductSubCategoryId == 3 && x.IsActive)
+                select new
+                {
+                    t1.ProductId,
+                    t1.ProductName
+                }).ToList();
+
+            var productList = materials.Select(x => new Product
+            {
+                ProductId = x.ProductId,
+                ProductName = x.ProductName
+            }).ToList();
+
+            return productList;
+        }
 
         public async Task<decimal?> ReceivedSoFarTotal(long boqId, long productId)
         {
             decimal? total = 0;
 
-            var getRequisitionByBoqId = (
+            if(boqId == 0 || boqId == null)
+            {
+                var getRequisitionByBoqId = (
                 from t1 in _context.BillRequisitionMasters
-                    .Where(c=> c.BOQItemId == boqId && c.StatusId == (int)EnumBillRequisitionStatus.Approved && c.IsActive == true)
+                    .Where(c => c.BOQItemId == null && c.StatusId == (int)EnumBillRequisitionStatus.Approved && c.IsActive == true)
                 join t2 in _context.BillRequisitionDetails
-                    .Where(c=> c.ProductId == productId && c.IsActive == true) on t1.BillRequisitionMasterId equals t2.BillRequisitionMasterId
+                    .Where(c => c.ProductId == productId && c.IsActive == true) on t1.BillRequisitionMasterId equals t2.BillRequisitionMasterId
                 select new
                 {
                     t2.DemandQty
                 }).ToList();
 
-            foreach(var item in getRequisitionByBoqId)
-            {
-                total += item.DemandQty;
-            }
+                foreach (var item in getRequisitionByBoqId)
+                {
+                    total += item.DemandQty;
+                }
 
-            return total;
+                return total;
+            }
+            else
+            {
+                var getRequisitionByBoqId = (
+                from t1 in _context.BillRequisitionMasters
+                    .Where(c => c.BOQItemId == boqId && c.StatusId == (int)EnumBillRequisitionStatus.Approved && c.IsActive == true)
+                join t2 in _context.BillRequisitionDetails
+                    .Where(c => c.ProductId == productId && c.IsActive == true) on t1.BillRequisitionMasterId equals t2.BillRequisitionMasterId
+                select new
+                {
+                    t2.DemandQty
+                }).ToList();
+
+                foreach (var item in getRequisitionByBoqId)
+                {
+                    total += item.DemandQty;
+                }
+
+                return total;
+            }
+            
         }
 
         // approved requisition demand

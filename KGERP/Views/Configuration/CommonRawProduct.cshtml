@@ -17,7 +17,7 @@
 </style>
 <section class="content-header">
     <h1>
-        New Material Item
+        New Material Item atik
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
@@ -122,7 +122,7 @@
                                             <tbody>
                                                 @if (Model.DataList != null)
                                                 {
-                                                    foreach (var item in Model.DataList)
+                                                    foreach (var item in Model.DataList.OrderBy(x => x.Name ))
                                                     {
 
                                                         <tr>

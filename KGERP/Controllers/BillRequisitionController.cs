@@ -37,7 +37,7 @@ namespace KGERP.Controllers
         #region All Json Action Method for Requisition
 
         // get material budget info
-        public async Task<JsonResult> GetMaterialBudgetInfo(long boqId, long productId )
+        public async Task<JsonResult> GetMaterialBudgetInfo(long boqId, long productId)
         {
             decimal EstimateQty = 0;
             decimal UnitRate = 0;
@@ -45,13 +45,25 @@ namespace KGERP.Controllers
             decimal? RemainingQty = 0;
 
             var getData = await _service.BoqMaterialBudget(boqId, productId);
-            if(getData != null)
+            if (getData != null)
             {
-                EstimateQty = (decimal) getData.EstimatedQty;
+                EstimateQty = (decimal)getData.EstimatedQty;
                 UnitRate = (decimal)getData.UnitRate;
                 ReceivedSoFar = await _service.ReceivedSoFarTotal(boqId, productId);
                 RemainingQty = EstimateQty - ReceivedSoFar;
             }
+
+            return Json(new { EstimateQty = EstimateQty, UnitRate = UnitRate, ReceivedSoFar = ReceivedSoFar, RemainingQty = RemainingQty }, JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<JsonResult> GetMaterialBudgetInfoForOverhead(long productId)
+        {
+            decimal EstimateQty = 0;
+            decimal UnitRate = 0;
+            decimal? ReceivedSoFar = 0;
+            decimal? RemainingQty = 0;
+
+            ReceivedSoFar = await _service.ReceivedSoFarTotal(0, productId);
 
             return Json(new { EstimateQty = EstimateQty, UnitRate = UnitRate, ReceivedSoFar = ReceivedSoFar, RemainingQty = RemainingQty }, JsonRequestBehavior.AllowGet);
         }
@@ -94,7 +106,19 @@ namespace KGERP.Controllers
             List<Product> materialList = null;
             if (id > 0)
             {
-                 materialList = _service.GetMaterialByBoqId(id);
+                materialList = _service.GetMaterialByBoqId(id);
+            }
+
+            return Json(materialList, JsonRequestBehavior.AllowGet);
+        }
+
+        // Dependent BoQ material List for overhead
+        public JsonResult getBoqMaterialListForOverHead(int id)
+        {
+            List<Product> materialList = null;
+            if (id == 0)
+            {
+                materialList = _service.GetMaterialByBoqOverhead();
             }
 
             return Json(materialList, JsonRequestBehavior.AllowGet);
@@ -738,7 +762,7 @@ namespace KGERP.Controllers
             return RedirectToAction(nameof(PMBRApprovalList), new { companyId = resutl });
         }
 
-       
+
         [HttpGet]
         public async Task<ActionResult> PMBRApprovalList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
         {

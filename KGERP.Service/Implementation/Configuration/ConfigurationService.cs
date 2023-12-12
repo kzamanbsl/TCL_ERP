@@ -2890,7 +2890,7 @@ namespace KGERP.Service.Implementation.Configuration
                 vmCommonProduct.CompanyFK = companyId;
 
             }
-            vmCommonProduct.DataList = await (from t1 in _db.Products.Where(x => x.CompanyId == companyId && x.ProductType == productType )
+            vmCommonProduct.DataList = await (from t1 in _db.Products.Where(x => x.CompanyId == companyId && x.ProductType == productType && x.ProductCategoryId == 1 && x.ProductSubCategoryId == 1 && x.IsActive )
                                               join t2 in _db.ProductSubCategories on t1.ProductSubCategoryId equals t2.ProductSubCategoryId into t2_Join
                                               from t2 in t2_Join.DefaultIfEmpty()
                                               join t3 in _db.ProductCategories on t2.ProductCategoryId equals t3.ProductCategoryId into t3_Join
