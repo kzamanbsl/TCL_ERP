@@ -546,13 +546,11 @@ namespace KGERP.Controllers
         [HttpPost]
         public async Task<ActionResult> BillRequisitionMasterSlave(BillRequisitionMasterModel billRequisitionMasterModel)
         {
-
             if (billRequisitionMasterModel.ActionEum == ActionEnum.Add)
             {
                 if (billRequisitionMasterModel.BillRequisitionMasterId == 0)
                 {
                     billRequisitionMasterModel.BillRequisitionMasterId = await _service.BillRequisitionMasterAdd(billRequisitionMasterModel);
-
                 }
                 await _service.BillRequisitionDetailAdd(billRequisitionMasterModel);
             }

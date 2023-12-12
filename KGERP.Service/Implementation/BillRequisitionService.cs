@@ -842,6 +842,7 @@ namespace KGERP.Service.Implementation
                     BillRequisitionMasterId = model.BillRequisitionMasterId,
                     BRDate = model.BRDate,
                     BillRequisitionTypeId = model.BillRequisitionTypeId,
+                    BoQDivisionId = model.BoQDivisionId,
                     BOQItemId = model.BOQItemId,
                     ProjectTypeId = model.ProjectTypeId,
                     CostCenterId = model.CostCenterId,

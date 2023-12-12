@@ -98,17 +98,20 @@
                                             <td>@Model.CostCenterName</td>
                                         </tr>
 
-                                        <tr>
-                                            <th>
-                                                Division Name
-                                            </th>
-                                            <th>:</th>
-                                            <td>@Model.BoQDivisionId</td>
+                                        @if (!(Model.BillRequisitionTypeId == (int)EnumBillRequisitionType.Overhead))
+                                        {
+                                            <tr>
+                                                <th>
+                                                    Division Name
+                                                </th>
+                                                <th>:</th>
+                                                <td>@Model.BoQDivisionId</td>
 
-                                            <th>BoQ Item Name</th>
-                                            <th>:</th>
-                                            <td>@Model.BOQItemName</td>
-                                        </tr>
+                                                <th>BoQ Item Name</th>
+                                                <th>:</th>
+                                                <td>@Model.BOQItemName</td>
+                                            </tr>
+                                        }
 
                                         <tr>
                                             <th>
@@ -143,17 +146,17 @@
 
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>Select Project Type :</label>
-                                            @Html.DropDownListFor(model => model.ProjectTypeId, Model.ProjectTypeList as SelectList, "===Select Project Type===", new { id = "projectTypeId", onchange = "getProjectList()", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
-                                            @Html.ValidationMessageFor(model => model.ProjectTypeId, "", new { @class = "text-danger" })
+                                            <label>Select Requisition Type :</label>
+                                            @Html.DropDownListFor(model => model.BillRequisitionTypeId, Model.RequisitionTypeList as SelectList, "===Select Requisition Type===", new { id = "ddlBRTypeId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.ValidationMessageFor(model => model.BillRequisitionTypeId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
 
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>Select Requisition Type :</label>
-                                            @Html.DropDownListFor(model => model.BillRequisitionTypeId, Model.RequisitionTypeList as SelectList, "===Select Requisition Type===", new { id = "ddlBRTypeId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
-                                            @Html.ValidationMessageFor(model => model.BillRequisitionTypeId, "", new { @class = "text-danger" })
+                                            <label>Select Project Type :</label>
+                                            @Html.DropDownListFor(model => model.ProjectTypeId, Model.ProjectTypeList as SelectList, "===Select Project Type===", new { id = "projectTypeId", onchange = "getProjectList()", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.ValidationMessageFor(model => model.ProjectTypeId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
 
@@ -278,7 +281,7 @@
                                 <div class="row">
                                     <div class="col-md-3 d-block" id="inputMaterial">
                                         <div class="form-group">
-                                            <label id="materialTitle">Requisition Material Item :</label>
+                                            <label id="materialTitle">@((Model.BillRequisitionTypeId == (int)EnumBillRequisitionType.Overhead)? "Sub Head Item :" : "Requisition Material Item :")</label>
                                             @Html.DropDownListFor(model => model.DetailModel.ProductId, Model.RequisitionItemList as SelectList, "==Select Material==", new { id = "ddlRequisitionItemId", onchange = "getUnitName()", @class = "form-control searchingDropdown", style = "width:100%", })
                                             @Html.ValidationMessageFor(model => model.DetailModel.ProductId, "", new { @class = "text-danger" })
                                         </div>
@@ -302,7 +305,7 @@
 
                                     <div class="col-md-3 d-block" id="inputReceivedSoFar">
                                         <div class="form-group">
-                                            <label>Received So Far :</label>
+                                            <label>Item Received So Far :</label>
                                             @Html.TextBoxFor(model => model.DetailModel.ReceivedSoFar, new { id = "decReceivedSoFar", type = "number", step = "0.01", @class = "form-control", placeholder = "Received so far", ReadOnly = "true" })
                                             @Html.ValidationMessageFor(model => model.DetailModel.ReceivedSoFar, "", new { @class = "text-danger" })
                                         </div>
@@ -815,10 +818,62 @@
 
                 if (selectedOption.val() === "@((int)EnumBillRequisitionType.Overhead)") {
                     $("#descriptionTitle").text("Item Description :");
-                    $("#materialTitle").text("Sub Head :");
+                    $("#materialTitle").text("Sub Head Item :");
+
+                    // master form
+                    $("#inputDivision").removeClass("d-block").addClass("hidden");
+                    $("#inputBoq").removeClass("d-block").addClass("hidden");
+
+                    // details form
+                    $("#inputEstimateQty").removeClass("d-block").addClass("hidden");
+                    $("#inputRemainingQty").removeClass("d-block").addClass("hidden");
+                    $("#inputMaterial").removeClass("hidden").addClass("d-block");
+                    $("#inputUnit").removeClass("hidden").addClass("d-block");
+                    $("#inputReceivedSoFar").removeClass("hidden").addClass("d-block");
+
+                    // for layout
+                    $("#inputMaterial").removeClass("col-md-3").addClass("col-md-4");
+                    $("#inputUnit").removeClass("col-md-3").addClass("col-md-4");
+                    $("#inputReceivedSoFar").removeClass("col-md-3").addClass("col-md-4");
+                    $("#inputDemandQty").removeClass("col-md-3").addClass("col-md-4");
+                    $("#inputUnitRate").removeClass("col-md-3").addClass("col-md-4");
+                    $("#inputTotalPrice").removeClass("col-md-3").addClass("col-md-4");
+                } else if (selectedOption.val() === "@((int)EnumBillRequisitionType.It)") {
+                    $("#descriptionTitle").text("Item Description :");
+
+                    // details form
+                    $("#inputEstimateQty").removeClass("d-block").addClass("hidden");
+                    $("#inputRemainingQty").removeClass("d-block").addClass("hidden");
+                    $("#inputMaterial").removeClass("d-block").addClass("hidden");
+                    $("#inputUnit").removeClass("d-block").addClass("hidden");
+                    $("#inputReceivedSoFar").removeClass("d-block").addClass("hidden");
+
+                    // for layout
+                    $("#inputDemandQty").removeClass("col-md-3").addClass("col-md-4");
+                    $("#inputUnitRate").removeClass("col-md-3").addClass("col-md-4");
+                    $("#inputTotalPrice").removeClass("col-md-3").addClass("col-md-4");
                 } else {
                     $("#descriptionTitle").text("Work Details :");
                     $("#materialTitle").text("Requisition Material Item :");
+
+                    // master form
+                    $("#inputDivision").removeClass("hidden").addClass("d-block");
+                    $("#inputBoq").removeClass("hidden").addClass("d-block");
+
+                    // details form
+                    $("#inputEstimateQty").removeClass("hidden").addClass("d-block");
+                    $("#inputRemainingQty").removeClass("hidden").addClass("d-block");
+                    $("#inputMaterial").removeClass("hidden").addClass("d-block");
+                    $("#inputUnit").removeClass("hidden").addClass("d-block");
+                    $("#inputReceivedSoFar").removeClass("hidden").addClass("d-block");
+
+                    // for layout
+                    $("#inputMaterial").removeClass("col-md-4").addClass("col-md-3");
+                    $("#inputUnit").removeClass("col-md-4").addClass("col-md-3");
+                    $("#inputReceivedSoFar").removeClass("col-md-4").addClass("col-md-3");
+                    $("#inputDemandQty").removeClass("col-md-4").addClass("col-md-3");
+                    $("#inputUnitRate").removeClass("col-md-4").addClass("col-md-3");
+                    $("#inputTotalPrice").removeClass("col-md-4").addClass("col-md-3");
                 }
             });
 
