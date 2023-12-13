@@ -2523,6 +2523,38 @@ namespace KGERP.Service.Implementation
             return list;
 
         }
+        // approved material item by requisition id
+        public List<Product> ApprovedMaterialList(int companyId, long requisitionId)
+        {
+            var list = new List<Product>();
+            if (requisitionId > 0 && requisitionId != null)
+            {
+                var materials = (
+                    from t1 in _context.BillRequisitionDetails
+                        .Where(x => x.BillRequisitionMasterId == requisitionId && x.CompanyId == companyId && x.IsActive)
+                    join t2 in _context.Products
+                        .Where(x => x.IsActive) on t1.ProductId equals t2.ProductId
+                    select new
+                    {
+                        t1.ProductId,
+                        t2.ProductName
+                    }).ToList();
 
+                list = materials.Select(x => new Product
+                {
+                    ProductId = (int)x.ProductId,
+                    ProductName = x.ProductName
+                }).ToList();
+
+                return list;
+            }
+
+            foreach (var item in _context.Products.Where(a => a.IsActive == true).ToList())
+            {
+                list.Add(new Product() { ProductId = item.ProductId, ProductName = item.ProductName });
+            }
+            return list;
+
+        }
     }
 }
