@@ -90,6 +90,7 @@ namespace KGERP.Service.Implementation.Accounting
         public SelectList CostCenterList { get; set; } = new SelectList(new List<object>());
         public SelectList BankOrCashParantList { get; set; } = new SelectList(new List<object>());
         public SelectList BankOrCashGLList { get; set; } = new SelectList(new List<object>());
+        public SelectList Requisitions { get; set; } = new SelectList(new List<object>());
 
 
 

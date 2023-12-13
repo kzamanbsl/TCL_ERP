@@ -2512,5 +2512,17 @@ namespace KGERP.Service.Implementation
             return null;
         }
 
+        // approved requisition no
+        public List<object> ApprovedRequisitionList(int companyId)
+        {
+            var list = new List<object>();
+            foreach (var item in _context.BillRequisitionMasters.Where(a => a.StatusId == (int)EnumBillRequisitionStatus.Approved && a.IsActive == true).ToList())
+            {
+                list.Add(new { Text = item.BillRequisitionNo, Value = item.BillRequisitionMasterId });
+            }
+            return list;
+
+        }
+
     }
 }

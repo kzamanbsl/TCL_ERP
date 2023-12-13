@@ -28,15 +28,17 @@ namespace KGERP.Controllers
         private readonly AccountingService _accountingService;
         private readonly IProductService _productService;
         private readonly IStockInfoService _stockInfoService;
+        private readonly IBillRequisitionService _billrequisitionService;
+
         private readonly ERPEntities _db = new ERPEntities();
-        public ProcurementController(ProcurementService configurationService, AccountingService accountingService, IOrderMasterService orderMasterService, IProductService productService, IStockInfoService stockInfoService)
+        public ProcurementController(ProcurementService configurationService, AccountingService accountingService, IOrderMasterService orderMasterService, IProductService productService, IStockInfoService stockInfoService, IBillRequisitionService billrequisitionService)
         {
             this._orderMasterService = orderMasterService;
             _accountingService = accountingService;
             _service = configurationService;
             _productService = productService;
             _stockInfoService = stockInfoService;
-
+            _billrequisitionService = billrequisitionService;
         }
 
         #region Suppler Opening
@@ -505,7 +507,7 @@ namespace KGERP.Controllers
             vmPurchaseOrderSlave.ShippedByList = new SelectList(_service.ShippedByListDropDownList(companyId), "Value", "Text");
             vmPurchaseOrderSlave.CountryList = new SelectList(_service.CountriesDropDownList(companyId), "Value", "Text");
             vmPurchaseOrderSlave.StockInfoList = _stockInfoService.GetStockInfoSelectModels(companyId);
-            vmPurchaseOrderSlave.Requisitions = new SelectList(_service.ApprovedRequisitionList(companyId), "Value", "Text");
+            vmPurchaseOrderSlave.Requisitions = new SelectList(_billrequisitionService.ApprovedRequisitionList(companyId), "Value", "Text");
             vmPurchaseOrderSlave.MaterialItemList = new SelectList(_service.ApprovedMaterialList(companyId, requisitionId), "ProductId", "ProductName");
             if (companyId == (int)CompanyNameEnum.KrishibidSeedLimited)
             {

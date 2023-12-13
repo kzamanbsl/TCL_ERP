@@ -34,17 +34,7 @@ namespace KGERP.Service.Implementation.Procurement
 
         }
 
-        // approved requisition no
-        public List<object> ApprovedRequisitionList(int companyId)
-        {
-            var list = new List<object>();
-            foreach (var item in _db.BillRequisitionMasters.Where(a => a.StatusId == (int)EnumBillRequisitionStatus.Approved && a.IsActive == true).ToList())
-            {
-                list.Add(new { Text = item.BillRequisitionNo, Value = item.BillRequisitionMasterId });
-            }
-            return list;
-
-        }
+    
 
         // approved material item by requisition id
         public List<Product> ApprovedMaterialList(int companyId, long requisitionId)

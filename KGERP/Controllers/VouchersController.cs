@@ -1,4 +1,5 @@
 ﻿using KGERP.Data.Models;
+using KGERP.Service.Implementation;
 using KGERP.Service.Implementation.Accounting;
 using KGERP.Service.Interface;
 using KGERP.Service.ServiceModel;
@@ -18,14 +19,16 @@ namespace KGERP.Controllers
         private readonly IVoucherService _voucherService;
         private readonly IAccountHeadService _accountHeadService;
         private readonly AccountingService _accountingService;
+        private readonly IBillRequisitionService _billrequisitionService;
 
 
-        public VouchersController(ERPEntities db, IAccountHeadService accountHeadService, IVoucherTypeService voucherTypeService, IVoucherService voucherService)
+        public VouchersController(ERPEntities db, IAccountHeadService accountHeadService, IVoucherTypeService voucherTypeService, IVoucherService voucherService, IBillRequisitionService billrequisitionService)
         {
             this._voucherTypeService = voucherTypeService;
             this._voucherService = voucherService;
             this._accountHeadService = accountHeadService;
             _accountingService = new AccountingService(db);
+             _billrequisitionService = billrequisitionService;
         }
 
 
@@ -275,6 +278,74 @@ namespace KGERP.Controllers
         }
 
 
+        #region Requisition Voucher Entry
+        [HttpGet]
+        public async Task<ActionResult> RequisitionVoucherEntry(int companyId = 0, int voucherId = 0)
+        {
+            VMJournalSlave vmJournalSlave = new VMJournalSlave();
+
+            if (voucherId == 0)
+            {
+                vmJournalSlave = await Task.Run(() => _accountingService.GetCompaniesDetails(companyId));
+
+            }
+            else if (voucherId > 0)
+            {
+                vmJournalSlave = await Task.Run(() => _accountingService.GetVoucherDetails(companyId, voucherId));
+            }
+            vmJournalSlave.CostCenterList = new SelectList(_accountingService.CostCenterDropDownList(companyId), "Value", "Text");
+            vmJournalSlave.VoucherTypesList = new SelectList(_accountingService.VoucherTypesDownList(companyId), "Value", "Text");
+            if (companyId == (int)CompanyNameEnum.GloriousCropCareLimited ||
+                companyId == (int)CompanyNameEnum.KrishibidPrintingAndPublicationLimited ||
+                companyId == (int)CompanyNameEnum.KrishibidPackagingLimited)
+            {
+                vmJournalSlave.BankOrCashParantList = new SelectList(_accountingService.GCCLCashAndBankDropDownList(companyId), "Value", "Text");
+
+            }
+            if (companyId == (int)CompanyNameEnum.KrishibidSeedLimited)
+            {
+                vmJournalSlave.BankOrCashParantList = new SelectList(_accountingService.SeedCashAndBankDropDownList(companyId), "Value", "Text");
+                vmJournalSlave.Requisitions = new SelectList(_billrequisitionService.ApprovedRequisitionList(companyId), "Value", "Text");
+
+            }
+
+            return View(vmJournalSlave);
+        }
+
+        [HttpPost]
+        [SessionExpire]
+        public async Task<ActionResult> RequisitionVoucherEntry(VMJournalSlave vmJournalSlave)
+        {
+
+            if (vmJournalSlave.ActionEum == ActionEnum.Add)
+            {
+                if (vmJournalSlave.VoucherId == 0)
+                {
+                    vmJournalSlave.IsStock = false;
+                    // it is important / dont delete
+                    var voucherNo = _voucherService.GetVoucherNo(vmJournalSlave.VoucherTypeId, vmJournalSlave.CompanyFK.Value, vmJournalSlave.Date.Value);
+                    vmJournalSlave.VoucherNo = voucherNo;
+                    vmJournalSlave.VoucherId = await _accountingService.VoucherAdd(vmJournalSlave);
+
+                }
+                await _accountingService.VoucherDetailAdd(vmJournalSlave);
+            }
+            else if (vmJournalSlave.ActionEum == ActionEnum.Edit)
+            {
+                //Edit
+                await _accountingService.VoucherDetailsEdit(vmJournalSlave);
+            }
+            else if (vmJournalSlave.ActionEum == ActionEnum.Delete)
+            {
+                //Delete
+                await _accountingService.VoucherDetailsDelete(vmJournalSlave.VoucherDetailId.Value);
+            }
+
+            return RedirectToAction(nameof(RequisitionVoucherEntry), new { companyId = vmJournalSlave.CompanyFK, voucherId = vmJournalSlave.VoucherId });
+        }
+
+        #endregion
+
         [HttpPost]
         [SessionExpire]
         public async Task<ActionResult> DeleteVoucher(VoucherModel voucherModel)
@@ -501,6 +572,8 @@ namespace KGERP.Controllers
             var model = await _accountingService.GetSingleVoucherTypes(voucherTypesId);
             return Json(model, JsonRequestBehavior.AllowGet);
         }
+
+
 
     }
 }
