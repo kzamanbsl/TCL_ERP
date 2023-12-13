@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using KGERP.Data.Models;
 using KGERP.Service.Implementation.Configuration;
 
 namespace KGERP.Service.Implementation.Accounting
@@ -30,6 +31,7 @@ namespace KGERP.Service.Implementation.Accounting
         public decimal dollarRate { get; set; }
 
         public int? Accounting_CostCenterFK { get; set; }
+        public long? BillRequisitionId { get; set; }
         public int Accounting_BankOrCashParantId { get; set; }
 
         public int? Accounting_BankOrCashId { get; set; }
@@ -71,6 +73,7 @@ namespace KGERP.Service.Implementation.Accounting
 
         [Required]
         public int VoucherTypeId { get; set; }
+        public int? RequisitionMaterialId { get; set; }
 
         public double Debit { get; set; } = 0;
         public double Credit { get; set; } = 0;
@@ -91,6 +94,8 @@ namespace KGERP.Service.Implementation.Accounting
         public SelectList BankOrCashParantList { get; set; } = new SelectList(new List<object>());
         public SelectList BankOrCashGLList { get; set; } = new SelectList(new List<object>());
         public SelectList Requisitions { get; set; } = new SelectList(new List<object>());
+        public SelectList MaterialItemList { get; set; } = new SelectList(new List<Product>());
+
 
 
 

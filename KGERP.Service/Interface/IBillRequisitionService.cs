@@ -122,5 +122,6 @@ namespace KGERP.Service.Interface
         Task<BoQItemProductMap> BoqMaterialBudget(long boqId, long productId);
         Task<object> ApprovedRequisitionDemand(long requisitionId, long materialId);
         List<object> ApprovedRequisitionList(int companyId);
+        List<Product> ApprovedMaterialList(int companyId, long requisitionId);
     }
 }

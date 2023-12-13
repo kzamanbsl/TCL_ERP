@@ -1,6 +1,7 @@
 ﻿using KGERP.Data.Models;
 using KGERP.Service.Implementation;
 using KGERP.Service.Implementation.Accounting;
+using KGERP.Service.Implementation.Procurement;
 using KGERP.Service.Interface;
 using KGERP.Service.ServiceModel;
 using KGERP.Utility;
@@ -304,8 +305,10 @@ namespace KGERP.Controllers
             }
             if (companyId == (int)CompanyNameEnum.KrishibidSeedLimited)
             {
+                long requisitionId = 0;
                 vmJournalSlave.BankOrCashParantList = new SelectList(_accountingService.SeedCashAndBankDropDownList(companyId), "Value", "Text");
                 vmJournalSlave.Requisitions = new SelectList(_billrequisitionService.ApprovedRequisitionList(companyId), "Value", "Text");
+                vmJournalSlave.MaterialItemList = new SelectList(_billrequisitionService.ApprovedMaterialList(companyId, requisitionId), "ProductId", "ProductName");
 
             }
 

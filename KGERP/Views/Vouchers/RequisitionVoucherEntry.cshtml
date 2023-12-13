@@ -51,7 +51,8 @@
                 @Html.HiddenFor(model => model.ActionId, new { id = "ActionId" })
                 @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
                 @Html.HiddenFor(model => model.VoucherNo, new { @id = "txtVoucherNo" })
-
+                @Html.HiddenFor(model => model.BillRequisitionId, new { @id = "hidRequisiitonId" })
+              
 
                 <div class="box-danger">
 
@@ -147,10 +148,11 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Requisition</label>
-                                            @Html.DropDownListFor(model => model.Accounting_CostCenterFK, Model.CostCenterList as SelectList, new { id = "ddlAccounting_CostCenterFK", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
-                                            @Html.ValidationMessageFor(model => model.Accounting_CostCenterFK, "", new { @class = "text-danger" })
+                                            @Html.DropDownListFor(model => model.BillRequisitionId, Model.Requisitions as SelectList, new { id = "billRequisitionId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.ValidationMessageFor(model => model.BillRequisitionId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
+                               
                                 </div>
 
                                 <div class="row bankHead" style="display:none">
@@ -214,6 +216,17 @@
 
                             @if (Model.IsSubmit == false)
                             {
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Requisition Material:</label>
+                                            @Html.DropDownListFor(model => model.RequisitionMaterialId, Model.MaterialItemList as SelectList, new { id = "materialItemId", onchange = "getRequisitionsInfo()", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.ValidationMessageFor(model => model.RequisitionMaterialId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                              
+                                </div>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group" style="padding:0px">
@@ -704,5 +717,24 @@
             });
         }
 
+        function getRequisitionsInfo() {
+            var requisitionId = $("#billRequisitionId option:selected");
+            var materialId = $("#materialItemId option:selected");
+            var showApprovedDemand = $("#txtApprovedDemand");
+            var showUnitPrice = $("#txtUnitPrice");
+
+            $.ajax({
+                type: "GET",
+                url: "/BillRequisition/GetMaterialInfo",
+                dataType: "json",
+                data: { requisitionId: requisitionId.val(), productId: materialId.val() },
+                success: function (data) {
+                    if (data) {
+                        showApprovedDemand.val(data.ApprovedDemand);
+                        showUnitPrice.val(data.UnitPrice);
+                    }
+                }
+            });
+        }
     </script>
 }

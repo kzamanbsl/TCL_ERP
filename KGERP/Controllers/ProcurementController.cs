@@ -508,7 +508,7 @@ namespace KGERP.Controllers
             vmPurchaseOrderSlave.CountryList = new SelectList(_service.CountriesDropDownList(companyId), "Value", "Text");
             vmPurchaseOrderSlave.StockInfoList = _stockInfoService.GetStockInfoSelectModels(companyId);
             vmPurchaseOrderSlave.Requisitions = new SelectList(_billrequisitionService.ApprovedRequisitionList(companyId), "Value", "Text");
-            vmPurchaseOrderSlave.MaterialItemList = new SelectList(_service.ApprovedMaterialList(companyId, requisitionId), "ProductId", "ProductName");
+            vmPurchaseOrderSlave.MaterialItemList = new SelectList(_billrequisitionService.ApprovedMaterialList(companyId, requisitionId), "ProductId", "ProductName");
             if (companyId == (int)CompanyNameEnum.KrishibidSeedLimited)
             {
                 vmPurchaseOrderSlave.LCList = new SelectList(_service.SeedLCHeadGLList(companyId), "Value", "Text");
@@ -520,7 +520,7 @@ namespace KGERP.Controllers
         [HttpGet]
         public JsonResult GetMaterialByRequisitionId(int companyId, long requisitionId)
         {
-            return Json(_service.ApprovedMaterialList(companyId, requisitionId), JsonRequestBehavior.AllowGet);
+            return Json(_billrequisitionService.ApprovedMaterialList(companyId, requisitionId), JsonRequestBehavior.AllowGet);
         }
 
 
