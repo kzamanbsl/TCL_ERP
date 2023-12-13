@@ -1,12 +1,12 @@
-﻿@using KG.Core.Services
-
+﻿@model KGERP.Service.Implementation.Configuration.VMCommonProductCategory
+@using KG.Core.Services
 @{
-    ViewData["Title"] = "Raw Materials Category";
+    ViewData["Title"] = "New Requisition Type";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
 
 }
-@model KGERP.Service.Implementation.Configuration.VMCommonProductCategory
+
 <style type="text/css">
 
     input, select, textarea {
@@ -15,11 +15,11 @@
 </style>
 <section class="content-header">
     <h1>
-        Raw Materials Category
+        New Requisition Type
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">Raw Materials Category</li>
+        <li class="active">New Requisition Type</li>
     </ol>
 </section>
 @using (Html.BeginForm("CommonRawProductCategory", "Configuration", FormMethod.Post, new { id = "commonFinishProductCategoryFormId", @class = "formValidator", onreset = "resetDDL();" }))
@@ -32,28 +32,31 @@
                         @Html.AntiForgeryToken()
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         <div class="box-danger">
-                            <div class="box-header">
-                                <h4>Add Raw Category</h4>
-                            </div>
+                            <div class="box-header"></div>
                             <!-- /.box-header -->
                             <div class="box-body">
                                 @Html.HiddenFor(model => model.ID, new { id = "productCategoryId" })
                                 @Html.HiddenFor(model => model.ActionId, new { id = "ActionId" })
                                 @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
 
-                                <div class="form-group">
-                                    @Html.TextBoxFor(model => model.Name, new { id = "txtProductCategoryName", @class = "form-control input-sm", @placeholder = "Category Name", required = "true", })
-                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-md-5">
-                                        <button type="button" onclick="resetForm()" class="btn btn-secondary" data-dismiss="modal">Reset</button>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Requisition Type Name :</label>
+                                            @Html.TextBoxFor(model => model.Name, new { id = "txtProductCategoryName", @class = "form-control input-sm", @placeholder = "Requisition type name", required = "true", })
+                                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                        </div>
                                     </div>
-                                    <div class="col-md-7">
-                                        <button type="submit" id="btnSave" class="btn btn-primary btn-block"><i class='fa fa-edit'></i> Add</button>
-
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <div class="col-md-6">
+                                                <button type="button" onclick="resetForm()" class="btn btn-secondary btn-block w-100" data-dismiss="modal">Reset</button>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <button type="submit" id="btnSave" class="btn btn-primary btn-block w-100"><i class='fa fa-edit'></i> Add</button>
+                                            </div>
+                                        </div>
                                     </div>
-
                                 </div>
                             </div>
                             <div class="box-footer">
@@ -65,9 +68,7 @@
                     <div class="box">
 
                         <div class="box-danger">
-                            <div class="box-header">
-                                <h4>Raw Category List</h4>
-                            </div>
+                            <div class="box-header"></div>
                             <!-- /.box-header -->
                             <div class="box-body">
 
@@ -76,7 +77,7 @@
                                         <thead>
                                             <tr>
                                                 <th>SL</th>
-                                                <th>Name</th>
+                                                <th>Requisition Type</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -85,23 +86,18 @@
                                         <tbody>
                                             @foreach (var item in Model.DataList)
                                             {
-
                                                 <tr>
                                                     <td>@(++sl)</td>
                                                     <td id="tdProductCategoryName_@item.ID">@item.Name</td>
-
                                                     <td>
-
                                                         <a id="@item.ID" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
 
                                                         <a id="@item.ID" onclick="makeDeletable(@item.ID);" class="linkPointer" data-toggle="modal" data-target="#productCategoryDeleteModal" title="Delete"
                                                            data-placement="top">
                                                             <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
                                                         </a>
-
-                                                        <a href="~/Configuration/CommonRawProductSubCategory?companyId=@item.CompanyFK&categoryId=@item.ID" class="btn btn-success btn-sm">Raw Subcategory</a>
-                                                        <a href="~/Configuration/CommonRawProduct?companyId=@item.CompanyFK&categoryId=@item.ID" class="btn btn-warning btn-sm">Raw Materials</a>
-
+                                                        @*<a href="~/Configuration/CommonRawProductSubCategory?companyId=@item.CompanyFK&categoryId=@item.ID" class="btn btn-success btn-sm">Raw Subcategory</a>*@
+                                                        @*<a href="~/Configuration/CommonRawProduct?companyId=@item.CompanyFK&categoryId=@item.ID" class="btn btn-warning btn-sm">Raw Materials</a>*@
                                                     </td>
                                                 </tr>
                                             }
@@ -110,8 +106,7 @@
                                 </div>
 
                             </div>
-                            <div class="box-footer">
-                            </div>
+                            <div class="box-footer"></div>
                         </div>
                     </div>
                 </div>

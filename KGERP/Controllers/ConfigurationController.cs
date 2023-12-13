@@ -736,7 +736,6 @@ namespace KGERP.Controllers
 
         #endregion
 
-
         #region Common Raw Product Category
 
         [HttpGet]
@@ -786,6 +785,7 @@ namespace KGERP.Controllers
 
             VMCommonProductSubCategory vmCommonProductSubCategory = new VMCommonProductSubCategory();
             vmCommonProductSubCategory = await Task.Run(() => _service.GetProductSubCategory(companyId, categoryId, "R"));
+            vmCommonProductSubCategory.ProductCategoryLists = new SelectList(_service.GetAllProductCategoryList(companyId), "ProductCategoryId", "Name");
             return View(vmCommonProductSubCategory);
         }
 
@@ -823,10 +823,10 @@ namespace KGERP.Controllers
         [HttpGet]
         public async Task<ActionResult> CommonRawProduct(int companyId, int categoryId = 0, int subCategoryId = 0)
         {
-
             VMCommonProduct vmCommonProduct = new VMCommonProduct();
             vmCommonProduct = await _service.GetProduct(companyId, categoryId, subCategoryId, "R");
-
+            vmCommonProduct.ProductCategoryList = new SelectList(_service.GetAllProductCategoryList(companyId), "ProductCategoryId", "Name");
+            vmCommonProduct.ProductSubCategoryList = new SelectList(_service.GetAllProductSubCategoryList(companyId), "ProductSubCategoryId", "Name");
             vmCommonProduct.UnitList = new SelectList(_service.UnitDropDownList(companyId), "Value", "Text");
             return View(vmCommonProduct);
         }

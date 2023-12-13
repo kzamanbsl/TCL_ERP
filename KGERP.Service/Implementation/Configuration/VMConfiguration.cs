@@ -405,6 +405,7 @@ namespace KGERP.Service.Implementation.Configuration
         public bool IsLock { get; set; }
         public decimal? BaseCommissionRate { get; set; }
         public List<SelectModelType> ProductCategoryList { get; set; }
+        public SelectList ProductCategoryLists { get; set; } = new SelectList(new List<object>());
         public IEnumerable<VMCommonProductSubCategory> DataList { get; set; }
 
 
@@ -611,6 +612,9 @@ namespace KGERP.Service.Implementation.Configuration
         public decimal TransportationOverhead { get; set; }
         public decimal OthersCost { get; set; }
         public string OthersCostNote { get; set; }
+
+        public int ProductCategoryId { get; set; }
+        public string ProductSubCategoryId { get; set; }
 
         public IEnumerable<VMCommonProduct> DataList { get; set; }
         public List<SelectModelType> GetProductCategoryList { get; set; }

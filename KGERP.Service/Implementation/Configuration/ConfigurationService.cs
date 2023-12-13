@@ -252,7 +252,7 @@ namespace KGERP.Service.Implementation.Configuration
             List<Accounting_CostCenterType> accounting_CostCenterTypes = new List<Accounting_CostCenterType>();
             var getAccounting_CostCenterTypes = _db.Accounting_CostCenterType.Where(c => c.CompanyId == 21 && c.IsActive == true).ToList();
 
-            foreach(var item in getAccounting_CostCenterTypes)
+            foreach (var item in getAccounting_CostCenterTypes)
             {
                 var data = new Accounting_CostCenterType()
                 {
@@ -1042,12 +1042,12 @@ namespace KGERP.Service.Implementation.Configuration
             vmCommonSupplier.IsForeign = false;
             if (vmCommonSupplier.Common_CountriesFk > 0)
             {
-                if(vmCommonSupplier.Common_CountriesFk != bdId)
+                if (vmCommonSupplier.Common_CountriesFk != bdId)
                 {
                     vmCommonSupplier.IsForeign = true;
                 }
             }
-           
+
             Vendor commonSupplier = new Vendor
             {
                 Code = newString,
@@ -1170,7 +1170,7 @@ namespace KGERP.Service.Implementation.Configuration
             commonSupplier.IsForeign = vmCommonSupplier.IsForeign;
 
             commonSupplier.CountryId = vmCommonSupplier.Common_CountriesFk;
-           // commonSupplier.CustomerTypeFK = vmCommonSupplier.SupplierTypeFk;
+            // commonSupplier.CustomerTypeFK = vmCommonSupplier.SupplierTypeFk;
             commonSupplier.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
             commonSupplier.ModifiedDate = DateTime.Now;
             commonSupplier.BranchName = vmCommonSupplier.BranchName;
@@ -1670,28 +1670,28 @@ namespace KGERP.Service.Implementation.Configuration
             VMCommonArea vmCommonArea = new VMCommonArea();
             vmCommonArea.CompanyFK = companyId;
             vmCommonArea.DataList = await Task.Run(() => (from t1 in _db.Areas
-                                                             join t2 in _db.Zones on t1.ZoneId equals t2.ZoneId
-                                                             join t3 in _db.Regions on t1.RegionId equals t3.RegionId into t3_Join
-                                                             from t3 in t3_Join.DefaultIfEmpty()
-                                                             where t1.IsActive == true && t1.CompanyId == companyId
-                                                             && (zoneId > 0 ? t1.ZoneId == zoneId : t1.AreaId > 0)
-                                                             select new VMCommonArea
-                                                             {
-                                                                 ID = t1.AreaId,
-                                                                 ZoneId = t1.ZoneId,
-                                                                 ZoneName = t2.Name,
-                                                                 RegionId = t1.RegionId,
-                                                                 RegionName = t3.Name,
-                                                                 Name = t1.Name,
-                                                                 Code = t1.Code,
-                                                                 SalesOfficerName = t1.SalesOfficerName,
-                                                                 Designation = t1.Designation,
-                                                                 Email = t1.Email,
-                                                                 MobileOffice = t1.MobileOffice,
-                                                                 MobilePersonal = t1.MobilePersonal,
-                                                                 CompanyFK = t1.CompanyId,
-                                                                 EmployeeId = t1.EmployeeId
-                                                             }).OrderByDescending(x => x.ID).AsEnumerable());
+                                                          join t2 in _db.Zones on t1.ZoneId equals t2.ZoneId
+                                                          join t3 in _db.Regions on t1.RegionId equals t3.RegionId into t3_Join
+                                                          from t3 in t3_Join.DefaultIfEmpty()
+                                                          where t1.IsActive == true && t1.CompanyId == companyId
+                                                          && (zoneId > 0 ? t1.ZoneId == zoneId : t1.AreaId > 0)
+                                                          select new VMCommonArea
+                                                          {
+                                                              ID = t1.AreaId,
+                                                              ZoneId = t1.ZoneId,
+                                                              ZoneName = t2.Name,
+                                                              RegionId = t1.RegionId,
+                                                              RegionName = t3.Name,
+                                                              Name = t1.Name,
+                                                              Code = t1.Code,
+                                                              SalesOfficerName = t1.SalesOfficerName,
+                                                              Designation = t1.Designation,
+                                                              Email = t1.Email,
+                                                              MobileOffice = t1.MobileOffice,
+                                                              MobilePersonal = t1.MobilePersonal,
+                                                              CompanyFK = t1.CompanyId,
+                                                              EmployeeId = t1.EmployeeId
+                                                          }).OrderByDescending(x => x.ID).AsEnumerable());
             return vmCommonArea;
         }
 
@@ -1977,7 +1977,7 @@ namespace KGERP.Service.Implementation.Configuration
         {
             var result = -1;
             try
-            {                
+            {
                 SubZone subZone = new SubZone
                 {
                     Name = vmCommonSubZone.Name,
@@ -1989,7 +1989,7 @@ namespace KGERP.Service.Implementation.Configuration
                     MobilePersonal = vmCommonSubZone.MobilePersonal,
                     ZoneId = vmCommonSubZone.ZoneId,
                     RegionId = vmCommonSubZone.RegionId,
-                    AreaId = vmCommonSubZone.AreaId>0? vmCommonSubZone.AreaId:null,
+                    AreaId = vmCommonSubZone.AreaId > 0 ? vmCommonSubZone.AreaId : null,
                     EmployeeId = vmCommonSubZone.EmployeeId,
                     CompanyId = vmCommonSubZone.CompanyFK.Value,
                     CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
@@ -2317,7 +2317,19 @@ namespace KGERP.Service.Implementation.Configuration
 
         #endregion
 
-        #region Product Category 
+        #region Product Category
+        public List<ProductCategory> GetAllProductCategoryList(int companyId)
+        {
+            var data = _db.ProductCategories.Where(x => x.CompanyId == companyId && x.IsActive).ToList();
+            return data;
+        }
+
+        public List<ProductSubCategory> GetAllProductSubCategoryList(int companyId)
+        {
+            var data = _db.ProductSubCategories.Where(x => x.CompanyId == companyId && x.IsActive).ToList();
+            return data;
+        }
+
         public async Task<VMCommonProductCategory> GetFinishProductCategory(int companyId, string productType)
         {
             VMCommonProductCategory vmCommonProductCategory = new VMCommonProductCategory();
@@ -2354,86 +2366,88 @@ namespace KGERP.Service.Implementation.Configuration
 
             };
             _db.ProductCategories.Add(productCategory);
-            if (await _db.SaveChangesAsync() > 0)
-            {
-                if (productCategory.CompanyId == (int)CompanyNameEnum.GloriousCropCareLimited)
-                {
-
-                    var category = await _db.ProductCategories.FindAsync(productCategory.ProductCategoryId);
-                    VMHeadIntegration integration = new VMHeadIntegration
-                    {
-                        AccName = category.Name,
-                        LayerNo = 5,
-                        Remarks = "5 Layer",
-                        IsIncomeHead = false,
-                        ProductType = category.ProductType,
-                        CompanyFK = productCategory.CompanyId,
-                        CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
-                        CreatedDate = DateTime.Now,
-                    };
-
-
-                    int head5Id = AccHead5Push(integration, productCategory.ProductCategoryId);
-
-                    //if (headGlId != null)
-                    //{
-                    //    await GLDLBlockCodeAndHeadGLIdEdit(commonProductSubCategory.ProductSubCategoryId, headGlId, head5Id);
-                    //}
-                }
-
-                if (productCategory.CompanyId == (int)CompanyNameEnum.KrishibidFeedLimited)
-                {
-
-                    var category = await _db.ProductCategories.FindAsync(productCategory.ProductCategoryId);
-                    VMHeadIntegration integration = new VMHeadIntegration
-                    {
-                        AccName = category.Name,
-                        LayerNo = 5,
-                        Remarks = "5 Layer",
-                        IsIncomeHead = false,
-                        ProductType = category.ProductType,
-                        CompanyFK = productCategory.CompanyId,
-                        CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
-                        CreatedDate = DateTime.Now,
-                    };
-
-
-                    int head5Id = AccHead5Push(integration, productCategory.ProductCategoryId);
-
-                    //if (headGlId != null)
-                    //{
-                    //    await GLDLBlockCodeAndHeadGLIdEdit(commonProductSubCategory.ProductSubCategoryId, headGlId, head5Id);
-                    //}
-                }
-                if (productCategory.CompanyId == (int)CompanyNameEnum.KrishibidSeedLimited)
-                {
-
-                    var category = await _db.ProductCategories.FindAsync(productCategory.ProductCategoryId);
-                    VMHeadIntegration integration = new VMHeadIntegration
-                    {
-                        ID = productCategory.ProductCategoryId,
-                        AccName = category.Name,
-                        LayerNo = 6,
-                        Remarks = "GL Layer",
-                        IsIncomeHead = false,
-                        ProductType = category.ProductType,
-                        CompanyFK = productCategory.CompanyId,
-                        CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
-                        CreatedDate = DateTime.Now,
-                    };
-
-                    int head5Id = SeedAccHeadGlPush(integration);
-
-                    //if (headGlId != null)
-                    //{
-                    //    await GLDLBlockCodeAndHeadGLIdEdit(commonProductSubCategory.ProductSubCategoryId, headGlId, head5Id);
-                    //}
-                }
-
-
-                result = productCategory.ProductCategoryId;
-            }
+            result = await _db.SaveChangesAsync();
             return result;
+            //if (await _db.SaveChangesAsync() > 0)
+            //{
+            //    if (productCategory.CompanyId == (int)CompanyNameEnum.GloriousCropCareLimited)
+            //    {
+
+            //        var category = await _db.ProductCategories.FindAsync(productCategory.ProductCategoryId);
+            //        VMHeadIntegration integration = new VMHeadIntegration
+            //        {
+            //            AccName = category.Name,
+            //            LayerNo = 5,
+            //            Remarks = "5 Layer",
+            //            IsIncomeHead = false,
+            //            ProductType = category.ProductType,
+            //            CompanyFK = productCategory.CompanyId,
+            //            CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+            //            CreatedDate = DateTime.Now,
+            //        };
+
+
+            //        int head5Id = AccHead5Push(integration, productCategory.ProductCategoryId);
+
+            //        //if (headGlId != null)
+            //        //{
+            //        //    await GLDLBlockCodeAndHeadGLIdEdit(commonProductSubCategory.ProductSubCategoryId, headGlId, head5Id);
+            //        //}
+            //    }
+
+            //    if (productCategory.CompanyId == (int)CompanyNameEnum.KrishibidFeedLimited)
+            //    {
+
+            //        var category = await _db.ProductCategories.FindAsync(productCategory.ProductCategoryId);
+            //        VMHeadIntegration integration = new VMHeadIntegration
+            //        {
+            //            AccName = category.Name,
+            //            LayerNo = 5,
+            //            Remarks = "5 Layer",
+            //            IsIncomeHead = false,
+            //            ProductType = category.ProductType,
+            //            CompanyFK = productCategory.CompanyId,
+            //            CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+            //            CreatedDate = DateTime.Now,
+            //        };
+
+
+            //        int head5Id = AccHead5Push(integration, productCategory.ProductCategoryId);
+
+            //        //if (headGlId != null)
+            //        //{
+            //        //    await GLDLBlockCodeAndHeadGLIdEdit(commonProductSubCategory.ProductSubCategoryId, headGlId, head5Id);
+            //        //}
+            //    }
+            //    if (productCategory.CompanyId == (int)CompanyNameEnum.KrishibidSeedLimited)
+            //    {
+
+            //        var category = await _db.ProductCategories.FindAsync(productCategory.ProductCategoryId);
+            //        VMHeadIntegration integration = new VMHeadIntegration
+            //        {
+            //            ID = productCategory.ProductCategoryId,
+            //            AccName = category.Name,
+            //            LayerNo = 6,
+            //            Remarks = "GL Layer",
+            //            IsIncomeHead = false,
+            //            ProductType = category.ProductType,
+            //            CompanyFK = productCategory.CompanyId,
+            //            CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+            //            CreatedDate = DateTime.Now,
+            //        };
+
+            //        int head5Id = SeedAccHeadGlPush(integration);
+
+            //        //if (headGlId != null)
+            //        //{
+            //        //    await GLDLBlockCodeAndHeadGLIdEdit(commonProductSubCategory.ProductSubCategoryId, headGlId, head5Id);
+            //        //}
+            //    }
+
+
+            //    result = productCategory.ProductCategoryId;
+            //}
+            //return result;
         }
         public async Task<int> ProductFinishCategoryEdit(VMCommonProductCategory vmCommonProductCategory)
         {
@@ -2531,64 +2545,66 @@ namespace KGERP.Service.Implementation.Configuration
                 IsActive = true
             };
             _db.ProductSubCategories.Add(commonProductSubCategory);
-            if (await _db.SaveChangesAsync() > 0)
-            {
-                result = commonProductSubCategory.ProductSubCategoryId;
-
-                if (commonProductSubCategory.CompanyId == (int)CompanyNameEnum.GloriousCropCareLimited)
-                {
-
-                    ProductSubCategory subCategory = await _db.ProductSubCategories.FindAsync(commonProductSubCategory.ProductSubCategoryId);
-
-                    VMHeadIntegration integration = new VMHeadIntegration
-                    {
-                        AccName = subCategory.Name,
-                        LayerNo = 6,
-                        Remarks = "6 Layer",
-                        IsIncomeHead = false,
-                        ProductType = subCategory.ProductType,
-                        CompanyFK = commonProductSubCategory.CompanyId,
-                        CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
-                        CreatedDate = DateTime.Now
-                    };
-
-
-                    int headGl = AccHeadGlPush(integration, commonProductSubCategory);
-
-                    //if (headGlId != null)
-                    //{
-                    //    await GLDLBlockCodeAndHeadGLIdEdit(commonProductSubCategory.ProductSubCategoryId, headGlId, head5Id);
-                    //}
-                }
-
-
-                if (commonProductSubCategory.CompanyId == (int)CompanyNameEnum.GloriousLandsAndDevelopmentsLimited)
-                {
-                    int head5Id = BlockHead5Push(commonProductSubCategory);
-                    var catetegory = await _db.ProductCategories.FindAsync(commonProductSubCategory.ProductCategoryId);
-                    VMHeadIntegration integration = new VMHeadIntegration
-                    {
-                        AccName = catetegory.Name + " - " + commonProductSubCategory.Name,
-                        LayerNo = 6,
-                        Remarks = "GL Layer",
-                        IsIncomeHead = false,
-                        ParentId = 50602122,
-
-                        CompanyFK = commonProductSubCategory.CompanyId,
-                        CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
-                        CreatedDate = DateTime.Now,
-                    };
-                    HeadGL headGlId = await PayableHeadIntegrationAdd(integration);
-                    if (headGlId != null)
-                    {
-                        await GLDLBlockCodeAndHeadGLIdEdit(commonProductSubCategory.ProductSubCategoryId, headGlId, head5Id);
-                    }
-                }
-            }
-
-
-
+            result = await _db.SaveChangesAsync();
             return result;
+            //if (await _db.SaveChangesAsync() > 0)
+            //{
+            //    result = commonProductSubCategory.ProductSubCategoryId;
+
+            //    if (commonProductSubCategory.CompanyId == (int)CompanyNameEnum.GloriousCropCareLimited)
+            //    {
+
+            //        ProductSubCategory subCategory = await _db.ProductSubCategories.FindAsync(commonProductSubCategory.ProductSubCategoryId);
+
+            //        VMHeadIntegration integration = new VMHeadIntegration
+            //        {
+            //            AccName = subCategory.Name,
+            //            LayerNo = 6,
+            //            Remarks = "6 Layer",
+            //            IsIncomeHead = false,
+            //            ProductType = subCategory.ProductType,
+            //            CompanyFK = commonProductSubCategory.CompanyId,
+            //            CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+            //            CreatedDate = DateTime.Now
+            //        };
+
+
+            //        int headGl = AccHeadGlPush(integration, commonProductSubCategory);
+
+            //        //if (headGlId != null)
+            //        //{
+            //        //    await GLDLBlockCodeAndHeadGLIdEdit(commonProductSubCategory.ProductSubCategoryId, headGlId, head5Id);
+            //        //}
+            //    }
+
+
+            //    if (commonProductSubCategory.CompanyId == (int)CompanyNameEnum.GloriousLandsAndDevelopmentsLimited)
+            //    {
+            //        int head5Id = BlockHead5Push(commonProductSubCategory);
+            //        var catetegory = await _db.ProductCategories.FindAsync(commonProductSubCategory.ProductCategoryId);
+            //        VMHeadIntegration integration = new VMHeadIntegration
+            //        {
+            //            AccName = catetegory.Name + " - " + commonProductSubCategory.Name,
+            //            LayerNo = 6,
+            //            Remarks = "GL Layer",
+            //            IsIncomeHead = false,
+            //            ParentId = 50602122,
+
+            //            CompanyFK = commonProductSubCategory.CompanyId,
+            //            CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+            //            CreatedDate = DateTime.Now,
+            //        };
+            //        HeadGL headGlId = await PayableHeadIntegrationAdd(integration);
+            //        if (headGlId != null)
+            //        {
+            //            await GLDLBlockCodeAndHeadGLIdEdit(commonProductSubCategory.ProductSubCategoryId, headGlId, head5Id);
+            //        }
+            //    }
+            //}
+
+
+
+            //return result;
         }
         public async Task<int> ProductSubCategoryEdit(VMCommonProductSubCategory vmCommonProductSubCategory)
         {
@@ -2879,7 +2895,6 @@ namespace KGERP.Service.Implementation.Configuration
                 vmCommonProduct = await (from t1 in _db.ProductCategories.Where(x => x.ProductCategoryId == categoryId && x.IsActive == true)
                                          select new VMCommonProduct
                                          {
-
                                              Common_ProductCategoryFk = t1.ProductCategoryId,
                                              CategoryName = t1.Name,
                                              CompanyFK = t1.CompanyId
@@ -2890,7 +2905,7 @@ namespace KGERP.Service.Implementation.Configuration
                 vmCommonProduct.CompanyFK = companyId;
 
             }
-            vmCommonProduct.DataList = await (from t1 in _db.Products.Where(x => x.CompanyId == companyId && x.ProductType == productType && x.ProductCategoryId == 1 && x.ProductSubCategoryId == 1 && x.IsActive )
+            vmCommonProduct.DataList = await (from t1 in _db.Products.Where(x => x.CompanyId == companyId && x.ProductType == productType && x.IsActive)
                                               join t2 in _db.ProductSubCategories on t1.ProductSubCategoryId equals t2.ProductSubCategoryId into t2_Join
                                               from t2 in t2_Join.DefaultIfEmpty()
                                               join t3 in _db.ProductCategories on t2.ProductCategoryId equals t3.ProductCategoryId into t3_Join
@@ -2931,7 +2946,7 @@ namespace KGERP.Service.Implementation.Configuration
         public async Task<VMCommonProduct> GetRequisitionProduct(int companyId)
         {
             VMCommonProduct vmCommonProduct = new VMCommonProduct();
-           
+
             vmCommonProduct.DataList = await (from t1 in _db.Products.Where(x => x.CompanyId == companyId)
                                               join t2 in _db.ProductSubCategories on t1.ProductSubCategoryId equals 1 into t2_Join
                                               from t2 in t2_Join.DefaultIfEmpty()
@@ -2939,7 +2954,7 @@ namespace KGERP.Service.Implementation.Configuration
                                               from t3 in t3_Join.DefaultIfEmpty()
                                               join t4 in _db.Units on t1.UnitId equals t4.UnitId into t4_Join
                                               from t4 in t4_Join.DefaultIfEmpty()
-                                             
+
                                               where t1.IsActive == true
                                               select new VMCommonProduct
                                               {
@@ -3128,7 +3143,7 @@ namespace KGERP.Service.Implementation.Configuration
             var result = -1;
             try
             {
-                
+
                 #region Genarate Product No
                 int lsatProduct = _db.Products.Select(x => x.ProductId).OrderByDescending(ID => ID).FirstOrDefault();
                 if (lsatProduct == 0)
@@ -3207,7 +3222,7 @@ namespace KGERP.Service.Implementation.Configuration
                 }
                 return result;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return result;
             }
@@ -5090,7 +5105,7 @@ namespace KGERP.Service.Implementation.Configuration
         private int AccHead5Push(VMHeadIntegration vmModel, int id)
         {
             int result = -1;
-             
+
             //List<Head5> head5s = new List<Head5>();
             if (vmModel.ProductType == "R")
             {
@@ -5583,7 +5598,7 @@ namespace KGERP.Service.Implementation.Configuration
 
             }
             return newAccountCode;
-        }  
+        }
         private string GenerateHeadGlAccCode(int head5Id)
         {
             var head5 = _db.Head5.FirstOrDefault(x => x.Id == head5Id);

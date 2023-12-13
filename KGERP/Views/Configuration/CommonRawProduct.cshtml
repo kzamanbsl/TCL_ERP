@@ -1,8 +1,6 @@
-﻿
-@model KGERP.Service.Implementation.Configuration.VMCommonProduct
+﻿@model KGERP.Service.Implementation.Configuration.VMCommonProduct
 @using KG.Core.Services
 @{
-
     ViewData["Title"] = "Requisition Materials";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -45,17 +43,17 @@
 
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="message-text" class="col-form-label">Select Requisition :</label>
-                                        @Html.DropDownListFor(model => model.Common_ProductSubCategoryFk, Model.ProductSubCategoryList as SelectList, "===Select Subcategory===", new { id = "ddlCommonProductSubCategoryFk", @class = "form-control", required = "required" })
-                                        @Html.ValidationMessageFor(model => model.Common_ProductSubCategoryFk, "", new { @class = "text-danger" })
+                                        <label for="message-text" class="col-form-label">Requisition Type:</label>
+                                        @Html.DropDownListFor(model => model.Common_ProductCategoryFk, Model.ProductCategoryList as SelectList, "==Select Requisition Type==", new { id = "ddlCommonProductSubCategoryFk", @class = "form-control", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.ProductCategoryId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
 
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="message-text" class="col-form-label">Select Sub Requisition :</label>
-                                        @Html.DropDownListFor(model => model.Common_ProductSubCategoryFk, Model.ProductSubCategoryList as SelectList, "===Select Subcategory===", new { id = "ddlCommonProductSubCategoryFk", @class = "form-control", required = "required" })
-                                        @Html.ValidationMessageFor(model => model.Common_ProductSubCategoryFk, "", new { @class = "text-danger" })
+                                        <label for="message-text" class="col-form-label">Requisition Subtype :</label>
+                                        @Html.DropDownListFor(model => model.Common_ProductSubCategoryFk, Model.ProductSubCategoryList as SelectList, "=Select Requisition Subtype=", new { id = "ddlCommonProductSubCategoryFk", @class = "form-control", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.ProductSubCategoryId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
 
@@ -69,7 +67,7 @@
 
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="message-text" class="col-form-label">Unit Name :</label>
+                                        <label for="message-text" class="col-form-label">Select Unit :</label>
                                         @Html.DropDownListFor(model => model.Common_UnitFk, Model.UnitList as SelectList, "===Select Unit===", new { id = "ddlCommonUnitFk", @class = "form-control", required = "required" })
                                         @Html.ValidationMessageFor(model => model.Common_UnitFk, "", new { @class = "text-danger" })
                                     </div>

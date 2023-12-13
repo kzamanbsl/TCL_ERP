@@ -1,12 +1,9 @@
-﻿
+﻿@model KGERP.Service.Implementation.Configuration.VMCommonProductSubCategory
 @{
-
-    ViewData["Title"] = "Raw Materials Subcategory";
+    ViewData["Title"] = "New Requisition Subtype";
     Layout = "~/Views/Shared/_Layout.cshtml";
-
-
 }
-@model KGERP.Service.Implementation.Configuration.VMCommonProductSubCategory
+
 <style type="text/css">
 
     input, select, textarea {
@@ -15,11 +12,11 @@
 </style>
 <section class="content-header">
     <h1>
-        Raw Materials Subcategory
+        New Requisition Subtype
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">Raw Materials Subcategory</li>
+        <li class="active">New Requisition Subtype</li>
     </ol>
 </section>
 @using (Html.BeginForm("CommonRawProductSubCategory", "Configuration", FormMethod.Post, new { id = "commonProductSubCategoryFormId", @class = "formValidator", onreset = "resetDDL();" }))
@@ -32,37 +29,37 @@
                         @Html.AntiForgeryToken()
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         <div class="box-danger">
-                            <div class="box-header">
-                                <h4>Add Raw Subcategory</h4>
-                            </div>
+                            <div class="box-header"></div>
                             <!-- /.box-header -->
                             <div class="box-body">
                                 @Html.HiddenFor(model => model.ID, new { id = "subcategoryId" })
-                                @Html.HiddenFor(model => model.ActionId, new {  id = "ActionId" })
+                                @Html.HiddenFor(model => model.ActionId, new { id = "ActionId" })
                                 @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
 
-                                <div class="form-group" style="padding:0px">
-                                    <label for="message-text" class="col-form-label">Category:</label>
-                                    @Html.EditorFor(model => model.CategoryName, new { htmlAttributes = new { @autocomplete = "on", @class = "form-control", @name = "Brand", @id = "txtCategoryName" } })
-
-                                    @Html.HiddenFor(model => model.Common_ProductCategoryFk, new { id = "ddlCommonProductCategoryFk" })
-                                    @Html.ValidationMessageFor(model => model.Common_ProductCategoryFk, "", new { @class = "text-danger" })
-                                </div>
-                                @*<div class="form-group">
-            @Html.DropDownListFor(model => model.Common_ProductCategoryFk, Model.ProductCategoryList as SelectList, "---Select Category---", new { id = "ddlCommonProductCategoryFk", @class = "form-control", required = "true", })
-            @Html.ValidationMessageFor(model => model.Common_ProductCategoryFk, "", new { @class = "text-danger" })
-        </div>*@
-                                <div class="form-group">
-                                    @Html.TextBoxFor(model => model.Name, new { id = "txtSubcategoryName", @class = "form-control input-sm", @placeholder = "Subcategory", required = "true" })
-                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="col-md-5">
-                                        <button type="button" onclick="resetForm()" class="btn btn-secondary" data-dismiss="modal">Reset</button>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Requisition Type :</label>
+                                            @Html.DropDownListFor(model => model.Common_ProductCategoryFk, Model.ProductCategoryLists as SelectList, "=Select Requisition type=", new { id = "ddlCommonProductCategoryFk", @class = "form-control", required = "true", })
+                                            @Html.ValidationMessageFor(model => model.Common_ProductCategoryFk, "", new { @class = "text-danger" })
+                                        </div>
                                     </div>
-                                    <div class="col-md-7">
-                                        <button type="submit" id="btnSave" class="btn btn-primary btn-block"><i class='fa fa-edit'></i> Add</button>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Requisition Subtype Name :</label>
+                                            @Html.TextBoxFor(model => model.Name, new { id = "txtSubcategoryName", @class = "form-control input-sm", @placeholder = "Requisition subtype name", required = "true" })
+                                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <div class="col-md-5">
+                                                <button type="button" onclick="resetForm()" class="btn btn-secondary" data-dismiss="modal">Reset</button>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <button type="submit" id="btnSave" class="btn btn-primary btn-block"><i class='fa fa-edit'></i> Add</button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -74,9 +71,7 @@
                 <div class="col-md-9">
                     <div class="box">
                         <div class="box-danger">
-                            <div class="box-header">
-                                <h4>Subcategory List</h4>
-                            </div>
+                            <div class="box-header"></div>
                             <!-- /.box-header -->
                             <div class="box-body">
                                 <div class="table-responsive col-md-12">
@@ -84,9 +79,8 @@
                                         <thead>
                                             <tr>
                                                 <th>SL</th>
-                                                <th>Category</th>
-                                                <th>Subcategory</th>
-
+                                                <th>Requsition Type</th>
+                                                <th>Requsition Subtype</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -95,25 +89,20 @@
                                         <tbody>
                                             @foreach (var item in Model.DataList)
                                             {
-
                                                 <tr>
                                                     <td>@(++sl)</td>
                                                     <td>
-                                                        <input type="hidden" id="commonProductCategoryFk_@item.ID" name="User_MenuFk" value="@item.Common_ProductCategoryFk" />
+                                                        @*<input type="hidden" id="commonProductCategoryFk_@item.ID" name="User_MenuFk" value="@item.Common_ProductCategoryFk" />*@
                                                         @item.CategoryName
                                                     </td>
                                                     <td id="tdSubCategoryName_@item.ID">@item.Name</td>
-
                                                     <td>
-
                                                         <a id="@item.ID" onclick=" makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
                                                         <a id="@item.ID" onclick="makeDeletable(@item.ID);" class="linkPointer" data-toggle="modal" data-target="#deleteModal" title="Delete"
                                                            data-placement="top">
                                                             <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
                                                         </a>
-
-                                                        <a href="~/Configuration/CommonRawProduct?companyId=@item.CompanyFK&subCategoryId=@item.ID" class="btn btn-success btn-sm">Raw Materials</a>
-
+                                                        @*<a href="~/Configuration/CommonRawProduct?companyId=@item.CompanyFK&subCategoryId=@item.ID" class="btn btn-success btn-sm">Raw Materials</a>*@
                                                     </td>
                                                 </tr>
                                             }
@@ -129,7 +118,6 @@
             </div>
         </div>
     </section>
-
 }
 
 @using (Html.BeginForm("CommonRawProductSubCategory", "Configuration", FormMethod.Post, new { id = "commonProductSubCategoryDeleteFormId", @class = "formValidator", onreset = "resetDDL();" }))
@@ -162,48 +150,12 @@
     </div>
 }
 
-    @section scripts {
-        <script type="text/javascript">
+@section scripts {
+    <script type="text/javascript">
         $(document).ready(function () {
             $('.formValidator').bootstrapValidator();
-
-             $("#txtCategoryName").autocomplete({
-                source: function (request, response) {
-
-                    $.ajax({
-                        url:"@Url.Action("AutoCompleteProductCategoryGet", "Configuration")",
-                        //data: "{ 'prefix': '" + request.term + "'}",
-                        data: { companyId: "@Model.CompanyFK", prefix: request.term, productType : "R" },
-                        dataType: "json",
-                        type: "get",
-                        cache: true,
-                        contentType: "application/json; charset=utf-8",
-                        success: function (data) {
-                            response($.map(data, function (item) {
-                                return item;
-                            }))
-                        },
-                        error: function (response) {
-                            //alert(response.responseText);
-                        },
-                        failure: function (response) {
-                            //alert(response.responseText);
-                        }
-                    });
-                },
-
-                select: function (e, i) {
-                    $("#ddlCommonProductCategoryFk").val(i.item.val);
-
-
-                },
-                minLength: 1,
-                cache: true
-
-            }).focus(function () {
-                $(this).autocomplete("search");
-            });
         });
+
         function makeEditble(elem) {
             if (elem !== null) {
                 var rowId = elem.id;
@@ -215,16 +167,18 @@
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
         }
+
         function makeDeletable(id) {
             if (id !== null) {
                 $('#subcategoryIdDelete').val(id);
                 $('#ActionIdDelete').val(3);
             }
         }
+
         function resetForm() {
             $('#commonProductSubCategoryFormId')[0].reset();
             $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Add");
         }
-        </script>
-    }
 
+    </script>
+}

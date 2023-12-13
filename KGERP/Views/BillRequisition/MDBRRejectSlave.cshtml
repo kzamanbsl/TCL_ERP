@@ -2,12 +2,11 @@
 @using KGERP.Utility;
 
 @{
-    ViewData["Title"] = "Project Manager Requisition Approval";
+    ViewData["Title"] = "Requisition : Managing Director Approval Rejected";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     int sl = 0;
     decimal totalPrice = 0;
-
 }
 
 <style type="text/css">
@@ -20,12 +19,14 @@
 <section class="content-header">
     <h1>
         <span>
-            Project Manager Requisition Approval
+            Requisition : Managing Director Approval Rejected
         </span>
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">Project Manager Requisition Approval</li>
+        <li class="active">
+            Requisition : Managing Director Approval Rejected
+        </li>
     </ol>
 </section>
 
@@ -133,7 +134,7 @@
                                                     <td style="padding: 5px; text-align: right;">@String.Format("{0:0.00}", item.UnitRate)</td>
                                                     <td style="padding: 5px; text-align: right;">@String.Format("{0:0.00}", item.TotalPrice)</td>
                                                     @{
-                                                        totalPrice += item.TotalPrice;
+                                                        totalPrice += (decimal)item.TotalPrice;
                                                     };
                                                 </tr>
                                                 i++;
