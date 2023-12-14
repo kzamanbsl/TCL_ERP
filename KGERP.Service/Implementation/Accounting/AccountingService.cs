@@ -276,6 +276,52 @@ namespace KGERP.Service.Implementation.Accounting
             return vmJournalSlave;
         }
 
+        public async Task<VMJournalSlave> GetVoucherRequisitionMapDetails(int companyId, int voucherId)
+        {
+            VMJournalSlave vmJournalSlave = new VMJournalSlave();
+            vmJournalSlave = await Task.Run(() => (from t1 in _db.Vouchers.Where(x => x.IsActive && x.VoucherId == voucherId && x.CompanyId == companyId)
+                                                   join t4 in _db.VoucherTypes on t1.VoucherTypeId equals t4.VoucherTypeId
+                                                   join t2 in _db.Companies on t1.CompanyId equals t2.CompanyId
+                                                   join t3 in _db.Accounting_CostCenter on t1.Accounting_CostCenterFk equals t3.CostCenterId
+                                                   //  join t5 in _db.HeadGLs on t1.VirtualHeadId equals t5.Id
+
+                                                   select new VMJournalSlave
+                                                   {
+                                                       VoucherId = t1.VoucherId,
+                                                       Accounting_CostCenterName = t3.Name,
+                                                       VoucherNo = t1.VoucherNo,
+                                                       Date = t1.VoucherDate,
+                                                       Narration = t1.Narration,
+                                                       CompanyFK = t1.CompanyId,
+                                                       Status = t1.VoucherStatus,
+                                                       ChqDate = t1.ChqDate,
+                                                       ChqName = t1.ChqName,
+                                                       ChqNo = t1.ChqNo,
+                                                       Accounting_CostCenterFK = t1.Accounting_CostCenterFk,
+                                                       Accounting_BankOrCashId = t1.VirtualHeadId,
+                                                       //BankOrCashNane = "[" + t5.AccCode + "] " + t5.AccName,
+                                                       CompanyName = t2.Name,
+                                                       IsSubmit = t1.IsSubmit
+                                                   }).FirstOrDefault());
+
+            vmJournalSlave.DataListDetails = await Task.Run(() => (from t1 in _db.VoucherDetails.Where(x => x.IsActive && x.VoucherId == voucherId && !x.IsVirtual)
+                                                                   join t2 in _db.HeadGLs on t1.AccountHeadId equals t2.Id
+                                                                   select new VMJournalSlave
+                                                                   {
+                                                                       VoucherDetailId = t1.VoucherDetailId,
+                                                                       AccountingHeadName = t2.AccName,
+                                                                       Code = t2.AccCode,
+                                                                       Credit = t1.CreditAmount,
+                                                                       Debit = t1.DebitAmount,
+                                                                       Particular = t1.Particular
+                                                                   }).OrderByDescending(x => x.VoucherDetailId).AsEnumerable());
+            if ((vmJournalSlave.DataListDetails?.Count() ?? 0) > 0)
+            {
+                vmJournalSlave.Particular = vmJournalSlave.DataListDetails.OrderByDescending(x => x.VoucherDetailId).Select(x => x.Particular).FirstOrDefault();
+            }
+            return vmJournalSlave;
+        }
+
         public async Task<VMJournalSlave> GetStockVoucherDetails(int companyId, int voucherId)
         {
             VMJournalSlave vmJournalSlave = new VMJournalSlave();
