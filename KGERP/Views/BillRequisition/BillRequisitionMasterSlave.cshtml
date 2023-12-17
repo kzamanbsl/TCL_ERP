@@ -147,7 +147,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Requisition Type :</label>
-                                            @Html.DropDownListFor(model => model.BillRequisitionTypeId, Model.RequisitionTypeList as SelectList, "==Select Requisition Type==", new { id = "ddlBRTypeId", onchange= "GetRequisitionSubtypeByTypeId()", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.DropDownListFor(model => model.BillRequisitionTypeId, Model.RequisitionTypeList as SelectList, "==Select Requisition Type==", new { id = "ddlBRTypeId", onchange= "GetSubCategoryListByCategoryId()", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
                                             @Html.ValidationMessageFor(model => model.BillRequisitionTypeId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -163,7 +163,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Project Type :</label>
-                                            @Html.DropDownListFor(model => model.ProjectTypeId, Model.ProjectTypeList as SelectList, "==Select Project Type==", new { id = "projectTypeId", onchange = "GetProjectListByProjectType()", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.DropDownListFor(model => model.ProjectTypeId, Model.ProjectTypeList as SelectList, "==Select Project Type==", new { id = "projectTypeId", onchange = "GetProjectListByProjectTypeId()", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
                                             @Html.ValidationMessageFor(model => model.ProjectTypeId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -602,24 +602,24 @@
             $('#ActionId').val(1);
         }
 
-        // get requisition subtype list
-        function GetRequisitionSubtypeByTypeId() {
+        // get requisition subtype list by category id
+        function GetSubCategoryListByCategoryId() {
             var getRequisitionTypeId = $("#ddlBRTypeId option:selected");
             var showRequisitionSubtype = $("#ddlBRSubTypeId");
-
+            console.log(getRequisitionTypeId.val());
             $.ajax({
                 type: "GET",
                 url: "/Configuration/GetSubCategoryByCategoryId",
                 dataType: "json",
-                data: { categoryId: getRequisitionTypeId.val() },
+                data: { companyId: 21, categoryId: getRequisitionTypeId.val() },
                 success: function (data) {
                     showRequisitionSubtype.empty();
-                    showRequisitionSubtype.append("<option selected disabled>==Select Project==</option>");
+                    showRequisitionSubtype.append("<option selected disabled>==Select Requisition Subtype==</option>");
 
                     $.each(data, function (index, item) {
                         showRequisitionSubtype.append($('<option>', {
-                            value: item.ProductSubCategoryId,
-                            text: item.Name
+                            value: item.getData.ProductSubCategoryId,
+                            text: item.getData.Name
                         }));
                     });
                 },
@@ -629,8 +629,8 @@
             });
         }
 
-        // get project list
-        function GetProjectListByProjectType() {
+        // get project list by project type id
+        function GetProjectListByProjectTypeId() {
             var getProjectTypeId = $("#projectTypeId option:selected");
             var showProjectList = $("#ddlCostCenterId");
 
@@ -656,7 +656,7 @@
             });
         }
 
-        // get division list
+        // get division list by project id
         function GetDivisionListByProjectId() {
             var getProjectId = $("#ddlCostCenterId option:selected");
             var showBoqDivisionList = $("#ddlDivisionId");
@@ -683,7 +683,7 @@
             });
         }
 
-        // get boq item list
+        // get boq item list by boq division id
         function GetBoqItemListByDivisionId() {
             var getBoqDivisionId = $("#ddlDivisionId option:selected");
             var showBoqItemList = $("#ddlBOQItemId");
@@ -710,7 +710,7 @@
             });
         }
 
-        // get boq material list
+        // get boq material list boq item id
         function GetMaterialListByBoqId() {
             var getBoqItemId = $("#ddlBOQItemId option:selected");
             var showBoqMaterialList = $("#ddlRequisitionItemId");

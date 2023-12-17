@@ -781,9 +781,9 @@ namespace KGERP.Controllers
         #region Common Raw Product SubCategory
 
         [HttpGet]
-        public JsonResult GetSubCategoryByCategoryId(int categoryId)
+        public JsonResult GetSubCategoryByCategoryId(int companyId, int categoryId)
         {
-            var getData = _service.GetProductSubCategoryByCategoryId(21, categoryId);
+            var getData = _service.GetProductSubCategoryByCategoryId(companyId, categoryId);
 
             return Json(new { getData, JsonRequestBehavior.AllowGet });
         }
