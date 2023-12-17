@@ -31,7 +31,7 @@ namespace KGERP.Service.Implementation.Accounting
         public decimal dollarRate { get; set; }
 
         public int? Accounting_CostCenterFK { get; set; }
-        public long? BillRequisitionId { get; set; }
+        public long BillRequisitionId { get; set; }
         public int Accounting_BankOrCashParantId { get; set; }
 
         public int? Accounting_BankOrCashId { get; set; }

@@ -205,7 +205,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Requisition</label>
-                                        @Html.DropDownListFor(model => model.BillRequisitionId, Model.Requisitions as SelectList, new { id = "billRequisitionId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                        @Html.DropDownListFor(model => model.BillRequisitionId, Model.Requisitions as SelectList, "==Select Requisition ==", new { id = "billRequisitionId", onchange= "showBoQMaterial()", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
                                         @Html.ValidationMessageFor(model => model.BillRequisitionId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -222,7 +222,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Requisition Material:</label>
-                                        @Html.DropDownListFor(model => model.RequisitionMaterialId, Model.MaterialItemList as SelectList, new { id = "materialItemId", onchange = "getRequisitionsInfo()", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                        @Html.DropDownListFor(model => model.RequisitionMaterialId, Model.MaterialItemList as SelectList ,  new { id = "materialItemId", onchange = "getRequisitionsInfo()", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
                                         @Html.ValidationMessageFor(model => model.RequisitionMaterialId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -773,6 +773,31 @@
                 success: function (data) {
                     $("#txtVoucherNo").val(data);
                     $("#spnVoucherNo").text("-" + data);
+                }
+            });
+        }
+
+        function showBoQMaterial() {
+            var getRequisitionId = $("#billRequisitionId").val();
+            var showBoqMaterialList = $("#materialItemId");
+            $.ajax({
+                type: "GET",
+                url: "/Procurement/GetMaterialByRequisitionId",
+                dataType: "json",
+                data: { companyId: 21, requisitionId: getRequisitionId },
+                success: function (data) {
+                    showBoqMaterialList.empty();
+                    showBoqMaterialList.append("<option selected disabled>===Select Material===</option>");
+
+                    $.each(data, function (index, item) {
+                        showBoqMaterialList.append($('<option>', {
+                            value: item.ProductId,
+                            text: item.ProductName
+                        }));
+                    });
+                },
+                error: function (error) {
+                    console.error("Error in AJAX request:", error);
                 }
             });
         }
