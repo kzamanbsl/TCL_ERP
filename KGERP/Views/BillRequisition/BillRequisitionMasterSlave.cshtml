@@ -606,20 +606,20 @@
         function GetSubCategoryListByCategoryId() {
             var getRequisitionTypeId = $("#ddlBRTypeId option:selected");
             var showRequisitionSubtype = $("#ddlBRSubTypeId");
-            console.log(getRequisitionTypeId.val());
+
             $.ajax({
                 type: "GET",
                 url: "/Configuration/GetSubCategoryByCategoryId",
                 dataType: "json",
-                data: { companyId: 21, categoryId: getRequisitionTypeId.val() },
+                data: { id: getRequisitionTypeId.val() },
                 success: function (data) {
                     showRequisitionSubtype.empty();
-                    showRequisitionSubtype.append("<option selected disabled>==Select Requisition Subtype==</option>");
+                    showRequisitionSubtype.append("<option selected disabled>==Select Req. Subtype==</option>");
 
                     $.each(data, function (index, item) {
                         showRequisitionSubtype.append($('<option>', {
-                            value: item.getData.ProductSubCategoryId,
-                            text: item.getData.Name
+                            value: item.ProductSubCategoryId,
+                            text: item.Name
                         }));
                     });
                 },
