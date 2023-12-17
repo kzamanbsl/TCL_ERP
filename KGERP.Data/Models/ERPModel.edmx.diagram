@@ -572,6 +572,13 @@
         <AssociationConnector Association="ERPModel.FK_BoQBudgetMaster_Accounting_CostCenter" />
         <AssociationConnector Association="ERPModel.FK_BoQDivision_Accounting_CostCenter" />
         <AssociationConnector Association="ERPModel.FK_CostCenterManagerMap_Accounting_CostCenter" />
+        <EntityTypeShape EntityType="ERPModel.VoucherBRMapDetail" Width="1.5" PointX="18.375" PointY="12.75" />
+        <EntityTypeShape EntityType="ERPModel.VoucherBRMapMaster" Width="1.5" PointX="32.875" PointY="56.625" />
+        <EntityTypeShape EntityType="ERPModel.VoucherBRMapMasterApproval" Width="1.5" PointX="56.125" PointY="43" />
+        <AssociationConnector Association="ERPModel.FK_VoucherBRMapMasterApproval_Company" />
+        <AssociationConnector Association="ERPModel.FK_VoucherBRMapMasterApproval_Employee" />
+        <AssociationConnector Association="ERPModel.FK_VoucherBRMapMaster_Voucher" />
+        <AssociationConnector Association="ERPModel.FK_VoucherBRMapMaster_BillRequisitionMaster" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

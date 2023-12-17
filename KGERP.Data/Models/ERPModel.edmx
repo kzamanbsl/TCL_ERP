@@ -407,7 +407,7 @@
           <Property Name="ModifiedDate" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp.dbo.Attendance_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp_Dev.dbo.Attendance_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Attendance_Shadow">
           <Key>
             <PropertyRef Name="Id" />
@@ -451,7 +451,7 @@ warning 6002: The table/view 'TCLErp.dbo.Attendance_Shadow' does not have a prim
           <Property Name="ModifiedDate" Type="smalldatetime" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp.dbo.AttendanceType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp_Dev.dbo.AttendanceType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="AttendanceType">
           <Key>
             <PropertyRef Name="EmployeeId" />
@@ -523,7 +523,7 @@ warning 6002: The table/view 'TCLErp.dbo.AttendanceType' does not have a primary
           <Property Name="TourDays" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp.dbo.AttendenceApproveApplication_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp_Dev.dbo.AttendenceApproveApplication_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="AttendenceApproveApplication_Shadow">
           <Key>
             <PropertyRef Name="Id" />
@@ -1304,7 +1304,7 @@ warning 6002: The table/view 'TCLErp.dbo.AttendenceApproveApplication_Shadow' do
           <Property Name="StockInfoId" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp.dbo.Employee_Audit' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp_Dev.dbo.Employee_Audit' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Employee_Audit">
           <Key>
             <PropertyRef Name="ChangId" />
@@ -1375,7 +1375,7 @@ warning 6002: The table/view 'TCLErp.dbo.Employee_Audit' does not have a primary
           <Property Name="Operation" Type="varchar" MaxLength="10" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp.dbo.Employee_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp_Dev.dbo.Employee_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Employee_Shadow">
           <Key>
             <PropertyRef Name="Id" />
@@ -1469,7 +1469,7 @@ warning 6002: The table/view 'TCLErp.dbo.Employee_Shadow' does not have a primar
           <Property Name="ManagerId" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp.dbo.EmployeeLeaveDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp_Dev.dbo.EmployeeLeaveDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="EmployeeLeaveDetail">
           <Key>
             <PropertyRef Name="sl_number" />
@@ -2408,7 +2408,7 @@ warning 6002: The table/view 'TCLErp.dbo.EmployeeLeaveDetail' does not have a pr
           <Property Name="OperationId" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp.dbo.LeaveApplication_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp_Dev.dbo.LeaveApplication_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="LeaveApplication_Shadow">
           <Key>
             <PropertyRef Name="LeaveApplicationId" />
@@ -2709,7 +2709,7 @@ warning 6002: The table/view 'TCLErp.dbo.LeaveApplication_Shadow' does not have 
           <Property Name="EDate" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp.dbo.ProcessAttenendance' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp_Dev.dbo.ProcessAttenendance' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ProcessAttenendance">
           <Key>
             <PropertyRef Name="EmployeeId" />
@@ -2734,7 +2734,7 @@ warning 6002: The table/view 'TCLErp.dbo.ProcessAttenendance' does not have a pr
           <Property Name="CompanyId" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp.dbo.ProcessLeave' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp_Dev.dbo.ProcessLeave' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ProcessLeave">
           <Key>
             <PropertyRef Name="Employee" />
@@ -2861,7 +2861,7 @@ warning 6002: The table/view 'TCLErp.dbo.ProcessLeave' does not have a primary k
           <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp.dbo.PS' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp_Dev.dbo.PS' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="PS">
           <Key>
             <PropertyRef Name="ProductId" />
@@ -2927,7 +2927,7 @@ warning 6002: The table/view 'TCLErp.dbo.PS' does not have a primary key defined
           <Property Name="Modifydate" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp.dbo.ServerConfig' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp_Dev.dbo.ServerConfig' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ServerConfig">
           <Key>
             <PropertyRef Name="Id" />
@@ -3058,7 +3058,7 @@ warning 6002: The table/view 'TCLErp.dbo.ServerConfig' does not have a primary k
           <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp.dbo.TempFeedVoucherDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp_Dev.dbo.TempFeedVoucherDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="TempFeedVoucherDetail">
           <Key>
             <PropertyRef Name="IsActive" />
@@ -3705,7 +3705,7 @@ warning 6002: The table/view 'TCLErp.dbo.TempFeedVoucherDetail' does not have a 
           <Property Name="RowNo" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp.Erp.ConvertedProductDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp_Dev.Erp.ConvertedProductDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ConvertedProductDetail">
           <Key>
             <PropertyRef Name="Qty" />
@@ -3980,7 +3980,7 @@ warning 6002: The table/view 'TCLErp.Erp.ConvertedProductDetail' does not have a
           <Property Name="COGS" Type="decimal" Precision="18" Scale="3" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp.Erp.FormulaHistory' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp_Dev.Erp.FormulaHistory' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="FormulaHistory">
           <Key>
             <PropertyRef Name="Id" />
@@ -4956,7 +4956,7 @@ warning 6002: The table/view 'TCLErp.Erp.FormulaHistory' does not have a primary
           <Property Name="TPPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp.Erp.RequisitionItemDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp_Dev.Erp.RequisitionItemDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="RequisitionItemDetail">
           <Key>
             <PropertyRef Name="RequistionItemDetailId" />
@@ -5458,6 +5458,57 @@ warning 6002: The table/view 'TCLErp.Erp.RequisitionItemDetail' does not have a 
           <Property Name="VendorTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="250" Nullable="false" />
         </EntityType>
+        <EntityType Name="VoucherBRMapDetail">
+          <Key>
+            <PropertyRef Name="VoucherBRMapDetailId" />
+          </Key>
+          <Property Name="VoucherBRMapDetailId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VoucherBRMapMasterId" Type="bigint" Nullable="false" />
+          <Property Name="VoucherDetailId" Type="bigint" Nullable="false" />
+          <Property Name="ProductId" Type="int" Nullable="false" />
+          <Property Name="BillRequisitionDetailId" Type="bigint" />
+          <Property Name="ApprovedQty" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="ApprovedUnitRate" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="DebitAmount" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="CreditAmount" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="VoucherBRMapMaster">
+          <Key>
+            <PropertyRef Name="VoucherBRMapMasterId" />
+          </Key>
+          <Property Name="VoucherBRMapMasterId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BillRequsitionMasterId" Type="bigint" Nullable="false" />
+          <Property Name="VoucherId" Type="bigint" Nullable="false" />
+          <Property Name="CostCenterId" Type="int" />
+          <Property Name="CompanyId" Type="int" />
+          <Property Name="ApprovalStatusId" Type="int" />
+          <Property Name="StatusId" Type="int" />
+          <Property Name="IsRequisitionVoucher" Type="bit" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="VoucherBRMapMasterApproval">
+          <Key>
+            <PropertyRef Name="VoucherBRMapMasterApprovalId" />
+          </Key>
+          <Property Name="VoucherBRMapMasterApprovalId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VoucherBRMapMasterMasterId" Type="bigint" Nullable="false" />
+          <Property Name="AprrovalStatusId" Type="int" Nullable="false" />
+          <Property Name="EmployeeId" Type="bigint" />
+          <Property Name="SignatoryId" Type="int" Nullable="false" />
+          <Property Name="PriorityNo" Type="int" Nullable="false" />
+          <Property Name="IsSupremeApproved" Type="bit" Nullable="false" />
+          <Property Name="CompanyId" Type="int" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="255" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="Zone">
           <Key>
             <PropertyRef Name="ZoneId" />
@@ -5483,7 +5534,7 @@ warning 6002: The table/view 'TCLErp.Erp.RequisitionItemDetail' does not have a 
           <Property Name="EmployeeId" Type="bigint" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp.dbo.vw_Attendence' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp_Dev.dbo.vw_Attendence' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_Attendence">
           <Key>
             <PropertyRef Name="Id" />
@@ -5514,7 +5565,7 @@ warning 6002: The table/view 'TCLErp.dbo.vw_Attendence' does not have a primary 
           <Property Name="SalaryTag" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp.dbo.vwAllHeads' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp_Dev.dbo.vwAllHeads' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwAllHeads">
           <Key>
             <PropertyRef Name="Id" />
@@ -5533,7 +5584,7 @@ warning 6002: The table/view 'TCLErp.dbo.vwAllHeads' does not have a primary key
           <Property Name="ModifiedDate" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp.dbo.vwDemandForSaleInvoice' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp_Dev.dbo.vwDemandForSaleInvoice' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwDemandForSaleInvoice">
           <Key>
             <PropertyRef Name="DemandId" />
@@ -5556,7 +5607,7 @@ warning 6002: The table/view 'TCLErp.dbo.vwDemandForSaleInvoice' does not have a
           <Property Name="SpecialDiscount" Type="decimal" Precision="18" Scale="3" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp.dbo.vwFTPFileInfo' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp_Dev.dbo.vwFTPFileInfo' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwFTPFileInfo">
           <Key>
             <PropertyRef Name="docid" />
@@ -5579,7 +5630,7 @@ warning 6002: The table/view 'TCLErp.dbo.vwFTPFileInfo' does not have a primary 
           <Property Name="RecDate" Type="datetime" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp.dbo.vwKGRECustomer' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp_Dev.dbo.vwKGRECustomer' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwKGRECustomer">
           <Key>
             <PropertyRef Name="ClientId" />
@@ -5616,7 +5667,7 @@ warning 6002: The table/view 'TCLErp.dbo.vwKGRECustomer' does not have a primary
           <Property Name="EmployeeId" Type="varchar" MaxLength="20" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp.dbo.vwProductPrice' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp_Dev.dbo.vwProductPrice' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwProductPrice">
           <Key>
             <PropertyRef Name="Id" />
@@ -5630,7 +5681,7 @@ warning 6002: The table/view 'TCLErp.dbo.vwProductPrice' does not have a primary
           <Property Name="ProductName" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp.dbo.vwSeedMaterialRcvList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp_Dev.dbo.vwSeedMaterialRcvList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwSeedMaterialRcvList">
           <Key>
             <PropertyRef Name="MaterialReceiveId" />
@@ -5662,7 +5713,7 @@ warning 6002: The table/view 'TCLErp.dbo.vwSeedMaterialRcvList' does not have a 
           <Property Name="Remarks" Type="varchar(max)" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp.dbo.vwSMSList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp_Dev.dbo.vwSMSList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwSMSList">
           <Key>
             <PropertyRef Name="Id" />
@@ -5690,7 +5741,7 @@ warning 6002: The table/view 'TCLErp.dbo.vwSMSList' does not have a primary key 
           <Property Name="CompanyName" Type="varchar" MaxLength="200" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp.dbo.vwTeamInfoList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamInfoList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwTeamInfoList">
           <Key>
             <PropertyRef Name="Id" />
@@ -5720,7 +5771,7 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamInfoList' does not have a primary
           <Property Name="CompanyName" Type="varchar" MaxLength="200" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwTeamLeaderList">
           <Key>
             <PropertyRef Name="Id" />
@@ -8623,6 +8674,54 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_VoucherBRMapMaster_BillRequisitionMaster">
+          <End Role="BillRequisitionMaster" Type="Self.BillRequisitionMaster" Multiplicity="1" />
+          <End Role="VoucherBRMapMaster" Type="Self.VoucherBRMapMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BillRequisitionMaster">
+              <PropertyRef Name="BillRequisitionMasterId" />
+            </Principal>
+            <Dependent Role="VoucherBRMapMaster">
+              <PropertyRef Name="BillRequsitionMasterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VoucherBRMapMaster_Voucher">
+          <End Role="Voucher" Type="Self.Voucher" Multiplicity="1" />
+          <End Role="VoucherBRMapMaster" Type="Self.VoucherBRMapMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Voucher">
+              <PropertyRef Name="VoucherId" />
+            </Principal>
+            <Dependent Role="VoucherBRMapMaster">
+              <PropertyRef Name="VoucherId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VoucherBRMapMasterApproval_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="1" />
+          <End Role="VoucherBRMapMasterApproval" Type="Self.VoucherBRMapMasterApproval" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="VoucherBRMapMasterApproval">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VoucherBRMapMasterApproval_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="VoucherBRMapMasterApproval" Type="Self.VoucherBRMapMasterApproval" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VoucherBRMapMasterApproval">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Work_WorkState">
           <End Role="WorkState" Type="Self.WorkState" Multiplicity="1" />
           <End Role="Work" Type="Self.Work" Multiplicity="*" />
@@ -8959,6 +9058,9 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <EntitySet Name="VendorOffer" EntityType="Self.VendorOffer" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="VendorOpening" EntityType="Self.VendorOpening" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="VendorType" EntityType="Self.VendorType" Schema="Erp" store:Type="Tables" />
+          <EntitySet Name="VoucherBRMapDetail" EntityType="Self.VoucherBRMapDetail" Schema="Erp" store:Type="Tables" />
+          <EntitySet Name="VoucherBRMapMaster" EntityType="Self.VoucherBRMapMaster" Schema="Erp" store:Type="Tables" />
+          <EntitySet Name="VoucherBRMapMasterApproval" EntityType="Self.VoucherBRMapMasterApproval" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="Zone" EntityType="Self.Zone" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="Attendance_Shadow" EntityType="Self.Attendance_Shadow" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -10447,6 +10549,22 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             <End Role="Company" EntitySet="Company" />
             <End Role="BillRequisitionVoucherMap" EntitySet="BillRequisitionVoucherMap" />
           </AssociationSet>
+          <AssociationSet Name="FK_VoucherBRMapMaster_BillRequisitionMaster" Association="Self.FK_VoucherBRMapMaster_BillRequisitionMaster">
+            <End Role="BillRequisitionMaster" EntitySet="BillRequisitionMaster" />
+            <End Role="VoucherBRMapMaster" EntitySet="VoucherBRMapMaster" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VoucherBRMapMaster_Voucher" Association="Self.FK_VoucherBRMapMaster_Voucher">
+            <End Role="Voucher" EntitySet="Voucher" />
+            <End Role="VoucherBRMapMaster" EntitySet="VoucherBRMapMaster" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VoucherBRMapMasterApproval_Company" Association="Self.FK_VoucherBRMapMasterApproval_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="VoucherBRMapMasterApproval" EntitySet="VoucherBRMapMasterApproval" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VoucherBRMapMasterApproval_Employee" Association="Self.FK_VoucherBRMapMasterApproval_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="VoucherBRMapMasterApproval" EntitySet="VoucherBRMapMasterApproval" />
+          </AssociationSet>
           <AssociationSet Name="FK_Work_WorkState" Association="Self.FK_Work_WorkState">
             <End Role="WorkState" EntitySet="WorkState" />
             <End Role="Work" EntitySet="Work" />
@@ -11884,6 +12002,25 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <AssociationSet Name="FK_CostCenterManagerMap_Accounting_CostCenter" Association="ERPModel.FK_CostCenterManagerMap_Accounting_CostCenter">
             <End Role="Accounting_CostCenter" EntitySet="Accounting_CostCenter" />
             <End Role="CostCenterManagerMap" EntitySet="CostCenterManagerMaps" />
+          </AssociationSet>
+          <EntitySet Name="VoucherBRMapDetails" EntityType="ERPModel.VoucherBRMapDetail" />
+          <EntitySet Name="VoucherBRMapMasters" EntityType="ERPModel.VoucherBRMapMaster" />
+          <EntitySet Name="VoucherBRMapMasterApprovals" EntityType="ERPModel.VoucherBRMapMasterApproval" />
+          <AssociationSet Name="FK_VoucherBRMapMasterApproval_Company" Association="ERPModel.FK_VoucherBRMapMasterApproval_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="VoucherBRMapMasterApproval" EntitySet="VoucherBRMapMasterApprovals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VoucherBRMapMasterApproval_Employee" Association="ERPModel.FK_VoucherBRMapMasterApproval_Employee">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="VoucherBRMapMasterApproval" EntitySet="VoucherBRMapMasterApprovals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VoucherBRMapMaster_Voucher" Association="ERPModel.FK_VoucherBRMapMaster_Voucher">
+            <End Role="Voucher" EntitySet="Vouchers" />
+            <End Role="VoucherBRMapMaster" EntitySet="VoucherBRMapMasters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VoucherBRMapMaster_BillRequisitionMaster" Association="ERPModel.FK_VoucherBRMapMaster_BillRequisitionMaster">
+            <End Role="BillRequisitionMaster" EntitySet="BillRequisitionMasters" />
+            <End Role="VoucherBRMapMaster" EntitySet="VoucherBRMapMasters" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="AdminPolicy">
@@ -16462,6 +16599,7 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <NavigationProperty Name="VendorOpenings" Relationship="ERPModel.FK_VendorOpening_Voucher" FromRole="Voucher" ToRole="VendorOpening" />
           <NavigationProperty Name="VendorDeposits" Relationship="ERPModel.FK_VendorDeposit_Voucher" FromRole="Voucher" ToRole="VendorDeposit" />
           <NavigationProperty Name="BillRequisitionVoucherMaps" Relationship="ERPModel.FK_BillRequisitionVoucherMap_Voucher" FromRole="Voucher" ToRole="BillRequisitionVoucherMap" />
+          <NavigationProperty Name="VoucherBRMapMasters" Relationship="ERPModel.FK_VoucherBRMapMaster_Voucher" FromRole="Voucher" ToRole="VoucherBRMapMaster" />
         </EntityType>
         <EntityType Name="VoucherDetail">
           <Key>
@@ -17446,6 +17584,7 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <NavigationProperty Name="BillRequisitionDetails" Relationship="ERPModel.FK_BillRequisitionDetail_Company" FromRole="Company" ToRole="BillRequisitionDetail" />
           <NavigationProperty Name="BillRequisitionMasters" Relationship="ERPModel.FK_BillRequisitionMaster_Company" FromRole="Company" ToRole="BillRequisitionMaster" />
           <NavigationProperty Name="BillRequisitionVoucherMaps" Relationship="ERPModel.FK_VoucherBillRequisitionMap_Company" FromRole="Company" ToRole="BillRequisitionVoucherMap" />
+          <NavigationProperty Name="VoucherBRMapMasterApprovals" Relationship="ERPModel.FK_VoucherBRMapMasterApproval_Company" FromRole="Company" ToRole="VoucherBRMapMasterApproval" />
         </EntityType>
         <Association Name="FK_Asset_Company">
           <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
@@ -17764,6 +17903,7 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <NavigationProperty Name="UserLogs" Relationship="ERPModel.FK_UserLog_Employee" FromRole="Employee" ToRole="UserLog" />
           <NavigationProperty Name="BillReqApprovalHistories" Relationship="ERPModel.FK_BillReqApprovalHistory_Employee" FromRole="Employee" ToRole="BillReqApprovalHistory" />
           <NavigationProperty Name="BillRequisitionApprovals" Relationship="ERPModel.FK_BillRequisitionApproval_Employee" FromRole="Employee" ToRole="BillRequisitionApproval" />
+          <NavigationProperty Name="VoucherBRMapMasterApprovals" Relationship="ERPModel.FK_VoucherBRMapMasterApproval_Employee" FromRole="Employee" ToRole="VoucherBRMapMasterApproval" />
         </EntityType>
         <Association Name="FK_AssetAssign_Employee">
           <End Type="ERPModel.Employee" Role="Employee" Multiplicity="1" />
@@ -21000,6 +21140,7 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <NavigationProperty Name="BillRequisitionType" Relationship="ERPModel.FK_BillRequisitionMaster_BillRequisitionType" FromRole="BillRequisitionMaster" ToRole="BillRequisitionType" />
           <NavigationProperty Name="BillRequisitionVoucherMaps" Relationship="ERPModel.FK_VoucherBillRequisitionMap_BillRequisitionMaster" FromRole="BillRequisitionMaster" ToRole="BillRequisitionVoucherMap" />
           <NavigationProperty Name="PurchaseOrders" Relationship="ERPModel.FK_PurchaseOrder_PurchaseOrder" FromRole="BillRequisitionMaster" ToRole="PurchaseOrder" />
+          <NavigationProperty Name="VoucherBRMapMasters" Relationship="ERPModel.FK_VoucherBRMapMaster_BillRequisitionMaster" FromRole="BillRequisitionMaster" ToRole="VoucherBRMapMaster" />
         </EntityType>
         <EntityType Name="BillRequisitionVoucherMap">
           <Key>
@@ -21489,6 +21630,109 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             </Principal>
             <Dependent Role="CostCenterManagerMap">
               <PropertyRef Name="CostCenterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="VoucherBRMapDetail">
+          <Key>
+            <PropertyRef Name="VoucherBRMapDetailId" />
+          </Key>
+          <Property Name="VoucherBRMapDetailId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VoucherBRMapMasterId" Type="Int64" Nullable="false" />
+          <Property Name="VoucherDetailId" Type="Int64" Nullable="false" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="BillRequisitionDetailId" Type="Int64" />
+          <Property Name="ApprovedQty" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="ApprovedUnitRate" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="DebitAmount" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="CreditAmount" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="VoucherBRMapMaster">
+          <Key>
+            <PropertyRef Name="VoucherBRMapMasterId" />
+          </Key>
+          <Property Name="VoucherBRMapMasterId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BillRequsitionMasterId" Type="Int64" Nullable="false" />
+          <Property Name="VoucherId" Type="Int64" Nullable="false" />
+          <Property Name="CostCenterId" Type="Int32" />
+          <Property Name="CompanyId" Type="Int32" />
+          <Property Name="ApprovalStatusId" Type="Int32" />
+          <Property Name="StatusId" Type="Int32" />
+          <Property Name="IsRequisitionVoucher" Type="Boolean" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Voucher" Relationship="ERPModel.FK_VoucherBRMapMaster_Voucher" FromRole="VoucherBRMapMaster" ToRole="Voucher" />
+          <NavigationProperty Name="BillRequisitionMaster" Relationship="ERPModel.FK_VoucherBRMapMaster_BillRequisitionMaster" FromRole="VoucherBRMapMaster" ToRole="BillRequisitionMaster" />
+        </EntityType>
+        <EntityType Name="VoucherBRMapMasterApproval">
+          <Key>
+            <PropertyRef Name="VoucherBRMapMasterApprovalId" />
+          </Key>
+          <Property Name="VoucherBRMapMasterApprovalId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VoucherBRMapMasterMasterId" Type="Int64" Nullable="false" />
+          <Property Name="AprrovalStatusId" Type="Int32" Nullable="false" />
+          <Property Name="EmployeeId" Type="Int64" />
+          <Property Name="SignatoryId" Type="Int32" Nullable="false" />
+          <Property Name="PriorityNo" Type="Int32" Nullable="false" />
+          <Property Name="IsSupremeApproved" Type="Boolean" Nullable="false" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Company" Relationship="ERPModel.FK_VoucherBRMapMasterApproval_Company" FromRole="VoucherBRMapMasterApproval" ToRole="Company" />
+          <NavigationProperty Name="Employee" Relationship="ERPModel.FK_VoucherBRMapMasterApproval_Employee" FromRole="VoucherBRMapMasterApproval" ToRole="Employee" />
+        </EntityType>
+        <Association Name="FK_VoucherBRMapMasterApproval_Company">
+          <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
+          <End Type="ERPModel.VoucherBRMapMasterApproval" Role="VoucherBRMapMasterApproval" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="VoucherBRMapMasterApproval">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VoucherBRMapMasterApproval_Employee">
+          <End Type="ERPModel.Employee" Role="Employee" Multiplicity="0..1" />
+          <End Type="ERPModel.VoucherBRMapMasterApproval" Role="VoucherBRMapMasterApproval" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VoucherBRMapMasterApproval">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VoucherBRMapMaster_Voucher">
+          <End Type="ERPModel.Voucher" Role="Voucher" Multiplicity="1" />
+          <End Type="ERPModel.VoucherBRMapMaster" Role="VoucherBRMapMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Voucher">
+              <PropertyRef Name="VoucherId" />
+            </Principal>
+            <Dependent Role="VoucherBRMapMaster">
+              <PropertyRef Name="VoucherId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VoucherBRMapMaster_BillRequisitionMaster">
+          <End Type="ERPModel.BillRequisitionMaster" Role="BillRequisitionMaster" Multiplicity="1" />
+          <End Type="ERPModel.VoucherBRMapMaster" Role="VoucherBRMapMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BillRequisitionMaster">
+              <PropertyRef Name="BillRequisitionMasterId" />
+            </Principal>
+            <Dependent Role="VoucherBRMapMaster">
+              <PropertyRef Name="BillRequsitionMasterId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -27369,6 +27613,60 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
                 <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="CostCenterId" ColumnName="CostCenterId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VoucherBRMapDetails">
+            <EntityTypeMapping TypeName="ERPModel.VoucherBRMapDetail">
+              <MappingFragment StoreEntitySet="VoucherBRMapDetail">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreditAmount" ColumnName="CreditAmount" />
+                <ScalarProperty Name="DebitAmount" ColumnName="DebitAmount" />
+                <ScalarProperty Name="ApprovedUnitRate" ColumnName="ApprovedUnitRate" />
+                <ScalarProperty Name="ApprovedQty" ColumnName="ApprovedQty" />
+                <ScalarProperty Name="BillRequisitionDetailId" ColumnName="BillRequisitionDetailId" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="VoucherDetailId" ColumnName="VoucherDetailId" />
+                <ScalarProperty Name="VoucherBRMapMasterId" ColumnName="VoucherBRMapMasterId" />
+                <ScalarProperty Name="VoucherBRMapDetailId" ColumnName="VoucherBRMapDetailId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VoucherBRMapMasters">
+            <EntityTypeMapping TypeName="ERPModel.VoucherBRMapMaster">
+              <MappingFragment StoreEntitySet="VoucherBRMapMaster">
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsRequisitionVoucher" ColumnName="IsRequisitionVoucher" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="ApprovalStatusId" ColumnName="ApprovalStatusId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="CostCenterId" ColumnName="CostCenterId" />
+                <ScalarProperty Name="VoucherId" ColumnName="VoucherId" />
+                <ScalarProperty Name="BillRequsitionMasterId" ColumnName="BillRequsitionMasterId" />
+                <ScalarProperty Name="VoucherBRMapMasterId" ColumnName="VoucherBRMapMasterId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VoucherBRMapMasterApprovals">
+            <EntityTypeMapping TypeName="ERPModel.VoucherBRMapMasterApproval">
+              <MappingFragment StoreEntitySet="VoucherBRMapMasterApproval">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="IsSupremeApproved" ColumnName="IsSupremeApproved" />
+                <ScalarProperty Name="PriorityNo" ColumnName="PriorityNo" />
+                <ScalarProperty Name="SignatoryId" ColumnName="SignatoryId" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="AprrovalStatusId" ColumnName="AprrovalStatusId" />
+                <ScalarProperty Name="VoucherBRMapMasterMasterId" ColumnName="VoucherBRMapMasterMasterId" />
+                <ScalarProperty Name="VoucherBRMapMasterApprovalId" ColumnName="VoucherBRMapMasterApprovalId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
