@@ -12,6 +12,7 @@ using KGERP.Service.Implementation.FTP;
 using KGERP.Service.Interface;
 using KGERP.Service.ServiceModel.FTP_Models;
 using KGERP.Utility;
+using KGERP.ViewModel;
 
 namespace KGERP.Controllers
 {
@@ -778,6 +779,14 @@ namespace KGERP.Controllers
         #endregion
 
         #region Common Raw Product SubCategory
+
+        [HttpGet]
+        public JsonResult GetSubCategoryByCategoryId(int categoryId)
+        {
+            var getData = _service.GetProductSubCategoryByCategoryId(21, categoryId);
+
+            return Json(new { getData, JsonRequestBehavior.AllowGet });
+        }
 
         [HttpGet]
         public async Task<ActionResult> CommonRawProductSubCategory(int companyId, int categoryId = 0)

@@ -2,7 +2,7 @@
 @using KGERP.Utility;
 
 @{
-    ViewData["Title"] = "Requisition Entry";
+    ViewData["Title"] = "New Requisition";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     int sl = 0;
@@ -33,19 +33,19 @@
         @if (Model.BillRequisitionMasterId > 0)
         {
             <span>
-                Requisition Entry
+                New Requisition
             </span>
         }
         else
         {
-            <span>
-                Requisition Entry
-            </span>
+    <span>
+        New Requisition
+    </span>
         }
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">Requisition Entry</li>
+        <li class="active">New Requisition</li>
     </ol>
 </section>
 @using (Html.BeginForm("BillRequisitionMasterSlave", "BillRequisition", FormMethod.Post, new { id = "BRMasterSlaveFormId", @class = "formValidator" }))
@@ -112,7 +112,7 @@
                                                 <td>@Model.BOQItemName</td>
                                             </tr>
                                         }
-                                        <input type="number" value="@Model.BOQItemId" id="hiddenBoqItemId" hidden />
+                                        @*<input type="number" value="@Model.BOQItemId" id="hiddenBoqItemId" hidden />*@
                                         <tr>
                                             <th>
                                                 @((Model.BillRequisitionTypeId == (int)EnumBillRequisitionType.Overhead)? "Item Description" : "Work Details")
@@ -136,7 +136,7 @@
                             {
                                 <div class="row">
 
-                                    <div class="col-md-4">
+                                    <div class="col-md-6">
                                         <label for="message-text" class="col-form-label">Requisition Date :</label>
                                         <div class="form-group">
                                             <input name="BRDate" asp-for="BRDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker w-100 dateCustom" placeholder="Operation Date" autocomplete="off" id="txtOperationrDate">
@@ -144,50 +144,50 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Requisition Type :</label>
-                                            @Html.DropDownListFor(model => model.BillRequisitionTypeId, Model.RequisitionTypeList as SelectList, "===Select Requisition Type===", new { id = "ddlBRTypeId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.DropDownListFor(model => model.BillRequisitionTypeId, Model.RequisitionTypeList as SelectList, "==Select Requisition Type==", new { id = "ddlBRTypeId", onchange= "GetRequisitionSubtypeByTypeId()", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
                                             @Html.ValidationMessageFor(model => model.BillRequisitionTypeId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
 
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Requisition Subtype :</label>
-                                            @Html.DropDownListFor(model => model.BillRequisitionSubTypeId, Model.RequisitionSubTypeList as SelectList, "===Select Requisition Subtype===", new { id = "ddlBRSubTypeId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.DropDownListFor(model => model.BillRequisitionSubTypeId, Model.RequisitionSubTypeList as SelectList, "==Select Requisition Subtype==", new { id = "ddlBRSubTypeId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
                                             @Html.ValidationMessageFor(model => model.BillRequisitionSubTypeId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
 
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Project Type :</label>
-                                            @Html.DropDownListFor(model => model.ProjectTypeId, Model.ProjectTypeList as SelectList, "===Select Project Type===", new { id = "projectTypeId", onchange = "getProjectList()", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.DropDownListFor(model => model.ProjectTypeId, Model.ProjectTypeList as SelectList, "==Select Project Type==", new { id = "projectTypeId", onchange = "GetProjectListByProjectType()", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
                                             @Html.ValidationMessageFor(model => model.ProjectTypeId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
 
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Select Project :</label>
-                                            @Html.DropDownListFor(model => model.CostCenterId, Model.ProjectList as SelectList, "===Select Project===", new { id = "ddlCostCenterId", onchange = "showDivision()", @class = "form-control searchingDropdown", style = "width:100%", required = "requried" })
+                                            @Html.DropDownListFor(model => model.CostCenterId, Model.ProjectList as SelectList, "==Select Project==", new { id = "ddlCostCenterId", onchange = "GetDivisionListByProjectId()", @class = "form-control searchingDropdown", style = "width:100%", required = "requried" })
                                             @Html.ValidationMessageFor(model => model.CostCenterId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
 
-                                    <div class="col-md-4 d-block" id="inputDivision">
+                                    <div class="col-md-3 d-block" id="inputDivision">
                                         <div class="form-group">
                                             <label>BoQ Division :</label>
-                                            @Html.DropDownListFor(model => model.BoQDivisionId, Model.BOQDivisionList as SelectList, "===Select BoQ Division===", new { id = "ddlDivisionId", onchange = "showBoQItem()", @class = "form-control searchingDropdown", style = "width:100%" })
+                                            @Html.DropDownListFor(model => model.BoQDivisionId, Model.BOQDivisionList as SelectList, "==Select BoQ Division==", new { id = "ddlDivisionId", onchange = "GetBoqItemListByDivisionId()", @class = "form-control searchingDropdown", style = "width:100%" })
                                             @Html.ValidationMessageFor(model => model.CostCenterId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
 
-                                    <div class="col-md-4 d-block" id="inputBoq">
+                                    <div class="col-md-3 d-block" id="inputBoq">
                                         <div class="form-group">
                                             <label>BoQ Item :</label>
-                                            @Html.DropDownListFor(model => model.BOQItemId, Model.BOQItemList as SelectList, "===Select BoQ Item===", new { id = "ddlBOQItemId", onchange = "showBoQMaterial()", @class = "form-control searchingDropdown", style = "width:100%" })
+                                            @Html.DropDownListFor(model => model.BOQItemId, Model.BOQItemList as SelectList, "==Select BoQ Item==", new { id = "ddlBOQItemId", onchange = "GetMaterialListByBoqId()", @class = "form-control searchingDropdown", style = "width:100%" })
                                             @Html.ValidationMessageFor(model => model.BOQItemId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -249,7 +249,7 @@
                                         </div>
                                     </div>
                                 }
-                                else if (Model.ProjectTypeId == 0 || Model.ProjectTypeId == null)
+                                else if (Model.ProjectTypeId == 0)
                                 {
                                     <div class="row hidden" id="depandableInputForm">
                                         <div class="col-md-3" id="inputWard">
@@ -290,7 +290,7 @@
                                     <div class="col-md-3 d-block" id="inputMaterial">
                                         <div class="form-group">
                                             <label id="materialTitle">@((Model.BillRequisitionTypeId == (int)EnumBillRequisitionType.Overhead)? "Requisition Subtype Item :" : "Requisition Material Item :")</label>
-                                            @Html.DropDownListFor(model => model.DetailModel.ProductId, Model.RequisitionItemList as SelectList, "==Select Material==", new { id = "ddlRequisitionItemId", onchange = "getUnitName()", @class = "form-control searchingDropdown", style = "width:100%", })
+                                            @Html.DropDownListFor(model => model.DetailModel.ProductId, Model.RequisitionItemList as SelectList, "==Select Material==", new { id = "ddlRequisitionItemId", onchange = "GetUnitNameByProductId()", @class = "form-control searchingDropdown", style = "width:100%", })
                                             @Html.ValidationMessageFor(model => model.DetailModel.ProductId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -602,8 +602,35 @@
             $('#ActionId').val(1);
         }
 
+        // get requisition subtype list
+        function GetRequisitionSubtypeByTypeId() {
+            var getRequisitionTypeId = $("#ddlBRTypeId option:selected");
+            var showRequisitionSubtype = $("#ddlBRSubTypeId");
+
+            $.ajax({
+                type: "GET",
+                url: "/Configuration/GetSubCategoryByCategoryId",
+                dataType: "json",
+                data: { categoryId: getRequisitionTypeId.val() },
+                success: function (data) {
+                    showRequisitionSubtype.empty();
+                    showRequisitionSubtype.append("<option selected disabled>==Select Project==</option>");
+
+                    $.each(data, function (index, item) {
+                        showRequisitionSubtype.append($('<option>', {
+                            value: item.ProductSubCategoryId,
+                            text: item.Name
+                        }));
+                    });
+                },
+                error: function (error) {
+                    console.error("Error in AJAX request:", error);
+                }
+            });
+        }
+
         // get project list
-        function getProjectList() {
+        function GetProjectListByProjectType() {
             var getProjectTypeId = $("#projectTypeId option:selected");
             var showProjectList = $("#ddlCostCenterId");
 
@@ -614,7 +641,7 @@
                 data: { id: getProjectTypeId.val() },
                 success: function (data) {
                     showProjectList.empty();
-                    showProjectList.append("<option selected disabled>===Select Project===</option>");
+                    showProjectList.append("<option selected disabled>==Select Project==</option>");
 
                     $.each(data, function (index, item) {
                         showProjectList.append($('<option>', {
@@ -630,7 +657,7 @@
         }
 
         // get division list
-        function showDivision() {
+        function GetDivisionListByProjectId() {
             var getProjectId = $("#ddlCostCenterId option:selected");
             var showBoqDivisionList = $("#ddlDivisionId");
 
@@ -641,7 +668,7 @@
                 data: { id: getProjectId.val() },
                 success: function (data) {
                     showBoqDivisionList.empty();
-                    showBoqDivisionList.append("<option selected disabled>===Select BoQ Division===</option>");
+                    showBoqDivisionList.append("<option selected disabled>==Select BoQ Division==</option>");
 
                     $.each(data, function (index, item) {
                         showBoqDivisionList.append($('<option>', {
@@ -657,7 +684,7 @@
         }
 
         // get boq item list
-        function showBoQItem() {
+        function GetBoqItemListByDivisionId() {
             var getBoqDivisionId = $("#ddlDivisionId option:selected");
             var showBoqItemList = $("#ddlBOQItemId");
 
@@ -668,7 +695,7 @@
                 data: { id: getBoqDivisionId.val() },
                 success: function (data) {
                     showBoqItemList.empty();
-                    showBoqItemList.append("<option selected disabled>===Select BoQ Item===</option>");
+                    showBoqItemList.append("<option selected disabled>==Select BoQ Item==</option>");
 
                     $.each(data, function (index, item) {
                         showBoqItemList.append($('<option>', {
@@ -684,7 +711,7 @@
         }
 
         // get boq material list
-        function showBoQMaterial() {
+        function GetMaterialListByBoqId() {
             var getBoqItemId = $("#ddlBOQItemId option:selected");
             var showBoqMaterialList = $("#ddlRequisitionItemId");
             $.ajax({
@@ -694,7 +721,7 @@
                 data: { id: getBoqItemId.val() },
                 success: function (data) {
                     showBoqMaterialList.empty();
-                    showBoqMaterialList.append("<option selected disabled>===Select Material===</option>");
+                    showBoqMaterialList.append("<option selected disabled>==Select Material==</option>");
 
                     $.each(data, function (index, item) {
                         showBoqMaterialList.append($('<option>', {
@@ -710,7 +737,7 @@
         }
 
         // get boq material list for draf
-        function showBoQMaterialForDraf() {
+        function GetMaterialListByBoqIdForDraf() {
             var showBoqMaterialList = $("#ddlRequisitionItemId");
             var boqId = @((Model.BOQItemId == 0 || Model.BOQItemId == null)? 0 : Model.BOQItemId);
             $.ajax({
@@ -720,7 +747,7 @@
                 data: { id: boqId },
                 success: function (data) {
                     showBoqMaterialList.empty();
-                    showBoqMaterialList.append("<option selected disabled>===Select Material===</option>");
+                    showBoqMaterialList.append("<option selected disabled>==Select Material==</option>");
 
                     $.each(data, function (index, item) {
                         showBoqMaterialList.append($('<option>', {
@@ -731,10 +758,10 @@
                 }
             });
         }
-        showBoQMaterialForDraf();
+        GetMaterialListByBoqIdForDraf();
 
         // get boq material list for overhead
-        function showBoQMaterialForOverhead() {
+        function ShowBoqMaterialListByReqSubtypeId() {
             var showBoqMaterialList = $("#ddlRequisitionItemId");
             var boqId = 0;
             $.ajax({
@@ -744,7 +771,7 @@
                 data: { id: boqId },
                 success: function (data) {
                     showBoqMaterialList.empty();
-                    showBoqMaterialList.append("<option selected disabled>===Select Material===</option>");
+                    showBoqMaterialList.append("<option selected disabled>==Select Material==</option>");
 
                     $.each(data, function (index, item) {
                         showBoqMaterialList.append($('<option>', {
@@ -757,7 +784,7 @@
         }
 
         // get selected material unit name
-        function getUnitName() {
+        function GetUnitNameByProductId() {
             var getUnitIdValue = $("#ddlRequisitionItemId option:selected");
             var showName = $("#showUnitName");
             var showValue = $("#txtUnitId");
@@ -775,11 +802,11 @@
                 }
             });
 
-            getBudgetInfo();
+            GetBudgetInfo();
         }
 
         // get budget info
-        function getBudgetInfo() {
+        function GetBudgetInfo() {
             var productId = $("#ddlRequisitionItemId option:selected");
             var boqId = $("#ddlBOQItemId option:selected");
             var showEstimate = $("#decEstimatedQty");
@@ -836,17 +863,22 @@
             'use strict';
 
             // dependable dropdown validate
+            
+            $("#ddlBRSubTypeId").empty();
+            $("#ddlBRSubTypeId").append("<option selected disabled>==Select Req. Type First==</option>");
+
+
             $("#ddlCostCenterId").empty();
-            $("#ddlCostCenterId").append("<option selected disabled>===Select Project Type First===</option>");
+            $("#ddlCostCenterId").append("<option selected disabled>==Select Project Type First==</option>");
 
             $("#ddlDivisionId").empty();
-            $("#ddlDivisionId").append("<option selected disabled>===Select Project First===</option>");
+            $("#ddlDivisionId").append("<option selected disabled>==Select Project First==</option>");
 
             $("#ddlBOQItemId").empty();
-            $("#ddlBOQItemId").append("<option selected disabled>===Select Division First===</option>");
+            $("#ddlBOQItemId").append("<option selected disabled>==Select Division First==</option>");
 
             $("#ddlRequisitionItemId").empty();
-            $("#ddlRequisitionItemId").append("<option selected disabled>===Select BoQ First===</option>");
+            $("#ddlRequisitionItemId").append("<option selected disabled>==Select BoQ First==</option>");
 
             // date picker activation
             $('#datePickerById').datepicker({
@@ -927,7 +959,7 @@
                     $("#inputDemandQty").removeClass("col-md-3").addClass("col-md-4");
                     $("#inputUnitRate").removeClass("col-md-3").addClass("col-md-4");
                     $("#inputTotalPrice").removeClass("col-md-3").addClass("col-md-4");
-                    showBoQMaterialForOverhead();
+                    ShowBoqMaterialListByReqSubtypeId();
                 } else if (selectedOption.val() === "@((int)EnumBillRequisitionType.Labor)") { // IT
                     $("#descriptionTitle").text("Item Description :");
 
