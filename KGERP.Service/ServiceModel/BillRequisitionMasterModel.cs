@@ -25,6 +25,7 @@ namespace KGERP.Service.ServiceModel
         public string BoQDivisionName { get; set; }
         public string CostCenterName { get; set; }
         public int BillRequisitionTypeId { get; set; }
+        public int BillRequisitionSubTypeId { get; set; }
         public string BRTypeName { get; set; }
         public string Description { get; set; }
         public decimal? TotalAmount { get; set; }
@@ -52,6 +53,7 @@ namespace KGERP.Service.ServiceModel
         public List<BillRequisitionApprovalModel> ApprovalModelList { get; set; } = new List<BillRequisitionApprovalModel>();
         public SelectList ProjectList { get; set; } = new SelectList(new List<object>());
         public SelectList RequisitionTypeList { get; set; } = new SelectList(new List<object>());
+        public SelectList RequisitionSubTypeList { get; set; } = new SelectList(new List<object>());
         public SelectList BOQDivisionList { get; set; } = new SelectList(new List<object>());
         public SelectList BOQItemList { get; set; } = new SelectList(new List<object>());
         public SelectList ProjectTypeList { get; set; } = new SelectList(new List<object>());

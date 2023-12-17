@@ -146,17 +146,25 @@
 
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>Select Project Type :</label>
-                                            @Html.DropDownListFor(model => model.ProjectTypeId, Model.ProjectTypeList as SelectList, "===Select Project Type===", new { id = "projectTypeId", onchange = "getProjectList()", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
-                                            @Html.ValidationMessageFor(model => model.ProjectTypeId, "", new { @class = "text-danger" })
+                                            <label>Requisition Type :</label>
+                                            @Html.DropDownListFor(model => model.BillRequisitionTypeId, Model.RequisitionTypeList as SelectList, "===Select Requisition Type===", new { id = "ddlBRTypeId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.ValidationMessageFor(model => model.BillRequisitionTypeId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
 
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>Select Requisition Type :</label>
-                                            @Html.DropDownListFor(model => model.BillRequisitionTypeId, Model.RequisitionTypeList as SelectList, "===Select Requisition Type===", new { id = "ddlBRTypeId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
-                                            @Html.ValidationMessageFor(model => model.BillRequisitionTypeId, "", new { @class = "text-danger" })
+                                            <label>Requisition Subtype :</label>
+                                            @Html.DropDownListFor(model => model.BillRequisitionSubTypeId, Model.RequisitionSubTypeList as SelectList, "===Select Requisition Subtype===", new { id = "ddlBRSubTypeId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.ValidationMessageFor(model => model.BillRequisitionSubTypeId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Project Type :</label>
+                                            @Html.DropDownListFor(model => model.ProjectTypeId, Model.ProjectTypeList as SelectList, "===Select Project Type===", new { id = "projectTypeId", onchange = "getProjectList()", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.ValidationMessageFor(model => model.ProjectTypeId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
 
@@ -170,7 +178,7 @@
 
                                     <div class="col-md-4 d-block" id="inputDivision">
                                         <div class="form-group">
-                                            <label>Select BoQ Division :</label>
+                                            <label>BoQ Division :</label>
                                             @Html.DropDownListFor(model => model.BoQDivisionId, Model.BOQDivisionList as SelectList, "===Select BoQ Division===", new { id = "ddlDivisionId", onchange = "showBoQItem()", @class = "form-control searchingDropdown", style = "width:100%" })
                                             @Html.ValidationMessageFor(model => model.CostCenterId, "", new { @class = "text-danger" })
                                         </div>
@@ -178,7 +186,7 @@
 
                                     <div class="col-md-4 d-block" id="inputBoq">
                                         <div class="form-group">
-                                            <label>Select BoQ Item :</label>
+                                            <label>BoQ Item :</label>
                                             @Html.DropDownListFor(model => model.BOQItemId, Model.BOQItemList as SelectList, "===Select BoQ Item===", new { id = "ddlBOQItemId", onchange = "showBoQMaterial()", @class = "form-control searchingDropdown", style = "width:100%" })
                                             @Html.ValidationMessageFor(model => model.BOQItemId, "", new { @class = "text-danger" })
                                         </div>
@@ -281,7 +289,7 @@
                                 <div class="row">
                                     <div class="col-md-3 d-block" id="inputMaterial">
                                         <div class="form-group">
-                                            <label id="materialTitle">@((Model.BillRequisitionTypeId == (int)EnumBillRequisitionType.Overhead)? "Sub Head Item :" : "Requisition Material Item :")</label>
+                                            <label id="materialTitle">@((Model.BillRequisitionTypeId == (int)EnumBillRequisitionType.Overhead)? "Requisition Subtype Item :" : "Requisition Material Item :")</label>
                                             @Html.DropDownListFor(model => model.DetailModel.ProductId, Model.RequisitionItemList as SelectList, "==Select Material==", new { id = "ddlRequisitionItemId", onchange = "getUnitName()", @class = "form-control searchingDropdown", style = "width:100%", })
                                             @Html.ValidationMessageFor(model => model.DetailModel.ProductId, "", new { @class = "text-danger" })
                                         </div>
@@ -898,7 +906,7 @@
 
                 if (selectedOption.val() === "@((int)EnumBillRequisitionType.Overhead)") {
                     $("#descriptionTitle").text("Item Description :");
-                    $("#materialTitle").text("Sub Head Item :");
+                    $("#materialTitle").text("Requisition Subtype Item :");
 
                     // master form
                     $("#inputDivision").removeClass("d-block").addClass("hidden");
@@ -920,7 +928,7 @@
                     $("#inputUnitRate").removeClass("col-md-3").addClass("col-md-4");
                     $("#inputTotalPrice").removeClass("col-md-3").addClass("col-md-4");
                     showBoQMaterialForOverhead();
-                } else if (selectedOption.val() === "@((int)EnumBillRequisitionType.It)") {
+                } else if (selectedOption.val() === "@((int)EnumBillRequisitionType.Labor)") { // IT
                     $("#descriptionTitle").text("Item Description :");
 
                     // details form

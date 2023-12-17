@@ -20,26 +20,37 @@ namespace KGERP.Utility
         Rejected,
         Closed
     }
+
     public enum EnumBillRequisitionType
     {
         [Display(Name = "Construction Materials")]
-        Materials = 1,
-
+        Materials = 6,
         [Display(Name = "P & M (Paint, Equipment, Machineries and Tools)")]
-        Rent,
-
-        [Display(Name = "Construction Equipment Repair")]
-        Repair,
-
-        [Display(Name = "Construction Labor")]
-        Labor,
-
-        [Display(Name = "IT Equipment")]
-        It,
-
+        PnM,
+        [Display(Name = "Power, Water")]
+        Power,
+        [Display(Name = "Fuel, Oil, Lubricants")]
+        Oil,
+        [Display(Name = "Formwork")]
+        Formwork,
         [Display(Name = "Overhead")]
         Overhead,
+        [Display(Name = "Temporary Work")]
+        Temporary,
+        [Display(Name = "Labor")]
+        Labor,
+        [Display(Name = "Transportation")]
+        Transportation,
+        [Display(Name = "Others")]
+        Others
     }
+
+    public enum EnumBillRequisitionSubType
+    {
+        [Display(Name = "IT Equipment")]
+        It = 1
+    }
+
     public enum EnumBillReqProjectType
     {
         Agro = 1,
@@ -60,7 +71,7 @@ namespace KGERP.Utility
         Gain,
         Loss
     }
-   
+
     public enum IndicatorEnum
     {
         BookingMoney = 1,
@@ -301,7 +312,7 @@ namespace KGERP.Utility
     public enum CustomerStatusEnum
     {
         // new enum
-        AllRounder=1,
+        AllRounder = 1,
         Beneficiary,
         CashCustomer,
         Defaulter,
