@@ -21,6 +21,7 @@ namespace KGERP.Data.Models
             this.VendorOpenings = new HashSet<VendorOpening>();
             this.VendorDeposits = new HashSet<VendorDeposit>();
             this.BillRequisitionVoucherMaps = new HashSet<BillRequisitionVoucherMap>();
+            this.VoucherBRMapMasters = new HashSet<VoucherBRMapMaster>();
         }
     
         public long VoucherId { get; set; }
@@ -53,5 +54,7 @@ namespace KGERP.Data.Models
         public virtual ICollection<VendorDeposit> VendorDeposits { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BillRequisitionVoucherMap> BillRequisitionVoucherMaps { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<VoucherBRMapMaster> VoucherBRMapMasters { get; set; }
     }
 }
