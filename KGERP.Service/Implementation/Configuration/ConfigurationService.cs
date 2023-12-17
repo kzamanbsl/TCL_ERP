@@ -2485,6 +2485,13 @@ namespace KGERP.Service.Implementation.Configuration
         #endregion
 
         #region Common Product Subcategory
+        public List<ProductSubCategory> GetProductSubCategoryByCategoryId(int companyId, int categoryId)
+        {
+            List<ProductSubCategory> getAllData =  _db.ProductSubCategories
+                .Where(c => c.ProductCategoryId == categoryId && c.ProductType == "R" && c.CompanyId == companyId && c.IsActive == true).ToList();
+            return getAllData;
+        }
+
         public async Task<VMCommonProductSubCategory> GetProductSubCategory(int companyId, int categoryId, string productType)
         {
             VMCommonProductSubCategory vmCommonProductSubCategory = new VMCommonProductSubCategory();
