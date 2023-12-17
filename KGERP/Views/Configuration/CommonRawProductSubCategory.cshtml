@@ -87,12 +87,12 @@
                                         @{int sl = 0;
                                         }
                                         <tbody>
-                                            @foreach (var item in Model.DataList)
+                                            @foreach (var item in Model.DataList.OrderBy(c=>c.Common_ProductCategoryFk))
                                             {
                                                 <tr>
                                                     <td>@(++sl)</td>
                                                     <td>
-                                                        @*<input type="hidden" id="commonProductCategoryFk_@item.ID" name="User_MenuFk" value="@item.Common_ProductCategoryFk" />*@
+                                                        <input type="hidden" id="commonProductCategoryFk_@item.ID" name="User_MenuFk" value="@item.Common_ProductCategoryFk" />
                                                         @item.CategoryName
                                                     </td>
                                                     <td id="tdSubCategoryName_@item.ID">@item.Name</td>
