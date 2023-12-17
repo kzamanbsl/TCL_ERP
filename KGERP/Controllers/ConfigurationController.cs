@@ -814,7 +814,8 @@ namespace KGERP.Controllers
             {
                 return View("Error");
             }
-            return RedirectToAction(nameof(CommonRawProductSubCategory), new { companyId = vmCommonProductSubCategory.CompanyFK, categoryId = vmCommonProductSubCategory.Common_ProductCategoryFk });
+            //return RedirectToAction(nameof(CommonRawProductSubCategory), new { companyId = vmCommonProductSubCategory.CompanyFK, categoryId = vmCommonProductSubCategory.Common_ProductCategoryFk });
+            return RedirectToAction(nameof(CommonRawProductSubCategory), new { companyId = vmCommonProductSubCategory.CompanyFK });
         }
 
         #endregion

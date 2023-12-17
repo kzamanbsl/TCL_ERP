@@ -84,7 +84,7 @@
                                         @{int sl = 0;
                                         }
                                         <tbody>
-                                            @foreach (var item in Model.DataList)
+                                            @foreach (var item in Model.DataList.OrderBy(c=>c.Name))
                                             {
                                                 <tr>
                                                     <td>@(++sl)</td>
