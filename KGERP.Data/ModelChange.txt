@@ -11,3 +11,157 @@ Date: 28-11-2023
 	+ EstimatedQty decimal nullable
 	+ UnitRate decimal nullable
 	+ EstimatedAmount decimal nullable
+
+Date: 17-11-2023
+================
++ VoucherBRMapMaster
+		USE [TCLErp_Dev]
+		GO
+
+		/****** Object:  Table [Erp].[VoucherBRMapMaster]    Script Date: 12/17/2023 3:31:27 PM ******/
+		SET ANSI_NULLS ON
+		GO
+
+		SET QUOTED_IDENTIFIER ON
+		GO
+
+		CREATE TABLE [Erp].[VoucherBRMapMaster](
+			[VoucherBRMapMasterId] [bigint] IDENTITY(1,1) NOT NULL,
+			[BillRequsitionMasterId] [bigint] NOT NULL,
+			[VoucherId] [bigint] NOT NULL,
+			[CostCenterId] [int] NULL,
+			[CompanyId] [int] NULL,
+			[ApprovalStatusId] [int] NULL,
+			[StatusId] [int] NULL,
+			[IsRequisitionVoucher] [bit] NOT NULL,
+			[IsActive] [bit] NOT NULL,
+			[CreateDate] [datetime] NOT NULL,
+			[CreatedBy] [varchar](255) NOT NULL,
+			[ModifiedDate] [datetime] NULL,
+			[ModifiedBy] [varchar](255) NULL,
+		 CONSTRAINT [PK_VoucherBRMapMaster] PRIMARY KEY CLUSTERED 
+		(
+			[VoucherBRMapMasterId] ASC
+		)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+		) ON [PRIMARY]
+		GO
+
+		ALTER TABLE [Erp].[VoucherBRMapMaster] ADD  CONSTRAINT [DF_VoucherBRMapMaster_IsRequisitionVoucher]  DEFAULT ((1)) FOR [IsRequisitionVoucher]
+		GO
+
+		ALTER TABLE [Erp].[VoucherBRMapMaster] ADD  CONSTRAINT [DF_VoucherBRMapMaster_IsActive]  DEFAULT ((1)) FOR [IsActive]
+		GO
+
+		ALTER TABLE [Erp].[VoucherBRMapMaster]  WITH CHECK ADD  CONSTRAINT [FK_VoucherBRMapMaster_BillRequisitionMaster] FOREIGN KEY([BillRequsitionMasterId])
+		REFERENCES [Erp].[BillRequisitionMaster] ([BillRequisitionMasterId])
+		GO
+
+		ALTER TABLE [Erp].[VoucherBRMapMaster] CHECK CONSTRAINT [FK_VoucherBRMapMaster_BillRequisitionMaster]
+		GO
+
+		ALTER TABLE [Erp].[VoucherBRMapMaster]  WITH CHECK ADD  CONSTRAINT [FK_VoucherBRMapMaster_Voucher] FOREIGN KEY([VoucherId])
+		REFERENCES [dbo].[Voucher] ([VoucherId])
+		GO
+
+		ALTER TABLE [Erp].[VoucherBRMapMaster] CHECK CONSTRAINT [FK_VoucherBRMapMaster_Voucher]
+		GO
+
+
+Date: 17-11-2023
+================
++ VoucherBRMapDetail
+		USE [TCLErp_Dev]
+		GO
+
+		/****** Object:  Table [Erp].[VoucherBRMapDetail]    Script Date: 12/17/2023 3:38:47 PM ******/
+		SET ANSI_NULLS ON
+		GO
+
+		SET QUOTED_IDENTIFIER ON
+		GO
+
+		CREATE TABLE [Erp].[VoucherBRMapDetail](
+			[VoucherBRMapDetailId] [bigint] IDENTITY(1,1) NOT NULL,
+			[VoucherBRMapMasterId] [bigint] NOT NULL,
+			[VoucherDetailId] [bigint] NOT NULL,
+			[ProductId] [int] NOT NULL,
+			[BillRequisitionDetailId] [bigint] NULL,
+			[ApprovedQty] [decimal](18, 0) NOT NULL,
+			[ApprovedUnitRate] [decimal](18, 0) NOT NULL,
+			[DebitAmount] [decimal](18, 0) NULL,
+			[CreditAmount] [decimal](18, 0) NULL,
+			[IsActive] [bit] NOT NULL,
+		 CONSTRAINT [PK_VoucherBRMapDetail] PRIMARY KEY CLUSTERED 
+		(
+			[VoucherBRMapDetailId] ASC
+		)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+		) ON [PRIMARY]
+		GO
+
+		ALTER TABLE [Erp].[VoucherBRMapDetail] ADD  CONSTRAINT [DF_VoucherBRMapDetail_ApprovedQty]  DEFAULT ((0)) FOR [ApprovedQty]
+		GO
+
+		ALTER TABLE [Erp].[VoucherBRMapDetail] ADD  CONSTRAINT [DF_VoucherBRMapDetail_ApprovedUnitRate]  DEFAULT ((0)) FOR [ApprovedUnitRate]
+		GO
+
+		ALTER TABLE [Erp].[VoucherBRMapDetail] ADD  CONSTRAINT [DF_VoucherBRMapDetail_IsActive]  DEFAULT ((1)) FOR [IsActive]
+		GO
+
+
+
+
+
+Date: 17-11-2023
+================
++ VoucherBRMapMasterApproval
+
+		USE [TCLErp_Dev]
+		GO
+
+		/****** Object:  Table [Erp].[VoucherBRMapMasterApproval]    Script Date: 12/17/2023 2:57:44 PM ******/
+		SET ANSI_NULLS ON
+		GO
+
+		SET QUOTED_IDENTIFIER ON
+		GO
+
+		CREATE TABLE [Erp].[VoucherBRMapMasterApproval](
+			[VoucherBRMapMasterApprovalId] [bigint] IDENTITY(1,1) NOT NULL,
+			[VoucherBRMapMasterMasterId] [bigint] NOT NULL,
+			[AprrovalStatusId] [int] NOT NULL,
+			[EmployeeId] [bigint] NULL,
+			[SignatoryId] [int] NOT NULL,
+			[PriorityNo] [int] NOT NULL,
+			[IsSupremeApproved] [bit] NOT NULL,
+			[CompanyId] [int] NOT NULL,
+			[CreateDate] [datetime] NOT NULL,
+			[CreatedBy] [varchar](255) NOT NULL,
+			[ModifiedDate] [datetime] NULL,
+			[ModifiedBy] [varchar](255) NULL,
+			[IsActive] [bit] NOT NULL,
+		 CONSTRAINT [PK_VoucherBRMapMasterApproval] PRIMARY KEY CLUSTERED 
+		(
+			[VoucherBRMapMasterApprovalId] ASC
+		)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+		) ON [PRIMARY]
+		GO
+
+		ALTER TABLE [Erp].[VoucherBRMapMasterApproval] ADD  CONSTRAINT [DF_VoucherBRMapMasterApproval_IsSupremeApproved]  DEFAULT ((0)) FOR [IsSupremeApproved]
+		GO
+
+		ALTER TABLE [Erp].[VoucherBRMapMasterApproval] ADD  CONSTRAINT [DF_VoucherBRMapMasterApproval_IsActive]  DEFAULT ((1)) FOR [IsActive]
+		GO
+
+		ALTER TABLE [Erp].[VoucherBRMapMasterApproval]  WITH CHECK ADD  CONSTRAINT [FK_VoucherBRMapMasterApproval_Company] FOREIGN KEY([CompanyId])
+		REFERENCES [dbo].[Company] ([CompanyId])
+		GO
+
+		ALTER TABLE [Erp].[VoucherBRMapMasterApproval] CHECK CONSTRAINT [FK_VoucherBRMapMasterApproval_Company]
+		GO
+
+		ALTER TABLE [Erp].[VoucherBRMapMasterApproval]  WITH CHECK ADD  CONSTRAINT [FK_VoucherBRMapMasterApproval_Employee] FOREIGN KEY([EmployeeId])
+		REFERENCES [dbo].[Employee] ([Id])
+		GO
+
+		ALTER TABLE [Erp].[VoucherBRMapMasterApproval] CHECK CONSTRAINT [FK_VoucherBRMapMasterApproval_Employee]
+		GO
