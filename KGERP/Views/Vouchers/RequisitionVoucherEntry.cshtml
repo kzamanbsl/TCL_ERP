@@ -262,7 +262,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Debit</label>
-                                        @Html.TextBoxFor(model => model.Debit, new { id = "txtDebit", type = "number", step = "0.01", @class = "form-control", @style = "width:100%;border:1px black solid" })
+                                        @Html.TextBoxFor(model => model.Debit, new { id = "txtDebit", type = "number", step = "1", @class = "form-control", @style = "width:100%;border:1px black solid" })
                                         @Html.ValidationMessageFor(model => model.Debit, "", new { @class = "text-danger" })
 
                                     </div>
@@ -270,7 +270,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Credit</label>
-                                        @Html.TextBoxFor(model => model.Credit, new { id = "txtCredit", type = "number", step = "0.01", @class = "form-control", @style = "width:100%;border:1px black solid" })
+                                        @Html.TextBoxFor(model => model.Credit, new { id = "txtCredit", type = "number", step = "1", @class = "form-control", @style = "width:100%;border:1px black solid" })
                                         @Html.ValidationMessageFor(model => model.Credit, "", new { @class = "text-danger" })
 
                                     </div>
@@ -520,6 +520,47 @@
                 $('#manageBankOrCashFormId').submit();
 
 
+            });
+
+
+            function checkTotal() {
+                var approvedTotal = parseFloat($("#txtApprovedTotal").val());
+                var debit = parseFloat($("#txtDebit").val());
+                var credit = parseFloat($("#txtCredit").val());
+
+                // If Debit exceeds total, adjust Credit
+                if (!isNaN(debit) && debit > approvedTotal) {
+                    $("#txtDebit").val(approvedTotal);
+                    $("#txtCredit").val(0);
+                }
+
+                // If Credit exceeds total, adjust Debit
+                if (!isNaN(credit) && credit > approvedTotal) {
+                    $("#txtCredit").val(approvedTotal);
+                    $("#txtDebit").val(0);
+                }
+
+                // Recalculate the total and adjust if necessary
+                debit = parseFloat($("#txtDebit").val());
+                credit = parseFloat($("#txtCredit").val());
+
+                var total = isNaN(debit) ? 0 : debit;
+                if (!isNaN(credit)) {
+                    total += credit;
+                }
+
+                if (total > approvedTotal) {
+                    if (!isNaN(debit) && total === (debit + credit)) {
+                        $("#txtDebit").val(approvedTotal - credit);
+                    } else {
+                        $("#txtCredit").val(approvedTotal - debit);
+                    }
+                }
+            }
+
+            // Listen for changes in Debit and Credit fields
+            $("#txtDebit, #txtCredit").on("input", function () {
+                checkTotal();
             });
         });
 

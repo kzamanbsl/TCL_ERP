@@ -362,6 +362,7 @@ namespace KGERP.Service.Implementation.Accounting
             return vmJournalSlave;
         }
 
+        #region voucher Entry
         public async Task<long> VoucherAdd(VMJournalSlave vmJournalSlave)
         {
             long result = -1;
@@ -482,6 +483,142 @@ namespace KGERP.Service.Implementation.Accounting
 
             return result;
         }
+
+        #endregion
+
+        #region Voucher Requisition Map Entry
+
+        public async Task<long> VoucherRequisitionMapAdd(VMJournalSlave vmJournalSlave)
+        {
+            long result = -1;
+            //GetVoucherNo
+
+            Voucher voucher = new Voucher
+            {
+                Narration = vmJournalSlave.Narration,
+                VoucherNo = vmJournalSlave.VoucherNo,
+                VoucherStatus = vmJournalSlave.Status,
+                VoucherTypeId = vmJournalSlave.VoucherTypeId,
+                ChqDate = vmJournalSlave.ChqDate,
+                VirtualHeadId = vmJournalSlave.Accounting_BankOrCashId,
+                ChqNo = vmJournalSlave.ChqNo,
+
+                Accounting_CostCenterFk = vmJournalSlave.Accounting_CostCenterFK,
+                ChqName = vmJournalSlave.ChqName,
+                VoucherDate = vmJournalSlave.Date,
+                CompanyId = vmJournalSlave.CompanyFK,
+                CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                CreateDate = DateTime.Now,
+                IsActive = true,
+                IsStock = vmJournalSlave.IsStock
+            };
+            _db.Vouchers.Add(voucher);
+            
+            using (var scope = _db.Database.BeginTransaction())
+            {
+                await _db.SaveChangesAsync();
+
+
+
+                //_db.SaveChanges();
+
+
+                result = voucher.VoucherId;
+                scope.Commit();
+            }
+            return result;
+        }
+
+        public async Task<long> VoucherDetailRequisitionMapAdd(VMJournalSlave vmJournalSlave)
+        {
+            long result = -1;
+            if ((vmJournalSlave.Accounting_HeadFK > 0) && (vmJournalSlave.Debit > 0 || vmJournalSlave.Credit > 0))
+            {
+                VoucherDetail voucherDetail = new VoucherDetail
+                {
+                    AccountHeadId = vmJournalSlave.Accounting_HeadFK,
+                    CreditAmount = vmJournalSlave.Credit,
+                    DebitAmount = vmJournalSlave.Debit,
+                    Particular = vmJournalSlave.Particular,
+                    TransactionDate = DateTime.Now,
+                    VoucherId = vmJournalSlave.VoucherId,
+
+                    IsActive = true
+                };
+                _db.VoucherDetails.Add(voucherDetail);
+                if (await _db.SaveChangesAsync() > 0)
+                {
+                    result = voucherDetail.VoucherDetailId;
+                }
+            }
+
+
+            return result;
+        }
+
+        public async Task<long> VoucherDetailsRequisitionMapEdit(VMJournalSlave vmJournalSlave)
+        {
+            long result = -1;
+            VoucherDetail model = await _db.VoucherDetails.FindAsync(vmJournalSlave.VoucherDetailId);
+
+            model.AccountHeadId = vmJournalSlave.Accounting_HeadFK;
+            model.CreditAmount = vmJournalSlave.Credit;
+            model.DebitAmount = vmJournalSlave.Debit;
+            model.Particular = vmJournalSlave.Particular;
+            if (await _db.SaveChangesAsync() > 0)
+            {
+                result = model.VoucherDetailId;
+            }
+
+            return result;
+        }
+
+        public async Task<long> VoucherRequisitionMapDelete(VoucherModel voucherModel)
+        {
+            long result = -1;
+            Voucher model = await _db.Vouchers.FindAsync(voucherModel.VoucherId);
+
+            model.IsActive = false;
+
+            List<VoucherDetail> voucherDetailList = _db.VoucherDetails.Where(x => x.VoucherId == voucherModel.VoucherId).ToList();
+            voucherDetailList.ForEach(x => x.IsActive = false);
+            if (await _db.SaveChangesAsync() > 0)
+            {
+                result = model.VoucherId;
+            }
+
+            return result;
+        }
+
+        public async Task<long> VoucherRequisitionMapUndoSubmit(VoucherModel voucherModel)
+        {
+            long result = -1;
+            Voucher model = await _db.Vouchers.FindAsync(voucherModel.VoucherId);
+            model.IsSubmit = false;
+            model.VoucherStatus = null;
+            if (await _db.SaveChangesAsync() > 0)
+            {
+                result = model.VoucherId;
+            }
+            return result;
+        }
+
+        public async Task<long> VoucherDetailsRequisitionMapDelete(long voucherDetailId)
+        {
+            long result = -1;
+            VoucherDetail model = await _db.VoucherDetails.FindAsync(voucherDetailId);
+
+            model.IsActive = false;
+
+            if (await _db.SaveChangesAsync() > 0)
+            {
+                result = model.VoucherDetailId;
+            }
+
+            return result;
+        }
+
+        #endregion
 
         public List<object> CostCenterDropDownList(int companyId)
         {
