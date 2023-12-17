@@ -328,20 +328,20 @@ namespace KGERP.Controllers
                     // it is important / dont delete
                     var voucherNo = _voucherService.GetVoucherNo(vmJournalSlave.VoucherTypeId, vmJournalSlave.CompanyFK.Value, vmJournalSlave.Date.Value);
                     vmJournalSlave.VoucherNo = voucherNo;
-                    vmJournalSlave.VoucherId = await _accountingService.VoucherAdd(vmJournalSlave);
+                    vmJournalSlave.VoucherId = await _accountingService.VoucherRequisitionMapAdd(vmJournalSlave);
 
                 }
-                await _accountingService.VoucherDetailAdd(vmJournalSlave);
+                await _accountingService.VoucherDetailRequisitionMapAdd(vmJournalSlave);
             }
             else if (vmJournalSlave.ActionEum == ActionEnum.Edit)
             {
                 //Edit
-                await _accountingService.VoucherDetailsEdit(vmJournalSlave);
+                await _accountingService.VoucherDetailsRequisitionMapEdit(vmJournalSlave);
             }
             else if (vmJournalSlave.ActionEum == ActionEnum.Delete)
             {
                 //Delete
-                await _accountingService.VoucherDetailsDelete(vmJournalSlave.VoucherDetailId.Value);
+                await _accountingService.VoucherDetailsRequisitionMapDelete(vmJournalSlave.VoucherDetailId.Value);
             }
 
             return RedirectToAction(nameof(RequisitionVoucherEntry), new { companyId = vmJournalSlave.CompanyFK, voucherId = vmJournalSlave.VoucherId });
