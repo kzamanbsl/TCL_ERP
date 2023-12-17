@@ -517,12 +517,19 @@ namespace KGERP.Service.Implementation.Accounting
             using (var scope = _db.Database.BeginTransaction())
             {
                 await _db.SaveChangesAsync();
+                VoucherBRMapMaster voucherBRMapMaster = new VoucherBRMapMaster();
+                voucherBRMapMaster.BillRequsitionMasterId = vmJournalSlave.BillRequisitionId;
+                voucherBRMapMaster.VoucherId = voucher.VoucherId;
+                voucherBRMapMaster.ApprovalStatusId = 0;
+                voucherBRMapMaster.CostCenterId = vmJournalSlave.Accounting_CostCenterFK;
+                voucherBRMapMaster.StatusId = 0;
 
+                voucherBRMapMaster.CompanyId = voucher.CompanyId;
+                voucherBRMapMaster.CreateDate = DateTime.Now;
+                voucherBRMapMaster.CreatedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                voucherBRMapMaster.IsActive = true;
 
-
-                //_db.SaveChanges();
-
-
+                _db.SaveChanges();
                 result = voucher.VoucherId;
                 scope.Commit();
             }
@@ -549,6 +556,20 @@ namespace KGERP.Service.Implementation.Accounting
                 if (await _db.SaveChangesAsync() > 0)
                 {
                     result = voucherDetail.VoucherDetailId;
+                }
+                using (var scope = _db.Database.BeginTransaction())
+                {
+                    await _db.SaveChangesAsync();
+
+                    VoucherBRMapDetail voucherBRMapDetail = new VoucherBRMapDetail();
+                    //voucherBRMapDetail.
+
+
+                    voucherBRMapDetail.IsActive = true;
+
+                    _db.SaveChanges();
+                    result = voucherDetail.VoucherDetailId;
+                    scope.Commit();
                 }
             }
 
