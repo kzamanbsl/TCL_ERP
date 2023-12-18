@@ -51,7 +51,8 @@
                 @Html.HiddenFor(model => model.ActionId, new { id = "ActionId" })
                 @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
                 @Html.HiddenFor(model => model.VoucherNo, new { @id = "txtVoucherNo" })
-                @Html.HiddenFor(model => model.BillRequisitionId, new { @id = "hidRequisiitonId" })
+
+               
               
 
                 <div class="box-danger">
@@ -205,7 +206,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Requisition</label>
-                                        @Html.DropDownListFor(model => model.BillRequisitionId, Model.Requisitions as SelectList, "==Select Requisition ==", new { id = "billRequisitionId", onchange= "showBoQMaterial()", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                        @Html.DropDownListFor(model => model.BillRequisitionId, Model.Requisitions as SelectList,"== Requisition ==", new { id = "billRequisitionId", onchange= "showBoQMaterial()", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
                                         @Html.ValidationMessageFor(model => model.BillRequisitionId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -222,7 +223,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Requisition Material:</label>
-                                        @Html.DropDownListFor(model => model.RequisitionMaterialId, Model.MaterialItemList as SelectList ,  new { id = "materialItemId", onchange = "getRequisitionsInfo()", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                        @Html.DropDownListFor(model => model.RequisitionMaterialId, Model.MaterialItemList as SelectList , "== Req. Material ==", new { id = "materialItemId", onchange = "getRequisitionsInfo()", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
                                         @Html.ValidationMessageFor(model => model.RequisitionMaterialId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -230,15 +231,18 @@
                                     <div class="row">
                                         <div class=" col-sm-4">
                                             <label> Qty :</label>
-                                            <input class="form-control" id="txtApprovedDemand" value="0" readonly />
+                                            @Html.TextBoxFor(model => model.ApprovedQty, new { id = "txtApprovedDemand", value = "0", type = "number", step = "1", @readonly = true, @class = "form-control", @style = "width:100%;border:1px black solid" })
+
                                         </div>
                                         <div class=" col-sm-4">
                                             <label> Rate :</label>
-                                            <input class="form-control" id="txtUnitPrice" value="0" readonly />
+                                            @Html.TextBoxFor(model => model.UnitRate, new { id = "txtUnitPrice", value = "0", type = "number", step = "1", @readonly = true, @class = "form-control", @style = "width:100%;border:1px black solid" })
+
                                         </div>
                                         <div class="col-sm-4">
                                             <label> Total :</label>
-                                            <input class="form-control" id="txtApprovedTotal" value="0" readonly />
+                                            @Html.TextBoxFor(model => model.TotalAmount, new { id = "txtApprovedTotal", value = "0", type = "number", step = "1", @readonly = true, @class = "form-control", @style = "width:100%;border:1px black solid" })
+
                                         </div>
 
                                     </div>

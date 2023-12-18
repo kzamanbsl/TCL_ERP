@@ -73,7 +73,8 @@ namespace KGERP.Service.Implementation.Accounting
 
         [Required]
         public int VoucherTypeId { get; set; }
-        public int? RequisitionMaterialId { get; set; }
+        public int RequisitionMaterialId { get; set; }
+        public string MaterialName { get; set; }
 
         public double Debit { get; set; } = 0;
         public double Credit { get; set; } = 0;
@@ -87,6 +88,9 @@ namespace KGERP.Service.Implementation.Accounting
         public bool IsStock { get; set; }
         public bool IsSubmit { get; set; }
 
+        public decimal? ApprovedQty { get; set; }
+        public decimal? UnitRate { get; set; }
+        public decimal? TotalAmount { get; set; }
 
 
 
