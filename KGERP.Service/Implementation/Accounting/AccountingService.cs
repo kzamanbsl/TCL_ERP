@@ -563,11 +563,16 @@ namespace KGERP.Service.Implementation.Accounting
                     var voucher = _db.Vouchers.Find(vmJournalSlave.VoucherId);
                     if(voucher != null)
                     {
-                        //var narration
+                        var voucherBRMapMaster = _db.VoucherBRMapMasters.FirstOrDefault(s => s.VoucherId == voucher.VoucherId);
+                        var requisitions = _db.BillRequisitionMasters.FirstOrDefault(s => s.BillRequisitionMasterId == voucherBRMapMaster.BillRequsitionMasterId);
+
+                      
+                        
+                        
+                        VoucherBRMapDetail voucherBRMapDetail = new VoucherBRMapDetail();
+                        voucherBRMapDetail.IsActive = true;
                     }
-                    VoucherBRMapDetail voucherBRMapDetail = new VoucherBRMapDetail();
-                    
-                    voucherBRMapDetail.IsActive = true;
+                   
 
                     _db.SaveChanges();
                     result = voucherDetail.VoucherDetailId;
