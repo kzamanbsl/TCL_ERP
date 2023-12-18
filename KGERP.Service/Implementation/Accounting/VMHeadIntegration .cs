@@ -87,6 +87,9 @@ namespace KGERP.Service.Implementation.Accounting
         public bool IsStock { get; set; }
         public bool IsSubmit { get; set; }
 
+
+
+
         public DateTime? ChqDate { get; set; }
         public bool isDocumentPayment { get; set; }
         public SelectList VoucherTypesList { get; set; } = new SelectList(new List<object>());

@@ -14,12 +14,6 @@ namespace KGERP.Data.Models
     
     public partial class BillRequisitionType
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public BillRequisitionType()
-        {
-            this.BillRequisitionMasters = new HashSet<BillRequisitionMaster>();
-        }
-    
         public int BillRequisitionTypeId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
@@ -29,8 +23,5 @@ namespace KGERP.Data.Models
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public string ModifiedBy { get; set; }
         public bool IsActive { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BillRequisitionMaster> BillRequisitionMasters { get; set; }
     }
 }

@@ -522,7 +522,7 @@ namespace KGERP.Service.Implementation.Accounting
                 voucherBRMapMaster.VoucherId = voucher.VoucherId;
                 voucherBRMapMaster.ApprovalStatusId = 0;
                 voucherBRMapMaster.CostCenterId = vmJournalSlave.Accounting_CostCenterFK;
-                voucherBRMapMaster.StatusId = 0;
+                voucherBRMapMaster.StatusId = (int)EnumBillRequisitionStatus.Draft;
 
                 voucherBRMapMaster.CompanyId = voucher.CompanyId;
                 voucherBRMapMaster.CreateDate = DateTime.Now;
@@ -560,11 +560,13 @@ namespace KGERP.Service.Implementation.Accounting
                 using (var scope = _db.Database.BeginTransaction())
                 {
                     await _db.SaveChangesAsync();
-
+                    var voucher = _db.Vouchers.Find(vmJournalSlave.VoucherId);
+                    if(voucher != null)
+                    {
+                        //var narration
+                    }
                     VoucherBRMapDetail voucherBRMapDetail = new VoucherBRMapDetail();
-                    //voucherBRMapDetail.
-
-
+                    
                     voucherBRMapDetail.IsActive = true;
 
                     _db.SaveChanges();

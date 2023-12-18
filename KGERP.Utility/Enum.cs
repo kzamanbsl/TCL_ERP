@@ -2,6 +2,13 @@
 
 namespace KGERP.Utility
 {
+    public enum EnumVoucherRequisitionSignatory
+    {
+        Initiator = 1,
+        Checker,
+        Approver
+    
+    }
     public enum EnumBRequisitionSignatory
     {
         Initiator = 1,

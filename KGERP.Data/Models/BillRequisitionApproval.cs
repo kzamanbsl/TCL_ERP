@@ -30,6 +30,5 @@ namespace KGERP.Data.Models
     
         public virtual Company Company { get; set; }
         public virtual Employee Employee { get; set; }
-        public virtual BillRequisitionMaster BillRequisitionMaster { get; set; }
     }
 }
