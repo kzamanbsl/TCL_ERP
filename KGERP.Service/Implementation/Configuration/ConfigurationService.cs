@@ -5,6 +5,7 @@ using System.Data.Entity.Validation;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using KG.Core.Services.Configuration;
 using KGERP.Data.Models;
 using KGERP.Service.Implementation.Accounting;
 using KGERP.Service.ServiceModel;
@@ -24,6 +25,54 @@ namespace KGERP.Service.Implementation.Configuration
         {
             _db = db;
         }
+
+        #region User Action Log
+        // User action log - insert new row in every action
+        public async Task<bool> UserActionLog(UserLog userLog)
+        {
+            bool result = false;
+            try
+            {
+                if(userLog != null)
+                {
+                    _db.UserLogs.Add(userLog);
+                    if(await _db.SaveChangesAsync() > 0)
+                    {
+                        result = true;
+                    }
+                    result = false;
+                }
+            }
+            catch(Exception)
+            {
+                result = false;
+            }
+            return result;
+        }
+
+        // get all user log activity 
+        public async Task<List<VmUserActionLog>> GetAllUserActionLog(int companyId)
+        {
+            List<VmUserActionLog> sendData = await _db.UserLogs
+                .Where(t1 => t1.CompanyId == companyId)
+                .OrderByDescending(t1 => t1.UserLogId)
+                .Take(999)
+                .Join(_db.Employees, t1 => t1.EmployeeId, t2 => t2.Id, (t1, t2) => new VmUserActionLog
+                {
+                    UserLogId = t1.UserLogId,
+                    CompanyId = t1.CompanyId,
+                    ActionType = t1.ActionType,
+                    EmployeeName = t2.Name,
+                    EmpUserId = t1.EmpUserId,
+                    Details = t1.Details,
+                    ActionTimeStamp = t1.ActionTimeStamp,
+                })
+                .ToListAsync();
+
+            return sendData;
+        }
+
+        #endregion
 
         //#region User role MenuItem
         public async Task<VMUserMenuAssignment> UserMenuAssignmentGet(VMUserMenuAssignment vmUserMenuAssignment)

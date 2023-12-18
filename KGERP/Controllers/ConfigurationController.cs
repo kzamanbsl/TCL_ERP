@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using KG.Core.Services.Configuration;
 using KGERP.Data.Models;
 using KGERP.Service.Implementation.Configuration;
 using KGERP.Service.Implementation.FTP;
@@ -30,6 +31,15 @@ namespace KGERP.Controllers
             _companyService = companyService;
             this._ftpService = ftpService;
         }
+
+        #region User Action Log
+        public async Task<ActionResult> UserActionLog(int companyId)
+        {
+            VmUserActionLog userActionLog = new VmUserActionLog();
+            userActionLog.DataList = await _service.GetAllUserActionLog(companyId);
+            return View(userActionLog);
+        }
+        #endregion
 
         #region User Role Menuitem
         public async Task<ActionResult> UserMenuAssignment(int companyId)
@@ -452,7 +462,6 @@ namespace KGERP.Controllers
         }
 
         #endregion
-
 
         #region Common Finish Product Category
 
