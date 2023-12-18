@@ -2891,6 +2891,7 @@ namespace KGERP.Service.Implementation.Configuration
 
             return list;
         }
+
         public async Task<VMCommonProduct> GetProduct(int companyId, int categoryId = 0, int subCategoryId = 0, string productType = "")
         {
             VMCommonProduct vmCommonProduct = new VMCommonProduct();
