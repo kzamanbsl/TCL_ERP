@@ -44,7 +44,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">Requisition Type:</label>
-                                        @Html.DropDownListFor(model => model.Common_ProductCategoryFk, Model.ProductCategoryList as SelectList, "==Select Requisition Type==", new { id = "ddlCommonProductSubCategoryFk", @class = "form-control", required = "required" })
+                                        @Html.DropDownListFor(model => model.Common_ProductCategoryFk, Model.ProductCategoryList as SelectList, "==Select Requisition Type==", new { id = "ddlCommonProductCategoryFk", @class = "form-control", required = "required" })
                                         @Html.ValidationMessageFor(model => model.ProductCategoryId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -101,7 +101,7 @@
                                                 <tr>
                                                     <th>SL</th>
                                                     <th>Requisition Type</th>
-                                                    <th>Sub Requisition Type</th>
+                                                    <th>Requisition Subtype</th>
                                                     <th>Material Name</th>
                                                     <th>Unit Name</th>
                                                     <th>Action</th>
@@ -216,6 +216,8 @@
                         $('#txtMRPPrice').val(data.MRPPrice);
                         $('#txtSalePrice').val(data.MRPPrice);
                         $('#txtTradePrice').val(data.TPPrice);
+                        $('#txtTradePrice').val(data.TPPrice);
+                        $('#ddlCommonProductCategoryFk').val(data.Common_ProductCategoryFk).trigger('change');
 
                         $.ajax({
                             type: "GET",
@@ -225,7 +227,8 @@
                             success: function (data2) {
                                 if (data2) {
                                     $("#ddlCommonProductSubCategoryFk").empty();
-                                    $("#ddlCommonProductSubCategoryFk").append("<option value=''>==Select Subcategory==</option>");
+                                    $("#ddlCommonProductSubCategoryFk").append("<option value=''>==Select Requisition Subtype==</option>");
+
                                     $(data2).each(function (index2, item2) {
                                         $("#ddlCommonProductSubCategoryFk").append("<option value='" + item2.Value + "'>" + item2.Text + "</option>");
                                     });
