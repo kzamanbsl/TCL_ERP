@@ -19,9 +19,11 @@ namespace KGERP.Service.Implementation
     public class BillRequisitionService : IBillRequisitionService
     {
         private readonly ERPEntities _context;
-        public BillRequisitionService(ERPEntities context)
+        private readonly ConfigurationService _configurationService;
+        public BillRequisitionService(ERPEntities context, ConfigurationService configurationService)
         {
             _context = context;
+            _configurationService = configurationService;
         }
 
         #region Employee
@@ -448,15 +450,40 @@ namespace KGERP.Service.Implementation
                         CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
                         CreateDate = DateTime.Now
                     };
+
                     _context.BillBoQItems.Add(data);
-                    var count = _context.SaveChanges();
-                    if (count > 0)
+
+                    if (_context.SaveChanges() > 0)
                     {
+                        UserLog logData = new UserLog();
+                        logData.ActionType = model.ActionId;
+                        logData.EmployeeId = _context.Employees.FirstOrDefault(c => c.EmployeeId == System.Web.HttpContext.Current.User.Identity.Name).Id;
+                        logData.EmpUserId = System.Web.HttpContext.Current.User.Identity.Name;
+                        logData.CompanyId = (int)model.CompanyFK;
+                        logData.ActionTimeStamp = DateTime.Now;
+                        logData.Details = $"New BoQItem is added! " +
+                            $"BoQNumber: {model.BoQNumber}, " +
+                            $"BoQName: {model.Name}, " +
+                            $"BoqQuantity: {model.BoqQuantity}, " +
+                            $"BoqUnitId: {model.BoqUnitId}, " +
+                            $"BoQDivisionId: {model.BoQDivisionId}, " +
+                            $"Description: {model.Description} ";
+
+                        _ = _configurationService.UserActionLog(logData);
                         return true;
                     }
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
+                    UserLog logData = new UserLog();
+                    logData.ActionType = model.ActionId;
+                    logData.EmployeeId = _context.Employees.FirstOrDefault(c => c.EmployeeId == System.Web.HttpContext.Current.User.Identity.Name).Id;
+                    logData.EmpUserId = System.Web.HttpContext.Current.User.Identity.Name;
+                    logData.CompanyId = (int)model.CompanyFK;
+                    logData.ActionTimeStamp = DateTime.Now;
+                    logData.Details = $"Data insert failed!  Error: {ex}";
+
+                    _ = _configurationService.UserActionLog(logData);
                     return false;
                 }
             }
@@ -479,14 +506,38 @@ namespace KGERP.Service.Implementation
                     findBillRequisitionBoQ.Description = model.Description;
                     findBillRequisitionBoQ.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
                     findBillRequisitionBoQ.ModifiedDate = DateTime.Now;
-                    var count = _context.SaveChanges();
-                    if (count > 0)
+
+                    if (_context.SaveChanges() > 0)
                     {
+                        UserLog logData = new UserLog();
+                        logData.ActionType = model.ActionId;
+                        logData.EmployeeId = _context.Employees.FirstOrDefault(c => c.EmployeeId == System.Web.HttpContext.Current.User.Identity.Name).Id;
+                        logData.EmpUserId = System.Web.HttpContext.Current.User.Identity.Name;
+                        logData.CompanyId = (int)model.CompanyFK;
+                        logData.ActionTimeStamp = DateTime.Now;
+                        logData.Details = $"BoQItemId: {model.ID} is updated! " +
+                            $"BoQNumber: {model.BoQNumber}, " +
+                            $"BoQName: {model.Name}, " +
+                            $"BoqQuantity: {model.BoqQuantity}, " +
+                            $"BoqUnitId: {model.BoqUnitId}, " +
+                            $"BoQDivisionId: {model.BoQDivisionId}, " +
+                            $"Description: {model.Description} ";
+
+                        _ = _configurationService.UserActionLog(logData);
                         return true;
                     }
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
+                    UserLog logData = new UserLog();
+                    logData.ActionType = model.ActionId;
+                    logData.EmployeeId = _context.Employees.FirstOrDefault(c => c.EmployeeId == System.Web.HttpContext.Current.User.Identity.Name).Id;
+                    logData.EmpUserId = System.Web.HttpContext.Current.User.Identity.Name;
+                    logData.CompanyId = (int)model.CompanyFK;
+                    logData.ActionTimeStamp = DateTime.Now;
+                    logData.Details = $"Data update failed! Error: {ex}";
+
+                    _ = _configurationService.UserActionLog(logData);
                     return false;
                 }
             }
@@ -495,7 +546,7 @@ namespace KGERP.Service.Implementation
 
         public bool Delete(BillRequisitionBoqModel model)
         {
-            if (model.BoQItemId > 0 || model.BoQItemId != null)
+            if (model.BoQItemId > 0)
             {
                 try
                 {
@@ -504,15 +555,32 @@ namespace KGERP.Service.Implementation
                     findBillRequisitionBoQ.IsActive = false;
                     findBillRequisitionBoQ.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
                     findBillRequisitionBoQ.ModifiedDate = DateTime.Now;
-                    var count = _context.SaveChanges();
 
-                    if (count > 0)
+                    if (_context.SaveChanges() > 0)
                     {
+                        UserLog logData = new UserLog();
+                        logData.ActionType = model.ActionId;
+                        logData.EmployeeId = _context.Employees.FirstOrDefault(c => c.EmployeeId == System.Web.HttpContext.Current.User.Identity.Name).Id;
+                        logData.EmpUserId = System.Web.HttpContext.Current.User.Identity.Name;
+                        logData.CompanyId = (int)model.CompanyFK;
+                        logData.ActionTimeStamp = DateTime.Now;
+                        logData.Details = $"BoqItemId: {model.BoQItemId} is deleted!";
+
+                        _ = _configurationService.UserActionLog(logData);
                         return true;
                     }
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
+                    UserLog logData = new UserLog();
+                    logData.ActionType = model.ActionId;
+                    logData.EmployeeId = _context.Employees.FirstOrDefault(c => c.EmployeeId == System.Web.HttpContext.Current.User.Identity.Name).Id;
+                    logData.EmpUserId = System.Web.HttpContext.Current.User.Identity.Name;
+                    logData.CompanyId = (int)model.CompanyFK;
+                    logData.ActionTimeStamp = DateTime.Now;
+                    logData.Details = $"Data delete failed! Error: {ex}";
+
+                    _ = _configurationService.UserActionLog(logData);
                     return false;
                 }
             }
