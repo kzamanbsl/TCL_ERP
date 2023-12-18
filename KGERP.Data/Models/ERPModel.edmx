@@ -407,7 +407,7 @@
           <Property Name="ModifiedDate" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.Attendance_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.Attendance_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Attendance_Shadow">
           <Key>
             <PropertyRef Name="Id" />
@@ -451,7 +451,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.Attendance_Shadow' does not have a 
           <Property Name="ModifiedDate" Type="smalldatetime" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.AttendanceType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.AttendanceType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="AttendanceType">
           <Key>
             <PropertyRef Name="EmployeeId" />
@@ -523,7 +523,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.AttendanceType' does not have a pri
           <Property Name="TourDays" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.AttendenceApproveApplication_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.AttendenceApproveApplication_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="AttendenceApproveApplication_Shadow">
           <Key>
             <PropertyRef Name="Id" />
@@ -1304,7 +1304,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.AttendenceApproveApplication_Shadow
           <Property Name="StockInfoId" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.Employee_Audit' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.Employee_Audit' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Employee_Audit">
           <Key>
             <PropertyRef Name="ChangId" />
@@ -1375,7 +1375,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.Employee_Audit' does not have a pri
           <Property Name="Operation" Type="varchar" MaxLength="10" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.Employee_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.Employee_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Employee_Shadow">
           <Key>
             <PropertyRef Name="Id" />
@@ -1469,7 +1469,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.Employee_Shadow' does not have a pr
           <Property Name="ManagerId" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.EmployeeLeaveDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.EmployeeLeaveDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="EmployeeLeaveDetail">
           <Key>
             <PropertyRef Name="sl_number" />
@@ -2408,7 +2408,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.EmployeeLeaveDetail' does not have 
           <Property Name="OperationId" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.LeaveApplication_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.LeaveApplication_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="LeaveApplication_Shadow">
           <Key>
             <PropertyRef Name="LeaveApplicationId" />
@@ -2709,7 +2709,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.LeaveApplication_Shadow' does not h
           <Property Name="EDate" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.ProcessAttenendance' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.ProcessAttenendance' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ProcessAttenendance">
           <Key>
             <PropertyRef Name="EmployeeId" />
@@ -2734,7 +2734,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.ProcessAttenendance' does not have 
           <Property Name="CompanyId" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.ProcessLeave' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.ProcessLeave' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ProcessLeave">
           <Key>
             <PropertyRef Name="Employee" />
@@ -2861,7 +2861,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.ProcessLeave' does not have a prima
           <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.PS' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.PS' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="PS">
           <Key>
             <PropertyRef Name="ProductId" />
@@ -2927,7 +2927,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.PS' does not have a primary key def
           <Property Name="Modifydate" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.ServerConfig' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.ServerConfig' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ServerConfig">
           <Key>
             <PropertyRef Name="Id" />
@@ -3058,7 +3058,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.ServerConfig' does not have a prima
           <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.TempFeedVoucherDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.TempFeedVoucherDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="TempFeedVoucherDetail">
           <Key>
             <PropertyRef Name="IsActive" />
@@ -3413,14 +3413,14 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.TempFeedVoucherDetail' does not hav
             <PropertyRef Name="BoQItemId" />
           </Key>
           <Property Name="BoQItemId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="varchar" MaxLength="255" Nullable="false" />
-          <Property Name="Description" Type="varchar" MaxLength="512" />
+          <Property Name="Name" Type="varchar(max)" Nullable="false" />
+          <Property Name="Description" Type="varchar(max)" />
           <Property Name="CreateDate" Type="datetime" Nullable="false" />
           <Property Name="CreatedBy" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="ModifiedDate" Type="datetime" />
           <Property Name="ModifiedBy" Type="varchar" MaxLength="255" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
-          <Property Name="BoQNumber" Type="varchar" MaxLength="50" />
+          <Property Name="BoQNumber" Type="varchar(max)" />
           <Property Name="BoqQuantity" Type="decimal" Precision="18" Scale="0" />
           <Property Name="BoqUnitId" Type="int" />
           <Property Name="BoQDivisionId" Type="bigint" />
@@ -3474,11 +3474,11 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.TempFeedVoucherDetail' does not hav
           <Property Name="TotalPrice" Type="decimal" Precision="18" Scale="0" />
           <Property Name="ReceivedSoFar" Type="decimal" Precision="18" Scale="0" />
           <Property Name="RemainingQty" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="Floor" Type="varchar" MaxLength="255" />
-          <Property Name="Ward" Type="varchar" MaxLength="255" />
-          <Property Name="DPP" Type="varchar" MaxLength="255" />
-          <Property Name="Chainage" Type="varchar" MaxLength="255" />
-          <Property Name="Remarks" Type="varchar" MaxLength="512" />
+          <Property Name="Floor" Type="varchar(max)" />
+          <Property Name="Ward" Type="varchar(max)" />
+          <Property Name="DPP" Type="varchar(max)" />
+          <Property Name="Chainage" Type="varchar(max)" />
+          <Property Name="Remarks" Type="varchar(max)" />
           <Property Name="CompanyId" Type="int" Nullable="false" />
           <Property Name="CreateDate" Type="datetime" Nullable="false" />
           <Property Name="CreatedBy" Type="varchar" MaxLength="255" Nullable="false" />
@@ -3491,14 +3491,14 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.TempFeedVoucherDetail' does not hav
             <PropertyRef Name="BillRequisitionMasterId" />
           </Key>
           <Property Name="BillRequisitionMasterId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="BillRequisitionNo" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="BillRequisitionNo" Type="varchar(max)" Nullable="false" />
           <Property Name="BillRequisitionTypeId" Type="int" Nullable="false" />
           <Property Name="ProjectTypeId" Type="int" Nullable="false" />
           <Property Name="BoQDivisionId" Type="bigint" />
           <Property Name="BRDate" Type="datetime" Nullable="false" />
           <Property Name="BOQItemId" Type="int" />
           <Property Name="CostCenterId" Type="int" Nullable="false" />
-          <Property Name="Description" Type="varchar" MaxLength="512" />
+          <Property Name="Description" Type="varchar(max)" />
           <Property Name="TotalAmount" Type="decimal" Precision="18" Scale="2" />
           <Property Name="StatusId" Type="int" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
@@ -3705,7 +3705,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.TempFeedVoucherDetail' does not hav
           <Property Name="RowNo" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.Erp.ConvertedProductDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.Erp.ConvertedProductDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ConvertedProductDetail">
           <Key>
             <PropertyRef Name="Qty" />
@@ -3980,7 +3980,7 @@ warning 6002: The table/view 'TCLErp_Dev.Erp.ConvertedProductDetail' does not ha
           <Property Name="COGS" Type="decimal" Precision="18" Scale="3" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.Erp.FormulaHistory' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.Erp.FormulaHistory' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="FormulaHistory">
           <Key>
             <PropertyRef Name="Id" />
@@ -4956,7 +4956,7 @@ warning 6002: The table/view 'TCLErp_Dev.Erp.FormulaHistory' does not have a pri
           <Property Name="TPPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.Erp.RequisitionItemDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.Erp.RequisitionItemDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="RequisitionItemDetail">
           <Key>
             <PropertyRef Name="RequistionItemDetailId" />
@@ -5534,7 +5534,7 @@ warning 6002: The table/view 'TCLErp_Dev.Erp.RequisitionItemDetail' does not hav
           <Property Name="EmployeeId" Type="bigint" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.vw_Attendence' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.vw_Attendence' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_Attendence">
           <Key>
             <PropertyRef Name="Id" />
@@ -5565,7 +5565,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vw_Attendence' does not have a prim
           <Property Name="SalaryTag" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.vwAllHeads' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.vwAllHeads' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwAllHeads">
           <Key>
             <PropertyRef Name="Id" />
@@ -5584,7 +5584,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwAllHeads' does not have a primary
           <Property Name="ModifiedDate" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.vwDemandForSaleInvoice' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.vwDemandForSaleInvoice' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwDemandForSaleInvoice">
           <Key>
             <PropertyRef Name="DemandId" />
@@ -5607,7 +5607,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwDemandForSaleInvoice' does not ha
           <Property Name="SpecialDiscount" Type="decimal" Precision="18" Scale="3" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.vwFTPFileInfo' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.vwFTPFileInfo' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwFTPFileInfo">
           <Key>
             <PropertyRef Name="docid" />
@@ -5630,7 +5630,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwFTPFileInfo' does not have a prim
           <Property Name="RecDate" Type="datetime" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.vwKGRECustomer' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.vwKGRECustomer' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwKGRECustomer">
           <Key>
             <PropertyRef Name="ClientId" />
@@ -5667,7 +5667,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwKGRECustomer' does not have a pri
           <Property Name="EmployeeId" Type="varchar" MaxLength="20" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.vwProductPrice' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.vwProductPrice' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwProductPrice">
           <Key>
             <PropertyRef Name="Id" />
@@ -5681,7 +5681,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwProductPrice' does not have a pri
           <Property Name="ProductName" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.vwSeedMaterialRcvList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.vwSeedMaterialRcvList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwSeedMaterialRcvList">
           <Key>
             <PropertyRef Name="MaterialReceiveId" />
@@ -5713,7 +5713,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwSeedMaterialRcvList' does not hav
           <Property Name="Remarks" Type="varchar(max)" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.vwSMSList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.vwSMSList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwSMSList">
           <Key>
             <PropertyRef Name="Id" />
@@ -5741,7 +5741,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwSMSList' does not have a primary 
           <Property Name="CompanyName" Type="varchar" MaxLength="200" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamInfoList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.vwTeamInfoList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwTeamInfoList">
           <Key>
             <PropertyRef Name="Id" />
@@ -5771,7 +5771,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamInfoList' does not have a pri
           <Property Name="CompanyName" Type="varchar" MaxLength="200" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwTeamLeaderList">
           <Key>
             <PropertyRef Name="Id" />
@@ -21208,14 +21208,14 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             <PropertyRef Name="BoQItemId" />
           </Key>
           <Property Name="BoQItemId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
           <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <Property Name="BoQNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BoQNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="BoqQuantity" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="BoqUnitId" Type="Int32" />
           <Property Name="BoQDivisionId" Type="Int64" />
@@ -21274,11 +21274,11 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
           <Property Name="TotalPrice" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="ReceivedSoFar" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="RemainingQty" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="Floor" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Ward" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="DPP" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Chainage" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Remarks" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <Property Name="Floor" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Ward" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="DPP" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Chainage" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="CompanyId" Type="Int32" Nullable="false" />
           <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
@@ -21292,14 +21292,14 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             <PropertyRef Name="BillRequisitionMasterId" />
           </Key>
           <Property Name="BillRequisitionMasterId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="BillRequisitionNo" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="BillRequisitionNo" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="BillRequisitionTypeId" Type="Int32" Nullable="false" />
           <Property Name="ProjectTypeId" Type="Int32" Nullable="false" />
           <Property Name="BoQDivisionId" Type="Int64" />
           <Property Name="BRDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="BOQItemId" Type="Int32" />
           <Property Name="CostCenterId" Type="Int32" Nullable="false" />
-          <Property Name="Description" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="TotalAmount" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="StatusId" Type="Int32" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
