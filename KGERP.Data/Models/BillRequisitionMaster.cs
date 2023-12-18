@@ -17,21 +17,18 @@ namespace KGERP.Data.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public BillRequisitionMaster()
         {
-            this.BillReqApprovalHistories = new HashSet<BillReqApprovalHistory>();
-            this.BillRequisitionApprovals = new HashSet<BillRequisitionApproval>();
-            this.BillRequisitionDetails = new HashSet<BillRequisitionDetail>();
-            this.BillRequisitionVoucherMaps = new HashSet<BillRequisitionVoucherMap>();
             this.PurchaseOrders = new HashSet<PurchaseOrder>();
             this.VoucherBRMapMasters = new HashSet<VoucherBRMapMaster>();
         }
     
         public long BillRequisitionMasterId { get; set; }
-        public System.DateTime BRDate { get; set; }
         public string BillRequisitionNo { get; set; }
+        public int BillRequisitionTypeId { get; set; }
         public int ProjectTypeId { get; set; }
+        public Nullable<long> BoQDivisionId { get; set; }
+        public System.DateTime BRDate { get; set; }
         public Nullable<int> BOQItemId { get; set; }
         public int CostCenterId { get; set; }
-        public int BillRequisitionTypeId { get; set; }
         public string Description { get; set; }
         public Nullable<decimal> TotalAmount { get; set; }
         public Nullable<int> StatusId { get; set; }
@@ -41,19 +38,7 @@ namespace KGERP.Data.Models
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public string ModifiedBy { get; set; }
-        public Nullable<long> BoQDivisionId { get; set; }
     
-        public virtual Accounting_CostCenterType Accounting_CostCenterType { get; set; }
-        public virtual Company Company { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BillReqApprovalHistory> BillReqApprovalHistories { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BillRequisitionApproval> BillRequisitionApprovals { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BillRequisitionDetail> BillRequisitionDetails { get; set; }
-        public virtual BillRequisitionType BillRequisitionType { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BillRequisitionVoucherMap> BillRequisitionVoucherMaps { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PurchaseOrder> PurchaseOrders { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
