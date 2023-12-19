@@ -1916,28 +1916,41 @@ namespace KGERP.Service.Implementation.Procurement
 
                                                          }).FirstOrDefault());
 
-            vmPurchaseOrderSlave.DataListSlave = await Task.Run(() => (from t1 in _db.PurchaseOrderDetails.Where(x => x.IsActive && x.PurchaseOrderId == purchaseOrderId && x.CompanyId == companyId)
-                                                                       join t3 in _db.Products.Where(x => x.IsActive) on t1.ProductId equals t3.ProductId
-                                                                       join t4 in _db.ProductSubCategories.Where(x => x.IsActive) on t3.ProductSubCategoryId equals t4.ProductSubCategoryId
-                                                                       join t5 in _db.ProductCategories.Where(x => x.IsActive) on t4.ProductCategoryId equals t5.ProductCategoryId
-                                                                       join t6 in _db.Units.Where(x => x.IsActive) on t3.UnitId equals t6.UnitId
+            //vmPurchaseOrderSlave.DataListSlave = await Task.Run(() => (from t1 in _db.PurchaseOrderDetails.Where(x => x.IsActive && x.PurchaseOrderId == purchaseOrderId && x.CompanyId == companyId)
+            //                                                           join t3 in _db.Products.Where(x => x.IsActive) on t1.ProductId equals t3.ProductId
+            //                                                           join t4 in _db.ProductSubCategories.Where(x => x.IsActive) on t3.ProductSubCategoryId equals t4.ProductSubCategoryId
+            //                                                           join t5 in _db.ProductCategories.Where(x => x.IsActive) on t4.ProductCategoryId equals t5.ProductCategoryId
+            //                                                           join t6 in _db.Units.Where(x => x.IsActive) on t3.UnitId equals t6.UnitId
+            //                                                           select new VMPurchaseOrderSlave
+            //                                                           {
+            //                                                               ProductName = t4.Name + " " + t3.ProductName,
+
+            //                                                               PurchaseOrderId = t1.PurchaseOrderId.Value,
+            //                                                               PurchaseOrderDetailId = t1.PurchaseOrderDetailId,
+            //                                                               PurchaseQuantity = t1.PurchaseQty,
+            //                                                               PurchasingPrice = t1.PurchaseRate,
+            //                                                               UnitName = t6.Name,
+            //                                                               PurchaseAmount = t1.PurchaseAmount,
+
+            //                                                               CompanyFK = t1.CompanyId,
+            //                                                               Common_ProductCategoryFK = t5.ProductCategoryId,
+            //                                                               Common_ProductSubCategoryFK = t4.ProductSubCategoryId,
+            //                                                               Common_ProductFK = t3.ProductId
+
+            //                                                           }).OrderByDescending(x => x.PurchaseOrderDetailId).AsEnumerable());
+
+            vmPurchaseOrderSlave.DataListSlave = await Task.Run(() => (from t1 in _db.PurchaseOrderDetails.Where(x => x.PurchaseOrderId == purchaseOrderId && x.IsActive)
+                                                                       join t2 in _db.Products on t1.ProductId equals t2.ProductId
                                                                        select new VMPurchaseOrderSlave
                                                                        {
-                                                                           ProductName = t4.Name + " " + t3.ProductName,
-
-                                                                           PurchaseOrderId = t1.PurchaseOrderId.Value,
+                                                                           PurchaseOrderId = (int)t1.PurchaseOrderId,
                                                                            PurchaseOrderDetailId = t1.PurchaseOrderDetailId,
+                                                                           ProductName = t2.ProductName,
+                                                                           MaterialItemId = t1.ProductId,
                                                                            PurchaseQuantity = t1.PurchaseQty,
                                                                            PurchasingPrice = t1.PurchaseRate,
-                                                                           UnitName = t6.Name,
                                                                            PurchaseAmount = t1.PurchaseAmount,
-
-                                                                           CompanyFK = t1.CompanyId,
-                                                                           Common_ProductCategoryFK = t5.ProductCategoryId,
-                                                                           Common_ProductSubCategoryFK = t4.ProductSubCategoryId,
-                                                                           Common_ProductFK = t3.ProductId
-
-                                                                       }).OrderByDescending(x => x.PurchaseOrderDetailId).AsEnumerable());
+                                                                       }).OrderByDescending(x => x.PurchaseOrderDetailId));
 
 
             return vmPurchaseOrderSlave;

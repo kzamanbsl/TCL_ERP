@@ -124,7 +124,7 @@
                                         <div class="form-group">
                                             <label class="control-label">Stock At:</label>
                                             <div class="">
-                                                @Html.DropDownListFor(model => model.StockInfoId, new SelectList(Model.StockInfoList, "Value", "Text"), "---Select---",
+                                                @Html.DropDownListFor(model => model.StockInfoId, new SelectList(Model.StockInfoList, "Value", "Text"), "==Select Stock==",
                                                     new { @class = "dropdownsize form-control", @id = "stockInfoId", required = "required" })
                                                 @Html.ValidationMessageFor(model => model.StockInfoId, "", new { @class = "text-danger" })
                                             </div>
@@ -199,7 +199,7 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="message-text" class="col-form-label">Shipped By:</label>
-                                                @Html.DropDownListFor(model => model.ShippedBy, Model.ShippedByList as SelectList, "---Select Shipped By---", new { id = "ddlShippedBy", @class = "form-control" })
+                                                @Html.DropDownListFor(model => model.ShippedBy, Model.ShippedByList as SelectList, "==Select Shipped By==", new { id = "ddlShippedBy", @class = "form-control" })
                                             </div>
                                         </div>
 
@@ -222,7 +222,7 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="message-text" class="col-form-label">Country of Origin:</label>
-                                                @Html.DropDownListFor(model => model.CountryId, Model.CountryList as SelectList, "-- Country of Origun--", new { id = "ddlCountryId", @class = "searchingDropdown form-control", @style = "width:100%" })
+                                                @Html.DropDownListFor(model => model.CountryId, Model.CountryList as SelectList, "==Country of Origun==", new { id = "ddlCountryId", @class = "searchingDropdown form-control", @style = "width:100%" })
                                             </div>
                                         </div>
                                         <div class="col-md-3">
@@ -407,10 +407,10 @@
                                     <table id="KgErpDataTable" class="table table-striped">
                                         <thead>
                                             <tr>
-                                                <th style="padding:5px;text-align:center;">SL</th>
-                                                <th style="padding:5px;text-align:left;">Item</th>
-                                                <th style="padding:5px;text-align:center;">Quantity To Purchase</th>
-                                                <th style="padding:5px;text-align:center;">Unit Purchase Price</th>
+                                                <th style="padding:5px;text-align:center;">SL No</th>
+                                                <th style="padding:5px;text-align:left;">Material Name</th>
+                                                <th style="padding:5px;text-align:center;">Workable Demand</th>
+                                                <th style="padding:5px;text-align:center;">Unit Price</th>
                                                 <th style="padding:5px;text-align:right;">Total Price</th>
                                                 @if (Model.Status == (int)POStatusEnum.Draft)
                                                 {
@@ -451,7 +451,7 @@
                                                     <th></th>
                                                 }
                                             </tr>
-                                            <tr style="font-weight: bold; font-size: 14px;">
+                                            @*<tr style="font-weight: bold; font-size: 14px;">
 
                                                 <th style="border:none;"></th>
 
@@ -477,7 +477,7 @@
                                                 <th style="border:none;"></th>
                                                 <th style="text-align: left;"><b>&nbsp;GRAND TOTAL</b></th>
                                                 <th style="text-align: right;padding-right:5px;">৳@(TotalPrice + Model.FreightCharge + Model.OtherCharge )</th>
-                                            </tr>
+                                            </tr>*@
                                         </tfoot>
                                     </table>
                                 </div>
@@ -541,7 +541,7 @@
                         <button type="button" onclick="resetProcurementPurchaseOrderForm()" class="btn btn-warning fa fa-close" data-dismiss="modal">&nbsp;NO</button>
                     </div>
                     <div class="col-md-9">
-                        <button type="submit" id="btnsave" style="width:100%" class="btn btn-primary fa fa-remove">&nbsp;<span class="submitOrDraftText"></span></button>
+                        <button type="submit" id="btnsave" style="width:100%" class="btn btn-primary fa fa-check">&nbsp;<span class="submitOrDraftText"></span></button>
                     </div>
                 </div>
             </div>
