@@ -2526,7 +2526,7 @@ namespace KGERP.Service.Implementation
         {
             decimal? total = 0;
 
-            if(boqId == 0 || boqId == null)
+            if (boqId == 0 || boqId == null)
             {
                 var getRequisitionByBoqId = (
                 from t1 in _context.BillRequisitionMasters
@@ -2564,7 +2564,7 @@ namespace KGERP.Service.Implementation
 
                 return total;
             }
-            
+
         }
 
         // approved requisition demand
@@ -2572,34 +2572,50 @@ namespace KGERP.Service.Implementation
         {
             var getReqInfo = await _context.BillRequisitionDetails
                 .FirstOrDefaultAsync(a => a.BillRequisitionMasterId == requisitionId && a.ProductId == materialId && a.IsActive);
-            decimal TotalCr = 0 , TotalDr = 0;
-            
-            if(requisitionId > 0 && materialId > 0)
+            decimal TotalCr = 0M, TotalDr = 0M;
+            decimal totalReceivedSoFar = 0M;
+
+            var getReceivedSoFar = await _context.PurchaseOrders
+                            .Where(t1 => t1.BillRequisitionMasterId == requisitionId && t1.IsActive)
+                            .Join(_context.PurchaseOrderDetails.Where(c => c.ProductId == materialId), t1 => t1.PurchaseOrderId, t2 => t2.PurchaseOrderId, (t1, t2) => new
+                            {
+                                RecivedSoFar = t2.PurchaseQty,
+                            }).ToListAsync();
+
+            foreach (var i in getReceivedSoFar)
             {
-               
+                totalReceivedSoFar += i.RecivedSoFar;
+            }
+
+
+            if (requisitionId > 0 && materialId > 0)
+            {
+
                 var data = (from t1 in _context.VoucherBRMapDetails.Where(c => c.ProductId == materialId && c.IsActive == true)
-                join t2 in _context.VoucherBRMapMasters.Where(c => c.IsActive && c.BillRequsitionMasterId == requisitionId) on t1.VoucherBRMapMasterId equals t2.VoucherBRMapMasterId
-                select new
-                {
-                    t1.CreditAmount,
-                    t1.DebitAmount
-                }).ToList();
-                if(data != null)
+                            join t2 in _context.VoucherBRMapMasters.Where(c => c.IsActive && c.BillRequsitionMasterId == requisitionId) on t1.VoucherBRMapMasterId equals t2.VoucherBRMapMasterId
+                            select new
+                            {
+                                t1.CreditAmount,
+                                t1.DebitAmount
+                            }).ToList();
+                if (data != null)
                 {
                     TotalCr = data.Sum(x => x.CreditAmount) ?? 0;
                     TotalDr = data.Sum(x => x.DebitAmount) ?? 0;
                 }
-               
+
             }
 
             if (getReqInfo != null)
             {
-                return new { 
+                return new
+                {
                     ApprovedDemand = getReqInfo.DemandQty,
-                    UnitPrice = getReqInfo.UnitRate ,
+                    UnitPrice = getReqInfo.UnitRate,
                     TotalCredited = TotalCr,
-                    TotalDebited =  TotalDr
-                    };
+                    TotalDebited = TotalDr,
+                    RecivedSoFar = totalReceivedSoFar
+                };
             }
 
             return null;
