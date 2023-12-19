@@ -44,7 +44,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">Requisition Type:</label>
-                                        @Html.DropDownListFor(model => model.Common_ProductCategoryFk, Model.ProductCategoryList as SelectList, "==Select Requisition Type==", new { id = "ddlCommonProductCategoryFk", @class = "form-control", required = "required" })
+                                        @Html.DropDownListFor(model => model.Common_ProductCategoryFk, Model.ProductCategoryList as SelectList, "==Select Requisition Type==", new { id = "ddlCommonProductCategoryFk", onchange= "GetSubCategoryListByCategoryId()", @class = "form-control", required = "required" })
                                         @Html.ValidationMessageFor(model => model.ProductCategoryId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -227,7 +227,7 @@
                             success: function (data2) {
                                 if (data2) {
                                     $("#ddlCommonProductSubCategoryFk").empty();
-                                    $("#ddlCommonProductSubCategoryFk").append("<option value=''>==Select Requisition Subtype==</option>");
+                                    $("#ddlCommonProductSubCategoryFk").append("<option value=''>=Select Requisition Subtype=</option>");
 
                                     $(data2).each(function (index2, item2) {
                                         $("#ddlCommonProductSubCategoryFk").append("<option value='" + item2.Value + "'>" + item2.Text + "</option>");
@@ -256,6 +256,33 @@
             $('#commonProductFormId')[0].reset();
             $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Add");
 
+        }
+
+        // get requisition subtype list by category id
+        function GetSubCategoryListByCategoryId() {
+            var getRequisitionTypeId = $("#ddlCommonProductCategoryFk option:selected");
+            var showRequisitionSubtype = $("#ddlCommonProductSubCategoryFk");
+
+            $.ajax({
+                type: "GET",
+                url: "/Configuration/GetSubCategoryByCategoryId",
+                dataType: "json",
+                data: { id: getRequisitionTypeId.val() },
+                success: function (data) {
+                    showRequisitionSubtype.empty();
+                    showRequisitionSubtype.append("<option selected disabled>==Select Requisition Subtype==</option>");
+
+                    $.each(data, function (index, item) {
+                        showRequisitionSubtype.append($('<option>', {
+                            value: item.ProductSubCategoryId,
+                            text: item.Name
+                        }));
+                    });
+                },
+                error: function (error) {
+                    console.error("Error in AJAX request:", error);
+                }
+            });
         }
 
     </script>

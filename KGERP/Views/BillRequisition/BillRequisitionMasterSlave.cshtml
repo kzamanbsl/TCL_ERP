@@ -155,7 +155,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Requisition Subtype :</label>
-                                            @Html.DropDownListFor(model => model.BillRequisitionSubTypeId, Model.RequisitionSubTypeList as SelectList, "==Select Requisition Subtype==", new { id = "ddlBRSubTypeId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.DropDownListFor(model => model.BillRequisitionSubTypeId, Model.RequisitionSubTypeList as SelectList, "==Select Requisition Subtype==", new { id = "ddlBRSubTypeId", onchange= "ShowBoqMaterialListByReqSubtypeId()", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
                                             @Html.ValidationMessageFor(model => model.BillRequisitionSubTypeId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -959,7 +959,8 @@
                     $("#inputDemandQty").removeClass("col-md-3").addClass("col-md-4");
                     $("#inputUnitRate").removeClass("col-md-3").addClass("col-md-4");
                     $("#inputTotalPrice").removeClass("col-md-3").addClass("col-md-4");
-                    ShowBoqMaterialListByReqSubtypeId();
+                    $("#ddlRequisitionItemId").empty();
+                    $("#ddlRequisitionItemId").append("<option selected disabled>==Select Requisition Subtype First==</option>");
                 } else if (selectedOption.val() === "@((int)EnumBillRequisitionType.Labor)") { // IT
                     $("#descriptionTitle").text("Item Description :");
 
