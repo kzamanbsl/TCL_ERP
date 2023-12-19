@@ -216,7 +216,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Requisition</label>
                                             @Html.DropDownListFor(model => model.BillRequisitionId, Model.Requisitions as SelectList, "== Requisition ==", new { id = "billRequisitionId", onchange = "showBoQMaterial()", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
@@ -233,36 +233,52 @@
                             {
 
                                 <div class="row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Requisition Material:</label>
                                             @Html.DropDownListFor(model => model.RequisitionMaterialId, Model.MaterialItemList as SelectList, "== Req. Material ==", new { id = "materialItemId", onchange = "getRequisitionsInfo()", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
                                             @Html.ValidationMessageFor(model => model.RequisitionMaterialId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
-                                    <div class="col-md-8">
-                                        <div class="row">
-                                            <div class=" col-sm-4">
-                                                <label> Qty :</label>
-                                                @Html.TextBoxFor(model => model.ApprovedQty, new { id = "txtApprovedDemand", value = "0", type = "number", step = "1", @readonly = true, @class = "form-control", @style = "width:100%;border:1px black solid" })
-
-                                            </div>
-                                            <div class=" col-sm-4">
-                                                <label> Rate :</label>
-                                                @Html.TextBoxFor(model => model.UnitRate, new { id = "txtUnitPrice", value = "0", type = "number", step = "1", @readonly = true, @class = "form-control", @style = "width:100%;border:1px black solid" })
-
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <label> Total :</label>
-                                                @Html.TextBoxFor(model => model.TotalAmount, new { id = "txtApprovedTotal", value = "0", type = "number", step = "1", @readonly = true, @class = "form-control", @style = "width:100%;border:1px black solid" })
-
-                                            </div>
-
-                                        </div>
+                                    <div class=" col-md-3">
+                                        <label> Req. Qty :</label>
+                                        @Html.TextBoxFor(model => model.ApprovedQty, new { id = "txtApprovedDemand", value = "0", type = "number", step = "1", @readonly = true, @class = "form-control", @style = "width:100%;border:1px black solid" })
 
                                     </div>
+                                    <div class=" col-md-3">
+                                        <label>Req. Rate :</label>
+                                        @Html.TextBoxFor(model => model.UnitRate, new { id = "txtUnitPrice", value = "0", type = "number", step = "1", @readonly = true, @class = "form-control", @style = "width:100%;border:1px black solid" })
 
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label>Req. Total :</label>
+                                        @Html.TextBoxFor(model => model.TotalAmount, new { id = "txtApprovedTotal", value = "0", type = "number", step = "1", @readonly = true, @class = "form-control", @style = "width:100%;border:1px black solid" })
+
+                                    </div>
                                 </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class=" col-sm-6">
+                                                <label> Debited So Far:</label>
+                                                @Html.TextBoxFor(model => model.TotalDebited, new { id = "txtTotalDebitedSoFar", value = "0", type = "number", step = "1", @readonly = true, @class = "form-control", @style = "width:100%;border:1px black solid" })
+
+                                            </div>
+                                            <div class=" col-sm-6">
+                                                <label> Credited So Far:</label>
+                                                @Html.TextBoxFor(model => model.TotalCredited, new { id = "txtTotalCreditedSoFar", value = "0", type = "number", step = "1", @readonly = true, @class = "form-control", @style = "width:100%;border:1px black solid" })
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                
+                                </div>
+
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group" style="padding:0px">
@@ -396,8 +412,8 @@
                     <div class="box-footer">
                         @if (Model.VoucherId > 0)
                         {
-                            string btnProperty = Math.Round(totalDebitAmount ?? 0, 2) == Math.Round(totalCreditAmount ?? 0, 2) ? "disabled" : "";
-                            string btnSubmitProperty = Math.Round(totalDebitAmount ?? 0, 2) == Math.Round(totalCreditAmount ?? 0, 2) ? "" : "disabled";
+                            //string btnProperty = Math.Round(totalDebitAmount ?? 0, 2) == Math.Round(totalCreditAmount ?? 0, 2) ? "disabled" : "";
+                            //string btnSubmitProperty = Math.Round(totalDebitAmount ?? 0, 2) == Math.Round(totalCreditAmount ?? 0, 2) ? "" : "disabled";
                             <div class="row">
                                 <div class="col-md-4">
                                     @if (Model.IsSubmit == true)
@@ -414,24 +430,26 @@
                                 @if (!Model.IsSubmit)
                                 {
                                     <div class="col-md-2">
-                                        @if (btnProperty == "")
-                                        {
-                                            <button type="button" onclick="autoInsertVoucherDetails()" @btnProperty id="autoInsertBtn" class="btn btn-info btn-block">
-                                                <i class='fa fa-plus'></i>
-                                                <span>Add</span>
-                                            </button>
 
-                                        }
-                                        else
-                                        {
-                                            <span style="width:100%" class="btn  btn-warning">Ready To Submit <span class="fa fa-angle-right"></span><span class="fa fa-angle-right"></span></span>
-                                        }
+                                        @*@if (btnProperty == "")
+                                            {
+                                                <button type="button" onclick="autoInsertVoucherDetails()" @btnProperty id="autoInsertBtn" class="btn btn-info btn-block">
+                                                    <i class='fa fa-plus'></i>
+                                                    <span>Add</span>
+                                                </button>
+
+                                            }
+                                            else
+                                            {
+                                               <span style="width:100%" class="btn  btn-warning">Ready To Submit <span class="fa fa-angle-right"></span><span class="fa fa-angle-right"></span></span>
+
+                                            }*@
                                     </div>
 
                                     <div class="col-md-6">
                                         <button type="button" id="btnVoucherSubmit" data-toggle="modal" style="width:100%;"
                                                 data-target="#submitProcurementPurchaseOrderModal" data-placement="top"
-                                                class="btn btn-primary btn-block" @btnSubmitProperty>
+                                                class="btn btn-primary btn-block" @*@btnSubmitProperty*@>
                                             <i class='fa fa-plus'></i>
                                             <span>Submit</span>
                                         </button>
@@ -463,7 +481,7 @@
                 <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
                     &times;
                 </button>
-                <h5 class="modal-title"><b><span class="submitOrDraftText"></span> Purchase Order (<span id="submitOrDraftPOCIDText"></span>)</b></h5>
+                <h5 class="modal-title"><b><span class="submitOrDraftText"></span> Voucher (<span id="submitOrDraftPOCIDText"></span>)</b></h5>
             </div>
             <div class="modal-body">
 
@@ -543,18 +561,25 @@
 
             function checkTotal() {
                 var approvedTotal = parseFloat($("#txtApprovedTotal").val());
+
+                var debitSofar = parseFloat($("#txtTotalDebitedSoFar").val());
+                var creditSofar = parseFloat($("#txtTotalCreditedSoFar").val());
+
+                var totalSoFarDrCr = (debitSofar + creditSofar);
+                var remainingDrCr = approvedTotal - totalSoFarDrCr;
+
                 var debit = parseFloat($("#txtDebit").val());
                 var credit = parseFloat($("#txtCredit").val());
 
                 // If Debit exceeds total, adjust Credit
-                if (!isNaN(debit) && debit > approvedTotal) {
-                    $("#txtDebit").val(approvedTotal);
+                if (!isNaN(debit) && debit > remainingDrCr) {
+                    $("#txtDebit").val(remainingDrCr);
                     $("#txtCredit").val(0);
                 }
 
                 // If Credit exceeds total, adjust Debit
-                if (!isNaN(credit) && credit > approvedTotal) {
-                    $("#txtCredit").val(approvedTotal);
+                if (!isNaN(credit) && credit > remainingDrCr) {
+                    $("#txtCredit").val(remainingDrCr);
                     $("#txtDebit").val(0);
                 }
 
@@ -567,11 +592,11 @@
                     total += credit;
                 }
 
-                if (total > approvedTotal) {
+                if (total > remainingDrCr) {
                     if (!isNaN(debit) && total === (debit + credit)) {
-                        $("#txtDebit").val(approvedTotal - credit);
+                        $("#txtDebit").val(remainingDrCr - credit);
                     } else {
-                        $("#txtCredit").val(approvedTotal - debit);
+                        $("#txtCredit").val(remainingDrCr - debit);
                     }
                 }
             }
@@ -722,7 +747,7 @@
                         datatype: "Json",
                         data: { voucherId: voucherId},
                         success: function (data) {
-                        document.location.href = "../Vouchers/ManageBankOrCash?companyId=@Model.CompanyFK&voucherId=@Model.VoucherId";
+                            document.location.href = "../Vouchers/RequisitionVoucherEntry?companyId=@Model.CompanyFK&voucherId=@Model.VoucherId";
                         }
                     });
 
@@ -802,7 +827,7 @@
 
             if (@Model.BillRequisitionId > 0) {
                 getRequisitionId = @((int)Model.BillRequisitionId)
-              
+
             }
 
 
@@ -834,7 +859,7 @@
 
              if (@Model.BillRequisitionId > 0) {
                  requisitionId = @((int)Model.BillRequisitionId)
-              
+
             }
 
 
@@ -843,10 +868,14 @@
             var showApprovedDemand = $("#txtApprovedDemand");
             var showUnitPrice = $("#txtUnitPrice");
             var showTotal = $("#txtApprovedTotal");
+            var showDrSoFar = $("#txtTotalDebitedSoFar");
+            var showCrSoFar = $("#txtTotalCreditedSoFar");
 
             showApprovedDemand.val(0);
             showUnitPrice.val(0);
             showTotal.val(0);
+            showDrSoFar.val(0);
+            showCrSoFar.val(0);
 
             $.ajax({
                 type: "GET",
@@ -858,6 +887,8 @@
                         showApprovedDemand.val(data.ApprovedDemand);
                         showUnitPrice.val(data.UnitPrice);
                         showTotal.val(showApprovedDemand.val() * showUnitPrice.val());
+                        showDrSoFar.val(data.TotalDebited);
+                        showCrSoFar.val(data.TotalCredited);
                     }
                 }
             });

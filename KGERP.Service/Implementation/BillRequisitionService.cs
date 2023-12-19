@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Core.Common.CommandTrees;
+using System.IdentityModel.Protocols.WSTrust;
 using System.IdentityModel.Tokens;
 using System.Linq;
 using System.Linq.Dynamic;
@@ -2571,10 +2572,34 @@ namespace KGERP.Service.Implementation
         {
             var getReqInfo = await _context.BillRequisitionDetails
                 .FirstOrDefaultAsync(a => a.BillRequisitionMasterId == requisitionId && a.ProductId == materialId && a.IsActive);
+            decimal TotalCr = 0 , TotalDr = 0;
+            
+            if(requisitionId > 0 && materialId > 0)
+            {
+               
+                var data = (from t1 in _context.VoucherBRMapDetails.Where(c => c.ProductId == materialId && c.IsActive == true)
+                join t2 in _context.VoucherBRMapMasters.Where(c => c.IsActive && c.BillRequsitionMasterId == requisitionId) on t1.VoucherBRMapMasterId equals t2.VoucherBRMapMasterId
+                select new
+                {
+                    t1.CreditAmount,
+                    t1.DebitAmount
+                }).ToList();
+                if(data != null)
+                {
+                    TotalCr = data.Sum(x => x.CreditAmount) ?? 0;
+                    TotalDr = data.Sum(x => x.DebitAmount) ?? 0;
+                }
+               
+            }
 
             if (getReqInfo != null)
             {
-                return new { ApprovedDemand = getReqInfo.DemandQty, UnitPrice = getReqInfo.UnitRate };
+                return new { 
+                    ApprovedDemand = getReqInfo.DemandQty,
+                    UnitPrice = getReqInfo.UnitRate ,
+                    TotalCredited = TotalCr,
+                    TotalDebited =  TotalDr
+                    };
             }
 
             return null;
