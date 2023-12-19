@@ -32,6 +32,8 @@ namespace KGERP.Service.Implementation.Accounting
 
         public int? Accounting_CostCenterFK { get; set; }
         public long BillRequisitionId { get; set; }
+        public string RequisitionNo { get; set; }
+        public string RequisitionInitiator { get; set; }
         public int Accounting_BankOrCashParantId { get; set; }
 
         public int? Accounting_BankOrCashId { get; set; }
