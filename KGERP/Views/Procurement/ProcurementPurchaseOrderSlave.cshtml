@@ -1,7 +1,5 @@
 ﻿@model KGERP.Service.Implementation.Procurement.VMPurchaseOrderSlave
 @using KGERP.Utility;
-
-
 @{
     ViewData["Title"] = "Work Order";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -183,7 +181,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="txtDescription" class="col-form-label">Terms & Condition:</label>
-                                            @Html.TextAreaFor(model => model.TermsAndCondition, new { id = "txtTermsAndCondition", @class = "form-control", style = "width:100%", rows = 2, placeholder = "Terms & Conditions" })
+                                            @Html.TextAreaFor(model => model.TermsAndCondition, new { id = "txtTermsAndCondition", @class = "form-control", style = "width:100%", rows = 2, @readonly="true", placeholder = "Terms & Conditions", })
                                             @Html.ValidationMessageFor(model => model.TermsAndCondition, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -836,6 +834,9 @@
             var materialId = $("#ddlMaterialItemId option:selected");
             var showApprovedDemand = $("#txtApprovedDemand");
             var showUnitPrice = $("#txtUnitPrice");
+            var showRecievedSoFar = $("#txtRecievedDemand");
+            var showRemaining = $("#txtRemainingDemand");
+             
 
             $.ajax({
                 type: "GET",
@@ -845,6 +846,8 @@
                 success: function (data) {
                     if (data) {
                         showApprovedDemand.val(data.ApprovedDemand);
+                        showRecievedSoFar.val(data.RecivedSoFar);
+                        showRemaining.val(data.ApprovedDemand - data.RecivedSoFar);
                         showUnitPrice.val(data.UnitPrice);
                     }
                 }

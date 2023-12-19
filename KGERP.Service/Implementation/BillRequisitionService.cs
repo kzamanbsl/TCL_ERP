@@ -1,4 +1,5 @@
-﻿using KGERP.Data.Models;
+﻿using KG.Core.Services.Configuration;
+using KGERP.Data.Models;
 using KGERP.Service.Implementation.Configuration;
 using KGERP.Service.Interface;
 using KGERP.Service.ServiceModel;
@@ -2569,12 +2570,26 @@ namespace KGERP.Service.Implementation
         // approved requisition demand
         public async Task<object> ApprovedRequisitionDemand(long requisitionId, long materialId)
         {
+            decimal totalReceivedSoFar = 0M;
+
             var getReqInfo = await _context.BillRequisitionDetails
                 .FirstOrDefaultAsync(a => a.BillRequisitionMasterId == requisitionId && a.ProductId == materialId && a.IsActive);
 
+            var getReceivedSoFar = await _context.PurchaseOrders
+                .Where(t1 => t1.BillRequisitionMasterId == requisitionId && t1.IsActive)
+                .Join(_context.PurchaseOrderDetails.Where(c=>c.ProductId == materialId), t1 => t1.PurchaseOrderId, t2 => t2.PurchaseOrderId, (t1, t2) => new
+                {
+                    RecivedSoFar = t2.PurchaseQty,
+                }).ToListAsync();
+            
+            foreach(var i in getReceivedSoFar)
+            {
+                totalReceivedSoFar += i.RecivedSoFar;
+            }
+
             if (getReqInfo != null)
             {
-                return new { ApprovedDemand = getReqInfo.DemandQty, UnitPrice = getReqInfo.UnitRate };
+                return new { ApprovedDemand = getReqInfo.DemandQty, UnitPrice = getReqInfo.UnitRate, ProductId = materialId, RecivedSoFar = totalReceivedSoFar };
             }
 
             return null;

@@ -179,6 +179,8 @@ namespace KGERP.Controllers
         {
             decimal approvedDemand = 0M;
             decimal unitPrice = 0M;
+            decimal ReceivedSoFar = 0M;
+            decimal Remaining = 0M;
 
             try
             {
@@ -193,7 +195,7 @@ namespace KGERP.Controllers
                 Console.WriteLine(ex.ToString());
             }
 
-            return Json(new { ApprovedDemand = approvedDemand, UnitPrice = unitPrice }, JsonRequestBehavior.AllowGet);
+            return Json(new { ApprovedDemand = approvedDemand, ReceivedSoFar = ReceivedSoFar, Remaining = Remaining,  UnitPrice = unitPrice }, JsonRequestBehavior.AllowGet);
         }
 
         #endregion
