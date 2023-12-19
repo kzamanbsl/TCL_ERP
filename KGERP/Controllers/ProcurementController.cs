@@ -533,7 +533,6 @@ namespace KGERP.Controllers
                 if (vmPurchaseOrderSlave.PurchaseOrderId == 0)
                 {
                     vmPurchaseOrderSlave.PurchaseOrderId = await _service.ProcurementPurchaseOrderAdd(vmPurchaseOrderSlave);
-
                 }
                 await _service.ProcurementPurchaseOrderSlaveAdd(vmPurchaseOrderSlave);
             }

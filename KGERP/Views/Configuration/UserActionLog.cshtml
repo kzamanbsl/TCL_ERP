@@ -110,7 +110,8 @@
                                                                         <span class="btn btn-secondary btn-xs">No-Action</span>
                                                                     }
                                                                 </td>
-                                                                <td>@item.ActionTimeStamp.ToLongTimeString()</td>
+                                                                @*<td>@item.ActionTimeStamp</td>*@
+                                                                <td>@item.ActionTimeStamp.ToString("dd/MM/yyyy hh:mm:ss tt")</td>
                                                                 <td>@item.Details</td>
                                                             </tr>
                                                         }

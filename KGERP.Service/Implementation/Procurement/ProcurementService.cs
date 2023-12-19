@@ -1253,47 +1253,54 @@ namespace KGERP.Service.Implementation.Procurement
                             DateTime.Now.ToString("dd") + "-" +
                             poMax.ToString().PadLeft(2, '0');
 
-            PurchaseOrder procurementPurchaseOrder = new PurchaseOrder
+            try
             {
+                PurchaseOrder procurementPurchaseOrder = new PurchaseOrder
+                {
 
-                PurchaseOrderNo = poCid,
-                PurchaseDate = vmPurchaseOrderSlave.OrderDate,
-                SupplierId = vmPurchaseOrderSlave.Common_SupplierFK,
-                DeliveryDate = vmPurchaseOrderSlave.DeliveryDate,
-                SupplierPaymentMethodEnumFK = vmPurchaseOrderSlave.SupplierPaymentMethodEnumFK,
-                DeliveryAddress = vmPurchaseOrderSlave.DeliveryAddress,
-                Remarks = vmPurchaseOrderSlave.Remarks,
-                TermsAndCondition = vmPurchaseOrderSlave.TermsAndCondition,
-                Status = (int)POStatusEnum.Draft,
-                PurchaseOrderStatus = POStatusEnum.Draft.ToString(),
-                EmpId = vmPurchaseOrderSlave.EmployeeId,
-                CountryId = vmPurchaseOrderSlave.CountryId,
-                PINo = vmPurchaseOrderSlave.PINo,
-                LCHeadGLId = vmPurchaseOrderSlave.LCHeadGLId,
-                LCNo = vmPurchaseOrderSlave.LCNo,
-                LCValue = vmPurchaseOrderSlave.LCValue,
-                InsuranceNo = vmPurchaseOrderSlave.InsuranceNo,
-                PremiumValue = vmPurchaseOrderSlave.PremiumValue,
-                ShippedBy = vmPurchaseOrderSlave.ShippedBy,
-                PortOfLoading = vmPurchaseOrderSlave.PortOfLoading,
-                FinalDestinationCountryFk = vmPurchaseOrderSlave.FinalDestinationCountryFk,
-                PortOfDischarge = vmPurchaseOrderSlave.PortOfDischarge,
-                FreightCharge = vmPurchaseOrderSlave.FreightCharge,
-                OtherCharge = vmPurchaseOrderSlave.OtherCharge,
-                BillRequisitionMasterId = vmPurchaseOrderSlave.MaterialItemId,
-                CompanyId = vmPurchaseOrderSlave.CompanyFK,
-                CreatedBy = System.Web.HttpContext.Current.Session["EmployeeName"].ToString(),
-                CreatedDate = DateTime.Now,
-                IsActive = true,
-                IsOpening = vmPurchaseOrderSlave.IsOpening,
-                StockInfoId = vmPurchaseOrderSlave.StockInfoId > 0 ? vmPurchaseOrderSlave.StockInfoId : Convert.ToInt32(System.Web.HttpContext.Current.Session["StockInfoId"])
-            };
-            _db.PurchaseOrders.Add(procurementPurchaseOrder);
-            if (await _db.SaveChangesAsync() > 0)
-            {
-                result = procurementPurchaseOrder.PurchaseOrderId;
+                    PurchaseOrderNo = poCid,
+                    PurchaseDate = vmPurchaseOrderSlave.OrderDate,
+                    SupplierId = vmPurchaseOrderSlave.Common_SupplierFK,
+                    DeliveryDate = vmPurchaseOrderSlave.DeliveryDate,
+                    SupplierPaymentMethodEnumFK = vmPurchaseOrderSlave.SupplierPaymentMethodEnumFK,
+                    DeliveryAddress = vmPurchaseOrderSlave.DeliveryAddress,
+                    Remarks = vmPurchaseOrderSlave.Remarks,
+                    TermsAndCondition = vmPurchaseOrderSlave.TermsAndCondition,
+                    Status = (int)POStatusEnum.Draft,
+                    PurchaseOrderStatus = POStatusEnum.Draft.ToString(),
+                    EmpId = vmPurchaseOrderSlave.EmployeeId,
+                    CountryId = vmPurchaseOrderSlave.CountryId,
+                    PINo = vmPurchaseOrderSlave.PINo,
+                    LCHeadGLId = vmPurchaseOrderSlave.LCHeadGLId,
+                    LCNo = vmPurchaseOrderSlave.LCNo,
+                    LCValue = vmPurchaseOrderSlave.LCValue,
+                    InsuranceNo = vmPurchaseOrderSlave.InsuranceNo,
+                    PremiumValue = vmPurchaseOrderSlave.PremiumValue,
+                    ShippedBy = vmPurchaseOrderSlave.ShippedBy,
+                    PortOfLoading = vmPurchaseOrderSlave.PortOfLoading,
+                    FinalDestinationCountryFk = vmPurchaseOrderSlave.FinalDestinationCountryFk,
+                    PortOfDischarge = vmPurchaseOrderSlave.PortOfDischarge,
+                    FreightCharge = vmPurchaseOrderSlave.FreightCharge,
+                    OtherCharge = vmPurchaseOrderSlave.OtherCharge,
+                    BillRequisitionMasterId = vmPurchaseOrderSlave.RequisitionMasterId,
+                    CompanyId = vmPurchaseOrderSlave.CompanyFK,
+                    CreatedBy = System.Web.HttpContext.Current.Session["EmployeeName"].ToString(),
+                    CreatedDate = DateTime.Now,
+                    IsActive = true,
+                    IsOpening = vmPurchaseOrderSlave.IsOpening,
+                    StockInfoId = vmPurchaseOrderSlave.StockInfoId > 0 ? vmPurchaseOrderSlave.StockInfoId : Convert.ToInt32(System.Web.HttpContext.Current.Session["StockInfoId"])
+                };
+                _db.PurchaseOrders.Add(procurementPurchaseOrder);
+                if (await _db.SaveChangesAsync() > 0)
+                {
+                    result = procurementPurchaseOrder.PurchaseOrderId;
+                }
+                return result;
             }
-            return result;
+            catch (Exception ex)
+            {
+                return result;
+            }
         }
 
         public async Task<int> PromotionalOfferAdd(VMPromtionalOfferDetail vmPromotionalOfferDetail)
@@ -2010,30 +2017,34 @@ namespace KGERP.Service.Implementation.Procurement
         public async Task<long> ProcurementPurchaseOrderSlaveAdd(VMPurchaseOrderSlave vmPurchaseOrderSlave)
         {
             long result = -1;
-            PurchaseOrderDetail procurementPurchaseOrderSlave = new PurchaseOrderDetail
+            try
             {
-                PurchaseOrderId = vmPurchaseOrderSlave.PurchaseOrderId,
-                ProductId = vmPurchaseOrderSlave.Common_ProductFK,
-                PurchaseQty = vmPurchaseOrderSlave.PurchaseQuantity,
-                PurchaseRate = vmPurchaseOrderSlave.PurchasingPrice,
-                PurchaseAmount = (vmPurchaseOrderSlave.PurchaseQuantity * vmPurchaseOrderSlave.PurchasingPrice),
+                PurchaseOrderDetail procurementPurchaseOrderSlave = new PurchaseOrderDetail
+                {
+                    PurchaseOrderId = vmPurchaseOrderSlave.PurchaseOrderId,
+                    ProductId = (int)vmPurchaseOrderSlave.MaterialItemId,
+                    PurchaseQty = vmPurchaseOrderSlave.WorkableDemand,
+                    PurchaseRate = vmPurchaseOrderSlave.UnitPrice,
+                    PurchaseAmount = (vmPurchaseOrderSlave.WorkableDemand * vmPurchaseOrderSlave.UnitPrice),
+                    DemandRate = 0,
+                    QCRate = 0,
+                    CompanyId = vmPurchaseOrderSlave.CompanyFK,
+                    CreatedBy = System.Web.HttpContext.Current.Session["EmployeeName"].ToString(),
+                    CreatedDate = DateTime.Now,
+                    IsActive = true
+                };
+                _db.PurchaseOrderDetails.Add(procurementPurchaseOrderSlave);
+                if (await _db.SaveChangesAsync() > 0)
+                {
+                    result = procurementPurchaseOrderSlave.PurchaseOrderDetailId;
+                }
 
-                DemandRate = 0,
-                QCRate = 0,
-                PackSize = 0,
-
-                CompanyId = vmPurchaseOrderSlave.CompanyFK,
-                CreatedBy = System.Web.HttpContext.Current.Session["EmployeeName"].ToString(),
-                CreatedDate = DateTime.Now,
-                IsActive = true
-            };
-            _db.PurchaseOrderDetails.Add(procurementPurchaseOrderSlave);
-            if (await _db.SaveChangesAsync() > 0)
-            {
-                result = procurementPurchaseOrderSlave.PurchaseOrderDetailId;
+                return result;
             }
-
-            return result;
+            catch(Exception ex)
+            {
+                return result;
+            }
         }
 
 
