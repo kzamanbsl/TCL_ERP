@@ -93,6 +93,8 @@ namespace KGERP.Service.Implementation.Accounting
         public decimal? ApprovedQty { get; set; }
         public decimal? UnitRate { get; set; }
         public decimal? TotalAmount { get; set; }
+        public decimal TotalCredited { get; set; } = 0;
+        public decimal TotalDebited { get; set; } = 0;
 
 
 
