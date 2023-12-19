@@ -329,7 +329,7 @@
 
                                     <div class="col-md-3 d-block" id="inputDemandQty">
                                         <div class="form-group">
-                                            <label>Material Demand :</label>
+                                            <label id="demandTitle">@((Model.BillRequisitionTypeId == (int)EnumBillRequisitionType.Labor)? "Labor Demand :" : "Demand Quantity :")</label>
                                             @Html.TextBoxFor(model => model.DetailModel.DemandQty, new { id = "decDemandQty", type = "number", step = "0.01", @class = "form-control", placeholder = "Material demand" })
                                             @Html.ValidationMessageFor(model => model.DetailModel.DemandQty, "", new { @class = "text-danger" })
                                             <span class="text-danger" id="demandValidate"></span>
@@ -338,7 +338,7 @@
 
                                     <div class="col-md-3 d-block" id="inputUnitRate">
                                         <div class="form-group">
-                                            <label>Unit Rate :</label>
+                                            <label id="unitTitle">@((Model.BillRequisitionTypeId == (int)EnumBillRequisitionType.Labor)? "Labor Rate :" : "Unit Rate :")</label>
                                             @Html.TextBoxFor(model => model.DetailModel.UnitRate, new { id = "decUnitRate", type = "number", step = "0.01", @class = "form-control", placeholder = "Unit rate", })
                                             @Html.ValidationMessageFor(model => model.DetailModel.UnitRate, "", new { @class = "text-danger" })
                                         </div>
@@ -762,13 +762,13 @@
 
         // get boq material list for overhead
         function ShowBoqMaterialListByReqSubtypeId() {
+            var RequisitionSubtype = $("#ddlBRSubTypeId option:selected");
             var showBoqMaterialList = $("#ddlRequisitionItemId");
-            var boqId = 0;
             $.ajax({
                 type: "GET",
                 url: "/BillRequisition/getBoqMaterialListForOverHead",
                 dataType: "json",
-                data: { id: boqId },
+                data: { id: RequisitionSubtype.val() },
                 success: function (data) {
                     showBoqMaterialList.empty();
                     showBoqMaterialList.append("<option selected disabled>==Select Material==</option>");
@@ -939,6 +939,8 @@
                 if (selectedOption.val() === "@((int)EnumBillRequisitionType.Overhead)") {
                     $("#descriptionTitle").text("Item Description :");
                     $("#materialTitle").text("Requisition Subtype Item :");
+                    $("#demandTitle").text("Demand Quantity :");
+                    $("#unitTitle").text("Unit Rate :");
 
                     // master form
                     $("#inputDivision").removeClass("d-block").addClass("hidden");
@@ -962,7 +964,8 @@
                     $("#ddlRequisitionItemId").empty();
                     $("#ddlRequisitionItemId").append("<option selected disabled>==Select Requisition Subtype First==</option>");
                 } else if (selectedOption.val() === "@((int)EnumBillRequisitionType.Labor)") { // IT
-                    $("#descriptionTitle").text("Item Description :");
+                    $("#demandTitle").text("Labor Quantity :");
+                    $("#unitTitle").text("Labor Rate :");
 
                     // details form
                     $("#inputEstimateQty").removeClass("d-block").addClass("hidden");
@@ -978,6 +981,8 @@
                 } else {
                     $("#descriptionTitle").text("Work Details :");
                     $("#materialTitle").text("Requisition Material Item :");
+                    $("#demandTitle").text("Demand Quantity :");
+                    $("#unitTitle").text("Unit Rate :");
 
                     // master form
                     $("#inputDivision").removeClass("hidden").addClass("d-block");

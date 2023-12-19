@@ -116,9 +116,9 @@ namespace KGERP.Controllers
         public JsonResult getBoqMaterialListForOverHead(int id)
         {
             List<Product> materialList = null;
-            if (id == 0)
+            if (id > 0)
             {
-                materialList = _service.GetMaterialByBoqOverhead();
+                materialList = _service.GetMaterialByBoqOverhead(id);
             }
 
             return Json(materialList, JsonRequestBehavior.AllowGet);

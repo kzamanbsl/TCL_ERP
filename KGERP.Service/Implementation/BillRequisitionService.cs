@@ -2502,11 +2502,11 @@ namespace KGERP.Service.Implementation
 
             return productList;
         }
-        public List<Product> GetMaterialByBoqOverhead()
+        public List<Product> GetMaterialByBoqOverhead(int requisitionSubtypeId)
         {
             var materials = (
                 from t1 in _context.Products
-                    .Where(x => x.ProductCategoryId == 3 && x.ProductSubCategoryId == 3 && x.IsActive)
+                    .Where(x => x.ProductSubCategoryId == requisitionSubtypeId && x.IsActive)
                 select new
                 {
                     t1.ProductId,
@@ -2524,19 +2524,21 @@ namespace KGERP.Service.Implementation
 
         public async Task<decimal?> ReceivedSoFarTotal(long boqId, long productId)
         {
-            decimal? total = 0;
+            decimal? total = 0M;
 
-            if (boqId == 0 || boqId == null)
+            if (boqId == 0)
             {
-                var getRequisitionByBoqId = (
-                from t1 in _context.BillRequisitionMasters
-                    .Where(c => c.BOQItemId == null && c.StatusId == (int)EnumBillRequisitionStatus.Approved && c.IsActive == true)
-                join t2 in _context.BillRequisitionDetails
-                    .Where(c => c.ProductId == productId && c.IsActive == true) on t1.BillRequisitionMasterId equals t2.BillRequisitionMasterId
-                select new
+                var getRequisitionByBoqId = await Task.Run(() =>
                 {
-                    t2.DemandQty
-                }).ToList();
+                    return (from t1 in _context.BillRequisitionMasters
+                                .Where(c => c.BOQItemId == null && c.StatusId == (int)EnumBillRequisitionStatus.Approved && c.IsActive == true)
+                            join t2 in _context.BillRequisitionDetails
+                                .Where(c => c.ProductId == productId && c.IsActive == true) on t1.BillRequisitionMasterId equals t2.BillRequisitionMasterId
+                            select new
+                            {
+                                t2.DemandQty
+                            }).ToList();
+                });
 
                 foreach (var item in getRequisitionByBoqId)
                 {
@@ -2570,10 +2572,10 @@ namespace KGERP.Service.Implementation
         // approved requisition demand
         public async Task<object> ApprovedRequisitionDemand(long requisitionId, long materialId)
         {
+            decimal TotalCr = 0M, TotalDr = 0M, totalReceivedSoFar = 0M;
+
             var getReqInfo = await _context.BillRequisitionDetails
                 .FirstOrDefaultAsync(a => a.BillRequisitionMasterId == requisitionId && a.ProductId == materialId && a.IsActive);
-            decimal TotalCr = 0M, TotalDr = 0M;
-            decimal totalReceivedSoFar = 0M;
 
             var getReceivedSoFar = await _context.PurchaseOrders
                             .Where(t1 => t1.BillRequisitionMasterId == requisitionId && t1.IsActive)
@@ -2582,11 +2584,10 @@ namespace KGERP.Service.Implementation
                                 RecivedSoFar = t2.PurchaseQty,
                             }).ToListAsync();
 
-            foreach (var i in getReceivedSoFar)
+            if (getReceivedSoFar != null)
             {
-                totalReceivedSoFar += i.RecivedSoFar;
+                totalReceivedSoFar = getReceivedSoFar.Sum(x => x.RecivedSoFar);
             }
-
 
             if (requisitionId > 0 && materialId > 0)
             {
@@ -2636,7 +2637,7 @@ namespace KGERP.Service.Implementation
         public List<Product> ApprovedMaterialList(int companyId, long requisitionId)
         {
             var list = new List<Product>();
-            if (requisitionId > 0 && requisitionId != null)
+            if (requisitionId > 0)
             {
                 var materials = (
                     from t1 in _context.BillRequisitionDetails
