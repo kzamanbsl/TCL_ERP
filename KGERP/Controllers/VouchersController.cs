@@ -280,6 +280,7 @@ namespace KGERP.Controllers
 
 
         #region Requisition Voucher Entry
+
         [HttpGet]
         public async Task<ActionResult> RequisitionVoucherEntry(int companyId = 0, int voucherId = 0)
         {
@@ -346,6 +347,8 @@ namespace KGERP.Controllers
 
             return RedirectToAction(nameof(RequisitionVoucherEntry), new { companyId = vmJournalSlave.CompanyFK, voucherId = vmJournalSlave.VoucherId });
         }
+
+
 
         #endregion
 

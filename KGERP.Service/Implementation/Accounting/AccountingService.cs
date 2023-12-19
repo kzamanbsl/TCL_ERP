@@ -454,6 +454,8 @@ namespace KGERP.Service.Implementation.Accounting
                                                    //  join t5 in _db.HeadGLs on t1.VirtualHeadId equals t5.Id
                                                    join t5 in _db.VoucherBRMapMasters on t1.VoucherId equals t5.VoucherId into t5_Join
                                                    from t5 in t5_Join.DefaultIfEmpty()
+                                                   join t6 in _db.BillRequisitionMasters on t5.BillRequsitionMasterId equals t6.BillRequisitionMasterId into t6_Join
+                                                   from t6 in t6_Join.DefaultIfEmpty()
                                                    select new VMJournalSlave
                                                    {
                                                        VoucherId = t1.VoucherId,
@@ -470,6 +472,8 @@ namespace KGERP.Service.Implementation.Accounting
                                                        Accounting_BankOrCashId = t1.VirtualHeadId,
                                                        //BankOrCashNane = "[" + t5.AccCode + "] " + t5.AccName,
                                                        BillRequisitionId = t5.BillRequsitionMasterId,
+                                                       RequisitionNo = t6.BillRequisitionNo,
+                                                       RequisitionInitiator = t6.CreatedBy,
                                                        CompanyName = t2.Name,
                                                        IsSubmit = t1.IsSubmit
                                                    }).FirstOrDefault());
@@ -537,7 +541,7 @@ namespace KGERP.Service.Implementation.Accounting
                     voucherBRMapMaster.ApprovalStatusId = 0;
                     voucherBRMapMaster.CostCenterId = vmJournalSlave.Accounting_CostCenterFK;
                     voucherBRMapMaster.StatusId = (int)EnumBillRequisitionStatus.Draft;
-
+                    voucherBRMapMaster.IsRequisitionVoucher = true;
                     voucherBRMapMaster.CompanyId = voucher.CompanyId;
                     voucherBRMapMaster.CreateDate = DateTime.Now;
                     voucherBRMapMaster.CreatedBy = System.Web.HttpContext.Current.User.Identity.Name;
@@ -640,6 +644,13 @@ namespace KGERP.Service.Implementation.Accounting
 
             List<VoucherDetail> voucherDetailList = _db.VoucherDetails.Where(x => x.VoucherId == voucherModel.VoucherId).ToList();
             voucherDetailList.ForEach(x => x.IsActive = false);
+
+            var voucherRequisitionMapMaster = await _db.VoucherBRMapMasters.FirstOrDefaultAsync(s => s.VoucherId == model.VoucherId);
+            voucherRequisitionMapMaster.IsActive = false;
+
+            List<VoucherBRMapDetail> voucherBRMapDetails = _db.VoucherBRMapDetails.Where(s => s.VoucherBRMapMasterId == voucherRequisitionMapMaster.VoucherBRMapMasterId).ToList();
+            voucherBRMapDetails.ForEach(s => s.IsActive = false);
+
             if (await _db.SaveChangesAsync() > 0)
             {
                 result = model.VoucherId;
