@@ -22,6 +22,12 @@ namespace KGERP.Service.ServiceModel
         public List<Product> BoQMaterials { get; set; }
         public List<BoQDivision> BoQDivisions { get; set; }
         public List<Accounting_CostCenter> Projects { get; set; }
-        public List<BoQItemProductMap> BoQItemProductMaps { get; set; }
+        public List<BillRequisitionItemBoQMapModel> BoQItemProductMaps { get; set; }
+
+        public string ProjectName { get; set; }
+        public string DivisionName { get; set; }
+        public string BoqName { get; set; }
+        public string BoqNumber { get; set; }
+        public string MaterialName { get; set; }
     }
 }

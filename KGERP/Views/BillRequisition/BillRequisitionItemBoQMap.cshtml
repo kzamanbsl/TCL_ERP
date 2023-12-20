@@ -114,8 +114,8 @@
                                 <tr>
                                     <th>SL</th>
                                     <th>Division Name</th>
-                                    <th>BoQ Number</th>
                                     <th>BoQ Item Name</th>
+                                    <th>BoQ Number</th>
                                     <th>Material Name</th>
                                     <th>Estimated Quantity</th>
                                     <th>Unit Price</th>
@@ -133,23 +133,18 @@
                                             <tr>
                                                 <td>
                                                     @(++sl)
-                                                    @{
-                                                        var diviId = Model.BoQItems.FirstOrDefault(c => c.BoQItemId == item.BoQItemId).BoQDivisionId;
 
-                                                        var projId = Model.BoQDivisions.FirstOrDefault(c => c.BoQDivisionId == diviId).ProjectId;
-                                                    }
-
-                                                    <input type="hidden" id="project_@item.BoQItemProductMapId" value="@projId" />
-                                                    <input type="hidden" id="division_@item.BoQItemProductMapId" value="@diviId" />
+                                                    <input type="hidden" id="project_@item.BoQItemProductMapId" value="@item.ProjectId" />
+                                                    <input type="hidden" id="division_@item.BoQItemProductMapId" value="@item.BoQDivisionId" />
                                                     <input type="hidden" id="boqItem_@item.BoQItemProductMapId"  value="@item.BoQItemId" />
-                                                    <input type="hidden" id="material_@item.BoQItemProductMapId"  value="@item.ProductId" />
+                                                    <input type="hidden" id="material_@item.BoQItemProductMapId"  value="@item.MaterialItemId" />
                                                     <input type="hidden" id="Quantity_@item.BoQItemProductMapId"  value="@item.EstimatedQty" />
                                                     <input type="hidden" id="UnitRate_@item.BoQItemProductMapId"  value="@item.UnitRate" />
                                                 </td>
-                                                <td id="tdBoqDivisionName_@item.BoQItemProductMapId">@Model.Projects.FirstOrDefault(c=>c.CostCenterId == projId).Name</td>
-                                                <td id="tdBoqItemNo_@item.BoQItemProductMapId">@Model.BoQItems.FirstOrDefault(c=> c.BoQItemId == item.BoQItemId).BoQNumber</td>
-                                                <td id="tdBoqItemName_@item.BoQItemProductMapId">@Model.BoQItems.FirstOrDefault(c=> c.BoQItemId == item.BoQItemId).Name</td>
-                                                <td id="tdBoqMaterialName_@item.BoQItemProductMapId">@Model.BoQMaterials.FirstOrDefault(c=> c.ProductId == item.ProductId).ProductName</td>
+                                                <td id="tdBoqDivisionName_@item.BoQItemProductMapId">@item.DivisionName</td>
+                                                <td id="tdBoqItemNo_@item.BoQItemProductMapId">@item.BoqName</td>
+                                                <td id="tdBoqItemName_@item.BoQItemProductMapId">@item.BoqNumber</td>
+                                                <td id="tdBoqMaterialName_@item.BoQItemProductMapId">@item.MaterialName</td>
                                                 <td id="tdBoqEstimateQty_@item.BoQItemProductMapId">@item.EstimatedQty</td>
                                                 <td id="tdBoqUnitRate_@item.BoQItemProductMapId">@item.UnitRate</td>
                                                 <td id="tdBoqEstimateAmount_@item.BoQItemProductMapId">@item.EstimatedAmount</td>

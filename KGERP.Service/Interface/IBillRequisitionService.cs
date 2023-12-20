@@ -51,9 +51,10 @@ namespace KGERP.Service.Interface
         bool Add(BillRequisitionItemBoQMapModel model);
         bool Edit(BillRequisitionItemBoQMapModel model);
         bool Delete(BillRequisitionItemBoQMapModel model);
-        List<BoQItemProductMap> GetBoQProductMapList();
+        //List<BoQItemProductMap> GetBoQProductMapList();
+        List<BillRequisitionItemBoQMapModel> GetBoQProductMapList();
         #endregion
-        
+
         #region Requisition Type
         bool Add(BillRequisitionTypeModel model);
         bool Edit(BillRequisitionTypeModel model);

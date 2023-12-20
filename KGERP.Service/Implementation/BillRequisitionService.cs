@@ -612,25 +612,50 @@ namespace KGERP.Service.Implementation
             };
         }
 
+        //public List<BoQItemProductMap> GetBoQProductMapList()
+        //{
+        //    List<BoQItemProductMap> boqMapList = new List<BoQItemProductMap>();
+        //    var boqMaps = _context.BoQItemProductMaps.Where(c => c.IsActive == true).ToList();
+        //    foreach (var item in boqMaps)
+        //    {
+        //        var data = new BoQItemProductMap()
+        //        {
+        //            BoQItemProductMapId = item.BoQItemProductMapId,
+        //            BoQItemId = item.BoQItemId,
+        //            ProductId = item.ProductId,
+        //            EstimatedQty = item.EstimatedQty,
+        //            UnitRate = item.UnitRate,
+        //            EstimatedAmount = item.EstimatedAmount,
+        //        };
+        //        boqMapList.Add(data);
+        //    }
+        //    return boqMapList;
+        //}
 
-        public List<BoQItemProductMap> GetBoQProductMapList()
+        public List<BillRequisitionItemBoQMapModel> GetBoQProductMapList()
         {
-            List<BoQItemProductMap> boqMapList = new List<BoQItemProductMap>();
-            var boqMaps = _context.BoQItemProductMaps.Where(c => c.IsActive == true).ToList();
-            foreach (var item in boqMaps)
-            {
-                var data = new BoQItemProductMap()
-                {
-                    BoQItemProductMapId = item.BoQItemProductMapId,
-                    BoQItemId = item.BoQItemId,
-                    ProductId = item.ProductId,
-                    EstimatedQty = item.EstimatedQty,
-                    UnitRate = item.UnitRate,
-                    EstimatedAmount = item.EstimatedAmount,
-                };
-                boqMapList.Add(data);
-            }
-            return boqMapList;
+            var sendData = (from t1 in _context.BoQItemProductMaps.Where(c => c.IsActive)
+                            join t2 in _context.Products.Where(c => c.IsActive) on t1.ProductId equals t2.ProductId
+                            join t3 in _context.BillBoQItems.Where(c => c.IsActive) on t1.BoQItemId equals t3.BoQItemId
+                            join t4 in _context.BoQDivisions.Where(c => c.IsActive) on t3.BoQDivisionId equals t4.BoQDivisionId
+                            join t5 in _context.Accounting_CostCenter.Where(c => c.IsActive) on t4.ProjectId equals t5.CostCenterId
+                            select new BillRequisitionItemBoQMapModel()
+                            {
+                                EstimatedAmount = t1.EstimatedAmount ?? 0M,
+                                EstimatedQty = t1.EstimatedQty ?? 0M,
+                                UnitRate = t1.UnitRate ?? 0M,
+                                MaterialItemId = t1.ProductId,
+                                MaterialName = t2.ProductName ?? "No Material Name",
+                                BoQItemId = t1.BoQItemId,
+                                BoqName = t3.Name ?? "No BoQ Name",
+                                BoqNumber = t3.BoQNumber ?? "0",
+                                BoQDivisionId = (long)t3.BoQDivisionId,
+                                DivisionName = t4.Name ?? "No Division Name",
+                                ProjectId = t4.ProjectId,
+                                ProjectName = t5.Name ?? "No Project Name"
+                            }).ToList();
+
+            return sendData;
         }
 
         public bool Add(BillRequisitionItemBoQMapModel model)
