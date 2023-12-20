@@ -630,7 +630,7 @@ namespace KGERP.Service.Implementation
         //        boqMapList.Add(data);
         //    }
         //    return boqMapList;
-        //}
+        //} test
 
         public List<BillRequisitionItemBoQMapModel> GetBoQProductMapList()
         {
