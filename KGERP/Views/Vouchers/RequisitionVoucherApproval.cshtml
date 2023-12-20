@@ -25,7 +25,7 @@
         else
         {
             <span>
-                Voucher Entry<span style="color:orangered" id="spnVoucherNo"></span>&nbsp;
+               Requisition Voucher Approval<span style="color:orangered" id="spnVoucherNo"></span>&nbsp;
             </span>
             <b> @Model.CompanyName</b>
         }
@@ -34,11 +34,11 @@
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active"><a href="~/Vouchers/ManageBankOrCash?companyId=@Request.QueryString["companyId"]" class="btn btn-primary"><b>New Voucher</b></a></li>
+        <li class="active"><a href="~/Vouchers/RequisitionVoucherEntry?companyId=@Request.QueryString["companyId"]" class="btn btn-primary"><b>New Voucher</b></a></li>
     </ol>
 </section>
 
-@using (Html.BeginForm("RequisitionVoucherEntry", "Vouchers", FormMethod.Post, new { id = "manageBankOrCashFormId", @class = "formValidator" }))
+@using (Html.BeginForm("RequisitionVoucherApproval", "Vouchers", FormMethod.Post, new { id = "manageBankOrCashFormId", @class = "formValidator" }))
 {
     <section class="content">
         <div class="row">
@@ -512,7 +512,7 @@
     </div>
 </div>
 
-@using (Html.BeginForm("RequisitionVoucherEntry", "Vouchers", FormMethod.Post, new { id = "commonCustomerformId", @class = "formValidator", @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("RequisitionVoucherApproval", "Vouchers", FormMethod.Post, new { id = "commonCustomerformId", @class = "formValidator", @enctype = "multipart/form-data" }))
 {
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     @Html.HiddenFor(model => model.VoucherDetailId, new { Value = "", id = "voucherDetailIdIdDelete" })
@@ -758,7 +758,7 @@
                         datatype: "Json",
                         data: { voucherId: voucherId},
                         success: function (data) {
-                            document.location.href = "../Vouchers/RequisitionVoucherEntry?companyId=@Model.CompanyFK&voucherId=@Model.VoucherId";
+                            document.location.href = "../Vouchers/RequisitionVoucherApproval?companyId=@Model.CompanyFK&voucherId=@Model.VoucherId";
                         }
                     });
 
@@ -778,7 +778,7 @@
                     datatype: "Json",
                     data: { voucherId: voucherId, virtualHeadId: virtualHeadId, virtualHeadParticular: virtualHeadParticular},
                     success: function (data) {
-                        document.location.href = "../Vouchers/RequisitionVoucherEntry?companyId=@Model.CompanyFK&voucherId=@Model.VoucherId";
+                        document.location.href = "../Vouchers/RequisitionVoucherApproval?companyId=@Model.CompanyFK&voucherId=@Model.VoucherId";
                     }
                 });
 

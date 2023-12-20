@@ -10,6 +10,7 @@ namespace KGERP.Service.Interface
         string GetVoucherNo(int voucherTypeId, int companyId, DateTime voucherDate);
         List<VoucherModel> GetVouchers(int companyId, string searchDate, string searchText);
         Task<VoucherModel> GetVouchersList(int companyId, DateTime? fromDate, DateTime? toDate, bool? vStatus, int? voucherTypeId);
+        Task<VoucherModel> GetRequisitionVouchersList(int companyId, DateTime? fromDate, DateTime? toDate, bool? vStatus, int? voucherTypeId);
         Task<VoucherModel> GetStockVouchersList(int companyId);
 
         Task<VoucherModel> GetVouchersList(VoucherModel voucherModel);

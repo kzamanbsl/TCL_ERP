@@ -359,5 +359,57 @@ namespace KGERP.Service.Implementation
 
         //    return model;
         //}
+
+
+        #region RequisitionVoucher
+
+        public async Task<VoucherModel> GetRequisitionVouchersList(int companyId, DateTime? fromDate, DateTime? toDate, bool? vStatus, int? voucherTypeId)
+        {
+            VoucherModel voucherModel = new VoucherModel();
+            voucherModel.CompanyId = companyId;
+            voucherModel.VoucherTypeId = voucherTypeId;
+            voucherModel.DataList = await Task.Run(() => (from t1 in _context.Vouchers
+                                                          join t2 in _context.VoucherTypes on t1.VoucherTypeId equals t2.VoucherTypeId
+                                                          join t3 in _context.Accounting_CostCenter on t1.Accounting_CostCenterFk equals t3.CostCenterId
+                                                          join t4 in _context.VoucherBRMapMasters on t1.VoucherId equals t4.VoucherId into t4_Join
+                                                          from t4 in t4_Join.DefaultIfEmpty()
+                                                          join t5 in _context.BillRequisitionMasters on t4.BillRequsitionMasterId equals t5.BillRequisitionMasterId into t5_Join
+                                                          from t5 in t5_Join.DefaultIfEmpty()
+                                                          where t1.CompanyId == companyId && t1.IsActive
+                                                          && (voucherTypeId > 0 ? t1.VoucherTypeId == voucherTypeId : t1.VoucherTypeId > 0)
+                                                          && t1.VoucherDate >= fromDate && t1.VoucherDate <= toDate
+                                                          && t1.IsSubmit == vStatus
+                                                          && t5.IsActive
+                                                          && t4.IsActive
+                                                          && t4.IsRequisitionVoucher
+                                                          select new VoucherModel
+                                                          {
+                                                              VoucherId = t1.VoucherId,
+                                                              VoucherDate = t1.VoucherDate,
+                                                              Narration = t1.Narration,
+                                                              VoucherNo = t1.VoucherNo,
+                                                              VoucherTypeId = t1.VoucherTypeId,
+                                                              VoucherTypeName = t2.Name,
+                                                              CompanyId = t1.CompanyId,
+                                                              CreateDate = t1.CreateDate,
+                                                              ChqNo = t1.ChqNo,
+                                                              ChqDate = t1.ChqDate,
+                                                              ChqName = t1.ChqName,
+                                                              IsStock = t1.IsStock,
+                                                              IsSubmit = t1.IsSubmit,
+                                                              IsIntegrated = t1.IsIntegrated,
+                                                              CostCenterName = t3.Name,
+                                                              RequisitionId = t4.BillRequsitionMasterId,
+                                                              RequisitionNo = t5.BillRequisitionNo,
+                                                              VoucherRequisitionMasterMapId = t4.VoucherBRMapMasterId
+
+
+
+                                                          }).OrderByDescending(x => x.VoucherId).AsEnumerable());
+            return voucherModel;
+        }
+        #endregion
+
+
     }
 }

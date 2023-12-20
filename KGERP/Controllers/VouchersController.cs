@@ -279,7 +279,81 @@ namespace KGERP.Controllers
         }
 
 
-        #region Requisition Voucher Entry
+        #region Requisition Voucher Basic
+
+        [HttpGet]
+        [SessionExpire]
+        public async Task<ActionResult> RequisitionVoucherList(int companyId, DateTime? fromDate, DateTime? toDate, bool? vStatus, int? voucherTypeId)
+        {
+            if (companyId > 0)
+            {
+                Session["CompanyId"] = companyId;
+            }
+            if (fromDate == null)
+            {
+                fromDate = DateTime.Now.AddMonths(-2);
+            }
+
+            if (toDate == null)
+            {
+                toDate = DateTime.Now;
+            }
+            if (vStatus == null)
+            {
+                vStatus = true;
+            }
+
+            VoucherModel voucherModel = new VoucherModel();
+            voucherModel = await _voucherService.GetRequisitionVouchersList(companyId, fromDate, toDate, vStatus, voucherTypeId);
+            voucherModel.VoucherTypesList = new SelectList(_accountingService.VoucherTypesDownList(companyId), "Value", "Text");
+            voucherModel.StrFromDate = fromDate.Value.ToString("yyyy-MM-dd");
+            voucherModel.StrToDate = toDate.Value.ToString("yyyy-MM-dd");
+            voucherModel.IsSubmit = vStatus;
+            return View(voucherModel);
+        }
+
+        [HttpPost]
+        [SessionExpire]
+        public async Task<ActionResult> RequisitionVoucherList(VoucherModel voucherModel)
+        {
+            if (voucherModel.CompanyId > 0)
+            {
+                Session["CompanyId"] = voucherModel.CompanyId;
+            }
+
+            voucherModel.FromDate = Convert.ToDateTime(voucherModel.StrFromDate);
+            voucherModel.ToDate = Convert.ToDateTime(voucherModel.StrToDate);
+
+
+            return RedirectToAction(nameof(RequisitionVoucherList), new { companyId = voucherModel.CompanyId, fromDate = voucherModel.FromDate, toDate = voucherModel.ToDate, vStatus = voucherModel.IsSubmit, voucherTypeId = voucherModel.VmVoucherTypeId ?? 0 });
+        }
+
+        [HttpPost]
+        [SessionExpire]
+        public async Task<ActionResult> DeleteRequisitionVoucher(VoucherModel voucherModel)
+        {
+            if (voucherModel.VoucherId > 0)
+            {
+                await _accountingService.RequisitionVoucherDelete(voucherModel);
+
+            }
+
+            return RedirectToAction(nameof(RequisitionVoucherList), new { companyId = voucherModel.CompanyId });
+        }
+
+        [HttpPost]
+        [SessionExpire]
+        public async Task<ActionResult> UndoSubmitRequisitionVoucher(VoucherModel voucherModel)
+        {
+            if (voucherModel.VoucherId > 0)
+            {
+                await _accountingService.RequisitionVoucherUndoSubmit(voucherModel);
+            }
+            return RedirectToAction(nameof(RequisitionVoucherList), new { companyId = voucherModel.CompanyId });
+        }
+
+
+        //RequisitionVoucherEntry Master Details
 
         [HttpGet]
         public async Task<ActionResult> RequisitionVoucherEntry(int companyId = 0, int voucherId = 0)
@@ -348,6 +422,126 @@ namespace KGERP.Controllers
             return RedirectToAction(nameof(RequisitionVoucherEntry), new { companyId = vmJournalSlave.CompanyFK, voucherId = vmJournalSlave.VoucherId });
         }
 
+        #endregion
+
+
+
+        #region Requisition Voucher Approval 
+
+        [HttpGet]
+        [SessionExpire]
+        public async Task<ActionResult> RequisitionVoucherApprovalList(int companyId, DateTime? fromDate, DateTime? toDate, bool? vStatus, int? voucherTypeId)
+        {
+            if (companyId > 0)
+            {
+                Session["CompanyId"] = companyId;
+            }
+            if (fromDate == null)
+            {
+                fromDate = DateTime.Now.AddMonths(-2);
+            }
+
+            if (toDate == null)
+            {
+                toDate = DateTime.Now;
+            }
+            if (vStatus == null)
+            {
+                vStatus = true;
+            }
+
+            VoucherModel voucherModel = new VoucherModel();
+            voucherModel = await _voucherService.GetRequisitionVouchersList(companyId, fromDate, toDate, vStatus, voucherTypeId);
+            voucherModel.VoucherTypesList = new SelectList(_accountingService.VoucherTypesDownList(companyId), "Value", "Text");
+            voucherModel.StrFromDate = fromDate.Value.ToString("yyyy-MM-dd");
+            voucherModel.StrToDate = toDate.Value.ToString("yyyy-MM-dd");
+            voucherModel.IsSubmit = vStatus;
+            return View(voucherModel);
+        }
+
+        [HttpPost]
+        [SessionExpire]
+        public async Task<ActionResult> RequisitionVoucherApprovalList(VoucherModel voucherModel)
+        {
+            if (voucherModel.CompanyId > 0)
+            {
+                Session["CompanyId"] = voucherModel.CompanyId;
+            }
+
+            voucherModel.FromDate = Convert.ToDateTime(voucherModel.StrFromDate);
+            voucherModel.ToDate = Convert.ToDateTime(voucherModel.StrToDate);
+
+
+            return RedirectToAction(nameof(RequisitionVoucherApprovalList), new { companyId = voucherModel.CompanyId, fromDate = voucherModel.FromDate, toDate = voucherModel.ToDate, vStatus = voucherModel.IsSubmit, voucherTypeId = voucherModel.VmVoucherTypeId ?? 0 });
+        }
+
+
+        [HttpGet]
+        public async Task<ActionResult> RequisitionVoucherApproval(int companyId = 0, int voucherId = 0)
+        {
+            VMJournalSlave vmJournalSlave = new VMJournalSlave();
+
+            if (voucherId == 0)
+            {
+                vmJournalSlave = await Task.Run(() => _accountingService.GetCompaniesDetails(companyId));
+
+            }
+            else if (voucherId > 0)
+            {
+                vmJournalSlave = await Task.Run(() => _accountingService.GetVoucherRequisitionMapDetails(companyId, voucherId));
+            }
+            vmJournalSlave.CostCenterList = new SelectList(_accountingService.CostCenterDropDownList(companyId), "Value", "Text");
+            vmJournalSlave.VoucherTypesList = new SelectList(_accountingService.VoucherTypesDownList(companyId), "Value", "Text");
+            if (companyId == (int)CompanyNameEnum.GloriousCropCareLimited ||
+                companyId == (int)CompanyNameEnum.KrishibidPrintingAndPublicationLimited ||
+                companyId == (int)CompanyNameEnum.KrishibidPackagingLimited)
+            {
+                vmJournalSlave.BankOrCashParantList = new SelectList(_accountingService.GCCLCashAndBankDropDownList(companyId), "Value", "Text");
+
+            }
+            if (companyId == (int)CompanyNameEnum.KrishibidSeedLimited)
+            {
+                long requisitionId = 0;
+                vmJournalSlave.BankOrCashParantList = new SelectList(_accountingService.SeedCashAndBankDropDownList(companyId), "Value", "Text");
+                vmJournalSlave.Requisitions = new SelectList(_billrequisitionService.ApprovedRequisitionList(companyId), "Value", "Text");
+                vmJournalSlave.MaterialItemList = new SelectList(_billrequisitionService.ApprovedMaterialList(companyId, requisitionId), "ProductId", "ProductName");
+
+            }
+
+            return View(vmJournalSlave);
+        }
+
+        [HttpPost]
+        [SessionExpire]
+        public async Task<ActionResult> RequisitionVoucherApproval(VMJournalSlave vmJournalSlave)
+        {
+
+            if (vmJournalSlave.ActionEum == ActionEnum.Add)
+            {
+                if (vmJournalSlave.VoucherId == 0)
+                {
+                    vmJournalSlave.IsStock = false;
+                    // it is important / dont delete
+                    var voucherNo = _voucherService.GetVoucherNo(vmJournalSlave.VoucherTypeId, vmJournalSlave.CompanyFK.Value, vmJournalSlave.Date.Value);
+                    vmJournalSlave.VoucherNo = voucherNo;
+                    vmJournalSlave.VoucherId = await _accountingService.VoucherRequisitionMapAdd(vmJournalSlave);
+
+                }
+                await _accountingService.VoucherDetailRequisitionMapAdd(vmJournalSlave);
+            }
+            else if (vmJournalSlave.ActionEum == ActionEnum.Edit)
+            {
+                //Edit
+                await _accountingService.VoucherDetailsRequisitionMapEdit(vmJournalSlave);
+            }
+            else if (vmJournalSlave.ActionEum == ActionEnum.Delete)
+            {
+                //Delete
+                await _accountingService.VoucherDetailsRequisitionMapDelete(vmJournalSlave.VoucherDetailId.Value);
+            }
+
+            return RedirectToAction(nameof(RequisitionVoucherApproval), new { companyId = vmJournalSlave.CompanyFK, voucherId = vmJournalSlave.VoucherId });
+        }
 
 
         #endregion
@@ -375,6 +569,7 @@ namespace KGERP.Controllers
             }
             return RedirectToAction(nameof(Index), new { companyId = voucherModel.CompanyId });
         }
+
 
         [HttpGet]
         public async Task<ActionResult> ManageStock(int companyId = 0, int voucherId = 0)

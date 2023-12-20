@@ -687,6 +687,43 @@ namespace KGERP.Service.Implementation.Accounting
             return result;
         }
 
+        public async Task<long> RequisitionVoucherDelete(VoucherModel voucherModel)
+        {
+            long result = -1;
+            Voucher model = await _db.Vouchers.FindAsync(voucherModel.VoucherId);
+
+            model.IsActive = false;
+
+            List<VoucherDetail> voucherDetailList = _db.VoucherDetails.Where(x => x.VoucherId == voucherModel.VoucherId).ToList();
+            voucherDetailList.ForEach(x => x.IsActive = false);
+
+            var voucherRequisitionMapMaster = await _db.VoucherBRMapMasters.FirstOrDefaultAsync(s => s.VoucherId == model.VoucherId);
+            voucherRequisitionMapMaster.IsActive = false;
+
+            List<VoucherBRMapDetail> voucherBRMapDetails = _db.VoucherBRMapDetails.Where(s => s.VoucherBRMapMasterId == voucherRequisitionMapMaster.VoucherBRMapMasterId).ToList();
+            voucherBRMapDetails.ForEach(s => s.IsActive = false);
+            if (await _db.SaveChangesAsync() > 0)
+            {
+                result = model.VoucherId;
+            }
+
+            return result;
+        }
+
+        public async Task<long> RequisitionVoucherUndoSubmit(VoucherModel voucherModel)
+        {
+            long result = -1;
+            Voucher model = await _db.Vouchers.FindAsync(voucherModel.VoucherId);
+            model.IsSubmit = false;
+            model.VoucherStatus = null;
+      
+            if (await _db.SaveChangesAsync() > 0)
+            {
+                result = model.VoucherId;
+            }
+            return result;
+        }
+
         #endregion
 
         public List<object> CostCenterDropDownList(int companyId)

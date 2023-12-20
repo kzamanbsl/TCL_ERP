@@ -46,6 +46,10 @@ namespace KGERP.Service.ServiceModel
         public string VoucherTypeName { get; set; }
         public string CostCenterName { get; set; }
 
+        public long? VoucherRequisitionMasterMapId { get; set; }
+        public long? RequisitionId { get; set; }
+        public string RequisitionNo { get; set; }
+
         public virtual VoucherTypeModel VoucherType { get; set; }
         public virtual ICollection<VoucherDetailModel> VoucherDetails { get; set; }
         public IEnumerable<VoucherModel> DataList { get; set; }
