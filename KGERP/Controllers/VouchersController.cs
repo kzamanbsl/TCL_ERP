@@ -516,25 +516,8 @@ namespace KGERP.Controllers
         public async Task<ActionResult> RequisitionVoucherApproval(VMJournalSlave vmJournalSlave)
         {
 
-            if (vmJournalSlave.ActionEum == ActionEnum.Add)
-            {
-                if (vmJournalSlave.VoucherId == 0)
-                {
-                    vmJournalSlave.IsStock = false;
-                    // it is important / dont delete
-                    var voucherNo = _voucherService.GetVoucherNo(vmJournalSlave.VoucherTypeId, vmJournalSlave.CompanyFK.Value, vmJournalSlave.Date.Value);
-                    vmJournalSlave.VoucherNo = voucherNo;
-                    vmJournalSlave.VoucherId = await _accountingService.VoucherRequisitionMapAdd(vmJournalSlave);
-
-                }
-                await _accountingService.VoucherDetailRequisitionMapAdd(vmJournalSlave);
-            }
-            else if (vmJournalSlave.ActionEum == ActionEnum.Edit)
-            {
-                //Edit
-                await _accountingService.VoucherDetailsRequisitionMapEdit(vmJournalSlave);
-            }
-            else if (vmJournalSlave.ActionEum == ActionEnum.Delete)
+            
+            if (vmJournalSlave.ActionEum == ActionEnum.Approve)
             {
                 //Delete
                 await _accountingService.VoucherDetailsRequisitionMapDelete(vmJournalSlave.VoucherDetailId.Value);

@@ -20,16 +20,16 @@
 
 <section class="content-header">
     <h1>
-        Requisition Voucher List
+        Requisition Voucher Approval List
     </h1>
 
 
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
 
-        <li>
+        @*<li>
             <a href="~/Vouchers/ManageBankOrCash?companyId=@Request.QueryString["companyId"]" class="btn btn-primary">New Voucher</a>
-        </li>
+        </li>*@
     </ol>
 </section>
 
@@ -45,7 +45,7 @@
                         <div class="box-danger">
 
                             <div class="box-body">
-                                @using (Html.BeginForm("RequisitionVoucherList", "Vouchers", FormMethod.Post, new { id = "marketingSalesListView", @class = "formValidator", @enctype = "multipart/form-data" }))
+                                @using (Html.BeginForm("RequisitionVoucherApprovalList", "Vouchers", FormMethod.Post, new { id = "marketingSalesListView", @class = "formValidator", @enctype = "multipart/form-data" }))
                                 {
                                     @Html.HiddenFor(model => model.CompanyId, new { id = "CompanyId" })
 
@@ -163,7 +163,7 @@
                                                         }
                                                         else
                                                         {
-                                                            <a href="~/Vouchers/RequisitionVoucherEntry?companyId=@item.CompanyId&voucherId=@item.VoucherId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
+                                                            <a href="~/Vouchers/RequisitionVoucherApproval?companyId=@item.CompanyId&voucherId=@item.VoucherId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
 
                                                         }
 

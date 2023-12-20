@@ -25,7 +25,7 @@
         else
         {
             <span>
-               Requisition Voucher Approval<span style="color:orangered" id="spnVoucherNo"></span>&nbsp;
+                Requisition Voucher Approval<span style="color:orangered" id="spnVoucherNo"></span>&nbsp;
             </span>
             <b> @Model.CompanyName</b>
         }
@@ -434,18 +434,18 @@
                                     <div class="col-md-3">
 
                                         @*@if (btnProperty == "")
-        {
-            <button type="button" onclick="autoInsertVoucherDetails()" @btnProperty id="autoInsertBtn" class="btn btn-info btn-block">
-                <i class='fa fa-plus'></i>
-                <span>Add</span>
-            </button>
+                                            {
+                                                <button type="button" onclick="autoInsertVoucherDetails()" @btnProperty id="autoInsertBtn" class="btn btn-info btn-block">
+                                                    <i class='fa fa-plus'></i>
+                                                    <span>Add</span>
+                                                </button>
 
-        }
-        else
-        {
-           <span style="width:100%" class="btn  btn-warning">Ready To Submit <span class="fa fa-angle-right"></span><span class="fa fa-angle-right"></span></span>
+                                            }
+                                            else
+                                            {
+                                               <span style="width:100%" class="btn  btn-warning">Ready To Submit <span class="fa fa-angle-right"></span><span class="fa fa-angle-right"></span></span>
 
-        }*@
+                                            }*@
                                         @if (btnSubmitProperty == "disabled")
                                         {
                                             <span style="width:100%" class="btn text-danger "><sup>***</sup>Ensure Total Dr. = Total Cr. </span>
@@ -469,7 +469,8 @@
                                 else
                                 {
                                     <div class="col-md-8">
-                                        <span style="width:100%" class="btn btn-default btn-outline-dark">@Model.VoucherNo has been submitted <span class="fa fa-check"></span></span>
+                                        @*<span style="width:100%" class="btn btn-default btn-outline-dark">@Model.VoucherNo has been submitted <span class="fa fa-check"></span></span>*@
+                                      <button type="submit" class="btn btn-primary">Approve</button>
                                     </div>
 
                                 }
