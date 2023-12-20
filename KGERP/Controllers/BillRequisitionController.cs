@@ -124,24 +124,24 @@ namespace KGERP.Controllers
             return Json(materialList, JsonRequestBehavior.AllowGet);
         }
 
-        // Get Material Info by Product Id
-        public async Task<JsonResult> GetBudgetInfoByProductId(int id)
-        {
-            decimal EstimateQty = 0;
-            decimal ReceivedSoFar = 0;
-            decimal UnitRate = 0;
+        // Get Material Info by Product Id need to edit 
+        //public async Task<JsonResult> GetBudgetInfoByProductId(int id)
+        //{
+        //    decimal EstimateQty = 0;
+        //    decimal ReceivedSoFar = 0;
+        //    decimal UnitRate = 0;
 
-            if (id > 0)
-            {
-                EstimateQty = (_service.GetBoQProductMapList().FirstOrDefault(c => c.ProductId == id).EstimatedQty == null) ? EstimateQty = 0 : (decimal)_service.GetBoQProductMapList().FirstOrDefault(c => c.ProductId == id).EstimatedQty;
-                UnitRate = (_service.GetBoQProductMapList().FirstOrDefault(c => c.ProductId == id).UnitRate == null) ? UnitRate = 0 : (decimal)_service.GetBoQProductMapList().FirstOrDefault(c => c.ProductId == id).UnitRate;
-                //ReceivedSoFar = _service.ReceivedSoFarTotal(id);
-            }
+        //    if (id > 0)
+        //    {
+        //        EstimateQty = (_service.GetBoQProductMapList().FirstOrDefault(c => c.ProductId == id).EstimatedQty == null) ? EstimateQty = 0 : (decimal)_service.GetBoQProductMapList().FirstOrDefault(c => c.ProductId == id).EstimatedQty;
+        //        UnitRate = (_service.GetBoQProductMapList().FirstOrDefault(c => c.ProductId == id).UnitRate == null) ? UnitRate = 0 : (decimal)_service.GetBoQProductMapList().FirstOrDefault(c => c.ProductId == id).UnitRate;
+        //        //ReceivedSoFar = _service.ReceivedSoFarTotal(id);
+        //    }
 
-            var result = new { EstimateQty = EstimateQty, UnitRate = UnitRate, ReceivedSoFar = ReceivedSoFar };
+        //    var result = new { EstimateQty = EstimateQty, UnitRate = UnitRate, ReceivedSoFar = ReceivedSoFar };
 
-            return Json(result, JsonRequestBehavior.AllowGet);
-        }
+        //    return Json(result, JsonRequestBehavior.AllowGet);
+        //}
 
         // Filter with project id
         public JsonResult getBoqDivisionList(long id)
