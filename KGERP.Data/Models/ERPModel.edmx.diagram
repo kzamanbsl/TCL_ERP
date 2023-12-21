@@ -542,15 +542,12 @@
         <EntityTypeShape EntityType="ERPModel.BoQDivision" Width="1.5" PointX="11.625" PointY="47.75" />
         <EntityTypeShape EntityType="ERPModel.VoucherBRMapDetail" Width="1.5" PointX="20.375" PointY="12.75" />
         <EntityTypeShape EntityType="ERPModel.VoucherBRMapMaster" Width="1.5" PointX="71.625" PointY="71.5" />
-        <EntityTypeShape EntityType="ERPModel.VoucherBRMapMasterApproval" Width="1.5" PointX="54.125" PointY="43.75" />
         <AssociationConnector Association="ERPModel.FK_BoQDivision_Accounting_CostCenter" />
         <AssociationConnector Association="ERPModel.FK_BillReqApprovalHistory_Company" />
         <AssociationConnector Association="ERPModel.FK_BillRequisitionApproval_Company" />
         <AssociationConnector Association="ERPModel.FK_BoQDivision_Company" />
-        <AssociationConnector Association="ERPModel.FK_VoucherBRMapMasterApproval_Company" />
         <AssociationConnector Association="ERPModel.FK_BillReqApprovalHistory_Employee" />
         <AssociationConnector Association="ERPModel.FK_BillRequisitionApproval_Employee" />
-        <AssociationConnector Association="ERPModel.FK_VoucherBRMapMasterApproval_Employee" />
         <AssociationConnector Association="ERPModel.FK_VoucherBRMapMaster_Voucher" />
         <AssociationConnector Association="ERPModel.FK_BillRequisitionItemBoQMap_BillBoQItem" />
         <EntityTypeShape EntityType="ERPModel.BillRequisitionDetail" Width="1.5" PointX="71.625" PointY="55.375" />
@@ -568,6 +565,11 @@
         <AssociationConnector Association="ERPModel.FK_PurchaseOrder_Vendor" />
         <AssociationConnector Association="ERPModel.FK_PurchaseOrderDetail_PurchaseOrder" />
         <AssociationConnector Association="ERPModel.FK_VendorDepositHistory_VendorDepositHistory" />
+        <EntityTypeShape EntityType="ERPModel.VoucherBRMapMasterApproval" Width="1.5" PointX="73.875" PointY="58" />
+        <AssociationConnector Association="ERPModel.FK_VoucherBRMapMasterApproval_Company" />
+        <AssociationConnector Association="ERPModel.FK_VoucherBRMapMasterApproval_Employee" />
+        <AssociationConnector Association="ERPModel.FK_VoucherBRMapMasterApproval_Voucher" />
+        <AssociationConnector Association="ERPModel.FK_VoucherBRMapMasterApproval_VoucherBRMapMaster" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

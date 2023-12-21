@@ -15,7 +15,8 @@ namespace KGERP.Data.Models
     public partial class VoucherBRMapMasterApproval
     {
         public long VoucherBRMapMasterApprovalId { get; set; }
-        public long VoucherBRMapMasterMasterId { get; set; }
+        public Nullable<long> VoucherBRMapMasterId { get; set; }
+        public Nullable<long> VoucherId { get; set; }
         public int AprrovalStatusId { get; set; }
         public Nullable<long> EmployeeId { get; set; }
         public int SignatoryId { get; set; }
@@ -27,8 +28,11 @@ namespace KGERP.Data.Models
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public string ModifiedBy { get; set; }
         public bool IsActive { get; set; }
+        public bool IsRequisitionVoucher { get; set; }
     
         public virtual Company Company { get; set; }
         public virtual Employee Employee { get; set; }
+        public virtual Voucher Voucher { get; set; }
+        public virtual VoucherBRMapMaster VoucherBRMapMaster { get; set; }
     }
 }
