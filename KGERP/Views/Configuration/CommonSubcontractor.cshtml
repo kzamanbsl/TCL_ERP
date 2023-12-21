@@ -1,7 +1,7 @@
 ﻿@using KG.Core.Services
 
 @{
-    ViewData["Title"] = "New Suppliers";
+    ViewData["Title"] = "New Subcontractor";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
 }
@@ -14,11 +14,11 @@
 </style>
 <section class="content-header">
     <h1>
-        New Suppliers
+        New Subcontractor
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">New Suppliers</li>
+        <li class="active">New Subcontractor</li>
     </ol>
 </section>
 <section class="content">
@@ -42,7 +42,7 @@
 
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="message-text" class="col-form-label">Supplier Name :</label>
+                                        <label for="message-text" class="col-form-label">Subcontractor Name :</label>
                                         @Html.TextBoxFor(model => model.Name, new { id = "txtSupplierName", @class = "form-control", @placeholder = "Supplier name", required = "required" })
                                         @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                     </div>
@@ -50,7 +50,7 @@
 
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="message-text" class="col-form-label">Trade Licence No :</label>
+                                        <label for="message-text" class="col-form-label">Licence No :</label>
                                         @Html.TextBoxFor(model => model.ContactPerson, new { id = "txtContactPerson", @class = "form-control", @placeholder = "Trade licence no" })
                                         @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
                                     </div>

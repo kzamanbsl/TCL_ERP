@@ -1181,8 +1181,20 @@ namespace KGERP.Controllers
             return Json(products, JsonRequestBehavior.AllowGet);
         }
 
-        #region Common Supplier
+        #region Common Subcontractor
+        [HttpGet]
+        public async Task<ActionResult> CommonSubcontractor(int companyId)
+        {
 
+            VMCommonSupplier vmCommonSupplier = new VMCommonSupplier();
+            vmCommonSupplier = await Task.Run(() => _service.GetSupplier(companyId));
+            vmCommonSupplier.CountryList = new SelectList(_service.CommonCountriesDropDownList(), "Value", "Text");
+
+            return View(vmCommonSupplier);
+        }
+        #endregion
+
+        #region Common Supplier
 
         public JsonResult CommonSupplierByIDGet(int id)
         {
