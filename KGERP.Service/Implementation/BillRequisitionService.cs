@@ -724,7 +724,7 @@ namespace KGERP.Service.Implementation
 
         public bool Delete(BillRequisitionItemBoQMapModel model)
         {
-            if (model.BoQItemProductMapId > 0 || model.BoQItemProductMapId != null)
+            if (model.BoQItemProductMapId > 0)
             {
                 try
                 {
@@ -1071,9 +1071,6 @@ namespace KGERP.Service.Implementation
             demageDetail.Floor = model.DetailModel.Floor;
             demageDetail.DPP = model.DetailModel.DPP;
             demageDetail.Chainage = model.DetailModel.Chainage;
-            //demageDetail.CreatedBy = System.Web.HttpContext.Current.User.Identity.Name; 
-            //demageDetail.CreateDate = DateTime.Now;
-            //demageDetail.IsActive = true;
             if (await _context.SaveChangesAsync() > 0)
             {
                 result = demageDetail.BillRequisitionDetailId;
