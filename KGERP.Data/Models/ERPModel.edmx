@@ -3485,6 +3485,7 @@ warning 6002: The table/view 'TCLErp.dbo.TempFeedVoucherDetail' does not have a 
           <Property Name="ModifiedDate" Type="datetime" />
           <Property Name="ModifiedBy" Type="varchar" MaxLength="255" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="DocPath" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="BillRequisitionMaster">
           <Key>
@@ -3507,6 +3508,7 @@ warning 6002: The table/view 'TCLErp.dbo.TempFeedVoucherDetail' does not have a 
           <Property Name="CreatedBy" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="ModifiedDate" Type="datetime" />
           <Property Name="ModifiedBy" Type="varchar" MaxLength="255" />
+          <Property Name="DocPath" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="BillRequisitionType">
           <Key>
@@ -4790,6 +4792,7 @@ warning 6002: The table/view 'TCLErp.Erp.FormulaHistory' does not have a primary
           <Property Name="LCHeadGLId" Type="int" />
           <Property Name="StockInfoId" Type="int" />
           <Property Name="BillRequisitionMasterId" Type="bigint" />
+          <Property Name="DocPath" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="PurchaseOrderDetail">
           <Key>
@@ -4813,6 +4816,7 @@ warning 6002: The table/view 'TCLErp.Erp.FormulaHistory' does not have a primary
           <Property Name="ModifiedDate" Type="datetime" />
           <Property Name="FinishProductBOMId" Type="int" />
           <Property Name="BillRequisitionDetailId" Type="bigint" />
+          <Property Name="DocPath" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="PurchaseOrderTemplate">
           <Key>
@@ -11870,40 +11874,6 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             <End Role="Voucher" EntitySet="Vouchers" />
             <End Role="BillRequisitionVoucherMap" EntitySet="BillRequisitionVoucherMaps" />
           </AssociationSet>
-          <EntitySet Name="PurchaseOrders" EntityType="ERPModel.PurchaseOrder" />
-          <EntitySet Name="PurchaseOrderDetails" EntityType="ERPModel.PurchaseOrderDetail" />
-          <AssociationSet Name="FK_PurchaseOrder_ModeOfPurchase" Association="ERPModel.FK_PurchaseOrder_ModeOfPurchase">
-            <End Role="DropDownItem" EntitySet="DropDownItems" />
-            <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PurchaseOrder_ProductOrigin" Association="ERPModel.FK_PurchaseOrder_ProductOrigin">
-            <End Role="DropDownItem" EntitySet="DropDownItems" />
-            <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PurchaseOrder_Demand" Association="ERPModel.FK_PurchaseOrder_Demand">
-            <End Role="Demand" EntitySet="Demands" />
-            <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MaterialReceive_PurchaseOrder" Association="ERPModel.FK_MaterialReceive_PurchaseOrder">
-            <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
-            <End Role="MaterialReceive" EntitySet="MaterialReceives" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PurchaseOrder_StockInfo" Association="ERPModel.FK_PurchaseOrder_StockInfo">
-            <End Role="StockInfo" EntitySet="StockInfoes" />
-            <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PurchaseOrder_Vendor" Association="ERPModel.FK_PurchaseOrder_Vendor">
-            <End Role="Vendor" EntitySet="Vendors" />
-            <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PurchaseOrderDetail_PurchaseOrder" Association="ERPModel.FK_PurchaseOrderDetail_PurchaseOrder">
-            <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
-            <End Role="PurchaseOrderDetail" EntitySet="PurchaseOrderDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_VendorDepositHistory_VendorDepositHistory" Association="ERPModel.FK_VendorDepositHistory_VendorDepositHistory">
-            <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
-            <End Role="VendorDepositHistory" EntitySet="VendorDepositHistories" />
-          </AssociationSet>
           <EntitySet Name="Accounting_CostCenter" EntityType="ERPModel.Accounting_CostCenter" />
           <AssociationSet Name="FK_Accounting_CostCenter_Accounting_CostCenterType" Association="ERPModel.FK_Accounting_CostCenter_Accounting_CostCenterType">
             <End Role="Accounting_CostCenterType" EntitySet="Accounting_CostCenterType" />
@@ -11920,8 +11890,6 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <EntitySet Name="BillBoQItems" EntityType="ERPModel.BillBoQItem" />
           <EntitySet Name="BillReqApprovalHistories" EntityType="ERPModel.BillReqApprovalHistory" />
           <EntitySet Name="BillRequisitionApprovals" EntityType="ERPModel.BillRequisitionApproval" />
-          <EntitySet Name="BillRequisitionDetails" EntityType="ERPModel.BillRequisitionDetail" />
-          <EntitySet Name="BillRequisitionMasters" EntityType="ERPModel.BillRequisitionMaster" />
           <EntitySet Name="BoQDivisions" EntityType="ERPModel.BoQDivision" />
           <EntitySet Name="VoucherBRMapDetails" EntityType="ERPModel.VoucherBRMapDetail" />
           <EntitySet Name="VoucherBRMapMasters" EntityType="ERPModel.VoucherBRMapMaster" />
@@ -11966,6 +11934,18 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             <End Role="BillBoQItem" EntitySet="BillBoQItems" />
             <End Role="BoQItemProductMap" EntitySet="BoQItemProductMaps" />
           </AssociationSet>
+          <EntitySet Name="BillRequisitionDetails" EntityType="ERPModel.BillRequisitionDetail" />
+          <EntitySet Name="BillRequisitionMasters" EntityType="ERPModel.BillRequisitionMaster" />
+          <EntitySet Name="PurchaseOrders" EntityType="ERPModel.PurchaseOrder" />
+          <EntitySet Name="PurchaseOrderDetails" EntityType="ERPModel.PurchaseOrderDetail" />
+          <AssociationSet Name="FK_PurchaseOrder_ModeOfPurchase" Association="ERPModel.FK_PurchaseOrder_ModeOfPurchase">
+            <End Role="DropDownItem" EntitySet="DropDownItems" />
+            <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PurchaseOrder_ProductOrigin" Association="ERPModel.FK_PurchaseOrder_ProductOrigin">
+            <End Role="DropDownItem" EntitySet="DropDownItems" />
+            <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
+          </AssociationSet>
           <AssociationSet Name="FK_PurchaseOrderDetail_BillRequisitionDetail" Association="ERPModel.FK_PurchaseOrderDetail_BillRequisitionDetail">
             <End Role="BillRequisitionDetail" EntitySet="BillRequisitionDetails" />
             <End Role="PurchaseOrderDetail" EntitySet="PurchaseOrderDetails" />
@@ -11977,6 +11957,30 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <AssociationSet Name="FK_VoucherBRMapMaster_BillRequisitionMaster" Association="ERPModel.FK_VoucherBRMapMaster_BillRequisitionMaster">
             <End Role="BillRequisitionMaster" EntitySet="BillRequisitionMasters" />
             <End Role="VoucherBRMapMaster" EntitySet="VoucherBRMapMasters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PurchaseOrder_Demand" Association="ERPModel.FK_PurchaseOrder_Demand">
+            <End Role="Demand" EntitySet="Demands" />
+            <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MaterialReceive_PurchaseOrder" Association="ERPModel.FK_MaterialReceive_PurchaseOrder">
+            <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
+            <End Role="MaterialReceive" EntitySet="MaterialReceives" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PurchaseOrder_StockInfo" Association="ERPModel.FK_PurchaseOrder_StockInfo">
+            <End Role="StockInfo" EntitySet="StockInfoes" />
+            <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PurchaseOrder_Vendor" Association="ERPModel.FK_PurchaseOrder_Vendor">
+            <End Role="Vendor" EntitySet="Vendors" />
+            <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PurchaseOrderDetail_PurchaseOrder" Association="ERPModel.FK_PurchaseOrderDetail_PurchaseOrder">
+            <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
+            <End Role="PurchaseOrderDetail" EntitySet="PurchaseOrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VendorDepositHistory_VendorDepositHistory" Association="ERPModel.FK_VendorDepositHistory_VendorDepositHistory">
+            <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
+            <End Role="VendorDepositHistory" EntitySet="VendorDepositHistories" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="AdminPolicy">
@@ -20969,185 +20973,6 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="PurchaseOrder">
-          <Key>
-            <PropertyRef Name="PurchaseOrderId" />
-          </Key>
-          <Property Name="PurchaseOrderId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CompanyId" Type="Int32" />
-          <Property Name="DemandId" Type="Int64" />
-          <Property Name="PurchaseOrderNo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="SupplierId" Type="Int32" />
-          <Property Name="PurchaseDate" Type="DateTime" Precision="0" />
-          <Property Name="ModeOfPurchaseId" Type="Int32" />
-          <Property Name="Days" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
-          <Property Name="ProductOriginId" Type="Int32" />
-          <Property Name="CompanyName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CountryId" Type="Int32" />
-          <Property Name="DeliveryDate" Type="DateTime" Precision="0" />
-          <Property Name="Remarks" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="EmpId" Type="Int64" />
-          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
-          <Property Name="ModifiedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
-          <Property Name="PurchaseOrderStatus" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="ReferenceNo" Type="Guid" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <Property Name="CompletionStatus" Type="Int32" Nullable="false" />
-          <Property Name="Status" Type="Int32" Nullable="false" />
-          <Property Name="SupplierPaymentMethodEnumFK" Type="Int32" Nullable="false" />
-          <Property Name="DeliveryAddress" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="TermsAndCondition" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
-          <Property Name="IsCancel" Type="Boolean" Nullable="false" />
-          <Property Name="IsHold" Type="Boolean" Nullable="false" />
-          <Property Name="PINo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ShippedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="PortOfLoading" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="FinalDestinationCountryFk" Type="Int32" />
-          <Property Name="PortOfDischarge" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="FreightCharge" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
-          <Property Name="OtherCharge" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
-          <Property Name="LCNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="LCValue" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
-          <Property Name="InsuranceNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="PremiumValue" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
-          <Property Name="IsOpening" Type="Boolean" Nullable="false" />
-          <Property Name="OrderMasterId" Type="Int64" />
-          <Property Name="LCHeadGLId" Type="Int32" />
-          <Property Name="StockInfoId" Type="Int32" />
-          <Property Name="BillRequisitionMasterId" Type="Int64" />
-          <NavigationProperty Name="DropDownItem" Relationship="ERPModel.FK_PurchaseOrder_ModeOfPurchase" FromRole="PurchaseOrder" ToRole="DropDownItem" />
-          <NavigationProperty Name="DropDownItem1" Relationship="ERPModel.FK_PurchaseOrder_ProductOrigin" FromRole="PurchaseOrder" ToRole="DropDownItem" />
-          <NavigationProperty Name="Demand" Relationship="ERPModel.FK_PurchaseOrder_Demand" FromRole="PurchaseOrder" ToRole="Demand" />
-          <NavigationProperty Name="MaterialReceives" Relationship="ERPModel.FK_MaterialReceive_PurchaseOrder" FromRole="PurchaseOrder" ToRole="MaterialReceive" />
-          <NavigationProperty Name="StockInfo" Relationship="ERPModel.FK_PurchaseOrder_StockInfo" FromRole="PurchaseOrder" ToRole="StockInfo" />
-          <NavigationProperty Name="Vendor" Relationship="ERPModel.FK_PurchaseOrder_Vendor" FromRole="PurchaseOrder" ToRole="Vendor" />
-          <NavigationProperty Name="PurchaseOrderDetails" Relationship="ERPModel.FK_PurchaseOrderDetail_PurchaseOrder" FromRole="PurchaseOrder" ToRole="PurchaseOrderDetail" />
-          <NavigationProperty Name="VendorDepositHistories" Relationship="ERPModel.FK_VendorDepositHistory_VendorDepositHistory" FromRole="PurchaseOrder" ToRole="VendorDepositHistory" />
-          <NavigationProperty Name="BillRequisitionMaster" Relationship="ERPModel.FK_PurchaseOrder_PurchaseOrder" FromRole="PurchaseOrder" ToRole="BillRequisitionMaster" />
-        </EntityType>
-        <EntityType Name="PurchaseOrderDetail">
-          <Key>
-            <PropertyRef Name="PurchaseOrderDetailId" />
-          </Key>
-          <Property Name="PurchaseOrderDetailId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PurchaseOrderId" Type="Int64" />
-          <Property Name="ProductId" Type="Int32" Nullable="false" />
-          <Property Name="UnitId" Type="Int32" />
-          <Property Name="PurchaseQty" Type="Decimal" Nullable="false" Precision="18" Scale="3" />
-          <Property Name="DemandRate" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="PurchaseRate" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="QCRate" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="PurchaseAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="PackSize" Type="Int32" />
-          <Property Name="CompanyId" Type="Int32" />
-          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
-          <Property Name="FinishProductBOMId" Type="Int32" />
-          <Property Name="BillRequisitionDetailId" Type="Int64" />
-          <NavigationProperty Name="PurchaseOrder" Relationship="ERPModel.FK_PurchaseOrderDetail_PurchaseOrder" FromRole="PurchaseOrderDetail" ToRole="PurchaseOrder" />
-          <NavigationProperty Name="BillRequisitionDetail" Relationship="ERPModel.FK_PurchaseOrderDetail_BillRequisitionDetail" FromRole="PurchaseOrderDetail" ToRole="BillRequisitionDetail" />
-        </EntityType>
-        <Association Name="FK_PurchaseOrder_ModeOfPurchase">
-          <End Type="ERPModel.DropDownItem" Role="DropDownItem" Multiplicity="0..1" />
-          <End Type="ERPModel.PurchaseOrder" Role="PurchaseOrder" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DropDownItem">
-              <PropertyRef Name="DropDownItemId" />
-            </Principal>
-            <Dependent Role="PurchaseOrder">
-              <PropertyRef Name="ModeOfPurchaseId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PurchaseOrder_ProductOrigin">
-          <End Type="ERPModel.DropDownItem" Role="DropDownItem" Multiplicity="0..1" />
-          <End Type="ERPModel.PurchaseOrder" Role="PurchaseOrder" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DropDownItem">
-              <PropertyRef Name="DropDownItemId" />
-            </Principal>
-            <Dependent Role="PurchaseOrder">
-              <PropertyRef Name="ProductOriginId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PurchaseOrder_Demand">
-          <End Type="ERPModel.Demand" Role="Demand" Multiplicity="0..1" />
-          <End Type="ERPModel.PurchaseOrder" Role="PurchaseOrder" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Demand">
-              <PropertyRef Name="DemandId" />
-            </Principal>
-            <Dependent Role="PurchaseOrder">
-              <PropertyRef Name="DemandId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MaterialReceive_PurchaseOrder">
-          <End Type="ERPModel.PurchaseOrder" Role="PurchaseOrder" Multiplicity="0..1" />
-          <End Type="ERPModel.MaterialReceive" Role="MaterialReceive" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PurchaseOrder">
-              <PropertyRef Name="PurchaseOrderId" />
-            </Principal>
-            <Dependent Role="MaterialReceive">
-              <PropertyRef Name="PurchaseOrderId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PurchaseOrder_StockInfo">
-          <End Type="ERPModel.StockInfo" Role="StockInfo" Multiplicity="0..1" />
-          <End Type="ERPModel.PurchaseOrder" Role="PurchaseOrder" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="StockInfo">
-              <PropertyRef Name="StockInfoId" />
-            </Principal>
-            <Dependent Role="PurchaseOrder">
-              <PropertyRef Name="StockInfoId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PurchaseOrder_Vendor">
-          <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="0..1" />
-          <End Type="ERPModel.PurchaseOrder" Role="PurchaseOrder" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Vendor">
-              <PropertyRef Name="VendorId" />
-            </Principal>
-            <Dependent Role="PurchaseOrder">
-              <PropertyRef Name="SupplierId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PurchaseOrderDetail_PurchaseOrder">
-          <End Type="ERPModel.PurchaseOrder" Role="PurchaseOrder" Multiplicity="0..1" />
-          <End Type="ERPModel.PurchaseOrderDetail" Role="PurchaseOrderDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PurchaseOrder">
-              <PropertyRef Name="PurchaseOrderId" />
-            </Principal>
-            <Dependent Role="PurchaseOrderDetail">
-              <PropertyRef Name="PurchaseOrderId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_VendorDepositHistory_VendorDepositHistory">
-          <End Type="ERPModel.PurchaseOrder" Role="PurchaseOrder" Multiplicity="0..1" />
-          <End Type="ERPModel.VendorDepositHistory" Role="VendorDepositHistory" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PurchaseOrder">
-              <PropertyRef Name="PurchaseOrderId" />
-            </Principal>
-            <Dependent Role="VendorDepositHistory">
-              <PropertyRef Name="PurchaseOrderId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Accounting_CostCenter">
           <Key>
             <PropertyRef Name="CostCenterId" />
@@ -21259,57 +21084,6 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Company" Relationship="ERPModel.FK_BillRequisitionApproval_Company" FromRole="BillRequisitionApproval" ToRole="Company" />
           <NavigationProperty Name="Employee" Relationship="ERPModel.FK_BillRequisitionApproval_Employee" FromRole="BillRequisitionApproval" ToRole="Employee" />
-        </EntityType>
-        <EntityType Name="BillRequisitionDetail">
-          <Key>
-            <PropertyRef Name="BillRequisitionDetailId" />
-          </Key>
-          <Property Name="BillRequisitionDetailId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="BillRequisitionMasterId" Type="Int64" Nullable="false" />
-          <Property Name="ProductId" Type="Int32" />
-          <Property Name="UnitId" Type="Int32" />
-          <Property Name="EstimatedQty" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="DemandQty" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="UnitRate" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="TotalPrice" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="ReceivedSoFar" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="RemainingQty" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="Floor" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Ward" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="DPP" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Chainage" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="CompanyId" Type="Int32" Nullable="false" />
-          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
-          <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="PurchaseOrderDetails" Relationship="ERPModel.FK_PurchaseOrderDetail_BillRequisitionDetail" FromRole="BillRequisitionDetail" ToRole="PurchaseOrderDetail" />
-        </EntityType>
-        <EntityType Name="BillRequisitionMaster">
-          <Key>
-            <PropertyRef Name="BillRequisitionMasterId" />
-          </Key>
-          <Property Name="BillRequisitionMasterId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="BillRequisitionNo" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="BillRequisitionTypeId" Type="Int32" Nullable="false" />
-          <Property Name="ProjectTypeId" Type="Int32" Nullable="false" />
-          <Property Name="BoQDivisionId" Type="Int64" />
-          <Property Name="BRDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="BOQItemId" Type="Int32" />
-          <Property Name="CostCenterId" Type="Int32" Nullable="false" />
-          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="TotalAmount" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="StatusId" Type="Int32" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <Property Name="CompanyId" Type="Int32" Nullable="false" />
-          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
-          <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="PurchaseOrders" Relationship="ERPModel.FK_PurchaseOrder_PurchaseOrder" FromRole="BillRequisitionMaster" ToRole="PurchaseOrder" />
-          <NavigationProperty Name="VoucherBRMapMasters" Relationship="ERPModel.FK_VoucherBRMapMaster_BillRequisitionMaster" FromRole="BillRequisitionMaster" ToRole="VoucherBRMapMaster" />
         </EntityType>
         <EntityType Name="BoQDivision">
           <Key>
@@ -21502,6 +21276,168 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="BillRequisitionDetail">
+          <Key>
+            <PropertyRef Name="BillRequisitionDetailId" />
+          </Key>
+          <Property Name="BillRequisitionDetailId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BillRequisitionMasterId" Type="Int64" Nullable="false" />
+          <Property Name="ProductId" Type="Int32" />
+          <Property Name="UnitId" Type="Int32" />
+          <Property Name="EstimatedQty" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="DemandQty" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="UnitRate" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="TotalPrice" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="ReceivedSoFar" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="RemainingQty" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Floor" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Ward" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="DPP" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Chainage" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="DocPath" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="PurchaseOrderDetails" Relationship="ERPModel.FK_PurchaseOrderDetail_BillRequisitionDetail" FromRole="BillRequisitionDetail" ToRole="PurchaseOrderDetail" />
+        </EntityType>
+        <EntityType Name="BillRequisitionMaster">
+          <Key>
+            <PropertyRef Name="BillRequisitionMasterId" />
+          </Key>
+          <Property Name="BillRequisitionMasterId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BillRequisitionNo" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="BillRequisitionTypeId" Type="Int32" Nullable="false" />
+          <Property Name="ProjectTypeId" Type="Int32" Nullable="false" />
+          <Property Name="BoQDivisionId" Type="Int64" />
+          <Property Name="BRDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="BOQItemId" Type="Int32" />
+          <Property Name="CostCenterId" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="TotalAmount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="StatusId" Type="Int32" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="DocPath" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="PurchaseOrders" Relationship="ERPModel.FK_PurchaseOrder_PurchaseOrder" FromRole="BillRequisitionMaster" ToRole="PurchaseOrder" />
+          <NavigationProperty Name="VoucherBRMapMasters" Relationship="ERPModel.FK_VoucherBRMapMaster_BillRequisitionMaster" FromRole="BillRequisitionMaster" ToRole="VoucherBRMapMaster" />
+        </EntityType>
+        <EntityType Name="PurchaseOrder">
+          <Key>
+            <PropertyRef Name="PurchaseOrderId" />
+          </Key>
+          <Property Name="PurchaseOrderId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyId" Type="Int32" />
+          <Property Name="DemandId" Type="Int64" />
+          <Property Name="PurchaseOrderNo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="SupplierId" Type="Int32" />
+          <Property Name="PurchaseDate" Type="DateTime" Precision="0" />
+          <Property Name="ModeOfPurchaseId" Type="Int32" />
+          <Property Name="Days" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="ProductOriginId" Type="Int32" />
+          <Property Name="CompanyName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CountryId" Type="Int32" />
+          <Property Name="DeliveryDate" Type="DateTime" Precision="0" />
+          <Property Name="Remarks" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="EmpId" Type="Int64" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="PurchaseOrderStatus" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="ReferenceNo" Type="Guid" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CompletionStatus" Type="Int32" Nullable="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="SupplierPaymentMethodEnumFK" Type="Int32" Nullable="false" />
+          <Property Name="DeliveryAddress" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="TermsAndCondition" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="IsCancel" Type="Boolean" Nullable="false" />
+          <Property Name="IsHold" Type="Boolean" Nullable="false" />
+          <Property Name="PINo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ShippedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PortOfLoading" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FinalDestinationCountryFk" Type="Int32" />
+          <Property Name="PortOfDischarge" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FreightCharge" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
+          <Property Name="OtherCharge" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
+          <Property Name="LCNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LCValue" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
+          <Property Name="InsuranceNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PremiumValue" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
+          <Property Name="IsOpening" Type="Boolean" Nullable="false" />
+          <Property Name="OrderMasterId" Type="Int64" />
+          <Property Name="LCHeadGLId" Type="Int32" />
+          <Property Name="StockInfoId" Type="Int32" />
+          <Property Name="BillRequisitionMasterId" Type="Int64" />
+          <Property Name="DocPath" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="DropDownItem" Relationship="ERPModel.FK_PurchaseOrder_ModeOfPurchase" FromRole="PurchaseOrder" ToRole="DropDownItem" />
+          <NavigationProperty Name="DropDownItem1" Relationship="ERPModel.FK_PurchaseOrder_ProductOrigin" FromRole="PurchaseOrder" ToRole="DropDownItem" />
+          <NavigationProperty Name="BillRequisitionMaster" Relationship="ERPModel.FK_PurchaseOrder_PurchaseOrder" FromRole="PurchaseOrder" ToRole="BillRequisitionMaster" />
+          <NavigationProperty Name="Demand" Relationship="ERPModel.FK_PurchaseOrder_Demand" FromRole="PurchaseOrder" ToRole="Demand" />
+          <NavigationProperty Name="MaterialReceives" Relationship="ERPModel.FK_MaterialReceive_PurchaseOrder" FromRole="PurchaseOrder" ToRole="MaterialReceive" />
+          <NavigationProperty Name="StockInfo" Relationship="ERPModel.FK_PurchaseOrder_StockInfo" FromRole="PurchaseOrder" ToRole="StockInfo" />
+          <NavigationProperty Name="Vendor" Relationship="ERPModel.FK_PurchaseOrder_Vendor" FromRole="PurchaseOrder" ToRole="Vendor" />
+          <NavigationProperty Name="PurchaseOrderDetails" Relationship="ERPModel.FK_PurchaseOrderDetail_PurchaseOrder" FromRole="PurchaseOrder" ToRole="PurchaseOrderDetail" />
+          <NavigationProperty Name="VendorDepositHistories" Relationship="ERPModel.FK_VendorDepositHistory_VendorDepositHistory" FromRole="PurchaseOrder" ToRole="VendorDepositHistory" />
+        </EntityType>
+        <EntityType Name="PurchaseOrderDetail">
+          <Key>
+            <PropertyRef Name="PurchaseOrderDetailId" />
+          </Key>
+          <Property Name="PurchaseOrderDetailId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PurchaseOrderId" Type="Int64" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="UnitId" Type="Int32" />
+          <Property Name="PurchaseQty" Type="Decimal" Nullable="false" Precision="18" Scale="3" />
+          <Property Name="DemandRate" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="PurchaseRate" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="QCRate" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="PurchaseAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="PackSize" Type="Int32" />
+          <Property Name="CompanyId" Type="Int32" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="FinishProductBOMId" Type="Int32" />
+          <Property Name="BillRequisitionDetailId" Type="Int64" />
+          <Property Name="DocPath" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="BillRequisitionDetail" Relationship="ERPModel.FK_PurchaseOrderDetail_BillRequisitionDetail" FromRole="PurchaseOrderDetail" ToRole="BillRequisitionDetail" />
+          <NavigationProperty Name="PurchaseOrder" Relationship="ERPModel.FK_PurchaseOrderDetail_PurchaseOrder" FromRole="PurchaseOrderDetail" ToRole="PurchaseOrder" />
+        </EntityType>
+        <Association Name="FK_PurchaseOrder_ModeOfPurchase">
+          <End Type="ERPModel.DropDownItem" Role="DropDownItem" Multiplicity="0..1" />
+          <End Type="ERPModel.PurchaseOrder" Role="PurchaseOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DropDownItem">
+              <PropertyRef Name="DropDownItemId" />
+            </Principal>
+            <Dependent Role="PurchaseOrder">
+              <PropertyRef Name="ModeOfPurchaseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PurchaseOrder_ProductOrigin">
+          <End Type="ERPModel.DropDownItem" Role="DropDownItem" Multiplicity="0..1" />
+          <End Type="ERPModel.PurchaseOrder" Role="PurchaseOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DropDownItem">
+              <PropertyRef Name="DropDownItemId" />
+            </Principal>
+            <Dependent Role="PurchaseOrder">
+              <PropertyRef Name="ProductOriginId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_PurchaseOrderDetail_BillRequisitionDetail">
           <End Type="ERPModel.BillRequisitionDetail" Role="BillRequisitionDetail" Multiplicity="0..1" />
           <End Type="ERPModel.PurchaseOrderDetail" Role="PurchaseOrderDetail" Multiplicity="*" />
@@ -21535,6 +21471,78 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             </Principal>
             <Dependent Role="VoucherBRMapMaster">
               <PropertyRef Name="BillRequsitionMasterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PurchaseOrder_Demand">
+          <End Type="ERPModel.Demand" Role="Demand" Multiplicity="0..1" />
+          <End Type="ERPModel.PurchaseOrder" Role="PurchaseOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Demand">
+              <PropertyRef Name="DemandId" />
+            </Principal>
+            <Dependent Role="PurchaseOrder">
+              <PropertyRef Name="DemandId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MaterialReceive_PurchaseOrder">
+          <End Type="ERPModel.PurchaseOrder" Role="PurchaseOrder" Multiplicity="0..1" />
+          <End Type="ERPModel.MaterialReceive" Role="MaterialReceive" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PurchaseOrder">
+              <PropertyRef Name="PurchaseOrderId" />
+            </Principal>
+            <Dependent Role="MaterialReceive">
+              <PropertyRef Name="PurchaseOrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PurchaseOrder_StockInfo">
+          <End Type="ERPModel.StockInfo" Role="StockInfo" Multiplicity="0..1" />
+          <End Type="ERPModel.PurchaseOrder" Role="PurchaseOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockInfo">
+              <PropertyRef Name="StockInfoId" />
+            </Principal>
+            <Dependent Role="PurchaseOrder">
+              <PropertyRef Name="StockInfoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PurchaseOrder_Vendor">
+          <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="0..1" />
+          <End Type="ERPModel.PurchaseOrder" Role="PurchaseOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="VendorId" />
+            </Principal>
+            <Dependent Role="PurchaseOrder">
+              <PropertyRef Name="SupplierId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PurchaseOrderDetail_PurchaseOrder">
+          <End Type="ERPModel.PurchaseOrder" Role="PurchaseOrder" Multiplicity="0..1" />
+          <End Type="ERPModel.PurchaseOrderDetail" Role="PurchaseOrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PurchaseOrder">
+              <PropertyRef Name="PurchaseOrderId" />
+            </Principal>
+            <Dependent Role="PurchaseOrderDetail">
+              <PropertyRef Name="PurchaseOrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VendorDepositHistory_VendorDepositHistory">
+          <End Type="ERPModel.PurchaseOrder" Role="PurchaseOrder" Multiplicity="0..1" />
+          <End Type="ERPModel.VendorDepositHistory" Role="VendorDepositHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PurchaseOrder">
+              <PropertyRef Name="PurchaseOrderId" />
+            </Principal>
+            <Dependent Role="VendorDepositHistory">
+              <PropertyRef Name="PurchaseOrderId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -27208,80 +27216,6 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="PurchaseOrders">
-            <EntityTypeMapping TypeName="ERPModel.PurchaseOrder">
-              <MappingFragment StoreEntitySet="PurchaseOrder">
-                <ScalarProperty Name="BillRequisitionMasterId" ColumnName="BillRequisitionMasterId" />
-                <ScalarProperty Name="StockInfoId" ColumnName="StockInfoId" />
-                <ScalarProperty Name="LCHeadGLId" ColumnName="LCHeadGLId" />
-                <ScalarProperty Name="OrderMasterId" ColumnName="OrderMasterId" />
-                <ScalarProperty Name="IsOpening" ColumnName="IsOpening" />
-                <ScalarProperty Name="PremiumValue" ColumnName="PremiumValue" />
-                <ScalarProperty Name="InsuranceNo" ColumnName="InsuranceNo" />
-                <ScalarProperty Name="LCValue" ColumnName="LCValue" />
-                <ScalarProperty Name="LCNo" ColumnName="LCNo" />
-                <ScalarProperty Name="OtherCharge" ColumnName="OtherCharge" />
-                <ScalarProperty Name="FreightCharge" ColumnName="FreightCharge" />
-                <ScalarProperty Name="PortOfDischarge" ColumnName="PortOfDischarge" />
-                <ScalarProperty Name="FinalDestinationCountryFk" ColumnName="FinalDestinationCountryFk" />
-                <ScalarProperty Name="PortOfLoading" ColumnName="PortOfLoading" />
-                <ScalarProperty Name="ShippedBy" ColumnName="ShippedBy" />
-                <ScalarProperty Name="PINo" ColumnName="PINo" />
-                <ScalarProperty Name="IsHold" ColumnName="IsHold" />
-                <ScalarProperty Name="IsCancel" ColumnName="IsCancel" />
-                <ScalarProperty Name="TermsAndCondition" ColumnName="TermsAndCondition" />
-                <ScalarProperty Name="DeliveryAddress" ColumnName="DeliveryAddress" />
-                <ScalarProperty Name="SupplierPaymentMethodEnumFK" ColumnName="SupplierPaymentMethodEnumFK" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="CompletionStatus" ColumnName="CompletionStatus" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="ReferenceNo" ColumnName="ReferenceNo" />
-                <ScalarProperty Name="PurchaseOrderStatus" ColumnName="PurchaseOrderStatus" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="EmpId" ColumnName="EmpId" />
-                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
-                <ScalarProperty Name="DeliveryDate" ColumnName="DeliveryDate" />
-                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
-                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
-                <ScalarProperty Name="ProductOriginId" ColumnName="ProductOriginId" />
-                <ScalarProperty Name="Days" ColumnName="Days" />
-                <ScalarProperty Name="ModeOfPurchaseId" ColumnName="ModeOfPurchaseId" />
-                <ScalarProperty Name="PurchaseDate" ColumnName="PurchaseDate" />
-                <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
-                <ScalarProperty Name="PurchaseOrderNo" ColumnName="PurchaseOrderNo" />
-                <ScalarProperty Name="DemandId" ColumnName="DemandId" />
-                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
-                <ScalarProperty Name="PurchaseOrderId" ColumnName="PurchaseOrderId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PurchaseOrderDetails">
-            <EntityTypeMapping TypeName="ERPModel.PurchaseOrderDetail">
-              <MappingFragment StoreEntitySet="PurchaseOrderDetail">
-                <ScalarProperty Name="BillRequisitionDetailId" ColumnName="BillRequisitionDetailId" />
-                <ScalarProperty Name="FinishProductBOMId" ColumnName="FinishProductBOMId" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
-                <ScalarProperty Name="PackSize" ColumnName="PackSize" />
-                <ScalarProperty Name="PurchaseAmount" ColumnName="PurchaseAmount" />
-                <ScalarProperty Name="QCRate" ColumnName="QCRate" />
-                <ScalarProperty Name="PurchaseRate" ColumnName="PurchaseRate" />
-                <ScalarProperty Name="DemandRate" ColumnName="DemandRate" />
-                <ScalarProperty Name="PurchaseQty" ColumnName="PurchaseQty" />
-                <ScalarProperty Name="UnitId" ColumnName="UnitId" />
-                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-                <ScalarProperty Name="PurchaseOrderId" ColumnName="PurchaseOrderId" />
-                <ScalarProperty Name="PurchaseOrderDetailId" ColumnName="PurchaseOrderDetailId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Accounting_CostCenter">
             <EntityTypeMapping TypeName="ERPModel.Accounting_CostCenter">
               <MappingFragment StoreEntitySet="Accounting_CostCenter">
@@ -27353,56 +27287,6 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="BillRequisitionDetails">
-            <EntityTypeMapping TypeName="ERPModel.BillRequisitionDetail">
-              <MappingFragment StoreEntitySet="BillRequisitionDetail">
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
-                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
-                <ScalarProperty Name="Chainage" ColumnName="Chainage" />
-                <ScalarProperty Name="DPP" ColumnName="DPP" />
-                <ScalarProperty Name="Ward" ColumnName="Ward" />
-                <ScalarProperty Name="Floor" ColumnName="Floor" />
-                <ScalarProperty Name="RemainingQty" ColumnName="RemainingQty" />
-                <ScalarProperty Name="ReceivedSoFar" ColumnName="ReceivedSoFar" />
-                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
-                <ScalarProperty Name="UnitRate" ColumnName="UnitRate" />
-                <ScalarProperty Name="DemandQty" ColumnName="DemandQty" />
-                <ScalarProperty Name="EstimatedQty" ColumnName="EstimatedQty" />
-                <ScalarProperty Name="UnitId" ColumnName="UnitId" />
-                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-                <ScalarProperty Name="BillRequisitionMasterId" ColumnName="BillRequisitionMasterId" />
-                <ScalarProperty Name="BillRequisitionDetailId" ColumnName="BillRequisitionDetailId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="BillRequisitionMasters">
-            <EntityTypeMapping TypeName="ERPModel.BillRequisitionMaster">
-              <MappingFragment StoreEntitySet="BillRequisitionMaster">
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
-                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="CostCenterId" ColumnName="CostCenterId" />
-                <ScalarProperty Name="BOQItemId" ColumnName="BOQItemId" />
-                <ScalarProperty Name="BRDate" ColumnName="BRDate" />
-                <ScalarProperty Name="BoQDivisionId" ColumnName="BoQDivisionId" />
-                <ScalarProperty Name="ProjectTypeId" ColumnName="ProjectTypeId" />
-                <ScalarProperty Name="BillRequisitionTypeId" ColumnName="BillRequisitionTypeId" />
-                <ScalarProperty Name="BillRequisitionNo" ColumnName="BillRequisitionNo" />
-                <ScalarProperty Name="BillRequisitionMasterId" ColumnName="BillRequisitionMasterId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="BoQDivisions">
             <EntityTypeMapping TypeName="ERPModel.BoQDivision">
               <MappingFragment StoreEntitySet="BoQDivision">
@@ -27469,6 +27353,134 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
                 <ScalarProperty Name="AprrovalStatusId" ColumnName="AprrovalStatusId" />
                 <ScalarProperty Name="VoucherBRMapMasterMasterId" ColumnName="VoucherBRMapMasterMasterId" />
                 <ScalarProperty Name="VoucherBRMapMasterApprovalId" ColumnName="VoucherBRMapMasterApprovalId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BillRequisitionDetails">
+            <EntityTypeMapping TypeName="ERPModel.BillRequisitionDetail">
+              <MappingFragment StoreEntitySet="BillRequisitionDetail">
+                <ScalarProperty Name="DocPath" ColumnName="DocPath" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="Chainage" ColumnName="Chainage" />
+                <ScalarProperty Name="DPP" ColumnName="DPP" />
+                <ScalarProperty Name="Ward" ColumnName="Ward" />
+                <ScalarProperty Name="Floor" ColumnName="Floor" />
+                <ScalarProperty Name="RemainingQty" ColumnName="RemainingQty" />
+                <ScalarProperty Name="ReceivedSoFar" ColumnName="ReceivedSoFar" />
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+                <ScalarProperty Name="UnitRate" ColumnName="UnitRate" />
+                <ScalarProperty Name="DemandQty" ColumnName="DemandQty" />
+                <ScalarProperty Name="EstimatedQty" ColumnName="EstimatedQty" />
+                <ScalarProperty Name="UnitId" ColumnName="UnitId" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="BillRequisitionMasterId" ColumnName="BillRequisitionMasterId" />
+                <ScalarProperty Name="BillRequisitionDetailId" ColumnName="BillRequisitionDetailId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BillRequisitionMasters">
+            <EntityTypeMapping TypeName="ERPModel.BillRequisitionMaster">
+              <MappingFragment StoreEntitySet="BillRequisitionMaster">
+                <ScalarProperty Name="DocPath" ColumnName="DocPath" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CostCenterId" ColumnName="CostCenterId" />
+                <ScalarProperty Name="BOQItemId" ColumnName="BOQItemId" />
+                <ScalarProperty Name="BRDate" ColumnName="BRDate" />
+                <ScalarProperty Name="BoQDivisionId" ColumnName="BoQDivisionId" />
+                <ScalarProperty Name="ProjectTypeId" ColumnName="ProjectTypeId" />
+                <ScalarProperty Name="BillRequisitionTypeId" ColumnName="BillRequisitionTypeId" />
+                <ScalarProperty Name="BillRequisitionNo" ColumnName="BillRequisitionNo" />
+                <ScalarProperty Name="BillRequisitionMasterId" ColumnName="BillRequisitionMasterId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PurchaseOrders">
+            <EntityTypeMapping TypeName="ERPModel.PurchaseOrder">
+              <MappingFragment StoreEntitySet="PurchaseOrder">
+                <ScalarProperty Name="DocPath" ColumnName="DocPath" />
+                <ScalarProperty Name="BillRequisitionMasterId" ColumnName="BillRequisitionMasterId" />
+                <ScalarProperty Name="StockInfoId" ColumnName="StockInfoId" />
+                <ScalarProperty Name="LCHeadGLId" ColumnName="LCHeadGLId" />
+                <ScalarProperty Name="OrderMasterId" ColumnName="OrderMasterId" />
+                <ScalarProperty Name="IsOpening" ColumnName="IsOpening" />
+                <ScalarProperty Name="PremiumValue" ColumnName="PremiumValue" />
+                <ScalarProperty Name="InsuranceNo" ColumnName="InsuranceNo" />
+                <ScalarProperty Name="LCValue" ColumnName="LCValue" />
+                <ScalarProperty Name="LCNo" ColumnName="LCNo" />
+                <ScalarProperty Name="OtherCharge" ColumnName="OtherCharge" />
+                <ScalarProperty Name="FreightCharge" ColumnName="FreightCharge" />
+                <ScalarProperty Name="PortOfDischarge" ColumnName="PortOfDischarge" />
+                <ScalarProperty Name="FinalDestinationCountryFk" ColumnName="FinalDestinationCountryFk" />
+                <ScalarProperty Name="PortOfLoading" ColumnName="PortOfLoading" />
+                <ScalarProperty Name="ShippedBy" ColumnName="ShippedBy" />
+                <ScalarProperty Name="PINo" ColumnName="PINo" />
+                <ScalarProperty Name="IsHold" ColumnName="IsHold" />
+                <ScalarProperty Name="IsCancel" ColumnName="IsCancel" />
+                <ScalarProperty Name="TermsAndCondition" ColumnName="TermsAndCondition" />
+                <ScalarProperty Name="DeliveryAddress" ColumnName="DeliveryAddress" />
+                <ScalarProperty Name="SupplierPaymentMethodEnumFK" ColumnName="SupplierPaymentMethodEnumFK" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CompletionStatus" ColumnName="CompletionStatus" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ReferenceNo" ColumnName="ReferenceNo" />
+                <ScalarProperty Name="PurchaseOrderStatus" ColumnName="PurchaseOrderStatus" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="EmpId" ColumnName="EmpId" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="DeliveryDate" ColumnName="DeliveryDate" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="ProductOriginId" ColumnName="ProductOriginId" />
+                <ScalarProperty Name="Days" ColumnName="Days" />
+                <ScalarProperty Name="ModeOfPurchaseId" ColumnName="ModeOfPurchaseId" />
+                <ScalarProperty Name="PurchaseDate" ColumnName="PurchaseDate" />
+                <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
+                <ScalarProperty Name="PurchaseOrderNo" ColumnName="PurchaseOrderNo" />
+                <ScalarProperty Name="DemandId" ColumnName="DemandId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="PurchaseOrderId" ColumnName="PurchaseOrderId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PurchaseOrderDetails">
+            <EntityTypeMapping TypeName="ERPModel.PurchaseOrderDetail">
+              <MappingFragment StoreEntitySet="PurchaseOrderDetail">
+                <ScalarProperty Name="DocPath" ColumnName="DocPath" />
+                <ScalarProperty Name="BillRequisitionDetailId" ColumnName="BillRequisitionDetailId" />
+                <ScalarProperty Name="FinishProductBOMId" ColumnName="FinishProductBOMId" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="PackSize" ColumnName="PackSize" />
+                <ScalarProperty Name="PurchaseAmount" ColumnName="PurchaseAmount" />
+                <ScalarProperty Name="QCRate" ColumnName="QCRate" />
+                <ScalarProperty Name="PurchaseRate" ColumnName="PurchaseRate" />
+                <ScalarProperty Name="DemandRate" ColumnName="DemandRate" />
+                <ScalarProperty Name="PurchaseQty" ColumnName="PurchaseQty" />
+                <ScalarProperty Name="UnitId" ColumnName="UnitId" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="PurchaseOrderId" ColumnName="PurchaseOrderId" />
+                <ScalarProperty Name="PurchaseOrderDetailId" ColumnName="PurchaseOrderDetailId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

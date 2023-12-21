@@ -32,8 +32,9 @@ namespace KGERP.Data.Models
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public Nullable<int> FinishProductBOMId { get; set; }
         public Nullable<long> BillRequisitionDetailId { get; set; }
+        public string DocPath { get; set; }
     
-        public virtual PurchaseOrder PurchaseOrder { get; set; }
         public virtual BillRequisitionDetail BillRequisitionDetail { get; set; }
+        public virtual PurchaseOrder PurchaseOrder { get; set; }
     }
 }

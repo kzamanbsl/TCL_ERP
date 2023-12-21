@@ -66,9 +66,11 @@ namespace KGERP.Data.Models
         public Nullable<int> LCHeadGLId { get; set; }
         public Nullable<int> StockInfoId { get; set; }
         public Nullable<long> BillRequisitionMasterId { get; set; }
+        public string DocPath { get; set; }
     
         public virtual DropDownItem DropDownItem { get; set; }
         public virtual DropDownItem DropDownItem1 { get; set; }
+        public virtual BillRequisitionMaster BillRequisitionMaster { get; set; }
         public virtual Demand Demand { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MaterialReceive> MaterialReceives { get; set; }
@@ -78,6 +80,5 @@ namespace KGERP.Data.Models
         public virtual ICollection<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<VendorDepositHistory> VendorDepositHistories { get; set; }
-        public virtual BillRequisitionMaster BillRequisitionMaster { get; set; }
     }
 }
