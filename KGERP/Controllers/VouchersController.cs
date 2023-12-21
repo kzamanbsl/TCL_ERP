@@ -1,7 +1,5 @@
 ﻿using KGERP.Data.Models;
-using KGERP.Service.Implementation;
 using KGERP.Service.Implementation.Accounting;
-using KGERP.Service.Implementation.Procurement;
 using KGERP.Service.Interface;
 using KGERP.Service.ServiceModel;
 using KGERP.Utility;
@@ -34,7 +32,6 @@ namespace KGERP.Controllers
 
 
         [HttpGet]
-        [SessionExpire]
         public async Task<ActionResult> Index(int companyId, DateTime? fromDate, DateTime? toDate, bool? vStatus, int? voucherTypeId)
         {
             if (companyId > 0)
@@ -65,7 +62,6 @@ namespace KGERP.Controllers
         }
 
         [HttpPost]
-        [SessionExpire]
         public async Task<ActionResult> Index(VoucherModel voucherModel)
         {
             if (voucherModel.CompanyId > 0)
@@ -81,7 +77,6 @@ namespace KGERP.Controllers
         }
 
         [HttpGet]
-        [SessionExpire]
         public async Task<ActionResult> StockVoucherIndex(int companyId)
         {
             if (companyId > 0)
@@ -97,7 +92,6 @@ namespace KGERP.Controllers
         }
 
         [HttpGet]
-        [SessionExpire]
         public ActionResult Create(int id, int companyId)
         {
             VoucherViewModel vm = new VoucherViewModel();
@@ -110,7 +104,6 @@ namespace KGERP.Controllers
         }
 
         [HttpGet]
-        [SessionExpire]
         public async Task<ActionResult> GetAllVoucher(int companyId, int? voucherTypeId, DateTime? fromDate, DateTime? toDate)
         {
 
@@ -137,7 +130,6 @@ namespace KGERP.Controllers
         }
 
         [HttpPost]
-        [SessionExpire]
         public async Task<ActionResult> GetAllVoucher(VoucherViewModel voucherModel)
         {
             if (voucherModel.Voucher.CompanyId > 0)
@@ -171,7 +163,6 @@ namespace KGERP.Controllers
         // POST: GLTables/Create  
 
         [HttpPost]
-        [SessionExpire]
         public ActionResult CreateVoucher(VoucherViewModel vm)
         {
             string message = string.Empty;
@@ -206,7 +197,6 @@ namespace KGERP.Controllers
         }
 
         [HttpPost]
-        [SessionExpire]
         public JsonResult VoucherNoAutoComplete(string prefix)
         {
             int companyId = Convert.ToInt32(Session["CompanyId"]);
@@ -247,7 +237,6 @@ namespace KGERP.Controllers
         }
 
         [HttpPost]
-        [SessionExpire]
         public async Task<ActionResult> ManageBankOrCash(VMJournalSlave vmJournalSlave)
         {
 
@@ -282,7 +271,6 @@ namespace KGERP.Controllers
         #region Requisition Voucher Basic
 
         [HttpGet]
-        [SessionExpire]
         public async Task<ActionResult> RequisitionVoucherList(int companyId, DateTime? fromDate, DateTime? toDate, bool? vStatus, int? voucherTypeId)
         {
             if (companyId > 0)
@@ -313,7 +301,6 @@ namespace KGERP.Controllers
         }
 
         [HttpPost]
-        [SessionExpire]
         public async Task<ActionResult> RequisitionVoucherList(VoucherModel voucherModel)
         {
             if (voucherModel.CompanyId > 0)
@@ -329,7 +316,6 @@ namespace KGERP.Controllers
         }
 
         [HttpPost]
-        [SessionExpire]
         public async Task<ActionResult> DeleteRequisitionVoucher(VoucherModel voucherModel)
         {
             if (voucherModel.VoucherId > 0)
@@ -342,7 +328,6 @@ namespace KGERP.Controllers
         }
 
         [HttpPost]
-        [SessionExpire]
         public async Task<ActionResult> UndoSubmitRequisitionVoucher(VoucherModel voucherModel)
         {
             if (voucherModel.VoucherId > 0)
@@ -391,7 +376,6 @@ namespace KGERP.Controllers
         }
 
         [HttpPost]
-        [SessionExpire]
         public async Task<ActionResult> RequisitionVoucherEntry(VMJournalSlave vmJournalSlave)
         {
 
@@ -422,10 +406,10 @@ namespace KGERP.Controllers
             return RedirectToAction(nameof(RequisitionVoucherEntry), new { companyId = vmJournalSlave.CompanyFK, voucherId = vmJournalSlave.VoucherId });
         }
 
-
+        [HttpGet]
         public async Task<ActionResult> UpdateRequisitionVoucherStatus(int voucherId)
         {
-            long voucherDetailsId = await Task.Run(() => _accountingService.UpdateVoucherStatus(voucherId));
+            long voucherDetailsId = await  _accountingService.UpdateRequisitionVoucherStatus(voucherId);
             return Json(voucherDetailsId, JsonRequestBehavior.AllowGet);
         }
 
@@ -437,7 +421,6 @@ namespace KGERP.Controllers
         #region Requisition Voucher Approval 
 
         [HttpGet]
-        [SessionExpire]
         public async Task<ActionResult> RequisitionVoucherApprovalList(int companyId, DateTime? fromDate, DateTime? toDate, bool? vStatus, int? voucherTypeId)
         {
             if (companyId > 0)
@@ -468,7 +451,6 @@ namespace KGERP.Controllers
         }
 
         [HttpPost]
-        [SessionExpire]
         public async Task<ActionResult> RequisitionVoucherApprovalList(VoucherModel voucherModel)
         {
             if (voucherModel.CompanyId > 0)
@@ -520,7 +502,6 @@ namespace KGERP.Controllers
         }
 
         [HttpPost]
-        [SessionExpire]
         public async Task<ActionResult> RequisitionVoucherApproval(VMJournalSlave vmJournalSlave)
         {
 
@@ -538,7 +519,6 @@ namespace KGERP.Controllers
         #endregion
 
         [HttpPost]
-        [SessionExpire]
         public async Task<ActionResult> DeleteVoucher(VoucherModel voucherModel)
         {
             if (voucherModel.VoucherId > 0)
@@ -551,7 +531,6 @@ namespace KGERP.Controllers
         }
 
         [HttpPost]
-        [SessionExpire]
         public async Task<ActionResult> UndoSubmitVoucher(VoucherModel voucherModel)
         {
             if (voucherModel.VoucherId > 0)
@@ -585,7 +564,6 @@ namespace KGERP.Controllers
         }
 
         [HttpPost]
-        [SessionExpire]
         public async Task<ActionResult> ManageStock(VMJournalSlave vmJournalSlave)
         {
 

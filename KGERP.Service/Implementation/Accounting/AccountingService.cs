@@ -658,9 +658,12 @@ namespace KGERP.Service.Implementation.Accounting
 
             return result;
         }
+      
         public async Task<long> UpdateRequisitionVoucherStatus(int voucherId)
         {
             long result = -1;
+            var empId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
+
             Voucher voucher = await _db.Vouchers.FindAsync(voucherId);
             voucher.VoucherStatus = "A";
             voucher.IsSubmit = true;
@@ -684,7 +687,8 @@ namespace KGERP.Service.Implementation.Accounting
 
                     if (VBRApproval.SignatoryId == 1)
                     {
-                        VBRApproval.EmployeeId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
+
+                        VBRApproval.EmployeeId = empId;
                         VBRApproval.AprrovalStatusId = (int)EnumBillRequisitionStatus.Approved;
                     }
                     else

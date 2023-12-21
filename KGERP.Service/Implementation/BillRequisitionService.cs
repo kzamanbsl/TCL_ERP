@@ -6,13 +6,8 @@ using KGERP.Utility;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.Core.Common.CommandTrees;
-using System.IdentityModel.Protocols.WSTrust;
-using System.IdentityModel.Tokens;
 using System.Linq;
 using System.Linq.Dynamic;
-using System.Security.Cryptography;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace KGERP.Service.Implementation
@@ -1101,6 +1096,7 @@ namespace KGERP.Service.Implementation
                 BillRequisitionMasterModel model = new BillRequisitionMasterModel();
                 List<BillRequisitionApproval> billRequisitionApprovalList = new List<BillRequisitionApproval>();
                 int priority = 0;
+                var empId= Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
                 foreach (var item in model.EnumBRSignatoryList)
                 {
 
@@ -1113,7 +1109,7 @@ namespace KGERP.Service.Implementation
 
                     if (billRequisitionApproval.SignatoryId == 1)
                     {
-                        billRequisitionApproval.EmployeeId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
+                        billRequisitionApproval.EmployeeId = empId;
                         billRequisitionApproval.AprrovalStatusId = (int)EnumBillRequisitionStatus.Approved;
                     }
                     else
