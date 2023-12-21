@@ -455,7 +455,7 @@ namespace KGERP.Controllers
             voucherModel.VoucherTypesList = new SelectList(_accountingService.VoucherTypesDownList(companyId), "Value", "Text");
             voucherModel.StrFromDate = fromDate.Value.ToString("yyyy-MM-dd");
             voucherModel.StrToDate = toDate.Value.ToString("yyyy-MM-dd");
-            voucherModel.IsSubmit = vStatus;
+            voucherModel.IsApproved = vStatus;
             return View(voucherModel);
         }
 
@@ -472,7 +472,7 @@ namespace KGERP.Controllers
             voucherModel.ToDate = Convert.ToDateTime(voucherModel.StrToDate);
 
 
-            return RedirectToAction(nameof(RequisitionVoucherApprovalList), new { companyId = voucherModel.CompanyId, fromDate = voucherModel.FromDate, toDate = voucherModel.ToDate, vStatus = voucherModel.IsSubmit, voucherTypeId = voucherModel.VmVoucherTypeId ?? 0 });
+            return RedirectToAction(nameof(RequisitionVoucherApprovalList), new { companyId = voucherModel.CompanyId, fromDate = voucherModel.FromDate, toDate = voucherModel.ToDate, vStatus = voucherModel.IsApproved, voucherTypeId = voucherModel.VmVoucherTypeId ?? 0 });
         }
 
 

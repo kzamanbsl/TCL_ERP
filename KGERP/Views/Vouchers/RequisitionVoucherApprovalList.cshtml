@@ -28,8 +28,8 @@
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
 
         @*<li>
-            <a href="~/Vouchers/ManageBankOrCash?companyId=@Request.QueryString["companyId"]" class="btn btn-primary">New Voucher</a>
-        </li>*@
+                <a href="~/Vouchers/ManageBankOrCash?companyId=@Request.QueryString["companyId"]" class="btn btn-primary">New Voucher</a>
+            </li>*@
     </ol>
 </section>
 
@@ -53,9 +53,9 @@
                                         <div class="col-md-2">
 
                                             <div class="form-group">
-                                                @Html.RadioButtonFor(m => m.IsSubmit, true) Submitted
+                                                @Html.RadioButtonFor(m => m.IsApproved, true) Approved
                                                 <br />
-                                                @Html.RadioButtonFor(m => m.IsSubmit, false) Draft
+                                                @Html.RadioButtonFor(m => m.IsApproved, false) Pending
                                             </div>
                                         </div>
 
@@ -157,33 +157,10 @@
 
                                                     </td>
                                                     <td>
-                                                        @if (item.IsStock)
-                                                        {
-                                                            <a href="~/Vouchers/ManageStock?companyId=@item.CompanyId&voucherId=@item.VoucherId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
-                                                        }
-                                                        else
-                                                        {
-                                                            <a href="~/Vouchers/RequisitionVoucherApproval?companyId=@item.CompanyId&voucherId=@item.VoucherId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
-
-                                                        }
-
-                                                        @if (!item.IsIntegrated)
-                                                        {
-                                                            if (Model.IsSubmit == true)
-                                                            {
-                                                                <a id="linkUndoSubmit_@item.VoucherId" onclick="makeUndoSubmit(@item.VoucherId,@item.CompanyId)" class="linkPointer text-warning" data-toggle="modal" data-target="#undoSubmitVoucherModal" title="Undo Submit" data-placement="top"><i class="fa fa-undo" aria-hidden="true"></i></a>
-
-                                                            }
-
-                                                            <a id="linkVoucherId_@item.VoucherId" onclick="makeDeletale(@item.VoucherId,@item.CompanyId)" style="color:red" class="linkPointer" data-toggle="modal" data-target="#deleteVoucherModal" title="Delete" data-placement="top"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>
-                                                            @*<a id="linkVoucherId_@item.VoucherId" onclick="makeEditble(@item.VoucherId,@item.CompanyId)" style="color:#999" class="linkPointer" data-toggle="modal" data-target="#EditVoucherModal" title="Edit" data-placement="top"><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></a>*@
-
-                                                        }
-
-                                                        <a href="@Url.Action("GetVoucherReport","Report", new { companyId = item.CompanyId, voucherId = item.VoucherId ,reportName =""})" style="width:100%" target="_blank" class="btn btn-primary btn-xs">
-                                                            Print
-                                                        </a>
-
+                                                        <a href="~/Vouchers/RequisitionVoucherApproval?companyId=@item.CompanyId&voucherId=@item.VoucherId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
+                                                        @*<a href="@Url.Action("GetVoucherReport","Report", new { companyId = item.CompanyId, voucherId = item.VoucherId ,reportName =""})" style="width:100%" target="_blank" class="btn btn-primary btn-xs">
+                                                                Print
+                                                            </a>*@
                                                     </td>
                                                 </tr>
 
@@ -457,7 +434,7 @@
                 datatype: "Json",
                 data: { voucherTypeId: voucherTypeId, companyId: "@Model.CompanyId", voucherDate: voucherDate },
                 success: function (data) {
-               
+
                     $("#txtVoucherNo").val(data);
                     $("#spnVoucherNo").text("-" + data);
                 }

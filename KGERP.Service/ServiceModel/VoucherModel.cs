@@ -54,6 +54,7 @@ namespace KGERP.Service.ServiceModel
         public virtual ICollection<VoucherDetailModel> VoucherDetails { get; set; }
         public IEnumerable<VoucherModel> DataList { get; set; }
 
+
         ////-------------------Extented Properties------------------------------
         [DisplayName("Account Code")]
         public int AccountHeadId { get; set; }
@@ -66,12 +67,14 @@ namespace KGERP.Service.ServiceModel
         public string Particular { get; set; }
         public bool IsStock { get; set; }
         public bool? IsSubmit { get; set; }
+        public bool? IsApproved { get; set; }
         public bool IsIntegrated { get; set; }
         public int? VmVoucherTypeId { get; set; }
 
         public SelectList VoucherTypesList { get; set; } = new SelectList(new List<object>());
         public List<SelectModel> VoucherTypes { get; set; }
         public VMJournalSlave vM { get; set; }
+        
 
 }
 }
