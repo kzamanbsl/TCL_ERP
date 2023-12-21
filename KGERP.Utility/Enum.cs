@@ -259,7 +259,8 @@ namespace KGERP.Utility
         Supplier = 1,
         Customer,
         RentCompany,
-        CustomerAssociates
+        CustomerAssociates,
+        Subcontractor
     }
 
     public enum PromotionTypeEnum
