@@ -677,7 +677,7 @@ namespace KGERP.Service.Implementation.Accounting
                 {
 
                     VoucherBRMapMasterApproval VBRApproval = new VoucherBRMapMasterApproval();
-                    VBRApproval.VoucherBRMapMasterMasterId = VRMapMaster.VoucherBRMapMasterId;
+                    VBRApproval.VoucherBRMapMasterId = VRMapMaster.VoucherBRMapMasterId;
                     VBRApproval.CompanyId = voucher.CompanyId ?? 21;
 
                     VBRApproval.SignatoryId = Convert.ToInt16(item.Value);
