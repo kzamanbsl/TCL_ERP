@@ -74,7 +74,10 @@ namespace KGERP.Service.ServiceModel
         public SelectList VoucherTypesList { get; set; } = new SelectList(new List<object>());
         public List<SelectModel> VoucherTypes { get; set; }
         public VMJournalSlave vM { get; set; }
-        
 
-}
+        public SelectList EnumRVStatusList { get { return new SelectList(BaseFunctionalities.GetEnumList<EnumBillRequisitionStatus>(), "Value", "Text"); } }
+        public SelectList EnumRVSignatoryList { get { return new SelectList(BaseFunctionalities.GetEnumList<EnumVoucherRequisitionSignatory>(), "Value", "Text"); } }
+
+
+    }
 }

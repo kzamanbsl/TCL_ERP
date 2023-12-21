@@ -754,7 +754,7 @@
                 var voucherId = $("#hidVoucherId").val();
                 $.ajax({
                         type: "GET",
-                        url: "@Url.Action("UpdateVoucherStatus", "Vouchers")",
+                        url: "@Url.Action("UpdateRequisitionVoucherStatus", "Vouchers")",
                         datatype: "Json",
                         data: { voucherId: voucherId},
                         success: function (data) {

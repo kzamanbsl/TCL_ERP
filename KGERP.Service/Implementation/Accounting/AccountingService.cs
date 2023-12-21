@@ -658,6 +658,57 @@ namespace KGERP.Service.Implementation.Accounting
 
             return result;
         }
+        public async Task<long> UpdateRequisitionVoucherStatus(int voucherId)
+        {
+            long result = -1;
+            Voucher voucher = await _db.Vouchers.FindAsync(voucherId);
+            voucher.VoucherStatus = "A";
+            voucher.IsSubmit = true;
+
+            using (var scope = _db.Database.BeginTransaction())
+            {
+                await _db.SaveChangesAsync();
+
+                var VRMapMaster = _db.VoucherBRMapMasters.FirstOrDefault(x => x.VoucherId == voucher.VoucherId);
+                VoucherModel model = new VoucherModel();
+                List<VoucherBRMapMasterApproval> VBRApprovalList = new List<VoucherBRMapMasterApproval>();
+                int priority = 0;
+                foreach (var item in model.EnumRVSignatoryList)
+                {
+
+                    VoucherBRMapMasterApproval VBRApproval = new VoucherBRMapMasterApproval();
+                    VBRApproval.VoucherBRMapMasterMasterId = VRMapMaster.VoucherBRMapMasterId;
+                    VBRApproval.CompanyId = voucher.CompanyId ?? 21;
+
+                    VBRApproval.SignatoryId = Convert.ToInt16(item.Value);
+
+                    if (VBRApproval.SignatoryId == 1)
+                    {
+                        VBRApproval.EmployeeId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
+                        VBRApproval.AprrovalStatusId = (int)EnumBillRequisitionStatus.Approved;
+                    }
+                    else
+                    {
+                        VBRApproval.AprrovalStatusId = (int)EnumBillRequisitionStatus.Pending;
+                    }
+                    priority = priority + 1;
+                    VBRApproval.PriorityNo = priority;
+                    VBRApproval.IsActive = true;
+                    VBRApproval.IsSupremeApproved = false;
+
+                    VBRApproval.CreateDate = DateTime.Now;
+                    VBRApproval.CreatedBy = voucher.CreatedBy;
+                    VBRApprovalList.Add(VBRApproval);
+                }
+                _db.VoucherBRMapMasterApprovals.AddRange(VBRApprovalList);
+                _db.SaveChanges();
+
+                result = voucher.VoucherId;
+                scope.Commit();
+            }
+            return result;
+
+        }
 
         public async Task<long> VoucherRequisitionMapUndoSubmit(VoucherModel voucherModel)
         {

@@ -422,6 +422,14 @@ namespace KGERP.Controllers
             return RedirectToAction(nameof(RequisitionVoucherEntry), new { companyId = vmJournalSlave.CompanyFK, voucherId = vmJournalSlave.VoucherId });
         }
 
+
+        public async Task<ActionResult> UpdateRequisitionVoucherStatus(int voucherId)
+        {
+            long voucherDetailsId = await Task.Run(() => _accountingService.UpdateVoucherStatus(voucherId));
+            return Json(voucherDetailsId, JsonRequestBehavior.AllowGet);
+        }
+
+
         #endregion
 
 
@@ -451,7 +459,7 @@ namespace KGERP.Controllers
             }
 
             VoucherModel voucherModel = new VoucherModel();
-            voucherModel = await _voucherService.GetRequisitionVouchersList(companyId, fromDate, toDate, vStatus, voucherTypeId);
+            voucherModel = await _voucherService.GetRequisitionVouchersApprovalList(companyId, fromDate, toDate, vStatus, voucherTypeId);
             voucherModel.VoucherTypesList = new SelectList(_accountingService.VoucherTypesDownList(companyId), "Value", "Text");
             voucherModel.StrFromDate = fromDate.Value.ToString("yyyy-MM-dd");
             voucherModel.StrToDate = toDate.Value.ToString("yyyy-MM-dd");
