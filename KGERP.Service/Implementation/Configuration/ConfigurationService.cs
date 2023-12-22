@@ -1075,19 +1075,38 @@ namespace KGERP.Service.Implementation.Configuration
             var result = -1;
 
             #region Genarate Supplier code
-            int totalSupplier = _db.Vendors.Count(x => x.VendorTypeId == (int)ProviderEnum.Supplier && x.CompanyId == vmCommonSupplier.CompanyFK);
 
+            var newString = "";
 
-            if (totalSupplier == 0)
+            if(vmCommonSupplier.VendorTypeId == (int)ProviderEnum.Subcontractor)
             {
-                totalSupplier = 1;
+                int totalSupplier = _db.Vendors.Count(x => x.VendorTypeId == (int)ProviderEnum.Subcontractor && x.CompanyId == vmCommonSupplier.CompanyFK);
+
+                if (totalSupplier == 0)
+                {
+                    totalSupplier = 1;
+                }
+                else
+                {
+                    totalSupplier++;
+                }
+                newString = "SUB-" + totalSupplier.ToString().PadLeft(4, '0');
             }
             else
             {
-                totalSupplier++;
+                int totalSupplier = _db.Vendors.Count(x => x.VendorTypeId == (int)ProviderEnum.Supplier && x.CompanyId == vmCommonSupplier.CompanyFK);
+
+                if (totalSupplier == 0)
+                {
+                    totalSupplier = 1;
+                }
+                else
+                {
+                    totalSupplier++;
+                }
+                newString = "SUP-" + totalSupplier.ToString().PadLeft(4, '0');
             }
 
-            var newString = "SUP-" + totalSupplier.ToString().PadLeft(4, '0');
             #endregion
 
             int bdId = _db.Countries.FirstOrDefault(x => x.CountryName == "Bangladesh").CountryId;
@@ -1111,7 +1130,7 @@ namespace KGERP.Service.Implementation.Configuration
                 Email = vmCommonSupplier.Email,
                 CountryId = bdId,
                 Address = vmCommonSupplier.Address,
-                VendorTypeId = (int)ProviderEnum.Supplier,
+                VendorTypeId = vmCommonSupplier.VendorTypeId,
                 BankName = vmCommonSupplier.BankName,
                 BranchName = vmCommonSupplier.BranchName,
                 ACName = vmCommonSupplier.ACName,

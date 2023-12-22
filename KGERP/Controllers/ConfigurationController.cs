@@ -1182,6 +1182,7 @@ namespace KGERP.Controllers
         }
 
         #region Common Subcontractor
+
         [HttpGet]
         public async Task<ActionResult> CommonSubcontractor(int companyId)
         {
@@ -1192,6 +1193,34 @@ namespace KGERP.Controllers
 
             return View(vmCommonSupplier);
         }
+
+        [HttpPost]
+        public async Task<ActionResult> CommonSubcontractor(VMCommonSupplier vmCommonSupplier)
+        {
+
+            if (vmCommonSupplier.ActionEum == ActionEnum.Add)
+            {
+                //Add
+                vmCommonSupplier.VendorTypeId = (int)ProviderEnum.Subcontractor;
+                await _service.SupplierAdd(vmCommonSupplier);
+            }
+            else if (vmCommonSupplier.ActionEum == ActionEnum.Edit)
+            {
+                //Edit
+                await _service.SupplierEdit(vmCommonSupplier);
+            }
+            else if (vmCommonSupplier.ActionEum == ActionEnum.Delete)
+            {
+                //Delete
+                await _service.SupplierDelete(vmCommonSupplier.ID);
+            }
+            else
+            {
+                return View("Error");
+            }
+            return RedirectToAction(nameof(CommonSupplier), new { companyId = vmCommonSupplier.CompanyFK });
+        }
+
         #endregion
 
         #region Common Supplier
@@ -1219,7 +1248,8 @@ namespace KGERP.Controllers
 
             if (vmCommonSupplier.ActionEum == ActionEnum.Add)
             {
-                //Add 
+                //Add
+                vmCommonSupplier.VendorTypeId = (int)ProviderEnum.Supplier;
                 await _service.SupplierAdd(vmCommonSupplier);
             }
             else if (vmCommonSupplier.ActionEum == ActionEnum.Edit)

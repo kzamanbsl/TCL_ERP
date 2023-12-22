@@ -162,6 +162,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
 
@@ -199,7 +200,7 @@
                                             @{int sl = 0;
                                             }
                                             <tbody>
-                                                @foreach (var item in Model.DataList)
+                                                @foreach (var item in Model.DataList.Where(c => c.VendorTypeId == (int)KGERP.Utility.ProviderEnum.Supplier))
                                                 {
                                                     <tr>
                                                         <td>@(++sl)</td>
@@ -380,4 +381,5 @@
         }
 
     </script>
+
 }

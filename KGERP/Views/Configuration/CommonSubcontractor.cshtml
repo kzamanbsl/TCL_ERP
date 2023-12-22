@@ -24,7 +24,7 @@
 <section class="content">
     <div class="row">
         <div class="col-md-12">
-            @using (Html.BeginForm("CommonSupplier", "Configuration", FormMethod.Post, new { id = "commonSupplierformId", @class = "formValidator", @enctype = "multipart/form-data" }))
+            @using (Html.BeginForm("CommonSubcontractor", "Configuration", FormMethod.Post, new { id = "commonSupplierformId", @class = "formValidator", @enctype = "multipart/form-data" }))
             {
                 <div class="box">
                     @Html.AntiForgeryToken()
@@ -43,7 +43,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">Subcontractor Name :</label>
-                                        @Html.TextBoxFor(model => model.Name, new { id = "txtSupplierName", @class = "form-control", @placeholder = "Supplier name", required = "required" })
+                                        @Html.TextBoxFor(model => model.Name, new { id = "txtSupplierName", @class = "form-control", @placeholder = "Subcontractor name", required = "required" })
                                         @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -51,31 +51,31 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">Licence No :</label>
-                                        @Html.TextBoxFor(model => model.ContactPerson, new { id = "txtContactPerson", @class = "form-control", @placeholder = "Trade licence no" })
-                                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                        @Html.TextBoxFor(model => model.TradeLicenseNumber, new { id = "txtTradeLicenseNumber", @class = "form-control", @placeholder = "Trade licence no", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.TradeLicenseNumber, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
 
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">Contact Person :</label>
-                                        @Html.TextBoxFor(model => model.ContactPerson, new { id = "txtContactPerson", @class = "form-control", @placeholder = "Contact person" })
-                                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                        @Html.TextBoxFor(model => model.ContactPerson, new { id = "txtContactPerson", @class = "form-control", @placeholder = "Contact person", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.ContactPerson, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
 
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">NID Number :</label>
-                                        @Html.TextBoxFor(model => model.Phone, new { id = "txtPhone", @class = "form-control", @placeholder = "NID numbers" })
-                                        @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                                        @Html.TextBoxFor(model => model.NID, new { id = "txtNidNumber", @class = "form-control", @placeholder = "NID numbers", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.NID, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
 
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">Phone Number :</label>
-                                        @Html.TextBoxFor(model => model.Phone, new { id = "txtPhone", @class = "form-control", @placeholder = "Phone number" })
+                                        @Html.TextBoxFor(model => model.Phone, new { id = "txtPhone", @class = "form-control", @placeholder = "Phone number", required = "required" })
                                         @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -83,7 +83,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">Email Address :</label>
-                                        @Html.TextBoxFor(model => model.Email, new { id = "txtEmail", type = "email", @class = "form-control", @placeholder = "Email address" })
+                                        @Html.TextBoxFor(model => model.Email, new { id = "txtEmail", type = "email", @class = "form-control", @placeholder = "Email address", required = "required" })
                                         @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -99,7 +99,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">Address :</label>
-                                        @Html.TextAreaFor(model => model.Address, new { id = "txtAddress", @class = "form-control", @placeholder = "Type address here", @rows = "1" })
+                                        @Html.TextAreaFor(model => model.Address, new { id = "txtAddress", @class = "form-control", @placeholder = "Type address here", @rows = "1", required = "required" })
                                         @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -107,7 +107,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">Bank Name :</label>
-                                        @Html.TextBoxFor(model => model.BankName, new { id = "txtBankName", @class = "form-control", @placeholder = "Bank name" })
+                                        @Html.TextBoxFor(model => model.BankName, new { id = "txtBankName", @class = "form-control", @placeholder = "Bank name", required = "required" })
                                         @Html.ValidationMessageFor(model => model.BankName, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -115,7 +115,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">Branch Name :</label>
-                                        @Html.TextBoxFor(model => model.BranchName, new { id = "txtBranchName", @class = "form-control", @placeholder = "Branch name" })
+                                        @Html.TextBoxFor(model => model.BranchName, new { id = "txtBranchName", @class = "form-control", @placeholder = "Branch name", required = "required" })
                                         @Html.ValidationMessageFor(model => model.BranchName, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -123,7 +123,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">A/C Name :</label>
-                                        @Html.TextBoxFor(model => model.ACName, new { id = "txtACName", @class = "form-control", @placeholder = "A/C name" })
+                                        @Html.TextBoxFor(model => model.ACName, new { id = "txtACName", @class = "form-control", @placeholder = "A/C name", required = "required" })
                                         @Html.ValidationMessageFor(model => model.ACName, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -131,7 +131,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">A/C Number :</label>
-                                        @Html.TextBoxFor(model => model.ACNo, new { id = "txtACNo", @class = "form-control", @placeholder = "A/C number" })
+                                        @Html.TextBoxFor(model => model.ACNo, new { id = "txtACNo", @class = "form-control", @placeholder = "A/C number", required = "required" })
                                         @Html.ValidationMessageFor(model => model.ACNo, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -139,16 +139,16 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">Bank Routing Number :</label>
-                                        @Html.TextBoxFor(model => model.ACNo, new { id = "txtACNo", @class = "form-control", @placeholder = "Bank routing number" })
-                                        @Html.ValidationMessageFor(model => model.ACNo, "", new { @class = "text-danger" })
+                                        @Html.TextBoxFor(model => model.BankRoutingNumber, new { id = "txtBankRoutingNumber", @class = "form-control", @placeholder = "Bank routing number", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.BankRoutingNumber, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
 
                                 <div class="col-md-8">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">Remaks :</label>
-                                        @Html.TextAreaFor(model => model.Address, new { id = "txtAddress", @class = "form-control", @placeholder = "Type remarks here", @rows = "1" })
-                                        @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                                        @Html.TextAreaFor(model => model.Remarks, new { id = "txtRemarks", @class = "form-control", @placeholder = "Type remarks here", @rows = "1" })
+                                        @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
 
@@ -162,6 +162,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
 
@@ -181,70 +182,85 @@
                                                     <th>SL</th>
                                                     <th>Code</th>
                                                     <th>Name</th>
+                                                    <th>Trade Licence</th>
+                                                    <th>Contact Person</th>
+                                                    <th>NID</th>
                                                     <th>Phone</th>
                                                     <th>Email</th>
-                                                    <th>Contact Person</th>
                                                     <th>Address</th>
-                                                    @*<th>Supplier Type</th>*@
-                                                    @*<th>Type</th>*@
-                                                    <th>A/C Name</th>
-                                                    <th>A/C No</th>
                                                     <th>Bank Name</th>
                                                     <th>Branch Name</th>
+                                                    <th>A/C Name</th>
+                                                    <th>A/C No</th>
+                                                    <th>Routing Number</th>
+                                                    <th>Remarks</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
                                             @{int sl = 0;
                                             }
                                             <tbody>
-                                                @foreach (var item in Model.DataList)
+                                                @foreach (var item in Model.DataList.Where(c => c.VendorTypeId == (int)KGERP.Utility.ProviderEnum.Subcontractor))
                                                 {
                                                     <tr>
                                                         <td>@(++sl)</td>
+
                                                         <td>
                                                             @item.Code
                                                         </td>
+
                                                         <td>
                                                             @item.Name
                                                         </td>
+
                                                         <td>
-                                                            @item.Phone
+                                                            @item.TradeLicenseNumber
                                                         </td>
-                                                        <td>
-                                                            @item.Email
-                                                        </td>
+
                                                         <td>
                                                             @item.ContactPerson
                                                         </td>
+
+                                                        <td>
+                                                            @item.NID
+                                                        </td>
+
+                                                        <td>
+                                                            @item.Phone
+                                                        </td>
+
+                                                        <td>
+                                                            @item.Email
+                                                        </td>
+
                                                         <td>
                                                             @item.Address, @item.Country
                                                         </td>
-                                                        @*<td>
-                                                                 @item.SupplierType
-                                                            </td>*@
-                                                        @*<td>
-                                                                @if (item.IsForeign == true)
-                                                                {
-                                                                    <span class="label label-success">Exporter</span>
-                                                                }
-                                                                else
-                                                                {
-                                                                    <span class="label label-primary">Local Supplier</span>
-                                                                }
-                                                            </td>*@
+
+                                                        <td>
+                                                            @item.BankName
+                                                        </td>
+
+                                                        <td>
+                                                            @item.BranchName
+                                                        </td>
 
                                                         <td>
                                                             @item.ACName
                                                         </td>
+
                                                         <td>
                                                             @item.ACNo
                                                         </td>
+
                                                         <td>
-                                                            @item.BankName
+                                                            @item.BankRoutingNumber
                                                         </td>
+
                                                         <td>
-                                                            @item.BranchName
+                                                            @item.Remarks
                                                         </td>
+
                                                         <td>
                                                             <a id="@item.ID" onclick="makeEditble(@item.ID);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
                                                             <a id="@item.ID" onclick="makeDeletable(@item.ID);" class="linkPointer" data-toggle="modal" data-target="#deleteModal" title="Delete"
@@ -273,7 +289,7 @@
 </section>
 
 
-@using (Html.BeginForm("CommonSupplier", "Configuration", FormMethod.Post, new { id = "commonSupplierformId", @class = "formValidator", @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("CommonSubcontractor", "Configuration", FormMethod.Post, new { id = "commonSupplierformId", @class = "formValidator", @enctype = "multipart/form-data" }))
 {
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     @Html.HiddenFor(model => model.ID, new { Value = "", id = "SupplierIdDelete" })
@@ -287,12 +303,12 @@
                     <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
                         &times;
                     </button>
-                    <h5 class="modal-title"><b>Supplier Delete</b></h5>
+                    <h5 class="modal-title"><b>Subcontractor Delete</b></h5>
 
                 </div>
                 <div class="modal-body">
                     <div style="text-align:center">
-                        <h3>Are you sure to delete this Supplier?</h3>
+                        <h3>Are you sure to delete this Subcontractor?</h3>
                     </div>
 
                 </div>
@@ -309,22 +325,17 @@
 @section scripts {
 
     <script type="text/javascript">
-
-
          $(document).ready(function () {
              $('.formValidator').bootstrapValidator();
              $("#ddlCommon_CountriesFk").val(1);
         });
 
-
-
-
-            function makeEditble(id) {
+        function makeEditble(id) {
 
             if (id !== null) {
                 $.ajax({
-                type: "get",
-                url: "@Url.Action("CommonSupplierByIDGet", "Configuration")",
+                    type: "get",
+                    url: "@Url.Action("CommonSupplierByIDGet", "Configuration")",
                     data: { id: id },
                     datatype: "json",
                     traditional: true,
@@ -335,29 +346,26 @@
                         $('#ActionId').val(2);
                         $('#CompanyFK').val(data.CompanyFK);
                         $('#txtSupplierName').val(data.Name);
+                        $('#txtTradeLicenseNumber').val(data.TradeLicenseNumber);
+                        $('#txtContactPerson').val(data.ContactPerson);
+                        $('#txtNidNumber').val(data.NID);
                         $('#txtPhone').val(data.Phone);
                         $('#txtEmail').val(data.Email);
-                        $('#txtContactPerson').val(data.ContactPerson);
-                        //if (data.IsForeign == true) {
-                        //    $('#chkIsForeign').prop('checked', true);
-                        //}
-                        //else {
-                        //    $('#chkIsForeign').prop('checked', false);
-                        //}
                         $('#ddlCommon_CountriesFk').val(data.Common_CountriesFk).change();
-                      /*  $('#ddSupplierTypeFk').val(data.SupplierTypeFk);*/
                         $('#txtAddress').val(data.Address);
-
+                        $('#txtBankName').val(data.BankName);
                         $('#txtBranchName').val(data.BranchName);
                         $('#txtACName').val(data.ACName);
                         $('#txtACNo').val(data.ACNo);
-                        $('#txtBankName').val(data.BankName);
+                        $('#txtBankRoutingNumber').val(data.BankRoutingNumber);
+                        $('#txtRemarks').val(data.Remarks);
 
                         window.scrollTo({ top: 0, behavior: 'smooth' });
-                }
-            });
+                    }
+                });
             }
         }
+
         function resetForm() {
             $('#commonSupplierformId')[0].reset();
             $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Add");
@@ -372,9 +380,6 @@
             }
         }
 
-
     </script>
+
 }
-
-
-
