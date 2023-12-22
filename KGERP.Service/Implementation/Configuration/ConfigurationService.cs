@@ -1113,7 +1113,7 @@ namespace KGERP.Service.Implementation.Configuration
                 BranchName = vmCommonSupplier.BranchName,
                 ACName = vmCommonSupplier.ACName,
                 ACNo = vmCommonSupplier.ACNo,
-                //BankRoutingNumber = vmCommonSupplier.BankRoutingNumber,
+                BankRoutingNumber = vmCommonSupplier.BankRoutingNumber,
                 Remarks = vmCommonSupplier.Remarks,
                 CompanyId = vmCommonSupplier.CompanyFK.Value,
                 IsForeign = vmCommonSupplier.IsForeign,

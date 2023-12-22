@@ -14,6 +14,12 @@ namespace KGERP.Data.Models
     
     public partial class VoucherType
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public VoucherType()
+        {
+            this.Vouchers = new HashSet<Voucher>();
+        }
+    
         public int VoucherTypeId { get; set; }
         public string Name { get; set; }
         public string Code { get; set; }
@@ -24,5 +30,8 @@ namespace KGERP.Data.Models
         public bool IsActive { get; set; }
         public Nullable<int> CompanyId { get; set; }
         public bool IsBankOrCash { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Voucher> Vouchers { get; set; }
     }
 }

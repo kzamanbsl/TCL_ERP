@@ -25,5 +25,6 @@ namespace KGERP.Data.Models
         public bool IsActive { get; set; }
     
         public virtual Company Company { get; set; }
+        public virtual Voucher Voucher { get; set; }
     }
 }

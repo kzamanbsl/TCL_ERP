@@ -546,8 +546,15 @@
         <AssociationConnector Association="ERPModel.FK_VoucherBRMapMasterApproval_Company" />
         <AssociationConnector Association="ERPModel.FK_VoucherBRMapMasterApproval_Employee" />
         <AssociationConnector Association="ERPModel.FK_VoucherBRMapMasterApproval_VoucherBRMapMaster" />
+        <EntityTypeShape EntityType="ERPModel.Voucher" Width="1.5" PointX="56.375" PointY="52.5" />
         <EntityTypeShape EntityType="ERPModel.Vendor" Width="1.5" PointX="56.375" PointY="20.25" />
         <AssociationConnector Association="ERPModel.FK_MonthlyTarget_Vendor" />
+        <AssociationConnector Association="ERPModel.FK_BillRequisitionVoucherMap_Voucher" />
+        <AssociationConnector Association="ERPModel.FK_VendorDeposit_Voucher" />
+        <AssociationConnector Association="ERPModel.FK_VendorOpening_Voucher" />
+        <AssociationConnector Association="ERPModel.FK_Voucher_VoucherType" />
+        <AssociationConnector Association="ERPModel.FK_VoucherBRMapMaster_Voucher" />
+        <AssociationConnector Association="ERPModel.FK_VoucherBRMapMasterApproval_Voucher" />
         <AssociationConnector Association="ERPModel.FK_BatchPaymentDetail_Vendor" />
         <AssociationConnector Association="ERPModel.FK_EMI_Vendor" />
         <AssociationConnector Association="ERPModel.FK_LCInfo_Vendor" />
