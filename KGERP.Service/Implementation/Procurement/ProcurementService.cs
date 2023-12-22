@@ -3322,7 +3322,7 @@ namespace KGERP.Service.Implementation.Procurement
         }
         public object GetAutoCompleteSupplier(string prefix, int companyId)
         {
-            var v = (from t1 in _db.Vendors.Where(x => x.CompanyId == companyId && x.VendorTypeId == (int)ProviderEnum.Supplier)
+            var v = (from t1 in _db.Vendors.Where(x => x.CompanyId == companyId)
                      where t1.IsActive && ((t1.Name.StartsWith(prefix)) || (t1.Code.StartsWith(prefix)))
 
                      select new

@@ -288,8 +288,8 @@ namespace KGERP.Utility
     public enum VendorsPaymentMethodEnum
     {
         Cash = 1,
-        Credit,
-        LC
+        //Credit,
+        //LC
     }
 
 
