@@ -29,7 +29,7 @@ namespace KGERP.Service.Implementation.Configuration
         {
             VMCommonSupplier vmCommonSupplier = new VMCommonSupplier();
             vmCommonSupplier.CompanyFK = companyId;
-            vmCommonSupplier.DataList = await Task.Run(() => (from t1 in _db.Vendors.Where(x => x.VendorTypeId == (int)ProviderEnum.Supplier && x.CompanyId == companyId)
+            vmCommonSupplier.DataList = await Task.Run(() => (from t1 in _db.Vendors.Where(x => x.CompanyId == companyId)
                                                               join t2 in _db.Countries on t1.CountryId equals t2.CountryId
                                                               where t1.IsActive == true
                                                               select new VMCommonSupplier
@@ -41,12 +41,12 @@ namespace KGERP.Service.Implementation.Configuration
                                                                   Country = t2.CountryName,
                                                                   CompanyFK = t1.CompanyId,
                                                                   Common_CountriesFk = t1.CountryId.Value,
-
                                                                   ContactPerson = t1.ContactName,
                                                                   Address = t1.Address,
                                                                   Code = t1.Code,
                                                                   CreatedBy = t1.CreatedBy,
                                                                   Remarks = t1.Remarks,
+                                                                  VendorTypeId = t1.VendorTypeId,
                                                                   IsForeign = t1.IsForeign
                                                               }).OrderByDescending(x => x.ID).AsEnumerable());
 
@@ -426,7 +426,7 @@ namespace KGERP.Service.Implementation.Configuration
                                                       ACName = t1.ACName,
                                                       ACNo = t1.ACNo,
                                                       BankName = t1.BankName,
-                                                      BranchName = t1.BankName,
+                                                      BranchName = t1.BranchName,
                                                       CustomerId = t1.VendorId,
                                                       CompanyId = companyId,
 
