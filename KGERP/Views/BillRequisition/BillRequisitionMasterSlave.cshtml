@@ -38,9 +38,9 @@
         }
         else
         {
-    <span>
-        New Requisition
-    </span>
+            <span>
+                New Requisition
+            </span>
         }
     </h1>
     <ol class="breadcrumb">
@@ -346,8 +346,8 @@
 
                                     <div class="col-md-3 d-block" id="inputTotalPrice">
                                         <div class="form-group">
-                                            <label>Total Price :</label>
-                                            @Html.TextBoxFor(model => model.DetailModel.TotalPrice, new { id = "decTotalPrice", type = "number", step = "0.01", @class = "form-control", placeholder = "Total price", ReadOnly = "true" })
+                                            <label id="totalTitle">Total Amount :</label>
+                                            @Html.TextBoxFor(model => model.DetailModel.TotalPrice, new { id = "decTotalPrice", type = "number", step = "0.01", @class = "form-control", placeholder = "Total amount", ReadOnly = "true" })
                                             @Html.ValidationMessageFor(model => model.DetailModel.TotalPrice, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -355,7 +355,7 @@
                                     <div class="col-md-12 d-block" id="inputRemarks">
                                         <div class="form-group">
                                             <label for="txtDescription" class="col-form-label">Remarks :</label>
-                                            @Html.TextAreaFor(model => model.DetailModel.Remarks, new { id = "txtitemDescription", placeholder = "Type remarks here", @class = "form-control", rows = 2 })
+                                            @Html.TextAreaFor(model => model.DetailModel.Remarks, new { id = "txtitemDescription", placeholder = "Type remarks here", @class = "form-control", rows = 1 })
                                             @Html.ValidationMessageFor(model => model.DetailModel.Remarks, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -863,7 +863,6 @@
             'use strict';
 
             // dependable dropdown validate
-            
             $("#ddlBRSubTypeId").empty();
             $("#ddlBRSubTypeId").append("<option selected disabled>==Select Req. Type First==</option>");
 
@@ -1033,6 +1032,35 @@
                     $("#inputDPP").removeClass("d-block").addClass("hidden");
                     $("#inputChainage").removeClass("d-block").addClass("hidden");
                     $("#inputFloor").removeClass("d-block").addClass("hidden");
+                }
+            });
+
+            // TA/DA hidden div
+            $("#ddlBRSubTypeId").on("change", function () {
+                var selectedOption = $(this).find("option:selected");
+
+                if (selectedOption.val() == 19) {
+                    $("#inputMaterial").removeClass("d-block").addClass("hidden");
+                    $("#inputUnit").removeClass("d-block").addClass("hidden");
+                    $("#inputReceivedSoFar").removeClass("d-block").addClass("hidden");
+                    $("#inputDemandQty").removeClass("d-block").addClass("hidden");
+                    $("#inputUnitRate").removeClass("d-block").addClass("hidden");
+
+                    $("#decTotalPrice").attr("readonly", false);
+                    $("#totalTitle").text("Payable Amount");
+                    $("#inputTotalPrice").removeClass("col-md-4").addClass("col-md-6");
+                    $("#inputRemarks").removeClass("col-md-12").addClass("col-md-6");
+                }else {
+                    $("#inputMaterial").removeClass("hidden").addClass("d-block");
+                    $("#inputUnit").removeClass("hidden").addClass("d-block");
+                    $("#inputReceivedSoFar").removeClass("hidden").addClass("d-block");
+                    $("#inputDemandQty").removeClass("hidden").addClass("d-block");
+                    $("#inputUnitRate").removeClass("hidden").addClass("d-block");
+
+                    $("#decTotalPrice").attr("readonly", true);
+                    $("#totalTitle").text("Total Amount");
+                    $("#inputTotalPrice").removeClass("col-md-6").addClass("col-md-4");
+                    $("#inputRemarks").removeClass("col-md-6").addClass("col-md-12");
                 }
             });
         });
