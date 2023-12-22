@@ -24,7 +24,5 @@ namespace KGERP.Data.Models
         public Nullable<int> ReferenceId { get; set; }
         public bool IsActive { get; set; }
         public bool IsVirtual { get; set; }
-    
-        public virtual Voucher Voucher { get; set; }
     }
 }

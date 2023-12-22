@@ -267,10 +267,7 @@
         <AssociationConnector Association="ERPModel.FK_FileAttachment_LandNLegal" />
         <AssociationConnector Association="ERPModel.FK_CustomerNomineeInfo_KGRECustomer" />
         <EntityTypeShape EntityType="ERPModel.CustomerGroupMapping" Width="1.5" PointX="16.375" PointY="30.75" />
-        <EntityTypeShape EntityType="ERPModel.Voucher" Width="1.5" PointX="11" PointY="84.375" />
         <EntityTypeShape EntityType="ERPModel.VoucherDetail" Width="1.5" PointX="13.25" PointY="85.375" />
-        <AssociationConnector Association="ERPModel.FK_Voucher_VoucherType" />
-        <AssociationConnector Association="ERPModel.FK_VoucherDetail_Voucher" />
         <EntityTypeShape EntityType="ERPModel.BookingCostMapping" Width="1.5" PointX="14.875" PointY="69.875" />
         <EntityTypeShape EntityType="ERPModel.UserPermission" Width="1.5" PointX="25.375" PointY="32.75" />
         <EntityTypeShape EntityType="ERPModel.KGREHistory" Width="1.5" PointX="11.375" PointY="34.75" />
@@ -429,7 +426,6 @@
         <AssociationConnector Association="ERPModel.FK_ProductionMaster_ProductionStatus" />
         <EntityTypeShape EntityType="ERPModel.VendorOpening" Width="1.5" PointX="61.625" PointY="50" />
         <AssociationConnector Association="ERPModel.FK_VendorOpening_Company" />
-        <AssociationConnector Association="ERPModel.FK_VendorOpening_Voucher" />
         <AssociationConnector Association="ERPModel.FK_VendorOpening_ProductCategory" />
         <AssociationConnector Association="ERPModel.FK_VendorOpening_VendorType" />
         <EntityTypeShape EntityType="ERPModel.Area" Width="1.5" PointX="59.375" PointY="25.5" />
@@ -477,7 +473,6 @@
         <EntityTypeShape EntityType="ERPModel.SalaryInformation" Width="1.5" PointX="3.375" PointY="5.75" />
         <EntityTypeShape EntityType="ERPModel.VendorDeposit" Width="1.5" PointX="58.625" PointY="52.75" />
         <AssociationConnector Association="ERPModel.FK_VendorDeposit_Company" />
-        <AssociationConnector Association="ERPModel.FK_VendorDeposit_Voucher" />
         <AssociationConnector Association="ERPModel.FK_VendorDeposit_VendorType" />
         <EntityTypeShape EntityType="ERPModel.VendorDepositHistory" Width="1.5" PointX="68.875" PointY="42.25" />
         <AssociationConnector Association="ERPModel.FK_VendorDepositHistory_Company" />
@@ -516,7 +511,6 @@
         <AssociationConnector Association="ERPModel.FK_BoQItemProductMap_Product" />
         <EntityTypeShape EntityType="ERPModel.BillRequisitionVoucherMap" Width="1.5" PointX="27.875" PointY="50.75" />
         <AssociationConnector Association="ERPModel.FK_VoucherBillRequisitionMap_Company" />
-        <AssociationConnector Association="ERPModel.FK_BillRequisitionVoucherMap_Voucher" />
         <EntityTypeShape EntityType="ERPModel.Accounting_CostCenter" Width="1.5" PointX="3.375" PointY="29.25" />
         <AssociationConnector Association="ERPModel.FK_Accounting_CostCenter_Accounting_CostCenterType" />
         <AssociationConnector Association="ERPModel.FK_BoQBudgetMaster_Accounting_CostCenter" />
@@ -533,7 +527,6 @@
         <AssociationConnector Association="ERPModel.FK_BoQDivision_Company" />
         <AssociationConnector Association="ERPModel.FK_BillReqApprovalHistory_Employee" />
         <AssociationConnector Association="ERPModel.FK_BillRequisitionApproval_Employee" />
-        <AssociationConnector Association="ERPModel.FK_VoucherBRMapMaster_Voucher" />
         <AssociationConnector Association="ERPModel.FK_BillRequisitionItemBoQMap_BillBoQItem" />
         <EntityTypeShape EntityType="ERPModel.BillRequisitionDetail" Width="1.5" PointX="71.625" PointY="55.375" />
         <EntityTypeShape EntityType="ERPModel.BillRequisitionMaster" Width="1.5" PointX="69.375" PointY="71" />
@@ -552,9 +545,8 @@
         <EntityTypeShape EntityType="ERPModel.VoucherBRMapMasterApproval" Width="1.5" PointX="73.875" PointY="58" />
         <AssociationConnector Association="ERPModel.FK_VoucherBRMapMasterApproval_Company" />
         <AssociationConnector Association="ERPModel.FK_VoucherBRMapMasterApproval_Employee" />
-        <AssociationConnector Association="ERPModel.FK_VoucherBRMapMasterApproval_Voucher" />
         <AssociationConnector Association="ERPModel.FK_VoucherBRMapMasterApproval_VoucherBRMapMaster" />
-        <EntityTypeShape EntityType="ERPModel.Vendor" Width="1.5" PointX="56.375" PointY="20.375" />
+        <EntityTypeShape EntityType="ERPModel.Vendor" Width="1.5" PointX="56.375" PointY="20.25" />
         <AssociationConnector Association="ERPModel.FK_MonthlyTarget_Vendor" />
         <AssociationConnector Association="ERPModel.FK_BatchPaymentDetail_Vendor" />
         <AssociationConnector Association="ERPModel.FK_EMI_Vendor" />

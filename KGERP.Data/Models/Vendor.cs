@@ -100,6 +100,7 @@ namespace KGERP.Data.Models
         public int VendorReferenceId { get; set; }
         public long docid { get; set; }
         public Nullable<int> TradeLicenseNumber { get; set; }
+        public Nullable<int> BankRoutingNumber { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MonthlyTarget> MonthlyTargets { get; set; }

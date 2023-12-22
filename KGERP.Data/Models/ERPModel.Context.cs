@@ -217,7 +217,6 @@ namespace KGERP.Data.Models
         public virtual DbSet<FileAttachment> FileAttachments { get; set; }
         public virtual DbSet<KGRECustomer> KGRECustomers { get; set; }
         public virtual DbSet<CustomerGroupMapping> CustomerGroupMappings { get; set; }
-        public virtual DbSet<Voucher> Vouchers { get; set; }
         public virtual DbSet<VoucherDetail> VoucherDetails { get; set; }
         public virtual DbSet<BookingCostMapping> BookingCostMappings { get; set; }
         public virtual DbSet<UserPermission> UserPermissions { get; set; }
