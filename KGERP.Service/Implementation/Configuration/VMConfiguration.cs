@@ -294,9 +294,9 @@ namespace KGERP.Service.Implementation.Configuration
         public string CustomerStatusName { get { return BaseFunctionalities.GetEnumDescription(CustomerStatusEnum); } }
         public SelectList CustomerStatusEnumList { get { return new SelectList(BaseFunctionalities.GetEnumList<CustomerStatusEnum>(), "Value", "Text"); } }
         public string ContactPerson { get; set; }
+
         [Required]
         [RegularExpression("^[0-9]{11}$", ErrorMessage = "Phone Number Must be 11 digit")]
-
         public string Phone { get; set; }
 
         public string Email { get; set; }
@@ -322,6 +322,8 @@ namespace KGERP.Service.Implementation.Configuration
         public string ProductName { get; set; }
         public string RegionName { get; set; }
         public string SubZoneName { get; set; }
+        public int TradeLicenseNumber { get; set; }
+        public int BankRoutingNumber { get; set; }
     }
 
     public class VMCommonSupplierProduct : VMCommonProduct

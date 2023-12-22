@@ -1089,45 +1089,50 @@ namespace KGERP.Service.Implementation.Configuration
             #endregion
             int bdId = _db.Countries.FirstOrDefault(x => x.CountryName == "Bangladesh").CountryId;
             vmCommonSupplier.IsForeign = false;
-            if (vmCommonSupplier.Common_CountriesFk > 0)
-            {
-                if (vmCommonSupplier.Common_CountriesFk != bdId)
-                {
-                    vmCommonSupplier.IsForeign = true;
-                }
-            }
+            //if (vmCommonSupplier.Common_CountriesFk > 0)
+            //{
+            //    if (vmCommonSupplier.Common_CountriesFk != bdId)
+            //    {
+            //        vmCommonSupplier.IsForeign = true;
+            //    }
+            //}
 
             Vendor commonSupplier = new Vendor
             {
                 Code = newString,
                 Name = vmCommonSupplier.Name,
-                Phone = vmCommonSupplier.Phone,
+                TradeLicenseNumber = vmCommonSupplier.TradeLicenseNumber,
                 ContactName = vmCommonSupplier.ContactPerson,
+                NID = vmCommonSupplier.NID,
+                Phone = vmCommonSupplier.Phone,
                 Email = vmCommonSupplier.Email,
+                CountryId = bdId,
                 Address = vmCommonSupplier.Address,
                 VendorTypeId = (int)ProviderEnum.Supplier,
-                IsForeign = vmCommonSupplier.IsForeign,
-                CompanyId = vmCommonSupplier.CompanyFK.Value,
-                CountryId = vmCommonSupplier.Common_CountriesFk,
-                //CustomerTypeFK = vmCommonSupplier.SupplierTypeFk, //Used for both customer and supplier type
-                CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
-                CreatedDate = DateTime.Now,
+                BankName = vmCommonSupplier.BankName,
                 BranchName = vmCommonSupplier.BranchName,
                 ACName = vmCommonSupplier.ACName,
                 ACNo = vmCommonSupplier.ACNo,
-                BankName = vmCommonSupplier.BankName,
-                IsActive = true,
+                //BankRoutingNumber = vmCommonSupplier.BankRoutingNumber,
+                Remarks = vmCommonSupplier.Remarks,
+                CompanyId = vmCommonSupplier.CompanyFK.Value,
+                IsForeign = vmCommonSupplier.IsForeign,
                 CreditRatioFrom = 0,
                 CreditRatioTo = 0,
-
+                CustomerTypeFK = 0,
+                SecurityAmount = 0,
+                VendorReferenceId = 0,
+                docid = 0,
+                IsActive = true,
+                CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                CreatedDate = DateTime.Now,
             };
+
             _db.Vendors.Add(commonSupplier);
             if (await _db.SaveChangesAsync() > 0)
             {
                 result = commonSupplier.VendorId;
-
                 //31016 Account Payable Head for Seed Company
-
             }
             #region Accounting
             //if (result > 0)
@@ -1191,8 +1196,6 @@ namespace KGERP.Service.Implementation.Configuration
             //    }
             //}
             #endregion
-
-
 
             return result;
         }
