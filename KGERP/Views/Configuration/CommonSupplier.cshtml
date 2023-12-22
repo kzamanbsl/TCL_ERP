@@ -51,7 +51,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">Trade Licence No :</label>
-                                        @Html.TextBoxFor(model => model.TradeLicenseNumber, new { id = "txtContactPerson", @class = "form-control", @placeholder = "Trade licence no", required = "required" })
+                                        @Html.TextBoxFor(model => model.TradeLicenseNumber, new { id = "txtTradeLicenseNumber", @class = "form-control", @placeholder = "Trade licence no", required = "required" })
                                         @Html.ValidationMessageFor(model => model.TradeLicenseNumber, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -67,7 +67,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">NID Number :</label>
-                                        @Html.TextBoxFor(model => model.NID, new { id = "txtPhone", @class = "form-control", @placeholder = "NID numbers", required = "required" })
+                                        @Html.TextBoxFor(model => model.NID, new { id = "txtNidNumber", @class = "form-control", @placeholder = "NID numbers", required = "required" })
                                         @Html.ValidationMessageFor(model => model.NID, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -139,7 +139,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">Bank Routing Number :</label>
-                                        @Html.TextBoxFor(model => model.BankRoutingNumber, new { id = "txtACNo", @class = "form-control", @placeholder = "Bank routing number", required = "required" })
+                                        @Html.TextBoxFor(model => model.BankRoutingNumber, new { id = "txtBankRoutingNumber", @class = "form-control", @placeholder = "Bank routing number", required = "required" })
                                         @Html.ValidationMessageFor(model => model.BankRoutingNumber, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -147,7 +147,7 @@
                                 <div class="col-md-8">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">Remaks :</label>
-                                        @Html.TextAreaFor(model => model.Remarks, new { id = "txtAddress", @class = "form-control", @placeholder = "Type remarks here", @rows = "1" })
+                                        @Html.TextAreaFor(model => model.Remarks, new { id = "txtRemarks", @class = "form-control", @placeholder = "Type remarks here", @rows = "1" })
                                         @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -181,16 +181,18 @@
                                                     <th>SL</th>
                                                     <th>Code</th>
                                                     <th>Name</th>
+                                                    <th>Trade Licence</th>
+                                                    <th>Contact Person</th>
+                                                    <th>NID</th>
                                                     <th>Phone</th>
                                                     <th>Email</th>
-                                                    <th>Contact Person</th>
                                                     <th>Address</th>
-                                                    @*<th>Supplier Type</th>*@
-                                                    @*<th>Type</th>*@
-                                                    <th>A/C Name</th>
-                                                    <th>A/C No</th>
                                                     <th>Bank Name</th>
                                                     <th>Branch Name</th>
+                                                    <th>A/C Name</th>
+                                                    <th>A/C No</th>
+                                                    <th>Routing Number</th>
+                                                    <th>Remarks</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
@@ -201,50 +203,63 @@
                                                 {
                                                     <tr>
                                                         <td>@(++sl)</td>
+
                                                         <td>
                                                             @item.Code
                                                         </td>
+
                                                         <td>
                                                             @item.Name
                                                         </td>
+
                                                         <td>
-                                                            @item.Phone
+                                                            @item.TradeLicenseNumber
                                                         </td>
-                                                        <td>
-                                                            @item.Email
-                                                        </td>
+
                                                         <td>
                                                             @item.ContactPerson
                                                         </td>
+
+                                                        <td>
+                                                            @item.NID
+                                                        </td>
+
+                                                        <td>
+                                                            @item.Phone
+                                                        </td>
+
+                                                        <td>
+                                                            @item.Email
+                                                        </td>
+
                                                         <td>
                                                             @item.Address, @item.Country
                                                         </td>
-                                                        @*<td>
-                                                                 @item.SupplierType
-                                                            </td>*@
-                                                        @*<td>
-                                                                @if (item.IsForeign == true)
-                                                                {
-                                                                    <span class="label label-success">Exporter</span>
-                                                                }
-                                                                else
-                                                                {
-                                                                    <span class="label label-primary">Local Supplier</span>
-                                                                }
-                                                            </td>*@
+
+                                                        <td>
+                                                            @item.BankName
+                                                        </td>
+
+                                                        <td>
+                                                            @item.BranchName
+                                                        </td>
 
                                                         <td>
                                                             @item.ACName
                                                         </td>
+
                                                         <td>
                                                             @item.ACNo
                                                         </td>
+
                                                         <td>
-                                                            @item.BankName
+                                                            @item.BankRoutingNumber
                                                         </td>
+
                                                         <td>
-                                                            @item.BranchName
+                                                            @item.Remarks
                                                         </td>
+
                                                         <td>
                                                             <a id="@item.ID" onclick="makeEditble(@item.ID);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
                                                             <a id="@item.ID" onclick="makeDeletable(@item.ID);" class="linkPointer" data-toggle="modal" data-target="#deleteModal" title="Delete"
@@ -309,22 +324,17 @@
 @section scripts {
 
     <script type="text/javascript">
-
-
          $(document).ready(function () {
              $('.formValidator').bootstrapValidator();
              $("#ddlCommon_CountriesFk").val(1);
         });
 
-
-
-
-            function makeEditble(id) {
+        function makeEditble(id) {
 
             if (id !== null) {
                 $.ajax({
-                type: "get",
-                url: "@Url.Action("CommonSupplierByIDGet", "Configuration")",
+                    type: "get",
+                    url: "@Url.Action("CommonSupplierByIDGet", "Configuration")",
                     data: { id: id },
                     datatype: "json",
                     traditional: true,
@@ -335,29 +345,26 @@
                         $('#ActionId').val(2);
                         $('#CompanyFK').val(data.CompanyFK);
                         $('#txtSupplierName').val(data.Name);
+                        $('#txtTradeLicenseNumber').val(data.TradeLicenseNumber);
+                        $('#txtContactPerson').val(data.ContactPerson);
+                        $('#txtNidNumber').val(data.NID);
                         $('#txtPhone').val(data.Phone);
                         $('#txtEmail').val(data.Email);
-                        $('#txtContactPerson').val(data.ContactPerson);
-                        //if (data.IsForeign == true) {
-                        //    $('#chkIsForeign').prop('checked', true);
-                        //}
-                        //else {
-                        //    $('#chkIsForeign').prop('checked', false);
-                        //}
                         $('#ddlCommon_CountriesFk').val(data.Common_CountriesFk).change();
-                      /*  $('#ddSupplierTypeFk').val(data.SupplierTypeFk);*/
                         $('#txtAddress').val(data.Address);
-
+                        $('#txtBankName').val(data.BankName);
                         $('#txtBranchName').val(data.BranchName);
                         $('#txtACName').val(data.ACName);
                         $('#txtACNo').val(data.ACNo);
-                        $('#txtBankName').val(data.BankName);
+                        $('#txtBankRoutingNumber').val(data.BankRoutingNumber);
+                        $('#txtRemarks').val(data.Remarks);
 
                         window.scrollTo({ top: 0, behavior: 'smooth' });
-                }
-            });
+                    }
+                });
             }
         }
+
         function resetForm() {
             $('#commonSupplierformId')[0].reset();
             $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Add");
@@ -372,9 +379,5 @@
             }
         }
 
-
     </script>
 }
-
-
-

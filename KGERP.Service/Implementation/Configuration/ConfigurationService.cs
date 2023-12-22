@@ -1039,30 +1039,32 @@ namespace KGERP.Service.Implementation.Configuration
         {
             VMCommonSupplier vmCommonSupplier = new VMCommonSupplier();
             vmCommonSupplier.CompanyFK = companyId;
-            vmCommonSupplier.DataList = await Task.Run(() => (from t1 in _db.Vendors.Where(x => x.VendorTypeId == (int)ProviderEnum.Supplier && x.CompanyId == companyId)
+            vmCommonSupplier.DataList = await Task.Run(() => (from t1 in _db.Vendors.Where(x => x.CompanyId == companyId)
                                                               join t2 in _db.Countries on t1.CountryId equals t2.CountryId
                                                               where t1.IsActive == true
                                                               select new VMCommonSupplier
                                                               {
                                                                   ID = t1.VendorId,
-                                                                  Name = t1.Name,
-                                                                  Email = t1.Email,
-                                                                  Phone = t1.Phone,
-                                                                  Country = t2.CountryName,
-                                                                  CompanyFK = t1.CompanyId,
-                                                                  Common_CountriesFk = t1.CountryId.Value,
-                                                                  //SupplierTypeFk = t1.CustomerTypeFK, //used for both supplier and customer
-                                                                  HeadGLId = t1.HeadGLId,
-                                                                  ContactPerson = t1.ContactName,
-                                                                  Address = t1.Address,
                                                                   Code = t1.Code,
-                                                                  CreatedBy = t1.CreatedBy,
-                                                                  Remarks = t1.Remarks,
-                                                                  IsForeign = t1.IsForeign,
+                                                                  Name = t1.Name,
+                                                                  TradeLicenseNumber = (int)t1.TradeLicenseNumber,
+                                                                  ContactPerson = t1.ContactName,
+                                                                  NID = t1.NID,
+                                                                  Phone = t1.Phone,
+                                                                  Email = t1.Email,
+                                                                  Country = t2.CountryName,
+                                                                  Address = t1.Address,
+                                                                  Common_CountriesFk = t1.CountryId.Value,
+                                                                  BankName = t1.BankName,
                                                                   BranchName = t1.BranchName,
                                                                   ACName = t1.ACName,
                                                                   ACNo = t1.ACNo,
-                                                                  BankName = t1.BankName
+                                                                  BankRoutingNumber = (int)t1.BankRoutingNumber,
+                                                                  Remarks = t1.Remarks,
+                                                                  VendorTypeId = t1.VendorTypeId,
+                                                                  CompanyFK = t1.CompanyId,
+                                                                  CreatedBy = t1.CreatedBy,
+
                                                               }).OrderByDescending(x => x.ID).AsEnumerable());
 
 
@@ -1085,8 +1087,9 @@ namespace KGERP.Service.Implementation.Configuration
                 totalSupplier++;
             }
 
-            var newString = totalSupplier.ToString().PadLeft(4, '0');
+            var newString = "SUP-" + totalSupplier.ToString().PadLeft(4, '0');
             #endregion
+
             int bdId = _db.Countries.FirstOrDefault(x => x.CountryName == "Bangladesh").CountryId;
             vmCommonSupplier.IsForeign = false;
             //if (vmCommonSupplier.Common_CountriesFk > 0)
@@ -1207,28 +1210,29 @@ namespace KGERP.Service.Implementation.Configuration
 
             int bdId = _db.Countries.FirstOrDefault(x => x.CountryName == "Bangladesh").CountryId;
             vmCommonSupplier.IsForeign = false;
-            if (vmCommonSupplier.Common_CountriesFk > 0)
-            {
-                if (vmCommonSupplier.Common_CountriesFk != bdId)
-                {
-                    vmCommonSupplier.IsForeign = true;
-                }
-            }
+            //if (vmCommonSupplier.Common_CountriesFk > 0)
+            //{
+            //    if (vmCommonSupplier.Common_CountriesFk != bdId)
+            //    {
+            //        vmCommonSupplier.IsForeign = true;
+            //    }
+            //}
             commonSupplier.Name = vmCommonSupplier.Name;
-            commonSupplier.Phone = vmCommonSupplier.Phone;
+            commonSupplier.TradeLicenseNumber = vmCommonSupplier.TradeLicenseNumber;
             commonSupplier.ContactName = vmCommonSupplier.ContactPerson;
+            commonSupplier.NID = vmCommonSupplier.NID;
+            commonSupplier.Phone = vmCommonSupplier.Phone;
             commonSupplier.Email = vmCommonSupplier.Email;
+            commonSupplier.CountryId = bdId;
             commonSupplier.Address = vmCommonSupplier.Address;
-            commonSupplier.IsForeign = vmCommonSupplier.IsForeign;
-
-            commonSupplier.CountryId = vmCommonSupplier.Common_CountriesFk;
-            // commonSupplier.CustomerTypeFK = vmCommonSupplier.SupplierTypeFk;
-            commonSupplier.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
-            commonSupplier.ModifiedDate = DateTime.Now;
+            commonSupplier.BankName = vmCommonSupplier.BankName;
             commonSupplier.BranchName = vmCommonSupplier.BranchName;
             commonSupplier.ACName = vmCommonSupplier.ACName;
             commonSupplier.ACNo = vmCommonSupplier.ACNo;
-            commonSupplier.BankName = vmCommonSupplier.BankName;
+            commonSupplier.BankRoutingNumber = vmCommonSupplier.BankRoutingNumber;
+            commonSupplier.Remarks = vmCommonSupplier.Remarks;
+            commonSupplier.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+            commonSupplier.ModifiedDate = DateTime.Now;
 
             if (await _db.SaveChangesAsync() > 0)
             {
@@ -3489,28 +3493,31 @@ namespace KGERP.Service.Implementation.Configuration
 
         public VMCommonSupplier GetCommonSupplierByID(int id)
         {
-            var v = (from t1 in _db.Vendors.Where(x => x.VendorTypeId == (int)ProviderEnum.Supplier && x.VendorId == id)
+            var v = (from t1 in _db.Vendors.Where(x => x.VendorId == id)
                      join t2 in _db.Countries on t1.CountryId equals t2.CountryId
 
                      select new VMCommonSupplier
                      {
                          ID = t1.VendorId,
+                         VendorTypeId = t1.VendorTypeId,
+                         Code = t1.Code,
                          Name = t1.Name,
+                         TradeLicenseNumber = (int)t1.TradeLicenseNumber,
+                         ContactPerson = t1.ContactName,
+                         NID = t1.NID,
                          Email = t1.Email,
                          Phone = t1.Phone,
                          Country = t2.CountryName,
-                         CompanyFK = t1.CompanyId,
                          Common_CountriesFk = t1.CountryId.Value,
-                         //SupplierTypeFk = t1.CustomerTypeFK,
+                         Address = t1.Address,
+                         BankName = t1.BankName,
                          BranchName = t1.BranchName,
                          ACName = t1.ACName,
                          ACNo = t1.ACNo,
-                         BankName = t1.BankName,
-                         ContactPerson = t1.ContactName,
-                         Address = t1.Address,
-                         Code = t1.Code,
-                         CreatedBy = t1.CreatedBy,
+                         BankRoutingNumber = (int)t1.BankRoutingNumber,
                          Remarks = t1.Remarks,
+                         CompanyFK = t1.CompanyId,
+                         CreatedBy = t1.CreatedBy,
                          IsForeign = t1.IsForeign
                      }).FirstOrDefault();
             return v;
