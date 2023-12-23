@@ -18,8 +18,10 @@ namespace KGERP.Service.ServiceModel
         public int BoqUnitId { get; set; }
         public long BoQDivisionId { get; set; }
         public int ProjectId { get; set; }
+        public string BoqDivisionName { get; set; }
+        public string BoqUnitName { get; set; }
         public List<Unit> BoQUnits { get; set; }
-        public List<BillBoQItem> BillBoQItems { get; set; }
+        public List<BillRequisitionBoqModel> BillBoQItems { get; set; }
         public List<BoQDivision> BoQDivisions { get; set; }
         public List<Accounting_CostCenter> Projects { get; set; }
     }

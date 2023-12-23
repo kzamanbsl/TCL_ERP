@@ -645,13 +645,13 @@
 
             $("#ddlSupplierPaymentMethodEnumFK").change(function () {
                 var paymethod = $("#ddlSupplierPaymentMethodEnumFK").val();
-                if (paymethod === "@((int)VendorsPaymentMethodEnum.LC)") {
+                @*if (paymethod === "@((int)VendorsPaymentMethodEnum.LC)") {
                     $("#piReletedDivId").show();
                 }
                 else {
                     $("#piReletedDivId").hide();
-                }
-
+                }*@
+                $("#piReletedDivId").hide();
             })
 
 
@@ -791,9 +791,9 @@
                             $('#txtSupplierName').val(data.SupplierName);
 
 
-                            if (data.SupplierPaymentMethodEnumFK == @((int)VendorsPaymentMethodEnum.LC)) {
+                            @*if (data.SupplierPaymentMethodEnumFK == @((int)VendorsPaymentMethodEnum.LC)) {
                                 $("#piReletedDivId").show();
-                            }
+                            }*@
                             $("#txtPINo").val(data.PINo)
                             $("#ddlShippedBy").val(data.ShippedBy);
                             $("#txtPortOfLoading").val(data.PortOfLoading);

@@ -386,25 +386,47 @@ namespace KGERP.Service.Implementation
 
         #region Bill of Quotation
 
-        public List<BillBoQItem> GetBillOfQuotationList()
+        //public List<BillBoQItem> GetBillOfQuotationList()
+        //{
+        //    List<BillBoQItem> billBoQItems = new List<BillBoQItem>();
+        //    var getBillBoQItems = _context.BillBoQItems.Where(c => c.IsActive == true).ToList();
+        //    foreach (var item in getBillBoQItems)
+        //    {
+        //        var data = new BillBoQItem()
+        //        {
+        //            BoQItemId = item.BoQItemId,
+        //            BoQNumber = item.BoQNumber,
+        //            Name = item.Name,
+        //            BoqQuantity = item.BoqQuantity,
+        //            BoqUnitId = item.BoqUnitId,
+        //            BoQDivisionId = item.BoQDivisionId,
+        //            Description = item.Description
+        //        };
+        //        billBoQItems.Add(data);
+        //    }
+        //    return billBoQItems;
+        //}
+
+        public List<BillRequisitionBoqModel> GetBillOfQuotationList()
         {
-            List<BillBoQItem> billBoQItems = new List<BillBoQItem>();
-            var getBillBoQItems = _context.BillBoQItems.Where(c => c.IsActive == true).ToList();
-            foreach (var item in getBillBoQItems)
-            {
-                var data = new BillBoQItem()
-                {
-                    BoQItemId = item.BoQItemId,
-                    BoQNumber = item.BoQNumber,
-                    Name = item.Name,
-                    BoqQuantity = item.BoqQuantity,
-                    BoqUnitId = item.BoqUnitId,
-                    BoQDivisionId = item.BoQDivisionId,
-                    Description = item.Description
-                };
-                billBoQItems.Add(data);
-            }
-            return billBoQItems;
+            var sendData = (from t1 in _context.BillBoQItems.Where(c => c.IsActive)
+                            join t2 in _context.BoQDivisions.Where(c => c.IsActive) on t1.BoQDivisionId equals t2.BoQDivisionId
+                            join t3 in _context.Units.Where(c => c.IsActive) on t1.BoqUnitId equals t3.UnitId
+                            join t4 in _context.Accounting_CostCenter.Where(c => c.IsActive) on t2.ProjectId equals t4.CostCenterId
+                            select new BillRequisitionBoqModel()
+                            {
+                                BoQItemId = t1.BoQItemId,
+                                BoQNumber = t1.BoQNumber,
+                                Name = t1.Name,
+                                BoqQuantity = (decimal)t1.BoqQuantity,
+                                BoqUnitId = (int)t1.BoqUnitId,
+                                BoqUnitName = t3.Name,
+                                BoQDivisionId = (long)t1.BoQDivisionId,
+                                BoqDivisionName = t2.Name,
+                                ProjectId = t4.CostCenterId
+                            }).ToList();
+
+            return sendData;
         }
 
         public List<BillBoQItem> GetBillOfQuotationListByProjectId(int id)
@@ -625,7 +647,7 @@ namespace KGERP.Service.Implementation
         //        boqMapList.Add(data);
         //    }
         //    return boqMapList;
-        //} test
+        //}
 
         public List<BillRequisitionItemBoQMapModel> GetBoQProductMapList()
         {

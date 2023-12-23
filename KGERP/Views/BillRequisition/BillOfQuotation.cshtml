@@ -139,14 +139,14 @@
                                     <tr>
                                         <td>
                                             @(++sl)
-                                            <input type="hidden" id="boqProjectId_@item.BoQItemId" name="ProjectId" value="@Model.BoQDivisions.FirstOrDefault(c=>c.BoQDivisionId == item.BoQDivisionId ).ProjectId" />
+                                            <input type="hidden" id="boqProjectId_@item.BoQItemId" name="ProjectId" value="@item.ProjectId" />
                                             <input type="hidden" id="boqDivisionId_@item.BoQItemId" name="BoQDivisionId" value="@item.BoQDivisionId" />
                                             <input type="hidden" id="boqUnitId_@item.BoQItemId" name="BoqUnitId" value="@item.BoqUnitId" />
                                         </td>
-                                        <td id="tdBoqDivisionId_@item.BoQItemId">@Model.BoQDivisions.FirstOrDefault(c => c.BoQDivisionId == item.BoQDivisionId).Name</td>
+                                        <td id="tdBoqDivisionId_@item.BoQItemId">@item.BoqDivisionName</td>
                                         <td id="tdBoqNumber_@item.BoQItemId" class="text-center">@item.BoQNumber</td>
                                         <td id="tdBoqName_@item.BoQItemId">@item.Name</td>
-                                        <td id="tdBoqUnitId_@item.BoQItemId">@Model.BoQUnits.FirstOrDefault(c => c.UnitId == item.BoqUnitId).Name</td>
+                                        <td id="tdBoqUnitId_@item.BoQItemId">@item.BoqUnitName</td>
                                         <td id="tdBoqQuantity_@item.BoQItemId">@item.BoqQuantity</td>
                                         <td id="tdBoqDescription_@item.BoQItemId">@item.Description</td>
                                         <td>
