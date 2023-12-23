@@ -506,9 +506,6 @@
         <EntityTypeShape EntityType="ERPModel.UserLog" Width="1.5" PointX="56.125" PointY="39.5" />
         <AssociationConnector Association="ERPModel.FK_UserLog_Company" />
         <AssociationConnector Association="ERPModel.FK_UserLog_Employee" />
-        <EntityTypeShape EntityType="ERPModel.BoQItemProductMap" Width="1.5" PointX="38.5" PointY="41.125" />
-        <AssociationConnector Association="ERPModel.FK_BillRequisitionItemBoQMap_Company" />
-        <AssociationConnector Association="ERPModel.FK_BoQItemProductMap_Product" />
         <EntityTypeShape EntityType="ERPModel.BillRequisitionVoucherMap" Width="1.5" PointX="27.875" PointY="50.75" />
         <AssociationConnector Association="ERPModel.FK_VoucherBillRequisitionMap_Company" />
         <EntityTypeShape EntityType="ERPModel.Accounting_CostCenter" Width="1.5" PointX="3.375" PointY="29.25" />
@@ -527,7 +524,6 @@
         <AssociationConnector Association="ERPModel.FK_BoQDivision_Company" />
         <AssociationConnector Association="ERPModel.FK_BillReqApprovalHistory_Employee" />
         <AssociationConnector Association="ERPModel.FK_BillRequisitionApproval_Employee" />
-        <AssociationConnector Association="ERPModel.FK_BillRequisitionItemBoQMap_BillBoQItem" />
         <EntityTypeShape EntityType="ERPModel.BillRequisitionDetail" Width="1.5" PointX="71.625" PointY="55.375" />
         <EntityTypeShape EntityType="ERPModel.BillRequisitionMaster" Width="1.5" PointX="69.375" PointY="71" />
         <EntityTypeShape EntityType="ERPModel.PurchaseOrder" Width="1.5" PointX="71.625" PointY="42.375" />
@@ -569,6 +565,10 @@
         <AssociationConnector Association="ERPModel.FK_VendorDepositHistory_Vendor" />
         <AssociationConnector Association="ERPModel.FK_VendorOffer_Vendor" />
         <AssociationConnector Association="ERPModel.FK_VendorOpening_Vendor" />
+        <EntityTypeShape EntityType="ERPModel.BoQItemProductMap" Width="1.5" PointX="51.5" PointY="31.125" />
+        <AssociationConnector Association="ERPModel.FK_BillRequisitionItemBoQMap_Company" />
+        <AssociationConnector Association="ERPModel.FK_BillRequisitionItemBoQMap_BillBoQItem" />
+        <AssociationConnector Association="ERPModel.FK_BoQItemProductMap_Product" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

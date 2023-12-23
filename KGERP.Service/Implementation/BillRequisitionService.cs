@@ -663,7 +663,7 @@ namespace KGERP.Service.Implementation
                                 UnitRate = t1.UnitRate ?? 0M,
                                 MaterialItemId = t1.ProductId,
                                 MaterialName = t2.ProductName ?? "No Material Name",
-                                BoQItemId = t1.BoQItemId,
+                                BoQItemId = (int)t1.BoQItemId,
                                 BoqName = t3.Name ?? "No BoQ Name",
                                 BoqNumber = t3.BoQNumber ?? "0",
                                 BoQDivisionId = (long)t3.BoQDivisionId,

@@ -15,7 +15,7 @@ namespace KGERP.Data.Models
     public partial class BoQItemProductMap
     {
         public long BoQItemProductMapId { get; set; }
-        public int BoQItemId { get; set; }
+        public Nullable<int> BoQItemId { get; set; }
         public int ProductId { get; set; }
         public int CompanyId { get; set; }
         public System.DateTime CreateDate { get; set; }
@@ -26,9 +26,10 @@ namespace KGERP.Data.Models
         public Nullable<decimal> EstimatedQty { get; set; }
         public Nullable<decimal> UnitRate { get; set; }
         public Nullable<decimal> EstimatedAmount { get; set; }
+        public Nullable<int> RequisitionSubtypeId { get; set; }
     
         public virtual Company Company { get; set; }
-        public virtual Product Product { get; set; }
         public virtual BillBoQItem BillBoQItem { get; set; }
+        public virtual Product Product { get; set; }
     }
 }

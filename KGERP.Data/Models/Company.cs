@@ -51,12 +51,12 @@ namespace KGERP.Data.Models
             this.Units = new HashSet<Unit>();
             this.BoQBudgetMasters = new HashSet<BoQBudgetMaster>();
             this.UserLogs = new HashSet<UserLog>();
-            this.BoQItemProductMaps = new HashSet<BoQItemProductMap>();
             this.BillRequisitionVoucherMaps = new HashSet<BillRequisitionVoucherMap>();
             this.BillReqApprovalHistories = new HashSet<BillReqApprovalHistory>();
             this.BillRequisitionApprovals = new HashSet<BillRequisitionApproval>();
             this.BoQDivisions = new HashSet<BoQDivision>();
             this.VoucherBRMapMasterApprovals = new HashSet<VoucherBRMapMasterApproval>();
+            this.BoQItemProductMaps = new HashSet<BoQItemProductMap>();
         }
     
         public int CompanyId { get; set; }
@@ -153,8 +153,6 @@ namespace KGERP.Data.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserLog> UserLogs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BoQItemProductMap> BoQItemProductMaps { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BillRequisitionVoucherMap> BillRequisitionVoucherMaps { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BillReqApprovalHistory> BillReqApprovalHistories { get; set; }
@@ -164,5 +162,7 @@ namespace KGERP.Data.Models
         public virtual ICollection<BoQDivision> BoQDivisions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<VoucherBRMapMasterApproval> VoucherBRMapMasterApprovals { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BoQItemProductMap> BoQItemProductMaps { get; set; }
     }
 }
