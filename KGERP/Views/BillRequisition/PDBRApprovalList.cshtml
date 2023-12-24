@@ -141,13 +141,16 @@
                                                 }
                                                 else if (item.StatusId != EnumBillRequisitionStatus.Draft && item.StatusId != EnumBillRequisitionStatus.Rejected && item.StatusId != EnumBillRequisitionStatus.Approved)
                                                 {
-                                                <a href="~/BillRequisition/PDBRRejectSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" title="Approve"><i class="glyphicon glyphicon-new-window"></i> Reject</a>
+                                                    <a href="~/BillRequisition/PDBRRejectSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" title="Approve"><i class="glyphicon glyphicon-new-window"></i> Reject</a>
                                                 }
                                                 else if (item.StatusId == EnumBillRequisitionStatus.Approved || item.StatusId == EnumBillRequisitionStatus.Rejected)
                                                 {
-                                                <a href="~/BillRequisition/PDBRApproveSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i> Details</a>
+                                                    <a href="~/BillRequisition/PDBRApproveSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i> Details</a>
 
                                                 }
+                                                <a class="btn btn-sm btn-xs btn-warning" style="width:100%" target="_blank" href="~/Report/TCLBillRequisiontReport?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId">
+                                                    <i class="fa fa-print"></i>Print
+                                                </a>
                                             </td>
                                         </tr>
                                     }

@@ -124,9 +124,10 @@
 
                                             <td style="text-align:right">@String.Format("{0:0.00}", item.TotalAmount)</td>
                                             <td style="text-align:center">
-                                               
-                                                    <a href="~/BillRequisition/BillRequisitionMasterCommonSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
-
+                                                <a href="~/BillRequisition/BillRequisitionMasterCommonSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
+                                                <a class="btn btn-sm btn-xs btn-warning" style="width:100%" target="_blank" href="~/Report/TCLBillRequisiontReport?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId">
+                                                    <i class="fa fa-print"></i>Print
+                                                </a>
                                             </td>
                                             <td style="text-align:center">
                                                 @if (item.StatusId == EnumBillRequisitionStatus.Draft)
