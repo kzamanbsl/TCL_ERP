@@ -29,5 +29,14 @@ namespace KGERP.Service.ServiceModel
         public string BoqName { get; set; }
         public string BoqNumber { get; set; }
         public string MaterialName { get; set; }
+
+        public int ProjectTypeId { get; set; }
+        public List<Accounting_CostCenterType> ProjectTypes { get; set; }
+
+        public int BudgetTypeId { get; set; }
+        public List<ProductCategory> BudgetTypes { get; set; }
+
+        public int BudgetSubtypeId { get; set; }
+        public List<ProductSubCategory> BudgetSubtypes { get; set; }
     }
 }
