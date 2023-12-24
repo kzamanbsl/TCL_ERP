@@ -475,7 +475,10 @@ namespace KGERP.Controllers
                 BoQDivisions = _service.BoQDivisionList(),
                 BoQItems = _service.GetBillOfQuotationList(),
                 BoQMaterials = _ProductService.GetProductJson(),
-                BoQItemProductMaps = _service.GetBoQProductMapList()
+                BoQItemProductMaps = _service.GetBoQProductMapList(),
+                ProjectTypes = await _service.GetCostCenterTypeList(companyId),
+                BudgetTypes = _configurationService.GetAllProductCategoryList(companyId),
+                BudgetSubtypes = _configurationService.GetAllProductSubCategoryList(companyId)
             };
 
             return View(viewData);
