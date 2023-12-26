@@ -1,7 +1,9 @@
-﻿using KGERP.Service.ServiceModel;
+﻿using KGERP.Service.Implementation.Accounting;
+using KGERP.Service.ServiceModel;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace KGERP.Service.Interface
 {
@@ -24,6 +26,9 @@ namespace KGERP.Service.Interface
         //VoucherModel RemoveVoucherItem(long id);
         object GetVoucherNoAutoComplete(string prefix, int companyId);
         //int InsertFeedDada(int companyId);
-        //int UpdateAccGLSheet();
+        //int UpdateAccGLSheet
+
+        Task<long> CheckerVoucherRequisitionApproval(VMJournalSlave vmJournalSlave);
+        Task<long> ApproverVoucherRequisitionApproval(VMJournalSlave vmJournalSlave);
     }
 }

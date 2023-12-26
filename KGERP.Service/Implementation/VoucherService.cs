@@ -1,9 +1,11 @@
 ﻿using KGERP.Data.Models;
+using KGERP.Service.Implementation.Accounting;
 using KGERP.Service.Interface;
 using KGERP.Service.ServiceModel;
 using KGERP.Utility;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -453,6 +455,73 @@ namespace KGERP.Service.Implementation
 
                                                           }).OrderByDescending(x => x.VoucherId).AsEnumerable());
             return voucherModel;
+        }
+
+
+        public async Task<long> CheckerVoucherRequisitionApproval(VMJournalSlave vmJournalSlave)
+        {
+            long result = -1;
+            var empId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
+            Voucher model = await _context.Vouchers.FindAsync(vmJournalSlave.VoucherId);
+
+            var voucherRequisitionMapMaster = await _context.VoucherBRMapMasters.FirstOrDefaultAsync(s => s.VoucherId == model.VoucherId);
+            var VRApproval = await _context.VoucherBRMapMasterApprovals.FirstOrDefaultAsync(s => s.VoucherBRMapMasterId == voucherRequisitionMapMaster.VoucherBRMapMasterId && s.SignatoryId == (int)EnumVoucherRequisitionSignatory.Checker);
+            VRApproval.VoucherId = model.VoucherId;
+            VRApproval.EmployeeId = empId;
+            if (vmJournalSlave.ActionId == (int)ActionEnum.UnApprove)
+            {
+                VRApproval.AprrovalStatusId = (int)EnumBillRequisitionStatus.Rejected;
+                voucherRequisitionMapMaster.ApprovalStatusId = (int)EnumBillRequisitionStatus.Rejected;
+            }
+            else
+            {
+                VRApproval.AprrovalStatusId = (int)EnumBillRequisitionStatus.Approved;
+            }
+
+            VRApproval.ModifiedDate = DateTime.Now;
+            VRApproval.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+
+            if (await _context.SaveChangesAsync() > 0)
+            {
+                result = model.VoucherId;
+            }
+
+            return result;
+        }
+        public async Task<long> ApproverVoucherRequisitionApproval(VMJournalSlave vmJournalSlave)
+        {
+            long result = -1;
+            var empId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
+            Voucher model = await _context.Vouchers.FindAsync(vmJournalSlave.VoucherId);
+
+            var voucherRequisitionMapMaster = await _context.VoucherBRMapMasters.FirstOrDefaultAsync(s => s.VoucherId == model.VoucherId);
+            var VRApproval = await _context.VoucherBRMapMasterApprovals.FirstOrDefaultAsync(s => s.VoucherBRMapMasterId == voucherRequisitionMapMaster.VoucherBRMapMasterId && s.SignatoryId == (int)EnumVoucherRequisitionSignatory.Approver);
+            VRApproval.VoucherId = model.VoucherId;
+            VRApproval.EmployeeId = empId;
+
+            if (vmJournalSlave.ActionId == (int)ActionEnum.UnApprove)
+            {
+                VRApproval.AprrovalStatusId = (int)EnumBillRequisitionStatus.Rejected;
+                voucherRequisitionMapMaster.ApprovalStatusId = (int)EnumBillRequisitionStatus.Rejected;
+            }
+            else
+            {
+                VRApproval.AprrovalStatusId = (int)EnumBillRequisitionStatus.Approved;
+                VRApproval.IsSupremeApproved = true;
+                voucherRequisitionMapMaster.ApprovalStatusId = (int)EnumBillRequisitionStatus.Approved;
+            }
+           
+            VRApproval.ModifiedDate = DateTime.Now;
+            VRApproval.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+
+          
+
+            if (await _context.SaveChangesAsync() > 0)
+            {
+                result = model.VoucherId;
+            }
+
+            return result;
         }
 
         #endregion

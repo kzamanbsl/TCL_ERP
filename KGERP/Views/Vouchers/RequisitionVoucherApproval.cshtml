@@ -210,8 +210,7 @@
                             string btnProperty = Math.Round(totalDebitAmount ?? 0, 2) == Math.Round(totalCreditAmount ?? 0, 2) ? "disabled" : "";
                             string btnSubmitProperty = Math.Round(totalDebitAmount ?? 0, 2) == Math.Round(totalCreditAmount ?? 0, 2) ? "" : "disabled";
                             <div class="row">
-                                <div class="col-md-6"></div>
-                                <div class="col-md-3">
+                                <div class="col-md-6">
                                     @if (Model.IsSubmit == true)
                                     {
                                         <a href="@Url.Action("GetVoucherReport","Report", new {companyId=Model.CompanyFK,voucherId=Model.VoucherId,reportName="VoucherReport"})" style="width:100%" target="_blank" class="btn btn-warning btn-block">
@@ -220,6 +219,12 @@
                                         </a>
                                     }
                                 </div>
+                                <div class="col-md-3">
+
+                                    <button id="rejectBtn" style="width:100%;" type="button" class=" btn btn-danger" data-toggle="modal" data-target="#rejectVoucherModal" title="Reject" data-placement="top">Reject</button>
+
+                                </div>
+
                                 <div class=" col-md-3">
                                     @*<span style="width:100%" class="btn btn-default btn-outline-dark">@Model.VoucherNo has been submitted <span class="fa fa-check"></span></span>*@
                                     <button id="approveBtn" style="width:100%;" type="submit" class=" btn btn-primary">Approve</button>
@@ -232,6 +237,59 @@
         </div>
     </section>
 
+}
+
+@using (Html.BeginForm("RequisitionVoucherApproval", "Vouchers", FormMethod.Post))
+{
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="modal fade" id="rejectVoucherModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
+                        &times;
+                    </button>
+                    <h5 class="modal-title"><b>Delete Voucher</b></h5>
+                </div>
+
+                <div class="modal-body">
+                    @Html.HiddenFor(model => model.VoucherId, new { id = "deletehidVoucherId" })
+                    @Html.HiddenFor(model => model.ActionId, new { id = "rejectActionId" })
+                    @Html.HiddenFor(model => model.CompanyFK, new { id = "deleteCompanyId" })
+
+
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                  
+                    <div class="row">
+                        <div style="text-align:center">
+                            <h3>Are you sure to Reject this Voucher? </h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Rejection reasons:</label>
+                                @Html.TextAreaFor(model => model.Reason, new { id = "txtReason", placeholder = "type Reasons here", @class = "form-control", rows = 2 })
+                                @Html.ValidationMessageFor(model => model.Reason, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-3">
+                        <button type="button" class="btn btn-warning fa fa-close" data-dismiss="modal">&nbsp;NO</button>
+                    </div>
+                    <div class="col-md-9">
+                        <button type="submit" id="btnsave" style="width:100%" class="btn btn-primary fa fa-remove">&nbsp; Reject</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 }
 
 @section scripts {
@@ -258,10 +316,16 @@
 
             });
             $('#approveBtn').click(function () {
-           
+
                 $('#ActionId').val(6);
             });
-            
+            $('#rejectBtn').click(function () {
+
+                $('#rejectActionId').val(8);
+
+            });
+
+
 
 
             function checkTotal() {
@@ -319,7 +383,7 @@
             if (id !== null) {
                 $('#voucherDetailIdIdDelete').val(id);
                 $('#ActionIdDelete').val(3);
-               
+
 
             }
         }

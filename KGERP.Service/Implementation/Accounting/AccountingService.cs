@@ -686,7 +686,7 @@ namespace KGERP.Service.Implementation.Accounting
 
                     VBRApproval.SignatoryId = Convert.ToInt16(item.Value);
 
-                    if (VBRApproval.SignatoryId == 1)
+                    if (VBRApproval.SignatoryId == (int)EnumVoucherRequisitionSignatory.Initiator)
                     {
 
                         VBRApproval.EmployeeId = empId;
@@ -714,9 +714,6 @@ namespace KGERP.Service.Implementation.Accounting
             return result;
 
         }
-
-      
-
 
         public async Task<long> VoucherRequisitionMapUndoSubmit(VoucherModel voucherModel)
         {

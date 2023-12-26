@@ -27,7 +27,7 @@ namespace KGERP.Controllers
             this._voucherService = voucherService;
             this._accountHeadService = accountHeadService;
             _accountingService = new AccountingService(db);
-             _billrequisitionService = billrequisitionService;
+            _billrequisitionService = billrequisitionService;
         }
 
 
@@ -409,7 +409,7 @@ namespace KGERP.Controllers
         [HttpGet]
         public async Task<ActionResult> UpdateRequisitionVoucherStatus(int voucherId)
         {
-            long voucherDetailsId = await  _accountingService.UpdateRequisitionVoucherStatus(voucherId);
+            long voucherDetailsId = await _accountingService.UpdateRequisitionVoucherStatus(voucherId);
             return Json(voucherDetailsId, JsonRequestBehavior.AllowGet);
         }
 
@@ -466,6 +466,8 @@ namespace KGERP.Controllers
         }
 
 
+        #region Checker requisition voucher Approval and rejection
+
         [HttpGet]
         public async Task<ActionResult> RequisitionVoucherApproval(int companyId = 0, int voucherId = 0)
         {
@@ -505,16 +507,60 @@ namespace KGERP.Controllers
         public async Task<ActionResult> RequisitionVoucherApproval(VMJournalSlave vmJournalSlave)
         {
 
-            
-            if (vmJournalSlave.ActionEum == ActionEnum.Approve)
-            {
-                //Delete
-                await _accountingService.VoucherDetailsRequisitionMapDelete(vmJournalSlave.VoucherDetailId.Value);
-            }
+            await _voucherService.CheckerVoucherRequisitionApproval(vmJournalSlave);
 
             return RedirectToAction(nameof(RequisitionVoucherApproval), new { companyId = vmJournalSlave.CompanyFK, voucherId = vmJournalSlave.VoucherId });
         }
 
+        #endregion
+
+
+
+        #region Approver requisition voucher Approval and rejection
+        [HttpGet]
+        public async Task<ActionResult> ApproverRequisitionVoucherApproval(int companyId = 0, int voucherId = 0)
+        {
+            VMJournalSlave vmJournalSlave = new VMJournalSlave();
+
+            if (voucherId == 0)
+            {
+                vmJournalSlave = await Task.Run(() => _accountingService.GetCompaniesDetails(companyId));
+
+            }
+            else if (voucherId > 0)
+            {
+                vmJournalSlave = await Task.Run(() => _accountingService.GetVoucherRequisitionMapDetails(companyId, voucherId));
+            }
+            vmJournalSlave.CostCenterList = new SelectList(_accountingService.CostCenterDropDownList(companyId), "Value", "Text");
+            vmJournalSlave.VoucherTypesList = new SelectList(_accountingService.VoucherTypesDownList(companyId), "Value", "Text");
+            if (companyId == (int)CompanyNameEnum.GloriousCropCareLimited ||
+                companyId == (int)CompanyNameEnum.KrishibidPrintingAndPublicationLimited ||
+                companyId == (int)CompanyNameEnum.KrishibidPackagingLimited)
+            {
+                vmJournalSlave.BankOrCashParantList = new SelectList(_accountingService.GCCLCashAndBankDropDownList(companyId), "Value", "Text");
+
+            }
+            if (companyId == (int)CompanyNameEnum.KrishibidSeedLimited)
+            {
+                long requisitionId = 0;
+                vmJournalSlave.BankOrCashParantList = new SelectList(_accountingService.SeedCashAndBankDropDownList(companyId), "Value", "Text");
+                vmJournalSlave.Requisitions = new SelectList(_billrequisitionService.ApprovedRequisitionList(companyId), "Value", "Text");
+                vmJournalSlave.MaterialItemList = new SelectList(_billrequisitionService.ApprovedMaterialList(companyId, requisitionId), "ProductId", "ProductName");
+
+            }
+
+            return View(vmJournalSlave);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ApproverRequisitionVoucherApproval(VMJournalSlave vmJournalSlave)
+        {
+            await _voucherService.ApproverVoucherRequisitionApproval(vmJournalSlave);
+
+            return RedirectToAction(nameof(ApproverRequisitionVoucherApproval), new { companyId = vmJournalSlave.CompanyFK, voucherId = vmJournalSlave.VoucherId });
+        }
+
+        #endregion
 
         #endregion
 
@@ -639,7 +685,7 @@ namespace KGERP.Controllers
                 || companyId == (int)CompanyNameEnum.KrishibidFisheriesLimited
                 || companyId == (int)CompanyNameEnum.KrishibidTradingLimited
                 || companyId == (int)CompanyNameEnum.KrishibidSafeFood
-                
+
                 )
             {
                 var headGLModel = await Task.Run(() => _accountingService.HeadGLGet(companyId, parentId));
