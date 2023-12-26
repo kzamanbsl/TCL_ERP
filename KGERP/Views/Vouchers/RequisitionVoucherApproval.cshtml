@@ -199,7 +199,62 @@
                                             </tr>
                                         </tfoot>
                                     </table>
+
                                 </div>
+
+                                <strong>
+                                    <span>
+                                        Requisition Approval Status:
+                                    </span>
+                                </strong>
+                                <table class="table table-bordered">
+                                    <tr class="bg-gray">
+                                        @foreach (var item in Model.ApprovalList)
+                                        {
+                                            <th style="padding:5px;text-align:center;">
+                                                 @item.SignatoryName
+                                            </th>
+                                        }
+                                    </tr>
+                                    <tr>
+                                        @foreach (var item in Model.ApprovalList)
+                                        {
+                                            if (item.AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
+                                            {
+                                                <td style="text-align:center">
+                                                    <span class="btn btn-warning btn-xs"> @item.AprrovalStatusName</span>
+                                                </td>
+                                            }
+                                            else if (item.AprrovalStatusId == (int)EnumBillRequisitionStatus.Rejected)
+                                            {
+                                                <td style="text-align:center">
+                                                    <span class="btn btn-danger btn-xs"> @item.AprrovalStatusName</span>
+                                                </td>
+                                            }
+                                            else if (item.AprrovalStatusId == (int)EnumBillRequisitionStatus.Approved)
+                                            {
+                                                <td style="text-align:center">
+                                                    @if (item.SignatoryId == (int)EnumVoucherRequisitionSignatory.Initiator)
+                                                    {
+                                                        <span class="btn btn-success btn-xs"> Prepared</span>
+                                                    }
+                                                    else if (item.SignatoryId == (int)EnumVoucherRequisitionSignatory.Checker)
+                                                    {
+                                                        <span class="btn btn-success btn-xs"> Recommended</span>
+                                                    }
+                                                    else if (item.SignatoryId == (int)EnumVoucherRequisitionSignatory.Approver)
+                                                    {
+                                                        <span class="btn btn-success btn-xs"> Approved</span>
+                                                    }
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td style="padding:5px; text-align:center;">@item.AprrovalStatusName</td>
+                                            }
+                                        }
+                                    </tr>
+                                </table>
                             }
                         }
                     </div>

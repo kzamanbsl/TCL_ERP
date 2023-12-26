@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 using KGERP.Data.Models;
 using KGERP.Service.Implementation.Configuration;
+using KGERP.Utility;
 
 namespace KGERP.Service.Implementation.Accounting
 {
@@ -83,8 +84,10 @@ namespace KGERP.Service.Implementation.Accounting
         public decimal TotalDebit { get; set; } = 0;
         public decimal TotalCredit { get; set; } = 0;
         public IEnumerable<VMJournalSlave> DataListDetails { get; set; }
+    
         public List<VMJournalSlave> DataListSlave { get; set; }
 
+        public List<BRVoucherApprovalModel> ApprovalList { get; set; } = new List<BRVoucherApprovalModel>();
         public string message { get; set; }
         public string ChqNo { get; set; }
         public bool IsStock { get; set; }
@@ -114,4 +117,26 @@ namespace KGERP.Service.Implementation.Accounting
 
 
     }
+    public partial class BRVoucherApprovalModel
+    {
+        public long VoucherBRMapMasterApprovalId { get; set; }
+        public Nullable<long> VoucherBRMapMasterId { get; set; }
+        public Nullable<long> VoucherId { get; set; }
+        public int AprrovalStatusId { get; set; }
+        public string AprrovalStatusName { get { return BaseFunctionalities.GetEnumDescription((EnumBillRequisitionStatus)AprrovalStatusId); } }
+        public Nullable<long> EmployeeId { get; set; }
+        public string EmployeeName { get; set; }
+        public int SignatoryId { get; set; }
+        public string SignatoryName { get { return BaseFunctionalities.GetEnumDescription((EnumVoucherRequisitionSignatory)SignatoryId); } }
+
+        public int PriorityNo { get; set; }
+        public bool IsSupremeApproved { get; set; }
+        public int CompanyId { get; set; }
+        public System.DateTime CreateDate { get; set; }
+        public string CreatedBy { get; set; }
+        public Nullable<System.DateTime> ModifiedDate { get; set; }
+        public string ModifiedBy { get; set; }
+        public bool IsActive { get; set; }
+    }
+
 }

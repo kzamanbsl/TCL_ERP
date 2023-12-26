@@ -363,7 +363,7 @@ namespace KGERP.Service.Implementation
         //}
 
 
-        #region RequisitionVoucher
+        #region Requisition Voucher and Approval
 
         public async Task<VoucherModel> GetRequisitionVouchersList(int companyId, DateTime? fromDate, DateTime? toDate, bool? vStatus, int? voucherTypeId)
         {
@@ -457,21 +457,100 @@ namespace KGERP.Service.Implementation
             return voucherModel;
         }
 
+        public async Task<VMJournalSlave> GetVoucherRequisitionMapDetailsWithApproval(int companyId, int voucherId)
+        {
+            VMJournalSlave vmJournalSlave = new VMJournalSlave();
+            var reqVoucherMaster = _context.VoucherBRMapMasters.First(x => x.VoucherId == voucherId);
+            vmJournalSlave = await Task.Run(() => (from t1 in _context.Vouchers.Where(x => x.IsActive && x.VoucherId == voucherId && x.CompanyId == companyId)
+                                                   join t4 in _context.VoucherTypes on t1.VoucherTypeId equals t4.VoucherTypeId
+                                                   join t2 in _context.Companies on t1.CompanyId equals t2.CompanyId
+                                                   join t3 in _context.Accounting_CostCenter on t1.Accounting_CostCenterFk equals t3.CostCenterId
+                                                   //  join t5 in _db.HeadGLs on t1.VirtualHeadId equals t5.Id
+                                                   join t5 in _context.VoucherBRMapMasters on t1.VoucherId equals t5.VoucherId into t5_Join
+                                                   from t5 in t5_Join.DefaultIfEmpty()
+                                                   join t6 in _context.BillRequisitionMasters on t5.BillRequsitionMasterId equals t6.BillRequisitionMasterId into t6_Join
+                                                   from t6 in t6_Join.DefaultIfEmpty()
+                                                   select new VMJournalSlave
+                                                   {
+                                                       VoucherId = t1.VoucherId,
+                                                       Accounting_CostCenterName = t3.Name,
+                                                       VoucherNo = t1.VoucherNo,
+                                                       Date = t1.VoucherDate,
+                                                       Narration = t1.Narration,
+                                                       CompanyFK = t1.CompanyId,
+                                                       Status = t1.VoucherStatus,
+                                                       ChqDate = t1.ChqDate,
+                                                       ChqName = t1.ChqName,
+                                                       ChqNo = t1.ChqNo,
+                                                       Accounting_CostCenterFK = t1.Accounting_CostCenterFk,
+                                                       Accounting_BankOrCashId = t1.VirtualHeadId,
+                                                       //BankOrCashNane = "[" + t5.AccCode + "] " + t5.AccName,
+                                                       BillRequisitionId = t5.BillRequsitionMasterId,
+                                                       RequisitionNo = t6.BillRequisitionNo,
+                                                       RequisitionInitiator = t6.CreatedBy,
+                                                       CompanyName = t2.Name,
+                                                       IsSubmit = t1.IsSubmit,
+                                                       
+                                                       
+                                                   }).FirstOrDefault());
+
+            vmJournalSlave.DataListDetails = await Task.Run(() => (from t1 in _context.VoucherDetails.Where(x => x.IsActive && x.VoucherId == voucherId && !x.IsVirtual)
+                                                                   join t2 in _context.HeadGLs on t1.AccountHeadId equals t2.Id
+                                                                   join t3 in _context.VoucherBRMapDetails on t1.VoucherDetailId equals t3.VoucherDetailId into t3_Join
+                                                                   from t3 in t3_Join.DefaultIfEmpty()
+                                                                   join t4 in _context.Products on t3.ProductId equals t4.ProductId into t4_Join
+                                                                   from t4 in t4_Join.DefaultIfEmpty()
+                                                                   select new VMJournalSlave
+                                                                   {
+                                                                       VoucherDetailId = t1.VoucherDetailId,
+                                                                       AccountingHeadName = t2.AccName,
+                                                                       Code = t2.AccCode,
+                                                                       Credit = t1.CreditAmount,
+                                                                       Debit = t1.DebitAmount,
+                                                                       Particular = t1.Particular,
+                                                                       RequisitionMaterialId = t3.ProductId,
+                                                                       ApprovedQty = t3.ApprovedQty,
+                                                                       UnitRate = t3.ApprovedUnitRate,
+                                                                       MaterialName = t4.ProductName,
+                                                                   }).OrderByDescending(x => x.VoucherDetailId).AsEnumerable());
+            if ((vmJournalSlave.DataListDetails?.Count() ?? 0) > 0)
+            {
+                vmJournalSlave.Particular = vmJournalSlave.DataListDetails.OrderByDescending(x => x.VoucherDetailId).Select(x => x.Particular).FirstOrDefault();
+            }
+
+            vmJournalSlave.ApprovalList = await Task.Run(() => (from t1 in _context.VoucherBRMapMasterApprovals.Where(x => x.IsActive && x.VoucherBRMapMasterId == reqVoucherMaster.VoucherBRMapMasterId)
+                                                                                 
+                                                                                 join t3 in _context.Employees on t1.EmployeeId equals t3.Id into t3_Join
+                                                                                 from t3 in t3_Join.DefaultIfEmpty()
+                                                                                 select new BRVoucherApprovalModel
+                                                                                 {
+                                                                                     VoucherBRMapMasterApprovalId = t1.VoucherBRMapMasterApprovalId,
+                                                                                     VoucherBRMapMasterId = t1.VoucherBRMapMasterId,
+                                                                                     VoucherId = t1.VoucherId,
+                                                                                     SignatoryId = t1.SignatoryId,
+                                                                                     AprrovalStatusId = t1.AprrovalStatusId,
+                                                                                     IsSupremeApproved = t1.IsSupremeApproved,
+                                                                                     EmployeeId = t1.EmployeeId,
+                                                                                     EmployeeName = t3.EmployeeId + "-" +t3.Name,
+                                                                                 }).OrderBy(x => x.VoucherBRMapMasterApprovalId).ToList());
+            return vmJournalSlave;
+        }
 
         public async Task<long> CheckerVoucherRequisitionApproval(VMJournalSlave vmJournalSlave)
         {
             long result = -1;
             var empId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
-            Voucher model = await _context.Vouchers.FindAsync(vmJournalSlave.VoucherId);
+            Voucher model =  _context.Vouchers.Find(vmJournalSlave.VoucherId);
 
-            var voucherRequisitionMapMaster = await _context.VoucherBRMapMasters.FirstOrDefaultAsync(s => s.VoucherId == model.VoucherId);
-            var VRApproval = await _context.VoucherBRMapMasterApprovals.FirstOrDefaultAsync(s => s.VoucherBRMapMasterId == voucherRequisitionMapMaster.VoucherBRMapMasterId && s.SignatoryId == (int)EnumVoucherRequisitionSignatory.Checker);
+            var voucherRequisitionMapMaster =  _context.VoucherBRMapMasters.FirstOrDefault(s => s.VoucherId == model.VoucherId);
+            var VRApproval =  _context.VoucherBRMapMasterApprovals.FirstOrDefault(s => s.VoucherBRMapMasterId == voucherRequisitionMapMaster.VoucherBRMapMasterId && s.SignatoryId == (int)EnumVoucherRequisitionSignatory.Checker);
             VRApproval.VoucherId = model.VoucherId;
             VRApproval.EmployeeId = empId;
             if (vmJournalSlave.ActionId == (int)ActionEnum.UnApprove)
             {
                 VRApproval.AprrovalStatusId = (int)EnumBillRequisitionStatus.Rejected;
                 voucherRequisitionMapMaster.ApprovalStatusId = (int)EnumBillRequisitionStatus.Rejected;
+                VRApproval.Reasons = vmJournalSlave.Reason;
             }
             else
             {
@@ -492,10 +571,10 @@ namespace KGERP.Service.Implementation
         {
             long result = -1;
             var empId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
-            Voucher model = await _context.Vouchers.FindAsync(vmJournalSlave.VoucherId);
+            Voucher model =  _context.Vouchers.Find(vmJournalSlave.VoucherId);
 
-            var voucherRequisitionMapMaster = await _context.VoucherBRMapMasters.FirstOrDefaultAsync(s => s.VoucherId == model.VoucherId);
-            var VRApproval = await _context.VoucherBRMapMasterApprovals.FirstOrDefaultAsync(s => s.VoucherBRMapMasterId == voucherRequisitionMapMaster.VoucherBRMapMasterId && s.SignatoryId == (int)EnumVoucherRequisitionSignatory.Approver);
+            var voucherRequisitionMapMaster =  _context.VoucherBRMapMasters.FirstOrDefault(s => s.VoucherId == model.VoucherId);
+            var VRApproval = _context.VoucherBRMapMasterApprovals.FirstOrDefault(s => s.VoucherBRMapMasterId == voucherRequisitionMapMaster.VoucherBRMapMasterId && s.SignatoryId == (int)EnumVoucherRequisitionSignatory.Approver);
             VRApproval.VoucherId = model.VoucherId;
             VRApproval.EmployeeId = empId;
 
@@ -503,6 +582,7 @@ namespace KGERP.Service.Implementation
             {
                 VRApproval.AprrovalStatusId = (int)EnumBillRequisitionStatus.Rejected;
                 voucherRequisitionMapMaster.ApprovalStatusId = (int)EnumBillRequisitionStatus.Rejected;
+                VRApproval.Reasons = vmJournalSlave.Reason;
             }
             else
             {

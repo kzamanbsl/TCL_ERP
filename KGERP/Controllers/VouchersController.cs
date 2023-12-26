@@ -480,7 +480,7 @@ namespace KGERP.Controllers
             }
             else if (voucherId > 0)
             {
-                vmJournalSlave = await Task.Run(() => _accountingService.GetVoucherRequisitionMapDetails(companyId, voucherId));
+                vmJournalSlave = await Task.Run(() => _voucherService.GetVoucherRequisitionMapDetailsWithApproval(companyId, voucherId));
             }
             vmJournalSlave.CostCenterList = new SelectList(_accountingService.CostCenterDropDownList(companyId), "Value", "Text");
             vmJournalSlave.VoucherTypesList = new SelectList(_accountingService.VoucherTypesDownList(companyId), "Value", "Text");
