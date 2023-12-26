@@ -56,34 +56,53 @@
                                 <div class="col-md-10">
                                     <table class="table">
                                         <tr>
-                                            <th style="width:18%">Requisition Date</th>
-                                            <th style="width:2%">:</th>
-                                            @*<td style="width:30%">@Model.CreatedDate.ToShortDateString()</td>*@
-                                            <td style="width:30%">@Model.BRDate.ToShortDateString()</td>
+                                            <th style="width:17% !important">Requisition No</th>
+                                            <th>:</th>
+                                            <td>@Model.BillRequisitionNo</td>
 
-                                            <th>Status</th>
+                                            <th style="width:17% !important">Requisition Status</th>
                                             <th>:</th>
                                             <td>@Model.StatusName</td>
                                         </tr>
+
                                         <tr>
-                                            <th>Requisition No</th>
+                                            <th style="width:17% !important">Requisition Date</th>
                                             <th>:</th>
-                                            <td>@Model.BillRequisitionNo</td>
-                                            <th>Requisition Type </th>
+                                            <td>@Model.BRDate.ToShortDateString()</td>
+
+                                            <th style="width:17% !important">Requisition Type</th>
                                             <th>:</th>
                                             <td>@Model.BRTypeName</td>
                                         </tr>
+
                                         <tr>
-                                            <th>Project Type</th>
+                                            <th style="width:17% !important">Project Type</th>
                                             <th>:</th>
                                             <td>@Model.ProjectTypeName</td>
-                                            <th>Project </th>
+
+                                            <th style="width:17% !important">Project Name</th>
                                             <th>:</th>
                                             <td>@Model.CostCenterName</td>
                                         </tr>
 
+                                        @if (!(Model.BillRequisitionTypeId == (int)EnumBillRequisitionType.Overhead))
+                                        {
+                                            <tr>
+                                                <th>
+                                                    Division Name
+                                                </th>
+                                                <th>:</th>
+                                                <td>@Model.BoQDivisionName</td>
+
+                                                <th>BoQ Item Name</th>
+                                                <th>:</th>
+                                                <td>@Model.BOQItemName</td>
+                                            </tr>
+                                        }
                                         <tr>
-                                            <th>Remarks</th>
+                                            <th>
+                                                @((Model.BillRequisitionTypeId == (int)EnumBillRequisitionType.Overhead)? "Item Description" : "Work Details")
+                                            </th>
                                             <th>:</th>
                                             <td>@Model.Description</td>
 
