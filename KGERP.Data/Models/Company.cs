@@ -53,10 +53,10 @@ namespace KGERP.Data.Models
             this.UserLogs = new HashSet<UserLog>();
             this.BillRequisitionVoucherMaps = new HashSet<BillRequisitionVoucherMap>();
             this.BillReqApprovalHistories = new HashSet<BillReqApprovalHistory>();
-            this.BillRequisitionApprovals = new HashSet<BillRequisitionApproval>();
             this.BoQDivisions = new HashSet<BoQDivision>();
-            this.VoucherBRMapMasterApprovals = new HashSet<VoucherBRMapMasterApproval>();
             this.BoQItemProductMaps = new HashSet<BoQItemProductMap>();
+            this.BillRequisitionApprovals = new HashSet<BillRequisitionApproval>();
+            this.VoucherBRMapMasterApprovals = new HashSet<VoucherBRMapMasterApproval>();
         }
     
         public int CompanyId { get; set; }
@@ -157,12 +157,12 @@ namespace KGERP.Data.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BillReqApprovalHistory> BillReqApprovalHistories { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BillRequisitionApproval> BillRequisitionApprovals { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BoQDivision> BoQDivisions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<VoucherBRMapMasterApproval> VoucherBRMapMasterApprovals { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BoQItemProductMap> BoQItemProductMaps { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BillRequisitionApproval> BillRequisitionApprovals { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<VoucherBRMapMasterApproval> VoucherBRMapMasterApprovals { get; set; }
     }
 }

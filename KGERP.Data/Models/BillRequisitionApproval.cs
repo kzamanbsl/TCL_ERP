@@ -27,6 +27,7 @@ namespace KGERP.Data.Models
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public string ModifiedBy { get; set; }
         public bool IsActive { get; set; }
+        public string Reasons { get; set; }
     
         public virtual Company Company { get; set; }
         public virtual Employee Employee { get; set; }
