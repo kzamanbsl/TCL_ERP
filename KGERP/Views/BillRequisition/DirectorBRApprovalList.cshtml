@@ -91,6 +91,7 @@
                                         <th>Project </th>
                                         <th>Director Approval</th>
                                         <th>Action</th>
+                                        <th>Report</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -148,6 +149,8 @@
                                                     <a href="~/BillRequisition/DirectorBRApproveSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i> Details</a>
 
                                                 }
+                                            </td>
+                                            <td>
                                                 <a class="btn btn-sm btn-xs btn-warning" style="width:100%" target="_blank" href="~/Report/TCLBillRequisiontReport?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId">
                                                     <i class="fa fa-print"></i>Print
                                                 </a>
