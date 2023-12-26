@@ -542,6 +542,7 @@
 @section scripts {
 
     <script type="text/javascript">
+        var isMakeEditable = false;
         // Make editable form
         function makeEditble(rowId) {
             $.ajax({
@@ -574,6 +575,7 @@
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 }
             });
+            isMakeEditable = true;
         }
 
         // make submitable form
@@ -802,7 +804,9 @@
                 }
             });
 
-            GetBudgetInfo();
+            if (!isMakeEditable) {
+                GetBudgetInfo();
+            }
         }
 
         // get budget info
@@ -816,7 +820,35 @@
             var intputDemand = $("#decDemandQty");
             var totalAmount = $("#decTotalPrice");
 
-            if (isNaN(boqId.val())) {
+            var BoqValue = 0;
+
+            @if (Model.BillRequisitionMasterId > 0)
+            {
+                @:BoqValue = @(Model.BOQItemId);
+            }
+            else
+            {
+                @:BoqValue = boqId.val();
+            }
+
+            if (BoqValue > 0) {
+                $.ajax({
+                    type: "GET",
+                    url: "/BillRequisition/GetMaterialBudgetInfo",
+                    dataType: "json",
+                    data: { boqId: BoqValue, productId: productId.val() },
+                    success: function (data) {
+                        if (data) {
+                            showEstimate.val(data.EstimateQty);
+                            showUnitRate.val(data.UnitRate);
+                            showReceivedSoFar.val(data.ReceivedSoFar);
+                            showRemaining.val(data.RemainingQty);
+                            intputDemand.val(0);
+                            totalAmount.val(0);
+                        }
+                    }
+                });
+            } else {
                 $.ajax({
                     type: "GET",
                     url: "/BillRequisition/GetMaterialBudgetInfoForOverhead",
@@ -830,33 +862,10 @@
                             showRemaining.val(data.RemainingQty);
                             intputDemand.val(0);
                             totalAmount.val(0);
-                            if (showReceivedSoFar <= showEstimate) {
-                                demandAbility = true
-                            }
                         }
                     }
                 });
             }
-
-            $.ajax({
-                type: "GET",
-                url: "/BillRequisition/GetMaterialBudgetInfo",
-                dataType: "json",
-                data: { boqId: boqId.val(), productId: productId.val()},
-                success: function (data) {
-                    if (data) {
-                        showEstimate.val(data.EstimateQty);
-                        showUnitRate.val(data.UnitRate);
-                        showReceivedSoFar.val(data.ReceivedSoFar);
-                        showRemaining.val(data.RemainingQty);
-                        intputDemand.val(0);
-                        totalAmount.val(0);
-                        if (showReceivedSoFar <= showEstimate) {
-                            demandAbility = true
-                        }
-                    }
-                }
-            });
         }
 
         $(document).ready(function () {
@@ -962,7 +971,7 @@
                     $("#inputTotalPrice").removeClass("col-md-3").addClass("col-md-4");
                     $("#ddlRequisitionItemId").empty();
                     $("#ddlRequisitionItemId").append("<option selected disabled>==Select Requisition Subtype First==</option>");
-                } else if (selectedOption.val() === "@((int)EnumBillRequisitionType.Labor)") { // IT
+                } else if (selectedOption.val() === "@((int)EnumBillRequisitionType.Labor)") {
                     $("#demandTitle").text("Labor Quantity :");
                     $("#unitTitle").text("Labor Rate :");
 
