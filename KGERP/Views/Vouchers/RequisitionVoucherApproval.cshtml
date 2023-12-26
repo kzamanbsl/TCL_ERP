@@ -131,8 +131,8 @@
                             </div>
                             <div class="col-md-1"> </div>
                         }
-                       
-                      
+
+
                         <!--Body Will by Start Here-->
                         @{
                             if (Model.VoucherId > 0)
@@ -210,7 +210,8 @@
                             string btnProperty = Math.Round(totalDebitAmount ?? 0, 2) == Math.Round(totalCreditAmount ?? 0, 2) ? "disabled" : "";
                             string btnSubmitProperty = Math.Round(totalDebitAmount ?? 0, 2) == Math.Round(totalCreditAmount ?? 0, 2) ? "" : "disabled";
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-6"></div>
+                                <div class="col-md-3">
                                     @if (Model.IsSubmit == true)
                                     {
                                         <a href="@Url.Action("GetVoucherReport","Report", new {companyId=Model.CompanyFK,voucherId=Model.VoucherId,reportName="VoucherReport"})" style="width:100%" target="_blank" class="btn btn-warning btn-block">
@@ -219,41 +220,10 @@
                                         </a>
                                     }
                                 </div>
-
-                                @if (!Model.IsSubmit)
-                                {
-
-
-                                    <div class="col-md-3">
-                                        @if (btnSubmitProperty == "disabled")
-                                        {
-                                            <span style="width:100%" class="btn text-danger "><sup>***</sup>Ensure Total Dr. = Total Cr. </span>
-
-
-                                        }
-
-                                    </div>
-
-                                    <div class="col-md-5">
-
-                                        <button type="button" id="btnVoucherSubmit" data-toggle="modal" style="width:100%;"
-                                                data-target="#submitProcurementPurchaseOrderModal" data-placement="top"
-                                                class="btn btn-primary btn-block" @btnSubmitProperty>
-                                            <i class='fa fa-plus'></i>
-                                            <span>Submit</span>
-                                        </button>
-
-                                    </div>
-                                }
-                                else
-                                {
-                                    <div class="col-md-8">
-                                        @*<span style="width:100%" class="btn btn-default btn-outline-dark">@Model.VoucherNo has been submitted <span class="fa fa-check"></span></span>*@
-                                      <button type="submit" class="btn btn-primary">Approve</button>
-                                    </div>
-
-                                }
-
+                                <div class=" col-md-3">
+                                    @*<span style="width:100%" class="btn btn-default btn-outline-dark">@Model.VoucherNo has been submitted <span class="fa fa-check"></span></span>*@
+                                    <button id="approveBtn" style="width:100%;" type="submit" class=" btn btn-primary">Approve</button>
+                                </div>
                             </div>
                         }
                     </div>
@@ -287,6 +257,11 @@
 
 
             });
+            $('#approveBtn').click(function () {
+           
+                $('#ActionId').val(6);
+            });
+            
 
 
             function checkTotal() {
@@ -344,6 +319,7 @@
             if (id !== null) {
                 $('#voucherDetailIdIdDelete').val(id);
                 $('#ActionIdDelete').val(3);
+               
 
             }
         }

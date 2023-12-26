@@ -442,6 +442,7 @@ namespace KGERP.Service.Implementation.Accounting
 
         #endregion
 
+
         #region Voucher Requisition Map Entry
 
         public async Task<VMJournalSlave> GetVoucherRequisitionMapDetails(int companyId, int voucherId)
@@ -713,6 +714,9 @@ namespace KGERP.Service.Implementation.Accounting
             return result;
 
         }
+
+      
+
 
         public async Task<long> VoucherRequisitionMapUndoSubmit(VoucherModel voucherModel)
         {

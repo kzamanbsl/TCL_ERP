@@ -118,7 +118,7 @@
                                                 <th>
                                                     Narration
                                                 </th>
-                                                <th style="width:70px;">Report</th>
+                                                <th style="width:70px;">Action</th>
                                             </tr>
                                         </thead>
                                         @{int sl = 0;
@@ -167,7 +167,7 @@
 
                                                         }
 
-                                                        @if (!item.IsIntegrated)
+                                                        @*@if (!item.IsIntegrated)
                                                         {
                                                             if (Model.IsSubmit == true)
                                                             {
@@ -176,13 +176,13 @@
                                                             }
 
                                                             <a id="linkVoucherId_@item.VoucherId" onclick="makeDeletale(@item.VoucherId,@item.CompanyId)" style="color:red" class="linkPointer" data-toggle="modal" data-target="#deleteVoucherModal" title="Delete" data-placement="top"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>
-                                                            @*<a id="linkVoucherId_@item.VoucherId" onclick="makeEditble(@item.VoucherId,@item.CompanyId)" style="color:#999" class="linkPointer" data-toggle="modal" data-target="#EditVoucherModal" title="Edit" data-placement="top"><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></a>*@
+                                                            <a id="linkVoucherId_@item.VoucherId" onclick="makeEditble(@item.VoucherId,@item.CompanyId)" style="color:#999" class="linkPointer" data-toggle="modal" data-target="#EditVoucherModal" title="Edit" data-placement="top"><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></a>
 
                                                         }
 
                                                         <a href="@Url.Action("GetVoucherReport","Report", new { companyId = item.CompanyId, voucherId = item.VoucherId ,reportName =""})" style="width:100%" target="_blank" class="btn btn-primary btn-xs">
                                                             Print
-                                                        </a>
+                                                        </a>*@
 
                                                     </td>
                                                 </tr>
