@@ -50,16 +50,16 @@
                                     @Html.HiddenFor(model => model.CompanyId, new { id = "CompanyId" })
 
                                     <div class="row">
-                                        <div class="col-md-2">
+                                        @*<div class="col-md-2">
 
-                                            <div class="form-group">
-                                                @Html.RadioButtonFor(m => m.IsApproved, true) Approved
-                                                <br />
-                                                @Html.RadioButtonFor(m => m.IsApproved, false) Pending
-                                            </div>
-                                        </div>
+                                                <div class="form-group">
+                                                    @Html.RadioButtonFor(m => m.IsApproved, true) Approved
+                                                    <br />
+                                                    @Html.RadioButtonFor(m => m.IsApproved, false) Pending
+                                                </div>
+                                            </div>*@
 
-                                        <div class="col-md-3">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>Voucher Type</label>
                                                 @Html.DropDownListFor(model => model.VmVoucherTypeId, Model.VoucherTypesList as SelectList, "==Voucher Type==", new { id = "ddlVoucherTypeId", @class = "form-control", @onchange = "generateVoucherNo()", style = "width:100%" })
@@ -67,7 +67,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-md-3">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 @Html.Label("From Date", htmlAttributes: new { @class = "control-label" })
                                                 <br />
@@ -118,6 +118,9 @@
                                                 <th>
                                                     Narration
                                                 </th>
+                                                <th style="text-align:center;">
+                                                    Checker Approval
+                                                </th>
                                                 <th style="width:70px;">Action</th>
                                             </tr>
                                         </thead>
@@ -154,6 +157,25 @@
                                                     <td>
 
                                                         @Html.Raw(item.Narration)
+
+                                                    </td>
+                                                    <td style="text-align:center">
+                                                        @if (item.ApproverAprrovalStatusId == (int)KGERP.Utility.EnumBillRequisitionStatus.Pending)
+                                                        {
+                                                            <span class="btn btn-warning btn-xs">  @Html.Raw(item.CheckerAprrovalStatusName)</span>
+
+                                                        }
+                                                        else if (item.ApproverAprrovalStatusId == (int)KGERP.Utility.EnumBillRequisitionStatus.Approved)
+                                                        {
+                                                            <span class="btn btn-success btn-xs">  @Html.Raw(item.CheckerAprrovalStatusName)</span>
+                                                        }
+                                                        else if (item.ApproverAprrovalStatusId == (int)KGERP.Utility.EnumBillRequisitionStatus.Rejected)
+                                                        {
+                                                            <span class="btn btn-danger btn-xs">  @Html.Raw(item.CheckerAprrovalStatusName)</span>
+                                                        }
+
+
+
 
                                                     </td>
                                                     <td>

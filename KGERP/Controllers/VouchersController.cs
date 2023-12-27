@@ -420,6 +420,11 @@ namespace KGERP.Controllers
 
         #region Requisition Voucher Approval 
 
+
+
+
+        #region Checker requisition voucher Approval and rejection
+
         [HttpGet]
         public async Task<ActionResult> RequisitionVoucherApprovalList(int companyId, DateTime? fromDate, DateTime? toDate, bool? vStatus, int? voucherTypeId)
         {
@@ -442,7 +447,7 @@ namespace KGERP.Controllers
             }
 
             VoucherModel voucherModel = new VoucherModel();
-            voucherModel = await _voucherService.GetRequisitionVouchersApprovalList(companyId, fromDate, toDate, vStatus, voucherTypeId);
+            voucherModel = await _voucherService.CheckerGetRequisitionVouchersApprovalList(companyId, fromDate, toDate, /*vStatus,*/ voucherTypeId);
             voucherModel.VoucherTypesList = new SelectList(_accountingService.VoucherTypesDownList(companyId), "Value", "Text");
             voucherModel.StrFromDate = fromDate.Value.ToString("yyyy-MM-dd");
             voucherModel.StrToDate = toDate.Value.ToString("yyyy-MM-dd");
@@ -465,8 +470,6 @@ namespace KGERP.Controllers
             return RedirectToAction(nameof(RequisitionVoucherApprovalList), new { companyId = voucherModel.CompanyId, fromDate = voucherModel.FromDate, toDate = voucherModel.ToDate, vStatus = voucherModel.IsApproved, voucherTypeId = voucherModel.VmVoucherTypeId ?? 0 });
         }
 
-
-        #region Checker requisition voucher Approval and rejection
 
         [HttpGet]
         public async Task<ActionResult> RequisitionVoucherApproval(int companyId = 0, int voucherId = 0)
@@ -517,6 +520,53 @@ namespace KGERP.Controllers
 
 
         #region Approver requisition voucher Approval and rejection
+
+        [HttpGet]
+        public async Task<ActionResult> ApproverRequisitionVoucherApprovalList(int companyId, DateTime? fromDate, DateTime? toDate, bool? vStatus, int? voucherTypeId)
+        {
+            if (companyId > 0)
+            {
+                Session["CompanyId"] = companyId;
+            }
+            if (fromDate == null)
+            {
+                fromDate = DateTime.Now.AddMonths(-2);
+            }
+
+            if (toDate == null)
+            {
+                toDate = DateTime.Now;
+            }
+            if (vStatus == null)
+            {
+                vStatus = true;
+            }
+
+            VoucherModel voucherModel = new VoucherModel();
+            voucherModel = await _voucherService.ApproverGetRequisitionVouchersApprovalList(companyId, fromDate, toDate, /*vStatus,*/ voucherTypeId);
+            voucherModel.VoucherTypesList = new SelectList(_accountingService.VoucherTypesDownList(companyId), "Value", "Text");
+            voucherModel.StrFromDate = fromDate.Value.ToString("yyyy-MM-dd");
+            voucherModel.StrToDate = toDate.Value.ToString("yyyy-MM-dd");
+            voucherModel.IsApproved = vStatus;
+            return View(voucherModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ApproverRequisitionVoucherApprovalList(VoucherModel voucherModel)
+        {
+            if (voucherModel.CompanyId > 0)
+            {
+                Session["CompanyId"] = voucherModel.CompanyId;
+            }
+
+            voucherModel.FromDate = Convert.ToDateTime(voucherModel.StrFromDate);
+            voucherModel.ToDate = Convert.ToDateTime(voucherModel.StrToDate);
+
+
+            return RedirectToAction(nameof(ApproverRequisitionVoucherApprovalList), new { companyId = voucherModel.CompanyId, fromDate = voucherModel.FromDate, toDate = voucherModel.ToDate, vStatus = voucherModel.IsApproved, voucherTypeId = voucherModel.VmVoucherTypeId ?? 0 });
+        }
+
+
         [HttpGet]
         public async Task<ActionResult> ApproverRequisitionVoucherApproval(int companyId = 0, int voucherId = 0)
         {
