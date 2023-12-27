@@ -525,9 +525,9 @@ namespace KGERP.Service.Implementation
                                                               RequisitionId = t4.BillRequsitionMasterId,
                                                               RequisitionNo = t5.BillRequisitionNo,
                                                               VoucherRequisitionMasterMapId = t4.VoucherBRMapMasterId,
-                                                              InitiatorAprrovalStatusId = t6.AprrovalStatusId,
+                                                              InitiatorAprrovalStatusId = t4.ApprovalStatusId ?? 0,
                                                               CheckerAprrovalStatusId = t7.AprrovalStatusId,
-                                                              ApproverAprrovalStatusId = t7.AprrovalStatusId,
+                                                              ApproverAprrovalStatusId = t8.AprrovalStatusId,
                                                               EmpId = empId,
                                                               EmployeeId = t9.EmployeeId
 
@@ -589,7 +589,7 @@ namespace KGERP.Service.Implementation
                                                               VoucherRequisitionMasterMapId = t4.VoucherBRMapMasterId,
                                                               InitiatorAprrovalStatusId = t6.AprrovalStatusId,
                                                               CheckerAprrovalStatusId = t7.AprrovalStatusId,
-                                                              ApproverAprrovalStatusId = t7.AprrovalStatusId
+                                                              ApproverAprrovalStatusId = t8.AprrovalStatusId
 
                                                           }).OrderByDescending(x => x.VoucherId).AsEnumerable());
 
@@ -648,7 +648,7 @@ namespace KGERP.Service.Implementation
                                                               VoucherRequisitionMasterMapId = t4.VoucherBRMapMasterId,
                                                               InitiatorAprrovalStatusId = t6.AprrovalStatusId,
                                                               CheckerAprrovalStatusId = t7.AprrovalStatusId,
-                                                              ApproverAprrovalStatusId = t7.AprrovalStatusId
+                                                              ApproverAprrovalStatusId = t8.AprrovalStatusId
 
                                                           }).OrderByDescending(x => x.VoucherId).AsEnumerable());
 
@@ -792,10 +792,15 @@ namespace KGERP.Service.Implementation
             VRApproval.ModifiedDate = DateTime.Now;
             VRApproval.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
 
-          
+           // model.IsSubmit = true;
+            //model.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+
+
+
 
             if (await _context.SaveChangesAsync() > 0)
             {
+
                 result = model.VoucherId;
             }
 

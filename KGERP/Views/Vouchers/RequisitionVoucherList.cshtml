@@ -50,16 +50,16 @@
                                     @Html.HiddenFor(model => model.CompanyId, new { id = "CompanyId" })
 
                                     <div class="row">
-                                        <div class="col-md-2">
+                                        @*<div class="col-md-2">
 
-                                            <div class="form-group">
-                                                @Html.RadioButtonFor(m => m.IsSubmit, true) Submitted
-                                                <br />
-                                                @Html.RadioButtonFor(m => m.IsSubmit, false) Draft
-                                            </div>
-                                        </div>
+                                                <div class="form-group">
+                                                    @Html.RadioButtonFor(m => m.IsSubmit, true) Submitted
+                                                    <br />
+                                                    @Html.RadioButtonFor(m => m.IsSubmit, false) Draft
+                                                </div>
+                                            </div>*@
 
-                                        <div class="col-md-3">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>Voucher Type</label>
                                                 @Html.DropDownListFor(model => model.VmVoucherTypeId, Model.VoucherTypesList as SelectList, "==Voucher Type==", new { id = "ddlVoucherTypeId", @class = "form-control", @onchange = "generateVoucherNo()", style = "width:100%" })
@@ -67,7 +67,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-md-3">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 @Html.Label("From Date", htmlAttributes: new { @class = "control-label" })
                                                 <br />
@@ -118,6 +118,9 @@
                                                 <th>
                                                     Narration
                                                 </th>
+                                                <th style="text-align:center;">
+                                                    Approval Status
+                                                </th>
                                                 <th style="width:70px;">Action</th>
                                             </tr>
                                         </thead>
@@ -156,6 +159,35 @@
                                                         @Html.Raw(item.Narration)
 
                                                     </td>
+                                                    <td style="text-align:center;">
+                                                        @{
+
+                                                            if (item.ApproverAprrovalStatusId == (int)KGERP.Utility.EnumBillRequisitionStatus.Approved)
+                                                            {
+
+
+                                                                <span class="btn btn-success btn-xs">Approved</span>
+                                                            }
+                                                            else
+                                                            {
+                                                                if (item.CheckerAprrovalStatusId == (int)KGERP.Utility.EnumBillRequisitionStatus.Pending)
+                                                                {
+                                                                    <span class="btn btn-warning btn-xs"> @item.CheckerAprrovalStatusName at  Checker</span>
+
+                                                                }
+                                                                else if (item.CheckerAprrovalStatusId == (int)KGERP.Utility.EnumBillRequisitionStatus.Rejected)
+                                                                {
+                                                                    <span class="btn btn-danger btn-xs"> @item.CheckerAprrovalStatusName at  Checker</span>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <span class="btn btn-primary btn-xs">@item.InitiatorAprrovalStatusName </span>
+                                                                }
+
+                                                            }
+
+                                                        }
+                                                    </td>
                                                     <td>
                                                         @if (item.IsStock)
                                                         {
@@ -168,21 +200,21 @@
                                                         }
 
                                                         @*@if (!item.IsIntegrated)
-                                                        {
-                                                            if (Model.IsSubmit == true)
                                                             {
-                                                                <a id="linkUndoSubmit_@item.VoucherId" onclick="makeUndoSubmit(@item.VoucherId,@item.CompanyId)" class="linkPointer text-warning" data-toggle="modal" data-target="#undoSubmitVoucherModal" title="Undo Submit" data-placement="top"><i class="fa fa-undo" aria-hidden="true"></i></a>
+                                                                if (Model.IsSubmit == true)
+                                                                {
+                                                                    <a id="linkUndoSubmit_@item.VoucherId" onclick="makeUndoSubmit(@item.VoucherId,@item.CompanyId)" class="linkPointer text-warning" data-toggle="modal" data-target="#undoSubmitVoucherModal" title="Undo Submit" data-placement="top"><i class="fa fa-undo" aria-hidden="true"></i></a>
+
+                                                                }
+
+                                                                <a id="linkVoucherId_@item.VoucherId" onclick="makeDeletale(@item.VoucherId,@item.CompanyId)" style="color:red" class="linkPointer" data-toggle="modal" data-target="#deleteVoucherModal" title="Delete" data-placement="top"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>
+                                                                <a id="linkVoucherId_@item.VoucherId" onclick="makeEditble(@item.VoucherId,@item.CompanyId)" style="color:#999" class="linkPointer" data-toggle="modal" data-target="#EditVoucherModal" title="Edit" data-placement="top"><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></a>
 
                                                             }
 
-                                                            <a id="linkVoucherId_@item.VoucherId" onclick="makeDeletale(@item.VoucherId,@item.CompanyId)" style="color:red" class="linkPointer" data-toggle="modal" data-target="#deleteVoucherModal" title="Delete" data-placement="top"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>
-                                                            <a id="linkVoucherId_@item.VoucherId" onclick="makeEditble(@item.VoucherId,@item.CompanyId)" style="color:#999" class="linkPointer" data-toggle="modal" data-target="#EditVoucherModal" title="Edit" data-placement="top"><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></a>
-
-                                                        }
-
-                                                        <a href="@Url.Action("GetVoucherReport","Report", new { companyId = item.CompanyId, voucherId = item.VoucherId ,reportName =""})" style="width:100%" target="_blank" class="btn btn-primary btn-xs">
-                                                            Print
-                                                        </a>*@
+                                                            <a href="@Url.Action("GetVoucherReport","Report", new { companyId = item.CompanyId, voucherId = item.VoucherId ,reportName =""})" style="width:100%" target="_blank" class="btn btn-primary btn-xs">
+                                                                Print
+                                                            </a>*@
 
                                                     </td>
                                                 </tr>
@@ -457,7 +489,7 @@
                 datatype: "Json",
                 data: { voucherTypeId: voucherTypeId, companyId: "@Model.CompanyId", voucherDate: voucherDate },
                 success: function (data) {
-               
+
                     $("#txtVoucherNo").val(data);
                     $("#spnVoucherNo").text("-" + data);
                 }

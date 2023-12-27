@@ -271,7 +271,7 @@ namespace KGERP.Controllers
         #region Requisition Voucher Basic
 
         [HttpGet]
-        public async Task<ActionResult> RequisitionVoucherList(int companyId, DateTime? fromDate, DateTime? toDate, bool? vStatus, int? voucherTypeId)
+        public async Task<ActionResult> RequisitionVoucherList(int companyId, DateTime? fromDate, DateTime? toDate,/* bool? vStatus,*/ int? voucherTypeId)
         {
             if (companyId > 0)
             {
@@ -286,17 +286,17 @@ namespace KGERP.Controllers
             {
                 toDate = DateTime.Now;
             }
-            if (vStatus == null)
-            {
-                vStatus = true;
-            }
+            //if (vStatus == null)
+            //{
+            //    vStatus = true;
+            //}
 
             VoucherModel voucherModel = new VoucherModel();
-            voucherModel = await _voucherService.GetRequisitionVouchersList(companyId, fromDate, toDate, vStatus, voucherTypeId);
+            voucherModel = await _voucherService.InitiatorGetRequisitionVouchersApprovalList(companyId, fromDate, toDate, /*vStatus,*/ voucherTypeId);
             voucherModel.VoucherTypesList = new SelectList(_accountingService.VoucherTypesDownList(companyId), "Value", "Text");
             voucherModel.StrFromDate = fromDate.Value.ToString("yyyy-MM-dd");
             voucherModel.StrToDate = toDate.Value.ToString("yyyy-MM-dd");
-            voucherModel.IsSubmit = vStatus;
+            //voucherModel.IsSubmit = vStatus;
             return View(voucherModel);
         }
 
@@ -579,7 +579,7 @@ namespace KGERP.Controllers
             }
             else if (voucherId > 0)
             {
-                vmJournalSlave = await Task.Run(() => _accountingService.GetVoucherRequisitionMapDetails(companyId, voucherId));
+                vmJournalSlave = await Task.Run(() => _voucherService.GetVoucherRequisitionMapDetailsWithApproval(companyId, voucherId));
             }
             vmJournalSlave.CostCenterList = new SelectList(_accountingService.CostCenterDropDownList(companyId), "Value", "Text");
             vmJournalSlave.VoucherTypesList = new SelectList(_accountingService.VoucherTypesDownList(companyId), "Value", "Text");
