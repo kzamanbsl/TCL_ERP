@@ -10,7 +10,6 @@
 }
 
 <style type="text/css">
-
     input, select, textarea {
         max-width: 100%;
     }
@@ -153,7 +152,7 @@
                                                     <td style="padding: 5px; text-align: right;">
                                                         @if (Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.PM).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
                                                         {
-                                                            @Html.TextBoxFor(model => model.DetailDataList[i].DemandQty, new { id = "demandQty_" + i, @class = "form -control quantityValue demandQty" })
+                                                            @Html.TextBoxFor(model => model.DetailDataList[i].DemandQty, new { id = "demandQty_" + i, @class = "form-control quantityValue demandQty" })
                                                         }
                                                         else
                                                         {
@@ -164,7 +163,7 @@
                                                     <td style="padding: 5px; text-align: right;">
                                                         @if (Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.PM).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
                                                         {
-                                                            @Html.TextBoxFor(model => model.DetailDataList[i].UnitRate, new { id = "unitRate_" + i, @class = "form -control quantityValue unitRate" })
+                                                            @Html.TextBoxFor(model => model.DetailDataList[i].UnitRate, new { id = "unitRate_" + i, @class = "form-control quantityValue unitRate" })
                                                         }
                                                         else
                                                         {
@@ -174,7 +173,6 @@
 
                                                     @*<td class="unitRate" style="padding: 5px; text-align: right;">@String.Format("{0:0.00}", item.UnitRate)</td>*@
                                                     <td class="lineTotal" style="padding: 5px;  text-align: right;">@String.Format("{0:0.00}", item.TotalPrice)</td>
-
 
                                                     @{
                                                         totalPrice += item.TotalPrice;
@@ -267,21 +265,52 @@
                                 <div class="col-md-3"></div>
                                 <div class="col-md-3"></div>
                                 <div class="col-md-3">
-                                    <a href="~/BillRequisition/PMReject?billRequisitionMasterId=@Model.BillRequisitionMasterId" class="btn btn-danger btn-block">
-                                        Reject
-                                    </a>
+                                    <a class="btn btn-danger btn-block linkPointer" data-toggle="modal" data-target="#RejectedModalId" data-placement="top">Proceed to Reject</a>
                                 </div>
                                 <div class="col-md-3">
-                                    <button type="submit" id="btnSave" class="btn btn-primary btn-block">Approve</button>
+                                    <button type="submit" id="btnSave" class="btn btn-primary btn-block">Proceed to Approve</button>
                                 </div>
                             </div>
                         </div>
                     }
-
                 </div>
             </div>
         </div>
     </section>
+}
+
+@using (Html.BeginForm("PMReject", "BillRequisition", FormMethod.Post, new { id = "RejectedFormId", @class = "formValidator", onreset = "resetDDL();" }))
+{
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    @Html.HiddenFor(model => model.BillRequisitionMasterId, new { Value = Model.BillRequisitionMasterId, id = "RejectedBillRequisitionMasterId" })
+
+    <div class="modal fade" id="RejectedModalId" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" onclick="resetForm()" class="close pull-right" data-dismiss="modal" aria-label="Close">
+                        &times;
+                    </button>
+                    <h5 class="modal-title text-primary"><b>Do you want to proceed with the rejection?</b></h5>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12 py-4">
+                            <label class="text-secondary">The reason for the rejection :</label>
+                        </div>
+                        <div class="col-md-12 py-4">
+                            @Html.TextAreaFor(model => model.Remarks, new { @class = "modal-input form-control" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" id="btnClose" onclick="resetForm()" class="btn btn-info" data-dismiss="modal">Go Back</button>
+                    <button type="submit" id="btnDelete" class="deleteId btn btn-danger">Reject</button>
+                </div>
+            </div>
+        </div>
+    </div>
 }
 
 @Scripts.Render("~/bundles/jqueryui")
