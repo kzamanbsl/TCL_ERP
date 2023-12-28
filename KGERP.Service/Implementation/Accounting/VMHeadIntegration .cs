@@ -32,7 +32,7 @@ namespace KGERP.Service.Implementation.Accounting
         public decimal dollarRate { get; set; }
 
         public int? Accounting_CostCenterFK { get; set; }
-        public long BillRequisitionId { get; set; }
+        public long? BillRequisitionId { get; set; }
         public string RequisitionNo { get; set; }
         public string RequisitionInitiator { get; set; }
         public int Accounting_BankOrCashParantId { get; set; }
@@ -76,7 +76,7 @@ namespace KGERP.Service.Implementation.Accounting
 
         [Required]
         public int VoucherTypeId { get; set; }
-        public int RequisitionMaterialId { get; set; }
+        public int? RequisitionMaterialId { get; set; }
         public string MaterialName { get; set; }
 
         public double Debit { get; set; } = 0;

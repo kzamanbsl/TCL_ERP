@@ -539,7 +539,7 @@ namespace KGERP.Service.Implementation.Accounting
                     VoucherBRMapMaster voucherBRMapMaster = new VoucherBRMapMaster();
                     voucherBRMapMaster.BillRequsitionMasterId = vmJournalSlave.BillRequisitionId;
                     voucherBRMapMaster.VoucherId = voucher.VoucherId;
-                    voucherBRMapMaster.ApprovalStatusId = 0;
+                    voucherBRMapMaster.ApprovalStatusId = (int)EnumBillRequisitionStatus.Draft;
                     voucherBRMapMaster.CostCenterId = vmJournalSlave.Accounting_CostCenterFK;
                     voucherBRMapMaster.StatusId = (int)EnumBillRequisitionStatus.Draft;
                     voucherBRMapMaster.IsRequisitionVoucher = true;
@@ -667,6 +667,7 @@ namespace KGERP.Service.Implementation.Accounting
 
             Voucher voucher = await _db.Vouchers.FindAsync(voucherId);
             voucher.VoucherStatus = "A";
+            voucher.ApprovalStatusId = (int)EnumVoucherApprovalStatus.Pending;
             voucher.IsSubmit = true;
 
             using (var scope = _db.Database.BeginTransaction())
@@ -674,6 +675,7 @@ namespace KGERP.Service.Implementation.Accounting
                 await _db.SaveChangesAsync();
 
                 var VRMapMaster = _db.VoucherBRMapMasters.FirstOrDefault(x => x.VoucherId == voucher.VoucherId);
+                VRMapMaster.ApprovalStatusId = (int)EnumBillRequisitionStatus.Submitted;
                 VoucherModel model = new VoucherModel();
                 List<VoucherBRMapMasterApproval> VBRApprovalList = new List<VoucherBRMapMasterApproval>();
                 int priority = 0;

@@ -20,7 +20,7 @@
 
 <section class="content-header">
     <h1>
-        Requisition Voucher Approval List
+        Requisition Voucher Approval List : (Approver)
     </h1>
 
 
@@ -45,7 +45,7 @@
                         <div class="box-danger">
 
                             <div class="box-body">
-                                @using (Html.BeginForm("RequisitionVoucherApprovalList", "Vouchers", FormMethod.Post, new { id = "marketingSalesListView", @class = "formValidator", @enctype = "multipart/form-data" }))
+                                @using (Html.BeginForm("ApproverRequisitionVoucherApprovalList", "Vouchers", FormMethod.Post, new { id = "marketingSalesListView", @class = "formValidator", @enctype = "multipart/form-data" }))
                                 {
                                     @Html.HiddenFor(model => model.CompanyId, new { id = "CompanyId" })
 
@@ -119,7 +119,7 @@
                                                     Narration
                                                 </th>
                                                 <th style="text-align:center;">
-                                                    Checker Approval
+                                                    Approver's Approval
                                                 </th>
                                                 <th style="width:70px;">Action</th>
                                             </tr>
@@ -160,18 +160,18 @@
 
                                                     </td>
                                                     <td style="text-align:center">
-                                                        @if (item.CheckerAprrovalStatusId == (int)KGERP.Utility.EnumBillRequisitionStatus.Pending)
+                                                        @if (item.ApproverAprrovalStatusId == (int)KGERP.Utility.EnumBillRequisitionStatus.Pending)
                                                         {
-                                                            <span class="btn btn-warning btn-xs">  @Html.Raw(item.CheckerAprrovalStatusName)</span>
+                                                            <span class="btn btn-warning btn-xs">  @Html.Raw(item.ApproverAprrovalStatusName)</span>
 
                                                         }
-                                                        else if (item.CheckerAprrovalStatusId == (int)KGERP.Utility.EnumBillRequisitionStatus.Approved)
+                                                        else if (item.ApproverAprrovalStatusId == (int)KGERP.Utility.EnumBillRequisitionStatus.Approved)
                                                         {
-                                                            <span class="btn btn-success btn-xs">  @Html.Raw(item.CheckerAprrovalStatusName)</span>
+                                                            <span class="btn btn-success btn-xs">  @Html.Raw(item.ApproverAprrovalStatusName)</span>
                                                         }
-                                                        else if (item.CheckerAprrovalStatusId == (int)KGERP.Utility.EnumBillRequisitionStatus.Rejected)
+                                                        else if (item.ApproverAprrovalStatusId == (int)KGERP.Utility.EnumBillRequisitionStatus.Rejected)
                                                         {
-                                                            <span class="btn btn-danger btn-xs">  @Html.Raw(item.CheckerAprrovalStatusName)</span>
+                                                            <span class="btn btn-danger btn-xs">  @Html.Raw(item.ApproverAprrovalStatusName)</span>
                                                         }
 
 
@@ -179,7 +179,7 @@
 
                                                     </td>
                                                     <td>
-                                                        <a href="~/Vouchers/RequisitionVoucherApproval?companyId=@item.CompanyId&voucherId=@item.VoucherId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
+                                                        <a href="~/Vouchers/ApproverRequisitionVoucherApproval?companyId=@item.CompanyId&voucherId=@item.VoucherId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
                                                         @*<a href="@Url.Action("GetVoucherReport","Report", new { companyId = item.CompanyId, voucherId = item.VoucherId ,reportName =""})" style="width:100%" target="_blank" class="btn btn-primary btn-xs">
                                                                 Print
                                                             </a>*@

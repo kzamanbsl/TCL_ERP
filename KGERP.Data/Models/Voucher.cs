@@ -45,6 +45,7 @@ namespace KGERP.Data.Models
         public bool IsStock { get; set; }
         public bool IsSubmit { get; set; }
         public bool IsIntegrated { get; set; }
+        public Nullable<int> ApprovalStatusId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BillRequisitionVoucherMap> BillRequisitionVoucherMaps { get; set; }

@@ -758,14 +758,15 @@ namespace KGERP.Controllers
         [HttpPost]
         public async Task<ActionResult> PMBRApproveSlave(BillRequisitionMasterModel billRequisitionMasterModel)
         {
-            var resutl = await _service.PMBillRequisitionApproved(billRequisitionMasterModel);
+            var result = await _service.PMBillRequisitionApproved(billRequisitionMasterModel);
             return RedirectToAction(nameof(PMBRApprovalList), new { companyId = billRequisitionMasterModel.CompanyFK });
         }
-        [HttpGet]
-        public async Task<ActionResult> PMReject(long billRequisitionMasterId)
+
+        [HttpPost]
+        public async Task<ActionResult> PMReject(BillRequisitionMasterModel model)
         {
-            var resutl = await _service.PMBillRequisitionRejected(billRequisitionMasterId);
-            return RedirectToAction(nameof(PMBRApprovalList), new { companyId = resutl });
+            var result = await _service.PMBillRequisitionRejected(model);
+            return RedirectToAction(nameof(PMBRApprovalList), new { companyId = result });
         }
 
 
@@ -823,14 +824,15 @@ namespace KGERP.Controllers
         [HttpPost]
         public async Task<ActionResult> QSBRApproveSlave(BillRequisitionMasterModel billRequisitionMasterModel)
         {
-            var resutl = await _service.QSBillRequisitionApproved(billRequisitionMasterModel);
+            var result = await _service.QSBillRequisitionApproved(billRequisitionMasterModel);
             return RedirectToAction(nameof(QSBRApprovalList), new { companyId = billRequisitionMasterModel.CompanyFK });
         }
-        [HttpGet]
-        public async Task<ActionResult> QSReject(long billRequisitionMasterId)
+
+        [HttpPost]
+        public async Task<ActionResult> QSReject(BillRequisitionMasterModel model)
         {
-            var resutl = await _service.QSBillRequisitionRejected(billRequisitionMasterId);
-            return RedirectToAction(nameof(QSBRApprovalList), new { companyId = resutl });
+            var result = await _service.QSBillRequisitionRejected(model);
+            return RedirectToAction(nameof(QSBRApprovalList), new { companyId = result });
         }
 
         [HttpGet]
@@ -887,15 +889,15 @@ namespace KGERP.Controllers
         [HttpPost]
         public async Task<ActionResult> ITHeadBRApproveSlave(BillRequisitionMasterModel billRequisitionMasterModel)
         {
-            var resutl = await _service.ITHeadBillRequisitionApproved(billRequisitionMasterModel);
+            var result = await _service.ITHeadBillRequisitionApproved(billRequisitionMasterModel);
             return RedirectToAction(nameof(ITHeadBRApprovalList), new { companyId = billRequisitionMasterModel.CompanyFK });
         }
 
-        [HttpGet]
-        public async Task<ActionResult> ITHeadReject(long billRequisitionMasterId)
+        [HttpPost]
+        public async Task<ActionResult> ITHeadReject(BillRequisitionMasterModel model)
         {
-            var resutl = await _service.PMBillRequisitionRejected(billRequisitionMasterId);
-            return RedirectToAction(nameof(ITHeadBRApprovalList), new { companyId = resutl });
+            var result = await _service.PMBillRequisitionRejected(model);
+            return RedirectToAction(nameof(ITHeadBRApprovalList), new { companyId = result });
         }
 
         [HttpGet]
@@ -952,15 +954,15 @@ namespace KGERP.Controllers
         [HttpPost]
         public async Task<ActionResult> DirectorBRApproveSlave(BillRequisitionMasterModel billRequisitionMasterModel)
         {
-            var resutl = await _service.DirectorBillRequisitionApproved(billRequisitionMasterModel);
+            var result = await _service.DirectorBillRequisitionApproved(billRequisitionMasterModel);
             return RedirectToAction(nameof(DirectorBRApprovalList), new { companyId = billRequisitionMasterModel.CompanyFK });
         }
 
-        [HttpGet]
-        public async Task<ActionResult> DirectorReject(long billRequisitionMasterId)
+        [HttpPost]
+        public async Task<ActionResult> DirectorReject(BillRequisitionMasterModel model)
         {
-            var resutl = await _service.DirectorBillRequisitionRejected(billRequisitionMasterId);
-            return RedirectToAction(nameof(DirectorBRApprovalList), new { companyId = resutl });
+            var result = await _service.DirectorBillRequisitionRejected(model);
+            return RedirectToAction(nameof(DirectorBRApprovalList), new { companyId = result });
         }
 
         [HttpGet]
@@ -1017,15 +1019,15 @@ namespace KGERP.Controllers
         [HttpPost]
         public async Task<ActionResult> PDBRApproveSlave(BillRequisitionMasterModel billRequisitionMasterModel)
         {
-            var resutl = await _service.PDBillRequisitionApproved(billRequisitionMasterModel);
+            var result = await _service.PDBillRequisitionApproved(billRequisitionMasterModel);
             return RedirectToAction(nameof(PDBRApprovalList), new { companyId = billRequisitionMasterModel.CompanyFK });
         }
 
-        [HttpGet]
-        public async Task<ActionResult> PDReject(long billRequisitionMasterId)
+        [HttpPost]
+        public async Task<ActionResult> PDReject(BillRequisitionMasterModel model)
         {
-            var resutl = await _service.PDBillRequisitionRejected(billRequisitionMasterId);
-            return RedirectToAction(nameof(PDBRApprovalList), new { companyId = resutl });
+            var result = await _service.PDBillRequisitionRejected(model);
+            return RedirectToAction(nameof(PDBRApprovalList), new { companyId = result });
         }
 
         [HttpGet]
@@ -1082,15 +1084,15 @@ namespace KGERP.Controllers
         [HttpPost]
         public async Task<ActionResult> MDBRApproveSlave(BillRequisitionMasterModel billRequisitionMasterModel)
         {
-            var resutl = await _service.MDBillRequisitionApproved(billRequisitionMasterModel);
+            var result = await _service.MDBillRequisitionApproved(billRequisitionMasterModel);
             return RedirectToAction(nameof(MDBRApprovalList), new { companyId = billRequisitionMasterModel.CompanyFK });
         }
 
-        [HttpGet]
-        public async Task<ActionResult> MDReject(long billRequisitionMasterId)
+        [HttpPost]
+        public async Task<ActionResult> MDReject(BillRequisitionMasterModel model)
         {
-            var resutl = await _service.MDBillRequisitionRejected(billRequisitionMasterId);
-            return RedirectToAction(nameof(MDBRApprovalList), new { companyId = resutl });
+            var result = await _service.MDBillRequisitionRejected(model);
+            return RedirectToAction(nameof(MDBRApprovalList), new { companyId = result });
         }
 
         [HttpGet]

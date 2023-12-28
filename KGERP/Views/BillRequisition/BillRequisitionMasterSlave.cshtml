@@ -355,7 +355,7 @@
                                     <div class="col-md-12 d-block" id="inputRemarks">
                                         <div class="form-group">
                                             <label for="txtDescription" class="col-form-label">Remarks :</label>
-                                            @Html.TextAreaFor(model => model.DetailModel.Remarks, new { id = "txtitemDescription", placeholder = "Type remarks here", @class = "form-control", rows = 1 })
+                                            @Html.TextAreaFor(model => model.DetailModel.Remarks, new { id = "txtitemDescription", placeholder = "Type remarks here", @class = "form-control", rows = 2 })
                                             @Html.ValidationMessageFor(model => model.DetailModel.Remarks, "", new { @class = "text-danger" })
                                         </div>
                                     </div>

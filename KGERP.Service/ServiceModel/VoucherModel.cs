@@ -70,6 +70,17 @@ namespace KGERP.Service.ServiceModel
         public bool? IsApproved { get; set; }
         public bool IsIntegrated { get; set; }
         public int? VmVoucherTypeId { get; set; }
+        public long EmpId { get; set; }
+        public string EmployeeId { get; set; }
+
+        public int InitiatorAprrovalStatusId { get; set; }
+        public string InitiatorAprrovalStatusName { get { return BaseFunctionalities.GetEnumDescription((EnumBillRequisitionStatus)InitiatorAprrovalStatusId); } }
+        public int CheckerAprrovalStatusId { get; set; }
+        public string CheckerAprrovalStatusName { get { return BaseFunctionalities.GetEnumDescription((EnumBillRequisitionStatus)CheckerAprrovalStatusId); } }
+
+        public int ApproverAprrovalStatusId { get; set; }
+        public string ApproverAprrovalStatusName { get { return BaseFunctionalities.GetEnumDescription((EnumBillRequisitionStatus)ApproverAprrovalStatusId); } }
+
 
         public SelectList VoucherTypesList { get; set; } = new SelectList(new List<object>());
         public List<SelectModel> VoucherTypes { get; set; }

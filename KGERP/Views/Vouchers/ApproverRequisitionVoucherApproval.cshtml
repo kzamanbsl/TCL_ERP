@@ -25,7 +25,7 @@
         else
         {
             <span>
-                Requisition Voucher Approval<span style="color:orangered" id="spnVoucherNo"></span>&nbsp;
+                Requisition Voucher Approval: Approver<span style="color:orangered" id="spnVoucherNo"></span>&nbsp;
             </span>
             <b> @Model.CompanyName</b>
         }
@@ -38,7 +38,7 @@
     </ol>
 </section>
 
-@using (Html.BeginForm("RequisitionVoucherApproval", "Vouchers", FormMethod.Post, new { id = "manageBankOrCashFormId", @class = "formValidator" }))
+@using (Html.BeginForm("ApproverRequisitionVoucherApproval", "Vouchers", FormMethod.Post, new { id = "manageBankOrCashFormId", @class = "formValidator" }))
 {
     <section class="content">
         <div class="row">
@@ -277,14 +277,14 @@
                                 <div class="col-md-3">
                                     @if (Model.IsSubmit == true)
                                     {
-                                        <a href="@Url.Action("GetVoucherReport","Report", new {companyId=Model.CompanyFK,voucherId=Model.VoucherId,reportName="VoucherReport"})" style="width:100%" target="_blank" class="btn btn-warning btn-block">
+                                        <a href="@Url.Action("GetVoucherReport","Report", new {companyId=Model.CompanyFK,voucherId=Model.VoucherId,reportName="VoucherReport"})"  style="width:100%" target="_blank"  class="btn btn-warning btn-block">
                                             <span class="fa fa-print"></span>
                                             Print
                                         </a>
                                     }
                                 </div>
                                 <div class="col-md-3">
-                                    @if (Model.ApprovalList.First(x => x.SignatoryId == (int)EnumVoucherRequisitionSignatory.Checker).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
+                                    @if (Model.ApprovalList.First(x => x.SignatoryId == (int)EnumVoucherRequisitionSignatory.Approver).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
                                     {
 
 
@@ -299,7 +299,7 @@
                                     }
                                 </div>
                                 <div class="col-md-6">
-                                    @if (Model.ApprovalList.First(x => x.SignatoryId == (int)EnumVoucherRequisitionSignatory.Checker).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
+                                    @if (Model.ApprovalList.First(x => x.SignatoryId == (int)EnumVoucherRequisitionSignatory.Approver).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
                                     {
 
 
@@ -324,7 +324,7 @@
 
 }
 
-@using (Html.BeginForm("RequisitionVoucherApproval", "Vouchers", FormMethod.Post))
+@using (Html.BeginForm("ApproverRequisitionVoucherApproval", "Vouchers", FormMethod.Post))
 {
 
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
