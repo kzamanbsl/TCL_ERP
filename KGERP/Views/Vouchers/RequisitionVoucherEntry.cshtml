@@ -836,8 +836,8 @@
         function showBoQMaterial() {
             var getRequisitionId = $("#billRequisitionId").val();
 
-            if (@Model.BillRequisitionId > 0) {
-                getRequisitionId = @((int)Model.BillRequisitionId)
+            if (@Model.BillRequisitionId != null) {
+                getRequisitionId = @((int)Model.BillRequisitionId);
 
             }
 
@@ -868,8 +868,8 @@
         function getRequisitionsInfo() {
             var requisitionId = $("#billRequisitionId").val();
 
-             if (@Model.BillRequisitionId > 0) {
-                 requisitionId = @((int)Model.BillRequisitionId)
+             if (@Model.BillRequisitionId != null ) {
+                 requisitionId = @((int)Model.BillRequisitionId);
 
             }
 
