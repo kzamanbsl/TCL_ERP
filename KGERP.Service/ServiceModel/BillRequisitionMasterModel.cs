@@ -39,7 +39,7 @@ namespace KGERP.Service.ServiceModel
         public bool IsQSApproved { get; set; }
         public bool IsDirectorApproved { get; set; }
         public bool IsMDApproved { get; set; }
-
+        public string CancelReason { get; set; }
 
         public EnumBillRequisitionStatus StatusId { get; set; }
 
