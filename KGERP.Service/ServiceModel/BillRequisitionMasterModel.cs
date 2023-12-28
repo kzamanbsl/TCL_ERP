@@ -21,7 +21,7 @@ namespace KGERP.Service.ServiceModel
         public string BOQItemName { get; set; }
         public string BillRequisitionNo { get; set; }
         public int CostCenterId { get; set; }
-        public int BoQDivisionId { get; set; }
+        public long BoQDivisionId { get; set; }
         public string BoQDivisionName { get; set; }
         public string CostCenterName { get; set; }
         public int BillRequisitionTypeId { get; set; }

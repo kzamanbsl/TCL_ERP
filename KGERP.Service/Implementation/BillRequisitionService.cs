@@ -950,38 +950,67 @@ namespace KGERP.Service.Implementation
         {
             long result = -1;
 
-            if (model.StatusId == 0 || model.StatusId == null)
+            if (model.StatusId == 0)
             {
                 model.StatusId = EnumBillRequisitionStatus.Draft;
             }
 
             try
             {
-                BillRequisitionMaster billRequisitionMaster = new BillRequisitionMaster
+                if(model.BoQDivisionId > 0 && model.BOQItemId > 0)
                 {
-                    BillRequisitionMasterId = model.BillRequisitionMasterId,
-                    BRDate = model.BRDate,
-                    BillRequisitionTypeId = model.BillRequisitionTypeId,
-                    BoQDivisionId = model.BoQDivisionId,
-                    BOQItemId = model.BOQItemId,
-                    ProjectTypeId = model.ProjectTypeId,
-                    CostCenterId = model.CostCenterId,
-                    Description = model.Description,
-                    BillRequisitionNo = GetUniqueRequisitionNo(),
-                    StatusId = (int)model.StatusId,
-                    CompanyId = (int)model.CompanyFK,
-                    CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
-                    CreateDate = DateTime.Now,
-                    IsActive = true
-                };
+                    BillRequisitionMaster billRequisitionMaster = new BillRequisitionMaster
+                    {
+                        BillRequisitionMasterId = model.BillRequisitionMasterId,
+                        BRDate = model.BRDate,
+                        BillRequisitionTypeId = model.BillRequisitionTypeId,
+                        BoQDivisionId = model.BoQDivisionId,
+                        BOQItemId = model.BOQItemId,
+                        ProjectTypeId = model.ProjectTypeId,
+                        CostCenterId = model.CostCenterId,
+                        Description = model.Description,
+                        BillRequisitionNo = GetUniqueRequisitionNo(),
+                        StatusId = (int)model.StatusId,
+                        CompanyId = (int)model.CompanyFK,
+                        CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                        CreateDate = DateTime.Now,
+                        IsActive = true
+                    };
 
-                _context.BillRequisitionMasters.Add(billRequisitionMaster);
+                    _context.BillRequisitionMasters.Add(billRequisitionMaster);
 
-                if (await _context.SaveChangesAsync() > 0)
-                {
-                    result = billRequisitionMaster.BillRequisitionMasterId;
+                    if (await _context.SaveChangesAsync() > 0)
+                    {
+                        result = billRequisitionMaster.BillRequisitionMasterId;
+                    }
+                    return result;
                 }
-                return result;
+                else
+                {
+                    BillRequisitionMaster billRequisitionMaster = new BillRequisitionMaster
+                    {
+                        BillRequisitionMasterId = model.BillRequisitionMasterId,
+                        BRDate = model.BRDate,
+                        BillRequisitionTypeId = model.BillRequisitionTypeId,
+                        ProjectTypeId = model.ProjectTypeId,
+                        CostCenterId = model.CostCenterId,
+                        Description = model.Description,
+                        BillRequisitionNo = GetUniqueRequisitionNo(),
+                        StatusId = (int)model.StatusId,
+                        CompanyId = (int)model.CompanyFK,
+                        CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                        CreateDate = DateTime.Now,
+                        IsActive = true
+                    };
+
+                    _context.BillRequisitionMasters.Add(billRequisitionMaster);
+
+                    if (await _context.SaveChangesAsync() > 0)
+                    {
+                        result = billRequisitionMaster.BillRequisitionMasterId;
+                    }
+                    return result;
+                }
             }
             catch (Exception error)
             {
@@ -1482,10 +1511,10 @@ namespace KGERP.Service.Implementation
                                                                    BRTypeName = t3.Name,
                                                                    ProjectTypeId = t1.ProjectTypeId,
                                                                    ProjectTypeName = t4.Name,
-                                                                   BOQItemId = t1.BOQItemId,
-                                                                   BOQItemName = t5.Name,
-                                                                   BoQDivisionId = (int)t5.BoQDivisionId,
-                                                                   BoQDivisionName = t6.Name,
+                                                                   BOQItemId = t1.BOQItemId ?? 0,
+                                                                   BOQItemName = t5.Name ?? "-",
+                                                                   BoQDivisionId = t5.BoQDivisionId ?? 0,
+                                                                   BoQDivisionName = t6.Name ?? "-",
                                                                    CostCenterId = t1.CostCenterId,
                                                                    CostCenterName = t2.Name,
                                                                    Description = t1.Description,
@@ -1595,6 +1624,7 @@ namespace KGERP.Service.Implementation
             var BRApproval = _context.BillRequisitionApprovals.FirstOrDefault(x => x.BillRequisitionMasterId == billRequisitionMasterModel.BillRequisitionMasterId && x.SignatoryId == (int)EnumBRequisitionSignatory.PM);
             BRApproval.AprrovalStatusId = (int)EnumBillRequisitionStatus.Approved;
             BRApproval.EmployeeId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
+            BRApproval.Reasons = billRequisitionMasterModel.CancelReason;
             BRApproval.ModifiedBy = userName;
             BRApproval.ModifiedDate = DateTime.Now;
 
@@ -1761,6 +1791,7 @@ namespace KGERP.Service.Implementation
             var BRApproval = _context.BillRequisitionApprovals.FirstOrDefault(x => x.BillRequisitionMasterId == billRequisitionMasterModel.BillRequisitionMasterId && x.SignatoryId == (int)EnumBRequisitionSignatory.QS);
             BRApproval.AprrovalStatusId = (int)EnumBillRequisitionStatus.Approved;
             BRApproval.EmployeeId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
+            BRApproval.Reasons = billRequisitionMasterModel.CancelReason;
             BRApproval.ModifiedBy = userName;
             BRApproval.ModifiedDate = DateTime.Now;
 
@@ -1922,6 +1953,7 @@ namespace KGERP.Service.Implementation
             var BRApproval = _context.BillRequisitionApprovals.FirstOrDefault(x => x.BillRequisitionMasterId == billRequisitionMasterModel.BillRequisitionMasterId && x.SignatoryId == (int)EnumBRequisitionSignatory.QS);
             BRApproval.AprrovalStatusId = (int)EnumBillRequisitionStatus.Approved;
             BRApproval.EmployeeId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
+            BRApproval.Reasons = billRequisitionMasterModel.CancelReason;
             BRApproval.ModifiedBy = userName;
             BRApproval.ModifiedDate = DateTime.Now;
 
@@ -2085,6 +2117,7 @@ namespace KGERP.Service.Implementation
             var BRApproval = _context.BillRequisitionApprovals.FirstOrDefault(x => x.BillRequisitionMasterId == billRequisitionMasterModel.BillRequisitionMasterId && x.SignatoryId == (int)EnumBRequisitionSignatory.PD);
             BRApproval.AprrovalStatusId = (int)EnumBillRequisitionStatus.Approved;
             BRApproval.EmployeeId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
+            BRApproval.Reasons = billRequisitionMasterModel.CancelReason;
             BRApproval.ModifiedBy = userName;
             BRApproval.ModifiedDate = DateTime.Now;
 
@@ -2250,6 +2283,7 @@ namespace KGERP.Service.Implementation
             var BRApproval = _context.BillRequisitionApprovals.FirstOrDefault(x => x.BillRequisitionMasterId == billRequisitionMasterModel.BillRequisitionMasterId && x.SignatoryId == (int)EnumBRequisitionSignatory.Director);
             BRApproval.AprrovalStatusId = (int)EnumBillRequisitionStatus.Approved;
             BRApproval.EmployeeId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
+            BRApproval.Reasons = billRequisitionMasterModel.CancelReason;
             BRApproval.ModifiedBy = userName;
             BRApproval.ModifiedDate = DateTime.Now;
 
@@ -2417,6 +2451,7 @@ namespace KGERP.Service.Implementation
             BRApproval.AprrovalStatusId = (int)EnumBillRequisitionStatus.Approved;
             BRApproval.IsSupremeApproved = true;
             BRApproval.EmployeeId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
+            BRApproval.Reasons = billRequisitionMasterModel.CancelReason;
             BRApproval.ModifiedBy = userName;
             BRApproval.ModifiedDate = DateTime.Now;
 

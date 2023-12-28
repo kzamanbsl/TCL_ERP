@@ -117,40 +117,42 @@
                             <div class="row">
                                 <div class="table-responsive text-nowrap">
 
-                                    <table id="itemTable" class="table table-bordered">
+                                    <table id="itemTable" class="table table-bordered table-striped text-center table-responsive">
                                         <thead>
                                             <tr class="bg-success">
-                                                <th style="padding:5px;text-align:center;">SL</th>
-                                                <th style="padding: 5px; text-align: left;">Item/ Mat.</th>
-                                                <th style="padding: 5px; text-align: left;">Unit</th>
-                                                <th style="padding: 5px; text-align: right;">Est. Qty</th>
-                                                <th style="padding: 5px; text-align: right; ">Recived So Far</th>
-                                                <th style="padding: 5px; text-align: right; ">Remaining Qty</th>
-                                                <th style="padding: 5px; text-align: right; ">Demand Qty</th>
-                                                <th style="padding: 5px; text-align: right; ">Unit Rate</th>
-                                                <th style="padding: 5px; text-align: right; ">Total Price</th>
+                                                <th>SL</th>
+                                                <th>Item/ Mat.</th>
+                                                <th>Unit</th>
+                                                <th>Remarks</th>
+                                                <th>Est. Qty</th>
+                                                <th>Recived So Far</th>
+                                                <th>Remaining Qty</th>
+                                                <th>Demand Qty</th>
+                                                <th>Unit Rate</th>
+                                                <th>Total Price</th>
                                             </tr>
                                         </thead>
+
                                         <tbody>
                                             @{
                                                 int i = 0;
                                             }
                                             @foreach (var item in Model.DetailDataList)
                                             {
-
                                                 <tr>
-                                                    <td style="text-align: center;">
+                                                    <td>
                                                         @Html.HiddenFor(model => model.DetailDataList[i].BillRequisitionMasterId)
                                                         @Html.HiddenFor(model => model.DetailDataList[i].BillRequisitionDetailId)
                                                         @(++sl)
                                                     </td>
-                                                    <td style="padding:5px;text-align:left;">@item.ProductName</td>
-                                                    <td style="padding: 5px; text-align: left;">@item.UnitName</td>
-                                                    <td style="padding:5px;text-align:right;">@String.Format("{0:0.00}", item.EstimatedQty)</td>
-                                                    <td style="padding: 5px; text-align: right;">@String.Format("{0:0.00}", item.ReceivedSoFar)</td>
-                                                    <td class="remainingQty" style="padding: 5px; text-align: right;">@String.Format("{0:0.00}", item.RemainingQty)</td>
-                                                    <td style="padding: 5px; text-align: right;">
-                                                        @if (Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.Director).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
+                                                    <td>@item.ProductName</td>
+                                                    <td>@item.UnitName</td>
+                                                    <td>@item.Remarks</td>
+                                                    <td>@String.Format("{0:0.00}", item.EstimatedQty)</td>
+                                                    <td>@String.Format("{0:0.00}", item.ReceivedSoFar)</td>
+                                                    <td>@String.Format("{0:0.00}", item.RemainingQty)</td>
+                                                    <td>
+                                                        @if (Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.PM).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
                                                         {
                                                             @Html.TextBoxFor(model => model.DetailDataList[i].DemandQty, new { id = "demandQty_" + i, @class = "form-control quantityValue demandQty" })
                                                         }
@@ -160,8 +162,8 @@
                                                         }
                                                     </td>
 
-                                                    <td style="padding: 5px; text-align: right;">
-                                                        @if (Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.Director).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
+                                                    <td>
+                                                        @if (Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.PM).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
                                                         {
                                                             @Html.TextBoxFor(model => model.DetailDataList[i].UnitRate, new { id = "unitRate_" + i, @class = "form-control quantityValue unitRate" })
                                                         }
@@ -170,8 +172,7 @@
                                                             @String.Format("{0:0.00}", item.UnitRate)
                                                         }
                                                     </td>
-                                                    <td class="lineTotal" style="padding: 5px;  text-align: right;">@String.Format("{0:0.00}", item.TotalPrice)</td>
-
+                                                    <td class="lineTotal" style="text-align: right !important">@String.Format("{0:0.00}", item.TotalPrice)</td>
                                                     @{
                                                         totalPrice += item.TotalPrice;
                                                     };
@@ -179,10 +180,15 @@
                                                 i++;
                                             }
                                         </tbody>
+
                                         <tfoot>
                                             <tr>
-                                                <td colspan="8"></td>
-                                                <td id="totalFooter" style="padding: 5px; text-align: right;"> <b>Total :</b><span id="total">@String.Format("{0:0.00}", totalPrice)</span> </td>
+                                                <td colspan="9" style="text-align: right !important">
+                                                    <b>Total Amount : </b>
+                                                </td>
+                                                <td id="totalFooter" colspan="2" style="text-align: right !important">
+                                                    <span id="total">@String.Format("{0:0.00}", totalPrice)</span>
+                                                </td>
                                             </tr>
                                         </tfoot>
                                     </table>
@@ -192,6 +198,7 @@
                                             Requisition Approval Status:
                                         </span>
                                     </strong>
+
                                     <table class="table table-bordered">
                                         <tr class="bg-gray">
                                             @foreach (var item in Model.ApprovalModelList)
@@ -282,7 +289,14 @@
                                         <h4 class="modal-title text-primary"><b>Bill Requisition Approval</b></h4>
                                     </div>
                                     <div class="modal-body">
-                                        <h3 class="text-secondary text-center">Are you sure about approving the requisition?</h3>
+                                        <div class="row">
+                                            <div class="col-md-12 py-5">
+                                                <label class="text-secondary">Approval Remarks :</label>
+                                            </div>
+                                            <div class="col-md-12 py-5">
+                                                @Html.TextAreaFor(model => model.CancelReason, new { @class = "modal-input form-control" })
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" id="btnClose" onclick="resetForm()" class="btn btn-outline-warning" data-dismiss="modal">Go Back</button>
