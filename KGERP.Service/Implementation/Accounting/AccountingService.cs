@@ -667,6 +667,7 @@ namespace KGERP.Service.Implementation.Accounting
 
             Voucher voucher = await _db.Vouchers.FindAsync(voucherId);
             voucher.VoucherStatus = "A";
+            voucher.ApprovalStatusId = (int)EnumVoucherApprovalStatus.Pending;
             voucher.IsSubmit = true;
 
             using (var scope = _db.Database.BeginTransaction())

@@ -792,8 +792,8 @@ namespace KGERP.Service.Implementation
             VRApproval.ModifiedDate = DateTime.Now;
             VRApproval.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
 
-           // model.IsSubmit = true;
-            //model.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+            model.ApprovalStatusId = (int)EnumVoucherApprovalStatus.Approved;
+            model.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
 
 
 
