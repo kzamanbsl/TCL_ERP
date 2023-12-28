@@ -21,7 +21,7 @@ namespace KGERP.Data.Models
         }
     
         public long VoucherBRMapMasterId { get; set; }
-        public long BillRequsitionMasterId { get; set; }
+        public Nullable<long> BillRequsitionMasterId { get; set; }
         public long VoucherId { get; set; }
         public Nullable<int> CostCenterId { get; set; }
         public Nullable<int> CompanyId { get; set; }
@@ -34,8 +34,8 @@ namespace KGERP.Data.Models
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public string ModifiedBy { get; set; }
     
-        public virtual BillRequisitionMaster BillRequisitionMaster { get; set; }
         public virtual Voucher Voucher { get; set; }
+        public virtual BillRequisitionMaster BillRequisitionMaster { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<VoucherBRMapMasterApproval> VoucherBRMapMasterApprovals { get; set; }
     }

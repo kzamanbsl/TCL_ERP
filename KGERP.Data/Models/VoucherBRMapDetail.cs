@@ -17,12 +17,12 @@ namespace KGERP.Data.Models
         public long VoucherBRMapDetailId { get; set; }
         public long VoucherBRMapMasterId { get; set; }
         public long VoucherDetailId { get; set; }
-        public int ProductId { get; set; }
+        public Nullable<int> ProductId { get; set; }
         public Nullable<long> BillRequisitionDetailId { get; set; }
-        public decimal ApprovedQty { get; set; }
-        public decimal ApprovedUnitRate { get; set; }
-        public Nullable<decimal> DebitAmount { get; set; }
-        public Nullable<decimal> CreditAmount { get; set; }
+        public Nullable<decimal> ApprovedQty { get; set; }
+        public Nullable<decimal> ApprovedUnitRate { get; set; }
+        public decimal DebitAmount { get; set; }
+        public decimal CreditAmount { get; set; }
         public bool IsActive { get; set; }
     }
 }

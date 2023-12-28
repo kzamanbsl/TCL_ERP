@@ -2650,8 +2650,8 @@ namespace KGERP.Service.Implementation
                             }).ToList();
                 if (data != null)
                 {
-                    TotalCr = data.Sum(x => x.CreditAmount) ?? 0;
-                    TotalDr = data.Sum(x => x.DebitAmount) ?? 0;
+                    TotalCr = data.Sum(x => x.CreditAmount);
+                    TotalDr = data.Sum(x => x.DebitAmount);
                 }
 
             }

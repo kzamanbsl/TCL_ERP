@@ -217,7 +217,6 @@ namespace KGERP.Data.Models
         public virtual DbSet<FileAttachment> FileAttachments { get; set; }
         public virtual DbSet<KGRECustomer> KGRECustomers { get; set; }
         public virtual DbSet<CustomerGroupMapping> CustomerGroupMappings { get; set; }
-        public virtual DbSet<VoucherDetail> VoucherDetails { get; set; }
         public virtual DbSet<BookingCostMapping> BookingCostMappings { get; set; }
         public virtual DbSet<UserPermission> UserPermissions { get; set; }
         public virtual DbSet<KGREHistory> KGREHistories { get; set; }
@@ -304,16 +303,17 @@ namespace KGERP.Data.Models
         public virtual DbSet<BillBoQItem> BillBoQItems { get; set; }
         public virtual DbSet<BillReqApprovalHistory> BillReqApprovalHistories { get; set; }
         public virtual DbSet<BoQDivision> BoQDivisions { get; set; }
-        public virtual DbSet<VoucherBRMapDetail> VoucherBRMapDetails { get; set; }
-        public virtual DbSet<VoucherBRMapMaster> VoucherBRMapMasters { get; set; }
         public virtual DbSet<BillRequisitionDetail> BillRequisitionDetails { get; set; }
         public virtual DbSet<BillRequisitionMaster> BillRequisitionMasters { get; set; }
         public virtual DbSet<PurchaseOrder> PurchaseOrders { get; set; }
         public virtual DbSet<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
-        public virtual DbSet<Voucher> Vouchers { get; set; }
         public virtual DbSet<Vendor> Vendors { get; set; }
         public virtual DbSet<BoQItemProductMap> BoQItemProductMaps { get; set; }
         public virtual DbSet<BillRequisitionApproval> BillRequisitionApprovals { get; set; }
+        public virtual DbSet<Voucher> Vouchers { get; set; }
+        public virtual DbSet<VoucherDetail> VoucherDetails { get; set; }
+        public virtual DbSet<VoucherBRMapDetail> VoucherBRMapDetails { get; set; }
+        public virtual DbSet<VoucherBRMapMaster> VoucherBRMapMasters { get; set; }
         public virtual DbSet<VoucherBRMapMasterApproval> VoucherBRMapMasterApprovals { get; set; }
     
         public virtual ObjectResult<GetEmployeeListForTeam_Result> GetEmployeeListForTeam(Nullable<int> companyId)
