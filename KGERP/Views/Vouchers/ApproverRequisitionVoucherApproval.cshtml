@@ -1,0 +1,477 @@
+﻿@model KGERP.Service.Implementation.Accounting.VMJournalSlave
+@using KGERP.Utility;
+@{
+    ViewData["Title"] = "Voucher Entry";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    double? totalDebitAmount = 0;
+    double? totalCreditAmount = 0;
+}
+
+<style type="text/css">
+
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
+
+<section class="content-header">
+    <h1>
+        @if (Model.VoucherId > 0)
+        {
+            <span>
+                Voucher History of: @Model.VoucherNo
+            </span>
+        }
+        else
+        {
+            <span>
+                Requisition Voucher Approval: Approver<span style="color:orangered" id="spnVoucherNo"></span>&nbsp;
+            </span>
+            <b> @Model.CompanyName</b>
+        }
+
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
+        <li class="active"><a href="~/Vouchers/RequisitionVoucherEntry?companyId=@Request.QueryString["companyId"]" class="btn btn-primary"><b>New Voucher</b></a></li>
+    </ol>
+</section>
+
+@using (Html.BeginForm("ApproverRequisitionVoucherApproval", "Vouchers", FormMethod.Post, new { id = "manageBankOrCashFormId", @class = "formValidator" }))
+{
+    <section class="content">
+        <div class="row">
+            <div class="box">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.VoucherId, new { id = "hidVoucherId" })
+                @Html.HiddenFor(model => model.VoucherDetailId, new { id = "hidVoucherDetailId" })
+
+                @Html.HiddenFor(model => model.ActionId, new { id = "ActionId" })
+                @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
+                @Html.HiddenFor(model => model.VoucherNo, new { @id = "txtVoucherNo" })
+
+
+
+
+                <div class="box-danger">
+
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        @if (Model.VoucherId > 0)
+                        {
+
+                            <div class="row">
+
+
+                                <div class="col-md-1"> </div>
+                                <div class="col-md-10">
+                                    <table class="table">
+                                        <tr>
+                                            <th style="width:18%">
+                                                Voucher No
+                                            </th>
+                                            <th style="width:2%">:</th>
+                                            <td style="width:30%">
+                                                @Model.VoucherNo
+                                            </td>
+                                            <th style="width:18%"> Voucher Date</th>
+                                            <th style="width:2%">:</th>
+                                            <td style="width:30%">@Model.Date</td>
+                                        </tr>
+                                        <tr>
+                                            <th style="width:18%">
+                                                Cheque No & Name
+                                            </th>
+                                            <th style="width:2%">:</th>
+                                            <td style="width:30%">
+                                                @Model.ChqNo @Model.ChqName
+                                            </td>
+                                            <th style="width:18%"> Cheque Date</th>
+                                            <th style="width:2%">:</th>
+                                            <td style="width:30%">@Model.ChqDate</td>
+                                        </tr>
+                                        <tr>
+                                            <th style="width:18%">
+                                                Cost Center
+                                            </th>
+                                            <th style="width:2%">:</th>
+                                            <td style="width:30%">
+                                                @Model.Accounting_CostCenterName
+                                            </td>
+                                            <th style="width:18%"> Bank/Cash</th>
+                                            <th style="width:2%">:</th>
+                                            <td style="width:30%">@Model.BankOrCashNane</td>
+                                        </tr>
+                                        <tr>
+                                            <th style="width:18%">
+                                                Requisition No
+                                            </th>
+                                            <th style="width:2%">:</th>
+                                            <td style="width:30%">
+                                                @Model.RequisitionNo
+                                            </td>
+                                            <th style="width:18%"> Requisition Initiator</th>
+                                            <th style="width:2%">:</th>
+                                            <td style="width:30%">@Model.RequisitionInitiator</td>
+                                        </tr>
+                                        <tr>
+                                            <th style="width:18%">
+                                                Narration
+                                            </th>
+                                            <th style="width:2%">:</th>
+                                            <td style="width:30%">
+                                                @Html.Raw(Model.Narration)
+                                            </td>
+                                            <th style="width:18%">Created By</th>
+                                            <th style="width:2%">:</th>
+                                            <td style="width:30%">@Model.CreatedBy</td>
+                                        </tr>
+
+                                    </table>
+                                </div>
+                                <div class="col-md-1"> </div>
+                            </div>
+                        }
+
+
+                        <!--Body Will by Start Here-->
+                        @{
+                            if (Model.VoucherId > 0)
+                            {
+                                <div class="row">
+
+
+                                    <div class="table-responsive col-md-12">
+                                        <table id="KgErpDataTable" class="table table-striped">
+                                            <thead style="background-color:#ddd;">
+                                                <tr>
+                                                    <th style="padding:5px;text-align:center;">SL</th>
+                                                    <th style="padding:5px;text-align:left;">Material</th>
+                                                    <th style="padding:5px;text-align:left;">Code</th>
+                                                    <th style="padding:5px;text-align:left;">Accounting Head</th>
+                                                    <th style="padding:5px;text-align:left;">Particular</th>
+                                                    <th style="padding:5px;text-align:right;">Debit</th>
+                                                    <th style="padding:5px;text-align:right;">Credit</th>
+                                                    @if (Model.IsSubmit == false)
+                                                    {
+                                                        <th style="padding:5px;text-align:center;">Action</th>
+                                                    }
+
+                                                </tr>
+                                            </thead>
+                                            @{ int sl = 0; }
+                                            <tbody>
+                                                @foreach (var item in Model.DataListDetails)
+                                                {
+                                                    totalDebitAmount += item.Debit;
+                                                    totalCreditAmount += item.Credit;
+
+                                                    <tr>
+                                                        <td style="padding:5px">@(++sl)</td>
+                                                        <td style="padding:5px;text-align:left;">@item.MaterialName</td>
+                                                        <td style="padding:5px;text-align:left;">@item.Code</td>
+                                                        <td style="padding:5px;text-align:left;">@item.AccountingHeadName</td>
+                                                        <td style="padding:5px;text-align:left;">@item.Particular</td>
+
+                                                        <td style="padding:5px;text-align:right;">@String.Format("{0:0.00}", item.Debit)</td>
+                                                        <td style="padding:5px;text-align:right;">@String.Format("{0:0.00}", item.Credit)</td>
+                                                        @if (Model.IsSubmit == false)
+                                                        {
+                                                            <td style="padding:5px;text-align:center;">
+                                                                @*<a id="@item.VoucherDetailId-Edit" onclick="makeEditble(@item.VoucherDetailId);" class="linkPointer" title="Edit"><i class="fa fa-edit" aria-hidden="true"></i></a>*@
+                                                                <a id="@item.VoucherDetailId-Delete" onclick="makeDeletable(@item.VoucherDetailId);" class="linkPointer" data-toggle="modal" data-target="#deleteModal" title="Delete"
+                                                                   data-placement="top">
+                                                                    <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+                                                                </a>
+                                                            </td>
+                                                        }
+
+                                                    </tr>
+                                                }
+                                            </tbody>
+
+                                            <tfoot style="background-color:#eee;">
+
+                                                <tr>
+                                                    <th style="padding:5px;text-align:center;"></th>
+                                                    <th colspan="4" style="padding:5px;text-align:left;">Total</th>
+
+                                                    <th style="padding:5px;text-align:right;">@String.Format("{0:0.00}", totalDebitAmount)</th>
+                                                    <th style="padding:5px;text-align:right;">@String.Format("{0:0.00}", totalCreditAmount)</th>
+                                                    <th style="padding:5px;text-align:center;"></th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+
+                                    </div>
+                                </div>
+
+                                <strong>
+                                    <span>
+                                        Requisition Voucher Approval Status:
+                                    </span>
+                                </strong>
+                                <div class="row">
+                                    <table class="table table-bordered">
+                                        <tr class="bg-gray">
+                                            @foreach (var item in Model.ApprovalList)
+                                            {
+                                                <th style="padding:5px;text-align:center;">
+                                                    @item.SignatoryName
+                                                </th>
+                                            }
+                                        </tr>
+                                        <tr>
+                                            @foreach (var item in Model.ApprovalList)
+                                            {
+                                                if (item.AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
+                                                {
+                                                    <td style="text-align:center">
+                                                        <span class="btn btn-warning btn-xs"> @item.AprrovalStatusName</span>
+                                                    </td>
+                                                }
+                                                else if (item.AprrovalStatusId == (int)EnumBillRequisitionStatus.Rejected)
+                                                {
+                                                    <td style="text-align:center">
+                                                        <span class="btn btn-danger btn-xs"> @item.AprrovalStatusName</span>
+                                                    </td>
+                                                }
+                                                else if (item.AprrovalStatusId == (int)EnumBillRequisitionStatus.Approved)
+                                                {
+                                                    <td style="text-align:center">
+                                                        @if (item.SignatoryId == (int)EnumVoucherRequisitionSignatory.Initiator)
+                                                        {
+                                                            <span class="btn btn-success btn-xs"> Prepared</span>
+                                                        }
+                                                        else if (item.SignatoryId == (int)EnumVoucherRequisitionSignatory.Checker)
+                                                        {
+                                                            <span class="btn btn-success btn-xs"> Recommended</span>
+                                                        }
+                                                        else if (item.SignatoryId == (int)EnumVoucherRequisitionSignatory.Approver)
+                                                        {
+                                                            <span class="btn btn-success btn-xs"> Approved</span>
+                                                        }
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td style="padding:5px; text-align:center;">@item.AprrovalStatusName</td>
+                                                }
+                                            }
+                                        </tr>
+                                    </table>
+                                </div>
+
+                            }
+                        }
+                    </div>
+
+                    <div class="box-footer">
+                        @if (Model.VoucherId > 0)
+                        {
+                            string btnProperty = Math.Round(totalDebitAmount ?? 0, 2) == Math.Round(totalCreditAmount ?? 0, 2) ? "disabled" : "";
+                            string btnSubmitProperty = Math.Round(totalDebitAmount ?? 0, 2) == Math.Round(totalCreditAmount ?? 0, 2) ? "" : "disabled";
+                            <div class="row">
+                                <div class="col-md-3">
+                                    @if (Model.IsSubmit == true)
+                                    {
+                                        <a href="@Url.Action("GetVoucherReport","Report", new {companyId=Model.CompanyFK,voucherId=Model.VoucherId,reportName="VoucherReport"})"  style="width:100%" target="_blank"  class="btn btn-warning btn-block">
+                                            <span class="fa fa-print"></span>
+                                            Print
+                                        </a>
+                                    }
+                                </div>
+                                <div class="col-md-3">
+                                    @if (Model.ApprovalList.First(x => x.SignatoryId == (int)EnumVoucherRequisitionSignatory.Approver).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
+                                    {
+
+
+                                        <button id="rejectBtn" style="width:100%;" type="button" class=" btn btn-danger" data-toggle="modal" data-target="#rejectVoucherModal" title="Reject" data-placement="top">Reject</button>
+
+
+                                    }
+                                    else
+                                    {
+                                        <button id="rejectBtn" style="width:100%;" type="button" disabled class=" btn btn-danger" data-toggle="modal" data-target="#rejectVoucherModal" title="Reject" data-placement="top">Reject</button>
+
+                                    }
+                                </div>
+                                <div class="col-md-6">
+                                    @if (Model.ApprovalList.First(x => x.SignatoryId == (int)EnumVoucherRequisitionSignatory.Approver).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
+                                    {
+
+
+                                        <button id="approveBtn" style="width:100%;" type="submit" class=" btn btn-primary">Approve</button>
+
+
+                                    }
+                                    else
+                                    {
+                                        <button id="approveBtn" style="width:100%;" disabled type="submit" class=" btn btn-primary">Approve</button>
+
+                                    }
+                                </div>
+
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+}
+
+@using (Html.BeginForm("ApproverRequisitionVoucherApproval", "Vouchers", FormMethod.Post))
+{
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="modal fade" id="rejectVoucherModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
+                        &times;
+                    </button>
+                    <h5 class="modal-title"><b>Delete Voucher</b></h5>
+                </div>
+
+                <div class="modal-body">
+                    @Html.HiddenFor(model => model.VoucherId, new { id = "deletehidVoucherId" })
+                    @Html.HiddenFor(model => model.ActionId, new { id = "rejectActionId" })
+                    @Html.HiddenFor(model => model.CompanyFK, new { id = "deleteCompanyId" })
+
+
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="row">
+                        <div style="text-align:center">
+                            <h3>Are you sure to Reject this Voucher? </h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Rejection reasons:</label>
+                                @Html.TextAreaFor(model => model.Reason, new { id = "txtReason", placeholder = "type Reasons here", @class = "form-control", rows = 2 })
+                                @Html.ValidationMessageFor(model => model.Reason, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-3">
+                        <button type="button" class="btn btn-warning fa fa-close" data-dismiss="modal">&nbsp;NO</button>
+                    </div>
+                    <div class="col-md-9">
+                        <button type="submit" id="btnsave" style="width:100%" class="btn btn-primary fa fa-remove">&nbsp; Reject</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section scripts {
+
+    <script type="text/javascript">
+        var CompanyId =@Html.Raw(Json.Encode(Model.CompanyFK))
+        var previousBank = '';
+        $(document).ready(function () {
+
+
+            $("#txtCredit").click(function () {
+                $(this).select();
+            });
+            $("#txtDebit").click(function () {
+                $(this).select();
+            });
+
+            $('#voucharCreateBtn').click(function ()
+            {
+                $(this).attr('disabled', 'disabled');
+                $(this).val('Processing...');
+                $('#manageBankOrCashFormId').submit();
+
+
+            });
+            $('#approveBtn').click(function () {
+
+                $('#ActionId').val(6);
+            });
+            $('#rejectBtn').click(function () {
+
+                $('#rejectActionId').val(8);
+
+            });
+
+
+
+
+            function checkTotal() {
+                var approvedTotal = parseFloat($("#txtApprovedTotal").val());
+
+                var debitSofar = parseFloat($("#txtTotalDebitedSoFar").val());
+                var creditSofar = parseFloat($("#txtTotalCreditedSoFar").val());
+
+                var totalSoFarDrCr = (debitSofar + creditSofar);
+                var remainingDrCr = approvedTotal - totalSoFarDrCr;
+
+                var debit = parseFloat($("#txtDebit").val());
+                var credit = parseFloat($("#txtCredit").val());
+
+                // If Debit exceeds total, adjust Credit
+                if (!isNaN(debit) && debit > remainingDrCr) {
+                    $("#txtDebit").val(remainingDrCr);
+                    $("#txtCredit").val(0);
+                }
+
+                // If Credit exceeds total, adjust Debit
+                if (!isNaN(credit) && credit > remainingDrCr) {
+                    $("#txtCredit").val(remainingDrCr);
+                    $("#txtDebit").val(0);
+                }
+
+                // Recalculate the total and adjust if necessary
+                debit = parseFloat($("#txtDebit").val());
+                credit = parseFloat($("#txtCredit").val());
+
+                var total = isNaN(debit) ? 0 : debit;
+                if (!isNaN(credit)) {
+                    total += credit;
+                }
+
+                if (total > remainingDrCr) {
+                    if (!isNaN(debit) && total === (debit + credit)) {
+                        $("#txtDebit").val(remainingDrCr - credit);
+                    } else {
+                        $("#txtCredit").val(remainingDrCr - debit);
+                    }
+                }
+            }
+
+            // Listen for changes in Debit and Credit fields
+            $("#txtDebit, #txtCredit").on("input", function () {
+                checkTotal();
+            });
+
+            /*showBoQMaterial();*/
+        });
+
+
+        function makeDeletable(id) {
+            if (id !== null) {
+                $('#voucherDetailIdIdDelete').val(id);
+                $('#ActionIdDelete').val(3);
+
+
+            }
+        }
+
+    </script>
+}
