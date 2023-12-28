@@ -14,6 +14,7 @@ using KGERP.Service.Implementation.Configuration;
 using KGERP.Service.Implementation.Procurement;
 using DocumentFormat.OpenXml.EMMA;
 using KGERP.Service.ServiceModel;
+using DocumentFormat.OpenXml.Bibliography;
 
 namespace KGERP.Controllers
 {
@@ -5353,5 +5354,49 @@ namespace KGERP.Controllers
                 return View("Error");
             }
         }
+
+            [HttpGet]
+            [SessionExpire]
+            public ActionResult UnitOfProduct(int companyId, string reportName)
+            {
+                Session["CompanyId"] = companyId;
+                ReportCustomModel cm = new ReportCustomModel()
+                {
+                    CompanyId = companyId,
+                    FromDate = DateTime.Now,
+                    ToDate = DateTime.Now,
+                    StrFromDate = DateTime.Now.ToShortDateString(),
+                    StrToDate = DateTime.Now.ToShortDateString(),
+                    ReportName = reportName,
+
+                };
+                return View(cm);
+            }
+
+            [HttpGet]
+            [SessionExpire]
+            public ActionResult GetUnitOfProductReport(ReportCustomModel model)
+            {
+                NetworkCredential nwc = new NetworkCredential(_admin, _password);
+                WebClient client = new WebClient();
+                model.ReportName = CompanyInfo.ReportPrefix + model.ReportName;
+                client.Credentials = nwc;
+                string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&StrFromDate={3}&StrToDate={4}", model.ReportName, model.ReportType, model.CompanyId, model.StrFromDate, model.StrToDate);
+
+                if (model.ReportType.Equals(ReportType.EXCEL))
+                {
+                    return File(client.DownloadData(reportUrl), "application/vnd.ms-excel", model.ReportName + ".xls");
+                }
+                if (model.ReportType.Equals(ReportType.PDF))
+                {
+                    return File(client.DownloadData(reportUrl), "application/pdf");
+                }
+                if (model.ReportType.Equals(ReportType.WORD))
+                {
+                    return File(client.DownloadData(reportUrl), "application/msword", model.ReportName + ".doc");
+                }
+                return View();
+            }
+
+        }
     }
-}
