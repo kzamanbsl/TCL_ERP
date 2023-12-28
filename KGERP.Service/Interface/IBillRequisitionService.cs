@@ -80,14 +80,14 @@ namespace KGERP.Service.Interface
         #region 1.2 BillRequisition Approved Circle
         Task<BillRequisitionMasterModel> GetBillRequisitionMasterDetailWithApproval(int companyId, long billRequisitionMasterId);
         Task<long> PMBillRequisitionApproved(BillRequisitionMasterModel BillRequisitionMasterModel);
-        Task<int> PMBillRequisitionRejected(long billRequisitionMasterId);
+        Task<int> PMBillRequisitionRejected(BillRequisitionMasterModel model);
         Task<BillRequisitionMasterModel> GetPMBillRequisitionList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus);
         #endregion
 
 
         #region 1.3 QS BillRequisition Approved Circle
         Task<long> QSBillRequisitionApproved(BillRequisitionMasterModel BillRequisitionMasterModel);
-        Task<int> QSBillRequisitionRejected(long billRequisitionMasterId);
+        Task<int> QSBillRequisitionRejected(BillRequisitionMasterModel model);
         Task<BillRequisitionMasterModel> GetQSBillRequisitionList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus);
         #endregion
 
@@ -99,19 +99,19 @@ namespace KGERP.Service.Interface
 
         #region 1.4 PD BillRequisition Approved Circle
         Task<long> PDBillRequisitionApproved(BillRequisitionMasterModel BillRequisitionMasterModel);
-        Task<int> PDBillRequisitionRejected(long billRequisitionMasterId);
+        Task<int> PDBillRequisitionRejected(BillRequisitionMasterModel model);
         Task<BillRequisitionMasterModel> GetPDBillRequisitionList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus);
         #endregion
 
         #region 1.5 Director BillRequisition Approved Circle
         Task<long> DirectorBillRequisitionApproved(BillRequisitionMasterModel BillRequisitionMasterModel);
-        Task<int> DirectorBillRequisitionRejected(long billRequisitionMasterId);
+        Task<int> DirectorBillRequisitionRejected(BillRequisitionMasterModel model);
         Task<BillRequisitionMasterModel> GetDirectorBillRequisitionList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus);
         #endregion
 
         #region 1.6 MD BillRequisition Approved Circle
         Task<long> MDBillRequisitionApproved(BillRequisitionMasterModel BillRequisitionMasterModel);
-        Task<int> MDBillRequisitionRejected(long billRequisitionMasterId);
+        Task<int> MDBillRequisitionRejected(BillRequisitionMasterModel model);
         Task<BillRequisitionMasterModel> GetMDBillRequisitionList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus);
         #endregion
 

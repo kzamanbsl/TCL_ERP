@@ -268,7 +268,6 @@
                                     <a class="btn btn-danger btn-block linkPointer" data-toggle="modal" data-target="#RejectedModalId" data-placement="top">Proceed to Reject</a>
                                 </div>
                                 <div class="col-md-3">
-                                    @*<button type="submit" id="btnSave" class="btn btn-primary btn-block">Proceed to Approve</button>*@
                                     <a class="btn btn-primary btn-block linkPointer" data-toggle="modal" data-target="#ApprovedModalId" data-placement="top">Proceed to Approve</a>
                                 </div>
                             </div>
@@ -312,7 +311,7 @@
                     <button type="button" onclick="resetForm()" class="close pull-right" data-dismiss="modal" aria-label="Close">
                         &times;
                     </button>
-                    <h4 class="modal-title text-primary"><b>Do you want to proceed with the rejection?</b></h4>
+                    <h4 class="modal-title text-primary"><b>Bill Requisition Rejection</b></h4>
                 </div>
                 <div class="modal-body">
                     <div class="row">
@@ -320,7 +319,7 @@
                             <label class="text-secondary">The reason for the rejection :</label>
                         </div>
                         <div class="col-md-12 py-5">
-                            @Html.TextAreaFor(model => model.Remarks, new { @class = "modal-input form-control" })
+                            @Html.TextAreaFor(model => model.CancelReason, new { @class = "modal-input form-control" })
                         </div>
                     </div>
                 </div>
