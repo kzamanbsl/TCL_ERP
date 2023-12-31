@@ -25,7 +25,7 @@
         else
         {
             <span>
-                Voucher Entry<span style="color:orangered" id="spnVoucherNo"></span>&nbsp;
+                New Voucher <span class="label label-info" id="spnVoucherNo"></span>&nbsp;
             </span>
             <b> @Model.CompanyName</b>
         }
@@ -34,7 +34,7 @@
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active"><a href="~/Vouchers/ManageBankOrCash?companyId=@Request.QueryString["companyId"]" class="btn btn-primary"><b>New Voucher</b></a></li>
+        <li class="active"><a href="~/Vouchers/RequisitionVoucherEntry?companyId=@Request.QueryString["companyId"]" class="btn btn-primary mx-4 btn-sm" style="color: #ffffff !important"><b>New Voucher</b></a></li>
     </ol>
 </section>
 
@@ -51,9 +51,7 @@
                 @Html.HiddenFor(model => model.ActionId, new { id = "ActionId" })
                 @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
                 @Html.HiddenFor(model => model.VoucherNo, new { @id = "txtVoucherNo" })
-
-
-
+                <input type="hidden" value="@Model.BillRequisitionId" id="hiddenReqId" />
 
                 <div class="box-danger">
 
@@ -61,7 +59,6 @@
                     <div class="box-body">
                         @if (Model.VoucherId > 0)
                         {
-
 
                             <div class="col-md-1"> </div>
                             <div class="col-md-10">
@@ -136,25 +133,32 @@
                             @if (Model.VoucherId == 0)
                             {
                                 <div class="row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <div class="form-group">
-                                            <label>Date</label>
+                                            <label class="form-label">Voucher Create Date :</label>
                                             <input name="Date" asp-for="Date" type="text" value="@DateTime.Today.ToString("yyyy-MM-dd")" required="required" onchange="generateVoucherNoByDate()" class="datePicker form-control" id="txtDate" placeholder="Date" autocomplete="off">
                                             @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <div class="form-group">
-                                            <label>Voucher Type</label>
+                                            <label class="form-label">Voucher  :</label>
                                             @Html.DropDownListFor(model => model.VoucherTypeId, Model.VoucherTypesList as SelectList, "==Voucher Type==", new { id = "ddlVoucherTypeId", @class = "form-control", @onchange = "generateVoucherNo()", style = "width:100%", required = "required" })
                                             @Html.ValidationMessageFor(model => model.VoucherTypeId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <div class="form-group">
-                                            <label>CostCenter/Project</label>
-                                            @Html.DropDownListFor(model => model.Accounting_CostCenterFK, Model.CostCenterList as SelectList, new { id = "ddlAccounting_CostCenterFK", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            <label class="form-label">CostCenter/Project :</label>
+                                            @Html.DropDownListFor(model => model.Accounting_CostCenterFK, Model.CostCenterList as SelectList, "== Select Project ==", new { id = "ddlAccounting_CostCenterFK", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
                                             @Html.ValidationMessageFor(model => model.Accounting_CostCenterFK, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="form-label">Requisition No :</label>
+                                            @Html.DropDownListFor(model => model.BillRequisitionId, Model.Requisitions as SelectList, "== Requisition No ==", new { id = "billRequisitionId", onchange = "showBoQMaterial()", @class = "form-control searchingDropdown", required = "required" })
+                                            @Html.ValidationMessageFor(model => model.BillRequisitionId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                 </div>
@@ -163,23 +167,22 @@
                                 <div class="row bankHead" style="display:none">
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>Cheque Date</label>
+                                            <label class="form-label">Cheque Date :</label>
                                             <input name="ChqDate" asp-for="ChqDate" type="text" class="datePicker form-control" id="txtChqDate" placeholder="Chq Date" autocomplete="off">
-
                                             @Html.ValidationMessageFor(model => model.ChqDate, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
 
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>Cheque No</label>
+                                            <label class="form-label">Cheque No :</label>
                                             @Html.TextBoxFor(model => model.ChqNo, new { id = "txtChqNo", @class = "form-control", placeholder = "Cheque No" })
                                             @Html.ValidationMessageFor(model => model.ChqNo, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>Cheque Name</label>
+                                            <label class="form-label">Cheque  :</label>
                                             @Html.TextBoxFor(model => model.ChqName, new { id = "txtChqName", @class = "form-control", placeholder = "Cheque Name" })
                                             @Html.ValidationMessageFor(model => model.ChqName, "", new { @class = "text-danger" })
                                         </div>
@@ -209,111 +212,91 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-
-                                            @Html.TextAreaFor(model => model.Narration, new { id = "txtNarration", placeholder = "Narration", @class = "form-control", rows = 2 })
+                                            <label class="form-label">Narration :</label>
+                                            @Html.TextAreaFor(model => model.Narration, new { id = "txtNarration", placeholder = "Type narration here", @class = "form-control", rows = 2 })
                                             @Html.ValidationMessageFor(model => model.Narration, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label>Requisition</label>
-                                            @Html.DropDownListFor(model => model.BillRequisitionId, Model.Requisitions as SelectList, "== Requisition ==", new { id = "billRequisitionId", onchange = "showBoQMaterial()", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
-                                            @Html.ValidationMessageFor(model => model.BillRequisitionId, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-
-                                </div>
-
 
                             }
 
                             @if (Model.IsSubmit == false)
                             {
-
                                 <div class="row">
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>Requisition Material:</label>
-                                            @Html.DropDownListFor(model => model.RequisitionMaterialId, Model.MaterialItemList as SelectList, "== Req. Material ==", new { id = "materialItemId", onchange = "getRequisitionsInfo()", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            <label class="form-label">Requisition Material :</label>
+                                            @Html.DropDownListFor(model => model.RequisitionMaterialId, Model.MaterialItemList as SelectList, "== Req. Material ==", new { id = "materialItemId", onchange = "getRequisitionsInfo()", @class = "form-control searchingDropdown", required = "required" })
                                             @Html.ValidationMessageFor(model => model.RequisitionMaterialId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
-                                    <div class=" col-md-3">
-                                        <label> Req. Qty :</label>
-                                        @Html.TextBoxFor(model => model.ApprovedQty, new { id = "txtApprovedDemand", value = "0", type = "number", step = "1", @readonly = true, @class = "form-control", @style = "width:100%;border:1px black solid" })
 
-                                    </div>
-                                    <div class=" col-md-3">
-                                        <label>Req. Rate :</label>
-                                        @Html.TextBoxFor(model => model.UnitRate, new { id = "txtUnitPrice", value = "0", type = "number", step = "1", @readonly = true, @class = "form-control", @style = "width:100%;border:1px black solid" })
-
-                                    </div>
-                                    <div class="col-md-3">
-                                        <label>Req. Total :</label>
-                                        @Html.TextBoxFor(model => model.TotalAmount, new { id = "txtApprovedTotal", value = "0", type = "number", step = "1", @readonly = true, @class = "form-control", @style = "width:100%;border:1px black solid" })
-
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-6">
-
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="row">
-                                            <div class=" col-sm-6">
-                                                <label> Debited So Far:</label>
-                                                @Html.TextBoxFor(model => model.TotalDebited, new { id = "txtTotalDebitedSoFar", value = "0", type = "number", step = "1", @readonly = true, @class = "form-control", @style = "width:100%;border:1px black solid" })
-
-                                            </div>
-                                            <div class=" col-sm-6">
-                                                <label> Credited So Far:</label>
-                                                @Html.TextBoxFor(model => model.TotalCredited, new { id = "txtTotalCreditedSoFar", value = "0", type = "number", step = "1", @readonly = true, @class = "form-control", @style = "width:100%;border:1px black solid" })
-
-                                            </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label">Requisition Quantity :</label>
+                                            @Html.TextBoxFor(model => model.ApprovedQty, new { id = "txtApprovedDemand", value = "0", type = "number", step = "1", @readonly = true, @class = "form-control" })
                                         </div>
                                     </div>
 
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label">Unit Rate :</label>
+                                            @Html.TextBoxFor(model => model.UnitRate, new { id = "txtUnitPrice", value = "0", type = "number", step = "1", @readonly = true, @class = "form-control" })
+                                        </div>
+                                    </div>
 
-                                </div>
+                                    <div class="col-md-4">
+                                        <div class="form-check">
+                                            <label class="form-label">Total Amount :</label>
+                                            @Html.TextBoxFor(model => model.TotalAmount, new { id = "txtApprovedTotal", value = "0", type = "number", step = "1", @readonly = true, @class = "form-control" })
+                                        </div>
+                                    </div>
 
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group" style="padding:0px">
-                                            <label for="message-text" class="col-form-label">Accounting Head:</label>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label">Debited So Far:</label>
+                                            @Html.TextBoxFor(model => model.TotalDebited, new { id = "txtTotalDebitedSoFar", value = "0", type = "number", step = "1", @readonly = true, @class = "form-control" })
+                                        </div>
+                                    </div>
 
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label">Credited So Far:</label>
+                                            @Html.TextBoxFor(model => model.TotalCredited, new { id = "txtTotalCreditedSoFar", value = "0", type = "number", step = "1", @readonly = true, @class = "form-control" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label">Accounting Head :</label>
                                             @Html.EditorFor(model => model.AccountingHeadName, new { htmlAttributes = new { @autocomplete = "on", @class = "form-control", @id = "txtAccountingHeadName", required = "required" } })
-
                                             @Html.HiddenFor(model => model.Accounting_HeadFK, new { id = "ddlAccounting_HeadFK" })
                                             @Html.ValidationMessageFor(model => model.Accounting_HeadFK, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
 
-
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>Debit</label>
-                                            @Html.TextBoxFor(model => model.Debit, new { id = "txtDebit", type = "number", step = "1", @class = "form-control", @style = "width:100%;border:1px black solid" })
+                                            <label class="form-label">Debit Amount :</label>
+                                            @Html.TextBoxFor(model => model.Debit, new { id = "txtDebit", type = "number", step = "1", @class = "form-control" })
                                             @Html.ValidationMessageFor(model => model.Debit, "", new { @class = "text-danger" })
-
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
+
+                                    <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>Credit</label>
-                                            @Html.TextBoxFor(model => model.Credit, new { id = "txtCredit", type = "number", step = "1", @class = "form-control", @style = "width:100%;border:1px black solid" })
+                                            <label class="form-label">Credit Amount :</label>
+                                            @Html.TextBoxFor(model => model.Credit, new { id = "txtCredit", type = "number", step = "1", @class = "form-control" })
                                             @Html.ValidationMessageFor(model => model.Credit, "", new { @class = "text-danger" })
 
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
+
                                     <div class="col-md-12">
                                         <div class="form-group">
-
-                                            @Html.TextAreaFor(model => model.Particular, new { id = "txtParticular", placeholder = "Particular", @class = "form-control", rows = 2 })
+                                            <label class="form-label">Particular :</label>
+                                            @Html.TextAreaFor(model => model.Particular, new { id = "txtParticular", placeholder = "Type particular here", @class = "form-control", rows = 2 })
                                             @Html.ValidationMessageFor(model => model.Particular, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -325,15 +308,10 @@
                         {
                             <div class="box-footer">
                                 <div class="row">
-                                    <div class="col-md-8">
-
-                                    </div>
+                                    <div class="col-md-8"></div>
                                     <div class="col-lg-4 col-md-4">
                                         <input type="submit" id="voucharCreateBtn" class="btn btn-primary btn-block"
                                                value="@(Model.VoucherId > 0? "Save" :"Create Voucher")" />
-
-
-
                                     </div>
                                 </div>
                             </div>
@@ -434,18 +412,18 @@
                                     <div class="col-md-3">
 
                                         @*@if (btnProperty == "")
-        {
-            <button type="button" onclick="autoInsertVoucherDetails()" @btnProperty id="autoInsertBtn" class="btn btn-info btn-block">
-                <i class='fa fa-plus'></i>
-                <span>Add</span>
-            </button>
+                                            {
+                                                <button type="button" onclick="autoInsertVoucherDetails()" @btnProperty id="autoInsertBtn" class="btn btn-info btn-block">
+                                                    <i class='fa fa-plus'></i>
+                                                    <span>Add</span>
+                                                </button>
 
-        }
-        else
-        {
-           <span style="width:100%" class="btn  btn-warning">Ready To Submit <span class="fa fa-angle-right"></span><span class="fa fa-angle-right"></span></span>
+                                            }
+                                            else
+                                            {
+                                               <span style="width:100%" class="btn  btn-warning">Ready To Submit <span class="fa fa-angle-right"></span><span class="fa fa-angle-right"></span></span>
 
-        }*@
+                                            }*@
                                         @if (btnSubmitProperty == "disabled")
                                         {
                                             <span style="width:100%" class="btn text-danger "><sup>***</sup>Ensure Total Dr. = Total Cr. </span>
@@ -505,7 +483,7 @@
                     <button type="button" class="btn btn-warning fa fa-close" data-dismiss="modal">&nbsp;NO</button>
                 </div>
                 <div class="col-md-9">
-                    <button type="button" onclick="updateVoucherStatus()" style="width:100%" class="btn btn-primary fa fa-remove">&nbsp;Confirm</button>
+                    <button type="button" onclick="updateVoucherStatus()" style="width:100%" class="btn btn-primary fa fa-check">&nbsp;Confirm</button>
                 </div>
             </div>
         </div>
@@ -548,10 +526,12 @@
 @section scripts {
 
     <script type="text/javascript">
-        var CompanyId =@Html.Raw(Json.Encode(Model.CompanyFK))
+        var CompanyId =@Html.Raw(Json.Encode(Model.CompanyFK));
         var previousBank = '';
         $(document).ready(function () {
 
+            $("#MaterialItemId").empty();
+            $("#MaterialItemId").append("<option selected disabled>==Select BoQ First==</option>");
 
             $("#txtCredit").click(function () {
                 $(this).select();
@@ -565,10 +545,7 @@
                 $(this).attr('disabled', 'disabled');
                 $(this).val('Processing...');
                 $('#manageBankOrCashFormId').submit();
-
-
             });
-
 
             function checkTotal() {
                 var approvedTotal = parseFloat($("#txtApprovedTotal").val());
@@ -620,76 +597,65 @@
             showBoQMaterial();
         });
 
+        $("#txtAccountingHeadName").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "@Url.Action("GetAutoCompleteHeadGLGet", "Vouchers")",
+                    data: { prefix: request.term, companyId: "@Model.CompanyFK" },
+                    dataType: "json",
+                    type: "get",
+                    cache: true,
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return item;
+                        }))
+                    }
+                });
+            },
+            select: function (e, i) {
+                if (CompanyId == 8 && i.item.value != undefined) {
+                    if (i.item.value.startsWith("1301001002", 1)) {
+                        var narration = $('#txtNarration').val();
 
-         $("#txtAccountingHeadName").autocomplete({source: function (request, response) {
+                        if (previousBank != '' && narration.includes(previousBank)) {
+                            narration = narration.replace(previousBank, '');
+                        }
 
-                    $.ajax({
-                        url:"@Url.Action("GetAutoCompleteHeadGLGet", "Vouchers")",
-                        data: { prefix: request.term, companyId: "@Model.CompanyFK" },
-                        dataType: "json",
-                        type: "get",
-                        cache: true,
-                        contentType: "application/json; charset=utf-8",
-                        success: function (data) {
-                            response($.map(data, function (item) {
-                                                return item;
-                                            }))
-                        },
-                        error: function (response) {
-                            //alert(response.responseText);
-                        },
-                        failure: function (response) {
-                             //alert(response.responseText);
-                                }
-                            });
-                        },
-             select: function (e, i) {
+                        var splitStr = i.item.value.substring(i.item.value.indexOf('k') + 1);
+                        previousBank = splitStr;
+                        $('#txtNarration').val(narration + ' ' + splitStr);
+                    } else if (i.item.value.startsWith("1301001002", 1)) {
+                        var narration = $('#txtNarration').val();
 
+                        if (previousBank != '' && narration.includes(previousBank)) {
+                            narration = narration.replace(previousBank, '');
+                        }
 
-                 if (CompanyId == 8 && i.item.value != undefined) {
-                     if (i.item.value.startsWith("1301001002", 1)) {
-                         var narration = $('#txtNarration').val();
+                        var splitStr = i.item.value.substring(i.item.value.indexOf('k') + 1);
+                        previousBank = splitStr;
+                        $('#txtNarration').val(narration + ' ' + splitStr);
+                    } else {
+                        var narration = $('#txtNarration').val();
+                        if (previousBank != '' && narration.includes(previousBank)) {
+                            narration = narration.replace(previousBank, '');
+                            previousBank = '';
+                            $('#txtNarration').val(narration);
+                        }
+                    }
+                }
 
-                         if (previousBank != '' && narration.includes(previousBank)) {
-                             narration = narration.replace(previousBank, '');
-                         }
-                         var splitStr = i.item.value.substring(i.item.value.indexOf('k') + 1);
-                         previousBank = splitStr;
-                         $('#txtNarration').val(narration + ' ' + splitStr);
-                     }
-                     else if (i.item.value.startsWith("1301001002", 1)) {
-                         var narration = $('#txtNarration').val();
+                $("#ddlAccounting_HeadFK").val(i.item.val);
 
-                         if (previousBank != '' && narration.includes(previousBank)) {
-                             narration = narration.replace(previousBank, '');
-                         }
-                         var splitStr = i.item.value.substring(i.item.value.indexOf('k') + 1);
-                         previousBank = splitStr;
-                         $('#txtNarration').val(narration + ' ' + splitStr);
-                     }
+                $("#txtDebit").focus();
 
-                         else {
-                             var narration = $('#txtNarration').val();
-
-                             if (previousBank != '' && narration.includes(previousBank)) {
-                                 narration = narration.replace(previousBank, '');
-                                 previousBank = '';
-                                 $('#txtNarration').val(narration);
-                             }
-                         }
-                 }
-                 $("#ddlAccounting_HeadFK").val(i.item.val);
-
-                 $("#txtDebit").focus();
-
-                 $("#txtDebit").select();
-                },
-             minLength: 1,
-             cache: true
-         }).focus(function () {
-             $(this).autocomplete("search");
+                $("#txtDebit").select();
+            },
+            minLength: 1,
+            cache: true
+        }).focus(function () {
+            $(this).autocomplete("search");
         });
-
 
         @*$("#ddlAccounting_BankOrCashParantId").change(function () {
                 var bankOrCashParantId = $("#ddlAccounting_BankOrCashParantId").val();
@@ -750,40 +716,35 @@
             }
 
         function updateVoucherStatus() {
-
-                var voucherId = $("#hidVoucherId").val();
-                $.ajax({
-                        type: "GET",
-                        url: "@Url.Action("UpdateRequisitionVoucherStatus", "Vouchers")",
-                        datatype: "Json",
-                        data: { voucherId: voucherId},
-                        success: function (data) {
-                            document.location.href = "../Vouchers/RequisitionVoucherEntry?companyId=@Model.CompanyFK&voucherId=@Model.VoucherId";
-                        }
-                    });
+            var voucherId = $("#hidVoucherId").val();
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("UpdateRequisitionVoucherStatus", "Vouchers")",
+                datatype: "Json",
+                data: { voucherId: voucherId},
+                success: function (data) {
+                    document.location.href = "../Vouchers/RequisitionVoucherEntry?companyId=@Model.CompanyFK&voucherId=@Model.VoucherId";
+                }
+            });
 
         }
 
         function autoInsertVoucherDetails() {
-
             var voucherId = $("#hidVoucherId").val();
             var virtualHeadId = $("#ddlAccounting_HeadFK").val();
             var virtualHeadParticular = $("#txtParticular").val();
 
-
             $.ajax({
-
-                    type: "GET",
-                    url: "@Url.Action("AutoInsertVoucherDetails", "Vouchers")",
-                    datatype: "Json",
-                    data: { voucherId: voucherId, virtualHeadId: virtualHeadId, virtualHeadParticular: virtualHeadParticular},
-                    success: function (data) {
-                        document.location.href = "../Vouchers/RequisitionVoucherEntry?companyId=@Model.CompanyFK&voucherId=@Model.VoucherId";
-                    }
-                });
+                type: "GET",
+                url: "@Url.Action("AutoInsertVoucherDetails", "Vouchers")",
+                datatype: "Json",
+                data: { voucherId: voucherId, virtualHeadId: virtualHeadId, virtualHeadParticular: virtualHeadParticular},
+                success: function (data) {
+                    document.location.href = "../Vouchers/RequisitionVoucherEntry?companyId=@Model.CompanyFK&voucherId=@Model.VoucherId";
+                }
+            });
 
         }
-
 
         function generateVoucherNo() {
             var voucherTypeId = $("#ddlVoucherTypeId option:selected").val();
@@ -811,11 +772,10 @@
                 data: { voucherTypeId: voucherTypeId, companyId: "@Model.CompanyFK", voucherDate : voucherDate },
                 success: function (data) {
                     $("#txtVoucherNo").val(data);
-                    $("#spnVoucherNo").text("-" + data);
+                    $("#spnVoucherNo").text(data);
                 }
             });
         }
-
 
         function generateVoucherNoByDate() {
             var voucherTypeId = $("#ddlVoucherTypeId option:selected").val();
@@ -835,22 +795,23 @@
 
         function showBoQMaterial() {
             var getRequisitionId = $("#billRequisitionId").val();
+            var hiddenRequisitionId = $("#hiddenReqId").val();
+            var showBoqMaterialList = $("#materialItemId");
+            var passingValue;
 
-            if (@Model.BillRequisitionId != null) {
-                getRequisitionId = @((int)Model.BillRequisitionId);
-
+            if (hiddenRequisitionId > 0) {
+                passingValue = hiddenRequisitionId;
+            } else {
+                passingValue = getRequisitionId;
             }
 
-
-            var showBoqMaterialList = $("#materialItemId");
             $.ajax({
                 type: "GET",
                 url: "/Procurement/GetMaterialByRequisitionId",
                 dataType: "json",
-                data: { companyId: 21, requisitionId: getRequisitionId },
+                data: { companyId: 21, requisitionId: passingValue },
                 success: function (data) {
-                    showBoqMaterialList.empty();
-                    showBoqMaterialList.append("<option selected disabled>===Select Material===</option>");
+                    showBoqMaterialList.empty().append("<option selected disabled>==Select Material==</option>");
 
                     $.each(data, function (index, item) {
                         showBoqMaterialList.append($('<option>', {
@@ -867,13 +828,14 @@
 
         function getRequisitionsInfo() {
             var requisitionId = $("#billRequisitionId").val();
+            var hiddenRequisitionId = $("#hiddenReqId").val();
+            var passingValue;
 
-             if (@Model.BillRequisitionId != null ) {
-                 requisitionId = @((int)Model.BillRequisitionId);
-
+            if (hiddenRequisitionId > 0) {
+                passingValue = hiddenRequisitionId;
+            } else {
+                passingValue = requisitionId;
             }
-
-
 
             var materialId = $("#materialItemId").val();
             var showApprovedDemand = $("#txtApprovedDemand");
@@ -892,7 +854,7 @@
                 type: "GET",
                 url: "/BillRequisition/GetMaterialInfo",
                 dataType: "json",
-                data: { requisitionId: requisitionId, productId: materialId },
+                data: { requisitionId: passingValue, productId: materialId },
                 success: function (data) {
                     if (data) {
                         showApprovedDemand.val(data.ApprovedDemand);
