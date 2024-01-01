@@ -26,7 +26,7 @@
 <section class="content">
     <div class="row">
         <div class="col-md-12">
-            @using (Html.BeginForm("CommonRawProduct", "Configuration", FormMethod.Post, new { id = "commonProductFormId", @class = "formValidator", @enctype = "multipart/form-data" }))
+            @using (Html.BeginForm("UserActionLog", "Configuration", FormMethod.Post, new { id = "UserActionLogFormId", @class = "formValidator", @enctype = "multipart/form-data" }))
             {
                 <div class="box">
                     @Html.AntiForgeryToken()
@@ -40,7 +40,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">Start Date :</label>
-                                        @Html.TextBoxFor(model => model.FromDate, new { id = "txtFromDate", @class = "form-control", @placeholder = "Start date", required = "required" })
+                                        <input name="FromDate" asp-for="FromDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker form-control" autocomplete="off">
                                         @Html.ValidationMessageFor(model => model.FromDate, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -48,7 +48,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">End Date :</label>
-                                        @Html.TextBoxFor(model => model.ToDate, new { id = "txtEndDate", @class = "form-control", @placeholder = "End date", required = "required" })
+                                        <input name="ToDate" asp-for="ToDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker form-control" autocomplete="off">
                                         @Html.ValidationMessageFor(model => model.ToDate, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -65,8 +65,7 @@
                         </div>
                         <div class="box">
                             <div class="box-danger">
-                                <div class="box-header">
-                                </div>
+                                <div class="box-header"></div>
                                 <!-- /.box-header -->
                                 <div class="box-body">
                                     <div class="table-responsive text-nowrap">

@@ -80,7 +80,7 @@
                         <hr />
 
                         <div class="table-responsive">
-                            <table id="KgErpDataTable" class="table table-striped" style="width:100%; background-color:#ddd;">
+                            <table id="KgErpDataTable" class="table table-striped text-center table-responsive">
                                 <thead>
                                     <tr>
                                         <th>SL</th>
@@ -90,6 +90,7 @@
                                         <th>P. Type</th>
                                         <th>Project </th>
                                         <th>MD Approval</th>
+                                        <th>Payment Status</th>
                                         <th>Action</th>
                                         <th>Report</th>
                                     </tr>
@@ -123,16 +124,34 @@
 
                                                 @if (@item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
                                                 {
-                                                    <span class="btn btn-warning btn-xs" style="width:70px"> @item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusName</span>
+                                                    <span class="label label-info" style="width:70px"> @item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusName</span>
                                                 }
                                                 @if (@item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Approved)
                                                 {
-                                                    <span class="btn btn-success btn-xs" style="width:70px"> @item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusName</span>
+                                                    <span class="label label-success" style="width:70px"> @item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusName</span>
                                                 }
 
                                                 @if (@item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Rejected)
                                                 {
-                                                    <span class="btn btn-danger btn-xs" style="width:70px"> @item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusName</span>
+                                                    <span class="label label-danger" style="width:70px"> @item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusName</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                @{
+                                                    if (item.VoucherPaymentStatusId == EnumVoucherPaymentStatus.Paid)
+                                                    {
+                                                        <span class="label label-success" style="width:70px">Fully Paid</span>
+                                                    }
+                                                    else if (item.VoucherPaymentStatusId == EnumVoucherPaymentStatus.Partial)
+                                                    {
+
+
+                                                        <span class="label label-info" style="width:70px">Partial Paid</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="label label-warning" style="width:70px">Pending</span>
+                                                    }
                                                 }
                                             </td>
                                             <td>
@@ -151,7 +170,7 @@
                                                 }
                                             </td>
                                             <td>
-                                                <a class="btn btn-sm btn-xs btn-warning" style="width:100%" target="_blank" href="~/Report/TCLBillRequisiontReport?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId">
+                                                <a class="label label-primary" style="width:100%" target="_blank" href="~/Report/TCLBillRequisiontReport?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId">
                                                     <i class="fa fa-print"></i>Print
                                                 </a>
                                             </td>

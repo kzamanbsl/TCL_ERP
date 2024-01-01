@@ -27,6 +27,14 @@ namespace KGERP.Utility
         Rejected,
         Closed
     }
+
+    public enum EnumVoucherPaymentStatus
+    {
+        Pending = 1,
+        Partial,
+        Paid
+    }
+
     public enum EnumVoucherApprovalStatus
     {
         Draft = 1,

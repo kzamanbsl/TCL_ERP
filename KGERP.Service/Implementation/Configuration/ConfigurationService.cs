@@ -27,6 +27,29 @@ namespace KGERP.Service.Implementation.Configuration
         }
 
         #region User Action Log
+
+        // get all user log activity 
+        public async Task<List<VmUserActionLog>> GetAllUserActionLog(int companyId)
+        {
+            List<VmUserActionLog> sendData = await _db.UserLogs
+                .Where(t1 => t1.CompanyId == companyId)
+                .OrderByDescending(t1 => t1.UserLogId)
+                .Take(999)
+                .Join(_db.Employees, t1 => t1.EmployeeId, t2 => t2.Id, (t1, t2) => new VmUserActionLog
+                {
+                    UserLogId = t1.UserLogId,
+                    CompanyId = t1.CompanyId,
+                    ActionType = t1.ActionType,
+                    EmployeeName = t2.Name,
+                    EmpUserId = t1.EmpUserId,
+                    Details = t1.Details,
+                    ActionTimeStamp = t1.ActionTimeStamp,
+                })
+                .ToListAsync();
+
+            return sendData;
+        }
+
         // User action log - insert new row in every action
         public async Task<bool> UserActionLog(UserLog userLog)
         {
@@ -50,26 +73,23 @@ namespace KGERP.Service.Implementation.Configuration
             return result;
         }
 
-        // get all user log activity 
-        public async Task<List<VmUserActionLog>> GetAllUserActionLog(int companyId)
+        // date wise search user log 
+        public async Task<VmUserActionLog> DateWiseSearchLog(VmUserActionLog model)
         {
-            List<VmUserActionLog> sendData = await _db.UserLogs
-                .Where(t1 => t1.CompanyId == companyId)
-                .OrderByDescending(t1 => t1.UserLogId)
-                .Take(999)
-                .Join(_db.Employees, t1 => t1.EmployeeId, t2 => t2.Id, (t1, t2) => new VmUserActionLog
-                {
-                    UserLogId = t1.UserLogId,
-                    CompanyId = t1.CompanyId,
-                    ActionType = t1.ActionType,
-                    EmployeeName = t2.Name,
-                    EmpUserId = t1.EmpUserId,
-                    Details = t1.Details,
-                    ActionTimeStamp = t1.ActionTimeStamp,
-                })
-                .ToListAsync();
-
-            return sendData;
+            VmUserActionLog returnData = new VmUserActionLog();
+            returnData.DataList = await (from t1 in _db.UserLogs.Where(c => c.ActionTimeStamp.Date >= model.FromDate.Date && c.ActionTimeStamp.Date <= model.ToDate.Date)
+                                         join t2 in _db.Employees.Where(c => c.Active) on t1.EmployeeId equals t2.Id
+                                        select new VmUserActionLog
+                                        {
+                                            UserLogId = t1.UserLogId,
+                                            CompanyId = t1.CompanyId,
+                                            ActionType = t1.ActionType,
+                                            EmployeeName = t2.Name,
+                                            EmpUserId = t1.EmpUserId,
+                                            Details = t1.Details,
+                                            ActionTimeStamp = t1.ActionTimeStamp,
+                                        }).ToListAsync();
+            return returnData;
         }
 
         #endregion

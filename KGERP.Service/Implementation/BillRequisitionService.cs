@@ -2560,6 +2560,8 @@ namespace KGERP.Service.Implementation
             {
                 billRequisitionMasterModel.DataList = billRequisitionMasterModel.DataList.Where(q => q.StatusId == (EnumBillRequisitionStatus)vStatus);
             }
+
+
             return billRequisitionMasterModel;
         }
 

@@ -33,12 +33,21 @@ namespace KGERP.Controllers
         }
 
         #region User Action Log
+
+        [HttpGet]
         public async Task<ActionResult> UserActionLog(int companyId)
         {
             VmUserActionLog userActionLog = new VmUserActionLog();
             userActionLog.DataList = await _service.GetAllUserActionLog(companyId);
             return View(userActionLog);
         }
+
+        [HttpPost]
+        public async Task<ActionResult> UserActionLog(VmUserActionLog vmUserActionLog)
+        {
+            return View();
+        }
+
         #endregion
 
         #region User Role Menuitem

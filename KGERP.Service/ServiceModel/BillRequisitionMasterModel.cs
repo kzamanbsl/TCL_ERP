@@ -41,9 +41,12 @@ namespace KGERP.Service.ServiceModel
         public bool IsMDApproved { get; set; }
         public string CancelReason { get; set; }
 
-        public EnumBillRequisitionStatus StatusId { get; set; }
+        public EnumVoucherPaymentStatus VoucherPaymentStatusId { get; set; }
+        public string VoucherPaymentStatusName { get { return BaseFunctionalities.GetEnumDescription(this.VoucherPaymentStatusId); } }
 
+        public EnumBillRequisitionStatus StatusId { get; set; }
         public string StatusName { get { return BaseFunctionalities.GetEnumDescription(this.StatusId); } }
+
         public CostCenterManagerMapModel CostCenterManagerMapModel { get; set; } = new CostCenterManagerMapModel();
         public IEnumerable<BillRequisitionMasterModel> DataList { get; set; } = new List<BillRequisitionMasterModel>();
         public List<BillRequisitionDetailModel> DetailDataList { get; set; } = new List<BillRequisitionDetailModel>();
