@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using DocumentFormat.OpenXml.EMMA;
 using KG.Core.Services.Configuration;
 using KGERP.Data.Models;
 using KGERP.Service.Implementation.Configuration;
@@ -35,23 +36,25 @@ namespace KGERP.Controllers
         #region User Action Log
 
         [HttpGet]
-        public async Task<ActionResult> UserActionLog(int companyId)
+        public async Task<ActionResult> UserActionLog(int companyId = 0)
         {
             VmUserActionLog userActionLog = new VmUserActionLog();
             userActionLog.DataList = await _service.GetAllUserActionLog(companyId);
+            userActionLog.CompanyId = companyId;
             return View(userActionLog);
         }
 
         [HttpPost]
         public async Task<ActionResult> UserActionLog(VmUserActionLog vmUserActionLog)
         {
-            return View();
+            var sendData =  await _service.DateWiseSearchLog(vmUserActionLog);
+            return View(sendData);
         }
 
         #endregion
 
         #region User Role Menuitem
-        public async Task<ActionResult> UserMenuAssignment(int companyId)
+        public ActionResult UserMenuAssignment(int companyId)
         {
             VMUserMenuAssignment vmUserMenuAssignment = new VMUserMenuAssignment();
             vmUserMenuAssignment.CompanyList = new SelectList(_service.CompaniesDropDownList(), "Value", "Text");
@@ -1074,7 +1077,7 @@ namespace KGERP.Controllers
             return Json(model, JsonRequestBehavior.AllowGet);
         }
 
-        public async Task<ActionResult> ChangeProductMRPPrice(int id = 0)
+        public ActionResult ChangeProductMRPPrice(int id = 0)
         {
 
             VMCommonProduct vmCommonProduct = new VMCommonProduct();

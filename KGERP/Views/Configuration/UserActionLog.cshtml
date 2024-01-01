@@ -7,9 +7,12 @@
 }
 
 <style type="text/css">
-
     input, select, textarea {
         max-width: 100%;
+    }
+
+    .ui-datepicker-trigger {
+        display: none !important;
     }
 </style>
 
@@ -31,6 +34,7 @@
                 <div class="box">
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.CompanyId)
                     <div class="box-danger">
 
                         <!-- /.box-header -->
@@ -40,7 +44,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">Start Date :</label>
-                                        <input name="FromDate" asp-for="FromDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker form-control" autocomplete="off">
+                                        <input name="FromDate" asp-for="FromDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker form-control" placeholder="Operation Date" autocomplete="off" id="fromDate">
                                         @Html.ValidationMessageFor(model => model.FromDate, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -48,7 +52,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="message-text" class="col-form-label">End Date :</label>
-                                        <input name="ToDate" asp-for="ToDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker form-control" autocomplete="off">
+                                        <input name="ToDate" asp-for="ToDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker form-control" placeholder="Operation Date" autocomplete="off" id="toDate">
                                         @Html.ValidationMessageFor(model => model.ToDate, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -131,3 +135,42 @@
     </div>
 </section>
 
+@Scripts.Render("~/bundles/jqueryui")
+@Styles.Render("~/Content/cssjqryUi")
+
+@section scripts {
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            'use strict';
+
+            // date picker activation
+            $('#fromDate').datepicker({
+                format: "dd/MM/yyyy",
+                todayHighlight: true,
+                autoclose: true,
+                clearBtn: true
+            }).on('changeDate', function (ev) {
+
+                if ($(this).parents('form') && $(this).attr('required')) {
+                    $(this).parents('form').bootstrapValidator('revalidateField', $(this));
+                }
+            });
+
+            // date picker activation
+            $('#toDate').datepicker({
+                format: "dd/MM/yyyy",
+                todayHighlight: true,
+                autoclose: true,
+                clearBtn: true
+            }).on('changeDate', function (ev) {
+
+                if ($(this).parents('form') && $(this).attr('required')) {
+                    $(this).parents('form').bootstrapValidator('revalidateField', $(this));
+                }
+            });
+        });
+
+    </script>
+}

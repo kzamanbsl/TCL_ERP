@@ -77,7 +77,7 @@ namespace KGERP.Service.Implementation.Configuration
         public async Task<VmUserActionLog> DateWiseSearchLog(VmUserActionLog model)
         {
             VmUserActionLog returnData = new VmUserActionLog();
-            returnData.DataList = await (from t1 in _db.UserLogs.Where(c => c.ActionTimeStamp.Date >= model.FromDate.Date && c.ActionTimeStamp.Date <= model.ToDate.Date)
+            returnData.DataList = await (from t1 in _db.UserLogs.Where(c => c.ActionTimeStamp >= model.FromDate && c.ActionTimeStamp <= model.ToDate)
                                          join t2 in _db.Employees.Where(c => c.Active) on t1.EmployeeId equals t2.Id
                                         select new VmUserActionLog
                                         {
