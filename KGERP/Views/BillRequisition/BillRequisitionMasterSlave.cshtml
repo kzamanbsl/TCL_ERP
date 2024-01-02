@@ -89,7 +89,8 @@
                                                 <th>:</th>
                                                 <td>
                                                     @Model.BRSubtypeName
-                                                    <input type="hidden" value="@Model.BillRequisitionSubTypeId" id="requisitionTypeId" />
+                                                    <input type="hidden" value="@Model.BillRequisitionTypeId" id="reqTypeId" />
+                                                    <input type="hidden" value="@Model.BillRequisitionSubTypeId" id="reqSubtypeId" />
                                                 </td>
                                             }
                                             else
@@ -560,7 +561,7 @@
 
         // overhead item
         function ShowMaterial() {
-            var subTypeId = $("#requisitionTypeId").val();
+            var subTypeId = $("#reqSubtypeId").val();
             var showBoqMaterialList = $("#ddlRequisitionItemId");
 
             if (subTypeId > 0) {
@@ -872,7 +873,7 @@
 
             if (boqIdFromMasterDetail.val() > 0) {
                 BoqValue = boqIdFromMasterDetail.val();
-                
+
             } else {
                 BoqValue = boqId.val();
             }
@@ -960,8 +961,9 @@
                 var unitPriceValue = parseFloat(inputUnitPrice.val()) || 0;
                 var totalPrice = 0;
                 var selectedOption = $("#ddlBRTypeId").find("option:selected");
+                var TypeId = $("#reqTypeId").val();
 
-                if (selectedOption.val() == "@((int)EnumBillRequisitionType.Overhead)") {
+                if (selectedOption.val() == "@((int)EnumBillRequisitionType.Overhead)" || TypeId == "@((int)EnumBillRequisitionType.Overhead)") {
                     if (!isNaN(demandValue) && !isNaN(unitPriceValue)) {
                         totalPrice = demandValue * unitPriceValue;
                         showTotalPrice.val(totalPrice.toFixed(2));
