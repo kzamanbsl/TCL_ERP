@@ -83,9 +83,21 @@
                                             <th>:</th>
                                             <td>@Model.BRDate.ToShortDateString()</td>
 
-                                            <th style="width:17% !important">Requisition Type</th>
-                                            <th>:</th>
-                                            <td>@Model.BRTypeName</td>
+                                            @if (Model.BillRequisitionTypeId == (int)EnumBillRequisitionType.Overhead)
+                                            {
+                                                <th style="width:17% !important">Requisition Subtype</th>
+                                                <th>:</th>
+                                                <td>
+                                                    @Model.BRSubtypeName
+                                                    <input type="hidden" value="@Model.BillRequisitionSubTypeId" id="requisitionTypeId" />
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <th style="width:17% !important">Requisition Type</th>
+                                                <th>:</th>
+                                                <td>@Model.BRTypeName</td>
+                                            }
                                         </tr>
 
                                         <tr>
@@ -109,10 +121,13 @@
 
                                                 <th>BoQ Item Name</th>
                                                 <th>:</th>
-                                                <td>@Model.BOQItemName</td>
+                                                <td>
+                                                    @Model.BOQItemName
+                                                    <input type="hidden" value="@Model.BOQItemId" id="boqId" />
+                                                </td>
                                             </tr>
                                         }
-                                        @*<input type="number" value="@Model.BOQItemId" id="hiddenBoqItemId" hidden />*@
+
                                         <tr>
                                             <th>
                                                 @((Model.BillRequisitionTypeId == (int)EnumBillRequisitionType.Overhead)? "Item Description" : "Work Details")
@@ -542,6 +557,38 @@
 @section scripts {
 
     <script type="text/javascript">
+
+        // overhead item
+        function ShowMaterial() {
+            var subTypeId = $("#requisitionTypeId").val();
+            var showBoqMaterialList = $("#ddlRequisitionItemId");
+
+            if (subTypeId > 0) {
+                $.ajax({
+                    type: "GET",
+                    url: "/BillRequisition/getBoqMaterialListForOverHead",
+                    dataType: "json",
+                    data: { id: subTypeId },
+                    success: function (data) {
+                        showBoqMaterialList.empty();
+                        showBoqMaterialList.append("<option selected disabled>==Select Material==</option>");
+
+                        $.each(data, function (index, item) {
+                            showBoqMaterialList.append($('<option>', {
+                                value: item.ProductId,
+                                text: item.ProductName
+                            }));
+                        });
+                    }
+                });
+            } else {
+                console.log("No Bill Requisition Id or No Requisition Subtype Id!");
+            }
+        }
+
+        ShowMaterial();
+
+
         var isMakeEditable = false;
         // Make editable form
         function makeEditble(rowId) {
@@ -766,6 +813,7 @@
         function ShowBoqMaterialListByReqSubtypeId() {
             var RequisitionSubtype = $("#ddlBRSubTypeId option:selected");
             var showBoqMaterialList = $("#ddlRequisitionItemId");
+
             $.ajax({
                 type: "GET",
                 url: "/BillRequisition/getBoqMaterialListForOverHead",
@@ -819,16 +867,14 @@
             var showRemaining = $("#decRemainingQty");
             var intputDemand = $("#decDemandQty");
             var totalAmount = $("#decTotalPrice");
-
+            var boqIdFromMasterDetail = $("#boqId");
             var BoqValue = 0;
 
-            @if (Model.BillRequisitionMasterId > 0)
-            {
-                @:BoqValue = @(Model.BOQItemId);
-            }
-            else
-            {
-                @:BoqValue = boqId.val();
+            if (boqIdFromMasterDetail.val() > 0) {
+                BoqValue = boqIdFromMasterDetail.val();
+                
+            } else {
+                BoqValue = boqId.val();
             }
 
             if (BoqValue > 0) {
