@@ -119,20 +119,20 @@
                                             <td>@item.ProjectTypeName</td>
                                             <td>@item.CostCenterName</td>
 
-                                            <td>
+                                            <td class="text-center">
 
                                                 @if (@item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
                                                 {
-                                                    <span class="label label-info" style="width:70px"> @item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusName</span>
+                                                    <span class="label label-warning text-center"> @item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusName</span>
                                                 }
                                                 @if (@item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Approved)
                                                 {
-                                                    <span class="label label-success" style="width:70px"> @item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusName</span>
+                                                    <span class="label label-success text-center"> @item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusName</span>
                                                 }
 
                                                 @if (@item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Rejected)
                                                 {
-                                                    <span class="label label-danger" style="width:70px"> @item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusName</span>
+                                                    <span class="label label-danger text-center"> @item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusName</span>
                                                 }
                                             </td>
                                           
@@ -151,8 +151,8 @@
 
                                                 }
                                             </td>
-                                            <td>
-                                                <a class="label label-primary" style="width:100%" target="_blank" href="~/Report/TCLBillRequisiontReport?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId">
+                                            <td class="text-center">
+                                                <a class="label label-primary text-center" style="width:100%" target="_blank" href="~/Report/TCLBillRequisiontReport?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId">
                                                     <i class="fa fa-download"></i> Download
                                                 </a>
                                             </td>
