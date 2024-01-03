@@ -113,6 +113,7 @@ namespace KGERP.Service.Interface
         Task<long> MDBillRequisitionApproved(BillRequisitionMasterModel BillRequisitionMasterModel);
         Task<int> MDBillRequisitionRejected(BillRequisitionMasterModel model);
         Task<BillRequisitionMasterModel> GetMDBillRequisitionList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus);
+        Task<string> GetRequisitionVoucherStatusMd(long billRequisitionId);
         #endregion
 
         #endregion

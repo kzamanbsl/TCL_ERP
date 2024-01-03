@@ -90,7 +90,6 @@
                                         <th>P. Type</th>
                                         <th>Project </th>
                                         <th>MD Approval</th>
-                                        <th>Payment Status</th>
                                         <th>Action</th>
                                         <th>Report</th>
                                     </tr>
@@ -136,24 +135,7 @@
                                                     <span class="label label-danger" style="width:70px"> @item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusName</span>
                                                 }
                                             </td>
-                                            <td>
-                                                @{
-                                                    if (item.VoucherPaymentStatusId == EnumVoucherPaymentStatus.Paid)
-                                                    {
-                                                        <span class="label label-success" style="width:70px">Fully Paid</span>
-                                                    }
-                                                    else if (item.VoucherPaymentStatusId == EnumVoucherPaymentStatus.Partial)
-                                                    {
-
-
-                                                        <span class="label label-info" style="width:70px">Partial Paid</span>
-                                                    }
-                                                    else
-                                                    {
-                                                        <span class="label label-warning" style="width:70px">Pending</span>
-                                                    }
-                                                }
-                                            </td>
+                                          
                                             <td>
                                                 @if (item.StatusId != EnumBillRequisitionStatus.Draft && item.StatusId != EnumBillRequisitionStatus.Rejected && item.StatusId != EnumBillRequisitionStatus.Approved)
                                                 {
