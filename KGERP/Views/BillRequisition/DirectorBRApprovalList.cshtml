@@ -86,7 +86,7 @@
                                         <th>SL</th>
                                         <th>Date</th>
                                         <th>Req. No</th>
-                                        <th>Req. Type</th>
+                                        @*<th>Req. Type</th>*@
                                         <th>P. Type</th>
                                         <th>Project </th>
                                         <th>Director Approval</th>
@@ -115,7 +115,7 @@
 
 
                                             <td>@item.BillRequisitionNo</td>
-                                            <td>@item.BRTypeName</td>
+                                            @*<td>@item.BRTypeName</td>*@
                                             <td>@item.ProjectTypeName</td>
                                             <td>@item.CostCenterName</td>
 
@@ -152,7 +152,7 @@
                                             </td>
                                             <td>
                                                 <a class="btn btn-sm btn-xs btn-warning" style="width:100%" target="_blank" href="~/Report/TCLBillRequisiontReport?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId">
-                                                    <i class="fa fa-print"></i>Print
+                                                    <i class="fa fa-download"></i> Download
                                                 </a>
                                             </td>
                                         </tr>

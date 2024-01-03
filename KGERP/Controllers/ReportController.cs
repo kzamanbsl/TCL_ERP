@@ -33,11 +33,12 @@ namespace KGERP.Controllers
         private readonly ProcurementService _procurementService;
         private readonly IDepartmentService _departmentService = new DepartmentService();
         private readonly IDesignationService _designationService = new DesignationService();
+        private readonly IBillRequisitionService _iBillRequisitionService;
         private readonly string _password = "Gocorona!9";
         private readonly string _admin = "Administrator";
         public ReportController(ERPEntities db, MoneyReceiptService moneyReceiptService, IStockInfoService stockInfoService, IPurchaseOrderService purchaseOrderService,
             ICompanyService companyService, IVoucherTypeService voucherTypeService, IOfficerAssignService officerAssignService,
-            IVendorService vendorService, ProcurementService procurementService, ConfigurationService configurationService)
+            IVendorService vendorService, ProcurementService procurementService, ConfigurationService configurationService, IBillRequisitionService iBillRequisitionService)
         {
             _stockInfoService = stockInfoService;
             _moneyReceiptService = moneyReceiptService;
@@ -49,6 +50,7 @@ namespace KGERP.Controllers
             _procurementService = procurementService;
             _accountingService = new AccountingService(db);
             _configurationService = configurationService;
+            _iBillRequisitionService = iBillRequisitionService;
         }
 
         [HttpGet]
@@ -5318,7 +5320,7 @@ namespace KGERP.Controllers
 
         [HttpGet]
         [SessionExpire]
-        public ActionResult TCLBillRequisiontReport(int companyId, long billRequisitionMasterId)
+        public async Task<ActionResult> TCLBillRequisiontReport(int companyId, long billRequisitionMasterId)
         {
             NetworkCredential nwc = new NetworkCredential(_admin, _password);
             WebClient client = new WebClient();
@@ -5326,9 +5328,11 @@ namespace KGERP.Controllers
             var reportName = CompanyInfo.ReportPrefix + "BillRequisition";
 
             string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format=PDF&CompanyId={1}&BillRequisitionMasterId={2}", reportName, companyId, billRequisitionMasterId);
-            return File(client.DownloadData(reportUrl), "application/pdf");
+            var billReq = await _iBillRequisitionService.GetBillRequisitionMasterById(billRequisitionMasterId);
+            var fileDownloadName = (billReq != null && billReq.BillRequisitionNo != string.Empty) ? billReq.BillRequisitionNo + ".pdf" : null;
+            return File(client.DownloadData(reportUrl), "application/pdf", fileDownloadName); //Download
+            //return File(client.DownloadData(reportUrl), "application/pdf", null); //Preview
         }
-
 
 
         [HttpPost]
@@ -5355,48 +5359,48 @@ namespace KGERP.Controllers
             }
         }
 
-            [HttpGet]
-            [SessionExpire]
-            public ActionResult UnitOfProduct(int companyId, string reportName)
+        [HttpGet]
+        [SessionExpire]
+        public ActionResult UnitOfProduct(int companyId, string reportName)
+        {
+            Session["CompanyId"] = companyId;
+            ReportCustomModel cm = new ReportCustomModel()
             {
-                Session["CompanyId"] = companyId;
-                ReportCustomModel cm = new ReportCustomModel()
-                {
-                    CompanyId = companyId,
-                    FromDate = DateTime.Now,
-                    ToDate = DateTime.Now,
-                    StrFromDate = DateTime.Now.ToShortDateString(),
-                    StrToDate = DateTime.Now.ToShortDateString(),
-                    ReportName = reportName,
+                CompanyId = companyId,
+                FromDate = DateTime.Now,
+                ToDate = DateTime.Now,
+                StrFromDate = DateTime.Now.ToShortDateString(),
+                StrToDate = DateTime.Now.ToShortDateString(),
+                ReportName = reportName,
 
-                };
-                return View(cm);
-            }
-
-            [HttpGet]
-            [SessionExpire]
-            public ActionResult GetUnitOfProductReport(ReportCustomModel model)
-            {
-                NetworkCredential nwc = new NetworkCredential(_admin, _password);
-                WebClient client = new WebClient();
-                model.ReportName = CompanyInfo.ReportPrefix + model.ReportName;
-                client.Credentials = nwc;
-                string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&StrFromDate={3}&StrToDate={4}", model.ReportName, model.ReportType, model.CompanyId, model.StrFromDate, model.StrToDate);
-
-                if (model.ReportType.Equals(ReportType.EXCEL))
-                {
-                    return File(client.DownloadData(reportUrl), "application/vnd.ms-excel", model.ReportName + ".xls");
-                }
-                if (model.ReportType.Equals(ReportType.PDF))
-                {
-                    return File(client.DownloadData(reportUrl), "application/pdf");
-                }
-                if (model.ReportType.Equals(ReportType.WORD))
-                {
-                    return File(client.DownloadData(reportUrl), "application/msword", model.ReportName + ".doc");
-                }
-                return View();
-            }
-
+            };
+            return View(cm);
         }
+
+        [HttpGet]
+        [SessionExpire]
+        public ActionResult GetUnitOfProductReport(ReportCustomModel model)
+        {
+            NetworkCredential nwc = new NetworkCredential(_admin, _password);
+            WebClient client = new WebClient();
+            model.ReportName = CompanyInfo.ReportPrefix + model.ReportName;
+            client.Credentials = nwc;
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&StrFromDate={3}&StrToDate={4}", model.ReportName, model.ReportType, model.CompanyId, model.StrFromDate, model.StrToDate);
+
+            if (model.ReportType.Equals(ReportType.EXCEL))
+            {
+                return File(client.DownloadData(reportUrl), "application/vnd.ms-excel", model.ReportName + ".xls");
+            }
+            if (model.ReportType.Equals(ReportType.PDF))
+            {
+                return File(client.DownloadData(reportUrl), "application/pdf");
+            }
+            if (model.ReportType.Equals(ReportType.WORD))
+            {
+                return File(client.DownloadData(reportUrl), "application/msword", model.ReportName + ".doc");
+            }
+            return View();
+        }
+
     }
+}

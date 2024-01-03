@@ -25,8 +25,9 @@ namespace KGERP.Service.ServiceModel
         public string BoQDivisionName { get; set; }
         public string CostCenterName { get; set; }
         public int BillRequisitionTypeId { get; set; }
-        public int BillRequisitionSubTypeId { get; set; }
         public string BRTypeName { get; set; }
+        public int BillRequisitionSubTypeId { get; set; }
+        public string BRSubtypeName { get; set; }
         public string Description { get; set; }
         public decimal? TotalAmount { get; set; }
         public DateTime FromDate { get; set; }

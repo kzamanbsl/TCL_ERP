@@ -880,7 +880,7 @@ namespace KGERP.Service.Implementation
 
                                                                join t2 in _context.Accounting_CostCenter on t1.CostCenterId equals t2.CostCenterId into t2_Join
                                                                from t2 in t2_Join.DefaultIfEmpty()
-                                                               join t3 in _context.ProductCategories on t1.BillRequisitionTypeId equals t3.ProductCategoryId into t3_Join
+                                                               join t3 in _context.ProductSubCategories on t1.BillRequisitionTypeId equals t3.ProductSubCategoryId into t3_Join // For overhead data is integrede
                                                                from t3 in t3_Join.DefaultIfEmpty()
                                                                join t4 in _context.Accounting_CostCenterType on t1.ProjectTypeId equals t4.CostCenterTypeId into t4_Join
                                                                from t4 in t4_Join.DefaultIfEmpty()
@@ -888,12 +888,16 @@ namespace KGERP.Service.Implementation
                                                                from t5 in t5_Join.DefaultIfEmpty()
                                                                join t6 in _context.BoQDivisions on t1.BoQDivisionId equals t6.BoQDivisionId into t6_Join
                                                                from t6 in t6_Join.DefaultIfEmpty()
+                                                               join t7 in _context.ProductCategories on t3.ProductCategoryId equals t7.ProductCategoryId into t7_Join
+                                                               from t7 in t7_Join.DefaultIfEmpty()
 
                                                                select new BillRequisitionMasterModel
                                                                {
                                                                    BillRequisitionMasterId = t1.BillRequisitionMasterId,
-                                                                   BillRequisitionTypeId = t1.BillRequisitionTypeId,
-                                                                   BRTypeName = t3.Name,
+                                                                   BillRequisitionTypeId = t7.ProductCategoryId,
+                                                                   BRTypeName = t7.Name,
+                                                                   BillRequisitionSubTypeId = t1.BillRequisitionTypeId,
+                                                                   BRSubtypeName = t3.Name,
                                                                    ProjectTypeId = t1.ProjectTypeId,
                                                                    ProjectTypeName = t4.Name,
                                                                    BoQDivisionId = (t1.BoQDivisionId == null || t1.BoQDivisionId == 0) ? 0 : (int)t1.BoQDivisionId,
@@ -963,7 +967,7 @@ namespace KGERP.Service.Implementation
                     {
                         BillRequisitionMasterId = model.BillRequisitionMasterId,
                         BRDate = model.BRDate,
-                        BillRequisitionTypeId = model.BillRequisitionTypeId,
+                        BillRequisitionTypeId = model.BillRequisitionSubTypeId, // In requisition type column, insert requisition subtype id
                         BoQDivisionId = model.BoQDivisionId,
                         BOQItemId = model.BOQItemId,
                         ProjectTypeId = model.ProjectTypeId,
@@ -991,7 +995,7 @@ namespace KGERP.Service.Implementation
                     {
                         BillRequisitionMasterId = model.BillRequisitionMasterId,
                         BRDate = model.BRDate,
-                        BillRequisitionTypeId = model.BillRequisitionTypeId,
+                        BillRequisitionTypeId = model.BillRequisitionSubTypeId, // In requisition type column, insert requisition subtype id
                         ProjectTypeId = model.ProjectTypeId,
                         CostCenterId = model.CostCenterId,
                         Description = model.Description,
@@ -1495,7 +1499,7 @@ namespace KGERP.Service.Implementation
 
                                                                join t2 in _context.Accounting_CostCenter on t1.CostCenterId equals t2.CostCenterId into t2_Join
                                                                from t2 in t2_Join.DefaultIfEmpty()
-                                                               join t3 in _context.ProductCategories on t1.BillRequisitionTypeId equals t3.ProductCategoryId into t3_Join
+                                                               join t3 in _context.ProductSubCategories on t1.BillRequisitionTypeId equals t3.ProductSubCategoryId into t3_Join
                                                                from t3 in t3_Join.DefaultIfEmpty()
                                                                join t4 in _context.Accounting_CostCenterType on t1.ProjectTypeId equals t4.CostCenterTypeId into t4_Join
                                                                from t4 in t4_Join.DefaultIfEmpty()
@@ -1503,12 +1507,16 @@ namespace KGERP.Service.Implementation
                                                                from t5 in t5_Join.DefaultIfEmpty()
                                                                join t6 in _context.BoQDivisions on t5.BoQDivisionId equals t6.BoQDivisionId into t6_Join
                                                                from t6 in t6_Join.DefaultIfEmpty()
+                                                               join t7 in _context.ProductCategories on t3.ProductCategoryId equals t7.ProductCategoryId into t7_Join
+                                                               from t7 in t7_Join.DefaultIfEmpty()
 
                                                                select new BillRequisitionMasterModel
                                                                {
                                                                    BillRequisitionMasterId = t1.BillRequisitionMasterId,
-                                                                   BillRequisitionTypeId = t1.BillRequisitionTypeId,
-                                                                   BRTypeName = t3.Name,
+                                                                   BillRequisitionTypeId = t7.ProductCategoryId,
+                                                                   BRTypeName = t7.Name,
+                                                                   BillRequisitionSubTypeId = t1.BillRequisitionTypeId,
+                                                                   BRSubtypeName = t3.Name,
                                                                    ProjectTypeId = t1.ProjectTypeId,
                                                                    ProjectTypeName = t4.Name,
                                                                    BOQItemId = t1.BOQItemId ?? 0,
