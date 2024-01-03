@@ -5334,6 +5334,22 @@ namespace KGERP.Controllers
             //return File(client.DownloadData(reportUrl), "application/pdf", null); //Preview
         }
 
+        [HttpGet]
+        [SessionExpire]
+        public async Task<ActionResult> TCLBillRequisiontPaymentReport(int companyId, long billRequisitionMasterId)
+        {
+            NetworkCredential nwc = new NetworkCredential(_admin, _password);
+            WebClient client = new WebClient();
+            client.Credentials = nwc;
+            var reportName = CompanyInfo.ReportPrefix + "BillRequisitionPayment";
+
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format=PDF&CompanyId={1}&BillRequisitionMasterId={2}", reportName, companyId, billRequisitionMasterId);
+            var billReq = await _iBillRequisitionService.GetBillRequisitionMasterById(billRequisitionMasterId);
+            var fileDownloadName = (billReq != null && billReq.BillRequisitionNo != string.Empty) ? billReq.BillRequisitionNo + ".pdf" : null;
+            return File(client.DownloadData(reportUrl), "application/pdf", fileDownloadName); //Download
+            //return File(client.DownloadData(reportUrl), "application/pdf", null); //Preview
+        }
+
 
         [HttpPost]
         [SessionExpire]
