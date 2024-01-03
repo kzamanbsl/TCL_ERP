@@ -9,7 +9,7 @@
       <am:Name>SSDTRS</am:Name>
       <am:Version>17.7.34009.444</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2024-01-02T09:34:26.7080659Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2024-01-03T03:45:38.5018047Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
@@ -1168,7 +1168,7 @@ order By SignatoryId</CommandText>
             <Top>0.54792in</Top>
             <Left>0.83625in</Left>
             <Height>0.88541in</Height>
-            <Width>10.18251in</Width>
+            <Width>10.18252in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2311,10 +2311,10 @@ order By SignatoryId</CommandText>
           </Textbox>
           <Rectangle Name="Rectangle1">
             <KeepTogether>true</KeepTogether>
-            <Top>3.12938in</Top>
+            <Top>3.25438in</Top>
             <Left>0.84875in</Left>
             <Height>0.46in</Height>
-            <Width>6.10972in</Width>
+            <Width>10.17001in</Width>
             <ZIndex>5</ZIndex>
             <Style>
               <Border>
@@ -2404,7 +2404,7 @@ order By SignatoryId</CommandText>
                           <Paragraph>
                             <TextRuns>
                               <TextRun>
-                                <Value>....................................</Value>
+                                <Value>...................................</Value>
                                 <Style>
                                   <FontFamily>Times New Roman</FontFamily>
                                   <FontSize>8pt</FontSize>
@@ -2457,7 +2457,7 @@ order By SignatoryId</CommandText>
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>SignatoryDSet</DataSetName>
-            <Top>3.12938in</Top>
+            <Top>3.25438in</Top>
             <Left>0.84875in</Left>
             <Height>0.46in</Height>
             <Width>1.48597in</Width>
@@ -2468,8 +2468,77 @@ order By SignatoryId</CommandText>
               </Border>
             </Style>
           </Tablix>
+          <Textbox Name="Textbox23">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=First(Fields!TotalAsWord.Value,"BRRequisitionDetail")</Value>
+                    <Style>
+                      <FontFamily>Times New Roman</FontFamily>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox23</rd:DefaultName>
+            <Top>2.7743in</Top>
+            <Left>2.04319in</Left>
+            <Height>0.25347in</Height>
+            <Width>8.09911in</Width>
+            <ZIndex>7</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox28">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>Amount in Word:</Value>
+                    <Style>
+                      <FontFamily>times New Roman</FontFamily>
+                      <FontWeight>Bold</FontWeight>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value xml:space="preserve"> </Value>
+                    <Style />
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox26</rd:DefaultName>
+            <Top>2.7743in</Top>
+            <Left>0.84875in</Left>
+            <Height>0.26042in</Height>
+            <Width>1.16666in</Width>
+            <ZIndex>8</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
         </ReportItems>
-        <Height>3.82292in</Height>
+        <Height>3.83938in</Height>
         <Style />
       </Body>
       <Width>11.63037in</Width>

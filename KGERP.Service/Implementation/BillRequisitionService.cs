@@ -961,7 +961,7 @@ namespace KGERP.Service.Implementation
 
             try
             {
-                if(model.BoQDivisionId > 0 && model.BOQItemId > 0)
+                if (model.BoQDivisionId > 0 && model.BOQItemId > 0)
                 {
                     BillRequisitionMaster billRequisitionMaster = new BillRequisitionMaster
                     {
@@ -1151,7 +1151,7 @@ namespace KGERP.Service.Implementation
                 BillRequisitionMasterModel model = new BillRequisitionMasterModel();
                 List<BillRequisitionApproval> billRequisitionApprovalList = new List<BillRequisitionApproval>();
                 int priority = 0;
-                var empId= Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
+                var empId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
                 foreach (var item in model.EnumBRSignatoryList)
                 {
 
@@ -2571,8 +2571,75 @@ namespace KGERP.Service.Implementation
                 billRequisitionMasterModel.DataList = billRequisitionMasterModel.DataList.Where(q => q.StatusId == (EnumBillRequisitionStatus)vStatus);
             }
 
+         
 
             return billRequisitionMasterModel;
+        }
+
+        //public string GetRequisitionVoucherStatusMd(long billRequisitionId)
+        public async Task<string> GetRequisitionVoucherStatusMd(long billRequisitionId)
+        {
+            string status = "";
+
+            var requisition = _context.BillRequisitionMasters.FirstOrDefault(x => x.BillRequisitionMasterId == billRequisitionId);
+            var approvedRequisitionAmount = _context.BillRequisitionDetails.Where(x => x.BillRequisitionMasterId == billRequisitionId && x.IsActive).Sum(s => s.UnitRate * s.DemandQty);
+            if (requisition !=null)
+            {
+                var VoucherBRMapMasterList = _context.VoucherBRMapMasters
+                .Where(x => x.BillRequsitionMasterId == requisition.BillRequisitionMasterId &&
+                            x.IsRequisitionVoucher &&
+                            x.IsActive &&
+                            (x.ApprovalStatusId == (int)EnumBillRequisitionStatus.Approved ||
+                             x.ApprovalStatusId == (int)EnumBillRequisitionStatus.Submitted))
+                .ToList();
+
+
+                var creditAmount = (decimal)0;
+                try
+                {
+                    if (VoucherBRMapMasterList != null && VoucherBRMapMasterList.Count > 0)
+                    {
+                        var voucherBRMapMasterIds = VoucherBRMapMasterList.Select(s => s.VoucherBRMapMasterId);
+                       var voucherBRMapDetails = _context.VoucherBRMapDetails.Where(x => voucherBRMapMasterIds.Contains(x.VoucherBRMapMasterId)).ToList();
+                        if (voucherBRMapDetails != null && voucherBRMapDetails.Count > 0)
+                        {
+                            creditAmount = voucherBRMapDetails.Sum(x => x.CreditAmount);
+                        }
+                       
+                    }
+
+                }
+                catch (Exception ex)
+                {
+
+                    throw;
+                }
+                if (creditAmount > 0)
+                {
+                    if (creditAmount == approvedRequisitionAmount)
+                    {
+                        status = "Paid";
+                    }
+                    else if (creditAmount < approvedRequisitionAmount)
+                    {
+                        status = "Partially Paid";
+                    }
+                    else if (creditAmount > approvedRequisitionAmount)
+                    {
+                        status = "Over Paid";
+                    }
+                    else
+                    {
+                        status = "Pending";
+                    }
+                }
+            }
+            
+            //var debitamount = _context.VoucherBRMapDetails.Where(x => VoucherBRMapMasterList.Select(s => s.VoucherBRMapMasterId).Contains(x.VoucherBRMapMasterId)).Sum(l=> l.DebitAmount);
+         
+           
+
+            return status;
         }
 
         #endregion

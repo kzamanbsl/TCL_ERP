@@ -208,6 +208,9 @@
                                                     @((item.SignatoryName == "QS") ? "QS/ Engr./ HOD" : item.SignatoryName)
                                                 </th>
                                             }
+                                            <th style="padding:5px;text-align:center;">
+                                                Payment Status
+                                            </th>
                                         </tr>
                                         <tr>
                                             @foreach (var item in Model.ApprovalModelList)
@@ -258,6 +261,25 @@
                                                     <td style="padding:5px; text-align:center;">@item.AprrovalStatusName</td>
                                                 }
                                             }
+                                        <td style="padding:5px; text-align:center;">
+                                            @if (Model.VoucherPaymentStatus == "Paid")
+                                            {
+                                                <span class="btn btn-info btn-xs"> @Model.VoucherPaymentStatus</span>
+                                            }
+                                            else if (Model.VoucherPaymentStatus == "Pending")
+                                            {
+                                                <span class="btn btn-info btn-xs"> @Model.VoucherPaymentStatus</span>
+
+                                            }
+                                            else if (Model.VoucherPaymentStatus == "Partially Paid")
+                                            {
+                                                <span class="btn btn-info btn-xs"> @Model.VoucherPaymentStatus</span>
+
+                                            }
+                                           
+                                        </td>
+
+
                                         </tr>
                                     </table>
                                 </div>

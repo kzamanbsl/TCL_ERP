@@ -1076,6 +1076,8 @@ namespace KGERP.Controllers
             if (billRequisitionMasterId > 0)
             {
                 billRequisitionMasterModel = await _service.GetBillRequisitionMasterDetailWithApproval(companyId, billRequisitionMasterId);
+
+                billRequisitionMasterModel.VoucherPaymentStatus = await _service.GetRequisitionVoucherStatusMd(billRequisitionMasterId);
                 billRequisitionMasterModel.DetailDataList = billRequisitionMasterModel.DetailList.ToList();
             }
             return View(billRequisitionMasterModel);
