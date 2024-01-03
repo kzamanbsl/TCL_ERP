@@ -281,8 +281,16 @@
                                                         <span class="btn btn-info btn-xs"> @Model.VoucherPaymentStatus</span>
                                                     </a>
                                                 }
+                                                else
+                                                {
+                                                    if (Model.BillRequisitionMasterId > 0 && Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Approved)
+                                                    {
+                                                        <a title="Download Report" class="" style="width:100%" target="_blank" href="~/Report/TCLBillRequisiontPaymentReport?companyId=@Model.CompanyFK&billRequisitionMasterId=@Model.BillRequisitionMasterId">
+                                                            <span class="btn btn-info btn-xs">Pending</span>
+                                                        </a>
+                                                    }
+                                                }
                                             </td>
-
 
                                         </tr>
                                     </table>
