@@ -353,13 +353,14 @@
                                             <label>Workable Demand :</label>
                                             @Html.TextBoxFor(model => model.WorkableDemand, new { id = "txtWorkableDemand", type = "number", step = "0.01", @class = "form-control", placeholder = "Workable demand", required = "Required" })
                                             @Html.ValidationMessageFor(model => model.WorkableDemand, "", new { @class = "text-danger" })
+                                            <span class="text-danger" id="demandValidate"></span>
                                         </div>
                                     </div>
 
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Unit Price :</label>
-                                            @Html.TextBoxFor(model => model.UnitPrice, new { id = "txtUnitPrice", type = "number", step = "0.01", @class = "form-control", placeholder = "Unit price", required = "Required" })
+                                            @Html.TextBoxFor(model => model.UnitPrice, new { id = "txtUnitPrice", type = "number", step = "0.01", @class = "form-control", placeholder = "Unit price", required = "Required", Readonly = "true" })
                                             @Html.ValidationMessageFor(model => model.UnitPrice, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -608,7 +609,7 @@
             $('.formValidator').bootstrapValidator();
 
             $("#ddlMaterialItemId").empty();
-            $("#ddlMaterialItemId").append("<option selected disabled>===Select Requisition First===</option>");
+            $("#ddlMaterialItemId").append("<option selected disabled>==Select Requisition First==</option>");
 
             $("#ddlFinalDestinationCountryFk").val(19).change();
               $("#txtProductName").autocomplete({
@@ -626,12 +627,6 @@
                             response($.map(data, function (item) {
                                 return item;
                             }))
-                        },
-                        error: function (response) {
-                            //alert(response.responseText);
-                        },
-                        failure: function (response) {
-                            //alert(response.responseText);
                         }
                     });
                 },
@@ -681,12 +676,6 @@
                            response($.map(data, function (item) {
                                return item;
                            }))
-                        },
-                        error: function (response) {
-                                                                        //alert(response.responseText);
-                        },
-                        failure: function (response) {
-                                                                        //alert(response.responseText);
                         }
                     });
                 },
@@ -733,9 +722,7 @@
         });
 
         function makeEditble(rowId) {
-
             $.ajax({
-
                   type: "POST",
                   url: "@Url.Action("SingleProcurementPurchaseOrderSlave", "Procurement")",
                   datatype: "Json",
@@ -754,11 +741,10 @@
                       $('.txtUnitName').text(data.UnitName);
                       window.scrollTo({ top: 0, behavior: 'smooth' });
                   }
-                 });
-            }
+            });
+        }
 
         function makeSubmitble(rowId) {
-
                 $.ajax({
                         type: "POST",
                         url: "@Url.Action("SingleProcurementPurchaseOrder", "Procurement")",
@@ -773,7 +759,6 @@
                             }
                             else {
                                 $('.submitOrDraftText').text("Make Draft");
-
                             }
                         }
                  });
@@ -857,17 +842,29 @@
         // claculate workable demand with unit rate and show to total
         $(document).ready(function () {
 
+            var RemainingDemand = $("#txtRemainingDemand");
             var inputWorkableDemand = $("#txtWorkableDemand");
             var inputUnitPrice = $("#txtUnitPrice");
             var showTotalPrice = $("#txtTotalPrice");
         
             function calculateTotalPrice() {
 
-                var approvedDemand = parseFloat(inputWorkableDemand.val()) || 0;
-                var unitPrice = parseFloat(inputUnitPrice.val()) || 0;
+                var remainingValue = parseFloat(RemainingDemand.val()) || 0;
+                var demandValue = parseFloat(inputWorkableDemand.val()) || 0;
+                var unitValue = parseFloat(inputUnitPrice.val()) || 0;
 
-                var totalPrice = approvedDemand * unitPrice;
-                showTotalPrice.val(totalPrice.toFixed(2));
+                if (!isNaN(remainingValue) && !isNaN(demandValue) && !isNaN(unitValue)) {
+                    if (demandValue <= remainingValue || demandValue === 0) {
+                        $("#demandValidate").text("");
+                        totalPrice = demandValue * unitValue;
+                        showTotalPrice.val(totalPrice.toFixed(2));
+                    } else {
+                        inputWorkableDemand.val(remainingValue);
+                        totalPrice = remainingValue * unitValue;
+                        showTotalPrice.val(totalPrice.toFixed(2));
+                        $("#demandValidate").text("Demand cannot exceed the remaining amount!");
+                    }
+                }
             }
 
             inputWorkableDemand.on("input", calculateTotalPrice);
