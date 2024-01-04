@@ -975,11 +975,10 @@
                             totalPrice = demandValue * unitPriceValue;
                             showTotalPrice.val(totalPrice.toFixed(2));
                         } else {
-                            $("#demandValidate").text("Demand cannot exceed the remaining amount!");
                             inputDemand.val(remainingValue);
-                            $("#demandValidate").text("");
-                            totalPrice = demandValue * unitPriceValue;
+                            totalPrice = remainingValue * unitPriceValue;
                             showTotalPrice.val(totalPrice.toFixed(2));
+                            $("#demandValidate").text("Demand cannot exceed the remaining amount!");
                         }
                     }
                 }
