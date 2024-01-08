@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Web.Mvc;
 using KGERP.Data.Models;
 using KGERP.Service.Implementation.Configuration;
@@ -103,7 +104,6 @@ namespace KGERP.Service.Implementation.Accounting
         public string Reason { get; set; }
 
 
-
         public DateTime? ChqDate { get; set; }
         public bool isDocumentPayment { get; set; }
         public SelectList VoucherTypesList { get; set; } = new SelectList(new List<object>());
@@ -113,8 +113,8 @@ namespace KGERP.Service.Implementation.Accounting
         public SelectList Requisitions { get; set; } = new SelectList(new List<object>());
         public SelectList MaterialItemList { get; set; } = new SelectList(new List<Product>());
 
-
-
+        public int VoucherFor { get; set; }
+        public SelectList VoucherForList { get; set; } =  new SelectList(Enum.GetValues(typeof(EnumVoucherFor)).Cast<EnumVoucherFor>().Select(e => new SelectListItem{Text = e.ToString(),Value = ((int) e).ToString()}), "Value", "Text");
 
 
 

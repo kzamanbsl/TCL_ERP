@@ -873,14 +873,14 @@ namespace KGERP.Service.Implementation.Accounting
         {
             var list = new List<object>();
             _db.VoucherTypes
-        .Where(x => x.IsActive && x.CompanyId == companyId).Select(x => x).ToList()
-        .ForEach(x => list.Add(new
-        {
-            Value = x.VoucherTypeId,
-            Text = x.Name
-        }));
-            return list;
+            .Where(x => x.IsActive && x.CompanyId == companyId).Select(x => x).ToList()
+            .ForEach(x => list.Add(new
+            {
+                Value = x.VoucherTypeId,
+                Text = x.Name
+            }));
 
+            return list;
         }
 
         public List<object> VoucherTypesJournalVoucherDropDownList()
