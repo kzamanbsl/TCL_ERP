@@ -2,6 +2,14 @@
 
 namespace KGERP.Utility
 {
+    public enum EnumVoucherFor
+    {
+        [Display(Name = "General Voucher")]
+        General = 1,
+        [Display(Name = "Requisition Voucher")]
+        Requisition
+    }
+
     public enum EnumVoucherRequisitionSignatory
     {
         Initiator = 1,

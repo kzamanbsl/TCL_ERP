@@ -12,6 +12,10 @@
     input, select, textarea {
         max-width: 100%;
     }
+
+    #inputRequisition .select2-container {
+        width: 100% !important;
+    }
 </style>
 
 <section class="content-header">
@@ -135,36 +139,70 @@
                                 <div class="row">
                                     <div class="col-md-3">
                                         <div class="form-group">
+                                            <label class="form-label">Vourcher For  :</label>
+                                            @Html.DropDownListFor(model => model.VoucherFor, Model.VoucherForList as SelectList, "==Voucher For==", new { id = "ddlVoucherFor", @class = "form-control", required = "required" })
+                                            @Html.ValidationMessageFor(model => model.VoucherFor, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
                                             <label class="form-label">Voucher Create Date :</label>
                                             <input name="Date" asp-for="Date" type="text" value="@DateTime.Today.ToString("yyyy-MM-dd")" required="required" onchange="generateVoucherNoByDate()" class="datePicker form-control" id="txtDate" placeholder="Date" autocomplete="off">
                                             @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
+
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label class="form-label">Voucher  :</label>
-                                            @Html.DropDownListFor(model => model.VoucherTypeId, Model.VoucherTypesList as SelectList, "==Voucher Type==", new { id = "ddlVoucherTypeId", @class = "form-control", @onchange = "generateVoucherNo()", style = "width:100%", required = "required" })
+                                            <label class="form-label">Voucher Type :</label>
+                                            @Html.DropDownListFor(model => model.VoucherTypeId, Model.VoucherTypesList as SelectList, "==Voucher Type==", new { id = "ddlVoucherTypeId", @class = "form-control", @onchange = "generateVoucherNo()", required = "required" })
                                             @Html.ValidationMessageFor(model => model.VoucherTypeId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
+
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label class="form-label">CostCenter/Project :</label>
-                                            @Html.DropDownListFor(model => model.Accounting_CostCenterFK, Model.CostCenterList as SelectList, "== Select Project ==", new { id = "ddlAccounting_CostCenterFK", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.DropDownListFor(model => model.Accounting_CostCenterFK, Model.CostCenterList as SelectList, "==Select Project==", new { id = "ddlAccounting_CostCenterFK", @class = "form-control searchingDropdown", required = "required" })
                                             @Html.ValidationMessageFor(model => model.Accounting_CostCenterFK, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
+
+                                    <div class="col-md-3 w-100 hidden" id="inputRequisition">
+                                        <div class="form-group w-100">
                                             <label class="form-label">Requisition No :</label>
-                                            @Html.DropDownListFor(model => model.BillRequisitionId, Model.Requisitions as SelectList, "== Requisition No ==", new { id = "billRequisitionId", onchange = "showBoQMaterial()", @class = "form-control searchingDropdown", required = "required" })
+                                            @Html.DropDownListFor(model => model.BillRequisitionId, Model.Requisitions as SelectList, "==Requisition No==", new { id = "billRequisitionId", onchange = "showBoQMaterial()", @class = "form-control searchingDropdown w-100" })
                                             @Html.ValidationMessageFor(model => model.BillRequisitionId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3 hidden" id="inputChequeDate">
+                                        <div class="form-group">
+                                            <label class="form-label">Cheque Date :</label>
+                                            <input name="ChqDate" asp-for="ChqDate" type="text" class="datePicker form-control" id="txtChqDate" placeholder="Cheque Date" autocomplete="off">
+                                            @Html.ValidationMessageFor(model => model.ChqDate, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3 hidden" id="inputChequeName">
+                                        <div class="form-group">
+                                            <label class="form-label">Cheque Name :</label>
+                                            @Html.TextBoxFor(model => model.ChqName, new { id = "txtChqName", @class = "form-control", placeholder = "Cheque Name" })
+                                            @Html.ValidationMessageFor(model => model.ChqName, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3 hidden" id="inputChequeNo">
+                                        <div class="form-group">
+                                            <label class="form-label">Cheque No :</label>
+                                            @Html.TextBoxFor(model => model.ChqNo, new { id = "txtChqNo", @class = "form-control", placeholder = "Cheque No" })
+                                            @Html.ValidationMessageFor(model => model.ChqNo, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                 </div>
 
-
-                                <div class="row bankHead" style="display:none">
+                                @*<div class="row bankHead" style="display:none">
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="form-label">Cheque Date :</label>
@@ -180,6 +218,7 @@
                                             @Html.ValidationMessageFor(model => model.ChqNo, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
+
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="form-label">Cheque  :</label>
@@ -187,8 +226,7 @@
                                             @Html.ValidationMessageFor(model => model.ChqName, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
-                                    <!-- /.box-body -->
-                                </div>
+                                </div>*@
 
                                 @*<div class="row">
                                         <div class="col-md-5">
@@ -224,43 +262,43 @@
                             @if (Model.IsSubmit == false)
                             {
                                 <div class="row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-4 hidden" id="inputMaterial">
                                         <div class="form-group">
                                             <label class="form-label">Requisition Material :</label>
-                                            @Html.DropDownListFor(model => model.RequisitionMaterialId, Model.MaterialItemList as SelectList, "== Req. Material ==", new { id = "materialItemId", onchange = "getRequisitionsInfo()", @class = "form-control searchingDropdown", required = "required" })
+                                            @Html.DropDownListFor(model => model.RequisitionMaterialId, Model.MaterialItemList as SelectList, "==Select Requisition Material==", new { id = "materialItemId", onchange = "getRequisitionsInfo()", @class = "form-control searchingDropdown", required = "required" })
                                             @Html.ValidationMessageFor(model => model.RequisitionMaterialId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
 
-                                    <div class="col-md-4">
+                                    <div class="col-md-4 hidden" id="inputQuantity">
                                         <div class="form-group">
                                             <label class="form-label">Requisition Quantity :</label>
                                             @Html.TextBoxFor(model => model.ApprovedQty, new { id = "txtApprovedDemand", value = "0", type = "number", step = "1", @readonly = true, @class = "form-control" })
                                         </div>
                                     </div>
 
-                                    <div class="col-md-4">
+                                    <div class="col-md-4 hidden" id="inputUnit">
                                         <div class="form-group">
                                             <label class="form-label">Unit Rate :</label>
                                             @Html.TextBoxFor(model => model.UnitRate, new { id = "txtUnitPrice", value = "0", type = "number", step = "1", @readonly = true, @class = "form-control" })
                                         </div>
                                     </div>
 
-                                    <div class="col-md-4">
+                                    <div class="col-md-4 hidden" id="inputAmount">
                                         <div class="form-check">
                                             <label class="form-label">Total Amount :</label>
                                             @Html.TextBoxFor(model => model.TotalAmount, new { id = "txtApprovedTotal", value = "0", type = "number", step = "1", @readonly = true, @class = "form-control" })
                                         </div>
                                     </div>
 
-                                    <div class="col-md-4">
+                                    <div class="col-md-4 hidden" id="inputDebitSoFar">
                                         <div class="form-group">
                                             <label class="form-label">Debited So Far:</label>
                                             @Html.TextBoxFor(model => model.TotalDebited, new { id = "txtTotalDebitedSoFar", value = "0", type = "number", step = "1", @readonly = true, @class = "form-control" })
                                         </div>
                                     </div>
 
-                                    <div class="col-md-4">
+                                    <div class="col-md-4 hidden" id="inputCreditSoFar">
                                         <div class="form-group">
                                             <label class="form-label">Credited So Far:</label>
                                             @Html.TextBoxFor(model => model.TotalCredited, new { id = "txtTotalCreditedSoFar", value = "0", type = "number", step = "1", @readonly = true, @class = "form-control" })
@@ -530,8 +568,8 @@
         var previousBank = '';
         $(document).ready(function () {
 
-            $("#MaterialItemId").empty();
-            $("#MaterialItemId").append("<option selected disabled>==Select BoQ First==</option>");
+            $("#materialItemId").empty();
+            $("#materialItemId").append("<option selected disabled>==Select Requisition First==</option>");
 
             $("#txtCredit").click(function () {
                 $(this).select();
@@ -866,5 +904,45 @@
                 }
             });
         }
+
+        // show input field by voucher for
+        $("#ddlVoucherFor").on("change", function () {
+            var selectedOption = $(this).val();
+
+            if (selectedOption == @((int)EnumVoucherFor.Requisition)) {
+                $("#inputRequisition").removeClass("hidden").addClass("d-block");
+                $("#inputMaterial").removeClass("hidden").addClass("d-block");
+                $("#inputQuantity").removeClass("hidden").addClass("d-block");
+                $("#inputUnit").removeClass("hidden").addClass("d-block");
+                $("#inputAmount").removeClass("hidden").addClass("d-block");
+                $("#inputDebitSoFar").removeClass("hidden").addClass("d-block");
+                $("#inputCreditSoFar").removeClass("hidden").addClass("d-block");
+            } else {
+                $("#inputRequisition").removeClass("d-block").addClass("hidden");
+                $("#inputMaterial").removeClass("d-block").addClass("hidden");
+                $("#inputQuantity").removeClass("d-block").addClass("hidden");
+                $("#inputUnit").removeClass("d-block").addClass("hidden");
+                $("#inputAmount").removeClass("d-block").addClass("hidden");
+                $("#inputDebitSoFar").removeClass("d-block").addClass("hidden");
+                $("#inputCreditSoFar").removeClass("d-block").addClass("hidden");
+            }
+
+        });
+
+        // show cheque input field by voucher type id
+        $("#ddlVoucherTypeId").on("change", function () {
+            var selectedOption = $(this).find("option:selected");
+
+            if (selectedOption.val() == 17) {
+                $("#inputChequeDate").removeClass("d-block").addClass("hidden");
+                $("#inputChequeName").removeClass("d-block").addClass("hidden");
+                $("#inputChequeNo").removeClass("d-block").addClass("hidden");
+            } else {
+                $("#inputChequeDate").removeClass("hidden").addClass("d-block");
+                $("#inputChequeName").removeClass("hidden").addClass("d-block");
+                $("#inputChequeNo").removeClass("hidden").addClass("d-block");
+            }
+
+        });
     </script>
 }
