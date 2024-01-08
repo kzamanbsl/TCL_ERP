@@ -16,6 +16,10 @@
     #inputRequisition .select2-container {
         width: 100% !important;
     }
+
+    #inputMaterial .select2-container {
+        width: 100% !important;
+    }
 </style>
 
 <section class="content-header">
@@ -29,9 +33,9 @@
         else
         {
             <span>
-                New Voucher <span class="label label-info" id="spnVoucherNo"></span>&nbsp;
+                New Voucher <span class="label label-info" id="spnVoucherNo"></span> <span class="text-danger" id="errorVoucher"></span>
             </span>
-            <b> @Model.CompanyName</b>
+            
         }
 
 
@@ -308,7 +312,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="form-label">Accounting Head :</label>
-                                            @Html.EditorFor(model => model.AccountingHeadName, new { htmlAttributes = new { @autocomplete = "on", @class = "form-control", @id = "txtAccountingHeadName", required = "required" } })
+                                            @Html.EditorFor(model => model.AccountingHeadName, new { htmlAttributes = new { @autocomplete = "on", @class = "form-control", @id = "txtAccountingHeadName", placeholder = "Select Acounting Head", required = "required" } })
                                             @Html.HiddenFor(model => model.Accounting_HeadFK, new { id = "ddlAccounting_HeadFK" })
                                             @Html.ValidationMessageFor(model => model.Accounting_HeadFK, "", new { @class = "text-danger" })
                                         </div>
@@ -793,12 +797,12 @@
                 datatype: "Json",
                 data: { voucherTypesId: voucherTypeId },
                 success: function (data) {
-                      if (data.IsBankOrCash == true) {
-                          $('.bankHead').show();
-                      }
-                      else {
-                          $('.bankHead').hide();
-                      }
+                      //if (data.IsBankOrCash == true) {
+                      //    $('.bankHead').show();
+                      //}
+                      //else {
+                      //    $('.bankHead').hide();
+                      //}
                 }
             });
 
@@ -811,6 +815,7 @@
                 success: function (data) {
                     $("#txtVoucherNo").val(data);
                     $("#spnVoucherNo").text(data);
+                    $("#errorVoucher").text("");
                 }
             });
         }
@@ -825,8 +830,14 @@
                 datatype: "Json",
                 data: { voucherTypeId: voucherTypeId, companyId: "@Model.CompanyFK", voucherDate : voucherDate },
                 success: function (data) {
-                    $("#txtVoucherNo").val(data);
-                    $("#spnVoucherNo").text("-" + data);
+
+                    if (voucherTypeId > 0) {
+                        $("#errorVoucher").text("");
+                        $("#txtVoucherNo").val(data);
+                        $("#spnVoucherNo").text(data);
+                    } else {
+                        $("#errorVoucher").text("Select Voucher Type Frist!");
+                    }
                 }
             });
         }
@@ -857,9 +868,6 @@
                             text: item.ProductName
                         }));
                     });
-                },
-                error: function (error) {
-                    console.error("Error in AJAX request:", error);
                 }
             });
         }
