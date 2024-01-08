@@ -477,14 +477,12 @@ namespace KGERP.Service.Implementation
 
             voucherModel.CompanyId = companyId;
             voucherModel.VoucherTypeId = voucherTypeId;
+
             voucherModel.DataList = await Task.Run(() => (from t1 in _context.Vouchers
                                                           join t2 in _context.VoucherTypes on t1.VoucherTypeId equals t2.VoucherTypeId
                                                           join t3 in _context.Accounting_CostCenter on t1.Accounting_CostCenterFk equals t3.CostCenterId
                                                           join t4 in _context.VoucherBRMapMasters on t1.VoucherId equals t4.VoucherId into t4_Join
                                                           from t4 in t4_Join.DefaultIfEmpty()
-                                                          join t5 in _context.BillRequisitionMasters on t4.BillRequsitionMasterId equals t5.BillRequisitionMasterId into t5_Join
-                                                          from t5 in t5_Join.DefaultIfEmpty()
-
                                                           join t6 in _context.VoucherBRMapMasterApprovals.Where(x => x.SignatoryId == (int)EnumVoucherRequisitionSignatory.Initiator && x.IsActive) on t4.VoucherBRMapMasterId equals t6.VoucherBRMapMasterId into t6_Join
                                                           from t6 in t6_Join.DefaultIfEmpty()
 
@@ -497,11 +495,13 @@ namespace KGERP.Service.Implementation
                                                           join t9 in _context.Employees on t6.EmployeeId equals t9.Id  into t9_Join
                                                           from t9 in t9_Join.DefaultIfEmpty()
 
+                                                          join t5 in _context.BillRequisitionMasters on t4.BillRequsitionMasterId equals t5.BillRequisitionMasterId into t5_Join
+                                                          from t5 in t5_Join.DefaultIfEmpty()
+
                                                           where t1.CompanyId == companyId && t1.IsActive
                                                           && (voucherTypeId > 0 ? t1.VoucherTypeId == voucherTypeId : t1.VoucherTypeId > 0)
                                                           && t1.VoucherDate >= fromDate && t1.VoucherDate <= toDate
                                                           && t1.IsSubmit == true
-                                                          && t5.IsActive
                                                           && t4.IsActive
                                                           //&& t4.IsRequisitionVoucher
                                                           && t9.Id == empId
@@ -547,8 +547,7 @@ namespace KGERP.Service.Implementation
                                                           join t3 in _context.Accounting_CostCenter on t1.Accounting_CostCenterFk equals t3.CostCenterId
                                                           join t4 in _context.VoucherBRMapMasters on t1.VoucherId equals t4.VoucherId into t4_Join
                                                           from t4 in t4_Join.DefaultIfEmpty()
-                                                          join t5 in _context.BillRequisitionMasters on t4.BillRequsitionMasterId equals t5.BillRequisitionMasterId into t5_Join
-                                                          from t5 in t5_Join.DefaultIfEmpty()
+                                                    
 
                                                           join t6 in _context.VoucherBRMapMasterApprovals.Where(x=>x.SignatoryId == (int)EnumVoucherRequisitionSignatory.Initiator && x.IsActive) on t4.VoucherBRMapMasterId equals t6.VoucherBRMapMasterId into t6_Join
                                                           from t6 in t6_Join.DefaultIfEmpty()
@@ -559,11 +558,13 @@ namespace KGERP.Service.Implementation
                                                           join t8 in _context.VoucherBRMapMasterApprovals.Where(x => x.SignatoryId == (int)EnumVoucherRequisitionSignatory.Approver && x.IsActive) on t4.VoucherBRMapMasterId equals t8.VoucherBRMapMasterId into t8_Join
                                                           from t8 in t8_Join.DefaultIfEmpty()
 
+                                                          join t5 in _context.BillRequisitionMasters on t4.BillRequsitionMasterId equals t5.BillRequisitionMasterId into t5_Join
+                                                          from t5 in t5_Join.DefaultIfEmpty()
+
                                                           where t1.CompanyId == companyId && t1.IsActive
                                                           && (voucherTypeId > 0 ? t1.VoucherTypeId == voucherTypeId : t1.VoucherTypeId > 0)
                                                           && t1.VoucherDate >= fromDate && t1.VoucherDate <= toDate
                                                           && t1.IsSubmit == true
-                                                          && t5.IsActive
                                                           && t4.IsActive
                                                           //&& t4.IsRequisitionVoucher
                                                           && t6.AprrovalStatusId == (int)EnumBillRequisitionStatus.Approved
@@ -607,9 +608,7 @@ namespace KGERP.Service.Implementation
                                                           join t3 in _context.Accounting_CostCenter on t1.Accounting_CostCenterFk equals t3.CostCenterId
                                                           join t4 in _context.VoucherBRMapMasters on t1.VoucherId equals t4.VoucherId into t4_Join
                                                           from t4 in t4_Join.DefaultIfEmpty()
-                                                          join t5 in _context.BillRequisitionMasters on t4.BillRequsitionMasterId equals t5.BillRequisitionMasterId into t5_Join
-                                                          from t5 in t5_Join.DefaultIfEmpty()
-
+                                                         
                                                           join t6 in _context.VoucherBRMapMasterApprovals.Where(x => x.SignatoryId == (int)EnumVoucherRequisitionSignatory.Initiator && x.IsActive) on t4.VoucherBRMapMasterId equals t6.VoucherBRMapMasterId into t6_Join
                                                           from t6 in t6_Join.DefaultIfEmpty()
 
@@ -619,11 +618,14 @@ namespace KGERP.Service.Implementation
                                                           join t8 in _context.VoucherBRMapMasterApprovals.Where(x => x.SignatoryId == (int)EnumVoucherRequisitionSignatory.Approver && x.IsActive) on t4.VoucherBRMapMasterId equals t8.VoucherBRMapMasterId into t8_Join
                                                           from t8 in t8_Join.DefaultIfEmpty()
 
+                                                          join t5 in _context.BillRequisitionMasters on t4.BillRequsitionMasterId equals t5.BillRequisitionMasterId into t5_Join
+                                                          from t5 in t5_Join.DefaultIfEmpty()
+
+
                                                           where t1.CompanyId == companyId && t1.IsActive
                                                           && (voucherTypeId > 0 ? t1.VoucherTypeId == voucherTypeId : t1.VoucherTypeId > 0)
                                                           && t1.VoucherDate >= fromDate && t1.VoucherDate <= toDate
                                                           && t1.IsSubmit == true
-                                                          && t5.IsActive
                                                           && t4.IsActive
                                                           //&& t4.IsRequisitionVoucher
                                                           && t6.AprrovalStatusId == (int)EnumBillRequisitionStatus.Approved
