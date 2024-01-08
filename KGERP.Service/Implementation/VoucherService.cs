@@ -477,14 +477,12 @@ namespace KGERP.Service.Implementation
 
             voucherModel.CompanyId = companyId;
             voucherModel.VoucherTypeId = voucherTypeId;
+
             voucherModel.DataList = await Task.Run(() => (from t1 in _context.Vouchers
                                                           join t2 in _context.VoucherTypes on t1.VoucherTypeId equals t2.VoucherTypeId
                                                           join t3 in _context.Accounting_CostCenter on t1.Accounting_CostCenterFk equals t3.CostCenterId
                                                           join t4 in _context.VoucherBRMapMasters on t1.VoucherId equals t4.VoucherId into t4_Join
                                                           from t4 in t4_Join.DefaultIfEmpty()
-                                                          join t5 in _context.BillRequisitionMasters on t4.BillRequsitionMasterId equals t5.BillRequisitionMasterId into t5_Join
-                                                          from t5 in t5_Join.DefaultIfEmpty()
-
                                                           join t6 in _context.VoucherBRMapMasterApprovals.Where(x => x.SignatoryId == (int)EnumVoucherRequisitionSignatory.Initiator && x.IsActive) on t4.VoucherBRMapMasterId equals t6.VoucherBRMapMasterId into t6_Join
                                                           from t6 in t6_Join.DefaultIfEmpty()
 
@@ -497,13 +495,15 @@ namespace KGERP.Service.Implementation
                                                           join t9 in _context.Employees on t6.EmployeeId equals t9.Id  into t9_Join
                                                           from t9 in t9_Join.DefaultIfEmpty()
 
+                                                          join t5 in _context.BillRequisitionMasters on t4.BillRequsitionMasterId equals t5.BillRequisitionMasterId into t5_Join
+                                                          from t5 in t5_Join.DefaultIfEmpty()
+
                                                           where t1.CompanyId == companyId && t1.IsActive
                                                           && (voucherTypeId > 0 ? t1.VoucherTypeId == voucherTypeId : t1.VoucherTypeId > 0)
                                                           && t1.VoucherDate >= fromDate && t1.VoucherDate <= toDate
                                                           && t1.IsSubmit == true
-                                                          && t5.IsActive
                                                           && t4.IsActive
-                                                          && t4.IsRequisitionVoucher
+                                                          //&& t4.IsRequisitionVoucher
                                                           && t9.Id == empId
                                                           select new VoucherModel
                                                           {
@@ -523,6 +523,7 @@ namespace KGERP.Service.Implementation
                                                               IsIntegrated = t1.IsIntegrated,
                                                               CostCenterName = t3.Name,
                                                               RequisitionId = t4.BillRequsitionMasterId,
+                                                              IsRequisitionVoucher = t4.IsRequisitionVoucher,
                                                               RequisitionNo = t5.BillRequisitionNo,
                                                               VoucherRequisitionMasterMapId = t4.VoucherBRMapMasterId,
                                                               InitiatorAprrovalStatusId = t4.ApprovalStatusId ?? 0,
@@ -546,8 +547,7 @@ namespace KGERP.Service.Implementation
                                                           join t3 in _context.Accounting_CostCenter on t1.Accounting_CostCenterFk equals t3.CostCenterId
                                                           join t4 in _context.VoucherBRMapMasters on t1.VoucherId equals t4.VoucherId into t4_Join
                                                           from t4 in t4_Join.DefaultIfEmpty()
-                                                          join t5 in _context.BillRequisitionMasters on t4.BillRequsitionMasterId equals t5.BillRequisitionMasterId into t5_Join
-                                                          from t5 in t5_Join.DefaultIfEmpty()
+                                                    
 
                                                           join t6 in _context.VoucherBRMapMasterApprovals.Where(x=>x.SignatoryId == (int)EnumVoucherRequisitionSignatory.Initiator && x.IsActive) on t4.VoucherBRMapMasterId equals t6.VoucherBRMapMasterId into t6_Join
                                                           from t6 in t6_Join.DefaultIfEmpty()
@@ -558,13 +558,15 @@ namespace KGERP.Service.Implementation
                                                           join t8 in _context.VoucherBRMapMasterApprovals.Where(x => x.SignatoryId == (int)EnumVoucherRequisitionSignatory.Approver && x.IsActive) on t4.VoucherBRMapMasterId equals t8.VoucherBRMapMasterId into t8_Join
                                                           from t8 in t8_Join.DefaultIfEmpty()
 
+                                                          join t5 in _context.BillRequisitionMasters on t4.BillRequsitionMasterId equals t5.BillRequisitionMasterId into t5_Join
+                                                          from t5 in t5_Join.DefaultIfEmpty()
+
                                                           where t1.CompanyId == companyId && t1.IsActive
                                                           && (voucherTypeId > 0 ? t1.VoucherTypeId == voucherTypeId : t1.VoucherTypeId > 0)
                                                           && t1.VoucherDate >= fromDate && t1.VoucherDate <= toDate
                                                           && t1.IsSubmit == true
-                                                          && t5.IsActive
                                                           && t4.IsActive
-                                                          && t4.IsRequisitionVoucher
+                                                          //&& t4.IsRequisitionVoucher
                                                           && t6.AprrovalStatusId == (int)EnumBillRequisitionStatus.Approved
                                                           && t6.AprrovalStatusId != (int)EnumBillRequisitionStatus.Pending
                                                           select new VoucherModel
@@ -586,6 +588,7 @@ namespace KGERP.Service.Implementation
                                                               CostCenterName = t3.Name,
                                                               RequisitionId = t4.BillRequsitionMasterId,
                                                               RequisitionNo = t5.BillRequisitionNo,
+                                                              IsRequisitionVoucher = t4.IsRequisitionVoucher,
                                                               VoucherRequisitionMasterMapId = t4.VoucherBRMapMasterId,
                                                               InitiatorAprrovalStatusId = t6.AprrovalStatusId,
                                                               CheckerAprrovalStatusId = t7.AprrovalStatusId,
@@ -605,9 +608,7 @@ namespace KGERP.Service.Implementation
                                                           join t3 in _context.Accounting_CostCenter on t1.Accounting_CostCenterFk equals t3.CostCenterId
                                                           join t4 in _context.VoucherBRMapMasters on t1.VoucherId equals t4.VoucherId into t4_Join
                                                           from t4 in t4_Join.DefaultIfEmpty()
-                                                          join t5 in _context.BillRequisitionMasters on t4.BillRequsitionMasterId equals t5.BillRequisitionMasterId into t5_Join
-                                                          from t5 in t5_Join.DefaultIfEmpty()
-
+                                                         
                                                           join t6 in _context.VoucherBRMapMasterApprovals.Where(x => x.SignatoryId == (int)EnumVoucherRequisitionSignatory.Initiator && x.IsActive) on t4.VoucherBRMapMasterId equals t6.VoucherBRMapMasterId into t6_Join
                                                           from t6 in t6_Join.DefaultIfEmpty()
 
@@ -617,13 +618,16 @@ namespace KGERP.Service.Implementation
                                                           join t8 in _context.VoucherBRMapMasterApprovals.Where(x => x.SignatoryId == (int)EnumVoucherRequisitionSignatory.Approver && x.IsActive) on t4.VoucherBRMapMasterId equals t8.VoucherBRMapMasterId into t8_Join
                                                           from t8 in t8_Join.DefaultIfEmpty()
 
+                                                          join t5 in _context.BillRequisitionMasters on t4.BillRequsitionMasterId equals t5.BillRequisitionMasterId into t5_Join
+                                                          from t5 in t5_Join.DefaultIfEmpty()
+
+
                                                           where t1.CompanyId == companyId && t1.IsActive
                                                           && (voucherTypeId > 0 ? t1.VoucherTypeId == voucherTypeId : t1.VoucherTypeId > 0)
                                                           && t1.VoucherDate >= fromDate && t1.VoucherDate <= toDate
                                                           && t1.IsSubmit == true
-                                                          && t5.IsActive
                                                           && t4.IsActive
-                                                          && t4.IsRequisitionVoucher
+                                                          //&& t4.IsRequisitionVoucher
                                                           && t6.AprrovalStatusId == (int)EnumBillRequisitionStatus.Approved
                                                           //&& t7.AprrovalStatusId == (int)EnumBillRequisitionStatus.Approved
                                                           select new VoucherModel
@@ -643,6 +647,7 @@ namespace KGERP.Service.Implementation
                                                               IsSubmit = t1.IsSubmit,
                                                               IsIntegrated = t1.IsIntegrated,
                                                               CostCenterName = t3.Name,
+                                                              IsRequisitionVoucher = t4.IsRequisitionVoucher,
                                                               RequisitionId = t4.BillRequsitionMasterId,
                                                               RequisitionNo = t5.BillRequisitionNo,
                                                               VoucherRequisitionMasterMapId = t4.VoucherBRMapMasterId,
@@ -659,62 +664,122 @@ namespace KGERP.Service.Implementation
         {
             VMJournalSlave vmJournalSlave = new VMJournalSlave();
             var reqVoucherMaster = _context.VoucherBRMapMasters.First(x => x.VoucherId == voucherId);
-            vmJournalSlave = await Task.Run(() => (from t1 in _context.Vouchers.Where(x => x.IsActive && x.VoucherId == voucherId && x.CompanyId == companyId)
-                                                   join t4 in _context.VoucherTypes on t1.VoucherTypeId equals t4.VoucherTypeId
-                                                   join t2 in _context.Companies on t1.CompanyId equals t2.CompanyId
-                                                   join t3 in _context.Accounting_CostCenter on t1.Accounting_CostCenterFk equals t3.CostCenterId
-                                                   //  join t5 in _db.HeadGLs on t1.VirtualHeadId equals t5.Id
-                                                   join t5 in _context.VoucherBRMapMasters on t1.VoucherId equals t5.VoucherId into t5_Join
-                                                   from t5 in t5_Join.DefaultIfEmpty()
-                                                   join t6 in _context.BillRequisitionMasters on t5.BillRequsitionMasterId equals t6.BillRequisitionMasterId into t6_Join
-                                                   from t6 in t6_Join.DefaultIfEmpty()
-                                                   select new VMJournalSlave
-                                                   {
-                                                       VoucherId = t1.VoucherId,
-                                                       Accounting_CostCenterName = t3.Name,
-                                                       VoucherNo = t1.VoucherNo,
-                                                       Date = t1.VoucherDate,
-                                                       Narration = t1.Narration,
-                                                       CompanyFK = t1.CompanyId,
-                                                       Status = t1.VoucherStatus,
-                                                       ChqDate = t1.ChqDate,
-                                                       ChqName = t1.ChqName,
-                                                       ChqNo = t1.ChqNo,
-                                                       Accounting_CostCenterFK = t1.Accounting_CostCenterFk,
-                                                       Accounting_BankOrCashId = t1.VirtualHeadId,
-                                                       //BankOrCashNane = "[" + t5.AccCode + "] " + t5.AccName,
-                                                       BillRequisitionId = t5.BillRequsitionMasterId,
-                                                       RequisitionNo = t6.BillRequisitionNo,
-                                                       RequisitionInitiator = t6.CreatedBy,
-                                                       CompanyName = t2.Name,
-                                                       IsSubmit = t1.IsSubmit,
-                                                       
-                                                       
-                                                   }).FirstOrDefault());
-
-            vmJournalSlave.DataListDetails = await Task.Run(() => (from t1 in _context.VoucherDetails.Where(x => x.IsActive && x.VoucherId == voucherId && !x.IsVirtual)
-                                                                   join t2 in _context.HeadGLs on t1.AccountHeadId equals t2.Id
-                                                                   join t3 in _context.VoucherBRMapDetails on t1.VoucherDetailId equals t3.VoucherDetailId into t3_Join
-                                                                   from t3 in t3_Join.DefaultIfEmpty()
-                                                                   join t4 in _context.Products on t3.ProductId equals t4.ProductId into t4_Join
-                                                                   from t4 in t4_Join.DefaultIfEmpty()
-                                                                   select new VMJournalSlave
-                                                                   {
-                                                                       VoucherDetailId = t1.VoucherDetailId,
-                                                                       AccountingHeadName = t2.AccName,
-                                                                       Code = t2.AccCode,
-                                                                       Credit = t1.CreditAmount,
-                                                                       Debit = t1.DebitAmount,
-                                                                       Particular = t1.Particular,
-                                                                       RequisitionMaterialId = t3.ProductId,
-                                                                       ApprovedQty = t3.ApprovedQty,
-                                                                       UnitRate = t3.ApprovedUnitRate,
-                                                                       MaterialName = t4.ProductName,
-                                                                   }).OrderByDescending(x => x.VoucherDetailId).AsEnumerable());
-            if ((vmJournalSlave.DataListDetails?.Count() ?? 0) > 0)
+            if(reqVoucherMaster != null && reqVoucherMaster.IsRequisitionVoucher)
             {
-                vmJournalSlave.Particular = vmJournalSlave.DataListDetails.OrderByDescending(x => x.VoucherDetailId).Select(x => x.Particular).FirstOrDefault();
+                vmJournalSlave = await Task.Run(() => (from t1 in _context.Vouchers.Where(x => x.IsActive && x.VoucherId == voucherId && x.CompanyId == companyId)
+                                                       join t4 in _context.VoucherTypes on t1.VoucherTypeId equals t4.VoucherTypeId
+                                                       join t2 in _context.Companies on t1.CompanyId equals t2.CompanyId
+                                                       join t3 in _context.Accounting_CostCenter on t1.Accounting_CostCenterFk equals t3.CostCenterId
+                                                       //  join t5 in _db.HeadGLs on t1.VirtualHeadId equals t5.Id
+                                                       join t5 in _context.VoucherBRMapMasters on t1.VoucherId equals t5.VoucherId into t5_Join
+                                                       from t5 in t5_Join.DefaultIfEmpty()
+                                                       join t6 in _context.BillRequisitionMasters on t5.BillRequsitionMasterId equals t6.BillRequisitionMasterId into t6_Join
+                                                       from t6 in t6_Join.DefaultIfEmpty()
+                                                       select new VMJournalSlave
+                                                       {
+                                                           VoucherId = t1.VoucherId,
+                                                           Accounting_CostCenterName = t3.Name,
+                                                           VoucherNo = t1.VoucherNo,
+                                                           Date = t1.VoucherDate,
+                                                           Narration = t1.Narration,
+                                                           CompanyFK = t1.CompanyId,
+                                                           Status = t1.VoucherStatus,
+                                                           ChqDate = t1.ChqDate,
+                                                           ChqName = t1.ChqName,
+                                                           ChqNo = t1.ChqNo,
+                                                           Accounting_CostCenterFK = t1.Accounting_CostCenterFk,
+                                                           Accounting_BankOrCashId = t1.VirtualHeadId,
+                                                           //BankOrCashNane = "[" + t5.AccCode + "] " + t5.AccName,
+                                                           BillRequisitionId = t5.BillRequsitionMasterId,
+                                                           RequisitionNo = t6.BillRequisitionNo,
+                                                           RequisitionInitiator = t6.CreatedBy,
+                                                           CompanyName = t2.Name,
+                                                           IsSubmit = t1.IsSubmit,
+
+
+                                                       }).FirstOrDefault());
+
+                vmJournalSlave.DataListDetails = await Task.Run(() => (from t1 in _context.VoucherDetails.Where(x => x.IsActive && x.VoucherId == voucherId && !x.IsVirtual)
+                                                                       join t2 in _context.HeadGLs on t1.AccountHeadId equals t2.Id
+                                                                       join t3 in _context.VoucherBRMapDetails on t1.VoucherDetailId equals t3.VoucherDetailId into t3_Join
+                                                                       from t3 in t3_Join.DefaultIfEmpty()
+                                                                       join t4 in _context.Products on t3.ProductId equals t4.ProductId into t4_Join
+                                                                       from t4 in t4_Join.DefaultIfEmpty()
+                                                                       select new VMJournalSlave
+                                                                       {
+                                                                           VoucherDetailId = t1.VoucherDetailId,
+                                                                           AccountingHeadName = t2.AccName,
+                                                                           Code = t2.AccCode,
+                                                                           Credit = t1.CreditAmount,
+                                                                           Debit = t1.DebitAmount,
+                                                                           Particular = t1.Particular,
+                                                                           RequisitionMaterialId = t3.ProductId,
+                                                                           ApprovedQty = t3.ApprovedQty,
+                                                                           UnitRate = t3.ApprovedUnitRate,
+                                                                           MaterialName = t4.ProductName,
+                                                                       }).OrderByDescending(x => x.VoucherDetailId).AsEnumerable());
+                if ((vmJournalSlave.DataListDetails?.Count() ?? 0) > 0)
+                {
+                    vmJournalSlave.Particular = vmJournalSlave.DataListDetails.OrderByDescending(x => x.VoucherDetailId).Select(x => x.Particular).FirstOrDefault();
+                }
             }
+            else
+            {
+                vmJournalSlave = await Task.Run(() => (from t1 in _context.Vouchers.Where(x => x.IsActive && x.VoucherId == voucherId && x.CompanyId == companyId)
+                                                       join t4 in _context.VoucherTypes on t1.VoucherTypeId equals t4.VoucherTypeId
+                                                       join t2 in _context.Companies on t1.CompanyId equals t2.CompanyId
+                                                       join t3 in _context.Accounting_CostCenter on t1.Accounting_CostCenterFk equals t3.CostCenterId
+                                                       //  join t5 in _db.HeadGLs on t1.VirtualHeadId equals t5.Id
+                                                       join t5 in _context.VoucherBRMapMasters on t1.VoucherId equals t5.VoucherId into t5_Join
+                                                       from t5 in t5_Join.DefaultIfEmpty()
+                                                       select new VMJournalSlave
+                                                       {
+                                                           VoucherId = t1.VoucherId,
+                                                           Accounting_CostCenterName = t3.Name,
+                                                           VoucherNo = t1.VoucherNo,
+                                                           Date = t1.VoucherDate,
+                                                           Narration = t1.Narration,
+                                                           CompanyFK = t1.CompanyId,
+                                                           Status = t1.VoucherStatus,
+                                                           ChqDate = t1.ChqDate,
+                                                           ChqName = t1.ChqName,
+                                                           ChqNo = t1.ChqNo,
+                                                           Accounting_CostCenterFK = t1.Accounting_CostCenterFk,
+                                                           Accounting_BankOrCashId = t1.VirtualHeadId,
+                                                           //BankOrCashNane = "[" + t5.AccCode + "] " + t5.AccName,
+                                                            CreatedBy = t1.CreatedBy,
+                                                           
+                                                           CompanyName = t2.Name,
+                                                           IsSubmit = t1.IsSubmit,
+
+
+                                                       }).FirstOrDefault());
+
+                vmJournalSlave.DataListDetails = await Task.Run(() => (from t1 in _context.VoucherDetails.Where(x => x.IsActive && x.VoucherId == voucherId && !x.IsVirtual)
+                                                                       join t2 in _context.HeadGLs on t1.AccountHeadId equals t2.Id
+                                                                       join t3 in _context.VoucherBRMapDetails on t1.VoucherDetailId equals t3.VoucherDetailId into t3_Join
+                                                                       from t3 in t3_Join.DefaultIfEmpty()
+                                                                       join t4 in _context.Products on t3.ProductId equals t4.ProductId into t4_Join
+                                                                       from t4 in t4_Join.DefaultIfEmpty()
+                                                                       select new VMJournalSlave
+                                                                       {
+                                                                           VoucherDetailId = t1.VoucherDetailId,
+                                                                           AccountingHeadName = t2.AccName,
+                                                                           Code = t2.AccCode,
+                                                                           Credit = t1.CreditAmount,
+                                                                           Debit = t1.DebitAmount,
+                                                                           Particular = t1.Particular,
+                                                                           RequisitionMaterialId = t3.ProductId,
+                                                                           ApprovedQty = t3.ApprovedQty,
+                                                                           UnitRate = t3.ApprovedUnitRate,
+                                                                           MaterialName = t4.ProductName,
+                                                                       }).OrderByDescending(x => x.VoucherDetailId).AsEnumerable());
+                if ((vmJournalSlave.DataListDetails?.Count() ?? 0) > 0)
+                {
+                    vmJournalSlave.Particular = vmJournalSlave.DataListDetails.OrderByDescending(x => x.VoucherDetailId).Select(x => x.Particular).FirstOrDefault();
+                }
+            }
+           
 
             vmJournalSlave.ApprovalList = await Task.Run(() => (from t1 in _context.VoucherBRMapMasterApprovals.Where(x => x.IsActive && x.VoucherBRMapMasterId == reqVoucherMaster.VoucherBRMapMasterId)
                                                                                  
