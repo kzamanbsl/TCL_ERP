@@ -6,12 +6,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     int sl = 0;
-    decimal? totalPrice = 0;
-
 }
 
 <style type="text/css">
-
     input, select, textarea {
         max-width: 100%;
     }
@@ -25,9 +22,7 @@
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">
-            Requisition : Head of Department Approval
-        </li>
+        <li class="active">Head of Department Approval</li>
     </ol>
 </section>
 
@@ -70,9 +65,18 @@
                                             <th>:</th>
                                             <td>@Model.BRDate.ToShortDateString()</td>
 
-                                            <th style="width:17% !important">Requisition Type</th>
-                                            <th>:</th>
-                                            <td>@Model.BRTypeName</td>
+                                            @if (Model.BillRequisitionTypeId == (int)EnumBillRequisitionType.Overhead)
+                                            {
+                                                <th style="width:17% !important">Requisition Subtype</th>
+                                                <th>:</th>
+                                                <td>@Model.BRSubtypeName</td>
+                                            }
+                                            else
+                                            {
+                                                <th style="width:17% !important">Requisition Type</th>
+                                                <th>:</th>
+                                                <td>@Model.BRTypeName</td>
+                                            }
                                         </tr>
 
                                         <tr>
@@ -85,26 +89,22 @@
                                             <td>@Model.CostCenterName</td>
                                         </tr>
 
-                                        @if (!(Model.BillRequisitionTypeId == (int)EnumBillRequisitionType.Overhead))
-                                        {
-                                            <tr>
-                                                <th>
-                                                    Division Name
-                                                </th>
-                                                <th>:</th>
-                                                <td>@Model.BoQDivisionName</td>
+                                        <tr>
+                                            <th>Division Name</th>
+                                            <th>:</th>
+                                            <td>@(Model.BoQDivisionName != "-" ? Model.BoQDivisionName : "N/A")</td>
 
-                                                <th>BoQ Item Name</th>
-                                                <th>:</th>
-                                                <td>@Model.BOQItemName</td>
-                                            </tr>
-                                        }
+                                            <th>BoQ Item Name</th>
+                                            <th>:</th>
+                                            <td>@(Model.BOQItemName != "-" ? Model.BOQItemName : "N/A")</td>
+                                        </tr>
+
                                         <tr>
                                             <th>
                                                 @((Model.BillRequisitionTypeId == (int)EnumBillRequisitionType.Overhead)? "Item Description" : "Work Details")
                                             </th>
                                             <th>:</th>
-                                            <td>@Model.Description</td>
+                                            <td>@(Model.Description != null ? Model.Description : "N/A")</td>
 
                                             <th>Created By</th>
                                             <th>:</th>
@@ -123,7 +123,7 @@
                                         <thead>
                                             <tr class="bg-success">
                                                 <th>SL</th>
-                                                <th>Item/ Mat.</th>
+                                                <th>@((Model.BillRequisitionTypeId == (int)EnumBillRequisitionType.Overhead)? "Item" : "Material")</th>
                                                 <th>Unit</th>
                                                 <th>Remarks</th>
                                                 <th>Est. Qty</th>
@@ -149,14 +149,14 @@
                                                     </td>
                                                     <td>@item.ProductName</td>
                                                     <td>@item.UnitName</td>
-                                                    <td>@item.Remarks</td>
+                                                    <td>@(item.Remarks != null ? item.Remarks : "N/A")</td>
                                                     <td>@String.Format("{0:0.00}", item.EstimatedQty)</td>
                                                     <td>@String.Format("{0:0.00}", item.ReceivedSoFar)</td>
                                                     <td>@String.Format("{0:0.00}", item.RemainingQty)</td>
                                                     <td>
-                                                        @if (Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
+                                                        @if (Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.QS).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
                                                         {
-                                                            @Html.TextBoxFor(model => model.DetailDataList[i].DemandQty, new { id = "demandQty_" + i, @class = "form-control quantityValue demandQty" })
+                                                            @Html.TextBoxFor(model => model.DetailDataList[i].DemandQty, new { id = "demandQty_" + i, @class = "form-control demandValue" })
                                                         }
                                                         else
                                                         {
@@ -165,19 +165,17 @@
                                                     </td>
 
                                                     <td>
-                                                        @if (Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
+                                                        @if (Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.QS).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
                                                         {
-                                                            @Html.TextBoxFor(model => model.DetailDataList[i].UnitRate, new { id = "unitRate_" + i, @class = "form-control quantityValue unitRate" })
+                                                            @Html.TextBoxFor(model => model.DetailDataList[i].UnitRate, new { id = "unitRate_" + i, @class = "form-control unitValue" })
                                                         }
                                                         else
                                                         {
                                                             @String.Format("{0:0.00}", item.UnitRate)
                                                         }
                                                     </td>
-                                                    <td class="lineTotal" style="text-align: right !important">@String.Format("{0:0.00}", item.TotalPrice)</td>
-                                                    @{
-                                                        totalPrice += item.TotalPrice;
-                                                    };
+
+                                                    <td class="totalValue" style="text-align: right !important" id="totalAmount_+@i">@String.Format("{0:0.00}", item.TotalPrice)</td>
                                                 </tr>
                                                 i++;
                                             }
@@ -189,7 +187,7 @@
                                                     <b>Total Amount : </b>
                                                 </td>
                                                 <td id="totalFooter" colspan="2" style="text-align: right !important">
-                                                    <span id="total">@String.Format("{0:0.00}", totalPrice)</span>
+                                                    <span id="showTotalValue"></span>
                                                 </td>
                                             </tr>
                                         </tfoot>
@@ -355,68 +353,55 @@
 
     <script type="text/javascript">
 
-        $(document).ready(function () {
-            recalculateTotals();
-
-            $('.demandQty').keyup(function () {
-                recalculateTotals();
-            });
+        $(".demandValue").on('input', function (event) {
+            LineCalculator();
+            TotalCalculator();
         });
 
-        function recalculateTotals() {
+        $(".unitValue").on('input', function (event) {
+            LineCalculator();
+            TotalCalculator();
+        });
 
-            $('#itemTable tbody tr').each(function () {
-                var demandQtyInput = $(this).find('.demandQty');
-                var unitRateInput = $(this).find('.unitRate');
-                var remainingQty = parseFloat($(this).find('.remainingQty').text());
-                var linetotal = parseFloat($(this).find('.lineTotal').text());
+        function LineCalculator() {
 
-                demandQtyInput.on('input', function (event) {
-                    var demandQty = parseFloat(demandQtyInput.val());
-                    var unitRate = parseFloat(unitRateInput.val());
+            $("#itemTable tbody tr").each(function () {
+                var inputDemadValue = $(this).find(".demandValue");
+                var inputUnitValue = $(this).find(".unitValue");
+                var inputTotalValue = $(this).find(".totalValue");
 
-                    if (!isNaN(demandQty) && !isNaN(unitRate)) {
-                        if (demandQty > remainingQty) {
-                            demandQtyInput.val(remainingQty);
-                            demandQty = remainingQty;
-                        }
+                if (!isNaN(inputDemadValue.val()) && !isNaN(inputUnitValue.val())) {
+                    var demandValue = parseFloat(inputDemadValue.val());
+                    var unitValue = parseFloat(inputUnitValue.val());
 
-                        lineTotal = demandQty * unitRate;
+                    var total = 0;
+                    total = demandValue * unitValue;
+                    inputTotalValue.text(total.toFixed(2));
+                } else {
+                    console.log("Only number is allowed!");
+                    inputTotalValue.text(inputTotalValue.text().toFixed(2));
+                }
 
-                        $('.lineTotal').text(lineTotal.toFixed(2));
-                    }
-                    totalCount();
-                });
-
-                unitRateInput.on('input', function (event) {
-                    var demandQty = parseFloat(demandQtyInput.val());
-                    var unitRate = parseFloat(unitRateInput.val());
-
-                    if (!isNaN(demandQty) && !isNaN(unitRate)) {
-                        if (demandQty > remainingQty) {
-                            demandQtyInput.val(remainingQty);
-                            demandQty = remainingQty;
-                        }
-
-                        lineTotal = demandQty * unitRate;
-
-                        $('.lineTotal').text(lineTotal.toFixed(2));
-                    }
-                    totalCount();
-                });
             });
-            totalCount();
         }
 
-        function totalCount() {
+        function TotalCalculator() {
+            var showTotalValue = $("#showTotalValue");
             var total = 0;
-            $('#itemTable tbody tr').each(function () {
-                var linetotal = parseFloat($(this).find('.lineTotal').text());
-                total += linetotal;
+
+            $("#itemTable tbody tr").each(function (event) {
+                var inputTotalValue = $(this).find(".totalValue");
+
+                if (!isNaN(inputTotalValue.text())) {
+                    var totalValue = parseFloat(inputTotalValue.text());
+                    total += totalValue;
+                }
             });
 
-            $("#total").text(total.toFixed(2));
+            showTotalValue.text(total.toFixed(2));
         }
+
+        TotalCalculator();
 
     </script>
 }
