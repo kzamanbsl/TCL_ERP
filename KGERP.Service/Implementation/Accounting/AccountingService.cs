@@ -480,7 +480,8 @@ namespace KGERP.Service.Implementation.Accounting
                                                            RequisitionInitiator = t6.CreatedBy,
                                                            CompanyName = t2.Name,
                                                            IsSubmit = t1.IsSubmit,
-                                                           IsRequisitionVoucher = t5.IsRequisitionVoucher
+                                                           IsRequisitionVoucher = t5.IsRequisitionVoucher,
+                                                           CreatedBy = t1.CreatedBy
                                                        }).FirstOrDefault());
 
                 vmJournalSlave.DataListDetails = await Task.Run(() => (from t1 in _db.VoucherDetails.Where(x => x.IsActive && x.VoucherId == voucherId && !x.IsVirtual)
@@ -532,7 +533,8 @@ namespace KGERP.Service.Implementation.Accounting
                                                            Accounting_BankOrCashId = t1.VirtualHeadId,
                                                            //BankOrCashNane = "[" + t5.AccCode + "] " + t5.AccName,
                                                            CompanyName = t2.Name,
-                                                           IsSubmit = t1.IsSubmit
+                                                           IsSubmit = t1.IsSubmit,
+                                                           CreatedBy = t1.CreatedBy
                                                        }).FirstOrDefault());
 
                 vmJournalSlave.DataListDetails = await Task.Run(() => (from t1 in _db.VoucherDetails.Where(x => x.IsActive && x.VoucherId == voucherId && !x.IsVirtual)

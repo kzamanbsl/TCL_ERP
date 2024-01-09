@@ -27,7 +27,7 @@
         @if (Model.VoucherId > 0)
         {
             <span>
-                Voucher History of: @Model.VoucherNo
+                Voucher History of <span class="label label-info" id="spnVoucherNo">@Model.VoucherNo</span>
             </span>
         }
         else
@@ -35,7 +35,6 @@
             <span>
                 New Voucher <span class="label label-info" id="spnVoucherNo"></span> <span class="text-danger" id="errorVoucher"></span>
             </span>
-            
         }
 
 
@@ -72,60 +71,46 @@
                             <div class="col-md-10">
                                 <table class="table">
                                     <tr>
-                                        <th style="width:18%">
-                                            Voucher No
-                                        </th>
+                                        <th style="width:18%">Voucher No</th>
                                         <th style="width:2%">:</th>
-                                        <td style="width:30%">
-                                            @Model.VoucherNo
-                                        </td>
-                                        <th style="width:18%"> Voucher Date</th>
+                                        <td style="width:30%">@Model.VoucherNo</td>
+                                        <th style="width:18%">Voucher Date</th>
                                         <th style="width:2%">:</th>
-                                        <td style="width:30%">@Model.Date</td>
+                                        <td style="width:30%">@Model.Date.Value.ToShortDateString()</td>
                                     </tr>
+
                                     <tr>
-                                        <th style="width:18%">
-                                            Cheque No & Name
-                                        </th>
+                                        <th style="width:18%">Voucher For</th>
                                         <th style="width:2%">:</th>
-                                        <td style="width:30%">
-                                            @Model.ChqNo @Model.ChqName
-                                        </td>
-                                        <th style="width:18%"> Cheque Date</th>
+                                        <td style="width:30%">@(Model.IsRequisitionVoucher == true ? "Requisition Voucher" : "General Voucher")</td>
+                                        <th style="width:18%">Project/Cost Center</th>
                                         <th style="width:2%">:</th>
-                                        <td style="width:30%">@Model.ChqDate</td>
+                                        <td style="width:30%">@Model.Accounting_CostCenterName</td>
                                     </tr>
+
                                     <tr>
-                                        <th style="width:18%">
-                                            Cost Center
-                                        </th>
+                                        <th style="width:18%">Payment Date</th>
                                         <th style="width:2%">:</th>
-                                        <td style="width:30%">
-                                            @Model.Accounting_CostCenterName
-                                        </td>
-                                        <th style="width:18%"> Bank/Cash</th>
+                                        <td style="width:30%">@(Model.ChqDate != null ? Model.ChqDate.Value.ToShortDateString() : "N/A")</td>
+                                        <th style="width:18%">[Cheque No] Pay To</th>
                                         <th style="width:2%">:</th>
-                                        <td style="width:30%">@Model.BankOrCashNane</td>
+                                        <td style="width:30%">@(Model.ChqNo != null ? "[" + Model.ChqNo + "] " + Model.ChqName : "N/A")</td>
                                     </tr>
+
                                     <tr>
                                         <th style="width:18%">Requisition No</th>
                                         <th style="width:2%">:</th>
-                                        <td style="width:30%">
-                                            @Model.RequisitionNo
-                                        </td>
+                                        <td style="width:30%">@(Model.RequisitionNo != null ? Model.RequisitionNo : "N/A")</td>
 
                                         <th style="width:18%">Requisition Initiator</th>
                                         <th style="width:2%">:</th>
-                                        <td style="width:30%">@Model.RequisitionInitiator</td>
+                                        <td style="width:30%">@(Model.RequisitionInitiator != null ? Model.RequisitionInitiator : "N/A")</td>
                                     </tr>
+
                                     <tr>
-                                        <th style="width:18%">
-                                            Narration
-                                        </th>
+                                        <th style="width:18%">Narration</th>
                                         <th style="width:2%">:</th>
-                                        <td style="width:30%">
-                                            @Html.Raw(Model.Narration)
-                                        </td>
+                                        <td style="width:30%">@Model.Narration</td>
                                         <th style="width:18%">Created By</th>
                                         <th style="width:2%">:</th>
                                         <td style="width:30%">@Model.CreatedBy</td>
@@ -183,16 +168,16 @@
 
                                     <div class="col-md-3 hidden" id="inputChequeDate">
                                         <div class="form-group">
-                                            <label class="form-label">Cheque Date :</label>
-                                            <input name="ChqDate" asp-for="ChqDate" type="text" class="datePicker form-control" id="txtChqDate" placeholder="Cheque Date" autocomplete="off">
+                                            <label class="form-label">Payment Date :</label>
+                                            <input name="ChqDate" asp-for="ChqDate" type="text" class="datePicker form-control" id="txtChqDate" placeholder="Payment Date" autocomplete="off">
                                             @Html.ValidationMessageFor(model => model.ChqDate, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
 
                                     <div class="col-md-3 hidden" id="inputChequeName">
                                         <div class="form-group">
-                                            <label class="form-label">Cheque Name :</label>
-                                            @Html.TextBoxFor(model => model.ChqName, new { id = "txtChqName", @class = "form-control", placeholder = "Cheque Name" })
+                                            <label class="form-label">Pay To :</label>
+                                            @Html.TextBoxFor(model => model.ChqName, new { id = "txtChqName", @class = "form-control", placeholder = "Pay To" })
                                             @Html.ValidationMessageFor(model => model.ChqName, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -368,7 +353,7 @@
                                             <tr>
                                                 <th style="padding:5px;text-align:center;">SL</th>
                                                 <th style="padding:5px;text-align:left;">Material</th>
-                                                <th style="padding:5px;text-align:left;">Code</th>
+                                                <th style="padding:5px;text-align:left;">Accounting Head No</th>
                                                 <th style="padding:5px;text-align:left;">Accounting Head</th>
                                                 <th style="padding:5px;text-align:left;">Particular</th>
                                                 <th style="padding:5px;text-align:right;">Debit</th>
@@ -389,7 +374,7 @@
 
                                                 <tr>
                                                     <td style="padding:5px">@(++sl)</td>
-                                                    <td style="padding:5px;text-align:left;">@item.MaterialName</td>
+                                                    <td style="padding:5px;text-align:left;">@(item.MaterialName != null ? item.MaterialName : "N/A")</td>
                                                     <td style="padding:5px;text-align:left;">@item.Code</td>
                                                     <td style="padding:5px;text-align:left;">@item.AccountingHeadName</td>
                                                     <td style="padding:5px;text-align:left;">@item.Particular</td>
@@ -467,22 +452,18 @@
                                             }*@
                                         @if (btnSubmitProperty == "disabled")
                                         {
-                                            <span style="width:100%" class="btn text-danger "><sup>***</sup>Ensure Total Dr. = Total Cr. </span>
-
-
+                                            <span class="label label-danger text-center" style="display: inline-block !important; margin-top: 10px !important">Ensure that the total debits equal the total credits!</span>
                                         }
 
                                     </div>
 
                                     <div class="col-md-5">
-
                                         <button type="button" id="btnVoucherSubmit" data-toggle="modal" style="width:100%;"
                                                 data-target="#submitProcurementPurchaseOrderModal" data-placement="top"
                                                 class="btn btn-primary btn-block" @btnSubmitProperty>
                                             <i class='fa fa-plus'></i>
                                             <span>Submit</span>
                                         </button>
-
                                     </div>
                                 }
                                 else
@@ -490,7 +471,6 @@
                                     <div class="col-md-8">
                                         <span style="width:100%" class="btn btn-default btn-outline-dark">@Model.VoucherNo has been submitted <span class="fa fa-check"></span></span>
                                     </div>
-
                                 }
 
                             </div>

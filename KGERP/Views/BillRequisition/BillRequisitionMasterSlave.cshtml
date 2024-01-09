@@ -114,20 +114,21 @@
                                         @if (!(Model.BillRequisitionTypeId == (int)EnumBillRequisitionType.Overhead))
                                         {
                                             <tr>
-                                                <th>
-                                                    Division Name
-                                                </th>
-                                                <th>:</th>
-                                                <td>@Model.BoQDivisionName</td>
-
-                                                <th>BoQ Item Name</th>
-                                                <th>:</th>
                                                 <td>
-                                                    @Model.BOQItemName
                                                     <input type="hidden" value="@Model.BOQItemId" id="boqId" />
                                                 </td>
                                             </tr>
                                         }
+
+                                        <tr>
+                                            <th>Division Name</th>
+                                            <th>:</th>
+                                            <td>@(Model.BoQDivisionName != null ? Model.BoQDivisionName : "N/A")</td>
+
+                                            <th>BoQ Item Name</th>
+                                            <th>:</th>
+                                            <td>@(Model.BOQItemName != null ? Model.BOQItemName : "N/A")</td>
+                                        </tr>
 
                                         <tr>
                                             <th>
