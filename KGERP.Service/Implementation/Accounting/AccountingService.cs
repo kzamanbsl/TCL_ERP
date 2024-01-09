@@ -479,7 +479,8 @@ namespace KGERP.Service.Implementation.Accounting
                                                            RequisitionNo = t6.BillRequisitionNo,
                                                            RequisitionInitiator = t6.CreatedBy,
                                                            CompanyName = t2.Name,
-                                                           IsSubmit = t1.IsSubmit
+                                                           IsSubmit = t1.IsSubmit,
+                                                           IsRequisitionVoucher = t5.IsRequisitionVoucher
                                                        }).FirstOrDefault());
 
                 vmJournalSlave.DataListDetails = await Task.Run(() => (from t1 in _db.VoucherDetails.Where(x => x.IsActive && x.VoucherId == voucherId && !x.IsVirtual)

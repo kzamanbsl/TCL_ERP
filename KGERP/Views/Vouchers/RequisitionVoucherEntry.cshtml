@@ -108,14 +108,13 @@
                                         <td style="width:30%">@Model.BankOrCashNane</td>
                                     </tr>
                                     <tr>
-                                        <th style="width:18%">
-                                            Requisition No
-                                        </th>
+                                        <th style="width:18%">Requisition No</th>
                                         <th style="width:2%">:</th>
                                         <td style="width:30%">
                                             @Model.RequisitionNo
                                         </td>
-                                        <th style="width:18%"> Requisition Initiator</th>
+
+                                        <th style="width:18%">Requisition Initiator</th>
                                         <th style="width:2%">:</th>
                                         <td style="width:30%">@Model.RequisitionInitiator</td>
                                     </tr>
@@ -131,7 +130,7 @@
                                         <th style="width:2%">:</th>
                                         <td style="width:30%">@Model.CreatedBy</td>
                                     </tr>
-
+                                    
                                 </table>
                             </div>
                             <div class="col-md-1"> </div>
@@ -146,6 +145,7 @@
                                             <label class="form-label">Vourcher For  :</label>
                                             @Html.DropDownListFor(model => model.VoucherFor, Model.VoucherForList as SelectList, "==Voucher For==", new { id = "ddlVoucherFor", @class = "form-control", required = "required" })
                                             @Html.ValidationMessageFor(model => model.VoucherFor, "", new { @class = "text-danger" })
+                                            @Html.HiddenFor(model => model.IsRequisitionVoucher, new {@value ="false", @id ="isRequisitionVoucherId"})
                                         </div>
                                     </div>
 
@@ -352,8 +352,7 @@
                                 <div class="row">
                                     <div class="col-md-8"></div>
                                     <div class="col-lg-4 col-md-4">
-                                        <input type="submit" id="voucharCreateBtn" class="btn btn-primary btn-block"
-                                               value="@(Model.VoucherId > 0? "Save" :"Create Voucher")" />
+                                        <input type="submit" id="voucharCreateBtn" class="btn btn-primary btn-block" value="@(Model.VoucherId > 0? "Save" :"Create Voucher")" />
                                     </div>
                                 </div>
                             </div>
@@ -925,6 +924,7 @@
                 $("#inputAmount").removeClass("hidden").addClass("d-block");
                 $("#inputDebitSoFar").removeClass("hidden").addClass("d-block");
                 $("#inputCreditSoFar").removeClass("hidden").addClass("d-block");
+                $("#isRequisitionVoucherId").val(true);
             } else {
                 $("#inputRequisition").removeClass("d-block").addClass("hidden");
                 $("#inputMaterial").removeClass("d-block").addClass("hidden");
@@ -952,5 +952,30 @@
             }
 
         });
+
+        // requisition input field show by isRequisitionVoucher
+        function RequisitionInputFieldShow() {
+
+            var isRequisitionVoucher = @(Model.IsRequisitionVoucher ? 1 : 0);
+
+            if (isRequisitionVoucher == 1) {
+                $("#inputMaterial").removeClass("hidden").addClass("d-block");
+                $("#inputQuantity").removeClass("hidden").addClass("d-block");
+                $("#inputUnit").removeClass("hidden").addClass("d-block");
+                $("#inputAmount").removeClass("hidden").addClass("d-block");
+                $("#inputDebitSoFar").removeClass("hidden").addClass("d-block");
+                $("#inputCreditSoFar").removeClass("hidden").addClass("d-block");
+                $("#isRequisitionVoucherId").val(true);
+            } else {
+                $("#inputMaterial").removeClass("d-block").addClass("hidden");
+                $("#inputQuantity").removeClass("d-block").addClass("hidden");
+                $("#inputUnit").removeClass("d-block").addClass("hidden");
+                $("#inputAmount").removeClass("d-block").addClass("hidden");
+                $("#inputDebitSoFar").removeClass("d-block").addClass("hidden");
+                $("#inputCreditSoFar").removeClass("d-block").addClass("hidden");
+            }
+        }
+
+        RequisitionInputFieldShow();
     </script>
 }
