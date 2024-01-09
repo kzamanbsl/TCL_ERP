@@ -168,6 +168,10 @@
 
                                                                 <span class="btn btn-success btn-xs">Approved</span>
                                                             }
+                                                            else if (item.ApproverAprrovalStatusId == (int)KGERP.Utility.EnumBillRequisitionStatus.Rejected)
+                                                            {
+                                                                <span class="btn btn-danger btn-xs"> @item.ApproverAprrovalStatusName</span>
+                                                            }
                                                             else
                                                             {
                                                                 if (item.CheckerAprrovalStatusId == (int)KGERP.Utility.EnumBillRequisitionStatus.Pending)
