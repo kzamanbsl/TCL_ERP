@@ -157,7 +157,17 @@ namespace KGERP.Controllers
                             Session["HrAdminId"] = employeeModel.HrAdminId;
                             Session["Picture"] = employeeModel.ImageFileName == null ? string.Format("{0}://{1}", HttpContext.Request.Url.Scheme, HttpContext.Request.Url.Authority) + "/Images/Picture/default.png" : string.Format("{0}://{1}", HttpContext.Request.Url.Scheme, HttpContext.Request.Url.Authority) + "/Images/Picture/" + employeeModel.ImageFileName;
                             // MenuPartial();
-                            return RedirectToAction("Index", "Seed", new { companyId = @CompanyInfo.CompanyId });
+                            string md = user.UserName.ToString();
+
+                            if (md.Equals("TCL10001"))
+                            {
+                                return RedirectToAction("MDBRApprovalList", "BillRequisition", new { companyId = @CompanyInfo.CompanyId });
+                            }
+                            else
+                            {
+                                return RedirectToAction("Index", "Seed", new { companyId = @CompanyInfo.CompanyId });
+                            }
+                            
                         }
                         else
                         {
