@@ -5,15 +5,16 @@ namespace KGERP.Controllers
 {
     public class SeedController : Controller
     {
-        private readonly DashboardService dashboardService;
+        private readonly DashboardService _DashboardService;
         public SeedController(DashboardService dashboardService)
         {
-            this.dashboardService = dashboardService;
+            _DashboardService = dashboardService;
         }
-        // GET: Seed
+
+        [HttpGet]
         public ActionResult Index(int companyId)
         {
-            var vendor = dashboardService.AllCount(companyId);
+            var vendor = _DashboardService.AllCount(companyId);
             return View(vendor);
             
         }

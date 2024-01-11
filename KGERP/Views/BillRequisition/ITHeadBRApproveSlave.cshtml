@@ -89,7 +89,7 @@
                                             <td>@Model.CostCenterName</td>
                                         </tr>
 
-                                        <tr>
+                                        @*<tr>
                                             <th>Division Name</th>
                                             <th>:</th>
                                             <td>@(Model.BoQDivisionName != "-" ? Model.BoQDivisionName : "N/A")</td>
@@ -97,7 +97,22 @@
                                             <th>BoQ Item Name</th>
                                             <th>:</th>
                                             <td>@(Model.BOQItemName != "-" ? Model.BOQItemName : "N/A")</td>
-                                        </tr>
+                                        </tr>*@
+
+                                        @if (!(Model.BillRequisitionTypeId == (int)EnumBillRequisitionType.Overhead))
+                                        {
+                                            <tr>
+                                                <th>
+                                                    Division Name
+                                                </th>
+                                                <th>:</th>
+                                                <td>@Model.BoQDivisionName</td>
+
+                                                <th>BoQ Item Name</th>
+                                                <th>:</th>
+                                                <td>@Model.BOQItemName</td>
+                                            </tr>
+                                        }
 
                                         <tr>
                                             <th>

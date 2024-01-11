@@ -3,26 +3,38 @@
 @{
     ViewBag.Title = "Index";
 }
-<style>
 
-    .small-box:hover {
-        color: black !important;
+<style>
+    .home-dashboard {
+        padding: 10px;
+        margin: 30px 0;
+        text-align: justify;
+    }
+
+    .dashboad-heading {
+        font-size: 42px;
+        padding: 0;
+        margin: 0;
+    }
+
+    .company-logo{
+        width: 250px;
+        padding: 0;
+        margin: 0;
+    }
+
+    .company-name {
+        color: #007f3d;
     }
 </style>
-<div style="color:forestgreen;padding:10px; text-align:justify">
+
+<div class="home-dashboard">
     <center>
-        <img style="height:100px;" src=@CompanyInfo.CompanyLogoUrl />
+        <img src=@CompanyInfo.CompanyLogoUrl class="company-logo" />
         <div class="section-title">
-            <h3 style="font-size: 40px;"><b style="color: black;">Welcome</b> <b style="color: black;">To</b> <b style="color: #007f3d;">@CompanyInfo.CompanyName</b></h3>
+            <h5 class="dashboad-heading">
+                <b>Welcome To <span class="company-name">@CompanyInfo.CompanyName</span></b>
+            </h5>
         </div>
-        <br />
     </center>
 </div>
-
-
-
-
-
-
-
-

@@ -89,7 +89,7 @@
                                             <td>@Model.CostCenterName</td>
                                         </tr>
 
-                                        <tr>
+                                        @*<tr>
                                             <th>Division Name</th>
                                             <th>:</th>
                                             <td>@(Model.BoQDivisionName != "-" ? Model.BoQDivisionName : "N/A")</td>
@@ -97,7 +97,22 @@
                                             <th>BoQ Item Name</th>
                                             <th>:</th>
                                             <td>@(Model.BOQItemName != "-" ? Model.BOQItemName : "N/A")</td>
-                                        </tr>
+                                        </tr>*@
+
+                                        @if (!(Model.BillRequisitionTypeId == (int)EnumBillRequisitionType.Overhead))
+                                        {
+                                            <tr>
+                                                <th>
+                                                    Division Name
+                                                </th>
+                                                <th>:</th>
+                                                <td>@Model.BoQDivisionName</td>
+
+                                                <th>BoQ Item Name</th>
+                                                <th>:</th>
+                                                <td>@Model.BOQItemName</td>
+                                            </tr>
+                                        }
 
                                         <tr>
                                             <th>
@@ -283,11 +298,11 @@
                                                 else
                                                 {
                                                     @*if (Model.BillRequisitionMasterId > 0 && Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Approved)
-                        {
-                            <a title="Download Report" class="" style="width:100%" target="_blank" href="~/Report/TCLBillRequisiontPaymentReport?companyId=@Model.CompanyFK&billRequisitionMasterId=@Model.BillRequisitionMasterId">
-                                <span class="btn btn-info btn-xs">Pending</span>
-                            </a>
-                        }*@
+                                                        {
+                                                            <a title="Download Report" class="" style="width:100%" target="_blank" href="~/Report/TCLBillRequisiontPaymentReport?companyId=@Model.CompanyFK&billRequisitionMasterId=@Model.BillRequisitionMasterId">
+                                                                <span class="btn btn-info btn-xs">Pending</span>
+                                                            </a>
+                                                        }*@
                                                     <a title="Download Report" class="" style="width:100%" target="_blank" href="~/Report/TCLBillRequisiontPaymentReport?companyId=@Model.CompanyFK&billRequisitionMasterId=@Model.BillRequisitionMasterId">
                                                         <span class="btn btn-warning btn-xs">Pending</span>
                                                     </a>
