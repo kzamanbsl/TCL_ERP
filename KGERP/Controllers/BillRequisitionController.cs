@@ -762,6 +762,19 @@ namespace KGERP.Controllers
             return RedirectToAction(nameof(PMBRApprovalList), new { companyId = billRequisitionMasterModel.CompanyFK });
         }
 
+        [HttpGet]
+        public async Task<ActionResult> PMBRRejectSlave(int companyId = 0, long billRequisitionMasterId = 0)
+        {
+            BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
+
+            if (billRequisitionMasterId > 0)
+            {
+                billRequisitionMasterModel = await _service.GetBillRequisitionMasterDetailWithApproval(companyId, billRequisitionMasterId);
+                billRequisitionMasterModel.DetailDataList = billRequisitionMasterModel.DetailList.ToList();
+            }
+            return View(billRequisitionMasterModel);
+        }
+
         [HttpPost]
         public async Task<ActionResult> PMReject(BillRequisitionMasterModel model)
         {
