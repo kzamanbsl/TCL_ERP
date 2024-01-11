@@ -134,7 +134,7 @@
                                                     <td style="padding: 5px; text-align: right;">@String.Format("{0:0.00}", item.UnitRate)</td>
                                                     <td style="padding: 5px; text-align: right;">@String.Format("{0:0.00}", item.TotalPrice)</td>
                                                     @{
-                                                        totalPrice += item.TotalPrice;
+//totalPrice += item.TotalPrice;
                                                     };
                                                 </tr>
                                                 i++;
@@ -156,7 +156,7 @@
                         }
                     </div>
 
-                    @if (Model.BillRequisitionMasterId > 0 && Model.StatusId != EnumBillRequisitionStatus.Approved)
+                    @if (Model.BillRequisitionMasterId > 0 && Model.StatusId != EnumBillRequisitionStatus.Rejected)
                     {
                         <div class="box-footer">
 
