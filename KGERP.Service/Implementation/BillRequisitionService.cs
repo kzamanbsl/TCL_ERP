@@ -1678,72 +1678,72 @@ namespace KGERP.Service.Implementation
         {
             BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
             var EmpId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
-            if (EmpId <= 0)
-            {
-                return billRequisitionMasterModel;
-
-            }
-            billRequisitionMasterModel.CompanyFK = companyId;
-            billRequisitionMasterModel.DataList = await Task.Run(() => (from t1 in _context.BillRequisitionMasters.Where(x => x.IsActive
-                                                         && x.CompanyId == companyId
-                                                         && x.StatusId >= (int)EnumBillRequisitionStatus.Submitted)
-                                                                        join t2 in _context.Accounting_CostCenter on t1.CostCenterId equals t2.CostCenterId into t2_Join
-                                                                        from t2 in t2_Join.DefaultIfEmpty()
-                                                                        join t3 in _context.ProductSubCategories on t1.BillRequisitionTypeId equals t3.ProductSubCategoryId into t3_Join
-                                                                        from t3 in t3_Join.DefaultIfEmpty()
-                                                                        join t4 in _context.Accounting_CostCenterType on t1.ProjectTypeId equals t4.CostCenterTypeId into t4_Join
-                                                                        from t4 in t4_Join.DefaultIfEmpty()
-                                                                        join t5 in _context.CostCenterManagerMaps on t2.CostCenterId equals t5.CostCenterId into t5_Join
-                                                                        from t5 in t5_Join.DefaultIfEmpty()
-                                                                        join t6 in _context.Employees on t5.ManagerId equals t6.Id into t6_Join
-                                                                        from t6 in t6_Join.DefaultIfEmpty()
-                                                                        join t03 in _context.ProductCategories on t3.ProductCategoryId equals t03.ProductCategoryId into t03_Join
-                                                                        from t03 in t03_Join.DefaultIfEmpty()
-                                                                        select new BillRequisitionMasterModel
-                                                                        {
-                                                                            BillRequisitionMasterId = t1.BillRequisitionMasterId,
-                                                                            BillRequisitionTypeId = t03.ProductCategoryId,
-                                                                            BRTypeName = t03.Name,
-                                                                            BillRequisitionSubTypeId = t1.BillRequisitionTypeId,
-                                                                            BRSubtypeName = t3.Name,
-                                                                            BOQItemId = t1.BOQItemId,
-                                                                            ProjectTypeId = t1.ProjectTypeId,
-                                                                            ProjectTypeName = t4.Name,
-                                                                            CostCenterId = t1.CostCenterId,
-                                                                            CostCenterName = t2.Name,
-                                                                            Description = t1.Description,
-                                                                            BRDate = t1.BRDate,
-                                                                            BillRequisitionNo = t1.BillRequisitionNo,
-                                                                            StatusId = (EnumBillRequisitionStatus)t1.StatusId,
-                                                                            CompanyFK = t1.CompanyId,
-                                                                            CreatedDate = t1.CreateDate,
-                                                                            CreatedBy = t1.CreatedBy,
-                                                                            EmployeeId = t6.Id,
-                                                                            EmployeeStringId = t6.EmployeeId,
-                                                                            ApprovalModelList = (from t7 in _context.BillRequisitionApprovals.Where(b => b.BillRequisitionMasterId == t1.BillRequisitionMasterId && b.IsActive)
-                                                                                                 join t8 in _context.BillRequisitionMasters on t7.BillRequisitionMasterId equals t8.BillRequisitionMasterId
-                                                                                                 select new BillRequisitionApprovalModel
-                                                                                                 {
-                                                                                                     BRApprovalId = t7.BRApprovalId,
-                                                                                                     BillRequisitionMasterId = t8.BillRequisitionMasterId,
-                                                                                                     SignatoryId = t7.SignatoryId,
-                                                                                                     IsSupremeApproved = t7.IsSupremeApproved,
-                                                                                                     AprrovalStatusId = t7.AprrovalStatusId,
-                                                                                                 }).OrderBy(m => m.BRApprovalId).ToList(),
-
-
-                                                                        }).OrderByDescending(x => x.BillRequisitionMasterId).AsEnumerable());
-
             if (EmpId > 0)
             {
-                billRequisitionMasterModel.DataList = billRequisitionMasterModel.DataList.Where(q => q.EmployeeId == EmpId);
-            }
-            if (vStatus != -1 && vStatus != null)
-            {
-                billRequisitionMasterModel.DataList = billRequisitionMasterModel.DataList.Where(q => q.StatusId == (EnumBillRequisitionStatus)vStatus);
-            }
+                billRequisitionMasterModel.CompanyFK = companyId;
+                billRequisitionMasterModel.DataList = await Task.Run(() => (from t1 in _context.BillRequisitionMasters.Where(x => x.IsActive
+                                                             && x.CompanyId == companyId
+                                                             && x.StatusId >= (int)EnumBillRequisitionStatus.Submitted)
+                                                                            join t2 in _context.Accounting_CostCenter on t1.CostCenterId equals t2.CostCenterId into t2_Join
+                                                                            from t2 in t2_Join.DefaultIfEmpty()
+                                                                            join t3 in _context.ProductSubCategories on t1.BillRequisitionTypeId equals t3.ProductSubCategoryId into t3_Join
+                                                                            from t3 in t3_Join.DefaultIfEmpty()
+                                                                            join t4 in _context.Accounting_CostCenterType on t1.ProjectTypeId equals t4.CostCenterTypeId into t4_Join
+                                                                            from t4 in t4_Join.DefaultIfEmpty()
+                                                                            join t5 in _context.CostCenterManagerMaps on t2.CostCenterId equals t5.CostCenterId into t5_Join
+                                                                            from t5 in t5_Join.DefaultIfEmpty()
+                                                                            join t6 in _context.Employees on t5.ManagerId equals t6.Id into t6_Join
+                                                                            from t6 in t6_Join.DefaultIfEmpty()
+                                                                            join t03 in _context.ProductCategories on t3.ProductCategoryId equals t03.ProductCategoryId into t03_Join
+                                                                            from t03 in t03_Join.DefaultIfEmpty()
+                                                                            select new BillRequisitionMasterModel
+                                                                            {
+                                                                                BillRequisitionMasterId = t1.BillRequisitionMasterId,
+                                                                                BillRequisitionTypeId = t03.ProductCategoryId,
+                                                                                BRTypeName = t03.Name,
+                                                                                BillRequisitionSubTypeId = t1.BillRequisitionTypeId,
+                                                                                BRSubtypeName = t3.Name,
+                                                                                BOQItemId = t1.BOQItemId,
+                                                                                ProjectTypeId = t1.ProjectTypeId,
+                                                                                ProjectTypeName = t4.Name,
+                                                                                CostCenterId = t1.CostCenterId,
+                                                                                CostCenterName = t2.Name,
+                                                                                Description = t1.Description,
+                                                                                BRDate = t1.BRDate,
+                                                                                BillRequisitionNo = t1.BillRequisitionNo,
+                                                                                StatusId = (EnumBillRequisitionStatus)t1.StatusId,
+                                                                                CompanyFK = t1.CompanyId,
+                                                                                CreatedDate = t1.CreateDate,
+                                                                                CreatedBy = t1.CreatedBy,
+                                                                                EmployeeId = t6.Id,
+                                                                                EmployeeStringId = t6.EmployeeId,
+                                                                                ApprovalModelList = (from t7 in _context.BillRequisitionApprovals.Where(b => b.BillRequisitionMasterId == t1.BillRequisitionMasterId && b.IsActive)
+                                                                                                     join t8 in _context.BillRequisitionMasters on t7.BillRequisitionMasterId equals t8.BillRequisitionMasterId
+                                                                                                     select new BillRequisitionApprovalModel
+                                                                                                     {
+                                                                                                         BRApprovalId = t7.BRApprovalId,
+                                                                                                         BillRequisitionMasterId = t8.BillRequisitionMasterId,
+                                                                                                         SignatoryId = t7.SignatoryId,
+                                                                                                         IsSupremeApproved = t7.IsSupremeApproved,
+                                                                                                         AprrovalStatusId = t7.AprrovalStatusId,
+                                                                                                     }).OrderBy(m => m.BRApprovalId).ToList(),
 
-            return billRequisitionMasterModel;
+
+                                                                            }).Where(x => x.EmployeeId == EmpId).OrderByDescending(x => x.BillRequisitionMasterId).AsEnumerable());
+
+                
+                if (vStatus != -1 && vStatus != null)
+                {
+                    billRequisitionMasterModel.DataList = billRequisitionMasterModel.DataList.Where(q => q.StatusId == (EnumBillRequisitionStatus)vStatus);
+                }
+
+                return billRequisitionMasterModel;
+            }
+            else
+            {
+                return billRequisitionMasterModel;
+            }
+            
         }
 
         #endregion
@@ -1855,24 +1855,22 @@ namespace KGERP.Service.Implementation
                                                          && x.StatusId >= (int)EnumBillRequisitionStatus.Submitted)
                                                                         join t2 in _context.Accounting_CostCenter on t1.CostCenterId equals t2.CostCenterId into t2_Join
                                                                         from t2 in t2_Join.DefaultIfEmpty()
-                                                                        join t3 in _context.ProductCategories on t1.BillRequisitionTypeId equals t3.ProductCategoryId into t3_Join
+                                                                        join t3 in _context.ProductSubCategories on t1.BillRequisitionTypeId equals t3.ProductSubCategoryId into t3_Join
                                                                         from t3 in t3_Join.DefaultIfEmpty()
                                                                         join t4 in _context.Accounting_CostCenterType on t1.ProjectTypeId equals t4.CostCenterTypeId into t4_Join
                                                                         from t4 in t4_Join.DefaultIfEmpty()
-                                                                            //join t5 in _context.CostCenterManagerMaps on t2.CostCenterId equals t5.CostCenterId into t5_Join
-                                                                            //from t5 in t5_Join.DefaultIfEmpty()
-                                                                            //join t6 in _context.Employees on t5.ManagerId equals t6.Id into t6_Join
-                                                                            //from t6 in t6_Join.DefaultIfEmpty()
-                                                                            //join t7 in _context.BillRequisitionApprovals on t1.BillRequisitionMasterId equals t7.BillRequisitionMasterId into t7_Join
-                                                                            //from t7 in t7_Join.DefaultIfEmpty()
+                                                                        join t03 in _context.ProductCategories on t3.ProductCategoryId equals t03.ProductCategoryId into t03_Join
+                                                                        from t03 in t03_Join.DefaultIfEmpty()
                                                                         select new BillRequisitionMasterModel
                                                                         {
                                                                             BillRequisitionMasterId = t1.BillRequisitionMasterId,
-                                                                            BillRequisitionTypeId = t1.BillRequisitionTypeId,
+                                                                            BillRequisitionTypeId = t03.ProductCategoryId,
+                                                                            BRTypeName = t03.Name,
+                                                                            BillRequisitionSubTypeId = t1.BillRequisitionTypeId,
+                                                                            BRSubtypeName = t3.Name,
                                                                             BOQItemId = t1.BOQItemId,
                                                                             ProjectTypeId = t1.ProjectTypeId,
                                                                             ProjectTypeName = t4.Name,
-                                                                            BRTypeName = t3.Name,
                                                                             CostCenterId = t1.CostCenterId,
                                                                             CostCenterName = t2.Name,
                                                                             Description = t1.Description,
@@ -2017,24 +2015,22 @@ namespace KGERP.Service.Implementation
                                                          && x.StatusId >= (int)EnumBillRequisitionStatus.Submitted)
                                                                         join t2 in _context.Accounting_CostCenter on t1.CostCenterId equals t2.CostCenterId into t2_Join
                                                                         from t2 in t2_Join.DefaultIfEmpty()
-                                                                        join t3 in _context.BillRequisitionTypes on t1.BillRequisitionTypeId equals t3.BillRequisitionTypeId into t3_Join
+                                                                        join t3 in _context.ProductSubCategories on t1.BillRequisitionTypeId equals t3.ProductSubCategoryId into t3_Join
                                                                         from t3 in t3_Join.DefaultIfEmpty()
                                                                         join t4 in _context.Accounting_CostCenterType on t1.ProjectTypeId equals t4.CostCenterTypeId into t4_Join
                                                                         from t4 in t4_Join.DefaultIfEmpty()
-                                                                            //join t5 in _context.CostCenterManagerMaps on t2.CostCenterId equals t5.CostCenterId into t5_Join
-                                                                            //from t5 in t5_Join.DefaultIfEmpty()
-                                                                            //join t6 in _context.Employees on t5.ManagerId equals t6.Id into t6_Join
-                                                                            //from t6 in t6_Join.DefaultIfEmpty()
-                                                                            //join t7 in _context.BillRequisitionApprovals on t1.BillRequisitionMasterId equals t7.BillRequisitionMasterId into t7_Join
-                                                                            //from t7 in t7_Join.DefaultIfEmpty()
+                                                                        join t03 in _context.ProductCategories on t3.ProductCategoryId equals t03.ProductCategoryId into t03_Join
+                                                                        from t03 in t03_Join.DefaultIfEmpty()
                                                                         select new BillRequisitionMasterModel
                                                                         {
                                                                             BillRequisitionMasterId = t1.BillRequisitionMasterId,
-                                                                            BillRequisitionTypeId = t1.BillRequisitionTypeId,
+                                                                            BillRequisitionTypeId = t03.ProductCategoryId,
+                                                                            BRTypeName = t03.Name,
+                                                                            BillRequisitionSubTypeId = t1.BillRequisitionTypeId,
+                                                                            BRSubtypeName = t3.Name,
                                                                             BOQItemId = t1.BOQItemId,
                                                                             ProjectTypeId = t1.ProjectTypeId,
                                                                             ProjectTypeName = t4.Name,
-                                                                            BRTypeName = t3.Name,
                                                                             CostCenterId = t1.CostCenterId,
                                                                             CostCenterName = t2.Name,
                                                                             Description = t1.Description,
@@ -2185,24 +2181,22 @@ namespace KGERP.Service.Implementation
                                                          && x.StatusId >= (int)EnumBillRequisitionStatus.Submitted)
                                                                         join t2 in _context.Accounting_CostCenter on t1.CostCenterId equals t2.CostCenterId into t2_Join
                                                                         from t2 in t2_Join.DefaultIfEmpty()
-                                                                        join t3 in _context.ProductCategories on t1.BillRequisitionTypeId equals t3.ProductCategoryId into t3_Join
+                                                                        join t3 in _context.ProductSubCategories on t1.BillRequisitionTypeId equals t3.ProductSubCategoryId into t3_Join
                                                                         from t3 in t3_Join.DefaultIfEmpty()
                                                                         join t4 in _context.Accounting_CostCenterType on t1.ProjectTypeId equals t4.CostCenterTypeId into t4_Join
                                                                         from t4 in t4_Join.DefaultIfEmpty()
-                                                                            //join t5 in _context.CostCenterManagerMaps on t2.CostCenterId equals t5.CostCenterId into t5_Join
-                                                                            //from t5 in t5_Join.DefaultIfEmpty()
-                                                                            //join t6 in _context.Employees on t5.ManagerId equals t6.Id into t6_Join
-                                                                            //from t6 in t6_Join.DefaultIfEmpty()
-                                                                            //join t7 in _context.BillRequisitionApprovals on t1.BillRequisitionMasterId equals t7.BillRequisitionMasterId into t7_Join
-                                                                            //from t7 in t7_Join.DefaultIfEmpty()
+                                                                        join t03 in _context.ProductCategories on t3.ProductCategoryId equals t03.ProductCategoryId into t03_Join
+                                                                        from t03 in t03_Join.DefaultIfEmpty()
                                                                         select new BillRequisitionMasterModel
                                                                         {
                                                                             BillRequisitionMasterId = t1.BillRequisitionMasterId,
-                                                                            BillRequisitionTypeId = t1.BillRequisitionTypeId,
+                                                                            BillRequisitionTypeId = t03.ProductCategoryId,
+                                                                            BRTypeName = t03.Name,
+                                                                            BillRequisitionSubTypeId = t1.BillRequisitionTypeId,
+                                                                            BRSubtypeName = t3.Name,
                                                                             BOQItemId = t1.BOQItemId,
                                                                             ProjectTypeId = t1.ProjectTypeId,
                                                                             ProjectTypeName = t4.Name,
-                                                                            BRTypeName = t3.Name,
                                                                             CostCenterId = t1.CostCenterId,
                                                                             CostCenterName = t2.Name,
                                                                             Description = t1.Description,
@@ -2351,24 +2345,22 @@ namespace KGERP.Service.Implementation
                                                          && x.StatusId >= (int)EnumBillRequisitionStatus.Submitted)
                                                                         join t2 in _context.Accounting_CostCenter on t1.CostCenterId equals t2.CostCenterId into t2_Join
                                                                         from t2 in t2_Join.DefaultIfEmpty()
-                                                                        join t3 in _context.ProductCategories on t1.BillRequisitionTypeId equals t3.ProductCategoryId into t3_Join
+                                                                        join t3 in _context.ProductSubCategories on t1.BillRequisitionTypeId equals t3.ProductSubCategoryId into t3_Join
                                                                         from t3 in t3_Join.DefaultIfEmpty()
                                                                         join t4 in _context.Accounting_CostCenterType on t1.ProjectTypeId equals t4.CostCenterTypeId into t4_Join
                                                                         from t4 in t4_Join.DefaultIfEmpty()
-                                                                            //join t5 in _context.CostCenterManagerMaps on t2.CostCenterId equals t5.CostCenterId into t5_Join
-                                                                            //from t5 in t5_Join.DefaultIfEmpty()
-                                                                            //join t6 in _context.Employees on t5.ManagerId equals t6.Id into t6_Join
-                                                                            //from t6 in t6_Join.DefaultIfEmpty()
-                                                                            //join t7 in _context.BillRequisitionApprovals on t1.BillRequisitionMasterId equals t7.BillRequisitionMasterId into t7_Join
-                                                                            //from t7 in t7_Join.DefaultIfEmpty()
+                                                                        join t03 in _context.ProductCategories on t3.ProductCategoryId equals t03.ProductCategoryId into t03_Join
+                                                                        from t03 in t03_Join.DefaultIfEmpty()
                                                                         select new BillRequisitionMasterModel
                                                                         {
                                                                             BillRequisitionMasterId = t1.BillRequisitionMasterId,
-                                                                            BillRequisitionTypeId = t1.BillRequisitionTypeId,
+                                                                            BillRequisitionTypeId = t03.ProductCategoryId,
+                                                                            BRTypeName = t03.Name,
+                                                                            BillRequisitionSubTypeId = t1.BillRequisitionTypeId,
+                                                                            BRSubtypeName = t3.Name,
                                                                             BOQItemId = t1.BOQItemId,
                                                                             ProjectTypeId = t1.ProjectTypeId,
                                                                             ProjectTypeName = t4.Name,
-                                                                            BRTypeName = t3.Name,
                                                                             CostCenterId = t1.CostCenterId,
                                                                             CostCenterName = t2.Name,
                                                                             Description = t1.Description,

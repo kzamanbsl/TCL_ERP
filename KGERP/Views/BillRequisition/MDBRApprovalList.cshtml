@@ -88,7 +88,7 @@
                                         <th>Requisition No</th>
                                         <th>Requisition Type</th>
                                         <th>Requisition Subtype</th>
-                                        @*<th>P. Type</th>*@
+                                        @*<th>Project Type</th>*@
                                         <th>Project Name</th>
                                         <th>Status</th>
                                         <th>Action</th>
@@ -113,14 +113,14 @@
                                         <tr>
                                             <th>@(++sl)</th>
                                             <td>@item.BRDate.ToString("dd-MM-yyyy")</td>
-
-
                                             <td>@item.BillRequisitionNo</td>
                                             <td>@item.BRTypeName</td>
                                             <td>@item.BRSubtypeName</td>
+                                            @*<td>@item.ProjectTypeName</td>*@
                                             <td>@item.CostCenterName</td>
 
                                             <td>
+
                                                 @if (@item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
                                                 {
                                                     <span class="btn btn-xs btn-warning text-center" style="display: block; padding-left: 7px; padding-right: 7px;"> @item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusName</span>
@@ -129,11 +129,11 @@
                                                 {
                                                     <span class="btn btn-xs btn-success text-center" style="display: block; padding-left: 7px; padding-right: 7px;"> @item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusName</span>
                                                 }
-
                                                 @if (@item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Rejected)
                                                 {
                                                     <span class="btn btn-xs btn-danger text-center" style="display: block; padding-left: 7px; padding-right: 7px;"> @item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusName</span>
                                                 }
+
                                             </td>
 
                                             <td>
@@ -146,29 +146,29 @@
                                                 {
                                                     <a href="~/BillRequisition/MDBRApproveSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" class="link-primary text-warning" title="Action for Details"><i class="fa fa-external-link-square" aria-hidden="true"></i> Action</a>
                                                 }
-
                                                 @if (@item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Rejected)
                                                 {
                                                     <a href="~/BillRequisition/MDBRRejectSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" class="link-primary text-danger" title="Rejection Details"><i class="fa fa-external-link-square" aria-hidden="true"></i> Action</a>
                                                 }
 
                                                 @*@if (item.StatusId != EnumBillRequisitionStatus.Draft && item.StatusId != EnumBillRequisitionStatus.Rejected && item.StatusId != EnumBillRequisitionStatus.Approved)
-                                                    {
-                                                        <a href="~/BillRequisition/MDBRApproveSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" title="Approve"><i class="glyphicon glyphicon-new-window"></i> Approve</a>
-                                                    }
-                                                    else if (item.StatusId != EnumBillRequisitionStatus.Draft && item.StatusId != EnumBillRequisitionStatus.Rejected && item.StatusId != EnumBillRequisitionStatus.Approved)
-                                                    {
-                                                        <a href="~/BillRequisition/MDBRRejectSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" title="Approve"><i class="glyphicon glyphicon-new-window"></i> Reject</a>
-                                                    }
-                                                    else if (item.StatusId == EnumBillRequisitionStatus.Approved || item.StatusId == EnumBillRequisitionStatus.Rejected)
-                                                    {
-                                                        <a href="~/BillRequisition/MDBRApproveSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i> Details</a>
+                                                {
+                                                    <a href="~/BillRequisition/MDBRApproveSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" title="Approve"><i class="glyphicon glyphicon-new-window"></i> Approve</a>
+                                                }
+                                                else if (item.StatusId != EnumBillRequisitionStatus.Draft && item.StatusId != EnumBillRequisitionStatus.Rejected && item.StatusId != EnumBillRequisitionStatus.Approved)
+                                                {
+                                                    <a href="~/BillRequisition/MDBRRejectSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" title="Approve"><i class="glyphicon glyphicon-new-window"></i> Reject</a>
+                                                }
+                                                else if (item.StatusId == EnumBillRequisitionStatus.Approved || item.StatusId == EnumBillRequisitionStatus.Rejected)
+                                                {
+                                                    <a href="~/BillRequisition/MDBRApproveSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i> Details</a>
 
-                                                    }*@
+                                                }*@
 
                                             </td>
+
                                             <td>
-                                                <a class="label label-primary text-center" style="width:100%" target="_blank" href="~/Report/TCLBillRequisiontReport?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId">
+                                                <a class="label label-primary text-center" target="_blank" href="~/Report/TCLBillRequisiontReport?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId">
                                                     <i class="fa fa-download"></i> Download
                                                 </a>
                                             </td>
@@ -192,6 +192,10 @@
 
     <script type="text/javascript">
 
+        $(document).ready(function () {
+            $('#ddlStatusEnumFK').removeAttr('title');
+        });
+
         $('.datepicker').datepicker({
             dateFormat: "dd/mm/yy",
             showOn: 'both',
@@ -207,22 +211,5 @@
             $('#SOEditActionId').val(1);
         }
 
-
-        function DateCustom(orderDate) {
-
-            var dateString = orderDate.substr(6);
-            var currentTime = new Date(parseInt(dateString));
-            var month = currentTime.getMonth() + 1;
-            if (month < 10) {
-                month = "0" + month;
-            }
-
-            var day = currentTime.getDate();
-            var year = currentTime.getFullYear();
-            var date = year + "-" + month + "-" + day;
-            return date;
-        }
-
     </script>
 }
-

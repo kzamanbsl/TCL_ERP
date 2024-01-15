@@ -9,7 +9,6 @@
 }
 
 <style type="text/css">
-
     input, select, textarea {
         max-width: 100%;
     }
@@ -45,7 +44,7 @@
                                     <div class="form-group">
                                         @Html.Label("Status:", htmlAttributes: new { @class = "control-label" })
                                         <br />
-                                        @Html.DropDownListFor(model => model.StatusId, Model.EnumBRStatusList as SelectList, "==Select Status==", new { id = "ddlStatusEnumFK", @class = "form-control ddlReset searchingDropdown", style = "width:100%", required = "required" })
+                                        @Html.DropDownListFor(model => model.StatusId, Model.EnumBRStatusList as SelectList, "==Select Status==", new { id = "ddlStatusEnumFK", @class = "form-control ddlReset searchingDropdown", required = "required" })
                                         @Html.ValidationMessageFor(model => model.StatusId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -80,16 +79,16 @@
                         <hr />
 
                         <div class="table-responsive">
-                            <table id="KgErpDataTable" class="table table-striped" style="width:100%; background-color:#ddd;">
+                            <table id="KgErpDataTable" class="table table-dark table-striped table-responsive">
                                 <thead>
                                     <tr>
                                         <th>SL</th>
                                         <th>Date</th>
-                                        <th>Req. No</th>
-                                        @*<th>Req. Type</th>*@
-                                        <th>P. Type</th>
-                                        <th>Project </th>
-                                        <th>PD Approval</th>
+                                        <th>Requisition No</th>
+                                        <th>Requisition Type</th>
+                                        <th>Requisition Subtype</th>
+                                        <th>Project Name</th>
+                                        <th>Status</th>
                                         <th>Action</th>
                                         <th>Report</th>
                                     </tr>
@@ -97,46 +96,59 @@
                                 <tbody>
                                     @foreach (var item in Model.DataList)
                                     {
-                                        #region Link Title
+                                        //#region Link Title
 
-                                        string statusTitle = "";
+                                        //string statusTitle = "";
 
-                                        if (item.StatusId != EnumBillRequisitionStatus.Approved)
-                                        { statusTitle = "Approve"; }
+                                        //if (item.StatusId != EnumBillRequisitionStatus.Approved)
+                                        //{ statusTitle = "Approve"; }
 
-                                        if (item.StatusId == EnumBillRequisitionStatus.Approved)
-                                        { statusTitle = "Undo Approve"; }
+                                        //if (item.StatusId == EnumBillRequisitionStatus.Approved)
+                                        //{ statusTitle = "Undo Approve"; }
 
-                                        #endregion
+                                        //#endregion
 
                                         <tr>
                                             <th>@(++sl)</th>
                                             <td>@item.BRDate.ToString("dd-MM-yyyy")</td>
-
-
                                             <td>@item.BillRequisitionNo</td>
-                                            @*<td>@item.BRTypeName</td>*@
-                                            <td>@item.ProjectTypeName</td>
+                                            <td>@item.BRTypeName</td>
+                                            <td>@item.BRSubtypeName</td>
                                             <td>@item.CostCenterName</td>
 
                                             <td>
 
                                                 @if (@item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.PD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
                                                 {
-                                                    <span class="btn btn-warning btn-xs" style="width:70px" > @item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.PD).AprrovalStatusName</span>
+                                                    <span class="btn btn-xs btn-warning text-center" style="display: block; padding-left: 7px; padding-right: 7px;" > @item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.PD).AprrovalStatusName</span>
                                                 }
                                                 @if (@item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.PD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Approved)
                                                 {
-                                                    <span class="btn btn-success btn-xs" style="width:70px" > @item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.PD).AprrovalStatusName</span>
+                                                    <span class="btn btn-xs btn-success text-center" style="display: block; padding-left: 7px; padding-right: 7px;" > @item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.PD).AprrovalStatusName</span>
                                                 }
-
                                                 @if (@item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.PD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Rejected)
                                                 {
-                                                    <span class="btn btn-danger btn-xs" style="width:70px" > @item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.PD).AprrovalStatusName</span>
+                                                    <span class="btn btn-xs btn-danger text-center" style="display: block; padding-left: 7px; padding-right: 7px;" > @item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.PD).AprrovalStatusName</span>
                                                 }
+
                                             </td>
+
                                             <td>
-                                                @if (item.StatusId != EnumBillRequisitionStatus.Draft && item.StatusId != EnumBillRequisitionStatus.Rejected && item.StatusId != EnumBillRequisitionStatus.Approved)
+
+                                                @if (@item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.PD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
+                                                {
+                                                    <a href="~/BillRequisition/PDBRApproveSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" class="link-primary text-primary" title="Action for Approve"><i class="fa fa-external-link-square" aria-hidden="true"></i> Action</a>
+                                                }
+                                                @if (@item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.PD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Approved)
+                                                {
+                                                    <a href="~/BillRequisition/PDBRApproveSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" class="link-warning text-warning" title="Action for Details"><i class="fa fa-external-link-square" aria-hidden="true"></i> Action</a>
+                                                }
+                                                @if (@item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.PD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Rejected)
+                                                {
+                                                    <a href="~/BillRequisition/PDBRRejectSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" class="link-danger text-danger" title="Rejection Details"><i class="fa fa-external-link-square" aria-hidden="true"></i> Action</a>
+                                                }
+
+                                                @*@if (item.StatusId != EnumBillRequisitionStatus.Draft && item.StatusId != EnumBillRequisitionStatus.Rejected && item.StatusId != EnumBillRequisitionStatus.Approved)
                                                 {
                                                     <a href="~/BillRequisition/PDBRApproveSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" title="Approve"><i class="glyphicon glyphicon-new-window"></i> Approve</a>
                                                 }
@@ -147,11 +159,12 @@
                                                 else if (item.StatusId == EnumBillRequisitionStatus.Approved || item.StatusId == EnumBillRequisitionStatus.Rejected)
                                                 {
                                                     <a href="~/BillRequisition/PDBRApproveSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i> Details</a>
+                                                }*@
 
-                                                }
                                             </td>
+
                                             <td>
-                                                <a class="btn btn-sm btn-xs btn-warning" style="width:100%" target="_blank" href="~/Report/TCLBillRequisiontReport?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId">
+                                                <a class="label label-primary text-center" target="_blank" href="~/Report/TCLBillRequisiontReport?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId">
                                                     <i class="fa fa-download"></i> Download
                                                 </a>
                                             </td>
@@ -175,6 +188,10 @@
 
     <script type="text/javascript">
 
+        $(document).ready(function () {
+            $("#ddlStatusEnumFK").removeAttribute('title');
+        });
+
         $('.datepicker').datepicker({
             dateFormat: "dd/mm/yy",
             showOn: 'both',
@@ -186,26 +203,9 @@
 
         function resetForm() {
 
-                $('#dealerReceivedListFormId')[0].reset();
-                $('#SOEditActionId').val(1);
-        }
-
-        
-        function DateCustom(orderDate) {
-
-            var dateString = orderDate.substr(6);
-            var currentTime = new Date(parseInt(dateString));
-            var month = currentTime.getMonth() + 1;
-            if (month < 10) {
-                month = "0" + month;
-            }
-
-            var day = currentTime.getDate();
-            var year = currentTime.getFullYear();
-            var date = year + "-" + month + "-" + day;
-            return date;
+            $('#dealerReceivedListFormId')[0].reset();
+            $('#SOEditActionId').val(1);
         }
 
     </script>
 }
-
