@@ -34,9 +34,11 @@ namespace KGERP.Service.ServiceModel
         public List<Accounting_CostCenterType> ProjectTypes { get; set; }
 
         public int BudgetTypeId { get; set; }
+        public string MaterialTypeName { get; set; }
         public List<ProductCategory> BudgetTypes { get; set; }
 
         public int BudgetSubtypeId { get; set; }
+        public string MaterialSubtypeName { get; set; }
         public List<ProductSubCategory> BudgetSubtypes { get; set; }
     }
 }

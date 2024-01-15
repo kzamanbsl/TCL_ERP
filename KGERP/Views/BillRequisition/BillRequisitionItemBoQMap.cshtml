@@ -65,7 +65,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label>Select Budget Type :</label>
+                                <label>Select Material Type :</label>
                                 @Html.DropDownListFor(model => model.BudgetTypeId, new SelectList(Model.BudgetTypes.OrderBy(order => order.Name), "ProductCategoryId", "Name"), "==Select Budget Type==", new { id = "ddlBRTypeId", onchange = "GetSubCategoryListByCategoryId()", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
                                 @Html.ValidationMessageFor(model => model.BudgetTypeId, "", new { @class = "text-danger" })
                             </div>
@@ -73,7 +73,7 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label>Select Budget Subtype :</label>
+                                <label>Select Material Subtype :</label>
                                 @Html.DropDownListFor(model => model.BudgetSubtypeId, new SelectList(Model.BudgetSubtypes.OrderBy(order => order.Name), "ProductSubCategoryId", "Name"), "==Select Budget Type First==", new { id = "ddlBRSubTypeId", onchange = "ShowBoqMaterialListByReqSubtypeId()", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
                                 @Html.ValidationMessageFor(model => model.BudgetSubtypeId, "", new { @class = "text-danger" })
                             </div>
@@ -132,17 +132,18 @@
                 <!-- /.box-header -->
                 <div class="box-body">
                     <div class="table-responsive col-md-12">
-                        <table id="KgErpDataTable" class="table table-striped">
+                        <table id="KgErpDataTable" class="table table-dark table-responsive">
                             <thead>
                                 <tr>
                                     <th>SL</th>
-                                    <th>Division Name</th>
-                                    <th>BoQ Item Name</th>
-                                    <th>BoQ Number</th>
-                                    <th>Material Name</th>
-                                    <th>Estimated Quantity</th>
+                                    <th>BoQ Division</th>
+                                    <th>BoQ Name</th>
+                                    <th>Material Type</th>
+                                    <th>Material Subtype</th>
+                                    <th>Material </th>
+                                    <th>Est. Quantity</th>
                                     <th>Unit Price</th>
-                                    <th>Estimated Amount</th>
+                                    <th>Est. Amount</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -163,10 +164,13 @@
                                                     <input type="hidden" id="material_@item.BoQItemProductMapId" value="@item.MaterialItemId" />
                                                     <input type="hidden" id="Quantity_@item.BoQItemProductMapId" value="@item.EstimatedQty" />
                                                     <input type="hidden" id="UnitRate_@item.BoQItemProductMapId" value="@item.UnitRate" />
+                                                    <input type="hidden" id="MterialType_@item.BoQItemProductMapId" value="@item.BudgetTypeId" />
+                                                    <input type="hidden" id="MaterialSubtype_@item.BoQItemProductMapId" value="@item.BudgetSubtypeId" />
                                                 </td>
                                                 <td id="tdBoqDivisionName_@item.BoQItemProductMapId">@item.DivisionName</td>
-                                                <td id="tdBoqItemNo_@item.BoQItemProductMapId">@item.BoqName</td>
-                                                <td id="tdBoqItemName_@item.BoQItemProductMapId">@item.BoqNumber</td>
+                                                <td id="tdBoqItemNo_@item.BoQItemProductMapId"><small class="label label-primary">@item.BoqNumber</small> @item.BoqName</td>
+                                                <td id="tdBoqMaterialName_@item.BoQItemProductMapId">@item.MaterialTypeName</td>
+                                                <td id="tdBoqMaterialName_@item.BoQItemProductMapId">@item.MaterialSubtypeName</td>
                                                 <td id="tdBoqMaterialName_@item.BoQItemProductMapId">@item.MaterialName</td>
                                                 <td id="tdBoqEstimateQty_@item.BoQItemProductMapId">@item.EstimatedQty</td>
                                                 <td id="tdBoqUnitRate_@item.BoQItemProductMapId">@item.UnitRate</td>

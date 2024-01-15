@@ -656,20 +656,25 @@ namespace KGERP.Service.Implementation
                             join t3 in _context.BillBoQItems.Where(c => c.IsActive) on t1.BoQItemId equals t3.BoQItemId
                             join t4 in _context.BoQDivisions.Where(c => c.IsActive) on t3.BoQDivisionId equals t4.BoQDivisionId
                             join t5 in _context.Accounting_CostCenter.Where(c => c.IsActive) on t4.ProjectId equals t5.CostCenterId
+                            join t6 in _context.ProductSubCategories.DefaultIfEmpty() on t2.ProductSubCategoryId equals t6.ProductSubCategoryId
+                            join t7 in _context.ProductCategories.DefaultIfEmpty() on t6.ProductCategoryId equals t7.ProductCategoryId
                             select new BillRequisitionItemBoQMapModel()
                             {
+                                BoQItemProductMapId = t1.BoQItemProductMapId,
                                 EstimatedAmount = t1.EstimatedAmount ?? 0M,
                                 EstimatedQty = t1.EstimatedQty ?? 0M,
                                 UnitRate = t1.UnitRate ?? 0M,
                                 MaterialItemId = t1.ProductId,
-                                MaterialName = t2.ProductName ?? "No Material Name",
+                                MaterialName = t2.ProductName ?? "N/A",
                                 BoQItemId = (int)t1.BoQItemId,
-                                BoqName = t3.Name ?? "No BoQ Name",
+                                BoqName = t3.Name ?? "N/A",
                                 BoqNumber = t3.BoQNumber ?? "0",
                                 BoQDivisionId = (long)t3.BoQDivisionId,
-                                DivisionName = t4.Name ?? "No Division Name",
+                                DivisionName = t4.Name ?? "N/A",
                                 ProjectId = t4.ProjectId,
-                                ProjectName = t5.Name ?? "No Project Name"
+                                ProjectName = t5.Name ?? "N/A",
+                                MaterialTypeName = t7.Name ?? "N/A",
+                                MaterialSubtypeName = t6.Name ?? "N/A"
                             }).ToList();
 
             return sendData;
