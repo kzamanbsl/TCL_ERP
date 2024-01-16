@@ -28,14 +28,14 @@
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="box-danger">
                     <div class="box-body row">
-                        @Html.HiddenFor(model => model.ID, new { Value = "", id = "BoQItemProductMapId" })
+                        @Html.HiddenFor(model => model.ID, new { Value = "", id = "BoQItemMapId" })
                         @Html.HiddenFor(model => model.ActionId, new { Value = "", id = "ActionId" })
                         @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
 
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Select Project Type :</label>
-                                @Html.DropDownListFor(model => model.ProjectTypeId, new SelectList(Model.ProjectTypes.OrderBy(order => order.Name), "CostCenterTypeId", "Name"), "==Select Project Type==", new { id = "projectTypeId", onchange = "GetProjectListByProjectTypeId()", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                @Html.DropDownListFor(model => model.ProjectTypeId, new SelectList(Model.ProjectTypes.OrderBy(order => order.Name), "CostCenterTypeId", "Name"), "==Select Project Type==", new { id = "projectTypeId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
                                 @Html.ValidationMessageFor(model => model.ProjectTypeId, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -43,7 +43,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label asp-for="ProjectId" class="form-control-label">Select Project :</label>
-                                @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.Projects.OrderBy(order => order.Name), "CostCenterId", "Name"), "==Select Project Type First==", new { id = "ddlProjectId", onchange = "showDivision()", @class = "form-control searchingDropdown", style = "width:100%" })
+                                @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.Projects.OrderBy(order => order.Name), "CostCenterId", "Name"), "==Select Project Type First==", new { id = "ddlProjectId", @class = "form-control searchingDropdown", style = "width:100%" })
                                 @Html.ValidationMessageFor(model => model.ProjectId, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -51,7 +51,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label asp-for="BoQDivisionId" class="form-control-label">Select BoQ Division :</label>
-                                @Html.DropDownListFor(model => model.BoQDivisionId, new SelectList(Model.BoQDivisions.OrderBy(order => order.Name), "BoQDivisionId", "Name"), "==Select Project First==", new { id = "ddlBoQDivisionId", onchange = "showBoQItem()", @class = "form-control searchingDropdown", style = "width:100%" })
+                                @Html.DropDownListFor(model => model.BoQDivisionId, new SelectList(Model.BoQDivisions.OrderBy(order => order.Name), "BoQDivisionId", "Name"), "==Select Project First==", new { id = "ddlBoQDivisionId", @class = "form-control searchingDropdown", style = "width:100%" })
                                 @Html.ValidationMessageFor(model => model.BoQDivisionId, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -66,7 +66,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Select Material Type :</label>
-                                @Html.DropDownListFor(model => model.BudgetTypeId, new SelectList(Model.BudgetTypes.OrderBy(order => order.Name), "ProductCategoryId", "Name"), "==Select Budget Type==", new { id = "ddlBRTypeId", onchange = "GetSubCategoryListByCategoryId()", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                @Html.DropDownListFor(model => model.BudgetTypeId, new SelectList(Model.BudgetTypes.OrderBy(order => order.Name), "ProductCategoryId", "Name"), "==Select Budget Type==", new { id = "ddlBRTypeId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
                                 @Html.ValidationMessageFor(model => model.BudgetTypeId, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -74,7 +74,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Select Material Subtype :</label>
-                                @Html.DropDownListFor(model => model.BudgetSubtypeId, new SelectList(Model.BudgetSubtypes.OrderBy(order => order.Name), "ProductSubCategoryId", "Name"), "==Select Budget Type First==", new { id = "ddlBRSubTypeId", onchange = "ShowBoqMaterialListByReqSubtypeId()", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                @Html.DropDownListFor(model => model.BudgetSubtypeId, new SelectList(Model.BudgetSubtypes.OrderBy(order => order.Name), "ProductSubCategoryId", "Name"), "==Select Budget Type First==", new { id = "ddlBRSubTypeId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
                                 @Html.ValidationMessageFor(model => model.BudgetSubtypeId, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -158,14 +158,16 @@
                                                 <td>
                                                     @(++sl)
 
-                                                    <input type="hidden" id="project_@item.BoQItemProductMapId" value="@item.ProjectId" />
-                                                    <input type="hidden" id="division_@item.BoQItemProductMapId" value="@item.BoQDivisionId" />
-                                                    <input type="hidden" id="boqItem_@item.BoQItemProductMapId" value="@item.BoQItemId" />
-                                                    <input type="hidden" id="material_@item.BoQItemProductMapId" value="@item.MaterialItemId" />
-                                                    <input type="hidden" id="Quantity_@item.BoQItemProductMapId" value="@item.EstimatedQty" />
-                                                    <input type="hidden" id="UnitRate_@item.BoQItemProductMapId" value="@item.UnitRate" />
-                                                    <input type="hidden" id="MterialType_@item.BoQItemProductMapId" value="@item.BudgetTypeId" />
-                                                    <input type="hidden" id="MaterialSubtype_@item.BoQItemProductMapId" value="@item.BudgetSubtypeId" />
+                                                    <input type="hidden" id="projectTypeIdHidden_@item.BoQItemProductMapId" value="@item.ProjectTypeId" />
+                                                    <input type="hidden" id="projectIdHidden_@item.BoQItemProductMapId" value="@item.ProjectId" />
+                                                    <input type="hidden" id="divisionIdHidden_@item.BoQItemProductMapId" value="@item.BoQDivisionId" />
+                                                    <input type="hidden" id="boqIdHidden_@item.BoQItemProductMapId" value="@item.BoQItemId" />
+                                                    <input type="hidden" id="materialTypeIdHidden_@item.BoQItemProductMapId" value="@item.BudgetTypeId" />
+                                                    <input type="hidden" id="materialSubtypeIdHidden_@item.BoQItemProductMapId" value="@item.BudgetSubtypeId" />
+                                                    <input type="hidden" id="materialIdHidden_@item.BoQItemProductMapId" value="@item.MaterialItemId" />
+                                                    <input type="hidden" id="quantityHidden_@item.BoQItemProductMapId" value="@item.EstimatedQty" />
+                                                    <input type="hidden" id="unitRateHidden_@item.BoQItemProductMapId" value="@item.UnitRate" />
+
                                                 </td>
                                                 <td id="tdBoqDivisionName_@item.BoQItemProductMapId">@item.DivisionName</td>
                                                 <td id="tdBoqItemNo_@item.BoQItemProductMapId"><small class="label label-primary">@item.BoqNumber</small> @item.BoqName</td>
@@ -176,7 +178,7 @@
                                                 <td id="tdBoqUnitRate_@item.BoQItemProductMapId">@item.UnitRate</td>
                                                 <td id="tdBoqEstimateAmount_@item.BoQItemProductMapId">@item.EstimatedAmount</td>
                                                 <td>
-                                                    <a id="@item.BoQItemProductMapId" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
+                                                    <a id="@item.BoQItemProductMapId" onclick="makeEditble(@item.BoQItemProductMapId);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
 
                                                     <a id="@item.BoQItemProductMapId" onclick="makeDeletable(@item.BoQItemProductMapId);" class="linkPointer" data-toggle="modal" data-target="#BillRequisitionBoQMapModelDeleteModal" title="Delete"
                                                        data-placement="top">
@@ -196,7 +198,7 @@
     </div>
 </section>
 
-@using (Html.BeginForm("BillRequisitionItemBoQMap", "BillRequisition", FormMethod.Post, new { id = "BillRequisitionItemBoQMapFormId", @class = "formValidator", onreset = "resetDDL();" }))
+@using (Html.BeginForm("BillRequisitionItemBoQMap", "BillRequisition", FormMethod.Post, new { id = "BillRequisitionItemBoQMapFormIdModal", @class = "formValidator", onreset = "resetDDL();" }))
 {
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     @Html.HiddenFor(model => model.BoQItemProductMapId, new { Value = "", id = "BoQItemProductMapIdDelete" })
@@ -230,6 +232,8 @@
 
 @section scripts {
     <script type="text/javascript">
+
+        var status = "add";
         $(document).ready(function () {
             'use strict';
 
@@ -243,31 +247,13 @@
             $("#ddlBoQItemId").append("<option selected disabled>==Select BoQ Division First==</option>");
 
             $("#ddlBRSubTypeId").empty();
-            $("#ddlBRSubTypeId").append("<option selected disabled>==Select Budget Subtype First==</option>");
+            $("#ddlBRSubTypeId").append("<option selected disabled>==Select Material Type First==</option>");
 
             $("#ddlMaterialItemId").empty();
-            $("#ddlMaterialItemId").append("<option selected disabled>==Select Budget Subtype First==</option>");
+            $("#ddlMaterialItemId").append("<option selected disabled>==Select Material Subtype First==</option>");
 
             $('.formValidator').bootstrapValidator();
         });
-
-        function makeEditble(elem) {
-            if (elem !== null) {
-                var rowId = elem.id;
-                $('#BoQItemProductMapId').val(rowId);
-                $('#ActionId').val(2);
-                $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Update");
-                $('#ddlProjectId').val($('#project_' + rowId).val().trim()).trigger('change');
-                showDivision(rowId);
-                $('#ddlBoQDivisionId').val($('#division_' + rowId).val().trim()).trigger('change');
-                showBoQItem(rowId);
-                $('#ddlBoQItemId').val($('#boqItem_' + rowId).val().trim()).trigger('change');
-                $('#ddlMaterialItemId').val($('#material_' + rowId).val().trim()).trigger('change');
-                $('#txtEstimateQty').val($('#Quantity_' + rowId).val().trim());
-                $('#txtUnitRate').val($('#UnitRate_' + rowId).val().trim());
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-        }
 
         function makeDeletable(id) {
             if (id !== null) {
@@ -282,16 +268,168 @@
             $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Add");
         }
 
-        // get project list by project type id
-        function GetProjectListByProjectTypeId() {
-            var getProjectTypeId = $("#projectTypeId option:selected");
+        function makeEditble(id) {
+            $('#BoQItemMapId').val(id);
+            $('#ActionId').val(2);
+            $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Update");
+            $('#projectTypeId').val($('#projectTypeIdHidden_' + id).val()).trigger('change');
+            $('#ddlBRTypeId').val($('#materialTypeIdHidden_' + id).val()).trigger('change');
+            $('#txtEstimateQty').val($('#quantityHidden_' + id).val());
+            $('#txtUnitRate').val($('#unitRateHidden_' + id).val());
+
+            // show project
+            function showProject(dataId){
+                if (dataId > 0) {
+                    var getProjectTypeId = $('#projectTypeIdHidden_' + dataId).val();
+                    var showProjectList = $("#ddlProjectId");
+
+                    $.ajax({
+                        type: "GET",
+                        url: "/BillRequisition/GetProjectList",
+                        dataType: "json",
+                        data: { id: getProjectTypeId },
+                        success: function (data) {
+                            showProjectList.empty();
+                            showProjectList.append("<option selected disabled>==Select Project==</option>");
+
+                            $.each(data, function (index, item) {
+                                showProjectList.append($('<option>', {
+                                    value: item.CostCenterId,
+                                    text: item.Name
+                                }));
+                            });
+                            showProjectList.val($('#projectIdHidden_' + dataId).val()).trigger('change');
+                        }
+                    });
+                }
+            }
+            showProject(id);
+
+            // show division
+            function showDivision(dataId) {
+                if (dataId > 0) {
+                    var getProjectId = $('#projectIdHidden_' + dataId).val();
+                    var showBoqDivisionList = $("#ddlBoQDivisionId");
+
+                    $.ajax({
+                        type: "GET",
+                        url: "/BillRequisition/getBoqDivisionList",
+                        dataType: "json",
+                        data: { id: getProjectId },
+                        success: function (data) {
+                            showBoqDivisionList.empty();
+                            showBoqDivisionList.append("<option selected disabled>==Select BoQ Division==</option>");
+
+                            $.each(data, function (index, item) {
+                                showBoqDivisionList.append($('<option>', {
+                                    value: item.BoQDivisionId,
+                                    text: item.Name
+                                }));
+                            });
+                            showBoqDivisionList.val($('#divisionIdHidden_' + dataId).val()).trigger('change');
+                        }
+                    });
+                }
+            }
+            showDivision(id);
+
+            // show boq
+            function showBoq(dataId) {
+                if (dataId > 0) {
+                    var getBoqDivisionId = $('#divisionIdHidden_' + dataId).val();
+                    var showBoqItemList = $("#ddlBoQItemId");
+
+                    $.ajax({
+                        type: "GET",
+                        //url: "/BillRequisition/getBoqItemList",
+                        url: "/BillRequisition/getBoqItemListWithBoqNumber",
+                        dataType: "json",
+                        data: { id: getBoqDivisionId },
+                        success: function (data) {
+                            showBoqItemList.empty();
+                            showBoqItemList.append("<option selected disabled>==Select BoQ Item==</option>");
+
+                            $.each(data, function (index, item) {
+                                showBoqItemList.append($('<option>', {
+                                    value: item.BoQItemId,
+                                    text: item.Name
+                                }));
+                            });
+                            showBoqItemList.val($('#boqIdHidden_' + id).val()).trigger('change');
+                        }
+                    });
+                }
+            }
+            showBoq(id);
+
+            // show boq
+            function showSubtype(dataId) {
+                if (dataId > 0) {
+                    var getRequisitionTypeId = $("#materialTypeIdHidden_" + dataId).val();
+                    var showRequisitionSubtype = $("#ddlBRSubTypeId");
+
+                    $.ajax({
+                        type: "GET",
+                        url: "/Configuration/GetSubCategoryByCategoryId",
+                        dataType: "json",
+                        data: { id: getRequisitionTypeId },
+                        success: function (data) {
+                            showRequisitionSubtype.empty();
+                            showRequisitionSubtype.append("<option selected disabled>==Select Material Subtype==</option>");
+
+                            $.each(data, function (index, item) {
+                                showRequisitionSubtype.append($('<option>', {
+                                    value: item.ProductSubCategoryId,
+                                    text: item.Name
+                                }));
+                            });
+                            showRequisitionSubtype.val($('#materialSubtypeIdHidden_' + dataId).val()).trigger('change');
+                        }
+                    });
+                }
+            }
+            showSubtype(id);
+
+            // show boq
+            function showMaterial(dataId) {
+                if (dataId > 0) {
+                    var materialSubtypeId = $('#materialSubtypeIdHidden_' + dataId).val();
+                    var showBoqMaterialList = $("#ddlMaterialItemId");
+
+                    $.ajax({
+                        type: "GET",
+                        url: "/BillRequisition/getBoqMaterialListForOverHead",
+                        dataType: "json",
+                        data: { id: materialSubtypeId },
+                        success: function (data) {
+                            showBoqMaterialList.empty();
+                            showBoqMaterialList.append("<option selected disabled>==Select Material==</option>");
+
+                            $.each(data, function (index, item) {
+                                showBoqMaterialList.append($('<option>', {
+                                    value: item.ProductId,
+                                    text: item.ProductName
+                                }));
+                            });
+                            showBoqMaterialList.val($('#materialIdHidden_' + dataId).val()).trigger('change');
+                        }
+                    });
+                }
+            }
+            showMaterial(id);
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        $("#projectTypeId").on('change', function () {
+            var getProjectTypeId = $("#projectTypeId").val();
             var showProjectList = $("#ddlProjectId");
 
             $.ajax({
                 type: "GET",
                 url: "/BillRequisition/GetProjectList",
                 dataType: "json",
-                data: { id: getProjectTypeId.val() },
+                data: { id: getProjectTypeId },
                 success: function (data) {
                     showProjectList.empty();
                     showProjectList.append("<option selected disabled>==Select Project==</option>");
@@ -302,22 +440,18 @@
                             text: item.Name
                         }));
                     });
-                },
-                error: function (error) {
-                    console.error("Error in AJAX request:", error);
                 }
             });
-        }
+        })
 
-        // get division list
-        function showDivision(rowId) {
-            var getProjectId = $("#ddlProjectId option:selected");
+        $("#ddlProjectId").on('change', function () {
+            var getProjectId = $("#ddlProjectId").val();
             var showBoqDivisionList = $("#ddlBoQDivisionId");
             $.ajax({
                 type: "GET",
                 url: "/BillRequisition/getBoqDivisionList",
                 dataType: "json",
-                data: { id: getProjectId.val() },
+                data: { id: getProjectId },
                 success: function (data) {
                     showBoqDivisionList.empty();
                     showBoqDivisionList.append("<option selected disabled>==Select BoQ Division==</option>");
@@ -328,16 +462,12 @@
                             text: item.Name
                         }));
                     });
-                },
-                error: function (error) {
-                    console.error("Error in AJAX request:", error);
                 }
             });
-        }
+        })
 
-        // get boq item by bod division id
-        function showBoQItem(rowId) {
-            var getBoqDivisionId = $("#ddlBoQDivisionId option:selected");
+        $("#ddlBoQDivisionId").on('change', function () {
+            var getBoqDivisionId = $("#ddlBoQDivisionId").val();
             var showBoqItemList = $("#ddlBoQItemId");
 
             $.ajax({
@@ -345,7 +475,7 @@
                 //url: "/BillRequisition/getBoqItemList",
                 url: "/BillRequisition/getBoqItemListWithBoqNumber",
                 dataType: "json",
-                data: { id: getBoqDivisionId.val() },
+                data: { id: getBoqDivisionId },
                 success: function (data) {
                     showBoqItemList.empty();
                     showBoqItemList.append("<option selected disabled>==Select BoQ Item==</option>");
@@ -356,26 +486,22 @@
                             text: item.Name
                         }));
                     });
-                },
-                error: function (error) {
-                    console.error("Error in AJAX request:", error);
                 }
             });
-        }
+        })
 
-        // get budgte subtype by budget type id
-        function GetSubCategoryListByCategoryId() {
-            var getRequisitionTypeId = $("#ddlBRTypeId option:selected");
+        $("#ddlBRTypeId").on('change', function () {
+            var getRequisitionTypeId = $("#ddlBRTypeId").val();
             var showRequisitionSubtype = $("#ddlBRSubTypeId");
 
             $.ajax({
                 type: "GET",
                 url: "/Configuration/GetSubCategoryByCategoryId",
                 dataType: "json",
-                data: { id: getRequisitionTypeId.val() },
+                data: { id: getRequisitionTypeId },
                 success: function (data) {
                     showRequisitionSubtype.empty();
-                    showRequisitionSubtype.append("<option selected disabled>==Select Budget Subtype==</option>");
+                    showRequisitionSubtype.append("<option selected disabled>==Select Material Subtype==</option>");
 
                     $.each(data, function (index, item) {
                         showRequisitionSubtype.append($('<option>', {
@@ -383,25 +509,21 @@
                             text: item.Name
                         }));
                     });
-                },
-                error: function (error) {
-                    console.error("Error in AJAX request:", error);
                 }
             });
-        }
+        })
 
-        // get material by budget subtype id
-        function ShowBoqMaterialListByReqSubtypeId() {
-            var RequisitionSubtype = $("#ddlBRSubTypeId option:selected");
+        $("#ddlBRSubTypeId").on('change', function () {
+            var materialSubtypeId = $("#ddlBRSubTypeId").val();
             var showBoqMaterialList = $("#ddlMaterialItemId");
             $.ajax({
                 type: "GET",
                 url: "/BillRequisition/getBoqMaterialListForOverHead",
                 dataType: "json",
-                data: { id: RequisitionSubtype.val() },
+                data: { id: materialSubtypeId },
                 success: function (data) {
                     showBoqMaterialList.empty();
-                    showBoqMaterialList.append("<option selected disabled>==Select Material/Item==</option>");
+                    showBoqMaterialList.append("<option selected disabled>==Select Material==</option>");
 
                     $.each(data, function (index, item) {
                         showBoqMaterialList.append($('<option>', {
@@ -411,7 +533,7 @@
                     });
                 }
             });
-        }
+        })
 
     </script>
 }

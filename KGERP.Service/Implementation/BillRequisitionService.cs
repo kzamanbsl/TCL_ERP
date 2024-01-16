@@ -658,6 +658,7 @@ namespace KGERP.Service.Implementation
                             join t5 in _context.Accounting_CostCenter.Where(c => c.IsActive) on t4.ProjectId equals t5.CostCenterId
                             join t6 in _context.ProductSubCategories.DefaultIfEmpty() on t2.ProductSubCategoryId equals t6.ProductSubCategoryId
                             join t7 in _context.ProductCategories.DefaultIfEmpty() on t6.ProductCategoryId equals t7.ProductCategoryId
+                            join t8 in _context.Accounting_CostCenterType.DefaultIfEmpty() on t5.CostCenterTypeId equals t8.CostCenterTypeId
                             select new BillRequisitionItemBoQMapModel()
                             {
                                 BoQItemProductMapId = t1.BoQItemProductMapId,
@@ -666,15 +667,19 @@ namespace KGERP.Service.Implementation
                                 UnitRate = t1.UnitRate ?? 0M,
                                 MaterialItemId = t1.ProductId,
                                 MaterialName = t2.ProductName ?? "N/A",
-                                BoQItemId = (int)t1.BoQItemId,
+                                BoQItemId = t3.BoQItemId,
                                 BoqName = t3.Name ?? "N/A",
                                 BoqNumber = t3.BoQNumber ?? "0",
-                                BoQDivisionId = (long)t3.BoQDivisionId,
+                                BoQDivisionId = t4.BoQDivisionId,
                                 DivisionName = t4.Name ?? "N/A",
-                                ProjectId = t4.ProjectId,
+                                ProjectId = t5.CostCenterId,
                                 ProjectName = t5.Name ?? "N/A",
+                                BudgetTypeId = t7.ProductCategoryId,
                                 MaterialTypeName = t7.Name ?? "N/A",
-                                MaterialSubtypeName = t6.Name ?? "N/A"
+                                BudgetSubtypeId = t6.ProductSubCategoryId,
+                                MaterialSubtypeName = t6.Name ?? "N/A",
+                                ProjectTypeId = t8.CostCenterTypeId,
+                                ProjectTypeName = t8.Name ?? "N/A"
                             }).ToList();
 
             return sendData;

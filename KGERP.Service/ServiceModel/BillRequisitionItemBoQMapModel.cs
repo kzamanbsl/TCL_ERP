@@ -17,6 +17,7 @@ namespace KGERP.Service.ServiceModel
         public decimal EstimatedAmount { get; set; }
         public decimal UnitRate { get; set; }
         public int ProjectId { get; set; }
+        public string ProjectTypeName { get; set; }
         public long BoQDivisionId { get; set; }
         public List<BillRequisitionBoqModel> BoQItems { get; set; }
         public List<Product> BoQMaterials { get; set; }
