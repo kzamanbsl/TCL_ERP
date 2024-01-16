@@ -88,31 +88,15 @@
                                         <th>Requisition No</th>
                                         <th>Requisition Type</th>
                                         <th>Requisition Subtype</th>
-                                        @*<th>Project Type</th>*@
                                         <th>Project Name</th>
                                         <th>Status</th>
                                         <th>Action</th>
-                                        <th>Report</th>
+                                        <th>Report</th>s
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach (var item in Model.DataList)
                                     {
-                                        //#region Link Title
-
-                                        //string statusTitle = "";
-
-                                        //if (item.StatusId == EnumBillRequisitionStatus.Approved)
-                                        //{
-                                        //    statusTitle = "Approve";
-                                        //}
-                                        //else
-                                        //{
-                                        //    statusTitle = "Undo Approve";
-                                        //}
-
-                                        //#endregion
-
                                         <tr>
                                             <th>@(++sl)</th>
                                             <td>@item.BRDate.ToString("dd-MM-yyyy")</td>
@@ -156,17 +140,17 @@
                                                 }
 
                                                 @*@if (item.StatusId != EnumBillRequisitionStatus.Draft && item.StatusId != EnumBillRequisitionStatus.Rejected && item.StatusId != EnumBillRequisitionStatus.Approved)
-                                                {
-                                                    <a href="~/BillRequisition/PMBRApproveSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" title="Approve"><i class="glyphicon glyphicon-new-window"></i> Approve</a>
-                                                }
-                                                else if (item.StatusId != EnumBillRequisitionStatus.Draft && item.StatusId != EnumBillRequisitionStatus.Rejected && item.StatusId != EnumBillRequisitionStatus.Approved)
-                                                {
-                                                    <a href="~/BillRequisition/PMBRRejectSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" title="Reject"><i class="glyphicon glyphicon-new-window"></i> Reject</a>
-                                                }
-                                                else if (item.StatusId == EnumBillRequisitionStatus.Approved || item.StatusId == EnumBillRequisitionStatus.Rejected)
-                                                {
-                                                    <a href="~/BillRequisition/PMBRApproveSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i> Details</a>
-                                                }*@
+                                                    {
+                                                        <a href="~/BillRequisition/PMBRApproveSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" title="Approve"><i class="glyphicon glyphicon-new-window"></i> Approve</a>
+                                                    }
+                                                    else if (item.StatusId != EnumBillRequisitionStatus.Draft && item.StatusId != EnumBillRequisitionStatus.Rejected && item.StatusId != EnumBillRequisitionStatus.Approved)
+                                                    {
+                                                        <a href="~/BillRequisition/PMBRRejectSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" title="Reject"><i class="glyphicon glyphicon-new-window"></i> Reject</a>
+                                                    }
+                                                    else if (item.StatusId == EnumBillRequisitionStatus.Approved || item.StatusId == EnumBillRequisitionStatus.Rejected)
+                                                    {
+                                                        <a href="~/BillRequisition/PMBRApproveSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i> Details</a>
+                                                    }*@
 
                                             </td>
 
@@ -195,6 +179,10 @@
 
     <script type="text/javascript">
 
+        $(document).ready(function () {
+            $('#ddlStatusEnumFK').removeAttr('title');
+        });
+
         $('.datepicker').datepicker({
             dateFormat: "dd/mm/yy",
             showOn: 'both',
@@ -210,22 +198,5 @@
             $('#SOEditActionId').val(1);
         }
 
-
-        function DateCustom(orderDate) {
-
-            var dateString = orderDate.substr(6);
-            var currentTime = new Date(parseInt(dateString));
-            var month = currentTime.getMonth() + 1;
-            if (month < 10) {
-                month = "0" + month;
-            }
-
-            var day = currentTime.getDate();
-            var year = currentTime.getFullYear();
-            var date = year + "-" + month + "-" + day;
-            return date;
-        }
-
     </script>
 }
-
