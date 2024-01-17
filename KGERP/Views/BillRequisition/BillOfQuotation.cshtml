@@ -119,17 +119,17 @@
                 <!-- /.box-header -->
                 <div class="box-body">
                     <div class="table-responsive col-md-12">
-                        <table id="KgErpDataTable" class="table table-striped">
+                        <table id="KgErpDataTable" class="table table-dark table-striped table-responsive">
                             <thead>
                                 <tr>
-                                    <th>SL</th>
-                                    <th>Division Name</th>
-                                    <th>BoQ No</th>
-                                    <th>BoQ Item Name</th>
-                                    <th>BoQ Unit</th>
-                                    <th>Quantity</th>
-                                    <th>Description</th>
-                                    <th>Action</th>
+                                    <th width="3%">SL</th>
+                                    <th width="20%">Division Name</th>
+                                    <th width="8%">BoQ No</th>
+                                    <th width="25%">BoQ Name</th>
+                                    <th width="5%">BoQ Unit</th>
+                                    <th width="5%">Quantity</th>
+                                    <th width="30%">Description</th>
+                                    <th width="4%">Action</th>
                                 </tr>
                             </thead>
                             @{int sl = 0;}
@@ -148,7 +148,7 @@
                                         <td id="tdBoqName_@item.BoQItemId">@item.Name</td>
                                         <td id="tdBoqUnitId_@item.BoQItemId">@item.BoqUnitName</td>
                                         <td id="tdBoqQuantity_@item.BoQItemId">@item.BoqQuantity</td>
-                                        <td id="tdBoqDescription_@item.BoQItemId">@item.Description</td>
+                                        <td id="tdBoqDescription_@item.BoQItemId">@(item.Description != null ? item.Description : "N/A")</td>
                                         <td>
                                             <a id="@item.BoQItemId" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
 

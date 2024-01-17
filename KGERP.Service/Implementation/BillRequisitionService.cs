@@ -385,28 +385,6 @@ namespace KGERP.Service.Implementation
         #endregion
 
         #region Bill of Quotation
-
-        //public List<BillBoQItem> GetBillOfQuotationList()
-        //{
-        //    List<BillBoQItem> billBoQItems = new List<BillBoQItem>();
-        //    var getBillBoQItems = _context.BillBoQItems.Where(c => c.IsActive == true).ToList();
-        //    foreach (var item in getBillBoQItems)
-        //    {
-        //        var data = new BillBoQItem()
-        //        {
-        //            BoQItemId = item.BoQItemId,
-        //            BoQNumber = item.BoQNumber,
-        //            Name = item.Name,
-        //            BoqQuantity = item.BoqQuantity,
-        //            BoqUnitId = item.BoqUnitId,
-        //            BoQDivisionId = item.BoQDivisionId,
-        //            Description = item.Description
-        //        };
-        //        billBoQItems.Add(data);
-        //    }
-        //    return billBoQItems;
-        //}
-
         public List<BillRequisitionBoqModel> GetBillOfQuotationList()
         {
             var sendData = (from t1 in _context.BillBoQItems.Where(c => c.IsActive)
@@ -423,7 +401,8 @@ namespace KGERP.Service.Implementation
                                 BoqUnitName = t3.Name,
                                 BoQDivisionId = (long)t1.BoQDivisionId,
                                 BoqDivisionName = t2.Name,
-                                ProjectId = t4.CostCenterId
+                                ProjectId = t4.CostCenterId,
+                                Description = t1.Description,
                             }).ToList();
 
             return sendData;

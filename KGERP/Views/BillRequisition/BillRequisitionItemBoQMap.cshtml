@@ -63,6 +63,7 @@
                                 @Html.ValidationMessageFor(model => model.BoQItemId, "", new { @class = "text-danger" })
                             </div>
                         </div>
+
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Select Material Type :</label>
@@ -233,7 +234,6 @@
 @section scripts {
     <script type="text/javascript">
 
-        var status = "add";
         $(document).ready(function () {
             'use strict';
 
@@ -267,6 +267,8 @@
             $('#BillRequisitionItemBoQMapFormId')[0].reset();
             $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Add");
         }
+
+        var isEditble = false;
 
         function makeEditble(id) {
             $('#BoQItemMapId').val(id);
@@ -419,120 +421,132 @@
             showMaterial(id);
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            isEditble = true;
         }
 
         $("#projectTypeId").on('change', function () {
-            var getProjectTypeId = $("#projectTypeId").val();
-            var showProjectList = $("#ddlProjectId");
+            if (!isEditble) {
+                var getProjectTypeId = $("#projectTypeId").val();
+                var showProjectList = $("#ddlProjectId");
 
-            $.ajax({
-                type: "GET",
-                url: "/BillRequisition/GetProjectList",
-                dataType: "json",
-                data: { id: getProjectTypeId },
-                success: function (data) {
-                    showProjectList.empty();
-                    showProjectList.append("<option selected disabled>==Select Project==</option>");
+                $.ajax({
+                    type: "GET",
+                    url: "/BillRequisition/GetProjectList",
+                    dataType: "json",
+                    data: { id: getProjectTypeId },
+                    success: function (data) {
+                        showProjectList.empty();
+                        showProjectList.append("<option selected disabled>==Select Project==</option>");
 
-                    $.each(data, function (index, item) {
-                        showProjectList.append($('<option>', {
-                            value: item.CostCenterId,
-                            text: item.Name
-                        }));
-                    });
-                }
-            });
+                        $.each(data, function (index, item) {
+                            showProjectList.append($('<option>', {
+                                value: item.CostCenterId,
+                                text: item.Name
+                            }));
+                        });
+                    }
+                });
+            }
         })
 
         $("#ddlProjectId").on('change', function () {
-            var getProjectId = $("#ddlProjectId").val();
-            var showBoqDivisionList = $("#ddlBoQDivisionId");
-            $.ajax({
-                type: "GET",
-                url: "/BillRequisition/getBoqDivisionList",
-                dataType: "json",
-                data: { id: getProjectId },
-                success: function (data) {
-                    showBoqDivisionList.empty();
-                    showBoqDivisionList.append("<option selected disabled>==Select BoQ Division==</option>");
+            if (!isEditble) {
+                var getProjectId = $("#ddlProjectId").val();
+                var showBoqDivisionList = $("#ddlBoQDivisionId");
+                $.ajax({
+                    type: "GET",
+                    url: "/BillRequisition/getBoqDivisionList",
+                    dataType: "json",
+                    data: { id: getProjectId },
+                    success: function (data) {
+                        showBoqDivisionList.empty();
+                        showBoqDivisionList.append("<option selected disabled>==Select BoQ Division==</option>");
 
-                    $.each(data, function (index, item) {
-                        showBoqDivisionList.append($('<option>', {
-                            value: item.BoQDivisionId,
-                            text: item.Name
-                        }));
-                    });
-                }
-            });
+                        $.each(data, function (index, item) {
+                            showBoqDivisionList.append($('<option>', {
+                                value: item.BoQDivisionId,
+                                text: item.Name
+                            }));
+                        });
+                    }
+                });
+            }
         })
 
         $("#ddlBoQDivisionId").on('change', function () {
-            var getBoqDivisionId = $("#ddlBoQDivisionId").val();
-            var showBoqItemList = $("#ddlBoQItemId");
+            if (!isEditble) {
+                var getBoqDivisionId = $("#ddlBoQDivisionId").val();
+                var showBoqItemList = $("#ddlBoQItemId");
 
-            $.ajax({
-                type: "GET",
-                //url: "/BillRequisition/getBoqItemList",
-                url: "/BillRequisition/getBoqItemListWithBoqNumber",
-                dataType: "json",
-                data: { id: getBoqDivisionId },
-                success: function (data) {
-                    showBoqItemList.empty();
-                    showBoqItemList.append("<option selected disabled>==Select BoQ Item==</option>");
+                $.ajax({
+                    type: "GET",
+                    //url: "/BillRequisition/getBoqItemList",
+                    url: "/BillRequisition/getBoqItemListWithBoqNumber",
+                    dataType: "json",
+                    data: { id: getBoqDivisionId },
+                    success: function (data) {
+                        showBoqItemList.empty();
+                        showBoqItemList.append("<option selected disabled>==Select BoQ Item==</option>");
 
-                    $.each(data, function (index, item) {
-                        showBoqItemList.append($('<option>', {
-                            value: item.BoQItemId,
-                            text: item.Name
-                        }));
-                    });
-                }
-            });
+                        $.each(data, function (index, item) {
+                            showBoqItemList.append($('<option>', {
+                                value: item.BoQItemId,
+                                text: item.Name
+                            }));
+                        });
+                    }
+                });
+            }
         })
 
         $("#ddlBRTypeId").on('change', function () {
-            var getRequisitionTypeId = $("#ddlBRTypeId").val();
-            var showRequisitionSubtype = $("#ddlBRSubTypeId");
+            if (!isEditble) {
+                var getRequisitionTypeId = $("#ddlBRTypeId").val();
+                var showRequisitionSubtype = $("#ddlBRSubTypeId");
 
-            $.ajax({
-                type: "GET",
-                url: "/Configuration/GetSubCategoryByCategoryId",
-                dataType: "json",
-                data: { id: getRequisitionTypeId },
-                success: function (data) {
-                    showRequisitionSubtype.empty();
-                    showRequisitionSubtype.append("<option selected disabled>==Select Material Subtype==</option>");
+                $.ajax({
+                    type: "GET",
+                    url: "/Configuration/GetSubCategoryByCategoryId",
+                    dataType: "json",
+                    data: { id: getRequisitionTypeId },
+                    success: function (data) {
+                        showRequisitionSubtype.empty();
+                        showRequisitionSubtype.append("<option selected disabled>==Select Material Subtype==</option>");
 
-                    $.each(data, function (index, item) {
-                        showRequisitionSubtype.append($('<option>', {
-                            value: item.ProductSubCategoryId,
-                            text: item.Name
-                        }));
-                    });
-                }
-            });
+                        $.each(data, function (index, item) {
+                            showRequisitionSubtype.append($('<option>', {
+                                value: item.ProductSubCategoryId,
+                                text: item.Name
+                            }));
+                        });
+                    }
+                });
+            }
         })
 
         $("#ddlBRSubTypeId").on('change', function () {
-            var materialSubtypeId = $("#ddlBRSubTypeId").val();
-            var showBoqMaterialList = $("#ddlMaterialItemId");
-            $.ajax({
-                type: "GET",
-                url: "/BillRequisition/getBoqMaterialListForOverHead",
-                dataType: "json",
-                data: { id: materialSubtypeId },
-                success: function (data) {
-                    showBoqMaterialList.empty();
-                    showBoqMaterialList.append("<option selected disabled>==Select Material==</option>");
+            if (!isEditble) {
+                var materialSubtypeId = $("#ddlBRSubTypeId").val();
+                var showBoqMaterialList = $("#ddlMaterialItemId");
+                $.ajax({
+                    type: "GET",
+                    url: "/BillRequisition/getBoqMaterialListForOverHead",
+                    dataType: "json",
+                    data: { id: materialSubtypeId },
+                    success: function (data) {
+                        showBoqMaterialList.empty();
+                        showBoqMaterialList.append("<option selected disabled>==Select Material==</option>");
 
-                    $.each(data, function (index, item) {
-                        showBoqMaterialList.append($('<option>', {
-                            value: item.ProductId,
-                            text: item.ProductName
-                        }));
-                    });
-                }
-            });
+                        $.each(data, function (index, item) {
+                            showBoqMaterialList.append($('<option>', {
+                                value: item.ProductId,
+                                text: item.ProductName
+                            }));
+                        });
+                    }
+                });
+            }
         })
 
     </script>
