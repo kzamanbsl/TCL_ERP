@@ -302,14 +302,16 @@ namespace KGERP.Service.Implementation.Configuration
         {
             VMUserMenu vmUserMenu = new VMUserMenu();
             vmUserMenu.CompanyFK = companyId;
-            vmUserMenu.DataList = (from t1 in _db.Accounting_CostCenter
-                                   join t2 in _db.Companies on t1.CompanyId equals t2.CompanyId
-                                   where t1.CompanyId == companyId && t1.IsActive == true
+            vmUserMenu.DataList = (from t1 in _db.Accounting_CostCenter.Where( x => x.CompanyId == 21 && x.IsActive)
+                                   join t2 in _db.Companies.Where(x => x.IsActive) on t1.CompanyId equals t2.CompanyId
+                                   join t3 in _db.Accounting_CostCenterType.Where(x => x.IsActive) on t1.CostCenterTypeId equals t3.CostCenterTypeId
                                    select new VMUserMenu
                                    {
                                        ID = t1.CostCenterId,
                                        Name = t1.Name,
-                                       accounting_CostCenterTypeId = (int)t1.CostCenterTypeId,
+                                       ShortName = t1.ShortName,
+                                       accounting_CostCenterTypeId = t3.CostCenterTypeId,
+                                       CostCenterTypeName = t3.Name,
                                        CompanyName = t2.Name,
                                        CompanyFK = t1.CompanyId
                                    }).OrderByDescending(x => x.ID).AsEnumerable();
@@ -342,6 +344,7 @@ namespace KGERP.Service.Implementation.Configuration
             {
                 Name = vmUserMenu.Name,
                 CostCenterTypeId = vmUserMenu.accounting_CostCenterTypeId,
+                ShortName = vmUserMenu.ShortName,
                 CompanyId = vmUserMenu.CompanyFK.Value,
                 CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
                 CreatedDate = DateTime.Now,
@@ -362,7 +365,8 @@ namespace KGERP.Service.Implementation.Configuration
             Accounting_CostCenter costCenter = _db.Accounting_CostCenter.Find(vmUserMenu.ID);
             costCenter.Name = vmUserMenu.Name;
             costCenter.CostCenterTypeId = vmUserMenu.accounting_CostCenterTypeId;
-            //costCenter.ModifiedDate = DateTime.Now;
+            costCenter.ShortName = vmUserMenu.ShortName;
+            costCenter.ModifiedDate = DateTime.Now;
             costCenter.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
 
             if (await _db.SaveChangesAsync() > 0)

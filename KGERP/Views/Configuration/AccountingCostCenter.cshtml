@@ -45,8 +45,8 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label asp-for="ProjectId">Project Short Name : </label>
-                                    @Html.TextBoxFor(model => model.ShortName, new { id = "txtMenuName", @class = "form-control input-sm", @placeholder = "Project Name" })
+                                    <label asp-for="ProjectId">Short Name : </label>
+                                    @Html.TextBoxFor(model => model.ShortName, new { id = "txtShortName", @class = "form-control input-sm", @placeholder = "Short Name" })
                                     @Html.ValidationMessageFor(model => model.ShortName, "", new { @class = "text-danger" })
                                     <small class="text-danger" id="error-message"></small>
                                 </div>
@@ -78,6 +78,7 @@
                                             <tr>
                                                 <th>SL</th>
                                                 <th>Project Name</th>
+                                                <th>Short Name</th>
                                                 <th>Project Type</th>
                                                 <th>Action</th>
                                             </tr>
@@ -89,29 +90,33 @@
                                                     int sl = 0;
                                                     foreach (var item in Model.DataList.OrderBy(order => order.Name))
                                                     {
-                                                        <tr>
-                                                            <td>
-                                                                @(++sl)
-                                                                <input type="hidden" id="hidCompanyFK_@item.ID" value="@item.CompanyFK" />
-                                                                <input type="hidden" id="costCenterTypeId_@item.ID" name="accounting_CostCenterTypeId" value="@item.accounting_CostCenterTypeId" />
-                                                            </td>
+                                                                                        <tr>
+                                                                                            <td>
+                                                                                                @(++sl)
+                                                                                                <input type="hidden" id="hidCompanyFK_@item.ID" value="@item.CompanyFK" />
+                                                                                                <input type="hidden" id="costCenterTypeId_@item.ID" name="accounting_CostCenterTypeId" value="@item.accounting_CostCenterTypeId" />
+                                                                                            </td>
 
-                                                            <td id="tdProjectName_@item.ID">
-                                                                @item.Name
-                                                            </td>
+                                                                                            <td id="tdProjectName_@item.ID">
+                                                                                                @item.Name
+                                                                                            </td>
 
-                                                            <td id="tdprojectType_@item.ID">
-                                                                @Model.accounting_CostCenterTypes.FirstOrDefault(c => c.CostCenterTypeId == item.accounting_CostCenterTypeId).Name
-                                                            </td>
+                                                                                            <td id="tdProjectName_@item.ID">
+                                                                                                @item.ShortName
+                                                                                            </td>
 
-                                                            <td>
-                                                                <a id="@item.ID" onclick=" makeEditble(this);" class="linkPointer" data-toggle="modal" data-target="#exampleModal" title="Edit" data-placement="top"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                                                                <a id="@item.ID" onclick="makeDeletable(@item.ID);" class="linkPointer" data-toggle="modal" data-target="#itemActionModal" title="Delete"
-                                                                   data-placement="top">
-                                                                    <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
+                                                                                            <td id="tdprojectType_@item.ID">
+                                                                                                @item.CostCenterTypeName
+                                                                                            </td>
+
+                                                                                            <td>
+                                                                                                <a id="@item.ID" onclick=" makeEditble(this);" class="linkPointer" data-toggle="modal" data-target="#exampleModal" title="Edit" data-placement="top"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                                                                                <a id="@item.ID" onclick="makeDeletable(@item.ID);" class="linkPointer" data-toggle="modal" data-target="#itemActionModal" title="Delete"
+                                                                                                   data-placement="top">
+                                                                                                    <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+                                                                                                </a>
+                                                                                            </td>
+                                                                                        </tr>
                                                     }
                                                 }
                                             }
@@ -175,7 +180,8 @@
             if (id !== null) {
                 $('#userMenuId').val(id);
                 $('#ActionId').val(3);
-
+                $('#CompanyFK').val($('#hidCompanyFK_' + id).val());
+                $('#selectProjectType').val($('#costCenterTypeId_' + id).val());
             }
         }
         function resetForm() {

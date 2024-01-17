@@ -24,7 +24,7 @@ namespace KGERP.Data.Models
         public Nullable<System.DateTime> ModifiedOn { get; set; }
         public bool IsActive { get; set; }
     
-        public virtual Accounting_CostCenter Accounting_CostCenter { get; set; }
         public virtual Company Company { get; set; }
+        public virtual Accounting_CostCenter Accounting_CostCenter { get; set; }
     }
 }

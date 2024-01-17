@@ -33,10 +33,11 @@
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
           <Property Name="ModifiedBy" Type="nvarchar" MaxLength="50" />
-          <Property Name="ModifiedDate" Type="nvarchar" MaxLength="50" />
+          <Property Name="ModifiedDate" Type="datetime" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="Status" Type="bit" Nullable="false" />
           <Property Name="CostCenterTypeId" Type="int" />
+          <Property Name="ShortName" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Accounting_CostCenterType">
           <Key>
@@ -11842,26 +11843,9 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             <End Role="Company" EntitySet="Companies" />
             <End Role="BillRequisitionVoucherMap" EntitySet="BillRequisitionVoucherMaps" />
           </AssociationSet>
-          <EntitySet Name="Accounting_CostCenter" EntityType="ERPModel.Accounting_CostCenter" />
-          <AssociationSet Name="FK_Accounting_CostCenter_Accounting_CostCenterType" Association="ERPModel.FK_Accounting_CostCenter_Accounting_CostCenterType">
-            <End Role="Accounting_CostCenterType" EntitySet="Accounting_CostCenterType" />
-            <End Role="Accounting_CostCenter" EntitySet="Accounting_CostCenter" />
-          </AssociationSet>
-          <AssociationSet Name="FK_BoQBudgetMaster_Accounting_CostCenter" Association="ERPModel.FK_BoQBudgetMaster_Accounting_CostCenter">
-            <End Role="Accounting_CostCenter" EntitySet="Accounting_CostCenter" />
-            <End Role="BoQBudgetMaster" EntitySet="BoQBudgetMasters" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CostCenterManagerMap_Accounting_CostCenter" Association="ERPModel.FK_CostCenterManagerMap_Accounting_CostCenter">
-            <End Role="Accounting_CostCenter" EntitySet="Accounting_CostCenter" />
-            <End Role="CostCenterManagerMap" EntitySet="CostCenterManagerMaps" />
-          </AssociationSet>
           <EntitySet Name="BillBoQItems" EntityType="ERPModel.BillBoQItem" />
           <EntitySet Name="BillReqApprovalHistories" EntityType="ERPModel.BillReqApprovalHistory" />
           <EntitySet Name="BoQDivisions" EntityType="ERPModel.BoQDivision" />
-          <AssociationSet Name="FK_BoQDivision_Accounting_CostCenter" Association="ERPModel.FK_BoQDivision_Accounting_CostCenter">
-            <End Role="Accounting_CostCenter" EntitySet="Accounting_CostCenter" />
-            <End Role="BoQDivision" EntitySet="BoQDivisions" />
-          </AssociationSet>
           <AssociationSet Name="FK_BillReqApprovalHistory_Company" Association="ERPModel.FK_BillReqApprovalHistory_Company">
             <End Role="Company" EntitySet="Companies" />
             <End Role="BillReqApprovalHistory" EntitySet="BillReqApprovalHistories" />
@@ -12045,6 +12029,23 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
           <AssociationSet Name="FK_VoucherBRMapMasterApproval_VoucherBRMapMaster" Association="ERPModel.FK_VoucherBRMapMasterApproval_VoucherBRMapMaster">
             <End Role="VoucherBRMapMaster" EntitySet="VoucherBRMapMasters" />
             <End Role="VoucherBRMapMasterApproval" EntitySet="VoucherBRMapMasterApprovals" />
+          </AssociationSet>
+          <EntitySet Name="Accounting_CostCenter" EntityType="ERPModel.Accounting_CostCenter" />
+          <AssociationSet Name="FK_Accounting_CostCenter_Accounting_CostCenterType" Association="ERPModel.FK_Accounting_CostCenter_Accounting_CostCenterType">
+            <End Role="Accounting_CostCenterType" EntitySet="Accounting_CostCenterType" />
+            <End Role="Accounting_CostCenter" EntitySet="Accounting_CostCenter" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BoQBudgetMaster_Accounting_CostCenter" Association="ERPModel.FK_BoQBudgetMaster_Accounting_CostCenter">
+            <End Role="Accounting_CostCenter" EntitySet="Accounting_CostCenter" />
+            <End Role="BoQBudgetMaster" EntitySet="BoQBudgetMasters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BoQDivision_Accounting_CostCenter" Association="ERPModel.FK_BoQDivision_Accounting_CostCenter">
+            <End Role="Accounting_CostCenter" EntitySet="Accounting_CostCenter" />
+            <End Role="BoQDivision" EntitySet="BoQDivisions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CostCenterManagerMap_Accounting_CostCenter" Association="ERPModel.FK_CostCenterManagerMap_Accounting_CostCenter">
+            <End Role="Accounting_CostCenter" EntitySet="Accounting_CostCenter" />
+            <End Role="CostCenterManagerMap" EntitySet="CostCenterManagerMaps" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="AdminPolicy">
@@ -20632,61 +20633,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Accounting_CostCenter">
-          <Key>
-            <PropertyRef Name="CostCenterId" />
-          </Key>
-          <Property Name="CostCenterId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CompanyId" Type="Int32" Nullable="false" />
-          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ModifiedDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <Property Name="Status" Type="Boolean" Nullable="false" />
-          <Property Name="CostCenterTypeId" Type="Int32" />
-          <NavigationProperty Name="Accounting_CostCenterType" Relationship="ERPModel.FK_Accounting_CostCenter_Accounting_CostCenterType" FromRole="Accounting_CostCenter" ToRole="Accounting_CostCenterType" />
-          <NavigationProperty Name="BoQBudgetMasters" Relationship="ERPModel.FK_BoQBudgetMaster_Accounting_CostCenter" FromRole="Accounting_CostCenter" ToRole="BoQBudgetMaster" />
-          <NavigationProperty Name="CostCenterManagerMaps" Relationship="ERPModel.FK_CostCenterManagerMap_Accounting_CostCenter" FromRole="Accounting_CostCenter" ToRole="CostCenterManagerMap" />
-          <NavigationProperty Name="BoQDivisions" Relationship="ERPModel.FK_BoQDivision_Accounting_CostCenter" FromRole="Accounting_CostCenter" ToRole="BoQDivision" />
-        </EntityType>
-        <Association Name="FK_Accounting_CostCenter_Accounting_CostCenterType">
-          <End Type="ERPModel.Accounting_CostCenterType" Role="Accounting_CostCenterType" Multiplicity="0..1" />
-          <End Type="ERPModel.Accounting_CostCenter" Role="Accounting_CostCenter" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Accounting_CostCenterType">
-              <PropertyRef Name="CostCenterTypeId" />
-            </Principal>
-            <Dependent Role="Accounting_CostCenter">
-              <PropertyRef Name="CostCenterTypeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_BoQBudgetMaster_Accounting_CostCenter">
-          <End Type="ERPModel.Accounting_CostCenter" Role="Accounting_CostCenter" Multiplicity="1" />
-          <End Type="ERPModel.BoQBudgetMaster" Role="BoQBudgetMaster" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Accounting_CostCenter">
-              <PropertyRef Name="CostCenterId" />
-            </Principal>
-            <Dependent Role="BoQBudgetMaster">
-              <PropertyRef Name="ProjectId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_CostCenterManagerMap_Accounting_CostCenter">
-          <End Type="ERPModel.Accounting_CostCenter" Role="Accounting_CostCenter" Multiplicity="1" />
-          <End Type="ERPModel.CostCenterManagerMap" Role="CostCenterManagerMap" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Accounting_CostCenter">
-              <PropertyRef Name="CostCenterId" />
-            </Principal>
-            <Dependent Role="CostCenterManagerMap">
-              <PropertyRef Name="CostCenterId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="BillBoQItem">
           <Key>
             <PropertyRef Name="BoQItemId" />
@@ -20737,21 +20683,9 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
           <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Accounting_CostCenter" Relationship="ERPModel.FK_BoQDivision_Accounting_CostCenter" FromRole="BoQDivision" ToRole="Accounting_CostCenter" />
           <NavigationProperty Name="Company" Relationship="ERPModel.FK_BoQDivision_Company" FromRole="BoQDivision" ToRole="Company" />
+          <NavigationProperty Name="Accounting_CostCenter" Relationship="ERPModel.FK_BoQDivision_Accounting_CostCenter" FromRole="BoQDivision" ToRole="Accounting_CostCenter" />
         </EntityType>
-        <Association Name="FK_BoQDivision_Accounting_CostCenter">
-          <End Type="ERPModel.Accounting_CostCenter" Role="Accounting_CostCenter" Multiplicity="1" />
-          <End Type="ERPModel.BoQDivision" Role="BoQDivision" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Accounting_CostCenter">
-              <PropertyRef Name="CostCenterId" />
-            </Principal>
-            <Dependent Role="BoQDivision">
-              <PropertyRef Name="ProjectId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_BillReqApprovalHistory_Company">
           <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
           <End Type="ERPModel.BillReqApprovalHistory" Role="BillReqApprovalHistory" Multiplicity="*" />
@@ -21643,6 +21577,74 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             </Principal>
             <Dependent Role="VoucherBRMapMasterApproval">
               <PropertyRef Name="VoucherBRMapMasterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Accounting_CostCenter">
+          <Key>
+            <PropertyRef Name="CostCenterId" />
+          </Key>
+          <Property Name="CostCenterId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <Property Name="CostCenterTypeId" Type="Int32" />
+          <Property Name="ShortName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Accounting_CostCenterType" Relationship="ERPModel.FK_Accounting_CostCenter_Accounting_CostCenterType" FromRole="Accounting_CostCenter" ToRole="Accounting_CostCenterType" />
+          <NavigationProperty Name="BoQBudgetMasters" Relationship="ERPModel.FK_BoQBudgetMaster_Accounting_CostCenter" FromRole="Accounting_CostCenter" ToRole="BoQBudgetMaster" />
+          <NavigationProperty Name="BoQDivisions" Relationship="ERPModel.FK_BoQDivision_Accounting_CostCenter" FromRole="Accounting_CostCenter" ToRole="BoQDivision" />
+          <NavigationProperty Name="CostCenterManagerMaps" Relationship="ERPModel.FK_CostCenterManagerMap_Accounting_CostCenter" FromRole="Accounting_CostCenter" ToRole="CostCenterManagerMap" />
+        </EntityType>
+        <Association Name="FK_Accounting_CostCenter_Accounting_CostCenterType">
+          <End Type="ERPModel.Accounting_CostCenterType" Role="Accounting_CostCenterType" Multiplicity="0..1" />
+          <End Type="ERPModel.Accounting_CostCenter" Role="Accounting_CostCenter" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Accounting_CostCenterType">
+              <PropertyRef Name="CostCenterTypeId" />
+            </Principal>
+            <Dependent Role="Accounting_CostCenter">
+              <PropertyRef Name="CostCenterTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BoQBudgetMaster_Accounting_CostCenter">
+          <End Type="ERPModel.Accounting_CostCenter" Role="Accounting_CostCenter" Multiplicity="1" />
+          <End Type="ERPModel.BoQBudgetMaster" Role="BoQBudgetMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Accounting_CostCenter">
+              <PropertyRef Name="CostCenterId" />
+            </Principal>
+            <Dependent Role="BoQBudgetMaster">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BoQDivision_Accounting_CostCenter">
+          <End Type="ERPModel.Accounting_CostCenter" Role="Accounting_CostCenter" Multiplicity="1" />
+          <End Type="ERPModel.BoQDivision" Role="BoQDivision" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Accounting_CostCenter">
+              <PropertyRef Name="CostCenterId" />
+            </Principal>
+            <Dependent Role="BoQDivision">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CostCenterManagerMap_Accounting_CostCenter">
+          <End Type="ERPModel.Accounting_CostCenter" Role="Accounting_CostCenter" Multiplicity="1" />
+          <End Type="ERPModel.CostCenterManagerMap" Role="CostCenterManagerMap" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Accounting_CostCenter">
+              <PropertyRef Name="CostCenterId" />
+            </Principal>
+            <Dependent Role="CostCenterManagerMap">
+              <PropertyRef Name="CostCenterId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -27184,22 +27186,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Accounting_CostCenter">
-            <EntityTypeMapping TypeName="ERPModel.Accounting_CostCenter">
-              <MappingFragment StoreEntitySet="Accounting_CostCenter">
-                <ScalarProperty Name="CostCenterTypeId" ColumnName="CostCenterTypeId" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="CostCenterId" ColumnName="CostCenterId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="BillBoQItems">
             <EntityTypeMapping TypeName="ERPModel.BillBoQItem">
               <MappingFragment StoreEntitySet="BillBoQItem">
@@ -27589,6 +27575,23 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
                 <ScalarProperty Name="VoucherId" ColumnName="VoucherId" />
                 <ScalarProperty Name="VoucherBRMapMasterId" ColumnName="VoucherBRMapMasterId" />
                 <ScalarProperty Name="VoucherBRMapMasterApprovalId" ColumnName="VoucherBRMapMasterApprovalId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Accounting_CostCenter">
+            <EntityTypeMapping TypeName="ERPModel.Accounting_CostCenter">
+              <MappingFragment StoreEntitySet="Accounting_CostCenter">
+                <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+                <ScalarProperty Name="CostCenterTypeId" ColumnName="CostCenterTypeId" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CostCenterId" ColumnName="CostCenterId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

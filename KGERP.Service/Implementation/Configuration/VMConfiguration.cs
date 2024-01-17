@@ -83,6 +83,7 @@ namespace KGERP.Service.Implementation.Configuration
         public int? LayerNo { get; set; }
         public string ShortName { get; set; }
         public int accounting_CostCenterTypeId { get; set; }
+        public string CostCenterTypeName { get; set; }
         public List<Accounting_CostCenterType> accounting_CostCenterTypes { get; set; }
         public SelectList CompanyList { get; set; } = new SelectList(new List<object>());
     }

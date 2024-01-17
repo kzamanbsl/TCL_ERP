@@ -18,8 +18,8 @@ namespace KGERP.Data.Models
         public Accounting_CostCenter()
         {
             this.BoQBudgetMasters = new HashSet<BoQBudgetMaster>();
-            this.CostCenterManagerMaps = new HashSet<CostCenterManagerMap>();
             this.BoQDivisions = new HashSet<BoQDivision>();
+            this.CostCenterManagerMaps = new HashSet<CostCenterManagerMap>();
         }
     
         public int CostCenterId { get; set; }
@@ -28,17 +28,18 @@ namespace KGERP.Data.Models
         public string CreatedBy { get; set; }
         public System.DateTime CreatedDate { get; set; }
         public string ModifiedBy { get; set; }
-        public string ModifiedDate { get; set; }
+        public Nullable<System.DateTime> ModifiedDate { get; set; }
         public bool IsActive { get; set; }
         public bool Status { get; set; }
         public Nullable<int> CostCenterTypeId { get; set; }
+        public string ShortName { get; set; }
     
         public virtual Accounting_CostCenterType Accounting_CostCenterType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BoQBudgetMaster> BoQBudgetMasters { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CostCenterManagerMap> CostCenterManagerMaps { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BoQDivision> BoQDivisions { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CostCenterManagerMap> CostCenterManagerMaps { get; set; }
     }
 }
