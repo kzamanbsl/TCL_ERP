@@ -338,10 +338,8 @@ namespace KGERP.Service.Implementation.Configuration
         {
             var result = -1;
 
-
             Accounting_CostCenter costCenter = new Accounting_CostCenter
             {
-
                 Name = vmUserMenu.Name,
                 CostCenterTypeId = vmUserMenu.accounting_CostCenterTypeId,
                 CompanyId = vmUserMenu.CompanyFK.Value,
@@ -349,6 +347,7 @@ namespace KGERP.Service.Implementation.Configuration
                 CreatedDate = DateTime.Now,
                 IsActive = true
             };
+
             _db.Accounting_CostCenter.Add(costCenter);
             if (await _db.SaveChangesAsync() > 0)
             {
@@ -363,6 +362,7 @@ namespace KGERP.Service.Implementation.Configuration
             Accounting_CostCenter costCenter = _db.Accounting_CostCenter.Find(vmUserMenu.ID);
             costCenter.Name = vmUserMenu.Name;
             costCenter.CostCenterTypeId = vmUserMenu.accounting_CostCenterTypeId;
+            //costCenter.ModifiedDate = DateTime.Now;
             costCenter.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
 
             if (await _db.SaveChangesAsync() > 0)
