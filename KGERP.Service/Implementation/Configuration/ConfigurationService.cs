@@ -298,6 +298,18 @@ namespace KGERP.Service.Implementation.Configuration
         //}
         //#endregion
 
+        public async Task<bool> IsShortNameExist(string shortName)
+        {
+            bool result = false;
+
+            if(await _db.Accounting_CostCenter.FirstOrDefaultAsync(q => q.ShortName == shortName) != null)
+            {
+                result = true;
+            }
+
+            return result;
+        }
+
         public async Task<VMUserMenu> AccountingCostCenterGet(int companyId)
         {
             VMUserMenu vmUserMenu = new VMUserMenu();

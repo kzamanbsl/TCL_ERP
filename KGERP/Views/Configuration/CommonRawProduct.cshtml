@@ -43,7 +43,7 @@
 
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="message-text" class="col-form-label">Requisition Type:</label>
+                                        <label for="message-text" class="col-form-label">Material Type :</label>
                                         @Html.DropDownListFor(model => model.Common_ProductCategoryFk, Model.ProductCategoryList as SelectList, "==Select Requisition Type==", new { id = "ddlCommonProductCategoryFk", onchange= "GetSubCategoryListByCategoryId()", @class = "form-control", required = "required" })
                                         @Html.ValidationMessageFor(model => model.ProductCategoryId, "", new { @class = "text-danger" })
                                     </div>
@@ -51,7 +51,7 @@
 
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="message-text" class="col-form-label">Requisition Subtype :</label>
+                                        <label for="message-text" class="col-form-label">Material Subtype :</label>
                                         @Html.DropDownListFor(model => model.Common_ProductSubCategoryFk, Model.ProductSubCategoryList as SelectList, "=Select Requisition Subtype=", new { id = "ddlCommonProductSubCategoryFk", @class = "form-control", required = "required" })
                                         @Html.ValidationMessageFor(model => model.ProductSubCategoryId, "", new { @class = "text-danger" })
                                     </div>
@@ -100,8 +100,8 @@
                                             <thead>
                                                 <tr>
                                                     <th>SL</th>
-                                                    <th>Requisition Type</th>
-                                                    <th>Requisition Subtype</th>
+                                                    <th>Material Type</th>
+                                                    <th>Material Subtype</th>
                                                     <th>Material Name</th>
                                                     <th>Unit Name</th>
                                                     <th>Action</th>

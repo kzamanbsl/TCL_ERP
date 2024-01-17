@@ -1,6 +1,6 @@
 ﻿@model KGERP.Service.Implementation.Configuration.VMCommonProductSubCategory
 @{
-    ViewData["Title"] = "New Requisition Subtype";
+    ViewData["Title"] = "New Material Subtype";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -12,11 +12,11 @@
 </style>
 <section class="content-header">
     <h1>
-        New Requisition Subtype
+        New Material Subtype
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">New Requisition Subtype</li>
+        <li class="active">New Material Subtype</li>
     </ol>
 </section>
 @using (Html.BeginForm("CommonRawProductSubCategory", "Configuration", FormMethod.Post, new { id = "commonProductSubCategoryFormId", @class = "formValidator", onreset = "resetDDL();" }))
@@ -39,15 +39,15 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label>Requisition Type :</label>
+                                            <label>Material Type :</label>
                                             @Html.DropDownListFor(model => model.Common_ProductCategoryFk, Model.ProductCategoryLists as SelectList, "=Select Requisition type=", new { id = "ddlCommonProductCategoryFk", @class = "form-control", required = "true", })
                                             @Html.ValidationMessageFor(model => model.Common_ProductCategoryFk, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label>Requisition Subtype Name :</label>
-                                            @Html.TextBoxFor(model => model.Name, new { id = "txtSubcategoryName", @class = "form-control input-sm", @placeholder = "Requisition subtype name", required = "true" })
+                                            <label>Material Subtype Name :</label>
+                                            @Html.TextBoxFor(model => model.Name, new { id = "txtSubcategoryName", @class = "form-control input-sm", @placeholder = "Material subtype name", required = "true" })
                                             @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -75,17 +75,16 @@
                             <!-- /.box-header -->
                             <div class="box-body">
                                 <div class="table-responsive col-md-12">
-                                    <table id="KgErpDataTable" style="width:100%; background-color:#ddd;" class="table table-striped">
+                                    <table id="KgErpDataTable" class="table table-dark table-responsive table-striped">
                                         <thead>
                                             <tr>
                                                 <th>SL</th>
-                                                <th>Requsition Type</th>
-                                                <th>Requsition Subtype</th>
+                                                <th>Material Type</th>
+                                                <th>Material Subtype</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
-                                        @{int sl = 0;
-                                        }
+                                        @{int sl = 0;}
                                         <tbody>
                                             @foreach (var item in Model.DataList.OrderBy(c=>c.Common_ProductCategoryFk))
                                             {

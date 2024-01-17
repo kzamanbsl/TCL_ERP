@@ -83,6 +83,13 @@ namespace KGERP.Controllers
 
         #endregion
 
+        public async Task<JsonResult> CheckShortName(string shortName)
+        {
+            bool result = await _service.IsShortNameExist(shortName);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
         public async Task<ActionResult> AccountingCostCenter(int companyId)
         {
             VMUserMenu vmUserMenu = await Task.Run(() => _service.AccountingCostCenterGet(companyId));
