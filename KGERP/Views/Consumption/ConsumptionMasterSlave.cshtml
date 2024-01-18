@@ -1,0 +1,1126 @@
+﻿@model KGERP.Service.ServiceModel.BillRequisitionMasterModel
+@using KGERP.Utility;
+
+@{
+    ViewData["Title"] = "New Consumption";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    int sl = 0;
+}
+
+<style type="text/css">
+
+    input, select, textarea {
+        max-width: 100%;
+    }
+
+    .ui-datepicker-trigger {
+        width: 37px !important;
+        height: 33px !important;
+        margin-left: 5px !important;
+    }
+
+    .dateCustom {
+        width: 90% !important;
+        border-radius: 1px !important;
+        border: 1px solid #d2d6de !important;
+        height: 33px !important;
+    }
+</style>
+
+<section class="content-header">
+    <h1>
+        @if (Model.BillRequisitionMasterId > 0)
+        {
+            <span>
+                New Consumption
+            </span>
+        }
+        else
+        {
+            <span>
+                New Consumption
+            </span>
+        }
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
+        <li class="active">New Consumption</li>
+    </ol>
+</section>
+@using (Html.BeginForm("ConsumptionMasterSlave", "Consumption", FormMethod.Post, new { id = "BRMasterSlaveFormId", @class = "formValidator" }))
+{
+    <section class="content">
+        <div class="row">
+            <div class="box">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.BillRequisitionMasterId, new { id = "hidBRMasterId" })
+                @Html.HiddenFor(model => model.DetailModel.BillRequisitionDetailId, new { id = "hiddenBillRequisitionDetailId" })
+
+                @Html.HiddenFor(model => model.ActionId, new { id = "ActionId" })
+                @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
+                <div class="box-danger">
+                    <div class="box-body">
+                        @if (Model.BillRequisitionMasterId > 0)
+                        {
+                            <div class="row mb-5">
+                                <div class="col-md-1"> </div>
+                                <div class="col-md-10">
+                                    <table class="table">
+                                        <tr>
+                                            <th style="width:17% !important">Requisition No</th>
+                                            <th>:</th>
+                                            <td>@Model.BillRequisitionNo</td>
+
+                                            <th style="width:17% !important">Requisition Status</th>
+                                            <th>:</th>
+                                            <td>@Model.StatusName</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th style="width:17% !important">Requisition Date</th>
+                                            <th>:</th>
+                                            <td>@Model.BRDate.ToShortDateString()</td>
+
+                                            @if (Model.BillRequisitionTypeId == (int)EnumBillRequisitionType.Overhead)
+                                            {
+                                                <th style="width:17% !important">Requisition Subtype</th>
+                                                <th>:</th>
+                                                <td>
+                                                    @Model.BRSubtypeName
+                                                    <input type="hidden" value="@Model.BillRequisitionTypeId" id="reqTypeId" />
+                                                    <input type="hidden" value="@Model.BillRequisitionSubTypeId" id="reqSubtypeId" />
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <th style="width:17% !important">Requisition Type</th>
+                                                <th>:</th>
+                                                <td>@Model.BRTypeName</td>
+                                            }
+                                        </tr>
+
+                                        <tr>
+                                            <th style="width:17% !important">Project Type</th>
+                                            <th>:</th>
+                                            <td>@Model.ProjectTypeName</td>
+
+                                            <th style="width:17% !important">Project Name</th>
+                                            <th>:</th>
+                                            <td>@Model.CostCenterName</td>
+                                        </tr>
+
+                                        @if (!(Model.BillRequisitionTypeId == (int)EnumBillRequisitionType.Overhead))
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <input type="hidden" value="@Model.BOQItemId" id="boqId" />
+                                                </td>
+                                            </tr>
+                                        }
+
+                                        <tr>
+                                            <th>Division Name</th>
+                                            <th>:</th>
+                                            <td>@(Model.BoQDivisionName != null ? Model.BoQDivisionName : "N/A")</td>
+
+                                            <th>BoQ Item Name</th>
+                                            <th>:</th>
+                                            <td>@(Model.BOQItemName != null ? Model.BOQItemName : "N/A")</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th>
+                                                @((Model.BillRequisitionTypeId == (int)EnumBillRequisitionType.Overhead)? "Item Description" : "Work Details")
+                                            </th>
+                                            <th>:</th>
+                                            <td>@Model.Description</td>
+
+                                            <th>Created By</th>
+                                            <th>:</th>
+                                            <td>@Model.CreatedBy</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-md-1"> </div>
+                            </div>
+                        }
+
+                        <div class="box-body">
+
+                            @if (Model.BillRequisitionMasterId == 0)
+                            {
+                                <div class="row">
+
+                                    <div class="col-md-6">
+                                        <label for="message-text" class="col-form-label">Requisition Date :</label>
+                                        <div class="form-group">
+                                            <input name="BRDate" asp-for="BRDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker w-100 dateCustom" placeholder="Operation Date" autocomplete="off" id="txtOperationrDate">
+                                            @Html.ValidationMessageFor(model => model.BRDate, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Project Type :</label>
+                                            @Html.DropDownListFor(model => model.ProjectTypeId, Model.ProjectTypeList as SelectList, "==Select Project Type==", new { id = "projectTypeId", onchange = "GetProjectListByProjectTypeId()", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.ValidationMessageFor(model => model.ProjectTypeId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Select Project :</label>
+                                            @Html.DropDownListFor(model => model.CostCenterId, Model.ProjectList as SelectList, "==Select Project==", new { id = "ddlCostCenterId", onchange = "GetDivisionListByProjectId()", @class = "form-control searchingDropdown", style = "width:100%", required = "requried" })
+                                            @Html.ValidationMessageFor(model => model.CostCenterId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Requisition Type :</label>
+                                            @Html.DropDownListFor(model => model.BillRequisitionTypeId, Model.RequisitionTypeList as SelectList, "==Select Requisition Type==", new { id = "ddlBRTypeId", onchange = "GetSubCategoryListByCategoryId()", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.ValidationMessageFor(model => model.BillRequisitionTypeId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Requisition Subtype :</label>
+                                            @Html.DropDownListFor(model => model.BillRequisitionSubTypeId, Model.RequisitionSubTypeList as SelectList, "==Select Requisition Subtype==", new { id = "ddlBRSubTypeId", onchange = "ShowBoqMaterialListByReqSubtypeId()", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.ValidationMessageFor(model => model.BillRequisitionSubTypeId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3 d-block" id="inputDivision">
+                                        <div class="form-group">
+                                            <label>BoQ Division :</label>
+                                            @Html.DropDownListFor(model => model.BoQDivisionId, Model.BOQDivisionList as SelectList, "==Select BoQ Division==", new { id = "ddlDivisionId", onchange = "GetBoqItemListByDivisionId()", @class = "form-control searchingDropdown", style = "width:100%" })
+                                            @Html.ValidationMessageFor(model => model.CostCenterId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3 d-block" id="inputBoq">
+                                        <div class="form-group">
+                                            <label>BoQ Item :</label>
+                                            @Html.DropDownListFor(model => model.BOQItemId, Model.BOQItemList as SelectList, "==Select BoQ Item==", new { id = "ddlBOQItemId", onchange = "GetMaterialListByBoqId()", @class = "form-control searchingDropdown", style = "width:100%" })
+                                            @Html.ValidationMessageFor(model => model.BOQItemId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="txtDescription" class="col-form-label" id="descriptionTitle">Work Deatils :</label>
+                                            @Html.TextAreaFor(model => model.Description, new { id = "txtitemDescription", placeholder = "Type work details here", @class = "form-control", rows = 2 })
+                                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                </div>
+                            }
+
+                            @if (Model.StatusId == EnumBillRequisitionStatus.Draft)
+                            {
+                                if (Model.ProjectTypeId == (int)EnumBillReqProjectType.Building)
+                                {
+                                    <div class="row">
+                                        <div class="col-md-3 d-block">
+                                            <div class="form-group">
+                                                <label for="txtFloor" class="col-form-label">Floor :</label>
+                                                @Html.TextBoxFor(model => model.DetailModel.Floor, new { id = "txtFloor", placeholder = "Floor", @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.DetailModel.Floor, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                else if (Model.ProjectTypeId == (int)EnumBillReqProjectType.Road)
+                                {
+                                    <div class="row d-block">
+                                        <div class="col-md-3">
+                                            <div class="form-group d-block">
+                                                <label for="txtWrad" class="col-form-label">Ward :</label>
+                                                @Html.TextBoxFor(model => model.DetailModel.Ward, new { id = "txtWrad", placeholder = "Ward", @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.DetailModel.Ward, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3 d-block">
+                                            <div class="form-group">
+                                                <label for="txtDPP" class="col-form-label">DPP :</label>
+                                                @Html.TextBoxFor(model => model.DetailModel.DPP, new { id = "txtDPP", placeholder = "DPP", @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.DetailModel.DPP, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                else if (Model.ProjectTypeId == (int)EnumBillReqProjectType.Runway)
+                                {
+                                    <div class="row d-block">
+                                        <div class="col-md-3 d-block">
+                                            <div class="form-group">
+                                                <label for="txtChainage" class="col-form-label">Chainage :</label>
+                                                @Html.TextBoxFor(model => model.DetailModel.Chainage, new { id = "txtChainage", placeholder = "Chainage", @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.DetailModel.Chainage, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                else if (Model.ProjectTypeId == 0)
+                                {
+                                    <div class="row hidden" id="depandableInputForm">
+                                        <div class="col-md-3" id="inputWard">
+                                            <div class="form-group">
+                                                <label for="txtWrad" class="col-form-label">Ward :</label>
+                                                @Html.TextBoxFor(model => model.DetailModel.Ward, new { id = "txtWrad", placeholder = "Ward", @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.DetailModel.Ward, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3 hidden" id="inputDPP">
+                                            <div class="form-group">
+                                                <label for="txtDPP" class="col-form-label">DPP :</label>
+                                                @Html.TextBoxFor(model => model.DetailModel.DPP, new { id = "txtDPP", placeholder = "DPP", @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.DetailModel.DPP, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3 hidden" id="inputChainage">
+                                            <div class="form-group">
+                                                <label for="txtChainage" class="col-form-label">Chainage :</label>
+                                                @Html.TextBoxFor(model => model.DetailModel.Chainage, new { id = "txtChainage", placeholder = "Chainage", @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.DetailModel.Chainage, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3 hidden" id="inputFloor">
+                                            <div class="form-group">
+                                                <label for="txtFloor" class="col-form-label">Floor :</label>
+                                                @Html.TextBoxFor(model => model.DetailModel.Floor, new { id = "txtFloor", placeholder = "Floor", @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.DetailModel.Floor, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
+                                <div class="row">
+                                    <div class="col-md-3 d-block" id="inputMaterial">
+                                        <div class="form-group">
+                                            <label id="materialTitle">@((Model.BillRequisitionTypeId == (int)EnumBillRequisitionType.Overhead)? "Requisition Subtype Item :" : "Requisition Material Item :")</label>
+                                            @Html.DropDownListFor(model => model.DetailModel.ProductId, Model.RequisitionItemList as SelectList, "==Select Material==", new { id = "ddlRequisitionItemId", onchange = "GetUnitNameByProductId()", @class = "form-control searchingDropdown", style = "width:100%", })
+                                            @Html.ValidationMessageFor(model => model.DetailModel.ProductId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3 d-block" id="inputUnit">
+                                        <div class="form-group">
+                                            <label>Material Unit :</label>
+                                            @Html.TextBoxFor(model => model.DetailModel.UnitName, new { id = "showUnitName", @class = "form-control", placeholder = "Material Unit", ReadOnly = true })
+                                            @Html.HiddenFor(model => model.DetailModel.UnitId, new { id = "txtUnitId" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3 d-block" id="inputEstimateQty">
+                                        <div class="form-group">
+                                            <label>Estimate Quantity :</label>
+                                            @Html.TextBoxFor(model => model.DetailModel.EstimatedQty, new { id = "decEstimatedQty", type = "number", step = "0.01", @class = "form-control", placeholder = "Estimate quantity", ReadOnly = "true" })
+                                            @Html.ValidationMessageFor(model => model.DetailModel.EstimatedQty, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3 d-block" id="inputReceivedSoFar">
+                                        <div class="form-group">
+                                            <label>Item Received So Far :</label>
+                                            @Html.TextBoxFor(model => model.DetailModel.ReceivedSoFar, new { id = "decReceivedSoFar", type = "number", step = "0.01", @class = "form-control", placeholder = "Received so far", ReadOnly = "true" })
+                                            @Html.ValidationMessageFor(model => model.DetailModel.ReceivedSoFar, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3 d-block" id="inputRemainingQty">
+                                        <div class="form-group">
+                                            <label>Remaining Quantity :</label>
+                                            @Html.TextBoxFor(model => model.DetailModel.RemainingQty, new { id = "decRemainingQty", type = "number", step = "0.01", @class = "form-control", placeholder = "Remaining quantity", ReadOnly = "true" })
+                                            @Html.ValidationMessageFor(model => model.DetailModel.RemainingQty, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3 d-block" id="inputDemandQty">
+                                        <div class="form-group">
+                                            <label id="demandTitle">@((Model.BillRequisitionTypeId == (int)EnumBillRequisitionType.Labor)? "Labor Demand :" : "Demand Quantity :")</label>
+                                            @Html.TextBoxFor(model => model.DetailModel.DemandQty, new { id = "decDemandQty", type = "number", step = "0.01", @class = "form-control", placeholder = "Material demand" })
+                                            @Html.ValidationMessageFor(model => model.DetailModel.DemandQty, "", new { @class = "text-danger" })
+                                            <span class="text-danger" id="demandValidate"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3 d-block" id="inputUnitRate">
+                                        <div class="form-group">
+                                            <label id="unitTitle">@((Model.BillRequisitionTypeId == (int)EnumBillRequisitionType.Labor)? "Labor Rate :" : "Unit Rate :")</label>
+                                            @Html.TextBoxFor(model => model.DetailModel.UnitRate, new { id = "decUnitRate", type = "number", step = "0.01", @class = "form-control", placeholder = "Unit rate", })
+                                            @Html.ValidationMessageFor(model => model.DetailModel.UnitRate, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3 d-block" id="inputTotalPrice">
+                                        <div class="form-group">
+                                            <label id="totalTitle">Total Amount :</label>
+                                            @Html.TextBoxFor(model => model.DetailModel.TotalPrice, new { id = "decTotalPrice", type = "number", step = "0.01", @class = "form-control", placeholder = "Total amount", ReadOnly = "true" })
+                                            @Html.ValidationMessageFor(model => model.DetailModel.TotalPrice, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12 d-block" id="inputRemarks">
+                                        <div class="form-group">
+                                            <label for="txtDescription" class="col-form-label">Remarks :</label>
+                                            @Html.TextAreaFor(model => model.DetailModel.Remarks, new { id = "txtitemDescription", placeholder = "Type remarks here", @class = "form-control", rows = 2 })
+                                            @Html.ValidationMessageFor(model => model.DetailModel.Remarks, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                </div>
+                            }
+                        </div>
+
+                        @if (Model.StatusId == EnumBillRequisitionStatus.Draft)
+                        {
+                            <div class="box-footer">
+                                <div class="row">
+                                    <div class="col-md-4"></div>
+                                    <div class="col-md-4"></div>
+                                    <div class="col-lg-4 col-md-4">
+                                        <input type="submit" id="soCreateBtn" value="Add Requisition" class="btn btn-primary btn-block" />
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        @if (Model.BillRequisitionMasterId > 0)
+                        {
+
+                            @Html.HiddenFor(model => model.ID, new { id = "hidSlaveID" })
+                            <div class="table-responsive col-md-12  text-nowrap">
+                                <table id="KgErpDataTable" class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th style="padding:5px;text-align:center;">SL</th>
+                                            <th style="padding: 5px; text-align: left;">Item/ Mat.</th>
+                                            <th style="padding: 5px; text-align: left;">Unit</th>
+                                            <th style="padding: 5px; text-align: right;">Est. Qty</th>
+                                            <th style="padding: 5px; text-align: right; ">Recived So Far</th>
+                                            <th style="padding: 5px; text-align: right; ">Remaining Qty</th>
+                                            <th style="padding: 5px; text-align: right; ">Demand Qty</th>
+                                            <th style="padding: 5px; text-align: right; ">Unit Rate</th>
+                                            <th style="padding: 5px; text-align: right; ">Total Price</th>
+                                            @if (Model.StatusId == EnumBillRequisitionStatus.Draft)
+                                            {
+                                                <th style="padding:5px;text-align:center;">Action</th>
+                                            }
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @foreach (var item in Model.DetailList)
+                                        {
+
+                                            <tr>
+                                                <td style="padding:5px">@(++sl)</td>
+                                                <td style="padding:5px;text-align:left;">@item.ProductName</td>
+                                                <td style="padding: 5px; text-align: left;">@item.UnitName</td>
+                                                <td style="padding:5px;text-align:right;">@String.Format("{0:0.00}", item.EstimatedQty)</td>
+                                                <td style="padding: 5px; text-align: right;">@String.Format("{0:0.00}", item.ReceivedSoFar)</td>
+                                                <td style="padding: 5px; text-align: right;">@String.Format("{0:0.00}", item.RemainingQty)</td>
+                                                <td style="padding: 5px; text-align: right;">@String.Format("{0:0.00}", item.DemandQty)</td>
+                                                <td style="padding: 5px; text-align: right;">@String.Format("{0:0.00}", item.UnitRate)</td>
+                                                <td style="padding: 5px; text-align: right;">@String.Format("{0:0.00}", item.TotalPrice)</td>
+
+                                                @{ if (Model.StatusId == EnumBillRequisitionStatus.Draft)
+                                                    {
+                                                        <td style="padding:5px;text-align:center;">
+                                                            <a id="@item.BillRequisitionDetailId" onclick=" makeEditble(@item.BillRequisitionDetailId);" class="linkPointer" title="Edit"><i class="fa fa-edit" aria-hidden="true"></i></a>
+
+                                                            <a id="@item.BillRequisitionDetailId" onclick="makeDeletale(@item.BillRequisitionDetailId)" class="linkPointer" data-toggle="modal" data-target="#deleteDamageSlaveModal" title="Delete" data-placement="top"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>
+                                                        </td>
+                                                    }
+                                                }
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+
+                    </div>
+
+                    @if (Model.BillRequisitionMasterId > 0 && Model.StatusId == EnumBillRequisitionStatus.Draft)
+                    {
+                        <div class="box-footer">
+                            <div class="row">
+                                <div class="col-md-6"></div>
+                                <div class="col-md-6">
+                                    <a id="@Model.BillRequisitionMasterId" onclick="makeSubmitble(@Model.BillRequisitionMasterId)" class="linkPointer btn btn-success" data-toggle="modal" style="width:100%" data-target="#submitDamageModal" data-placement="top">
+                                        @if (Model.StatusId == EnumBillRequisitionStatus.Submitted)
+                                        {
+                                            <i>Undo Submit</i>
+                                        }
+                                        else
+                                        {
+                                            <i>Submit</i>
+                                        }
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+@using (Html.BeginForm("SubmitBillRequisitionMaster", "BillRequisition", FormMethod.Post, new { id = "BRMasterSlaveFormId", @class = "formValidator" }))
+{
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="modal fade" id="submitDamageModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
+                        &times;
+                    </button>
+                    <h5 class="modal-title"><b><span class="submitOrDraftText"></span> Requisition </b></h5>
+                </div>
+                <div class="modal-body">
+                    @Html.HiddenFor(model => model.BillRequisitionMasterId, new { id = "hidSubmitBRMasterId" })
+                    @Html.HiddenFor(model => model.CompanyFK, new { id = "hidSubmitCompanyFK" })
+
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div style="text-align:center">
+                        <h3>Are you sure to proceed ?</h3>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-3">
+                        <button type="button" class="btn btn-warning fa fa-close" data-dismiss="modal">&nbsp;NO</button>
+                    </div>
+                    <div class="col-md-9">
+                        <button type="submit" id="btnDelete2" onclick="makeSubmitble(this)" style="width:100%" class="btn btn-primary fa fa-check">&nbsp;<span class="submitOrDraftText"></span>Yes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@using (Html.BeginForm("DeleteBillRequisitionDetailById", "BillRequisition", FormMethod.Post, new { id = "BRMasterSlaveFormId", @class = "formValidator" }))
+{
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="modal fade" id="deleteDamageSlaveModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
+                        &times;
+                    </button>
+                    <h5 class="modal-title"><b>Delete Requisition Item</b></h5>
+                </div>
+                <div class="modal-body">
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    @Html.HiddenFor(model => model.DetailModel.BillRequisitionDetailId, new { id = "hidBillRequisitionDetailId" })
+                    @Html.HiddenFor(model => model.BillRequisitionMasterId, new { id = "hidBillRequisitionMasterId" })
+                    @Html.HiddenFor(model => model.CompanyFK, new { id = "deleteCompanyFK" })
+                    @Html.HiddenFor(model => model.ActionId, new { id = "deleteActionId" })
+
+                    <div style="text-align:center">
+                        <h3>Are you sure to Delete this Requisition Item?</h3>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-3">
+                        <button type="button" onclick="resetDamageDeleteSlaveForm()" class="btn btn-warning fa fa-close" data-dismiss="modal">&nbsp;NO</button>
+                    </div>
+                    <div class="col-md-9">
+                        <button type="submit" id="btndelete" style="width:100%" class="btn btn-primary fa fa-remove">&nbsp; Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+@Scripts.Render("~/bundles/jqueryui")
+@Styles.Render("~/Content/cssjqryUi")
+
+@section scripts {
+
+    <script type="text/javascript">
+
+        // overhead item
+        function ShowMaterial() {
+            var subTypeId = $("#reqSubtypeId").val();
+            var showBoqMaterialList = $("#ddlRequisitionItemId");
+
+            if (subTypeId > 0) {
+                $.ajax({
+                    type: "GET",
+                    url: "/BillRequisition/getBoqMaterialListForOverHead",
+                    dataType: "json",
+                    data: { id: subTypeId },
+                    success: function (data) {
+                        showBoqMaterialList.empty();
+                        showBoqMaterialList.append("<option selected disabled>==Select Material==</option>");
+
+                        $.each(data, function (index, item) {
+                            showBoqMaterialList.append($('<option>', {
+                                value: item.ProductId,
+                                text: item.ProductName
+                            }));
+                        });
+                    }
+                });
+            } else {
+                console.log("No Bill Requisition Id or No Requisition Subtype Id!");
+            }
+        }
+
+        ShowMaterial();
+
+
+        var isMakeEditable = false;
+        // Make editable form
+        function makeEditble(rowId) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("SingleBillRequisitionDetails", "BillRequisition")",
+                datatype: "Json",
+                data: { id: rowId },
+                success: function (data) {
+                    unitPrice = data.UnitPrice;
+
+                    $('#soCreateBtn').val("Update");
+                    $("#hidBRMasterId").val(data.BillRequisitionMasterId);
+                    $('#ActionId').val(2);
+                    $("#CompanyFK").val(data.CompanyId);
+                    $("#hiddenBillRequisitionDetailId").val(data.BillRequisitionDetailId);
+                    $("#ddlRequisitionItemId").val(data.ProductId).trigger('change');
+
+                    $("#txtFloor").val(data.Floor);
+                    $("#txtWrad").val(data.Ward);
+                    $("#txtDPP").val(data.DPP);
+                    $("#txtChainage").val(data.Chainage);
+                    $("#txtUnitId").val(data.UnitId);
+                    $("#decEstimatedQty").val(data.EstimatedQty);
+                    $("#decReceivedSoFar").val(data.ReceivedSoFar);
+                    $("#decRemainingQty").val(data.RemainingQty);
+                    $("#decDemandQty").val(data.DemandQty);
+                    $("#decUnitRate").val(data.UnitRate);
+                    $("#decTotalPrice").val(data.TotalPrice);
+                    $("#txtitemDescription").val(data.Remarks);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            });
+            isMakeEditable = true;
+        }
+
+        // make submitable form
+        function makeSubmitble(rowId) {
+
+            if (@Model.StatusId == 0) {
+                $('.submitOrDraftText').text("Make Submit");
+            }
+            else {
+                $('.submitOrDraftText').text("Make Draft");
+            }
+            $('#hidSubmitBRMasterId').val(@Model.BillRequisitionMasterId);
+        }
+
+        // make deletable form
+        function makeDeletale(rowId) {
+
+            $('#hidBillRequisitionDetailId').val(rowId);
+            $('#deleteActionId').val(3);
+        }
+
+        // reset form
+        function resetDamageDeleteSlaveForm() {
+
+            $('#BRMasterSlaveFormId')[0].reset();
+            $('#ActionId').val(1);
+        }
+
+        // get requisition subtype list by category id
+        function GetSubCategoryListByCategoryId() {
+            var getRequisitionTypeId = $("#ddlBRTypeId option:selected");
+            var showRequisitionSubtype = $("#ddlBRSubTypeId");
+
+            $.ajax({
+                type: "GET",
+                url: "/Configuration/GetSubCategoryByCategoryId",
+                dataType: "json",
+                data: { id: getRequisitionTypeId.val() },
+                success: function (data) {
+                    showRequisitionSubtype.empty();
+                    showRequisitionSubtype.append("<option selected disabled>==Select Req. Subtype==</option>");
+
+                    $.each(data, function (index, item) {
+                        showRequisitionSubtype.append($('<option>', {
+                            value: item.ProductSubCategoryId,
+                            text: item.Name
+                        }));
+                    });
+                },
+                error: function (error) {
+                    console.error("Error in AJAX request:", error);
+                }
+            });
+        }
+
+        // get project list by project type id
+        function GetProjectListByProjectTypeId() {
+            var getProjectTypeId = $("#projectTypeId option:selected");
+            var showProjectList = $("#ddlCostCenterId");
+
+            $.ajax({
+                type: "GET",
+                url: "/BillRequisition/GetProjectList",
+                dataType: "json",
+                data: { id: getProjectTypeId.val() },
+                success: function (data) {
+                    showProjectList.empty();
+                    showProjectList.append("<option selected disabled>==Select Project==</option>");
+
+                    $.each(data, function (index, item) {
+                        showProjectList.append($('<option>', {
+                            value: item.CostCenterId,
+                            text: item.Name
+                        }));
+                    });
+                },
+                error: function (error) {
+                    console.error("Error in AJAX request:", error);
+                }
+            });
+        }
+
+        // get division list by project id
+        function GetDivisionListByProjectId() {
+            var getProjectId = $("#ddlCostCenterId option:selected");
+            var showBoqDivisionList = $("#ddlDivisionId");
+
+            $.ajax({
+                type: "GET",
+                url: "/BillRequisition/getBoqDivisionList",
+                dataType: "json",
+                data: { id: getProjectId.val() },
+                success: function (data) {
+                    showBoqDivisionList.empty();
+                    showBoqDivisionList.append("<option selected disabled>==Select BoQ Division==</option>");
+
+                    $.each(data, function (index, item) {
+                        showBoqDivisionList.append($('<option>', {
+                            value: item.BoQDivisionId,
+                            text: item.Name
+                        }));
+                    });
+                },
+                error: function (error) {
+                    console.error("Error in AJAX request:", error);
+                }
+            });
+        }
+
+        // get boq item list by boq division id
+        function GetBoqItemListByDivisionId() {
+            var getBoqDivisionId = $("#ddlDivisionId option:selected");
+            var showBoqItemList = $("#ddlBOQItemId");
+
+            $.ajax({
+                type: "GET",
+                url: "/BillRequisition/getBoqItemList",
+                dataType: "json",
+                data: { id: getBoqDivisionId.val() },
+                success: function (data) {
+                    showBoqItemList.empty();
+                    showBoqItemList.append("<option selected disabled>==Select BoQ Item==</option>");
+
+                    $.each(data, function (index, item) {
+                        showBoqItemList.append($('<option>', {
+                            value: item.BoQItemId,
+                            text: item.Name
+                        }));
+                    });
+                },
+                error: function (error) {
+                    console.error("Error in AJAX request:", error);
+                }
+            });
+        }
+
+        // get boq material list boq item id
+        function GetMaterialListByBoqId() {
+            var getBoqItemId = $("#ddlBOQItemId option:selected");
+            var showBoqMaterialList = $("#ddlRequisitionItemId");
+            $.ajax({
+                type: "GET",
+                url: "/BillRequisition/getBoqMaterialList",
+                dataType: "json",
+                data: { id: getBoqItemId.val() },
+                success: function (data) {
+                    showBoqMaterialList.empty();
+                    showBoqMaterialList.append("<option selected disabled>==Select Material==</option>");
+
+                    $.each(data, function (index, item) {
+                        showBoqMaterialList.append($('<option>', {
+                            value: item.ProductId,
+                            text: item.ProductName
+                        }));
+                    });
+                },
+                error: function (error) {
+                    console.error("Error in AJAX request:", error);
+                }
+            });
+        }
+
+        // get boq material list for draf
+        function GetMaterialListByBoqIdForDraf() {
+            var showBoqMaterialList = $("#ddlRequisitionItemId");
+            var boqId = @((Model.BOQItemId == 0 || Model.BOQItemId == null)? 0 : Model.BOQItemId);
+            $.ajax({
+                type: "GET",
+                url: "/BillRequisition/getBoqMaterialList",
+                dataType: "json",
+                data: { id: boqId },
+                success: function (data) {
+                    showBoqMaterialList.empty();
+                    showBoqMaterialList.append("<option selected disabled>==Select Material==</option>");
+
+                    $.each(data, function (index, item) {
+                        showBoqMaterialList.append($('<option>', {
+                            value: item.ProductId,
+                            text: item.ProductName
+                        }));
+                    });
+                }
+            });
+        }
+        GetMaterialListByBoqIdForDraf();
+
+        // get boq material list for overhead
+        function ShowBoqMaterialListByReqSubtypeId() {
+            var RequisitionSubtype = $("#ddlBRSubTypeId option:selected");
+            var showBoqMaterialList = $("#ddlRequisitionItemId");
+
+            $.ajax({
+                type: "GET",
+                url: "/BillRequisition/getBoqMaterialListForOverHead",
+                dataType: "json",
+                data: { id: RequisitionSubtype.val() },
+                success: function (data) {
+                    showBoqMaterialList.empty();
+                    showBoqMaterialList.append("<option selected disabled>==Select Material==</option>");
+
+                    $.each(data, function (index, item) {
+                        showBoqMaterialList.append($('<option>', {
+                            value: item.ProductId,
+                            text: item.ProductName
+                        }));
+                    });
+                }
+            });
+        }
+
+        // get selected material unit name
+        function GetUnitNameByProductId() {
+            var getUnitIdValue = $("#ddlRequisitionItemId option:selected");
+            var showName = $("#showUnitName");
+            var showValue = $("#txtUnitId");
+
+            $.ajax({
+                type: "GET",
+                url: "/BillRequisition/GetUnitNameWithId",
+                dataType: "json",
+                data: { id: getUnitIdValue.val() },
+                success: function (data) {
+                    if (data) {
+                        showName.val(data.unitName);
+                        showValue.val(data.unitId);
+                    }
+                }
+            });
+
+            if (!isMakeEditable) {
+                GetBudgetInfo();
+            }
+        }
+
+        // get budget info
+        function GetBudgetInfo() {
+            var productId = $("#ddlRequisitionItemId option:selected");
+            var boqId = $("#ddlBOQItemId option:selected");
+            var showEstimate = $("#decEstimatedQty");
+            var showUnitRate = $("#decUnitRate");
+            var showReceivedSoFar = $("#decReceivedSoFar");
+            var showRemaining = $("#decRemainingQty");
+            var intputDemand = $("#decDemandQty");
+            var totalAmount = $("#decTotalPrice");
+            var boqIdFromMasterDetail = $("#boqId");
+            var BoqValue = 0;
+
+            if (boqIdFromMasterDetail.val() > 0) {
+                BoqValue = boqIdFromMasterDetail.val();
+
+            } else {
+                BoqValue = boqId.val();
+            }
+
+            if (BoqValue > 0) {
+                $.ajax({
+                    type: "GET",
+                    url: "/BillRequisition/GetMaterialBudgetInfo",
+                    dataType: "json",
+                    data: { boqId: BoqValue, productId: productId.val() },
+                    success: function (data) {
+                        if (data) {
+                            showEstimate.val(data.EstimateQty);
+                            showUnitRate.val(data.UnitRate);
+                            showReceivedSoFar.val(data.ReceivedSoFar);
+                            showRemaining.val(data.RemainingQty);
+                            intputDemand.val(0);
+                            totalAmount.val(0);
+                        }
+                    }
+                });
+            } else {
+                $.ajax({
+                    type: "GET",
+                    url: "/BillRequisition/GetMaterialBudgetInfoForOverhead",
+                    dataType: "json",
+                    data: { productId: productId.val() },
+                    success: function (data) {
+                        if (data) {
+                            showEstimate.val(data.EstimateQty);
+                            showUnitRate.val(data.UnitRate);
+                            showReceivedSoFar.val(data.ReceivedSoFar);
+                            showRemaining.val(data.RemainingQty);
+                            intputDemand.val(0);
+                            totalAmount.val(0);
+                        }
+                    }
+                });
+            }
+        }
+
+        $(document).ready(function () {
+            'use strict';
+
+            // dependable dropdown validate
+            $("#ddlBRSubTypeId").empty();
+            $("#ddlBRSubTypeId").append("<option selected disabled>==Select Req. Type First==</option>");
+
+
+            $("#ddlCostCenterId").empty();
+            $("#ddlCostCenterId").append("<option selected disabled>==Select Project Type First==</option>");
+
+            $("#ddlDivisionId").empty();
+            $("#ddlDivisionId").append("<option selected disabled>==Select Project First==</option>");
+
+            $("#ddlBOQItemId").empty();
+            $("#ddlBOQItemId").append("<option selected disabled>==Select Division First==</option>");
+
+            $("#ddlRequisitionItemId").empty();
+            $("#ddlRequisitionItemId").append("<option selected disabled>==Select BoQ First==</option>");
+
+            // date picker activation
+            $('#datePickerById').datepicker({
+                format: "dd/MM/yyyy",
+                todayHighlight: true,
+                autoclose: true,
+                clearBtn: true
+            }).on('changeDate', function (ev) {
+
+                if ($(this).parents('form') && $(this).attr('required')) {
+                    $(this).parents('form').bootstrapValidator('revalidateField', $(this));
+                }
+            });
+
+            // claculate demand with unit rate and show to total
+            var inputRemaining = $("#decRemainingQty");
+            var inputDemand = $("#decDemandQty");
+            var inputUnitPrice = $("#decUnitRate");
+            var showTotalPrice = $("#decTotalPrice");
+
+            function calculateTotalPrice() {
+
+                var remainingValue = parseFloat(inputRemaining.val()) || 0;
+                var demandValue = parseFloat(inputDemand.val()) || 0;
+                var unitPriceValue = parseFloat(inputUnitPrice.val()) || 0;
+                var totalPrice = 0;
+                var selectedOption = $("#ddlBRTypeId").find("option:selected");
+                var TypeId = $("#reqTypeId").val();
+
+                if (selectedOption.val() == "@((int)EnumBillRequisitionType.Overhead)" || TypeId == "@((int)EnumBillRequisitionType.Overhead)") {
+                    if (!isNaN(demandValue) && !isNaN(unitPriceValue)) {
+                        totalPrice = demandValue * unitPriceValue;
+                        showTotalPrice.val(totalPrice.toFixed(2));
+                    }
+                } else {
+                    if (!isNaN(remainingValue) && !isNaN(demandValue) && !isNaN(unitPriceValue)) {
+                        if (demandValue <= remainingValue || demandValue === 0) {
+                            $("#demandValidate").text("");
+                            totalPrice = demandValue * unitPriceValue;
+                            showTotalPrice.val(totalPrice.toFixed(2));
+                        } else {
+                            inputDemand.val(remainingValue);
+                            totalPrice = remainingValue * unitPriceValue;
+                            showTotalPrice.val(totalPrice.toFixed(2));
+                            $("#demandValidate").text("Demand cannot exceed the remaining amount!");
+                        }
+                    }
+                }
+            }
+
+            inputDemand.on("input", calculateTotalPrice);
+            inputUnitPrice.on("input", calculateTotalPrice);
+
+            // Description title change when requisition type overhead is selected
+            $("#ddlBRTypeId").on("change", function () {
+                var selectedOption = $(this).find("option:selected");
+
+                if (selectedOption.val() === "@((int)EnumBillRequisitionType.Overhead)") {
+                    $("#descriptionTitle").text("Item Description :");
+                    $("#materialTitle").text("Requisition Subtype Item :");
+                    $("#demandTitle").text("Demand Quantity :");
+                    $("#unitTitle").text("Unit Rate :");
+
+                    // master form
+                    $("#inputDivision").removeClass("d-block").addClass("hidden");
+                    $("#inputBoq").removeClass("d-block").addClass("hidden");
+
+                    // details form
+                    $("#inputEstimateQty").removeClass("d-block").addClass("hidden");
+                    $("#inputRemainingQty").removeClass("d-block").addClass("hidden");
+                    $("#inputMaterial").removeClass("hidden").addClass("d-block");
+                    $("#inputUnit").removeClass("hidden").addClass("d-block");
+                    $("#inputReceivedSoFar").removeClass("hidden").addClass("d-block");
+                    $("#inputChainage").removeClass("d-block").addClass("hidden");
+
+                    // for layout
+                    $("#inputMaterial").removeClass("col-md-3").addClass("col-md-4");
+                    $("#inputUnit").removeClass("col-md-3").addClass("col-md-4");
+                    $("#inputReceivedSoFar").removeClass("col-md-3").addClass("col-md-4");
+                    $("#inputDemandQty").removeClass("col-md-3").addClass("col-md-4");
+                    $("#inputUnitRate").removeClass("col-md-3").addClass("col-md-4");
+                    $("#inputTotalPrice").removeClass("col-md-3").addClass("col-md-4");
+                    $("#ddlRequisitionItemId").empty();
+                    $("#ddlRequisitionItemId").append("<option selected disabled>==Select Requisition Subtype First==</option>");
+                } else if (selectedOption.val() === "@((int)EnumBillRequisitionType.Labor)") {
+                    $("#demandTitle").text("Labor Quantity :");
+                    $("#unitTitle").text("Labor Rate :");
+
+                    // details form
+                    $("#inputEstimateQty").removeClass("d-block").addClass("hidden");
+                    $("#inputRemainingQty").removeClass("d-block").addClass("hidden");
+                    $("#inputMaterial").removeClass("d-block").addClass("hidden");
+                    $("#inputUnit").removeClass("d-block").addClass("hidden");
+                    $("#inputReceivedSoFar").removeClass("d-block").addClass("hidden");
+
+                    // for layout
+                    $("#inputDemandQty").removeClass("col-md-3").addClass("col-md-4");
+                    $("#inputUnitRate").removeClass("col-md-3").addClass("col-md-4");
+                    $("#inputTotalPrice").removeClass("col-md-3").addClass("col-md-4");
+                } else {
+                    $("#descriptionTitle").text("Work Details :");
+                    $("#materialTitle").text("Requisition Material Item :");
+                    $("#demandTitle").text("Demand Quantity :");
+                    $("#unitTitle").text("Unit Rate :");
+
+                    // master form
+                    $("#inputDivision").removeClass("hidden").addClass("d-block");
+                    $("#inputBoq").removeClass("hidden").addClass("d-block");
+
+                    // details form
+                    $("#inputEstimateQty").removeClass("hidden").addClass("d-block");
+                    $("#inputRemainingQty").removeClass("hidden").addClass("d-block");
+                    $("#inputMaterial").removeClass("hidden").addClass("d-block");
+                    $("#inputUnit").removeClass("hidden").addClass("d-block");
+                    $("#inputReceivedSoFar").removeClass("hidden").addClass("d-block");
+
+                    // for layout
+                    $("#inputMaterial").removeClass("col-md-4").addClass("col-md-3");
+                    $("#inputUnit").removeClass("col-md-4").addClass("col-md-3");
+                    $("#inputReceivedSoFar").removeClass("col-md-4").addClass("col-md-3");
+                    $("#inputDemandQty").removeClass("col-md-4").addClass("col-md-3");
+                    $("#inputUnitRate").removeClass("col-md-4").addClass("col-md-3");
+                    $("#inputTotalPrice").removeClass("col-md-4").addClass("col-md-3");
+                }
+            });
+
+            // show input field when project type
+            $("#projectTypeId").on("change", function () {
+                var selectedOption = $(this).find("option:selected");
+
+                if (selectedOption.val() === "@((int)EnumBillReqProjectType.Building)") {
+                    $("#depandableInputForm").removeClass("hidden").addClass("d-block");
+                    $("#inputWard").removeClass("d-block").addClass("hidden");
+                    $("#inputDPP").removeClass("d-block").addClass("hidden");
+                    $("#inputChainage").removeClass("d-block").addClass("hidden");
+                    $("#inputFloor").removeClass("hidden").addClass("d-block");
+                } else if (selectedOption.val() === "@((int)EnumBillReqProjectType.Road)") {
+                    $("#depandableInputForm").removeClass("hidden").addClass("d-block");
+                    $("#inputWard").removeClass("hidden").addClass("d-block");
+                    $("#inputDPP").removeClass("hidden").addClass("d-block");
+                    $("#inputChainage").removeClass("d-block").addClass("hidden");
+                    $("#inputFloor").removeClass("d-block").addClass("hidden");
+                } else if (selectedOption.val() === "@((int)EnumBillReqProjectType.Runway)") {
+                    $("#depandableInputForm").removeClass("hidden").addClass("d-block");
+                    $("#inputWard").removeClass("d-block").addClass("hidden");
+                    $("#inputDPP").removeClass("d-block").addClass("hidden");
+                    $("#inputChainage").removeClass("hidden").addClass("d-block");
+                    $("#inputFloor").removeClass("d-block").addClass("hidden");
+                } else {
+                    $("#depandableInputForm").removeClass("d-block").addClass("hidden");
+                    $("#inputWard").removeClass("d-block").addClass("hidden");
+                    $("#inputDPP").removeClass("d-block").addClass("hidden");
+                    $("#inputChainage").removeClass("d-block").addClass("hidden");
+                    $("#inputFloor").removeClass("d-block").addClass("hidden");
+                }
+            });
+
+            // TA/DA hidden div
+            $("#ddlBRSubTypeId").on("change", function () {
+                var selectedOption = $(this).find("option:selected");
+
+                if (selectedOption.val() == 19) {
+                    $("#inputMaterial").removeClass("d-block").addClass("hidden");
+                    $("#inputUnit").removeClass("d-block").addClass("hidden");
+                    $("#inputReceivedSoFar").removeClass("d-block").addClass("hidden");
+                    $("#inputDemandQty").removeClass("d-block").addClass("hidden");
+                    $("#inputUnitRate").removeClass("d-block").addClass("hidden");
+
+                    $("#decTotalPrice").attr("readonly", false);
+                    $("#totalTitle").text("Payable Amount");
+                    $("#inputTotalPrice").removeClass("col-md-4").addClass("col-md-6");
+                    $("#inputRemarks").removeClass("col-md-12").addClass("col-md-6");
+                }else {
+                    $("#inputMaterial").removeClass("hidden").addClass("d-block");
+                    $("#inputUnit").removeClass("hidden").addClass("d-block");
+                    $("#inputReceivedSoFar").removeClass("hidden").addClass("d-block");
+                    $("#inputDemandQty").removeClass("hidden").addClass("d-block");
+                    $("#inputUnitRate").removeClass("hidden").addClass("d-block");
+
+                    $("#decTotalPrice").attr("readonly", true);
+                    $("#totalTitle").text("Total Amount");
+                    $("#inputTotalPrice").removeClass("col-md-6").addClass("col-md-4");
+                    $("#inputRemarks").removeClass("col-md-6").addClass("col-md-12");
+                }
+            });
+        });
+
+    </script>
+}
