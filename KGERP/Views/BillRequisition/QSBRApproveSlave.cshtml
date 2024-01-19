@@ -123,7 +123,7 @@
 
                                             <th>Created By</th>
                                             <th>:</th>
-                                            <td>@Model.CreatedBy</td>
+                                            <td>@Model.EmployeeName</td>
                                         </tr>
                                     </table>
                                 </div>
@@ -133,6 +133,12 @@
 
                             <div class="row">
                                 <div class="table-responsive text-nowrap">
+
+                                    <h4 class="text-primary" style="margin: 20px 0 5px;">
+                                        <strong>
+                                            Requisition Item List:
+                                        </strong>
+                                    </h4>
 
                                     <table id="itemTable" class="table table-bordered table-striped text-center table-responsive">
                                         <thead>
@@ -208,11 +214,11 @@
                                         </tfoot>
                                     </table>
 
-                                    <strong>
-                                        <span>
+                                    <h4 class="text-primary" style="margin: 20px 0 5px;">
+                                        <strong>
                                             Requisition Approval Status:
-                                        </span>
-                                    </strong>
+                                        </strong>
+                                    </h4>
 
                                     <table class="table table-bordered">
                                         <tr class="bg-gray">
@@ -274,7 +280,51 @@
                                                 }
                                             }
                                         </tr>
+                                    </table>
 
+                                    <h4 class="text-primary" style="margin: 20px 0 5px;">
+                                        <strong>
+                                            Requisition Approval Histroy:
+                                        </strong>
+                                    </h4>
+
+                                    <table class="table table-bordered">
+                                        <tr class="bg-gray">
+                                            @foreach (var item in Model.ApprovalModelList)
+                                            {
+                                                <th style="padding:5px;text-align:center;">
+                                                    @((item.SignatoryName == "QS") ? "QS/ Engr./ HOD" : item.SignatoryName)
+                                                </th>
+                                            }
+                                        </tr>
+                                        <tr>
+                                            @foreach (var item in Model.ApprovalModelList)
+                                            {
+                                                <td>
+                                                    @if (item.ApprobalRemarks != null)
+                                                    {
+                                                        <span style="font-size: 12px"><b>Remarks: </b> @item.ApprobalRemarks</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span style="font-size: 12px"><b>Remarks: </b> @((item.SignatoryName == "Initiator") ? "Requisition Created. " : "N/A")</span>
+                                                    }
+                                                    <br />
+                                                    @if (item.SignatoryName == "Initiator")
+                                                    {
+                                                        <span style="font-size: 11px">
+                                                            <b>Time: </b> @((item.ModifiedDate == null) ? "Pending" : item.ModifiedDate.ToString())
+                                                        </span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span style="font-size: 11px">
+                                                            <b>Time: </b> @((item.ModifiedDate == null) ? "Pending" : item.ModifiedDate.ToString())
+                                                        </span>
+                                                    }
+                                                </td>
+                                            }
+                                        </tr>
                                     </table>
 
                                 </div>

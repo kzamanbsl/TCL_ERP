@@ -1143,23 +1143,12 @@ namespace KGERP.Service.Implementation
                 var empId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
                 foreach (var item in model.EnumBRSignatoryList)
                 {
-
                     BillRequisitionApproval billRequisitionApproval = new BillRequisitionApproval();
                     billRequisitionApproval.BillRequisitionMasterId = billRequisitionMaster.BillRequisitionMasterId;
                     billRequisitionApproval.CompanyId = billRequisitionMaster.CompanyId;
 
-
                     billRequisitionApproval.SignatoryId = Convert.ToInt16(item.Value);
-
-                    if (billRequisitionApproval.SignatoryId == 1)
-                    {
-                        billRequisitionApproval.EmployeeId = empId;
-                        billRequisitionApproval.AprrovalStatusId = (int)EnumBillRequisitionStatus.Approved;
-                    }
-                    else
-                    {
-                        billRequisitionApproval.AprrovalStatusId = (int)EnumBillRequisitionStatus.Pending;
-                    }
+     
                     priority = priority + 1;
                     billRequisitionApproval.PriorityNo = priority;
                     billRequisitionApproval.IsActive = true;
@@ -1167,6 +1156,19 @@ namespace KGERP.Service.Implementation
 
                     billRequisitionApproval.CreateDate = DateTime.Now;
                     billRequisitionApproval.CreatedBy = billRequisitionMaster.CreatedBy;
+
+                    if (billRequisitionApproval.SignatoryId == 1)
+                    {
+                        billRequisitionApproval.EmployeeId = empId;
+                        billRequisitionApproval.AprrovalStatusId = (int)EnumBillRequisitionStatus.Approved;
+                        billRequisitionApproval.ModifiedDate = DateTime.Now;
+                        billRequisitionApproval.Reasons = "Requisition Created.";
+                    }
+                    else
+                    {
+                        billRequisitionApproval.AprrovalStatusId = (int)EnumBillRequisitionStatus.Pending;
+                    }
+
                     billRequisitionApprovalList.Add(billRequisitionApproval);
                 }
                 _context.BillRequisitionApprovals.AddRange(billRequisitionApprovalList);
@@ -1498,6 +1500,8 @@ namespace KGERP.Service.Implementation
                                                                from t6 in t6_Join.DefaultIfEmpty()
                                                                join t7 in _context.ProductCategories on t3.ProductCategoryId equals t7.ProductCategoryId into t7_Join
                                                                from t7 in t7_Join.DefaultIfEmpty()
+                                                               join t8 in _context.Employees on t1.CreatedBy equals t8.EmployeeId into t8_Join
+                                                               from t8 in t8_Join.DefaultIfEmpty()
 
                                                                select new BillRequisitionMasterModel
                                                                {
@@ -1521,6 +1525,7 @@ namespace KGERP.Service.Implementation
                                                                    CompanyFK = t1.CompanyId,
                                                                    CreatedDate = t1.CreateDate,
                                                                    CreatedBy = t1.CreatedBy,
+                                                                   EmployeeName = t1.CreatedBy + " - " + t8.Name,
 
                                                                }).FirstOrDefault());
 
@@ -1565,6 +1570,8 @@ namespace KGERP.Service.Implementation
                                                                                      IsSupremeApproved = t1.IsSupremeApproved,
                                                                                      EmployeeId = t1.EmployeeId,
                                                                                      EmployeeName = t3.EmployeeId,
+                                                                                     ApprobalRemarks = t1.Reasons ?? "N/A",
+                                                                                     ModifiedDate = t1.ModifiedDate
                                                                                  }).OrderBy(x => x.BRApprovalId).ToList());
             return billRequisitionMasterModel;
         }
