@@ -22,6 +22,8 @@ namespace KGERP.Data.Models
     
         public long BillRequisitionDetailId { get; set; }
         public long BillRequisitionMasterId { get; set; }
+        public Nullable<long> BoQItemId { get; set; }
+        public Nullable<long> ProductSubTypeId { get; set; }
         public Nullable<int> ProductId { get; set; }
         public Nullable<int> UnitId { get; set; }
         public Nullable<decimal> EstimatedQty { get; set; }

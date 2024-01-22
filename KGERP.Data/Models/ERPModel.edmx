@@ -408,7 +408,7 @@
           <Property Name="ModifiedDate" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.Attendance_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.Attendance_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Attendance_Shadow">
           <Key>
             <PropertyRef Name="Id" />
@@ -452,7 +452,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.Attendance_Shadow' does not have a 
           <Property Name="ModifiedDate" Type="smalldatetime" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.AttendanceType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.AttendanceType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="AttendanceType">
           <Key>
             <PropertyRef Name="EmployeeId" />
@@ -524,7 +524,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.AttendanceType' does not have a pri
           <Property Name="TourDays" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.AttendenceApproveApplication_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.AttendenceApproveApplication_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="AttendenceApproveApplication_Shadow">
           <Key>
             <PropertyRef Name="Id" />
@@ -926,6 +926,37 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.AttendenceApproveApplication_Shadow
           <Property Name="Description" Type="varchar" MaxLength="50" />
           <Property Name="CompanyId" Type="int" />
         </EntityType>
+        <EntityType Name="ConsumptionDetails">
+          <Key>
+            <PropertyRef Name="ConsumptionDetailsId" />
+          </Key>
+          <Property Name="ConsumptionDetailsId" Type="bigint" Nullable="false" />
+          <Property Name="ConsumptionMasterId" Type="bigint" Nullable="false" />
+          <Property Name="ProductSubtypeId" Type="bigint" Nullable="false" />
+          <Property Name="ProductId" Type="bigint" Nullable="false" />
+          <Property Name="UnitPrice" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="ConsumedQty" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="StoredQty" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="RemainingQty" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="TotalAmount" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" />
+          <Property Name="ModifiedOn" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ConsumptionMaster">
+          <Key>
+            <PropertyRef Name="ConsumptionMasterId" />
+          </Key>
+          <Property Name="ConsumptionMasterId" Type="bigint" Nullable="false" />
+          <Property Name="StoreId" Type="bigint" Nullable="false" />
+          <Property Name="DivisionId" Type="bigint" />
+          <Property Name="BoqItemId" Type="bigint" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" />
+          <Property Name="ModifiedOn" Type="datetime" />
+        </EntityType>
         <EntityType Name="Country">
           <Key>
             <PropertyRef Name="CountryId" />
@@ -1305,7 +1336,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.AttendenceApproveApplication_Shadow
           <Property Name="StockInfoId" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.Employee_Audit' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.Employee_Audit' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Employee_Audit">
           <Key>
             <PropertyRef Name="ChangId" />
@@ -1376,7 +1407,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.Employee_Audit' does not have a pri
           <Property Name="Operation" Type="varchar" MaxLength="10" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.Employee_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.Employee_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Employee_Shadow">
           <Key>
             <PropertyRef Name="Id" />
@@ -1470,7 +1501,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.Employee_Shadow' does not have a pr
           <Property Name="ManagerId" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.EmployeeLeaveDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.EmployeeLeaveDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="EmployeeLeaveDetail">
           <Key>
             <PropertyRef Name="sl_number" />
@@ -2409,7 +2440,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.EmployeeLeaveDetail' does not have 
           <Property Name="OperationId" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.LeaveApplication_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.LeaveApplication_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="LeaveApplication_Shadow">
           <Key>
             <PropertyRef Name="LeaveApplicationId" />
@@ -2710,7 +2741,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.LeaveApplication_Shadow' does not h
           <Property Name="EDate" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.ProcessAttenendance' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.ProcessAttenendance' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ProcessAttenendance">
           <Key>
             <PropertyRef Name="EmployeeId" />
@@ -2735,7 +2766,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.ProcessAttenendance' does not have 
           <Property Name="CompanyId" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.ProcessLeave' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.ProcessLeave' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ProcessLeave">
           <Key>
             <PropertyRef Name="Employee" />
@@ -2862,7 +2893,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.ProcessLeave' does not have a prima
           <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.PS' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.PS' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="PS">
           <Key>
             <PropertyRef Name="ProductId" />
@@ -2928,7 +2959,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.PS' does not have a primary key def
           <Property Name="Modifydate" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.ServerConfig' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.ServerConfig' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ServerConfig">
           <Key>
             <PropertyRef Name="Id" />
@@ -3059,7 +3090,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.ServerConfig' does not have a prima
           <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.TempFeedVoucherDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.TempFeedVoucherDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="TempFeedVoucherDetail">
           <Key>
             <PropertyRef Name="IsActive" />
@@ -3469,6 +3500,8 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.TempFeedVoucherDetail' does not hav
           </Key>
           <Property Name="BillRequisitionDetailId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="BillRequisitionMasterId" Type="bigint" Nullable="false" />
+          <Property Name="BoQItemId" Type="bigint" />
+          <Property Name="ProductSubTypeId" Type="bigint" />
           <Property Name="ProductId" Type="int" />
           <Property Name="UnitId" Type="int" />
           <Property Name="EstimatedQty" Type="decimal" Precision="18" Scale="0" />
@@ -3711,7 +3744,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.TempFeedVoucherDetail' does not hav
           <Property Name="RowNo" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.Erp.ConvertedProductDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.Erp.ConvertedProductDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ConvertedProductDetail">
           <Key>
             <PropertyRef Name="Qty" />
@@ -3986,7 +4019,7 @@ warning 6002: The table/view 'TCLErp_Dev.Erp.ConvertedProductDetail' does not ha
           <Property Name="COGS" Type="decimal" Precision="18" Scale="3" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.Erp.FormulaHistory' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.Erp.FormulaHistory' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="FormulaHistory">
           <Key>
             <PropertyRef Name="Id" />
@@ -4964,7 +4997,7 @@ warning 6002: The table/view 'TCLErp_Dev.Erp.FormulaHistory' does not have a pri
           <Property Name="TPPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.Erp.RequisitionItemDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.Erp.RequisitionItemDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="RequisitionItemDetail">
           <Key>
             <PropertyRef Name="RequistionItemDetailId" />
@@ -5547,7 +5580,7 @@ warning 6002: The table/view 'TCLErp_Dev.Erp.RequisitionItemDetail' does not hav
           <Property Name="EmployeeId" Type="bigint" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.vw_Attendence' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.vw_Attendence' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_Attendence">
           <Key>
             <PropertyRef Name="Id" />
@@ -5578,7 +5611,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vw_Attendence' does not have a prim
           <Property Name="SalaryTag" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.vwAllHeads' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.vwAllHeads' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwAllHeads">
           <Key>
             <PropertyRef Name="Id" />
@@ -5597,7 +5630,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwAllHeads' does not have a primary
           <Property Name="ModifiedDate" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.vwDemandForSaleInvoice' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.vwDemandForSaleInvoice' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwDemandForSaleInvoice">
           <Key>
             <PropertyRef Name="DemandId" />
@@ -5620,7 +5653,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwDemandForSaleInvoice' does not ha
           <Property Name="SpecialDiscount" Type="decimal" Precision="18" Scale="3" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.vwFTPFileInfo' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.vwFTPFileInfo' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwFTPFileInfo">
           <Key>
             <PropertyRef Name="docid" />
@@ -5643,7 +5676,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwFTPFileInfo' does not have a prim
           <Property Name="RecDate" Type="datetime" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.vwKGRECustomer' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.vwKGRECustomer' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwKGRECustomer">
           <Key>
             <PropertyRef Name="ClientId" />
@@ -5680,7 +5713,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwKGRECustomer' does not have a pri
           <Property Name="EmployeeId" Type="varchar" MaxLength="20" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.vwProductPrice' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.vwProductPrice' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwProductPrice">
           <Key>
             <PropertyRef Name="Id" />
@@ -5694,7 +5727,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwProductPrice' does not have a pri
           <Property Name="ProductName" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.vwSeedMaterialRcvList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.vwSeedMaterialRcvList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwSeedMaterialRcvList">
           <Key>
             <PropertyRef Name="MaterialReceiveId" />
@@ -5726,7 +5759,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwSeedMaterialRcvList' does not hav
           <Property Name="Remarks" Type="varchar(max)" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.vwSMSList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.vwSMSList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwSMSList">
           <Key>
             <PropertyRef Name="Id" />
@@ -5754,7 +5787,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwSMSList' does not have a primary 
           <Property Name="CompanyName" Type="varchar" MaxLength="200" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamInfoList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.vwTeamInfoList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwTeamInfoList">
           <Key>
             <PropertyRef Name="Id" />
@@ -5784,7 +5817,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamInfoList' does not have a pri
           <Property Name="CompanyName" Type="varchar" MaxLength="200" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwTeamLeaderList">
           <Key>
             <PropertyRef Name="Id" />
@@ -8893,6 +8926,8 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
           <EntitySet Name="CompanyVoucher" EntityType="Self.CompanyVoucher" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ComplainManagement" EntityType="Self.ComplainManagement" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ComplainType" EntityType="Self.ComplainType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ConsumptionDetails" EntityType="Self.ConsumptionDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ConsumptionMaster" EntityType="Self.ConsumptionMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CreditRecover" EntityType="Self.CreditRecover" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CreditRecoverDetail" EntityType="Self.CreditRecoverDetail" Schema="dbo" store:Type="Tables" />
@@ -11858,7 +11893,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             <End Role="Employee" EntitySet="Employees" />
             <End Role="BillReqApprovalHistory" EntitySet="BillReqApprovalHistories" />
           </AssociationSet>
-          <EntitySet Name="BillRequisitionDetails" EntityType="ERPModel.BillRequisitionDetail" />
           <EntitySet Name="BillRequisitionMasters" EntityType="ERPModel.BillRequisitionMaster" />
           <EntitySet Name="PurchaseOrders" EntityType="ERPModel.PurchaseOrder" />
           <EntitySet Name="PurchaseOrderDetails" EntityType="ERPModel.PurchaseOrderDetail" />
@@ -11869,10 +11903,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
           <AssociationSet Name="FK_PurchaseOrder_ProductOrigin" Association="ERPModel.FK_PurchaseOrder_ProductOrigin">
             <End Role="DropDownItem" EntitySet="DropDownItems" />
             <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PurchaseOrderDetail_BillRequisitionDetail" Association="ERPModel.FK_PurchaseOrderDetail_BillRequisitionDetail">
-            <End Role="BillRequisitionDetail" EntitySet="BillRequisitionDetails" />
-            <End Role="PurchaseOrderDetail" EntitySet="PurchaseOrderDetails" />
           </AssociationSet>
           <AssociationSet Name="FK_PurchaseOrder_PurchaseOrder" Association="ERPModel.FK_PurchaseOrder_PurchaseOrder">
             <End Role="BillRequisitionMaster" EntitySet="BillRequisitionMasters" />
@@ -12047,6 +12077,13 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             <End Role="Accounting_CostCenter" EntitySet="Accounting_CostCenter" />
             <End Role="CostCenterManagerMap" EntitySet="CostCenterManagerMaps" />
           </AssociationSet>
+          <EntitySet Name="BillRequisitionDetails" EntityType="ERPModel.BillRequisitionDetail" />
+          <AssociationSet Name="FK_PurchaseOrderDetail_BillRequisitionDetail" Association="ERPModel.FK_PurchaseOrderDetail_BillRequisitionDetail">
+            <End Role="BillRequisitionDetail" EntitySet="BillRequisitionDetails" />
+            <End Role="PurchaseOrderDetail" EntitySet="PurchaseOrderDetails" />
+          </AssociationSet>
+          <EntitySet Name="ConsumptionDetails" EntityType="ERPModel.ConsumptionDetail" />
+          <EntitySet Name="ConsumptionMasters" EntityType="ERPModel.ConsumptionMaster" />
           </EntityContainer>
         <EntityType Name="AdminPolicy">
           <Key>
@@ -20722,34 +20759,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="BillRequisitionDetail">
-          <Key>
-            <PropertyRef Name="BillRequisitionDetailId" />
-          </Key>
-          <Property Name="BillRequisitionDetailId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="BillRequisitionMasterId" Type="Int64" Nullable="false" />
-          <Property Name="ProductId" Type="Int32" />
-          <Property Name="UnitId" Type="Int32" />
-          <Property Name="EstimatedQty" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="DemandQty" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="UnitRate" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="TotalPrice" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="ReceivedSoFar" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="RemainingQty" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="Floor" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Ward" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="DPP" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Chainage" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="CompanyId" Type="Int32" Nullable="false" />
-          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
-          <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <Property Name="DocPath" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="PurchaseOrderDetails" Relationship="ERPModel.FK_PurchaseOrderDetail_BillRequisitionDetail" FromRole="BillRequisitionDetail" ToRole="PurchaseOrderDetail" />
-        </EntityType>
         <EntityType Name="BillRequisitionMaster">
           <Key>
             <PropertyRef Name="BillRequisitionMasterId" />
@@ -20857,8 +20866,8 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
           <Property Name="FinishProductBOMId" Type="Int32" />
           <Property Name="BillRequisitionDetailId" Type="Int64" />
           <Property Name="DocPath" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="BillRequisitionDetail" Relationship="ERPModel.FK_PurchaseOrderDetail_BillRequisitionDetail" FromRole="PurchaseOrderDetail" ToRole="BillRequisitionDetail" />
           <NavigationProperty Name="PurchaseOrder" Relationship="ERPModel.FK_PurchaseOrderDetail_PurchaseOrder" FromRole="PurchaseOrderDetail" ToRole="PurchaseOrder" />
+          <NavigationProperty Name="BillRequisitionDetail" Relationship="ERPModel.FK_PurchaseOrderDetail_BillRequisitionDetail" FromRole="PurchaseOrderDetail" ToRole="BillRequisitionDetail" />
         </EntityType>
         <Association Name="FK_PurchaseOrder_ModeOfPurchase">
           <End Type="ERPModel.DropDownItem" Role="DropDownItem" Multiplicity="0..1" />
@@ -20881,18 +20890,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             </Principal>
             <Dependent Role="PurchaseOrder">
               <PropertyRef Name="ProductOriginId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PurchaseOrderDetail_BillRequisitionDetail">
-          <End Type="ERPModel.BillRequisitionDetail" Role="BillRequisitionDetail" Multiplicity="0..1" />
-          <End Type="ERPModel.PurchaseOrderDetail" Role="PurchaseOrderDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BillRequisitionDetail">
-              <PropertyRef Name="BillRequisitionDetailId" />
-            </Principal>
-            <Dependent Role="PurchaseOrderDetail">
-              <PropertyRef Name="BillRequisitionDetailId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -21648,6 +21645,79 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="BillRequisitionDetail">
+          <Key>
+            <PropertyRef Name="BillRequisitionDetailId" />
+          </Key>
+          <Property Name="BillRequisitionDetailId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BillRequisitionMasterId" Type="Int64" Nullable="false" />
+          <Property Name="BoQItemId" Type="Int64" />
+          <Property Name="ProductSubTypeId" Type="Int64" />
+          <Property Name="ProductId" Type="Int32" />
+          <Property Name="UnitId" Type="Int32" />
+          <Property Name="EstimatedQty" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="DemandQty" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="UnitRate" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="TotalPrice" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="ReceivedSoFar" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="RemainingQty" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Floor" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Ward" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="DPP" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Chainage" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="DocPath" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="PurchaseOrderDetails" Relationship="ERPModel.FK_PurchaseOrderDetail_BillRequisitionDetail" FromRole="BillRequisitionDetail" ToRole="PurchaseOrderDetail" />
+        </EntityType>
+        <Association Name="FK_PurchaseOrderDetail_BillRequisitionDetail">
+          <End Type="ERPModel.BillRequisitionDetail" Role="BillRequisitionDetail" Multiplicity="0..1" />
+          <End Type="ERPModel.PurchaseOrderDetail" Role="PurchaseOrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BillRequisitionDetail">
+              <PropertyRef Name="BillRequisitionDetailId" />
+            </Principal>
+            <Dependent Role="PurchaseOrderDetail">
+              <PropertyRef Name="BillRequisitionDetailId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ConsumptionDetail">
+          <Key>
+            <PropertyRef Name="ConsumptionDetailsId" />
+          </Key>
+          <Property Name="ConsumptionDetailsId" Type="Int64" Nullable="false" />
+          <Property Name="ConsumptionMasterId" Type="Int64" Nullable="false" />
+          <Property Name="ProductSubtypeId" Type="Int64" Nullable="false" />
+          <Property Name="ProductId" Type="Int64" Nullable="false" />
+          <Property Name="UnitPrice" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="ConsumedQty" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="StoredQty" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="RemainingQty" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="TotalAmount" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="ConsumptionMaster">
+          <Key>
+            <PropertyRef Name="ConsumptionMasterId" />
+          </Key>
+          <Property Name="ConsumptionMasterId" Type="Int64" Nullable="false" />
+          <Property Name="StoreId" Type="Int64" Nullable="false" />
+          <Property Name="DivisionId" Type="Int64" />
+          <Property Name="BoqItemId" Type="Int64" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -27237,34 +27307,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="BillRequisitionDetails">
-            <EntityTypeMapping TypeName="ERPModel.BillRequisitionDetail">
-              <MappingFragment StoreEntitySet="BillRequisitionDetail">
-                <ScalarProperty Name="DocPath" ColumnName="DocPath" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
-                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
-                <ScalarProperty Name="Chainage" ColumnName="Chainage" />
-                <ScalarProperty Name="DPP" ColumnName="DPP" />
-                <ScalarProperty Name="Ward" ColumnName="Ward" />
-                <ScalarProperty Name="Floor" ColumnName="Floor" />
-                <ScalarProperty Name="RemainingQty" ColumnName="RemainingQty" />
-                <ScalarProperty Name="ReceivedSoFar" ColumnName="ReceivedSoFar" />
-                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
-                <ScalarProperty Name="UnitRate" ColumnName="UnitRate" />
-                <ScalarProperty Name="DemandQty" ColumnName="DemandQty" />
-                <ScalarProperty Name="EstimatedQty" ColumnName="EstimatedQty" />
-                <ScalarProperty Name="UnitId" ColumnName="UnitId" />
-                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-                <ScalarProperty Name="BillRequisitionMasterId" ColumnName="BillRequisitionMasterId" />
-                <ScalarProperty Name="BillRequisitionDetailId" ColumnName="BillRequisitionDetailId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="BillRequisitionMasters">
             <EntityTypeMapping TypeName="ERPModel.BillRequisitionMaster">
               <MappingFragment StoreEntitySet="BillRequisitionMaster">
@@ -27592,6 +27634,69 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
                 <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="CostCenterId" ColumnName="CostCenterId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BillRequisitionDetails">
+            <EntityTypeMapping TypeName="ERPModel.BillRequisitionDetail">
+              <MappingFragment StoreEntitySet="BillRequisitionDetail">
+                <ScalarProperty Name="DocPath" ColumnName="DocPath" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="Chainage" ColumnName="Chainage" />
+                <ScalarProperty Name="DPP" ColumnName="DPP" />
+                <ScalarProperty Name="Ward" ColumnName="Ward" />
+                <ScalarProperty Name="Floor" ColumnName="Floor" />
+                <ScalarProperty Name="RemainingQty" ColumnName="RemainingQty" />
+                <ScalarProperty Name="ReceivedSoFar" ColumnName="ReceivedSoFar" />
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+                <ScalarProperty Name="UnitRate" ColumnName="UnitRate" />
+                <ScalarProperty Name="DemandQty" ColumnName="DemandQty" />
+                <ScalarProperty Name="EstimatedQty" ColumnName="EstimatedQty" />
+                <ScalarProperty Name="UnitId" ColumnName="UnitId" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="ProductSubTypeId" ColumnName="ProductSubTypeId" />
+                <ScalarProperty Name="BoQItemId" ColumnName="BoQItemId" />
+                <ScalarProperty Name="BillRequisitionMasterId" ColumnName="BillRequisitionMasterId" />
+                <ScalarProperty Name="BillRequisitionDetailId" ColumnName="BillRequisitionDetailId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ConsumptionDetails">
+            <EntityTypeMapping TypeName="ERPModel.ConsumptionDetail">
+              <MappingFragment StoreEntitySet="ConsumptionDetails">
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+                <ScalarProperty Name="RemainingQty" ColumnName="RemainingQty" />
+                <ScalarProperty Name="StoredQty" ColumnName="StoredQty" />
+                <ScalarProperty Name="ConsumedQty" ColumnName="ConsumedQty" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="ProductSubtypeId" ColumnName="ProductSubtypeId" />
+                <ScalarProperty Name="ConsumptionMasterId" ColumnName="ConsumptionMasterId" />
+                <ScalarProperty Name="ConsumptionDetailsId" ColumnName="ConsumptionDetailsId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ConsumptionMasters">
+            <EntityTypeMapping TypeName="ERPModel.ConsumptionMaster">
+              <MappingFragment StoreEntitySet="ConsumptionMaster">
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="BoqItemId" ColumnName="BoqItemId" />
+                <ScalarProperty Name="DivisionId" ColumnName="DivisionId" />
+                <ScalarProperty Name="StoreId" ColumnName="StoreId" />
+                <ScalarProperty Name="ConsumptionMasterId" ColumnName="ConsumptionMasterId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -356,7 +356,7 @@ namespace KGERP.Service.Implementation.Configuration
             {
                 Name = vmUserMenu.Name,
                 CostCenterTypeId = vmUserMenu.accounting_CostCenterTypeId,
-                ShortName = vmUserMenu.ShortName,
+                ShortName = vmUserMenu.ShortName.ToUpper(),
                 CompanyId = vmUserMenu.CompanyFK.Value,
                 CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
                 CreatedDate = DateTime.Now,
@@ -377,7 +377,7 @@ namespace KGERP.Service.Implementation.Configuration
             Accounting_CostCenter costCenter = _db.Accounting_CostCenter.Find(vmUserMenu.ID);
             costCenter.Name = vmUserMenu.Name;
             costCenter.CostCenterTypeId = vmUserMenu.accounting_CostCenterTypeId;
-            costCenter.ShortName = vmUserMenu.ShortName;
+            costCenter.ShortName = vmUserMenu.ShortName.ToUpper();
             costCenter.ModifiedDate = DateTime.Now;
             costCenter.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
 

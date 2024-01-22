@@ -21,7 +21,7 @@
     }
 
     .dateCustom {
-        width: 90% !important;
+        width: 82% !important;
         border-radius: 1px !important;
         border: 1px solid #d2d6de !important;
         height: 33px !important;
@@ -83,22 +83,12 @@
                                             <th>:</th>
                                             <td>@Model.BRDate.ToShortDateString()</td>
 
-                                            @if (Model.BillRequisitionTypeId == (int)EnumBillRequisitionType.Overhead)
-                                            {
-                                                <th style="width:17% !important">Requisition Subtype</th>
-                                                <th>:</th>
-                                                <td>
-                                                    @Model.BRSubtypeName
-                                                    <input type="hidden" value="@Model.BillRequisitionTypeId" id="reqTypeId" />
-                                                    <input type="hidden" value="@Model.BillRequisitionSubTypeId" id="reqSubtypeId" />
-                                                </td>
-                                            }
-                                            else
-                                            {
-                                                <th style="width:17% !important">Requisition Type</th>
-                                                <th>:</th>
-                                                <td>@Model.BRTypeName</td>
-                                            }
+                                            <th style="width:17% !important">Requisition Type</th>
+                                            <th>:</th>
+                                            <td>
+                                                @Model.BRTypeName
+                                                <input type="hidden" value="@Model.BillRequisitionTypeId" id="reqTypeId" />
+                                            </td>
                                         </tr>
 
                                         <tr>
@@ -108,26 +98,10 @@
 
                                             <th style="width:17% !important">Project Name</th>
                                             <th>:</th>
-                                            <td>@Model.CostCenterName</td>
-                                        </tr>
-
-                                        @if (!(Model.BillRequisitionTypeId == (int)EnumBillRequisitionType.Overhead))
-                                        {
-                                            <tr>
-                                                <td>
-                                                    <input type="hidden" value="@Model.BOQItemId" id="boqId" />
-                                                </td>
-                                            </tr>
-                                        }
-
-                                        <tr>
-                                            <th>Division Name</th>
-                                            <th>:</th>
-                                            <td>@(Model.BoQDivisionName != null ? Model.BoQDivisionName : "N/A")</td>
-
-                                            <th>BoQ Item Name</th>
-                                            <th>:</th>
-                                            <td>@(Model.BOQItemName != null ? Model.BOQItemName : "N/A")</td>
+                                            <td>
+                                                @Model.CostCenterName
+                                                <input type="hidden" value="@Model.CostCenterId" id="ProjectId" />
+                                            </td>
                                         </tr>
 
                                         <tr>
@@ -139,7 +113,7 @@
 
                                             <th>Created By</th>
                                             <th>:</th>
-                                            <td>@Model.CreatedBy</td>
+                                            <td>@Model.EmployeeName</td>
                                         </tr>
                                     </table>
                                 </div>
@@ -153,7 +127,7 @@
                             {
                                 <div class="row">
 
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <label for="message-text" class="col-form-label">Requisition Date :</label>
                                         <div class="form-group">
                                             <input name="BRDate" asp-for="BRDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker w-100 dateCustom" placeholder="Operation Date" autocomplete="off" id="txtOperationrDate">
@@ -182,30 +156,6 @@
                                             <label>Requisition Type :</label>
                                             @Html.DropDownListFor(model => model.BillRequisitionTypeId, Model.RequisitionTypeList as SelectList, "==Select Requisition Type==", new { id = "ddlBRTypeId", onchange = "GetSubCategoryListByCategoryId()", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
                                             @Html.ValidationMessageFor(model => model.BillRequisitionTypeId, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label>Requisition Subtype :</label>
-                                            @Html.DropDownListFor(model => model.BillRequisitionSubTypeId, Model.RequisitionSubTypeList as SelectList, "==Select Requisition Subtype==", new { id = "ddlBRSubTypeId", onchange = "ShowBoqMaterialListByReqSubtypeId()", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
-                                            @Html.ValidationMessageFor(model => model.BillRequisitionSubTypeId, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-3 d-block" id="inputDivision">
-                                        <div class="form-group">
-                                            <label>BoQ Division :</label>
-                                            @Html.DropDownListFor(model => model.BoQDivisionId, Model.BOQDivisionList as SelectList, "==Select BoQ Division==", new { id = "ddlDivisionId", onchange = "GetBoqItemListByDivisionId()", @class = "form-control searchingDropdown", style = "width:100%" })
-                                            @Html.ValidationMessageFor(model => model.CostCenterId, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-3 d-block" id="inputBoq">
-                                        <div class="form-group">
-                                            <label>BoQ Item :</label>
-                                            @Html.DropDownListFor(model => model.BOQItemId, Model.BOQItemList as SelectList, "==Select BoQ Item==", new { id = "ddlBOQItemId", onchange = "GetMaterialListByBoqId()", @class = "form-control searchingDropdown", style = "width:100%" })
-                                            @Html.ValidationMessageFor(model => model.BOQItemId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
 
@@ -304,6 +254,34 @@
                                 }
 
                                 <div class="row">
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Requisition For :</label>
+                                            @Html.DropDownListFor(model => model.DetailModel.RequisitionSubtypeId, Model.RequisitionSubTypeList as SelectList, "==Select Requisition Subtype==", new { id = "ddlBRSubTypeId", onchange = "ShowBoqMaterialListByReqSubtypeId()", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.ValidationMessageFor(model => model.DetailModel.RequisitionSubtypeId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    @if (Model.BillRequisitionTypeId != (int)EnumBillRequisitionType.Overhead)
+                                    {
+                                        <div class="col-md-3 d-block" id="inputDivision">
+                                            <div class="form-group">
+                                                <label>BoQ Division :</label>
+                                                @Html.DropDownListFor(model => model.DetailModel.BoqDivisionId, Model.BOQDivisionList as SelectList, "==Select BoQ Division==", new { id = "ddlDivisionId", onchange = "GetBoqItemListByDivisionId()", @class = "form-control searchingDropdown", style = "width:100%" })
+                                                @Html.ValidationMessageFor(model => model.DetailModel.BoqDivisionId, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3 d-block" id="inputBoq">
+                                            <div class="form-group">
+                                                <label>BoQ Item :</label>
+                                                @Html.DropDownListFor(model => model.DetailModel.BoqItemId, Model.BOQItemList as SelectList, "==Select BoQ Item==", new { id = "ddlBOQItemId", onchange = "GetMaterialListByBoqId()", @class = "form-control searchingDropdown", style = "width:100%" })
+                                                @Html.ValidationMessageFor(model => model.DetailModel.BoqItemId, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    }
+
                                     <div class="col-md-3 d-block" id="inputMaterial">
                                         <div class="form-group">
                                             <label id="materialTitle">@((Model.BillRequisitionTypeId == (int)EnumBillRequisitionType.Overhead)? "Requisition Subtype Item :" : "Requisition Material Item :")</label>
@@ -320,13 +298,16 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-3 d-block" id="inputEstimateQty">
-                                        <div class="form-group">
-                                            <label>Estimate Quantity :</label>
-                                            @Html.TextBoxFor(model => model.DetailModel.EstimatedQty, new { id = "decEstimatedQty", type = "number", step = "0.01", @class = "form-control", placeholder = "Estimate quantity", ReadOnly = "true" })
-                                            @Html.ValidationMessageFor(model => model.DetailModel.EstimatedQty, "", new { @class = "text-danger" })
+                                    @if (Model.BillRequisitionTypeId != (int)EnumBillRequisitionType.Overhead)
+                                    {
+                                        <div class="col-md-3 d-block" id="inputEstimateQty">
+                                            <div class="form-group">
+                                                <label>Estimate Quantity :</label>
+                                                @Html.TextBoxFor(model => model.DetailModel.EstimatedQty, new { id = "decEstimatedQty", type = "number", step = "0.01", @class = "form-control", placeholder = "Estimate quantity", ReadOnly = "true" })
+                                                @Html.ValidationMessageFor(model => model.DetailModel.EstimatedQty, "", new { @class = "text-danger" })
+                                            </div>
                                         </div>
-                                    </div>
+                                    }
 
                                     <div class="col-md-3 d-block" id="inputReceivedSoFar">
                                         <div class="form-group">
@@ -336,13 +317,16 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-3 d-block" id="inputRemainingQty">
-                                        <div class="form-group">
-                                            <label>Remaining Quantity :</label>
-                                            @Html.TextBoxFor(model => model.DetailModel.RemainingQty, new { id = "decRemainingQty", type = "number", step = "0.01", @class = "form-control", placeholder = "Remaining quantity", ReadOnly = "true" })
-                                            @Html.ValidationMessageFor(model => model.DetailModel.RemainingQty, "", new { @class = "text-danger" })
+                                    @if (Model.BillRequisitionTypeId != (int)EnumBillRequisitionType.Overhead)
+                                    {
+                                        <div class="col-md-3 d-block" id="inputRemainingQty">
+                                            <div class="form-group">
+                                                <label>Remaining Quantity :</label>
+                                                @Html.TextBoxFor(model => model.DetailModel.RemainingQty, new { id = "decRemainingQty", type = "number", step = "0.01", @class = "form-control", placeholder = "Remaining quantity", ReadOnly = "true" })
+                                                @Html.ValidationMessageFor(model => model.DetailModel.RemainingQty, "", new { @class = "text-danger" })
+                                            </div>
                                         </div>
-                                    </div>
+                                    }
 
                                     <div class="col-md-3 d-block" id="inputDemandQty">
                                         <div class="form-group">
@@ -396,21 +380,40 @@
 
                         @if (Model.BillRequisitionMasterId > 0)
                         {
-
                             @Html.HiddenFor(model => model.ID, new { id = "hidSlaveID" })
-                            <div class="table-responsive col-md-12  text-nowrap">
-                                <table id="KgErpDataTable" class="table table-striped">
+
+                            <div class="table-responsive col-md-12  text-wrap">
+                                <table id="KgErpDataTable" class="table table-striped table-responsive">
                                     <thead>
                                         <tr>
-                                            <th style="padding:5px;text-align:center;">SL</th>
-                                            <th style="padding: 5px; text-align: left;">Item/ Mat.</th>
-                                            <th style="padding: 5px; text-align: left;">Unit</th>
-                                            <th style="padding: 5px; text-align: right;">Est. Qty</th>
-                                            <th style="padding: 5px; text-align: right; ">Recived So Far</th>
-                                            <th style="padding: 5px; text-align: right; ">Remaining Qty</th>
-                                            <th style="padding: 5px; text-align: right; ">Demand Qty</th>
-                                            <th style="padding: 5px; text-align: right; ">Unit Rate</th>
-                                            <th style="padding: 5px; text-align: right; ">Total Price</th>
+                                            <th>SL</th>
+                                            @if (Model.BillRequisitionTypeId == (int)EnumBillRequisitionType.Overhead)
+                                            {
+                                                <th>Requisition For</th>
+                                            }
+                                            else
+                                            {
+                                                <th>Division Name</th>
+                                                <th>BoQ Number</th>
+                                            }
+                                            @if (Model.BillRequisitionTypeId == (int)EnumBillRequisitionType.Overhead)
+                                            {
+                                                <th>Item</th>
+                                            }
+                                            else
+                                            {
+                                                <th>Material</th>
+                                            }
+                                            <th>Unit Name</th>
+                                            @if (Model.BillRequisitionTypeId != (int)EnumBillRequisitionType.Overhead)
+                                            {
+                                                <th>Est. Qty</th>
+                                            }
+                                            <th>Recived</th>
+                                            <th>Remaining</th>
+                                            <th>Demand</th>
+                                            <th>Unit Rate</th>
+                                            <th>Total Price</th>
                                             @if (Model.StatusId == EnumBillRequisitionStatus.Draft)
                                             {
                                                 <th style="padding:5px;text-align:center;">Action</th>
@@ -421,17 +424,42 @@
 
                                         @foreach (var item in Model.DetailList)
                                         {
-
                                             <tr>
-                                                <td style="padding:5px">@(++sl)</td>
-                                                <td style="padding:5px;text-align:left;">@item.ProductName</td>
-                                                <td style="padding: 5px; text-align: left;">@item.UnitName</td>
-                                                <td style="padding:5px;text-align:right;">@String.Format("{0:0.00}", item.EstimatedQty)</td>
-                                                <td style="padding: 5px; text-align: right;">@String.Format("{0:0.00}", item.ReceivedSoFar)</td>
-                                                <td style="padding: 5px; text-align: right;">@String.Format("{0:0.00}", item.RemainingQty)</td>
-                                                <td style="padding: 5px; text-align: right;">@String.Format("{0:0.00}", item.DemandQty)</td>
-                                                <td style="padding: 5px; text-align: right;">@String.Format("{0:0.00}", item.UnitRate)</td>
-                                                <td style="padding: 5px; text-align: right;">@String.Format("{0:0.00}", item.TotalPrice)</td>
+                                                <td>@(++sl)</td>
+                                                @if (Model.BillRequisitionTypeId == (int)EnumBillRequisitionType.Overhead)
+                                                {
+                                                    <td>
+                                                        @item.RequisitionSubtypeName
+                                                        <input type="hidden" value="@item.RequisitionSubtypeId" id="BRSubtyeIdHidden_@item.BillRequisitionDetailId" />
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td>
+                                                        @item.BoqDivisionName
+                                                        <input type="hidden" value="@item.BoqDivisionId" id="divisionIdHidden_@item.BillRequisitionDetailId" />
+                                                    </td>
+                                                    <td>
+                                                        @item.BoqNumber
+                                                        <input type="hidden" value="@item.BoqItemId" id="boqIdHidden_@item.BillRequisitionDetailId" />
+                                                    </td>
+                                                }
+
+                                                <td>
+                                                    @item.ProductName
+                                                    <input type="hidden" value="@item.ProductId" id="productIdHidden_@item.BillRequisitionDetailId" />
+                                                </td>
+                                                <td>@item.UnitName</td>
+                                                @if (Model.BillRequisitionTypeId != (int)EnumBillRequisitionType.Overhead)
+                                                {
+                                                    <td>@String.Format("{0:0.00}", item.EstimatedQty)</td>
+
+                                                }
+                                                <td>@String.Format("{0:0.00}", item.ReceivedSoFar)</td>
+                                                <td>@String.Format("{0:0.00}", item.RemainingQty)</td>
+                                                <td>@String.Format("{0:0.00}", item.DemandQty)</td>
+                                                <td>@String.Format("{0:0.00}", item.UnitRate)</td>
+                                                <td>@String.Format("{0:0.00}", item.TotalPrice)</td>
 
                                                 @{ if (Model.StatusId == EnumBillRequisitionStatus.Draft)
                                                     {
@@ -560,40 +588,92 @@
 
     <script type="text/javascript">
 
-        // overhead item
-        function ShowMaterial() {
-            var subTypeId = $("#reqSubtypeId").val();
-            var showBoqMaterialList = $("#ddlRequisitionItemId");
+        // get requisition subtype list by category id
+        function showSubtype() {
+            var getRequisitionTypeId = $("#reqTypeId").val();
+            var showRequisitionSubtype = $("#ddlBRSubTypeId");
 
-            if (subTypeId > 0) {
+            if (getRequisitionTypeId > 0) {
                 $.ajax({
                     type: "GET",
-                    url: "/BillRequisition/getBoqMaterialListForOverHead",
+                    url: "/Configuration/GetSubCategoryByCategoryId",
                     dataType: "json",
-                    data: { id: subTypeId },
+                    data: { id: getRequisitionTypeId },
                     success: function (data) {
-                        showBoqMaterialList.empty();
-                        showBoqMaterialList.append("<option selected disabled>==Select Material==</option>");
+                        showRequisitionSubtype.empty();
+                        showRequisitionSubtype.append("<option selected disabled>==Select Req. Subtype==</option>");
 
                         $.each(data, function (index, item) {
-                            showBoqMaterialList.append($('<option>', {
-                                value: item.ProductId,
-                                text: item.ProductName
+                            showRequisitionSubtype.append($('<option>', {
+                                value: item.ProductSubCategoryId,
+                                text: item.Name
                             }));
                         });
                     }
                 });
-            } else {
-                console.log("No Bill Requisition Id or No Requisition Subtype Id!");
             }
         }
+        showSubtype();
 
-        ShowMaterial();
+        // get division list by project id hidden
+        function showDivision() {
+            var getProjectId = $("#ProjectId").val();
+            var showBoqDivisionList = $("#ddlDivisionId");
 
+            if (getProjectId > 0) {
+                $.ajax({
+                    type: "GET",
+                    url: "/BillRequisition/getBoqDivisionList",
+                    dataType: "json",
+                    data: { id: getProjectId },
+                    success: function (data) {
+                        showBoqDivisionList.empty();
+                        showBoqDivisionList.append("<option selected disabled>==Select BoQ Division==</option>");
+
+                        $.each(data, function (index, item) {
+                            showBoqDivisionList.append($('<option>', {
+                                value: item.BoQDivisionId,
+                                text: item.Name
+                            }));
+                        });
+                    }
+                });
+            }
+        }
+        showDivision();
+
+        // overhead item
+        //function ShowMaterial() {
+        //    var subTypeId = $("#reqSubtypeId").val();
+        //    var showBoqMaterialList = $("#ddlRequisitionItemId");
+
+        //    if (subTypeId > 0) {
+        //        $.ajax({
+        //            type: "GET",
+        //            url: "/BillRequisition/getBoqMaterialListForOverHead",
+        //            dataType: "json",
+        //            data: { id: subTypeId },
+        //            success: function (data) {
+        //                showBoqMaterialList.empty();
+        //                showBoqMaterialList.append("<option selected disabled>==Select Material==</option>");
+
+        //                $.each(data, function (index, item) {
+        //                    showBoqMaterialList.append($('<option>', {
+        //                        value: item.ProductId,
+        //                        text: item.ProductName
+        //                    }));
+        //                });
+        //            }
+        //        });
+        //    }
+        //}
+        //ShowMaterial();
 
         var isMakeEditable = false;
+
         // Make editable form
         function makeEditble(rowId) {
+
             $.ajax({
                 type: "POST",
                 url: "@Url.Action("SingleBillRequisitionDetails", "BillRequisition")",
@@ -607,7 +687,8 @@
                     $('#ActionId').val(2);
                     $("#CompanyFK").val(data.CompanyId);
                     $("#hiddenBillRequisitionDetailId").val(data.BillRequisitionDetailId);
-                    $("#ddlRequisitionItemId").val(data.ProductId).trigger('change');
+                    $("#ddlBRSubTypeId").val(data.RequisitionSubtypeId).trigger('change');
+                    $("#ddlDivisionId").val(data.BoqDivisionId).trigger('change');
 
                     $("#txtFloor").val(data.Floor);
                     $("#txtWrad").val(data.Ward);
@@ -621,6 +702,58 @@
                     $("#decUnitRate").val(data.UnitRate);
                     $("#decTotalPrice").val(data.TotalPrice);
                     $("#txtitemDescription").val(data.Remarks);
+
+
+
+                    //// get boq item list by boq division id
+                    function showBoqByDivision(divisionId, boqId, materialId) {
+                        var showBoqItemList = $("#ddlBOQItemId");
+
+                        $.ajax({
+                            type: "GET",
+                            url: "/BillRequisition/getBoqItemList",
+                            dataType: "json",
+                            data: { id: divisionId },
+                            success: function (data) {
+                                showBoqItemList.empty();
+                                showBoqItemList.append("<option selected disabled>==Select BoQ Item==</option>");
+
+                                $.each(data, function (index, item) {
+                                    showBoqItemList.append($('<option>', {
+                                        value: item.BoQItemId,
+                                        text: item.Name
+                                    }));
+                                });
+                                $("#ddlBOQItemId").val(boqId).trigger('change');
+
+                            }
+                        });
+
+                        function ShowMaterialByBoq(boq, material) {
+                            var showBoqMaterialList = $("#ddlRequisitionItemId");
+                            $.ajax({
+                                type: "GET",
+                                url: "/BillRequisition/getBoqMaterialList",
+                                dataType: "json",
+                                data: { id: boq },
+                                success: function (data) {
+                                    showBoqMaterialList.empty();
+                                    showBoqMaterialList.append("<option selected disabled>==Select Material==</option>");
+
+                                    $.each(data, function (index, item) {
+                                        showBoqMaterialList.append($('<option>', {
+                                            value: item.ProductId,
+                                            text: item.ProductName
+                                        }));
+                                    });
+                                    $("#ddlRequisitionItemId").val(material).trigger('change');
+                                }
+                            });
+                        }
+                        ShowMaterialByBoq(boqId, materialId);
+                    }
+                    showBoqByDivision(data.BoqDivisionId, data.BoqItemId, data.ProductId);
+
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 }
             });
@@ -736,59 +869,64 @@
 
         // get boq item list by boq division id
         function GetBoqItemListByDivisionId() {
-            var getBoqDivisionId = $("#ddlDivisionId option:selected");
-            var showBoqItemList = $("#ddlBOQItemId");
+            if (!isMakeEditable) {
+                var getBoqDivisionId = $("#ddlDivisionId option:selected");
+                var showBoqItemList = $("#ddlBOQItemId");
 
-            $.ajax({
-                type: "GET",
-                url: "/BillRequisition/getBoqItemList",
-                dataType: "json",
-                data: { id: getBoqDivisionId.val() },
-                success: function (data) {
-                    showBoqItemList.empty();
-                    showBoqItemList.append("<option selected disabled>==Select BoQ Item==</option>");
+                $.ajax({
+                    type: "GET",
+                    url: "/BillRequisition/getBoqItemList",
+                    dataType: "json",
+                    data: { id: getBoqDivisionId.val() },
+                    success: function (data) {
+                        showBoqItemList.empty();
+                        showBoqItemList.append("<option selected disabled>==Select BoQ Item==</option>");
 
-                    $.each(data, function (index, item) {
-                        showBoqItemList.append($('<option>', {
-                            value: item.BoQItemId,
-                            text: item.Name
-                        }));
-                    });
-                },
-                error: function (error) {
-                    console.error("Error in AJAX request:", error);
-                }
-            });
+                        $.each(data, function (index, item) {
+                            showBoqItemList.append($('<option>', {
+                                value: item.BoQItemId,
+                                text: item.Name
+                            }));
+                        });
+                    },
+                    error: function (error) {
+                        console.error("Error in AJAX request:", error);
+                    }
+                });
+            }
         }
 
         // get boq material list boq item id
         function GetMaterialListByBoqId() {
-            var getBoqItemId = $("#ddlBOQItemId option:selected");
-            var showBoqMaterialList = $("#ddlRequisitionItemId");
-            $.ajax({
-                type: "GET",
-                url: "/BillRequisition/getBoqMaterialList",
-                dataType: "json",
-                data: { id: getBoqItemId.val() },
-                success: function (data) {
-                    showBoqMaterialList.empty();
-                    showBoqMaterialList.append("<option selected disabled>==Select Material==</option>");
+            if (!isMakeEditable) {
+                var getBoqItemId = $("#ddlBOQItemId option:selected");
+                var showBoqMaterialList = $("#ddlRequisitionItemId");
+                $.ajax({
+                    type: "GET",
+                    url: "/BillRequisition/getBoqMaterialList",
+                    dataType: "json",
+                    data: { id: getBoqItemId.val() },
+                    success: function (data) {
+                        showBoqMaterialList.empty();
+                        showBoqMaterialList.append("<option selected disabled>==Select Material==</option>");
 
-                    $.each(data, function (index, item) {
-                        showBoqMaterialList.append($('<option>', {
-                            value: item.ProductId,
-                            text: item.ProductName
-                        }));
-                    });
-                },
-                error: function (error) {
-                    console.error("Error in AJAX request:", error);
-                }
-            });
+                        $.each(data, function (index, item) {
+                            showBoqMaterialList.append($('<option>', {
+                                value: item.ProductId,
+                                text: item.ProductName
+                            }));
+                        });
+                    },
+                    error: function (error) {
+                        console.error("Error in AJAX request:", error);
+                    }
+                });
+            }
+
         }
 
         // get boq material list for draf
-        function GetMaterialListByBoqIdForDraf() {
+        @*function GetMaterialListByBoqIdForDraf() {
             var showBoqMaterialList = $("#ddlRequisitionItemId");
             var boqId = @((Model.BOQItemId == 0 || Model.BOQItemId == null)? 0 : Model.BOQItemId);
             $.ajax({
@@ -808,31 +946,33 @@
                     });
                 }
             });
-        }
-        GetMaterialListByBoqIdForDraf();
+        }*@
+        //GetMaterialListByBoqIdForDraf();
 
         // get boq material list for overhead
         function ShowBoqMaterialListByReqSubtypeId() {
-            var RequisitionSubtype = $("#ddlBRSubTypeId option:selected");
-            var showBoqMaterialList = $("#ddlRequisitionItemId");
+            if (!isMakeEditable) {
+                var RequisitionSubtype = $("#ddlBRSubTypeId option:selected");
+                var showBoqMaterialList = $("#ddlRequisitionItemId");
 
-            $.ajax({
-                type: "GET",
-                url: "/BillRequisition/getBoqMaterialListForOverHead",
-                dataType: "json",
-                data: { id: RequisitionSubtype.val() },
-                success: function (data) {
-                    showBoqMaterialList.empty();
-                    showBoqMaterialList.append("<option selected disabled>==Select Material==</option>");
+                $.ajax({
+                    type: "GET",
+                    url: "/BillRequisition/getBoqMaterialListForOverHead",
+                    dataType: "json",
+                    data: { id: RequisitionSubtype.val() },
+                    success: function (data) {
+                        showBoqMaterialList.empty();
+                        showBoqMaterialList.append("<option selected disabled>==Select Material==</option>");
 
-                    $.each(data, function (index, item) {
-                        showBoqMaterialList.append($('<option>', {
-                            value: item.ProductId,
-                            text: item.ProductName
-                        }));
-                    });
-                }
-            });
+                        $.each(data, function (index, item) {
+                            showBoqMaterialList.append($('<option>', {
+                                value: item.ProductId,
+                                text: item.ProductName
+                            }));
+                        });
+                    }
+                });
+            }
         }
 
         // get selected material unit name
@@ -869,15 +1009,7 @@
             var showRemaining = $("#decRemainingQty");
             var intputDemand = $("#decDemandQty");
             var totalAmount = $("#decTotalPrice");
-            var boqIdFromMasterDetail = $("#boqId");
-            var BoqValue = 0;
-
-            if (boqIdFromMasterDetail.val() > 0) {
-                BoqValue = boqIdFromMasterDetail.val();
-
-            } else {
-                BoqValue = boqId.val();
-            }
+            var BoqValue = boqId.val();
 
             if (BoqValue > 0) {
                 $.ajax({
@@ -943,7 +1075,6 @@
                 autoclose: true,
                 clearBtn: true
             }).on('changeDate', function (ev) {
-
                 if ($(this).parents('form') && $(this).attr('required')) {
                     $(this).parents('form').bootstrapValidator('revalidateField', $(this));
                 }

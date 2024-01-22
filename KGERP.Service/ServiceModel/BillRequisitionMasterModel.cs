@@ -89,6 +89,14 @@ namespace KGERP.Service.ServiceModel
         public string Chainage { get; set; }
         public int CompanyId { get; set; }
 
+        public long BoqDivisionId { get; set; }
+        public string BoqDivisionName { get; set; }
+        public long? BoqItemId { get; set; }
+        public string BoqItemName { get; set; }
+        public string BoqNumber { get; set; }
+        public long? RequisitionSubtypeId { get; set; }
+        public string RequisitionSubtypeName { get; set; }
+
     }
     public partial class BillRequisitionApprovalModel
     {

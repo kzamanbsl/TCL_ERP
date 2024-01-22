@@ -9,7 +9,6 @@
 }
 
 <style type="text/css">
-
     input, select, textarea {
         max-width: 100%;
     }
@@ -18,17 +17,16 @@
 <section class="content-header">
     <h1>
         <span>
-            Bill Requisition List
+            Requisition List
         </span>
-
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        @*<li class="active">
-                <a href="~/Procurement/FoodCustomerSalesOrderSlave?companyId=@Model.CompanyFK&orderMasterId=0" class="btn btn-primary pull-right">
-                    <span class="fs fs-plus"></span> New Sales Invoice
-                </a>
-            </li>*@
+        <li class="active">
+            <span>
+                Requisition List
+            </span>
+        </li>
     </ol>
 </section>
 
@@ -82,54 +80,32 @@
                         <hr />
 
                         <div class="table-responsive">
-                            <table id="KgErpDataTable" class="table table-striped" style="width:100%; background-color:#ddd;">
+                            <table id="KgErpDataTable" class="table table-striped table-responsive table-dark">
                                 <thead>
 
                                     <tr>
                                         <th>SL</th>
                                         <th>Date</th>
-                                        <th>Req. No</th>
-                                        @*<th>Req. Type</th>*@
-                                        <th>P. Type</th>
-                                        <th>Project </th>
-                                        <th style="text-align:right">Total</th>
-                                        <th style="text-align:center">Action</th>
-                                        <th style="text-align:center"> Status</th>
+                                        <th>Requisition No</th>
+                                        <th>Requisition Type</th>
+                                        <th>Project Name</th>
+                                        <th>Total</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                        <th>Report</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach (var item in Model.DataList)
                                     {
-                                        #region Link Title
-
-                                        string statusTitle = "";
-
-                                        if (item.StatusId == EnumBillRequisitionStatus.Draft)
-                                        { statusTitle = "Make Submit"; }
-
-                                        if (item.StatusId == EnumBillRequisitionStatus.Submitted)
-                                        { statusTitle = "Undo Submit"; }
-
-                                        #endregion
-
                                         <tr>
                                             <th>@(++sl)</th>
                                             <td>@item.BRDate.ToString("dd-MM-yyyy")</td>
-
-
                                             <td>@item.BillRequisitionNo</td>
-                                            @*<td>@item.BRTypeName</td>*@
-                                            <td>@item.ProjectTypeName</td>
+                                            <td>@item.BRTypeName</td>
                                             <td>@item.CostCenterName</td>
-
-                                            <td style="text-align:right">@String.Format("{0:0.00}", item.TotalAmount)</td>
-                                            <td style="text-align:center">
-                                                <a href="~/BillRequisition/BillRequisitionMasterCommonSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
-                                                <a class="btn btn-sm btn-xs btn-warning" style="width:100%" target="_blank" href="~/Report/TCLBillRequisiontReport?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId">
-                                                    <i class="fa fa-print"></i>Print
-                                                </a>
-                                            </td>
-                                            <td style="text-align:center">
+                                            <td>@String.Format("{0:0.00}", item.TotalAmount)</td>
+                                            <td>
                                                 @if (item.StatusId == EnumBillRequisitionStatus.Draft)
                                                 {
                                                     <span class="btn btn-secondary btn-xs">Draft</span>
@@ -139,9 +115,7 @@
                                                     var mdApproved = item.ApprovalModelList.First(x => x.BillRequisitionMasterId == item.BillRequisitionMasterId && x.SignatoryId == (int)EnumBRequisitionSignatory.MD);
                                                     if (mdApproved.IsSupremeApproved && mdApproved.AprrovalStatusId == (int)EnumBillRequisitionStatus.Approved)
                                                     {
-
-
-                                                        <span class="btn btn-success btn-xs">Approved</span>
+                                                        <span class="btn btn-xs btn-success text-center">Approved</span>
                                                     }
                                                     else
                                                     {
@@ -150,13 +124,22 @@
 
                                                             if (approval.AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
                                                             {
-                                                                <span class="btn btn-warning btn-xs"> @approval.AprrovalStatusName at  @approval.SignatoryName</span>
+                                                                <span class="btn btn-xs btn-success text-center"> @approval.AprrovalStatusName at  @approval.SignatoryName</span>
 
                                                                 break;
                                                             }
                                                         }
                                                     }
                                                 }
+                                            </td>
+                                            <td>
+                                                <a href="~/BillRequisition/BillRequisitionMasterCommonSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" class="link-primary text-warning" title="Action for Details"><i class="fa fa-external-link-square" aria-hidden="true"></i> Action</a>
+                                                
+                                            </td>
+                                            <td>
+                                                <a class="label label-primary text-center" target="_blank" href="~/Report/TCLBillRequisiontReport?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId">
+                                                    <i class="fa fa-download"></i> Download
+                                                </a>
                                             </td>
                                         </tr>
                                     }

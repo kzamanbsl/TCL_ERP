@@ -34,7 +34,7 @@ namespace KGERP.Data.Models
         public Nullable<long> BillRequisitionDetailId { get; set; }
         public string DocPath { get; set; }
     
-        public virtual BillRequisitionDetail BillRequisitionDetail { get; set; }
         public virtual PurchaseOrder PurchaseOrder { get; set; }
+        public virtual BillRequisitionDetail BillRequisitionDetail { get; set; }
     }
 }

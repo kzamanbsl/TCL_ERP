@@ -513,13 +513,11 @@
         <AssociationConnector Association="ERPModel.FK_BillReqApprovalHistory_Company" />
         <AssociationConnector Association="ERPModel.FK_BoQDivision_Company" />
         <AssociationConnector Association="ERPModel.FK_BillReqApprovalHistory_Employee" />
-        <EntityTypeShape EntityType="ERPModel.BillRequisitionDetail" Width="1.5" PointX="71.625" PointY="55.375" />
         <EntityTypeShape EntityType="ERPModel.BillRequisitionMaster" Width="1.5" PointX="69.375" PointY="71" />
         <EntityTypeShape EntityType="ERPModel.PurchaseOrder" Width="1.5" PointX="71.625" PointY="42.375" />
         <EntityTypeShape EntityType="ERPModel.PurchaseOrderDetail" Width="1.5" PointX="73.875" PointY="45.625" />
         <AssociationConnector Association="ERPModel.FK_PurchaseOrder_ModeOfPurchase" />
         <AssociationConnector Association="ERPModel.FK_PurchaseOrder_ProductOrigin" />
-        <AssociationConnector Association="ERPModel.FK_PurchaseOrderDetail_BillRequisitionDetail" />
         <AssociationConnector Association="ERPModel.FK_PurchaseOrder_PurchaseOrder" />
         <AssociationConnector Association="ERPModel.FK_PurchaseOrder_Demand" />
         <AssociationConnector Association="ERPModel.FK_MaterialReceive_PurchaseOrder" />
@@ -570,6 +568,10 @@
         <AssociationConnector Association="ERPModel.FK_BoQBudgetMaster_Accounting_CostCenter" />
         <AssociationConnector Association="ERPModel.FK_BoQDivision_Accounting_CostCenter" />
         <AssociationConnector Association="ERPModel.FK_CostCenterManagerMap_Accounting_CostCenter" />
+        <EntityTypeShape EntityType="ERPModel.BillRequisitionDetail" Width="1.5" PointX="22.375" PointY="13.125" />
+        <AssociationConnector Association="ERPModel.FK_PurchaseOrderDetail_BillRequisitionDetail" />
+        <EntityTypeShape EntityType="ERPModel.ConsumptionDetail" Width="1.5" PointX="13.375" PointY="35.75" />
+        <EntityTypeShape EntityType="ERPModel.ConsumptionMaster" Width="1.5" PointX="15.375" PointY="36.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

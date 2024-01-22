@@ -869,54 +869,57 @@ namespace KGERP.Service.Implementation
 
                                                                join t2 in _context.Accounting_CostCenter on t1.CostCenterId equals t2.CostCenterId into t2_Join
                                                                from t2 in t2_Join.DefaultIfEmpty()
-                                                               join t3 in _context.ProductSubCategories on t1.BillRequisitionTypeId equals t3.ProductSubCategoryId into t3_Join // For overhead data is integrede
+                                                               join t3 in _context.ProductCategories on t1.BillRequisitionTypeId equals t3.ProductCategoryId into t3_Join
                                                                from t3 in t3_Join.DefaultIfEmpty()
                                                                join t4 in _context.Accounting_CostCenterType on t1.ProjectTypeId equals t4.CostCenterTypeId into t4_Join
                                                                from t4 in t4_Join.DefaultIfEmpty()
-                                                               join t5 in _context.BillBoQItems on t1.BOQItemId equals t5.BoQItemId into t5_Join
+                                                               join t5 in _context.Employees on t1.CreatedBy equals t5.EmployeeId into t5_Join
                                                                from t5 in t5_Join.DefaultIfEmpty()
-                                                               join t6 in _context.BoQDivisions on t1.BoQDivisionId equals t6.BoQDivisionId into t6_Join
-                                                               from t6 in t6_Join.DefaultIfEmpty()
-                                                               join t7 in _context.ProductCategories on t3.ProductCategoryId equals t7.ProductCategoryId into t7_Join
-                                                               from t7 in t7_Join.DefaultIfEmpty()
 
                                                                select new BillRequisitionMasterModel
                                                                {
                                                                    BillRequisitionMasterId = t1.BillRequisitionMasterId,
-                                                                   BillRequisitionTypeId = t7.ProductCategoryId,
-                                                                   BRTypeName = t7.Name,
-                                                                   BillRequisitionSubTypeId = t1.BillRequisitionTypeId,
-                                                                   BRSubtypeName = t3.Name,
+                                                                   BillRequisitionTypeId = t1.BillRequisitionTypeId,
+                                                                   BRDate = t1.BRDate,
+                                                                   BillRequisitionNo = t1.BillRequisitionNo,
+                                                                   BRTypeName = t3.Name,
                                                                    ProjectTypeId = t1.ProjectTypeId,
                                                                    ProjectTypeName = t4.Name,
-                                                                   BoQDivisionId = (t1.BoQDivisionId == null || t1.BoQDivisionId == 0) ? 0 : (int)t1.BoQDivisionId,
-                                                                   BoQDivisionName = t6.Name,
-                                                                   BOQItemId = t1.BOQItemId,
-                                                                   BOQItemName = t5.Name,
                                                                    CostCenterId = t1.CostCenterId,
                                                                    CostCenterName = t2.Name,
                                                                    Description = t1.Description,
-                                                                   BRDate = t1.BRDate,
-                                                                   BillRequisitionNo = t1.BillRequisitionNo,
                                                                    StatusId = (EnumBillRequisitionStatus)t1.StatusId,
                                                                    CompanyFK = t1.CompanyId,
                                                                    CreatedDate = t1.CreateDate,
                                                                    CreatedBy = t1.CreatedBy,
+                                                                   EmployeeName = t1.CreatedBy + " - " + t5.Name
 
                                                                }).FirstOrDefault());
 
             billRequisitionMasterModel.DetailList = await Task.Run(() => (from t1 in _context.BillRequisitionDetails.Where(x => x.IsActive && x.BillRequisitionMasterId == billRequisitionMasterId)
-                                                                          join t2 in _context.BillRequisitionMasters.Where(x => x.IsActive) on t1.BillRequisitionMasterId equals t2.BillRequisitionMasterId into t2_Join
+                                                                          join t2 in _context.BillRequisitionMasters on t1.BillRequisitionMasterId equals t2.BillRequisitionMasterId into t2_Join
                                                                           from t2 in t2_Join.DefaultIfEmpty()
-                                                                          join t3 in _context.Products.Where(x => x.IsActive) on t1.ProductId equals t3.ProductId into t3_Join
+                                                                          join t3 in _context.Products on t1.ProductId equals t3.ProductId into t3_Join
                                                                           from t3 in t3_Join.DefaultIfEmpty()
-                                                                          join t4 in _context.Units.Where(x => x.IsActive) on t1.UnitId equals t4.UnitId into t4_Join
+                                                                          join t4 in _context.Units on t1.UnitId equals t4.UnitId into t4_Join
                                                                           from t4 in t4_Join.DefaultIfEmpty()
-
+                                                                          join t5 in _context.BillBoQItems on t1.BoQItemId equals t5.BoQItemId into t5_Join
+                                                                          from t5 in t5_Join.DefaultIfEmpty()
+                                                                          join t6 in _context.BoQDivisions on t5.BoQDivisionId equals t6.BoQDivisionId into t6_Join
+                                                                          from t6 in t6_Join.DefaultIfEmpty()
+                                                                          join t7 in _context.ProductSubCategories on t3.ProductSubCategoryId equals t7.ProductSubCategoryId into t7_Join
+                                                                          from t7 in t7_Join.DefaultIfEmpty()
                                                                           select new BillRequisitionDetailModel
                                                                           {
                                                                               BillRequisitionDetailId = t1.BillRequisitionDetailId,
                                                                               BillRequisitionMasterId = t1.BillRequisitionMasterId,
+                                                                              BoqItemId = (t5.BoQItemId == null ? 0 : t5.BoQItemId),
+                                                                              BoqItemName = t5.Name ?? "N/A",
+                                                                              BoqNumber = t5.BoQNumber ?? "N/A",
+                                                                              BoqDivisionId = (t6.BoQDivisionId == null ? 0 : t6.BoQDivisionId),
+                                                                              BoqDivisionName = t6.Name ?? "N/A",
+                                                                              RequisitionSubtypeId = t7.ProductSubCategoryId,
+                                                                              RequisitionSubtypeName = t7.Name,
                                                                               ProductId = t1.ProductId,
                                                                               ProductName = t3.ProductName,
                                                                               UnitId = t1.UnitId,
@@ -950,72 +953,43 @@ namespace KGERP.Service.Implementation
 
             try
             {
-                if (model.BoQDivisionId > 0 && model.BOQItemId > 0)
+                BillRequisitionMaster billRequisitionMaster = new BillRequisitionMaster
                 {
-                    BillRequisitionMaster billRequisitionMaster = new BillRequisitionMaster
-                    {
-                        BillRequisitionMasterId = model.BillRequisitionMasterId,
-                        BRDate = model.BRDate,
-                        BillRequisitionTypeId = model.BillRequisitionSubTypeId, // In requisition type column, insert requisition subtype id
-                        BoQDivisionId = model.BoQDivisionId,
-                        BOQItemId = model.BOQItemId,
-                        ProjectTypeId = model.ProjectTypeId,
-                        CostCenterId = model.CostCenterId,
-                        Description = model.Description,
-                        BillRequisitionNo = GetUniqueRequisitionNo(),
-                        StatusId = (int)model.StatusId,
-                        CompanyId = (int)model.CompanyFK,
-                        CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
-                        CreateDate = DateTime.Now,
-                        IsActive = true
-                    };
+                    BillRequisitionMasterId = model.BillRequisitionMasterId,
+                    BRDate = model.BRDate,
+                    BillRequisitionNo = GetUniqueRequisitionNo(model.CostCenterId),
+                    ProjectTypeId = model.ProjectTypeId,
+                    CostCenterId = model.CostCenterId,
+                    BillRequisitionTypeId = model.BillRequisitionTypeId,
+                    Description = model.Description,
+                    StatusId = (int)model.StatusId,
+                    CompanyId = (int)model.CompanyFK,
+                    CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                    CreateDate = DateTime.Now,
+                    IsActive = true
+                };
 
-                    _context.BillRequisitionMasters.Add(billRequisitionMaster);
+                _context.BillRequisitionMasters.Add(billRequisitionMaster);
 
-                    if (await _context.SaveChangesAsync() > 0)
-                    {
-                        result = billRequisitionMaster.BillRequisitionMasterId;
-                    }
-                    return result;
-                }
-                else
+                if (await _context.SaveChangesAsync() > 0)
                 {
-                    BillRequisitionMaster billRequisitionMaster = new BillRequisitionMaster
-                    {
-                        BillRequisitionMasterId = model.BillRequisitionMasterId,
-                        BRDate = model.BRDate,
-                        BillRequisitionTypeId = model.BillRequisitionSubTypeId, // In requisition type column, insert requisition subtype id
-                        ProjectTypeId = model.ProjectTypeId,
-                        CostCenterId = model.CostCenterId,
-                        Description = model.Description,
-                        BillRequisitionNo = GetUniqueRequisitionNo(),
-                        StatusId = (int)model.StatusId,
-                        CompanyId = (int)model.CompanyFK,
-                        CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
-                        CreateDate = DateTime.Now,
-                        IsActive = true
-                    };
-
-                    _context.BillRequisitionMasters.Add(billRequisitionMaster);
-
-                    if (await _context.SaveChangesAsync() > 0)
-                    {
-                        result = billRequisitionMaster.BillRequisitionMasterId;
-                    }
-                    return result;
+                    result = billRequisitionMaster.BillRequisitionMasterId;
                 }
+                return result;
             }
             catch (Exception error)
             {
+                var message = error.ToString();
                 return result;
             }
 
-            // Generate unique bill requisition number
-            string GetUniqueRequisitionNo()
-            {
-                #region Generate Unique Requisition Number With Last Id
+            #region Generate Unique Requisition Number With Last Id
 
+            // Generate unique bill requisition number
+            string GetUniqueRequisitionNo(int projectId)
+            {
                 int getLastRowId = _context.BillRequisitionMasters.Where(c => c.BRDate == DateTime.Today).Count();
+                var shortName = _context.Accounting_CostCenter.Where(x => x.IsActive).FirstOrDefault(x => x.CostCenterId == projectId).ShortName;
 
                 string setZeroBeforeLastId(int lastRowId, int length)
                 {
@@ -1028,23 +1002,11 @@ namespace KGERP.Service.Implementation
                     return totalDigit + lastRowId.ToString();
                 }
 
-                string prefix = "REQ";
-
-                string generatedNumber = $"{prefix.ToUpper()}-{DateTime.Now:yyMMdd}-{setZeroBeforeLastId(++getLastRowId, 4)}";
-
+                string generatedNumber = $"{shortName.ToUpper()}-R-{DateTime.Now:yyMMdd}-{setZeroBeforeLastId(++getLastRowId, 4)}";
                 return generatedNumber;
-
-                #endregion
-
-                #region Generate Unique Requisition Number With Guid
-
-                //string prefix = "REQ";
-                //string uniqueIdentifier = Guid.NewGuid().ToString("N").Substring(0, 5);
-                //string generatedNumber = $"{prefix.ToUpper()}-{DateTime.Now:yyMMdd}-{uniqueIdentifier}";
-                //return generatedNumber;
-
-                #endregion
             }
+
+            #endregion
         }
 
         public async Task<long> BillRequisitionDetailAdd(BillRequisitionMasterModel model)
@@ -1052,35 +1014,75 @@ namespace KGERP.Service.Implementation
             long result = -1;
             try
             {
-                BillRequisitionDetail damageDetail = new BillRequisitionDetail
+                if (model.DetailModel.BoqItemId == 0 || model.DetailModel.BoqItemId == null)
                 {
-                    BillRequisitionMasterId = model.BillRequisitionMasterId,
-                    BillRequisitionDetailId = model.DetailModel.BillRequisitionDetailId,
-                    ProductId = model.DetailModel.ProductId,
-                    UnitRate = model.DetailModel.UnitRate,
-                    DemandQty = model.DetailModel.DemandQty,
-                    UnitId = model.DetailModel.UnitId,
-                    ReceivedSoFar = model.DetailModel.ReceivedSoFar,
-                    RemainingQty = model.DetailModel.RemainingQty,
-                    EstimatedQty = model.DetailModel.EstimatedQty,
-                    TotalPrice = model.DetailModel.TotalPrice,
-                    Floor = model.DetailModel.Floor,
-                    Ward = model.DetailModel.Ward,
-                    DPP = model.DetailModel.DPP,
-                    Chainage = model.DetailModel.Chainage,
-                    Remarks = model.DetailModel.Remarks,
-                    CompanyId = (int)model.CompanyFK,
-                    CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
-                    CreateDate = DateTime.Now,
-                    IsActive = true,
-                };
-                _context.BillRequisitionDetails.Add(damageDetail);
+                    BillRequisitionDetail damageDetail = new BillRequisitionDetail
+                    {
+                        BillRequisitionMasterId = model.BillRequisitionMasterId,
+                        BillRequisitionDetailId = model.DetailModel.BillRequisitionDetailId,
+                        ProductSubTypeId = (long)model.DetailModel.RequisitionSubtypeId,
+                        ProductId = model.DetailModel.ProductId,
+                        UnitRate = model.DetailModel.UnitRate,
+                        DemandQty = model.DetailModel.DemandQty,
+                        UnitId = model.DetailModel.UnitId,
+                        ReceivedSoFar = model.DetailModel.ReceivedSoFar,
+                        RemainingQty = model.DetailModel.RemainingQty,
+                        EstimatedQty = model.DetailModel.EstimatedQty,
+                        TotalPrice = model.DetailModel.TotalPrice,
+                        Floor = model.DetailModel.Floor,
+                        Ward = model.DetailModel.Ward,
+                        DPP = model.DetailModel.DPP,
+                        Chainage = model.DetailModel.Chainage,
+                        Remarks = model.DetailModel.Remarks,
+                        CompanyId = (int)model.CompanyFK,
+                        CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                        CreateDate = DateTime.Now,
+                        IsActive = true,
+                    };
 
-                if (await _context.SaveChangesAsync() > 0)
-                {
-                    result = damageDetail.BillRequisitionMasterId;
+                    _context.BillRequisitionDetails.Add(damageDetail);
+
+                    if (await _context.SaveChangesAsync() > 0)
+                    {
+                        result = damageDetail.BillRequisitionMasterId;
+                    }
+                    return result;
                 }
-                return result;
+                else
+                {
+                    BillRequisitionDetail damageDetail = new BillRequisitionDetail
+                    {
+                        BillRequisitionMasterId = model.BillRequisitionMasterId,
+                        BillRequisitionDetailId = model.DetailModel.BillRequisitionDetailId,
+                        BoQItemId = (long)model.DetailModel.BoqItemId,
+                        ProductSubTypeId = (long)model.DetailModel.RequisitionSubtypeId,
+                        ProductId = model.DetailModel.ProductId,
+                        UnitRate = model.DetailModel.UnitRate,
+                        DemandQty = model.DetailModel.DemandQty,
+                        UnitId = model.DetailModel.UnitId,
+                        ReceivedSoFar = model.DetailModel.ReceivedSoFar,
+                        RemainingQty = model.DetailModel.RemainingQty,
+                        EstimatedQty = model.DetailModel.EstimatedQty,
+                        TotalPrice = model.DetailModel.TotalPrice,
+                        Floor = model.DetailModel.Floor,
+                        Ward = model.DetailModel.Ward,
+                        DPP = model.DetailModel.DPP,
+                        Chainage = model.DetailModel.Chainage,
+                        Remarks = model.DetailModel.Remarks,
+                        CompanyId = (int)model.CompanyFK,
+                        CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                        CreateDate = DateTime.Now,
+                        IsActive = true,
+                    };
+
+                    _context.BillRequisitionDetails.Add(damageDetail);
+
+                    if (await _context.SaveChangesAsync() > 0)
+                    {
+                        result = damageDetail.BillRequisitionMasterId;
+                    }
+                    return result;
+                }
             }
             catch (Exception error)
             {
@@ -1148,7 +1150,7 @@ namespace KGERP.Service.Implementation
                     billRequisitionApproval.CompanyId = billRequisitionMaster.CompanyId;
 
                     billRequisitionApproval.SignatoryId = Convert.ToInt16(item.Value);
-     
+
                     priority = priority + 1;
                     billRequisitionApproval.PriorityNo = priority;
                     billRequisitionApproval.IsActive = true;
@@ -1282,11 +1284,23 @@ namespace KGERP.Service.Implementation
                                           from t2 in t2_Join.DefaultIfEmpty()
                                           join t3 in _context.Products.Where(x => x.IsActive) on t1.ProductId equals t3.ProductId into t3_Join
                                           from t3 in t3_Join.DefaultIfEmpty()
+                                          join t4 in _context.ProductSubCategories.Where(x => x.IsActive) on t1.ProductSubTypeId equals t4.ProductSubCategoryId into t4_Join
+                                          from t4 in t4_Join.DefaultIfEmpty()
+                                          join t5 in _context.BillBoQItems.Where(x => x.IsActive) on t1.BoQItemId equals t5.BoQItemId into t5_Join
+                                          from t5 in t5_Join.DefaultIfEmpty()
+                                          join t6 in _context.BoQDivisions.Where(x => x.IsActive) on t5.BoQDivisionId equals t6.BoQDivisionId into t6_Join
+                                          from t6 in t6_Join.DefaultIfEmpty()
 
                                           select new BillRequisitionDetailModel
                                           {
                                               BillRequisitionDetailId = t1.BillRequisitionDetailId,
                                               BillRequisitionMasterId = t1.BillRequisitionMasterId,
+                                              RequisitionSubtypeId = t4.ProductSubCategoryId,
+                                              RequisitionSubtypeName = t4.Name,
+                                              BoqDivisionId = t6.BoQDivisionId,
+                                              BoqDivisionName = t6.Name,
+                                              BoqItemId = t5.BoQItemId,
+                                              BoqItemName = t5.Name,
                                               ProductId = t1.ProductId,
                                               ProductName = t3.ProductName,
                                               UnitId = t1.UnitId,
@@ -1353,7 +1367,7 @@ namespace KGERP.Service.Implementation
                              && t1.CreatedBy == user
                              join t2 in _context.Accounting_CostCenter on t1.CostCenterId equals t2.CostCenterId into t2_Join
                              from t2 in t2_Join.DefaultIfEmpty()
-                             join t3 in _context.BillRequisitionTypes on t1.BillRequisitionTypeId equals t3.BillRequisitionTypeId into t3_Join
+                             join t3 in _context.ProductCategories on t1.BillRequisitionTypeId equals t3.ProductCategoryId into t3_Join
                              from t3 in t3_Join.DefaultIfEmpty()
                              join t4 in _context.Accounting_CostCenterType on t1.ProjectTypeId equals t4.CostCenterTypeId into t4_Join
                              from t4 in t4_Join.DefaultIfEmpty()
@@ -1361,10 +1375,9 @@ namespace KGERP.Service.Implementation
                              {
                                  BillRequisitionMasterId = t1.BillRequisitionMasterId,
                                  BillRequisitionTypeId = t1.BillRequisitionTypeId,
-                                 BOQItemId = t1.BOQItemId,
+                                 BRTypeName = t3.Name,
                                  ProjectTypeId = t1.ProjectTypeId,
                                  ProjectTypeName = t4.Name,
-                                 BRTypeName = t3.Name,
                                  CostCenterId = t1.CostCenterId,
                                  CostCenterName = t2.Name,
                                  Description = t1.Description,
@@ -1419,7 +1432,7 @@ namespace KGERP.Service.Implementation
                              where t1.IsActive && t1.CompanyId == companyId
                              join t2 in _context.Accounting_CostCenter on t1.CostCenterId equals t2.CostCenterId into t2_Join
                              from t2 in t2_Join.DefaultIfEmpty()
-                             join t3 in _context.BillRequisitionTypes on t1.BillRequisitionTypeId equals t3.BillRequisitionTypeId into t3_Join
+                             join t3 in _context.ProductCategories on t1.BillRequisitionTypeId equals t3.ProductCategoryId into t3_Join
                              from t3 in t3_Join.DefaultIfEmpty()
                              join t4 in _context.Accounting_CostCenterType on t1.ProjectTypeId equals t4.CostCenterTypeId into t4_Join
                              from t4 in t4_Join.DefaultIfEmpty()
@@ -1427,10 +1440,9 @@ namespace KGERP.Service.Implementation
                              {
                                  BillRequisitionMasterId = t1.BillRequisitionMasterId,
                                  BillRequisitionTypeId = t1.BillRequisitionTypeId,
-                                 BOQItemId = t1.BOQItemId,
+                                 BRTypeName = t3.Name,
                                  ProjectTypeId = t1.ProjectTypeId,
                                  ProjectTypeName = t4.Name,
-                                 BRTypeName = t3.Name,
                                  CostCenterId = t1.CostCenterId,
                                  CostCenterName = t2.Name,
                                  Description = t1.Description,
@@ -1727,7 +1739,7 @@ namespace KGERP.Service.Implementation
 
                                                                             }).Where(x => x.EmployeeId == EmpId).OrderByDescending(x => x.BillRequisitionMasterId).AsEnumerable());
 
-                
+
                 if (vStatus != -1 && vStatus != null)
                 {
                     billRequisitionMasterModel.DataList = billRequisitionMasterModel.DataList.Where(q => q.StatusId == (EnumBillRequisitionStatus)vStatus);
@@ -1739,7 +1751,7 @@ namespace KGERP.Service.Implementation
             {
                 return billRequisitionMasterModel;
             }
-            
+
         }
 
         #endregion
@@ -2495,32 +2507,29 @@ namespace KGERP.Service.Implementation
         public async Task<BillRequisitionMasterModel> GetMDBillRequisitionList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
         {
             BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
-            var EmpId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
-            if (EmpId <= 0)
-            {
-                return billRequisitionMasterModel;
+            //var EmpId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
+            //if (EmpId <= 0)
+            //{
+            //    return billRequisitionMasterModel;
 
-            }
+            //}
             billRequisitionMasterModel.CompanyFK = companyId;
             billRequisitionMasterModel.DataList = await Task.Run(() => (from t1 in _context.BillRequisitionMasters.Where(x => x.IsActive
                                               && x.CompanyId == companyId
                                               && x.StatusId >= (int)EnumBillRequisitionStatus.Submitted)
                                                                         join t2 in _context.Accounting_CostCenter on t1.CostCenterId equals t2.CostCenterId into t2_Join
                                                                         from t2 in t2_Join.DefaultIfEmpty()
-                                                                        join t3 in _context.ProductSubCategories on t1.BillRequisitionTypeId equals t3.ProductSubCategoryId into t3_Join
+                                                                        join t3 in _context.ProductCategories on t1.BillRequisitionTypeId equals t3.ProductCategoryId into t3_Join
                                                                         from t3 in t3_Join.DefaultIfEmpty()
                                                                         join t4 in _context.Accounting_CostCenterType on t1.ProjectTypeId equals t4.CostCenterTypeId into t4_Join
                                                                         from t4 in t4_Join.DefaultIfEmpty()
-                                                                        join t03 in _context.ProductCategories on t3.ProductCategoryId equals t03.ProductCategoryId into    t03_Join
-                                                                        from t03 in t03_Join.DefaultIfEmpty()
+                                                                        join t5 in _context.Employees on t1.CreatedBy equals t5.EmployeeId into t5_Join
+                                                                        from t5 in t5_Join.DefaultIfEmpty()
                                                                         select new BillRequisitionMasterModel
                                                                         {
                                                                             BillRequisitionMasterId = t1.BillRequisitionMasterId,
-                                                                            BillRequisitionTypeId = t03.ProductCategoryId,
-                                                                            BRTypeName = t03.Name,
-                                                                            BillRequisitionSubTypeId = t1.BillRequisitionTypeId,
-                                                                            BRSubtypeName = t3.Name,
-                                                                            BOQItemId = t1.BOQItemId,
+                                                                            BillRequisitionTypeId = t3.ProductCategoryId,
+                                                                            BRTypeName = t3.Name,
                                                                             ProjectTypeId = t1.ProjectTypeId,
                                                                             ProjectTypeName = t4.Name,
                                                                             CostCenterId = t1.CostCenterId,
@@ -2532,8 +2541,7 @@ namespace KGERP.Service.Implementation
                                                                             CompanyFK = t1.CompanyId,
                                                                             CreatedDate = t1.CreateDate,
                                                                             CreatedBy = t1.CreatedBy,
-                                                                            //EmployeeId = t6.Id,
-                                                                            //EmployeeStringId = t6.EmployeeId,
+                                                                            EmployeeName = t1.CreatedBy + "-" + t5.Name,
                                                                             ApprovalModelList = (from t7 in _context.BillRequisitionApprovals.Where(b => b.BillRequisitionMasterId == t1.BillRequisitionMasterId && b.IsActive)
                                                                                                  join t8 in _context.BillRequisitionMasters on t7.BillRequisitionMasterId equals t8.BillRequisitionMasterId
                                                                                                  select new BillRequisitionApprovalModel
@@ -2557,7 +2565,7 @@ namespace KGERP.Service.Implementation
                 billRequisitionMasterModel.DataList = billRequisitionMasterModel.DataList.Where(q => q.StatusId == (EnumBillRequisitionStatus)vStatus);
             }
 
-         
+
 
             return billRequisitionMasterModel;
         }
@@ -2569,7 +2577,7 @@ namespace KGERP.Service.Implementation
 
             var requisition = _context.BillRequisitionMasters.FirstOrDefault(x => x.BillRequisitionMasterId == billRequisitionId);
             var approvedRequisitionAmount = _context.BillRequisitionDetails.Where(x => x.BillRequisitionMasterId == billRequisitionId && x.IsActive).Sum(s => s.UnitRate * s.DemandQty);
-            if (requisition !=null)
+            if (requisition != null)
             {
                 var VoucherBRMapMasterList = _context.VoucherBRMapMasters
                 .Where(x => x.BillRequsitionMasterId == requisition.BillRequisitionMasterId &&
@@ -2586,12 +2594,12 @@ namespace KGERP.Service.Implementation
                     if (VoucherBRMapMasterList != null && VoucherBRMapMasterList.Count > 0)
                     {
                         var voucherBRMapMasterIds = VoucherBRMapMasterList.Select(s => s.VoucherBRMapMasterId);
-                       var voucherBRMapDetails = _context.VoucherBRMapDetails.Where(x => voucherBRMapMasterIds.Contains(x.VoucherBRMapMasterId)).ToList();
+                        var voucherBRMapDetails = _context.VoucherBRMapDetails.Where(x => voucherBRMapMasterIds.Contains(x.VoucherBRMapMasterId)).ToList();
                         if (voucherBRMapDetails != null && voucherBRMapDetails.Count > 0)
                         {
                             creditAmount = voucherBRMapDetails.Sum(x => x.CreditAmount);
                         }
-                       
+
                     }
 
                 }
@@ -2620,10 +2628,10 @@ namespace KGERP.Service.Implementation
                     }
                 }
             }
-            
+
             //var debitamount = _context.VoucherBRMapDetails.Where(x => VoucherBRMapMasterList.Select(s => s.VoucherBRMapMasterId).Contains(x.VoucherBRMapMasterId)).Sum(l=> l.DebitAmount);
-         
-           
+
+
 
             return status;
         }

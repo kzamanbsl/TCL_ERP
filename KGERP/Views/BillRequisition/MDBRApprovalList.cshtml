@@ -87,8 +87,6 @@
                                         <th>Date</th>
                                         <th>Requisition No</th>
                                         <th>Requisition Type</th>
-                                        <th>Requisition Subtype</th>
-                                        @*<th>Project Type</th>*@
                                         <th>Project Name</th>
                                         <th>Status</th>
                                         <th>Action</th>
@@ -98,25 +96,11 @@
                                 <tbody>
                                     @foreach (var item in Model.DataList)
                                     {
-                                        //#region Link Title
-
-                                        //string statusTitle = "";
-
-                                        //if (item.StatusId != EnumBillRequisitionStatus.Approved)
-                                        //{ statusTitle = "Approve"; }
-
-                                        //if (item.StatusId == EnumBillRequisitionStatus.Approved)
-                                        //{ statusTitle = "Undo Approve"; }
-
-                                        //#endregion
-
                                         <tr>
                                             <th>@(++sl)</th>
                                             <td>@item.BRDate.ToString("dd-MM-yyyy")</td>
                                             <td>@item.BillRequisitionNo</td>
                                             <td>@item.BRTypeName</td>
-                                            <td>@item.BRSubtypeName</td>
-                                            @*<td>@item.ProjectTypeName</td>*@
                                             <td>@item.CostCenterName</td>
 
                                             <td>
