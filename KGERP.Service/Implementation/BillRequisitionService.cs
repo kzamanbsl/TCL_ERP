@@ -1,4 +1,5 @@
-﻿using KGERP.Data.Models;
+﻿using KGERP.Data.CustomModel;
+using KGERP.Data.Models;
 using KGERP.Service.Implementation.Configuration;
 using KGERP.Service.Interface;
 using KGERP.Service.ServiceModel;
@@ -1502,32 +1503,20 @@ namespace KGERP.Service.Implementation
 
                                                                join t2 in _context.Accounting_CostCenter on t1.CostCenterId equals t2.CostCenterId into t2_Join
                                                                from t2 in t2_Join.DefaultIfEmpty()
-                                                               join t3 in _context.ProductSubCategories on t1.BillRequisitionTypeId equals t3.ProductSubCategoryId into t3_Join
+                                                               join t3 in _context.ProductCategories on t1.BillRequisitionTypeId equals t3.ProductCategoryId into t3_Join
                                                                from t3 in t3_Join.DefaultIfEmpty()
                                                                join t4 in _context.Accounting_CostCenterType on t1.ProjectTypeId equals t4.CostCenterTypeId into t4_Join
                                                                from t4 in t4_Join.DefaultIfEmpty()
-                                                               join t5 in _context.BillBoQItems on t1.BOQItemId equals t5.BoQItemId into t5_Join
+                                                               join t5 in _context.Employees on t1.CreatedBy equals t5.EmployeeId into t5_Join
                                                                from t5 in t5_Join.DefaultIfEmpty()
-                                                               join t6 in _context.BoQDivisions on t5.BoQDivisionId equals t6.BoQDivisionId into t6_Join
-                                                               from t6 in t6_Join.DefaultIfEmpty()
-                                                               join t7 in _context.ProductCategories on t3.ProductCategoryId equals t7.ProductCategoryId into t7_Join
-                                                               from t7 in t7_Join.DefaultIfEmpty()
-                                                               join t8 in _context.Employees on t1.CreatedBy equals t8.EmployeeId into t8_Join
-                                                               from t8 in t8_Join.DefaultIfEmpty()
 
                                                                select new BillRequisitionMasterModel
                                                                {
                                                                    BillRequisitionMasterId = t1.BillRequisitionMasterId,
-                                                                   BillRequisitionTypeId = t7.ProductCategoryId,
-                                                                   BRTypeName = t7.Name,
-                                                                   BillRequisitionSubTypeId = t1.BillRequisitionTypeId,
-                                                                   BRSubtypeName = t3.Name,
+                                                                   BillRequisitionTypeId = t3.ProductCategoryId,
+                                                                   BRTypeName = t3.Name,
                                                                    ProjectTypeId = t1.ProjectTypeId,
                                                                    ProjectTypeName = t4.Name,
-                                                                   BOQItemId = t1.BOQItemId ?? 0,
-                                                                   BOQItemName = t5.Name ?? "-",
-                                                                   BoQDivisionId = t5.BoQDivisionId ?? 0,
-                                                                   BoQDivisionName = t6.Name ?? "-",
                                                                    CostCenterId = t1.CostCenterId,
                                                                    CostCenterName = t2.Name,
                                                                    Description = t1.Description,
@@ -1537,24 +1526,36 @@ namespace KGERP.Service.Implementation
                                                                    CompanyFK = t1.CompanyId,
                                                                    CreatedDate = t1.CreateDate,
                                                                    CreatedBy = t1.CreatedBy,
-                                                                   EmployeeName = t1.CreatedBy + " - " + t8.Name,
+                                                                   EmployeeName = t1.CreatedBy + " - " + t5.Name,
 
                                                                }).FirstOrDefault());
 
             billRequisitionMasterModel.DetailList = await Task.Run(() => (from t1 in _context.BillRequisitionDetails.Where(x => x.IsActive && x.BillRequisitionMasterId == billRequisitionMasterId)
-                                                                          join t2 in _context.BillRequisitionMasters.Where(x => x.IsActive) on t1.BillRequisitionMasterId equals t2.BillRequisitionMasterId into t2_Join
+                                                                          join t2 in _context.BillRequisitionMasters on t1.BillRequisitionMasterId equals t2.BillRequisitionMasterId into t2_Join
                                                                           from t2 in t2_Join.DefaultIfEmpty()
-                                                                          join t3 in _context.Products.Where(x => x.IsActive) on t1.ProductId equals t3.ProductId into t3_Join
+                                                                          join t3 in _context.Products on t1.ProductId equals t3.ProductId into t3_Join
                                                                           from t3 in t3_Join.DefaultIfEmpty()
-                                                                          join t4 in _context.Units.Where(x => x.IsActive) on t1.UnitId equals t4.UnitId into t4_Join
+                                                                          join t4 in _context.Units on t1.UnitId equals t4.UnitId into t4_Join
                                                                           from t4 in t4_Join.DefaultIfEmpty()
-
+                                                                          join t5 in _context.ProductSubCategories on t1.ProductSubTypeId equals t5.ProductSubCategoryId into t5_Join
+                                                                          from t5 in t5_Join.DefaultIfEmpty()
+                                                                          join t6 in _context.BillBoQItems on t1.BoQItemId equals t6.BoQItemId into t6_Join
+                                                                          from t6 in t6_Join.DefaultIfEmpty()
+                                                                          join t7 in _context.BoQDivisions on t6.BoQDivisionId equals t7.BoQDivisionId into t7_Join
+                                                                          from t7 in t7_Join.DefaultIfEmpty()
                                                                           select new BillRequisitionDetailModel
                                                                           {
                                                                               BillRequisitionDetailId = t1.BillRequisitionDetailId,
                                                                               BillRequisitionMasterId = t1.BillRequisitionMasterId,
                                                                               ProductId = t1.ProductId,
                                                                               ProductName = t3.ProductName,
+                                                                              RequisitionSubtypeId = t1.ProductSubTypeId,
+                                                                              RequisitionSubtypeName = t5.Name,
+                                                                              BoqDivisionId = (t7.BoQDivisionId == null ? 0 : t7.BoQDivisionId),
+                                                                              BoqDivisionName = t7.Name ?? "N/A",
+                                                                              BoqItemId = (t6.BoQItemId == null ? 0 : t6.BoQItemId),
+                                                                              BoqItemName = t6.Name ?? "N/A",
+                                                                              BoqNumber = t6.BoQNumber ?? "N/A",
                                                                               UnitId = t1.UnitId,
                                                                               UnitName = t4.Name,
                                                                               UnitRate = t1.UnitRate,

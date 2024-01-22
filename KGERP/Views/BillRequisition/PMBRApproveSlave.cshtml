@@ -46,7 +46,6 @@
                         @if (Model.BillRequisitionMasterId > 0)
                         {
                             <div class="row">
-
                                 <div class="col-md-1"> </div>
                                 <div class="col-md-10">
                                     <table class="table">
@@ -59,26 +58,15 @@
                                             <th>:</th>
                                             <td>@Model.StatusName</td>
                                         </tr>
-
                                         <tr>
                                             <th style="width:17% !important">Requisition Date</th>
                                             <th>:</th>
                                             <td>@Model.BRDate.ToShortDateString()</td>
 
-                                            @if (Model.BillRequisitionTypeId == (int)EnumBillRequisitionType.Overhead)
-                                            {
-                                                <th style="width:17% !important">Requisition Subtype</th>
-                                                <th>:</th>
-                                                <td>@Model.BRSubtypeName</td>
-                                            }
-                                            else
-                                            {
-                                                <th style="width:17% !important">Requisition Type</th>
-                                                <th>:</th>
-                                                <td>@Model.BRTypeName</td>
-                                            }
+                                            <th style="width:17% !important">Requisition Type</th>
+                                            <th>:</th>
+                                            <td>@Model.BRTypeName</td>
                                         </tr>
-
                                         <tr>
                                             <th style="width:17% !important">Project Type</th>
                                             <th>:</th>
@@ -88,32 +76,6 @@
                                             <th>:</th>
                                             <td>@Model.CostCenterName</td>
                                         </tr>
-
-                                        @*<tr>
-                                                <th>Division Name</th>
-                                                <th>:</th>
-                                                <td>@(Model.BoQDivisionName != "-" ? Model.BoQDivisionName : "N/A")</td>
-
-                                                <th>BoQ Item Name</th>
-                                                <th>:</th>
-                                                <td>@(Model.BOQItemName != "-" ? Model.BOQItemName : "N/A")</td>
-                                            </tr>*@
-
-                                        @if (!(Model.BillRequisitionTypeId == (int)EnumBillRequisitionType.Overhead))
-                                        {
-                                            <tr>
-                                                <th>
-                                                    Division Name
-                                                </th>
-                                                <th>:</th>
-                                                <td>@Model.BoQDivisionName</td>
-
-                                                <th>BoQ Item Name</th>
-                                                <th>:</th>
-                                                <td>@Model.BOQItemName</td>
-                                            </tr>
-                                        }
-
                                         <tr>
                                             <th>
                                                 @((Model.BillRequisitionTypeId == (int)EnumBillRequisitionType.Overhead)? "Item Description" : "Work Details")
@@ -128,11 +90,10 @@
                                     </table>
                                 </div>
                                 <div class="col-md-1"> </div>
-
                             </div>
 
                             <div class="row">
-                                <div class="table-responsive text-nowrap">
+                                <div class="table-responsive">
 
                                     <h4 class="text-primary" style="margin: 20px 0 5px;">
                                         <strong>
@@ -140,19 +101,31 @@
                                         </strong>
                                     </h4>
 
-                                    <table id="itemTable" class="table table-bordered table-striped text-center table-responsive">
+                                    <table id="itemTable" class="table table-bordered table-striped table-responsive">
                                         <thead>
-                                            <tr class="bg-success">
-                                                <th>SL</th>
-                                                <th>@((Model.BillRequisitionTypeId == (int)EnumBillRequisitionType.Overhead)? "Item" : "Material")</th>
-                                                <th>Unit</th>
-                                                <th>Remarks/Particular</th>
-                                                <th>Est. Qty</th>
-                                                <th>Recived So Far</th>
-                                                <th>Remaining Qty</th>
-                                                <th>Demand Qty</th>
-                                                <th>Unit Rate</th>
-                                                <th>Total Price</th>
+                                            <tr class="bg-gray">
+                                                <th class="text-center">SL</th>
+                                                @if (Model.BillRequisitionTypeId != (int)EnumBillRequisitionType.Overhead)
+                                                {
+                                                    <th class="text-center">Division Name</th>
+                                                    <th class="text-center">BoQ Number</th>
+                                                }
+                                                <th class="text-center">Requisition For</th>
+                                                <th class="text-center">@((Model.BillRequisitionTypeId == (int)EnumBillRequisitionType.Overhead)? "Item" : "Material")</th>
+                                                <th class="text-center">Unit</th>
+                                                <th class="text-center">Remarks/Particular</th>
+                                                @if (Model.BillRequisitionTypeId != (int)EnumBillRequisitionType.Overhead)
+                                                {
+                                                    <th class="text-center">Estimated</th>
+                                                }
+                                                <th class="text-center">Recieved</th>
+                                                @if (Model.BillRequisitionTypeId != (int)EnumBillRequisitionType.Overhead)
+                                                {
+                                                    <th>Remaining</th>
+                                                }
+                                                <th class="text-center">Demand</th>
+                                                <th class="text-center">Unit Price</th>
+                                                <th class="text-center">Total</th>
                                             </tr>
                                         </thead>
 
@@ -163,18 +136,30 @@
                                             @foreach (var item in Model.DetailDataList)
                                             {
                                                 <tr>
-                                                    <td>
+                                                    <td class="text-center">
                                                         @Html.HiddenFor(model => model.DetailDataList[i].BillRequisitionMasterId)
                                                         @Html.HiddenFor(model => model.DetailDataList[i].BillRequisitionDetailId)
                                                         @(++sl)
                                                     </td>
+                                                    @if (Model.BillRequisitionTypeId != (int)EnumBillRequisitionType.Overhead)
+                                                    {
+                                                        <td>@item.BoqDivisionName</td>
+                                                        <td class="text-center">@item.BoqNumber</td>
+                                                    }
+                                                    <td>@item.RequisitionSubtypeName</td>
                                                     <td>@item.ProductName</td>
                                                     <td>@item.UnitName</td>
                                                     <td>@(item.Remarks != null ? item.Remarks : "N/A")</td>
-                                                    <td>@String.Format("{0:0.00}", item.EstimatedQty)</td>
-                                                    <td>@String.Format("{0:0.00}", item.ReceivedSoFar)</td>
-                                                    <td>@String.Format("{0:0.00}", item.RemainingQty)</td>
-                                                    <td>
+                                                    @if (Model.BillRequisitionTypeId != (int)EnumBillRequisitionType.Overhead)
+                                                    {
+                                                        <td class="text-center">@String.Format("{0:0.00}", item.EstimatedQty)</td>
+                                                    }
+                                                    <td class="text-center">@String.Format("{0:0.00}", item.ReceivedSoFar)</td>
+                                                    @if (Model.BillRequisitionTypeId != (int)EnumBillRequisitionType.Overhead)
+                                                    {
+                                                        <td class="text-center">@String.Format("{0:0.00}", item.RemainingQty)</td>
+                                                    }
+                                                    <td class="text-center">
                                                         @if (Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.PM).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
                                                         {
                                                             @Html.TextBoxFor(model => model.DetailDataList[i].DemandQty, new { id = "demandQty_" + i, @class = "form-control demandValue" })
@@ -184,8 +169,7 @@
                                                             @String.Format("{0:0.00}", item.DemandQty)
                                                         }
                                                     </td>
-
-                                                    <td>
+                                                    <td class="text-center">
                                                         @if (Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.PM).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
                                                         {
                                                             @Html.TextBoxFor(model => model.DetailDataList[i].UnitRate, new { id = "unitRate_" + i, @class = "form-control unitValue" })
@@ -195,8 +179,7 @@
                                                             @String.Format("{0:0.00}", item.UnitRate)
                                                         }
                                                     </td>
-
-                                                    <td class="totalValue" style="text-align: right !important" id="totalAmount_+@i">@String.Format("{0:0.00}", item.TotalPrice)</td>
+                                                    <td class="totalValue text-center" style="text-align: right !important" id="totalAmount_+@i">@String.Format("{0:0.00}", item.TotalPrice)</td>
                                                 </tr>
                                                 i++;
                                             }
@@ -204,12 +187,25 @@
 
                                         <tfoot>
                                             <tr>
-                                                <td colspan="9" style="text-align: right !important">
-                                                    <b>Total Amount : </b>
-                                                </td>
-                                                <td id="totalFooter" colspan="2" style="text-align: right !important">
-                                                    <span id="showTotalValue"></span>
-                                                </td>
+                                                @if (Model.BillRequisitionTypeId != (int)EnumBillRequisitionType.Overhead)
+                                                {
+                                                    <td colspan="12" style="text-align: right !important">
+                                                        <b>Total Amount : </b>
+                                                    </td>
+                                                    <td id="totalFooter" colspan="2" style="text-align: right !important">
+                                                        <span id="showTotalValue"></span>
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td colspan="8" style="text-align: right !important">
+                                                        <b>Total Amount : </b>
+                                                    </td>
+                                                    <td id="totalFooter" colspan="2" style="text-align: right !important">
+                                                        <span id="showTotalValue"></span>
+                                                    </td>
+                                                }
+
                                             </tr>
                                         </tfoot>
                                     </table>
@@ -220,8 +216,8 @@
                                         </strong>
                                     </h4>
 
-                                    <table class="table table-bordered">
-                                        <tr class="bg-gray">
+                                    <table class="table table-bordered table-striped table-responsive">
+                                        <tr class="bg-gray text-center">
                                             @foreach (var item in Model.ApprovalModelList)
                                             {
                                                 <th style="padding:5px;text-align:center;">
@@ -287,8 +283,8 @@
                                         </strong>
                                     </h4>
 
-                                    <table class="table table-bordered">
-                                        <tr class="bg-gray">
+                                    <table class="table table-bordered table-striped table-responsive">
+                                        <tr class="bg-gray text-center">
                                             @foreach (var item in Model.ApprovalModelList)
                                             {
                                                 <th style="padding:5px;text-align:center;">
