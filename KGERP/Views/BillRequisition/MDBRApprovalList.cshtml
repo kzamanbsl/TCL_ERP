@@ -102,7 +102,6 @@
                                             <td>@item.BillRequisitionNo</td>
                                             <td>@item.BRTypeName</td>
                                             <td>@item.CostCenterName</td>
-
                                             <td>
 
                                                 @if (@item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
@@ -119,7 +118,6 @@
                                                 }
 
                                             </td>
-
                                             <td>
 
                                                 @if (@item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
@@ -150,7 +148,6 @@
                                                 }*@
 
                                             </td>
-
                                             <td>
                                                 <a class="label label-primary text-center" target="_blank" href="~/Report/TCLBillRequisiontReport?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId">
                                                     <i class="fa fa-download"></i> Download

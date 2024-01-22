@@ -108,14 +108,14 @@
                                             <td>
                                                 @if (item.StatusId == EnumBillRequisitionStatus.Draft)
                                                 {
-                                                    <span class="btn btn-secondary btn-xs">Draft</span>
+                                                    <span class="btn btn-xs btn-primary text-center" style="display: block; padding-left: 7px; padding-right: 7px;">Drafted</span>
                                                 }
                                                 else
                                                 {
                                                     var mdApproved = item.ApprovalModelList.First(x => x.BillRequisitionMasterId == item.BillRequisitionMasterId && x.SignatoryId == (int)EnumBRequisitionSignatory.MD);
                                                     if (mdApproved.IsSupremeApproved && mdApproved.AprrovalStatusId == (int)EnumBillRequisitionStatus.Approved)
                                                     {
-                                                        <span class="btn btn-xs btn-success text-center">Approved</span>
+                                                        <span class="btn btn-xs btn-success text-center" style="display: block; padding-left: 7px; padding-right: 7px;">Approved</span>
                                                     }
                                                     else
                                                     {
@@ -124,7 +124,7 @@
 
                                                             if (approval.AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
                                                             {
-                                                                <span class="btn btn-xs btn-success text-center"> @approval.AprrovalStatusName at  @approval.SignatoryName</span>
+                                                                <span class="btn btn-xs btn-warning text-center" style="display: block; padding-left: 7px; padding-right: 7px;"> @approval.AprrovalStatusName at  @approval.SignatoryName</span>
 
                                                                 break;
                                                             }

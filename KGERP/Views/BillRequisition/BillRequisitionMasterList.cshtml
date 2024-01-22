@@ -123,11 +123,11 @@
                                                     <a id="@item.BillRequisitionMasterId" onclick="makeSubmitble(@item.BillRequisitionMasterId)" class="linkPointer" data-toggle="modal" data-target="#submitBillRequisitionMastermodal" title="@statusTitle" data-placement="top">
                                                         @if (item.StatusId == EnumBillRequisitionStatus.Submitted)
                                                         {
-                                                            <i>Undo Submit</i>
+                                                            <span class="btn btn-xs btn-primary text-center" style="display: block; padding-left: 7px; padding-right: 7px;">Undo</span>
                                                         }
                                                         else
                                                         {
-                                                            <i>Submit</i>
+                                                            <span class="btn btn-xs btn-primary text-center" style="display: block; padding-left: 7px; padding-right: 7px;">Submit</span>
                                                         }
                                                     </a>
                                                 }
@@ -136,7 +136,7 @@
                                                     var mdApproved = item.ApprovalModelList.First(x => x.BillRequisitionMasterId == item.BillRequisitionMasterId && x.SignatoryId == (int)EnumBRequisitionSignatory.MD);
                                                     if (mdApproved.IsSupremeApproved && mdApproved.AprrovalStatusId == (int)EnumBillRequisitionStatus.Approved)
                                                     {
-                                                        <span class="btn btn-xs btn-success text-center">Approved</span>
+                                                        <span class="btn btn-xs btn-success text-center" style="display: block; padding-left: 7px; padding-right: 7px;">Approved</span>
                                                     }
                                                     else
                                                     {
@@ -145,7 +145,7 @@
 
                                                             if (approval.AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
                                                             {
-                                                                <span class="btn btn-xs btn-warning text-center"> @approval.AprrovalStatusName at  @approval.SignatoryName</span>
+                                                                <span class="btn btn-xs btn-warning text-center" style="display: block; padding-left: 7px; padding-right: 7px;"> @approval.AprrovalStatusName at  @approval.SignatoryName</span>
 
                                                                 break;
                                                             }
@@ -156,19 +156,22 @@
                                             <td>
                                                 @if (item.StatusId == EnumBillRequisitionStatus.Draft || item.StatusId == EnumBillRequisitionStatus.Submitted)
                                                 {
-                                                    if (item.StatusId != EnumBillRequisitionStatus.Submitted)
+                                                    if (item.StatusId == EnumBillRequisitionStatus.Draft)
                                                     {
                                                         <a id="@item.BillRequisitionMasterId" onclick="makeDeletale(@item.BillRequisitionMasterId)" data-toggle="modal" data-target="#deleteFoodCustomerOrderModal" data-placement="top" class="link-primary text-primary linkPointer" title="Action for Delete"><i class="fa fa-external-link-square" aria-hidden="true"></i> Action</a>
-
                                                     }
-
-                                                    <a href="~/BillRequisition/BillRequisitionMasterSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" class="link-primary text-warning" title="Action for Details"><i class="fa fa-external-link-square" aria-hidden="true"></i> Action</a>
+                                                    else
+                                                    {
+                                                        <a href="~/BillRequisition/BillRequisitionMasterSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" class="link-primary text-warning" title="Action for Details"><i class="fa fa-external-link-square" aria-hidden="true"></i> Action</a>
+                                                    }
                                                 }
                                                 else if (item.StatusId == EnumBillRequisitionStatus.Approved)
                                                 {
-                                                    @*<a href="~/BillRequisition/PMBillRequisitionReceivedSlave?companyId=@item.CompanyFK&damageMasterId=@item.BillRequisitionMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>*@
-                                            <a href="~/BillRequisition/BillRequisitionMasterSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" class="link-primary text-primary" title="Action for Details"><i class="fa fa-external-link-square" aria-hidden="true"></i> Action</a>
-
+                                                    <a href="~/BillRequisition/BillRequisitionMasterSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" class="link-primary text-warning" title="Action for Details"><i class="fa fa-external-link-square" aria-hidden="true"></i> Action</a>
+                                                }
+                                                else
+                                                {
+                                                    <a href="~/BillRequisition/BillRequisitionMasterSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" class="link-primary text-warning" title="Action for Details"><i class="fa fa-external-link-square" aria-hidden="true"></i> Action</a>
                                                 }
                                             </td>
                                             <td>
@@ -264,7 +267,7 @@
                         <button type="button" onclick="resetDamageEditForm()" class="btn btn-warning fa fa-close" data-dismiss="modal">&nbsp;NO</button>
                     </div>
                     <div class="col-md-9">
-                        <button type="submit" id="btnSave" style="width:100%" class="btn btn-primary fa fa-remove">&nbsp;<span class="submitOrDraftText"></span></button>
+                        <button type="submit" id="btnSave" style="width:100%" class="btn btn-primary fa fa-check">&nbsp;<span class="submitOrDraftText"></span></button>
                     </div>
                 </div>
 
@@ -323,10 +326,10 @@
                     success: function (data) {
 
                             if (data.Status == 0) {
-                                $('.submitOrDraftText').text("Make Submit");
+                                $('.submitOrDraftText').text("Make Draft");
                             }
                             else {
-                                $('.submitOrDraftText').text("Make Draft");
+                                $('.submitOrDraftText').text("Make Submit");
                             }
                         }
                  });
