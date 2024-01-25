@@ -147,6 +147,7 @@ namespace KGERP
             kernel.Bind<IBatchPaymentService>().To<BatchPaymentService>().InRequestScope();
             kernel.Bind<IBillRequisitionService>().To<BillRequisitionService>().InRequestScope();
             kernel.Bind<IQuotationService>().To<QuotationService>().InRequestScope();
+            kernel.Bind<IConsumptionService>().To<ConsumptionService>().InRequestScope();
 
         }
     }
