@@ -436,7 +436,7 @@ namespace KGERP.Controllers.Crm
                             dr["Source of Media"].ToString().ToUpper());
                             obj.SourceofMediaId = som == null ? 0 : som.Id;
 
-                            //obj.ServicesDescription = dr["Service Detail"].ToString();
+                            //obj.ServicesDescription = dr["Service DetailModel"].ToString();
 
                             obj.OfferText = dr["Promotional Offer"].ToString();
                             var offer = promotionalOfferList

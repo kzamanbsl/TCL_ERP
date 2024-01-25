@@ -1659,7 +1659,7 @@ namespace KGERP.Service.Implementation
         {
             int result = -1;
             if (model.BillRequisitionMasterId <= 0) throw new Exception("Sorry! BillRequisition not found to Receive!");
-            //if (billRequisitionMasterModel.DetailDataList.Count() <= 0) throw new Exception("Sorry! BillRequisition  Detail not found to Receive!");
+            //if (billRequisitionMasterModel.DetailDataList.Count() <= 0) throw new Exception("Sorry! BillRequisition  DetailModel not found to Receive!");
 
             var userName = System.Web.HttpContext.Current.User.Identity.Name;
 
@@ -1824,7 +1824,7 @@ namespace KGERP.Service.Implementation
         {
             int result = -1;
             if (model.BillRequisitionMasterId <= 0) throw new Exception("Sorry! BillRequisition not found to Receive!");
-            //if (billRequisitionMasterModel.DetailDataList.Count() <= 0) throw new Exception("Sorry! BillRequisition  Detail not found to Receive!");
+            //if (billRequisitionMasterModel.DetailDataList.Count() <= 0) throw new Exception("Sorry! BillRequisition  DetailModel not found to Receive!");
 
             var userName = System.Web.HttpContext.Current.User.Identity.Name;
 
@@ -1980,7 +1980,7 @@ namespace KGERP.Service.Implementation
         {
             int result = -1;
             if (billRequisitionMasterId <= 0) throw new Exception("Sorry! BillRequisition not found to Receive!");
-            //if (billRequisitionMasterModel.DetailDataList.Count() <= 0) throw new Exception("Sorry! BillRequisition  Detail not found to Receive!");
+            //if (billRequisitionMasterModel.DetailDataList.Count() <= 0) throw new Exception("Sorry! BillRequisition  DetailModel not found to Receive!");
 
             var userName = System.Web.HttpContext.Current.User.Identity.Name;
 
@@ -2138,7 +2138,7 @@ namespace KGERP.Service.Implementation
         {
             int result = -1;
             if (model.BillRequisitionMasterId <= 0) throw new Exception("Sorry! BillRequisition not found to Receive!");
-            //if (billRequisitionMasterModel.DetailDataList.Count() <= 0) throw new Exception("Sorry! BillRequisition  Detail not found to Receive!");
+            //if (billRequisitionMasterModel.DetailDataList.Count() <= 0) throw new Exception("Sorry! BillRequisition  DetailModel not found to Receive!");
 
             var userName = System.Web.HttpContext.Current.User.Identity.Name;
 
@@ -2298,7 +2298,7 @@ namespace KGERP.Service.Implementation
         {
             int result = -1;
             if (model.BillRequisitionMasterId <= 0) throw new Exception("Sorry! BillRequisition not found to Receive!");
-            //if (billRequisitionMasterModel.DetailDataList.Count() <= 0) throw new Exception("Sorry! BillRequisition  Detail not found to Receive!");
+            //if (billRequisitionMasterModel.DetailDataList.Count() <= 0) throw new Exception("Sorry! BillRequisition  DetailModel not found to Receive!");
 
             var userName = System.Web.HttpContext.Current.User.Identity.Name;
 
@@ -2460,7 +2460,7 @@ namespace KGERP.Service.Implementation
         {
             int result = -1;
             if (model.BillRequisitionMasterId <= 0) throw new Exception("Sorry! BillRequisition not found to Receive!");
-            //if (billRequisitionMasterModel.DetailDataList.Count() <= 0) throw new Exception("Sorry! BillRequisition  Detail not found to Receive!");
+            //if (billRequisitionMasterModel.DetailDataList.Count() <= 0) throw new Exception("Sorry! BillRequisition  DetailModel not found to Receive!");
 
             var userName = System.Web.HttpContext.Current.User.Identity.Name;
 

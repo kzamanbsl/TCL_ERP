@@ -327,7 +327,7 @@ namespace KGERP.Controllers
                 preview.StoreName = stockName;
                 preview.DiscountAmount = orderMasterModel.DiscountAmount;
 
-                //Order Deliver Detail
+                //Order Deliver DetailModel
 
                 preview.ProductId = item.ProductId;
                 preview.ProductName = businessCost.ProductName;
