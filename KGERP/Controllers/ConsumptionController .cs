@@ -35,9 +35,10 @@ namespace KGERP.Controllers
             _ProductService = productService;
         }
 
-       public ActionResult ConsumptionMasterSlave()
+       public async Task<ActionResult> ConsumptionMasterSlave(int companyId)
         {
             BillRequisitionMasterModel billRequisition = new BillRequisitionMasterModel();
+            billRequisition.ProjectTypeList = new SelectList(await _service.GetCostCenterTypeList(companyId), "CostCenterTypeId", "Name");
 
             return View(billRequisition);
         }

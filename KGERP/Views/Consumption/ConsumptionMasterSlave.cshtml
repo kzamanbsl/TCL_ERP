@@ -177,7 +177,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-3">
+                                    @*<div class="col-md-3">
                                         <div class="form-group">
                                             <label>Requisition Type :</label>
                                             @Html.DropDownListFor(model => model.BillRequisitionTypeId, Model.RequisitionTypeList as SelectList, "==Select Requisition Type==", new { id = "ddlBRTypeId", onchange = "GetSubCategoryListByCategoryId()", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
@@ -191,7 +191,7 @@
                                             @Html.DropDownListFor(model => model.BillRequisitionSubTypeId, Model.RequisitionSubTypeList as SelectList, "==Select Requisition Subtype==", new { id = "ddlBRSubTypeId", onchange = "ShowBoqMaterialListByReqSubtypeId()", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
                                             @Html.ValidationMessageFor(model => model.BillRequisitionSubTypeId, "", new { @class = "text-danger" })
                                         </div>
-                                    </div>
+                                    </div>*@
 
                                     <div class="col-md-3 d-block" id="inputDivision">
                                         <div class="form-group">

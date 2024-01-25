@@ -146,6 +146,7 @@ namespace KGERP
             kernel.Bind<IProductionMasterService>().To<ProductionMasterService>().InRequestScope();
             kernel.Bind<IBatchPaymentService>().To<BatchPaymentService>().InRequestScope();
             kernel.Bind<IBillRequisitionService>().To<BillRequisitionService>().InRequestScope();
+            kernel.Bind<IConsumptionService>().To<ConsumptionService>().InRequestScope();
         }
     }
 }
