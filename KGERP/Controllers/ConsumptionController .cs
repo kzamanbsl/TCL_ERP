@@ -18,27 +18,43 @@ using Ninject.Activation;
 using KGERP.Data.CustomModel;
 using KGERP.Data.Models;
 using System.Web.UI.WebControls;
+using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace KGERP.Controllers
 {
     [SessionExpire]
     public class ConsumptionController : BaseController
     {
-        private readonly IBillRequisitionService _service;
+        private readonly IConsumptionService _service;
         private readonly ConfigurationService _configurationService;
-        private readonly ProductService _ProductService;
+        private readonly IBillRequisitionService _billRequisitionService;
 
-        public ConsumptionController(IBillRequisitionService billRequisitionService, ConfigurationService configurationService, ProductService productService)
+        public ConsumptionController(IConsumptionService consumptionService, ConfigurationService configurationService, IBillRequisitionService billRequisitionService)
         {
-            _service = billRequisitionService;
+            _service = consumptionService;
             _configurationService = configurationService;
-            _ProductService = productService;
+            _billRequisitionService = billRequisitionService;
         }
 
+        [HttpGet]
        public async Task<ActionResult> ConsumptionMasterSlave(int companyId)
         {
+            ConsumptionModel consumptionModel = new ConsumptionModel();
+            //consumptionModel.ProjectTypeList = new SelectList(await _service.GetCostCenterTypeList(companyId), "CostCenterTypeId", "Name");
+            //consumptionModel.StatusId = (int)EnumBillRequisitionStatus.Draft;
+            consumptionModel.ProjectTypeList = new SelectList(await _billRequisitionService.GetCostCenterTypeList(companyId), "CostCenterTypeId", "Name");
+            consumptionModel.BOQDivisionList = new SelectList(_billRequisitionService.BoQDivisionList(), "BoQDivisionId", "Name");
+            consumptionModel.BOQItemList =new SelectList  (_billRequisitionService.GetBillOfQuotationList(), "BoQItemId", "BoQNumber") ;
+            consumptionModel.MaterialTypeList = new SelectList(_configurationService.GetAllProductCategoryList(companyId));
+            consumptionModel.MaterialTypeList = new SelectList(_configurationService.GetAllProductSubCategoryList(companyId));
+            return View(consumptionModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ConsumptionMasterSlave(ConsumptionModel consumptionModel)
+        {
             BillRequisitionMasterModel billRequisition = new BillRequisitionMasterModel();
-            billRequisition.ProjectTypeList = new SelectList(await _service.GetCostCenterTypeList(companyId), "CostCenterTypeId", "Name");
+            //billRequisition.ProjectTypeList = new SelectList(await _service.GetCostCenterTypeList(CompanyInfo.CompanyId), "CostCenterTypeId", "Name");
 
             return View(billRequisition);
         }
