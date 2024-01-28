@@ -9,7 +9,6 @@
 }
 
 <style type="text/css">
-
     input, select, textarea {
         max-width: 100%;
     }
@@ -33,7 +32,7 @@
         @if (Model.BillRequisitionMasterId > 0)
         {
             <span>
-                New Requisition
+                Requisition Details
             </span>
         }
         else
@@ -126,9 +125,8 @@
                             @if (Model.BillRequisitionMasterId == 0)
                             {
                                 <div class="row">
-
                                     <div class="col-md-3">
-                                        <label for="message-text" class="col-form-label">Requisition Date :</label>
+                                        <label for="message-text" class="col-form-label">Requisition Date<sup class="text-danger" title="Required">*</sup></label>
                                         <div class="form-group">
                                             <input name="BRDate" asp-for="BRDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker w-100 dateCustom" placeholder="Operation Date" autocomplete="off" id="txtOperationrDate">
                                             @Html.ValidationMessageFor(model => model.BRDate, "", new { @class = "text-danger" })
@@ -137,36 +135,35 @@
 
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label>Project Type :</label>
-                                            @Html.DropDownListFor(model => model.ProjectTypeId, Model.ProjectTypeList as SelectList, "==Select Project Type==", new { id = "projectTypeId", onchange = "GetProjectListByProjectTypeId()", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            <label class="form-label">Requisition Type<sup class="text-danger" title="Required">*</sup></label>
+                                            @Html.DropDownListFor(model => model.BillRequisitionTypeId, Model.RequisitionTypeList as SelectList, "==Select Requisition Type==", new { id = "ddlBRTypeId", @class = "form-control searchingDropdown", required = "required" })
+                                            @Html.ValidationMessageFor(model => model.BillRequisitionTypeId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="form-label">Project Type<sup class="text-danger" title="Required">*</sup></label>
+                                            @Html.DropDownListFor(model => model.ProjectTypeId, Model.ProjectTypeList as SelectList, "==Select Project Type==", new { id = "projectTypeId", onchange = "GetProjectListByProjectTypeId()", @class = "form-control searchingDropdown", required = "required" })
                                             @Html.ValidationMessageFor(model => model.ProjectTypeId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
 
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label>Select Project :</label>
+                                            <label class="form-label">Select Project<sup class="text-danger" title="Required">*</sup></label>
                                             @Html.DropDownListFor(model => model.CostCenterId, Model.ProjectList as SelectList, "==Select Project==", new { id = "ddlCostCenterId", onchange = "GetDivisionListByProjectId()", @class = "form-control searchingDropdown", style = "width:100%", required = "requried" })
                                             @Html.ValidationMessageFor(model => model.CostCenterId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
 
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label>Requisition Type :</label>
-                                            @Html.DropDownListFor(model => model.BillRequisitionTypeId, Model.RequisitionTypeList as SelectList, "==Select Requisition Type==", new { id = "ddlBRTypeId", onchange = "GetSubCategoryListByCategoryId()", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
-                                            @Html.ValidationMessageFor(model => model.BillRequisitionTypeId, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="txtDescription" class="col-form-label" id="descriptionTitle">Work Deatils :</label>
+                                            <label for="txtDescription" class="form-label" id="descriptionTitle">Work Deatils</label>
                                             @Html.TextAreaFor(model => model.Description, new { id = "txtitemDescription", placeholder = "Type work details here", @class = "form-control", rows = 2 })
                                             @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
-
                                 </div>
                             }
 
@@ -177,9 +174,16 @@
                                     <div class="row">
                                         <div class="col-md-3 d-block">
                                             <div class="form-group">
-                                                <label for="txtFloor" class="col-form-label">Floor :</label>
+                                                <label for="txtFloor" class="form-label">Floor</label>
                                                 @Html.TextBoxFor(model => model.DetailModel.Floor, new { id = "txtFloor", placeholder = "Floor", @class = "form-control" })
                                                 @Html.ValidationMessageFor(model => model.DetailModel.Floor, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 d-block">
+                                            <div class="form-group">
+                                                <label for="ddlMember" class="form-label d-block">Member</label>
+                                                @Html.DropDownListFor(model => model.DetailModel.MemberId, Model.MemberList as SelectList, "==Select Member==", new { id = "ddlMember", @class = "form-control searchingDropdown d-block", @style = "width: 100%" })
+                                                @Html.ValidationMessageFor(model => model.DetailModel.MemberId, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                     </div>
@@ -189,7 +193,7 @@
                                     <div class="row d-block">
                                         <div class="col-md-3">
                                             <div class="form-group d-block">
-                                                <label for="txtWrad" class="col-form-label">Ward :</label>
+                                                <label for="txtWrad" class="form-label">Ward</label>
                                                 @Html.TextBoxFor(model => model.DetailModel.Ward, new { id = "txtWrad", placeholder = "Ward", @class = "form-control" })
                                                 @Html.ValidationMessageFor(model => model.DetailModel.Ward, "", new { @class = "text-danger" })
                                             </div>
@@ -197,7 +201,7 @@
 
                                         <div class="col-md-3 d-block">
                                             <div class="form-group">
-                                                <label for="txtDPP" class="col-form-label">DPP :</label>
+                                                <label for="txtDPP" class="form-label">DPP</label>
                                                 @Html.TextBoxFor(model => model.DetailModel.DPP, new { id = "txtDPP", placeholder = "DPP", @class = "form-control" })
                                                 @Html.ValidationMessageFor(model => model.DetailModel.DPP, "", new { @class = "text-danger" })
                                             </div>
@@ -209,7 +213,7 @@
                                     <div class="row d-block">
                                         <div class="col-md-3 d-block">
                                             <div class="form-group">
-                                                <label for="txtChainage" class="col-form-label">Chainage :</label>
+                                                <label for="txtChainage" class="form-label">Chainage</label>
                                                 @Html.TextBoxFor(model => model.DetailModel.Chainage, new { id = "txtChainage", placeholder = "Chainage", @class = "form-control" })
                                                 @Html.ValidationMessageFor(model => model.DetailModel.Chainage, "", new { @class = "text-danger" })
                                             </div>
@@ -221,7 +225,7 @@
                                     <div class="row hidden" id="depandableInputForm">
                                         <div class="col-md-3" id="inputWard">
                                             <div class="form-group">
-                                                <label for="txtWrad" class="col-form-label">Ward :</label>
+                                                <label for="txtWrad" class="form-label">Ward</label>
                                                 @Html.TextBoxFor(model => model.DetailModel.Ward, new { id = "txtWrad", placeholder = "Ward", @class = "form-control" })
                                                 @Html.ValidationMessageFor(model => model.DetailModel.Ward, "", new { @class = "text-danger" })
                                             </div>
@@ -229,7 +233,7 @@
 
                                         <div class="col-md-3 hidden" id="inputDPP">
                                             <div class="form-group">
-                                                <label for="txtDPP" class="col-form-label">DPP :</label>
+                                                <label for="txtDPP" class="form-label">DPP</label>
                                                 @Html.TextBoxFor(model => model.DetailModel.DPP, new { id = "txtDPP", placeholder = "DPP", @class = "form-control" })
                                                 @Html.ValidationMessageFor(model => model.DetailModel.DPP, "", new { @class = "text-danger" })
                                             </div>
@@ -237,7 +241,7 @@
 
                                         <div class="col-md-3 hidden" id="inputChainage">
                                             <div class="form-group">
-                                                <label for="txtChainage" class="col-form-label">Chainage :</label>
+                                                <label for="txtChainage" class="form-label">Chainage</label>
                                                 @Html.TextBoxFor(model => model.DetailModel.Chainage, new { id = "txtChainage", placeholder = "Chainage", @class = "form-control" })
                                                 @Html.ValidationMessageFor(model => model.DetailModel.Chainage, "", new { @class = "text-danger" })
                                             </div>
@@ -245,46 +249,53 @@
 
                                         <div class="col-md-3 hidden" id="inputFloor">
                                             <div class="form-group">
-                                                <label for="txtFloor" class="col-form-label">Floor :</label>
+                                                <label for="txtFloor" class="form-label">Floor</label>
                                                 @Html.TextBoxFor(model => model.DetailModel.Floor, new { id = "txtFloor", placeholder = "Floor", @class = "form-control" })
                                                 @Html.ValidationMessageFor(model => model.DetailModel.Floor, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3 hidden" id="inputMember">
+                                            <div class="form-group">
+                                                <label for="ddlMember" class="form-label d-block">Member</label>
+                                                @Html.DropDownListFor(model => model.DetailModel.MemberId, Model.MemberList as SelectList, "==Select Member==", new { id = "ddlMember", @class = "form-control searchingDropdown d-block", @style = "width: 100%" })
+                                                @Html.ValidationMessageFor(model => model.DetailModel.MemberId, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                     </div>
                                 }
 
                                 <div class="row">
-
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label>Requisition For :</label>
-                                            @Html.DropDownListFor(model => model.DetailModel.RequisitionSubtypeId, Model.RequisitionSubTypeList as SelectList, "==Select Requisition Subtype==", new { id = "ddlBRSubTypeId", onchange = "ShowBoqMaterialListByReqSubtypeId()", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
-                                            @Html.ValidationMessageFor(model => model.DetailModel.RequisitionSubtypeId, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-
                                     @if (Model.BillRequisitionTypeId != (int)EnumBillRequisitionType.Overhead)
                                     {
                                         <div class="col-md-3 d-block" id="inputDivision">
                                             <div class="form-group">
-                                                <label>BoQ Division :</label>
-                                                @Html.DropDownListFor(model => model.DetailModel.BoqDivisionId, Model.BOQDivisionList as SelectList, "==Select BoQ Division==", new { id = "ddlDivisionId", onchange = "GetBoqItemListByDivisionId()", @class = "form-control searchingDropdown", style = "width:100%" })
+                                                <label class="form-label">BoQ Division</label>
+                                                @Html.DropDownListFor(model => model.DetailModel.BoqDivisionId, Model.BOQDivisionList as SelectList, "==Select BoQ Division==", new { id = "ddlDivisionId", onchange = "GetBoqItemListByDivisionId()", @class = "form-control searchingDropdown" })
                                                 @Html.ValidationMessageFor(model => model.DetailModel.BoqDivisionId, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
 
                                         <div class="col-md-3 d-block" id="inputBoq">
                                             <div class="form-group">
-                                                <label>BoQ Item :</label>
-                                                @Html.DropDownListFor(model => model.DetailModel.BoqItemId, Model.BOQItemList as SelectList, "==Select BoQ Item==", new { id = "ddlBOQItemId", onchange = "GetMaterialListByBoqId()", @class = "form-control searchingDropdown", style = "width:100%" })
+                                                <label class="form-label">BoQ Item</label>
+                                                @Html.DropDownListFor(model => model.DetailModel.BoqItemId, Model.BOQItemList as SelectList, "==Select BoQ Item==", new { id = "ddlBOQItemId", onchange = "GetSubcategoryByBoqId()", @class = "form-control searchingDropdown" })
                                                 @Html.ValidationMessageFor(model => model.DetailModel.BoqItemId, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                     }
 
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="form-label">Requisition For<sup class="text-danger" title="Required">*</sup></label>
+                                            @Html.DropDownListFor(model => model.DetailModel.RequisitionSubtypeId, Model.RequisitionSubTypeList as SelectList, "==Requisition For==", new { id = "ddlBRSubTypeId", onchange = "GetMaterialListBySubCategoryId()", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.ValidationMessageFor(model => model.DetailModel.RequisitionSubtypeId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
                                     <div class="col-md-3 d-block" id="inputMaterial">
                                         <div class="form-group">
-                                            <label id="materialTitle">@((Model.BillRequisitionTypeId == (int)EnumBillRequisitionType.Overhead)? "Requisition Subtype Item :" : "Requisition Material Item :")</label>
+                                            <label class="form-label" id="materialTitle">@((Model.BillRequisitionTypeId == (int)EnumBillRequisitionType.Overhead) ? "Requisition Item" : "Requisition Material")<sup class="text-danger" title="Required">*</sup></label>
                                             @Html.DropDownListFor(model => model.DetailModel.ProductId, Model.RequisitionItemList as SelectList, "==Select Material==", new { id = "ddlRequisitionItemId", onchange = "GetUnitNameByProductId()", @class = "form-control searchingDropdown", style = "width:100%", })
                                             @Html.ValidationMessageFor(model => model.DetailModel.ProductId, "", new { @class = "text-danger" })
                                         </div>
@@ -292,7 +303,7 @@
 
                                     <div class="col-md-3 d-block" id="inputUnit">
                                         <div class="form-group">
-                                            <label>Material Unit :</label>
+                                            <label class="form-label">Material Unit</label>
                                             @Html.TextBoxFor(model => model.DetailModel.UnitName, new { id = "showUnitName", @class = "form-control", placeholder = "Material Unit", ReadOnly = true })
                                             @Html.HiddenFor(model => model.DetailModel.UnitId, new { id = "txtUnitId" })
                                         </div>
@@ -302,7 +313,7 @@
                                     {
                                         <div class="col-md-3 d-block" id="inputEstimateQty">
                                             <div class="form-group">
-                                                <label>Estimate Quantity :</label>
+                                                <label class="form-label">Estimate Quantity</label>
                                                 @Html.TextBoxFor(model => model.DetailModel.EstimatedQty, new { id = "decEstimatedQty", type = "number", step = "0.01", @class = "form-control", placeholder = "Estimate quantity", ReadOnly = "true" })
                                                 @Html.ValidationMessageFor(model => model.DetailModel.EstimatedQty, "", new { @class = "text-danger" })
                                             </div>
@@ -311,7 +322,7 @@
 
                                     <div class="col-md-3 d-block" id="inputReceivedSoFar">
                                         <div class="form-group">
-                                            <label>Item Received So Far :</label>
+                                            <label>Item Received So Far</label>
                                             @Html.TextBoxFor(model => model.DetailModel.ReceivedSoFar, new { id = "decReceivedSoFar", type = "number", step = "0.01", @class = "form-control", placeholder = "Received so far", ReadOnly = "true" })
                                             @Html.ValidationMessageFor(model => model.DetailModel.ReceivedSoFar, "", new { @class = "text-danger" })
                                         </div>
@@ -321,33 +332,33 @@
                                     {
                                         <div class="col-md-3 d-block" id="inputRemainingQty">
                                             <div class="form-group">
-                                                <label>Remaining Quantity :</label>
+                                                <label>Remaining Quantity</label>
                                                 @Html.TextBoxFor(model => model.DetailModel.RemainingQty, new { id = "decRemainingQty", type = "number", step = "0.01", @class = "form-control", placeholder = "Remaining quantity", ReadOnly = "true" })
                                                 @Html.ValidationMessageFor(model => model.DetailModel.RemainingQty, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                     }
 
-                                    <div class="col-md-3 d-block" id="inputDemandQty">
+                                    <div class="col-md-4 d-block" id="inputDemandQty">
                                         <div class="form-group">
-                                            <label id="demandTitle">@((Model.BillRequisitionTypeId == (int)EnumBillRequisitionType.Labor)? "Labor Demand :" : "Demand Quantity :")</label>
+                                            <label id="demandTitle">@((Model.BillRequisitionTypeId == (int)EnumBillRequisitionType.Labor) ? "Labor Demand" : "Demand Quantity")<sup class="text-danger" title="Required">*</sup></label>
                                             @Html.TextBoxFor(model => model.DetailModel.DemandQty, new { id = "decDemandQty", type = "number", step = "0.01", @class = "form-control", placeholder = "Material demand" })
                                             @Html.ValidationMessageFor(model => model.DetailModel.DemandQty, "", new { @class = "text-danger" })
                                             <span class="text-danger" id="demandValidate"></span>
                                         </div>
                                     </div>
 
-                                    <div class="col-md-3 d-block" id="inputUnitRate">
+                                    <div class="col-md-4 d-block" id="inputUnitRate">
                                         <div class="form-group">
-                                            <label id="unitTitle">@((Model.BillRequisitionTypeId == (int)EnumBillRequisitionType.Labor)? "Labor Rate :" : "Unit Rate :")</label>
+                                            <label id="unitTitle">@((Model.BillRequisitionTypeId == (int)EnumBillRequisitionType.Labor) ? "Labor Rate" : "Unit Rate")<sup class="text-danger" title="Required">*</sup></label>
                                             @Html.TextBoxFor(model => model.DetailModel.UnitRate, new { id = "decUnitRate", type = "number", step = "0.01", @class = "form-control", placeholder = "Unit rate", })
                                             @Html.ValidationMessageFor(model => model.DetailModel.UnitRate, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
 
-                                    <div class="col-md-3 d-block" id="inputTotalPrice">
+                                    <div class="col-md-4 d-block" id="inputTotalPrice">
                                         <div class="form-group">
-                                            <label id="totalTitle">Total Amount :</label>
+                                            <label id="totalTitle">Total Amount<sup class="text-danger" title="Required">*</sup></label>
                                             @Html.TextBoxFor(model => model.DetailModel.TotalPrice, new { id = "decTotalPrice", type = "number", step = "0.01", @class = "form-control", placeholder = "Total amount", ReadOnly = "true" })
                                             @Html.ValidationMessageFor(model => model.DetailModel.TotalPrice, "", new { @class = "text-danger" })
                                         </div>
@@ -355,7 +366,7 @@
 
                                     <div class="col-md-12 d-block" id="inputRemarks">
                                         <div class="form-group">
-                                            <label for="txtDescription" class="col-form-label">Remarks/Particular :</label>
+                                            <label for="txtDescription" class="col-form-label">Remarks/Particular</label>
                                             @Html.TextAreaFor(model => model.DetailModel.Remarks, new { id = "txtitemDescription", placeholder = "Type remarks here", @class = "form-control", rows = 2 })
                                             @Html.ValidationMessageFor(model => model.DetailModel.Remarks, "", new { @class = "text-danger" })
                                         </div>
@@ -587,233 +598,208 @@
 @section scripts {
 
     <script type="text/javascript">
+        $(document).ready(function () {
+            "use strict";
 
-        // get requisition subtype list by category id
-        function showSubtype() {
-            var getRequisitionTypeId = $("#reqTypeId").val();
-            var showRequisitionSubtype = $("#ddlBRSubTypeId");
+            // date picker activation
+            $('#datePickerById').datepicker({
+                format: "dd/MM/yyyy",
+                todayHighlight: true,
+                autoclose: true,
+                clearBtn: true
+            }).on('changeDate', function (ev) {
+                if ($(this).parents('form') && $(this).attr('required')) {
+                    $(this).parents('form').bootstrapValidator('revalidateField', $(this));
+                }
+            });
 
-            if (getRequisitionTypeId > 0) {
-                $.ajax({
-                    type: "GET",
-                    url: "/Configuration/GetSubCategoryByCategoryId",
-                    dataType: "json",
-                    data: { id: getRequisitionTypeId },
-                    success: function (data) {
-                        showRequisitionSubtype.empty();
-                        showRequisitionSubtype.append("<option selected disabled>==Select Req. Subtype==</option>");
+            // Description title change when requisition type overhead is selected
+            $("#ddlBRTypeId").on("change", function () {
+                var selectedOption = $(this).find("option:selected");
+                var requisitionTypeId = selectedOption.val();
 
-                        $.each(data, function (index, item) {
-                            showRequisitionSubtype.append($('<option>', {
-                                value: item.ProductSubCategoryId,
-                                text: item.Name
-                            }));
-                        });
-                    }
-                });
-            }
-        }
-        showSubtype();
+                if (requisitionTypeId == @((int)EnumBillRequisitionType.Overhead)) {
+                    $("#descriptionTitle").text("Item Description");
+                    $("#materialTitle").text("Requisition Item");
+                    $("#demandTitle").text("Demand Quantity");
+                    $("#unitTitle").text("Unit Rate");
 
-        // get division list by project id hidden
-        function showDivision() {
-            var getProjectId = $("#ProjectId").val();
-            var showBoqDivisionList = $("#ddlDivisionId");
+                    // show hide input field
+                    $("#inputDivision").removeClass("d-block").addClass("hidden");
+                    $("#inputBoq").removeClass("d-block").addClass("hidden");
+                    $("#inputEstimateQty").removeClass("d-block").addClass("hidden");
+                    $("#inputRemainingQty").removeClass("d-block").addClass("hidden");
+                    $("#inputMaterial").removeClass("hidden").addClass("d-block");
+                    $("#inputUnit").removeClass("hidden").addClass("d-block");
+                    $("#inputReceivedSoFar").removeClass("hidden").addClass("d-block");
+                    $("#inputChainage").removeClass("d-block").addClass("hidden");
 
-            if (getProjectId > 0) {
-                $.ajax({
-                    type: "GET",
-                    url: "/BillRequisition/getBoqDivisionList",
-                    dataType: "json",
-                    data: { id: getProjectId },
-                    success: function (data) {
-                        showBoqDivisionList.empty();
-                        showBoqDivisionList.append("<option selected disabled>==Select BoQ Division==</option>");
+                    // for layout
+                    $("#inputDemandQty").removeClass("col-md-3").addClass("col-md-4");
+                    $("#inputUnitRate").removeClass("col-md-3").addClass("col-md-4");
+                    $("#inputTotalPrice").removeClass("col-md-3").addClass("col-md-4");
 
-                        $.each(data, function (index, item) {
-                            showBoqDivisionList.append($('<option>', {
-                                value: item.BoQDivisionId,
-                                text: item.Name
-                            }));
-                        });
-                    }
-                });
-            }
-        }
-        showDivision();
+                    // Show subcategory by category id
+                    var showRequisitionSubtype = $("#ddlBRSubTypeId");
 
-        // overhead item
-        //function ShowMaterial() {
-        //    var subTypeId = $("#reqSubtypeId").val();
-        //    var showBoqMaterialList = $("#ddlRequisitionItemId");
+                    $.ajax({
+                        type: "GET",
+                        url: "/Configuration/GetSubCategoryByCategoryId",
+                        dataType: "json",
+                        data: { id: requisitionTypeId },
+                        success: function (data) {
+                            showRequisitionSubtype.empty();
+                            showRequisitionSubtype.append("<option selected disabled>==Requisition For==</option>");
 
-        //    if (subTypeId > 0) {
-        //        $.ajax({
-        //            type: "GET",
-        //            url: "/BillRequisition/getBoqMaterialListForOverHead",
-        //            dataType: "json",
-        //            data: { id: subTypeId },
-        //            success: function (data) {
-        //                showBoqMaterialList.empty();
-        //                showBoqMaterialList.append("<option selected disabled>==Select Material==</option>");
-
-        //                $.each(data, function (index, item) {
-        //                    showBoqMaterialList.append($('<option>', {
-        //                        value: item.ProductId,
-        //                        text: item.ProductName
-        //                    }));
-        //                });
-        //            }
-        //        });
-        //    }
-        //}
-        //ShowMaterial();
-
-        var isMakeEditable = false;
-
-        // Make editable form
-        function makeEditble(rowId) {
-
-            $.ajax({
-                type: "POST",
-                url: "@Url.Action("SingleBillRequisitionDetails", "BillRequisition")",
-                datatype: "Json",
-                data: { id: rowId },
-                success: function (data) {
-                    unitPrice = data.UnitPrice;
-
-                    $('#soCreateBtn').val("Update");
-                    $("#hidBRMasterId").val(data.BillRequisitionMasterId);
-                    $('#ActionId').val(2);
-                    $("#CompanyFK").val(data.CompanyId);
-                    $("#hiddenBillRequisitionDetailId").val(data.BillRequisitionDetailId);
-                    $("#ddlBRSubTypeId").val(data.RequisitionSubtypeId).trigger('change');
-                    $("#ddlDivisionId").val(data.BoqDivisionId).trigger('change');
-
-                    $("#txtFloor").val(data.Floor);
-                    $("#txtWrad").val(data.Ward);
-                    $("#txtDPP").val(data.DPP);
-                    $("#txtChainage").val(data.Chainage);
-                    $("#txtUnitId").val(data.UnitId);
-                    $("#decEstimatedQty").val(data.EstimatedQty);
-                    $("#decReceivedSoFar").val(data.ReceivedSoFar);
-                    $("#decRemainingQty").val(data.RemainingQty);
-                    $("#decDemandQty").val(data.DemandQty);
-                    $("#decUnitRate").val(data.UnitRate);
-                    $("#decTotalPrice").val(data.TotalPrice);
-                    $("#txtitemDescription").val(data.Remarks);
-
-
-
-                    //// get boq item list by boq division id
-                    function showBoqByDivision(divisionId, boqId, materialId) {
-                        var showBoqItemList = $("#ddlBOQItemId");
-
-                        $.ajax({
-                            type: "GET",
-                            url: "/BillRequisition/getBoqItemList",
-                            dataType: "json",
-                            data: { id: divisionId },
-                            success: function (data) {
-                                showBoqItemList.empty();
-                                showBoqItemList.append("<option selected disabled>==Select BoQ Item==</option>");
-
-                                $.each(data, function (index, item) {
-                                    showBoqItemList.append($('<option>', {
-                                        value: item.BoQItemId,
-                                        text: item.Name
-                                    }));
-                                });
-                                $("#ddlBOQItemId").val(boqId).trigger('change');
-
-                            }
-                        });
-
-                        function ShowMaterialByBoq(boq, material) {
-                            var showBoqMaterialList = $("#ddlRequisitionItemId");
-                            $.ajax({
-                                type: "GET",
-                                url: "/BillRequisition/getBoqMaterialList",
-                                dataType: "json",
-                                data: { id: boq },
-                                success: function (data) {
-                                    showBoqMaterialList.empty();
-                                    showBoqMaterialList.append("<option selected disabled>==Select Material==</option>");
-
-                                    $.each(data, function (index, item) {
-                                        showBoqMaterialList.append($('<option>', {
-                                            value: item.ProductId,
-                                            text: item.ProductName
-                                        }));
-                                    });
-                                    $("#ddlRequisitionItemId").val(material).trigger('change');
-                                }
+                            $.each(data, function (index, item) {
+                                showRequisitionSubtype.append($('<option>', {
+                                    value: item.ProductSubCategoryId,
+                                    text: item.Name
+                                }));
                             });
                         }
-                        ShowMaterialByBoq(boqId, materialId);
-                    }
-                    showBoqByDivision(data.BoqDivisionId, data.BoqItemId, data.ProductId);
-
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                }
-            });
-            isMakeEditable = true;
-        }
-
-        // make submitable form
-        function makeSubmitble(rowId) {
-
-            if (@Model.StatusId == 0) {
-                $('.submitOrDraftText').text("Make Submit");
-            }
-            else {
-                $('.submitOrDraftText').text("Make Draft");
-            }
-            $('#hidSubmitBRMasterId').val(@Model.BillRequisitionMasterId);
-        }
-
-        // make deletable form
-        function makeDeletale(rowId) {
-
-            $('#hidBillRequisitionDetailId').val(rowId);
-            $('#deleteActionId').val(3);
-        }
-
-        // reset form
-        function resetDamageDeleteSlaveForm() {
-
-            $('#BRMasterSlaveFormId')[0].reset();
-            $('#ActionId').val(1);
-        }
-
-        // get requisition subtype list by category id
-        function GetSubCategoryListByCategoryId() {
-            var getRequisitionTypeId = $("#ddlBRTypeId option:selected");
-            var showRequisitionSubtype = $("#ddlBRSubTypeId");
-
-            $.ajax({
-                type: "GET",
-                url: "/Configuration/GetSubCategoryByCategoryId",
-                dataType: "json",
-                data: { id: getRequisitionTypeId.val() },
-                success: function (data) {
-                    showRequisitionSubtype.empty();
-                    showRequisitionSubtype.append("<option selected disabled>==Select Req. Subtype==</option>");
-
-                    $.each(data, function (index, item) {
-                        showRequisitionSubtype.append($('<option>', {
-                            value: item.ProductSubCategoryId,
-                            text: item.Name
-                        }));
                     });
-                },
-                error: function (error) {
-                    console.error("Error in AJAX request:", error);
+                } else if (requisitionTypeId == @((int)EnumBillRequisitionType.Labor)) {
+                    $("#demandTitle").text("Labor Quantity");
+                    $("#unitTitle").text("Labor Rate");
+
+                    // show hide input field
+                    $("#inputDivision").removeClass("d-block").addClass("hidden");
+                    $("#inputBoq").removeClass("d-block").addClass("hidden");
+                    $("#inputEstimateQty").removeClass("d-block").addClass("hidden");
+                    $("#inputRemainingQty").removeClass("d-block").addClass("hidden");
+                    $("#inputMaterial").removeClass("d-block").addClass("hidden");
+                    $("#inputUnit").removeClass("d-block").addClass("hidden");
+                    $("#inputReceivedSoFar").removeClass("d-block").addClass("hidden");
+
+                    // for layout
+                    $("#inputDemandQty").removeClass("col-md-4").addClass("col-md-3");
+                    $("#inputUnitRate").removeClass("col-md-4").addClass("col-md-3");
+                    $("#inputTotalPrice").removeClass("col-md-4").addClass("col-md-3");
+                } else {
+                    $("#descriptionTitle").text("Work Details :");
+                    $("#materialTitle").text("Requisition Material");
+                    $("#demandTitle").text("Demand Quantity");
+                    $("#unitTitle").text("Unit Rate");
+
+                    // show hide input field
+                    $("#inputDivision").removeClass("hidden").addClass("d-block");
+                    $("#inputBoq").removeClass("hidden").addClass("d-block");
+                    $("#inputEstimateQty").removeClass("hidden").addClass("d-block");
+                    $("#inputRemainingQty").removeClass("hidden").addClass("d-block");
+                    $("#inputMaterial").removeClass("hidden").addClass("d-block");
+                    $("#inputUnit").removeClass("hidden").addClass("d-block");
+                    $("#inputReceivedSoFar").removeClass("hidden").addClass("d-block");
+
+                    // for layout
+                    $("#inputDemandQty").removeClass("col-md-3").addClass("col-md-4");
+                    $("#inputUnitRate").removeClass("col-md-3").addClass("col-md-4");
+                    $("#inputTotalPrice").removeClass("col-md-3").addClass("col-md-4");
                 }
             });
-        }
 
-        // get project list by project type id
+            // show input field when project type
+            $("#projectTypeId").on("change", function () {
+                var selectedOption = $(this).find("option:selected");
+
+                if (selectedOption.val() == @((int)EnumBillReqProjectType.Building)) {
+                    $("#depandableInputForm").removeClass("hidden").addClass("d-block");
+                    $("#inputWard").removeClass("d-block").addClass("hidden");
+                    $("#inputDPP").removeClass("d-block").addClass("hidden");
+                    $("#inputChainage").removeClass("d-block").addClass("hidden");
+                    $("#inputFloor").removeClass("hidden").addClass("d-block");
+                    $("#inputMember").removeClass("hidden").addClass("d-block");
+                } else if (selectedOption.val() == @((int)EnumBillReqProjectType.Road)) {
+                    $("#depandableInputForm").removeClass("hidden").addClass("d-block");
+                    $("#inputWard").removeClass("hidden").addClass("d-block");
+                    $("#inputDPP").removeClass("hidden").addClass("d-block");
+                    $("#inputChainage").removeClass("hidden").addClass("d-block");
+                    $("#inputFloor").removeClass("d-block").addClass("hidden");
+                    $("#inputMember").removeClass("d-block").addClass("hidden");
+                } else if (selectedOption.val() == @((int)EnumBillReqProjectType.Runway)) {
+                    $("#depandableInputForm").removeClass("hidden").addClass("d-block");
+                    $("#inputWard").removeClass("d-block").addClass("hidden");
+                    $("#inputDPP").removeClass("d-block").addClass("hidden");
+                    $("#inputChainage").removeClass("hidden").addClass("d-block");
+                    $("#inputFloor").removeClass("d-block").addClass("hidden");
+                    $("#inputMember").removeClass("d-block").addClass("hidden");
+                } else {
+                    $("#depandableInputForm").removeClass("d-block").addClass("hidden");
+                    $("#inputWard").removeClass("d-block").addClass("hidden");
+                    $("#inputDPP").removeClass("d-block").addClass("hidden");
+                    $("#inputChainage").removeClass("d-block").addClass("hidden");
+                    $("#inputFloor").removeClass("d-block").addClass("hidden");
+                    $("#inputMember").removeClass("d-block").addClass("hidden");
+                }
+            });
+
+            // TA/DA hidden div
+            $("#ddlBRSubTypeId").on("change", function () {
+                var selectedOption = $(this).find("option:selected");
+
+                if (selectedOption.val() == 19) {
+                    $("#inputUnit").removeClass("d-block").addClass("hidden");
+                    $("#inputReceivedSoFar").removeClass("d-block").addClass("hidden");
+                    $("#inputDemandQty").removeClass("d-block").addClass("hidden");
+                    $("#inputUnitRate").removeClass("d-block").addClass("hidden");
+
+                    $("#decTotalPrice").attr("readonly", false);
+                    $("#totalTitle").text("Payable Amount*");
+                    $("#ddlBRSubTypeId").removeClass("col-md-3").addClass("col-md-4");
+                    $("#inputMaterial").removeClass("col-md-3").addClass("col-md-4");
+                } else {
+                    $("#inputUnit").removeClass("hidden").addClass("d-block");
+                    $("#inputReceivedSoFar").removeClass("hidden").addClass("d-block");
+                    $("#inputDemandQty").removeClass("hidden").addClass("d-block");
+                    $("#inputUnitRate").removeClass("hidden").addClass("d-block");
+
+                    $("#decTotalPrice").attr("readonly", true);
+                    $("#totalTitle").text("Total Amount*");
+                    $("#ddlBRSubTypeId").removeClass("col-md-4").addClass("col-md-3");
+                    $("#inputMaterial").removeClass("col-md-4").addClass("col-md-3");
+                }
+            });
+
+            // claculate demand with unit rate and show to total
+            var inputRemaining = $("#decRemainingQty");
+            var inputDemand = $("#decDemandQty");
+            var inputUnitPrice = $("#decUnitRate");
+            var showTotalPrice = $("#decTotalPrice");
+
+            function calculateTotalPrice() {
+                var selectedOption = $("#ddlBRTypeId").find("option:selected");
+                var remainingValue = parseFloat(inputRemaining.val()) || 0;
+                var demandValue = parseFloat(inputDemand.val()) || 0;
+                var unitPriceValue = parseFloat(inputUnitPrice.val()) || 0;
+                var totalPrice = 0;
+
+                if (selectedOption.val() == @((int)EnumBillRequisitionType.Materials)) {
+                    if (!isNaN(remainingValue) && !isNaN(demandValue) && !isNaN(unitPriceValue)) {
+                        if (demandValue <= remainingValue || demandValue === 0) {
+                            $("#demandValidate").text("");
+                            totalPrice = demandValue * unitPriceValue;
+                            showTotalPrice.val(totalPrice.toFixed(2));
+                        } else {
+                            inputDemand.val(remainingValue);
+                            totalPrice = remainingValue * unitPriceValue;
+                            showTotalPrice.val(totalPrice.toFixed(2));
+                            $("#demandValidate").text("Demand cannot exceed the remaining amount!");
+                        }
+                    }
+                } else {
+                    if (!isNaN(demandValue) && !isNaN(unitPriceValue)) {
+                        totalPrice = demandValue * unitPriceValue;
+                        showTotalPrice.val(totalPrice.toFixed(2));
+                    }
+                }
+            }
+
+            inputDemand.on("input", calculateTotalPrice);
+            inputUnitPrice.on("input", calculateTotalPrice);
+
+        });
+
+        // Get project list by project type id
         function GetProjectListByProjectTypeId() {
             var getProjectTypeId = $("#projectTypeId option:selected");
             var showProjectList = $("#ddlCostCenterId");
@@ -833,14 +819,11 @@
                             text: item.Name
                         }));
                     });
-                },
-                error: function (error) {
-                    console.error("Error in AJAX request:", error);
                 }
             });
         }
 
-        // get division list by project id
+        // Get division list by project id
         function GetDivisionListByProjectId() {
             var getProjectId = $("#ddlCostCenterId option:selected");
             var showBoqDivisionList = $("#ddlDivisionId");
@@ -860,80 +843,68 @@
                             text: item.Name
                         }));
                     });
-                },
-                error: function (error) {
-                    console.error("Error in AJAX request:", error);
                 }
             });
         }
 
-        // get boq item list by boq division id
+        // Get boq list by division id
         function GetBoqItemListByDivisionId() {
-            if (!isMakeEditable) {
-                var getBoqDivisionId = $("#ddlDivisionId option:selected");
-                var showBoqItemList = $("#ddlBOQItemId");
+            var getBoqDivisionId = $("#ddlDivisionId option:selected");
+            var showBoqItemList = $("#ddlBOQItemId");
 
-                $.ajax({
-                    type: "GET",
-                    url: "/BillRequisition/getBoqItemList",
-                    dataType: "json",
-                    data: { id: getBoqDivisionId.val() },
-                    success: function (data) {
-                        showBoqItemList.empty();
-                        showBoqItemList.append("<option selected disabled>==Select BoQ Item==</option>");
-
-                        $.each(data, function (index, item) {
-                            showBoqItemList.append($('<option>', {
-                                value: item.BoQItemId,
-                                text: item.Name
-                            }));
-                        });
-                    },
-                    error: function (error) {
-                        console.error("Error in AJAX request:", error);
-                    }
-                });
-            }
-        }
-
-        // get boq material list boq item id
-        function GetMaterialListByBoqId() {
-            if (!isMakeEditable) {
-                var getBoqItemId = $("#ddlBOQItemId option:selected");
-                var showBoqMaterialList = $("#ddlRequisitionItemId");
-                $.ajax({
-                    type: "GET",
-                    url: "/BillRequisition/getBoqMaterialList",
-                    dataType: "json",
-                    data: { id: getBoqItemId.val() },
-                    success: function (data) {
-                        showBoqMaterialList.empty();
-                        showBoqMaterialList.append("<option selected disabled>==Select Material==</option>");
-
-                        $.each(data, function (index, item) {
-                            showBoqMaterialList.append($('<option>', {
-                                value: item.ProductId,
-                                text: item.ProductName
-                            }));
-                        });
-                    },
-                    error: function (error) {
-                        console.error("Error in AJAX request:", error);
-                    }
-                });
-            }
-
-        }
-
-        // get boq material list for draf
-        @*function GetMaterialListByBoqIdForDraf() {
-            var showBoqMaterialList = $("#ddlRequisitionItemId");
-            var boqId = @((Model.BOQItemId == 0 || Model.BOQItemId == null)? 0 : Model.BOQItemId);
             $.ajax({
                 type: "GET",
-                url: "/BillRequisition/getBoqMaterialList",
+                url: "/BillRequisition/getBoqItemListWithBoqNumber",
                 dataType: "json",
-                data: { id: boqId },
+                data: { id: getBoqDivisionId.val() },
+                success: function (data) {
+                    showBoqItemList.empty();
+                    showBoqItemList.append("<option selected disabled>==Select BoQ Item==</option>");
+
+                    $.each(data, function (index, item) {
+                        showBoqItemList.append($('<option>', {
+                            value: item.BoQItemId,
+                            text: item.Name
+                        }));
+                    });
+                }
+            });
+        }
+
+        // Get sub category list by boq id
+        function GetSubcategoryByBoqId() {
+            var getBoqItemId = $("#ddlBOQItemId option:selected");
+            var showSubcategoryList = $("#ddlBRSubTypeId");
+
+            $.ajax({
+                type: "GET",
+                url: "/BillRequisition/GetSubCategoryByBoqId",
+                dataType: "json",
+                data: { id: getBoqItemId.val() },
+                success: function (data) {
+                    showSubcategoryList.empty();
+                    showSubcategoryList.append("<option selected disabled>==Requisition For==</option>");
+
+                    $.each(data, function (index, item) {
+                        showSubcategoryList.append($('<option>', {
+                            value: item.ProductSubCategoryId,
+                            text: item.Name
+                        }));
+                    });
+                }
+            });
+        }
+
+        // Get material list by sub category id
+        function GetMaterialListBySubCategoryId() {
+            var getSubcategoryId = $("#ddlBRSubTypeId option:selected");
+            var showBoqMaterialList = $("#ddlRequisitionItemId");
+
+            $.ajax({
+                type: "GET",
+                url: "/BillRequisition/GetMaterialListBySubcategoryId",
+                dataType: "json",
+                data: { id: getSubcategoryId.val() },
                 success: function (data) {
                     showBoqMaterialList.empty();
                     showBoqMaterialList.append("<option selected disabled>==Select Material==</option>");
@@ -946,36 +917,9 @@
                     });
                 }
             });
-        }*@
-        //GetMaterialListByBoqIdForDraf();
-
-        // get boq material list for overhead
-        function ShowBoqMaterialListByReqSubtypeId() {
-            if (!isMakeEditable) {
-                var RequisitionSubtype = $("#ddlBRSubTypeId option:selected");
-                var showBoqMaterialList = $("#ddlRequisitionItemId");
-
-                $.ajax({
-                    type: "GET",
-                    url: "/BillRequisition/getBoqMaterialListForOverHead",
-                    dataType: "json",
-                    data: { id: RequisitionSubtype.val() },
-                    success: function (data) {
-                        showBoqMaterialList.empty();
-                        showBoqMaterialList.append("<option selected disabled>==Select Material==</option>");
-
-                        $.each(data, function (index, item) {
-                            showBoqMaterialList.append($('<option>', {
-                                value: item.ProductId,
-                                text: item.ProductName
-                            }));
-                        });
-                    }
-                });
-            }
         }
 
-        // get selected material unit name
+        // Get unit name by product id
         function GetUnitNameByProductId() {
             var getUnitIdValue = $("#ddlRequisitionItemId option:selected");
             var showName = $("#showUnitName");
@@ -994,29 +938,27 @@
                 }
             });
 
-            if (!isMakeEditable) {
-                GetBudgetInfo();
-            }
+            GetBudgetInfo();
         }
 
-        // get budget info
+        // Get budget info by boq id and by overhead
         function GetBudgetInfo() {
-            var productId = $("#ddlRequisitionItemId option:selected");
-            var boqId = $("#ddlBOQItemId option:selected");
+            var requisitionType = $("#ddlBRTypeId option:selected").val();
+            var boqId = $("#ddlBOQItemId option:selected").val();
+            var productId = $("#ddlRequisitionItemId option:selected").val();
             var showEstimate = $("#decEstimatedQty");
             var showUnitRate = $("#decUnitRate");
             var showReceivedSoFar = $("#decReceivedSoFar");
             var showRemaining = $("#decRemainingQty");
             var intputDemand = $("#decDemandQty");
             var totalAmount = $("#decTotalPrice");
-            var BoqValue = boqId.val();
 
-            if (BoqValue > 0) {
+            if (requisitionType == @((int)EnumBillRequisitionType.Materials)) {
                 $.ajax({
                     type: "GET",
                     url: "/BillRequisition/GetMaterialBudgetInfo",
                     dataType: "json",
-                    data: { boqId: BoqValue, productId: productId.val() },
+                    data: { boqId: boqId, productId: productId },
                     success: function (data) {
                         if (data) {
                             showEstimate.val(data.EstimateQty);
@@ -1028,12 +970,12 @@
                         }
                     }
                 });
-            } else {
+            }else {
                 $.ajax({
                     type: "GET",
-                    url: "/BillRequisition/GetMaterialBudgetInfoForOverhead",
+                    url: "/BillRequisition/GetMaterialBudgetInfo",
                     dataType: "json",
-                    data: { productId: productId.val() },
+                    data: { boqId: 0, productId: productId },
                     success: function (data) {
                         if (data) {
                             showEstimate.val(data.EstimateQty);
@@ -1047,211 +989,6 @@
                 });
             }
         }
-
-        $(document).ready(function () {
-            'use strict';
-
-            // dependable dropdown validate
-            $("#ddlBRSubTypeId").empty();
-            $("#ddlBRSubTypeId").append("<option selected disabled>==Select Req. Type First==</option>");
-
-
-            $("#ddlCostCenterId").empty();
-            $("#ddlCostCenterId").append("<option selected disabled>==Select Project Type First==</option>");
-
-            $("#ddlDivisionId").empty();
-            $("#ddlDivisionId").append("<option selected disabled>==Select Project First==</option>");
-
-            $("#ddlBOQItemId").empty();
-            $("#ddlBOQItemId").append("<option selected disabled>==Select Division First==</option>");
-
-            $("#ddlRequisitionItemId").empty();
-            $("#ddlRequisitionItemId").append("<option selected disabled>==Select BoQ First==</option>");
-
-            // date picker activation
-            $('#datePickerById').datepicker({
-                format: "dd/MM/yyyy",
-                todayHighlight: true,
-                autoclose: true,
-                clearBtn: true
-            }).on('changeDate', function (ev) {
-                if ($(this).parents('form') && $(this).attr('required')) {
-                    $(this).parents('form').bootstrapValidator('revalidateField', $(this));
-                }
-            });
-
-            // claculate demand with unit rate and show to total
-            var inputRemaining = $("#decRemainingQty");
-            var inputDemand = $("#decDemandQty");
-            var inputUnitPrice = $("#decUnitRate");
-            var showTotalPrice = $("#decTotalPrice");
-
-            function calculateTotalPrice() {
-
-                var remainingValue = parseFloat(inputRemaining.val()) || 0;
-                var demandValue = parseFloat(inputDemand.val()) || 0;
-                var unitPriceValue = parseFloat(inputUnitPrice.val()) || 0;
-                var totalPrice = 0;
-                var selectedOption = $("#ddlBRTypeId").find("option:selected");
-                var TypeId = $("#reqTypeId").val();
-
-                if (selectedOption.val() == "@((int)EnumBillRequisitionType.Overhead)" || TypeId == "@((int)EnumBillRequisitionType.Overhead)") {
-                    if (!isNaN(demandValue) && !isNaN(unitPriceValue)) {
-                        totalPrice = demandValue * unitPriceValue;
-                        showTotalPrice.val(totalPrice.toFixed(2));
-                    }
-                } else {
-                    if (!isNaN(remainingValue) && !isNaN(demandValue) && !isNaN(unitPriceValue)) {
-                        if (demandValue <= remainingValue || demandValue === 0) {
-                            $("#demandValidate").text("");
-                            totalPrice = demandValue * unitPriceValue;
-                            showTotalPrice.val(totalPrice.toFixed(2));
-                        } else {
-                            inputDemand.val(remainingValue);
-                            totalPrice = remainingValue * unitPriceValue;
-                            showTotalPrice.val(totalPrice.toFixed(2));
-                            $("#demandValidate").text("Demand cannot exceed the remaining amount!");
-                        }
-                    }
-                }
-            }
-
-            inputDemand.on("input", calculateTotalPrice);
-            inputUnitPrice.on("input", calculateTotalPrice);
-
-            // Description title change when requisition type overhead is selected
-            $("#ddlBRTypeId").on("change", function () {
-                var selectedOption = $(this).find("option:selected");
-
-                if (selectedOption.val() === "@((int)EnumBillRequisitionType.Overhead)") {
-                    $("#descriptionTitle").text("Item Description :");
-                    $("#materialTitle").text("Requisition Subtype Item :");
-                    $("#demandTitle").text("Demand Quantity :");
-                    $("#unitTitle").text("Unit Rate :");
-
-                    // master form
-                    $("#inputDivision").removeClass("d-block").addClass("hidden");
-                    $("#inputBoq").removeClass("d-block").addClass("hidden");
-
-                    // details form
-                    $("#inputEstimateQty").removeClass("d-block").addClass("hidden");
-                    $("#inputRemainingQty").removeClass("d-block").addClass("hidden");
-                    $("#inputMaterial").removeClass("hidden").addClass("d-block");
-                    $("#inputUnit").removeClass("hidden").addClass("d-block");
-                    $("#inputReceivedSoFar").removeClass("hidden").addClass("d-block");
-                    $("#inputChainage").removeClass("d-block").addClass("hidden");
-
-                    // for layout
-                    $("#inputMaterial").removeClass("col-md-3").addClass("col-md-4");
-                    $("#inputUnit").removeClass("col-md-3").addClass("col-md-4");
-                    $("#inputReceivedSoFar").removeClass("col-md-3").addClass("col-md-4");
-                    $("#inputDemandQty").removeClass("col-md-3").addClass("col-md-4");
-                    $("#inputUnitRate").removeClass("col-md-3").addClass("col-md-4");
-                    $("#inputTotalPrice").removeClass("col-md-3").addClass("col-md-4");
-                    $("#ddlRequisitionItemId").empty();
-                    $("#ddlRequisitionItemId").append("<option selected disabled>==Select Requisition Subtype First==</option>");
-                } else if (selectedOption.val() === "@((int)EnumBillRequisitionType.Labor)") {
-                    $("#demandTitle").text("Labor Quantity :");
-                    $("#unitTitle").text("Labor Rate :");
-
-                    // details form
-                    $("#inputEstimateQty").removeClass("d-block").addClass("hidden");
-                    $("#inputRemainingQty").removeClass("d-block").addClass("hidden");
-                    $("#inputMaterial").removeClass("d-block").addClass("hidden");
-                    $("#inputUnit").removeClass("d-block").addClass("hidden");
-                    $("#inputReceivedSoFar").removeClass("d-block").addClass("hidden");
-
-                    // for layout
-                    $("#inputDemandQty").removeClass("col-md-3").addClass("col-md-4");
-                    $("#inputUnitRate").removeClass("col-md-3").addClass("col-md-4");
-                    $("#inputTotalPrice").removeClass("col-md-3").addClass("col-md-4");
-                } else {
-                    $("#descriptionTitle").text("Work Details :");
-                    $("#materialTitle").text("Requisition Material Item :");
-                    $("#demandTitle").text("Demand Quantity :");
-                    $("#unitTitle").text("Unit Rate :");
-
-                    // master form
-                    $("#inputDivision").removeClass("hidden").addClass("d-block");
-                    $("#inputBoq").removeClass("hidden").addClass("d-block");
-
-                    // details form
-                    $("#inputEstimateQty").removeClass("hidden").addClass("d-block");
-                    $("#inputRemainingQty").removeClass("hidden").addClass("d-block");
-                    $("#inputMaterial").removeClass("hidden").addClass("d-block");
-                    $("#inputUnit").removeClass("hidden").addClass("d-block");
-                    $("#inputReceivedSoFar").removeClass("hidden").addClass("d-block");
-
-                    // for layout
-                    $("#inputMaterial").removeClass("col-md-4").addClass("col-md-3");
-                    $("#inputUnit").removeClass("col-md-4").addClass("col-md-3");
-                    $("#inputReceivedSoFar").removeClass("col-md-4").addClass("col-md-3");
-                    $("#inputDemandQty").removeClass("col-md-4").addClass("col-md-3");
-                    $("#inputUnitRate").removeClass("col-md-4").addClass("col-md-3");
-                    $("#inputTotalPrice").removeClass("col-md-4").addClass("col-md-3");
-                }
-            });
-
-            // show input field when project type
-            $("#projectTypeId").on("change", function () {
-                var selectedOption = $(this).find("option:selected");
-
-                if (selectedOption.val() === "@((int)EnumBillReqProjectType.Building)") {
-                    $("#depandableInputForm").removeClass("hidden").addClass("d-block");
-                    $("#inputWard").removeClass("d-block").addClass("hidden");
-                    $("#inputDPP").removeClass("d-block").addClass("hidden");
-                    $("#inputChainage").removeClass("d-block").addClass("hidden");
-                    $("#inputFloor").removeClass("hidden").addClass("d-block");
-                } else if (selectedOption.val() === "@((int)EnumBillReqProjectType.Road)") {
-                    $("#depandableInputForm").removeClass("hidden").addClass("d-block");
-                    $("#inputWard").removeClass("hidden").addClass("d-block");
-                    $("#inputDPP").removeClass("hidden").addClass("d-block");
-                    $("#inputChainage").removeClass("d-block").addClass("hidden");
-                    $("#inputFloor").removeClass("d-block").addClass("hidden");
-                } else if (selectedOption.val() === "@((int)EnumBillReqProjectType.Runway)") {
-                    $("#depandableInputForm").removeClass("hidden").addClass("d-block");
-                    $("#inputWard").removeClass("d-block").addClass("hidden");
-                    $("#inputDPP").removeClass("d-block").addClass("hidden");
-                    $("#inputChainage").removeClass("hidden").addClass("d-block");
-                    $("#inputFloor").removeClass("d-block").addClass("hidden");
-                } else {
-                    $("#depandableInputForm").removeClass("d-block").addClass("hidden");
-                    $("#inputWard").removeClass("d-block").addClass("hidden");
-                    $("#inputDPP").removeClass("d-block").addClass("hidden");
-                    $("#inputChainage").removeClass("d-block").addClass("hidden");
-                    $("#inputFloor").removeClass("d-block").addClass("hidden");
-                }
-            });
-
-            // TA/DA hidden div
-            $("#ddlBRSubTypeId").on("change", function () {
-                var selectedOption = $(this).find("option:selected");
-
-                if (selectedOption.val() == 19) {
-                    $("#inputMaterial").removeClass("d-block").addClass("hidden");
-                    $("#inputUnit").removeClass("d-block").addClass("hidden");
-                    $("#inputReceivedSoFar").removeClass("d-block").addClass("hidden");
-                    $("#inputDemandQty").removeClass("d-block").addClass("hidden");
-                    $("#inputUnitRate").removeClass("d-block").addClass("hidden");
-
-                    $("#decTotalPrice").attr("readonly", false);
-                    $("#totalTitle").text("Payable Amount");
-                    $("#inputTotalPrice").removeClass("col-md-4").addClass("col-md-6");
-                    $("#inputRemarks").removeClass("col-md-12").addClass("col-md-6");
-                }else {
-                    $("#inputMaterial").removeClass("hidden").addClass("d-block");
-                    $("#inputUnit").removeClass("hidden").addClass("d-block");
-                    $("#inputReceivedSoFar").removeClass("hidden").addClass("d-block");
-                    $("#inputDemandQty").removeClass("hidden").addClass("d-block");
-                    $("#inputUnitRate").removeClass("hidden").addClass("d-block");
-
-                    $("#decTotalPrice").attr("readonly", true);
-                    $("#totalTitle").text("Total Amount");
-                    $("#inputTotalPrice").removeClass("col-md-6").addClass("col-md-4");
-                    $("#inputRemarks").removeClass("col-md-6").addClass("col-md-12");
-                }
-            });
-        });
 
     </script>
 }

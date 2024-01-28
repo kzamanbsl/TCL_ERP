@@ -4,6 +4,7 @@ using KGERP.Service.ServiceModel;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Web.Mvc.Routing.Constraints;
 
 namespace KGERP.Service.Interface
 {
@@ -118,9 +119,11 @@ namespace KGERP.Service.Interface
 
         #endregion
 
+        List<Product> GetMaterialBySubCategory(long id);
+        List<ProductSubCategory> GetSubcategoryByBoq(long id);
         List<Product> GetMaterialByBoqId(long boqId);
         List<Product> GetMaterialByBoqOverhead(int requisitionSubtypeId);
-        Task<decimal?> ReceivedSoFarTotal(long boqId, long productId);
+        decimal ReceivedSoFarTotal(long boqId, long productId);
         Task<BoQItemProductMap> BoqMaterialBudget(long boqId, long productId);
         Task<object> ApprovedRequisitionDemand(long requisitionId, long materialId);
         List<object> ApprovedRequisitionList(int companyId);

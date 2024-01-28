@@ -2,6 +2,33 @@
 
 namespace KGERP.Utility
 {
+    public enum EnumMemberForBuilding
+    {
+        Pile = 1,
+        Foundation
+    }
+    public enum EnumMaterialQuality
+    {
+        A = 1,
+        B,
+        C
+    }
+
+    public enum EnumQuotationStatus
+    {
+        Draft = 1,
+        Submitted,
+        Accepted
+    }
+
+    public enum EnumQuotationFor
+    {
+        [Display(Name = "General Quotation")]
+        General = 1,
+        [Display(Name = "Requisition Quotation")]
+        Requisition
+    }
+
     public enum EnumVoucherFor
     {
         [Display(Name = "General Voucher")]

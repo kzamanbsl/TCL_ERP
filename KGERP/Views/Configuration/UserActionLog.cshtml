@@ -72,16 +72,16 @@
                                 <div class="box-header"></div>
                                 <!-- /.box-header -->
                                 <div class="box-body">
-                                    <div class="table-responsive text-nowrap">
-                                        <table id="KgErpDataTable" class="table table-responsive table-striped w-100 text-center">
+                                    <div class="table-responsive">
+                                        <table id="KgErpDataTable" class="table table-responsive table-striped table-dark">
                                             <thead>
                                                 <tr>
-                                                    <th>SL No</th>
-                                                    <th>Employee Id</th>
-                                                    <th>Employee Name</th>
-                                                    <th>Action Name</th>
-                                                    <th>Action Timestamp</th>
-                                                    <th>Action Details</th>
+                                                    <th width="7%">SL No</th>
+                                                    <th width="10%">User Id</th>
+                                                    <th width="10%">User Name</th>
+                                                    <th width="10%">Timestamp</th>
+                                                    <th width="8%">Action</th>
+                                                    <th width="55%">Details</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -95,27 +95,29 @@
                                                                 <td>@(++sl)</td>
                                                                 <td>@item.EmpUserId</td>
                                                                 <td>@item.EmployeeName</td>
+                                                                <td>@item.ActionTimeStamp.ToString("dd/MM/yyyy hh:mm:ss tt")</td>
                                                                 <td>
                                                                     @if (item.ActionType == (int)KGERP.Utility.ActionEnum.Add)
                                                                     {
-                                                                        <span class="btn btn-primary btn-xs">Added</span>
+                                                                        <span class="btn btn-primary btn-xs" style="padding-left: 10px; padding-right: 10px;">Created</span>
                                                                     }
                                                                     else if (item.ActionType == (int)KGERP.Utility.ActionEnum.Edit)
                                                                     {
-                                                                        <span class="btn btn-warning btn-xs">Updated</span>
+                                                                        <span class="btn btn-warning btn-xs" style="padding-left: 10px; padding-right: 10px;">Updated</span>
                                                                     }
                                                                     else if (item.ActionType == (int)KGERP.Utility.ActionEnum.Delete)
                                                                     {
-                                                                        <span class="btn btn-danger btn-xs">Deleted</span>
+                                                                        <span class="btn btn-danger btn-xs" style="padding-left: 10px; padding-right: 10px;">Deleted</span>
                                                                     }
                                                                     else
                                                                     {
-                                                                        <span class="btn btn-secondary btn-xs">No-Action</span>
+                                                                        <span class="btn btn-secondary btn-xs" style="padding-left: 10px; padding-right: 10px;">No-Action</span>
                                                                     }
                                                                 </td>
-                                                                @*<td>@item.ActionTimeStamp</td>*@
-                                                                <td>@item.ActionTimeStamp.ToString("dd/MM/yyyy hh:mm:ss tt")</td>
-                                                                <td>@item.Details</td>
+
+                                                                <td>
+                                                                    @item.Details
+                                                                </td>
                                                             </tr>
                                                         }
                                                     }

@@ -67,8 +67,9 @@ namespace KGERP.Service.ServiceModel
         public SelectList UnitList { get; set; } = new SelectList(new List<object>());
         public SelectList EnumBRStatusList { get { return new SelectList(BaseFunctionalities.GetEnumList<EnumBillRequisitionStatus>(), "Value", "Text"); } }
         public SelectList EnumBRSignatoryList { get { return new SelectList(BaseFunctionalities.GetEnumList<EnumBRequisitionSignatory>(), "Value", "Text"); } }
-
+        public SelectList MemberList { get { return new SelectList(BaseFunctionalities.GetEnumList<EnumMemberForBuilding>(), "Value", "Text"); } }
     }
+
     public class BillRequisitionDetailModel : BaseVM
     {
         public long BillRequisitionDetailId { get; set; }
@@ -83,6 +84,7 @@ namespace KGERP.Service.ServiceModel
         public decimal? TotalPrice { get; set; }
         public Nullable<decimal> ReceivedSoFar { get; set; }
         public Nullable<decimal> RemainingQty { get; set; }
+        public int MemberId { get; set; }
         public string Floor { get; set; }
         public string Ward { get; set; }
         public string DPP { get; set; }
@@ -96,8 +98,8 @@ namespace KGERP.Service.ServiceModel
         public string BoqNumber { get; set; }
         public long? RequisitionSubtypeId { get; set; }
         public string RequisitionSubtypeName { get; set; }
-
     }
+
     public partial class BillRequisitionApprovalModel
     {
         public long BRApprovalId { get; set; }

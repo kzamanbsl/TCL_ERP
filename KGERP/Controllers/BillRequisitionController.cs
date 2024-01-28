@@ -17,6 +17,8 @@ using Remotion.Data.Linq;
 using Ninject.Activation;
 using KGERP.Data.CustomModel;
 using KGERP.Data.Models;
+using DocumentFormat.OpenXml.Office2010.Excel;
+using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace KGERP.Controllers
 {
@@ -49,7 +51,7 @@ namespace KGERP.Controllers
             {
                 EstimateQty = (decimal)getData.EstimatedQty;
                 UnitRate = (decimal)getData.UnitRate;
-                ReceivedSoFar = await _service.ReceivedSoFarTotal(boqId, productId);
+                ReceivedSoFar = _service.ReceivedSoFarTotal(boqId, productId);
                 RemainingQty = EstimateQty - ReceivedSoFar;
             }
 
@@ -63,7 +65,7 @@ namespace KGERP.Controllers
             decimal? ReceivedSoFar = 0;
             decimal? RemainingQty = 0;
 
-            ReceivedSoFar = await _service.ReceivedSoFarTotal(0, productId);
+            ReceivedSoFar = _service.ReceivedSoFarTotal(0, productId);
 
             return Json(new { EstimateQty = EstimateQty, UnitRate = UnitRate, ReceivedSoFar = ReceivedSoFar, RemainingQty = RemainingQty }, JsonRequestBehavior.AllowGet);
         }
@@ -112,6 +114,30 @@ namespace KGERP.Controllers
             return Json(materialList, JsonRequestBehavior.AllowGet);
         }
 
+        // Dependent Subcategory List by BoQ id
+        public JsonResult GetSubCategoryByBoqId (long id)
+        {
+            List<ProductSubCategory> subCategoryList = null;
+            if(id > 0)
+            {
+                subCategoryList = _service.GetSubcategoryByBoq(id);
+            }
+
+            return Json(subCategoryList, JsonRequestBehavior.AllowGet);
+        }
+
+        // Dependent material list by product sub category id
+        public JsonResult GetMaterialListBySubcategoryId(long id)
+        {
+            List<Product> materialList = null;
+            if (id > 0)
+            {
+                materialList = _service.GetMaterialBySubCategory(id);
+            }
+
+            return Json(materialList, JsonRequestBehavior.AllowGet);
+        }
+
         // Dependent BoQ material List for overhead
         public JsonResult getBoqMaterialListForOverHead(int id)
         {
@@ -123,25 +149,6 @@ namespace KGERP.Controllers
 
             return Json(materialList, JsonRequestBehavior.AllowGet);
         }
-
-        // Get Material Info by Product Id need to edit 
-        //public async Task<JsonResult> GetBudgetInfoByProductId(int id)
-        //{
-        //    decimal EstimateQty = 0;
-        //    decimal ReceivedSoFar = 0;
-        //    decimal UnitRate = 0;
-
-        //    if (id > 0)
-        //    {
-        //        EstimateQty = (_service.GetBoQProductMapList().FirstOrDefault(c => c.ProductId == id).EstimatedQty == null) ? EstimateQty = 0 : (decimal)_service.GetBoQProductMapList().FirstOrDefault(c => c.ProductId == id).EstimatedQty;
-        //        UnitRate = (_service.GetBoQProductMapList().FirstOrDefault(c => c.ProductId == id).UnitRate == null) ? UnitRate = 0 : (decimal)_service.GetBoQProductMapList().FirstOrDefault(c => c.ProductId == id).UnitRate;
-        //        //ReceivedSoFar = _service.ReceivedSoFarTotal(id);
-        //    }
-
-        //    var result = new { EstimateQty = EstimateQty, UnitRate = UnitRate, ReceivedSoFar = ReceivedSoFar };
-
-        //    return Json(result, JsonRequestBehavior.AllowGet);
-        //}
 
         // Filter with project id
         public JsonResult getBoqDivisionList(long id)
@@ -167,7 +174,7 @@ namespace KGERP.Controllers
                 var data = new BillBoQItem()
                 {
                     BoQItemId = item.BoQItemId,
-                    Name = item.BoQNumber + " -- " + item.Name,
+                    Name = "(" + item.BoQNumber + ") - " + item.Name,
                 };
                 boqItemWithId.Add(data);
             }

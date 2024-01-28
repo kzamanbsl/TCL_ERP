@@ -37,7 +37,10 @@ namespace KGERP.Controllers
         [HttpGet]
         public ActionResult QuotationMasterSlave(int companyId = 0, long QuotationMasterId = 0)
         {
-            return View();
+            QuotationMasterModel viewData = new QuotationMasterModel();
+            viewData.CompanyFK = companyId;
+            viewData.StatusId = (int)EnumQuotationStatus.Draft;
+            return View(viewData);
         }
     }
 }

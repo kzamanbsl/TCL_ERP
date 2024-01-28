@@ -16,11 +16,15 @@ namespace KGERP.Service.ServiceModel
         public long QuotationMasterId{ get; set; }
         public string QuotationNo { get; set; }
         public DateTime QuotationDate { get; set; }
-        public string QuotationFor { get; set; }
+        public int QuotationFor { get; set; }
         public string QuotationName { get; set; }
-        public long RequisitionMasterId { get; set; }
+        public int StatusId { get; set; }
+        public long RequisitionId { get; set; }
+        public string RequisitionNo { get; set; }
         public string Description { get; set; }
         public string EmployeeName { get; set; }
+        public SelectList QuotationForList { get; set; } = new SelectList(Enum.GetValues(typeof(EnumQuotationFor)).Cast<EnumQuotationFor>().Select(e => new SelectListItem { Text = e.ToString(), Value = ((int)e).ToString() }), "Value", "Text");
+        public SelectList RequisitionList { get; set; } = new SelectList(new List<object>());
         public IEnumerable<QuotationMasterModel> DataList { get; set; } = new List<QuotationMasterModel>();
         public List<QuotationDetailModel> DetailDataList { get; set; } = new List<QuotationDetailModel>();
         public QuotationDetailModel DetailModel { get; set; } = new QuotationDetailModel();
@@ -31,12 +35,20 @@ namespace KGERP.Service.ServiceModel
     {
         public long QuotationDetailId { get; set; }
         public long QuotationMasterId { get; set; }
-        public string QuotationNo { get; set; }
-        public DateTime QuotationDate { get; set; }
-        public string QuotationFor { get; set; }
-        public long RequisitionMasterId { get; set; }
-        public string QuotationName { get; set; }
+        public long MaterialId { get; set; }
+        public string MaterialName { get; set; }
+        public int UnitId { get; set; }
+        public string UnitName { get; set; }
+        public int MaterialQualityId { get; set; }
+        public int MaterialSubTypeId { get; set; }
+        public string MaterialSubtypeName { get; set; }
+        public int Quantity { get; set; }
+        public decimal UnitPrice { get; set; }
+        public decimal TotalAmount { get; set; }
         public string EmployeeName { get; set; }
+        public SelectList MaterialSubtypeList { get; set; } = new SelectList(new List<object>());
+        public SelectList MaterialList { get; set; } = new SelectList(new List<object>());
+        public SelectList MaterialQualityList { get; set; } = new SelectList(Enum.GetValues(typeof(EnumMaterialQuality)).Cast<EnumMaterialQuality>().Select(e => new SelectListItem { Text = e.ToString(), Value = ((int)e).ToString() }), "Value", "Text");
     }
 
     public partial class QuotationCompareModel
