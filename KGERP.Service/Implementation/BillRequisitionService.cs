@@ -1855,6 +1855,19 @@ namespace KGERP.Service.Implementation
             //var EmpId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
 
             billRequisitionMasterModel.CompanyFK = companyId;
+
+            var totalPrice = (from t1 in _context.BillRequisitionMasters.Where(x => x.IsActive
+                             && x.CompanyId == companyId
+                             && x.StatusId >= (int)EnumBillRequisitionStatus.Submitted)
+                              join t2 in _context.BillRequisitionDetails on t1.BillRequisitionMasterId equals t2.BillRequisitionMasterId into t2_Join
+                              from t2 in t2_Join.DefaultIfEmpty()
+                              select new
+                              {
+                                  BillRequisitionMasterId = t1.BillRequisitionMasterId,
+                                  TotalAmount = t2.TotalPrice,
+                              }).AsEnumerable();
+
+
             billRequisitionMasterModel.DataList = await Task.Run(() => (from t1 in _context.BillRequisitionMasters.Where(x => x.IsActive
                                                          && x.CompanyId == companyId
                                                          && x.BillRequisitionTypeId != (int)EnumBillRequisitionSubType.It
@@ -1884,6 +1897,7 @@ namespace KGERP.Service.Implementation
                                                                             CreatedDate = t1.CreateDate,
                                                                             CreatedBy = t1.CreatedBy,
                                                                             EmployeeName = t1.CreatedBy + "-" + t5.Name,
+                                                                            TotalAmount = totalPrice.Where(x => x.BillRequisitionMasterId == t1.BillRequisitionMasterId).Select(x => x.TotalAmount).Sum(),
                                                                             ApprovalModelList = (from t7 in _context.BillRequisitionApprovals.Where(b => b.BillRequisitionMasterId == t1.BillRequisitionMasterId && b.IsActive)
                                                                                                  join t8 in _context.BillRequisitionMasters on t7.BillRequisitionMasterId equals t8.BillRequisitionMasterId
                                                                                                  select new BillRequisitionApprovalModel
@@ -2011,6 +2025,18 @@ namespace KGERP.Service.Implementation
             //var EmpId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
 
             billRequisitionMasterModel.CompanyFK = companyId;
+
+            var totalPrice = (from t1 in _context.BillRequisitionMasters.Where(x => x.IsActive
+                             && x.CompanyId == companyId
+                             && x.StatusId >= (int)EnumBillRequisitionStatus.Submitted)
+                              join t2 in _context.BillRequisitionDetails on t1.BillRequisitionMasterId equals t2.BillRequisitionMasterId into t2_Join
+                              from t2 in t2_Join.DefaultIfEmpty()
+                              select new
+                              {
+                                  BillRequisitionMasterId = t1.BillRequisitionMasterId,
+                                  TotalAmount = t2.TotalPrice,
+                              }).AsEnumerable();
+
             billRequisitionMasterModel.DataList = await Task.Run(() => (from t1 in _context.BillRequisitionMasters.Where(x => x.IsActive
                                                          && x.CompanyId == companyId
                                                          && x.BillRequisitionTypeId == (int)EnumBillRequisitionSubType.It
@@ -2040,6 +2066,7 @@ namespace KGERP.Service.Implementation
                                                                             CreatedDate = t1.CreateDate,
                                                                             CreatedBy = t1.CreatedBy,
                                                                             EmployeeName = t1.CreatedBy + "-" + t5.Name,
+                                                                            TotalAmount = totalPrice.Where(x => x.BillRequisitionMasterId == t1.BillRequisitionMasterId).Select(x => x.TotalAmount).Sum(),
                                                                             ApprovalModelList = (from t7 in _context.BillRequisitionApprovals.Where(b => b.BillRequisitionMasterId == t1.BillRequisitionMasterId && b.IsActive)
                                                                                                  join t8 in _context.BillRequisitionMasters on t7.BillRequisitionMasterId equals t8.BillRequisitionMasterId
                                                                                                  select new BillRequisitionApprovalModel
@@ -2174,6 +2201,18 @@ namespace KGERP.Service.Implementation
 
             }
             billRequisitionMasterModel.CompanyFK = companyId;
+
+            var totalPrice = (from t1 in _context.BillRequisitionMasters.Where(x => x.IsActive
+                             && x.CompanyId == companyId
+                             && x.StatusId >= (int)EnumBillRequisitionStatus.Submitted)
+                              join t2 in _context.BillRequisitionDetails on t1.BillRequisitionMasterId equals t2.BillRequisitionMasterId into t2_Join
+                              from t2 in t2_Join.DefaultIfEmpty()
+                              select new
+                              {
+                                  BillRequisitionMasterId = t1.BillRequisitionMasterId,
+                                  TotalAmount = t2.TotalPrice,
+                              }).AsEnumerable();
+
             billRequisitionMasterModel.DataList = await Task.Run(() => (from t1 in _context.BillRequisitionMasters.Where(x => x.IsActive
                                                          && x.CompanyId == companyId
                                                          && x.StatusId >= (int)EnumBillRequisitionStatus.Submitted)
@@ -2202,6 +2241,7 @@ namespace KGERP.Service.Implementation
                                                                             CreatedDate = t1.CreateDate,
                                                                             CreatedBy = t1.CreatedBy,
                                                                             EmployeeName = t1.CreatedBy + "-" + t5.Name,
+                                                                            TotalAmount = totalPrice.Where(x => x.BillRequisitionMasterId == t1.BillRequisitionMasterId).Select(x => x.TotalAmount).Sum(),
                                                                             ApprovalModelList = (from t7 in _context.BillRequisitionApprovals.Where(b => b.BillRequisitionMasterId == t1.BillRequisitionMasterId && b.IsActive)
                                                                                                  join t8 in _context.BillRequisitionMasters on t7.BillRequisitionMasterId equals t8.BillRequisitionMasterId
                                                                                                  select new BillRequisitionApprovalModel
@@ -2334,6 +2374,18 @@ namespace KGERP.Service.Implementation
 
             }
             billRequisitionMasterModel.CompanyFK = companyId;
+
+            var totalPrice = (from t1 in _context.BillRequisitionMasters.Where(x => x.IsActive
+                             && x.CompanyId == companyId
+                             && x.StatusId >= (int)EnumBillRequisitionStatus.Submitted)
+                              join t2 in _context.BillRequisitionDetails on t1.BillRequisitionMasterId equals t2.BillRequisitionMasterId into t2_Join
+                              from t2 in t2_Join.DefaultIfEmpty()
+                              select new
+                              {
+                                  BillRequisitionMasterId = t1.BillRequisitionMasterId,
+                                  TotalAmount = t2.TotalPrice,
+                              }).AsEnumerable();
+
             billRequisitionMasterModel.DataList = await Task.Run(() => (from t1 in _context.BillRequisitionMasters.Where(x => x.IsActive
                                                          && x.CompanyId == companyId
                                                          && x.StatusId >= (int)EnumBillRequisitionStatus.Submitted)
@@ -2362,6 +2414,7 @@ namespace KGERP.Service.Implementation
                                                                             CreatedDate = t1.CreateDate,
                                                                             CreatedBy = t1.CreatedBy,
                                                                             EmployeeName = t1.CreatedBy + "-" + t5.Name,
+                                                                            TotalAmount = totalPrice.Where(x => x.BillRequisitionMasterId == t1.BillRequisitionMasterId).Select(x => x.TotalAmount).Sum(),
                                                                             ApprovalModelList = (from t7 in _context.BillRequisitionApprovals.Where(b => b.BillRequisitionMasterId == t1.BillRequisitionMasterId && b.IsActive)
                                                                                                  join t8 in _context.BillRequisitionMasters on t7.BillRequisitionMasterId equals t8.BillRequisitionMasterId
                                                                                                  select new BillRequisitionApprovalModel
@@ -2496,6 +2549,18 @@ namespace KGERP.Service.Implementation
 
             //}
             billRequisitionMasterModel.CompanyFK = companyId;
+
+            var totalPrice = (from t1 in _context.BillRequisitionMasters.Where(x => x.IsActive
+                             && x.CompanyId == companyId
+                             && x.StatusId >= (int)EnumBillRequisitionStatus.Submitted)
+                              join t2 in _context.BillRequisitionDetails on t1.BillRequisitionMasterId equals t2.BillRequisitionMasterId into t2_Join
+                              from t2 in t2_Join.DefaultIfEmpty()
+                              select new
+                              {
+                                  BillRequisitionMasterId = t1.BillRequisitionMasterId,
+                                  TotalAmount = t2.TotalPrice,
+                              }).AsEnumerable();
+
             billRequisitionMasterModel.DataList = await Task.Run(() => (from t1 in _context.BillRequisitionMasters.Where(x => x.IsActive
                                               && x.CompanyId == companyId
                                               && x.StatusId >= (int)EnumBillRequisitionStatus.Submitted)
@@ -2524,6 +2589,7 @@ namespace KGERP.Service.Implementation
                                                                             CreatedDate = t1.CreateDate,
                                                                             CreatedBy = t1.CreatedBy,
                                                                             EmployeeName = t1.CreatedBy + "-" + t5.Name,
+                                                                            TotalAmount = totalPrice.Where(x => x.BillRequisitionMasterId == t1.BillRequisitionMasterId).Select(x => x.TotalAmount).Sum(),
                                                                             ApprovalModelList = (from t7 in _context.BillRequisitionApprovals.Where(b => b.BillRequisitionMasterId == t1.BillRequisitionMasterId && b.IsActive)
                                                                                                  join t8 in _context.BillRequisitionMasters on t7.BillRequisitionMasterId equals t8.BillRequisitionMasterId
                                                                                                  select new BillRequisitionApprovalModel
