@@ -369,10 +369,10 @@ namespace KGERP.Service.Implementation.Configuration
             if (paymentMasterId > 0)
             {
                 paymentVm = await Task.Run(() => (from t2 in _db.PaymentMasters.Where(x => x.IsActive == true && x.PaymentMasterId == paymentMasterId)
-                                                      //join t1 in _db.Vendors.Where(x => x.VendorId == supplierId && x.IsActive && x.CompanyId == companyId)
-                                                      //on t2.VendorId equals t1.VendorId
-                                                      //join t3 in _db.HeadGLs on t2.PaymentFromHeadGLId equals t3.Id
-                                                      //join t4 in _db.HeadGLs on t2.PaymentToHeadGLId equals t4.Id
+                                                  //join t1 in _db.Vendors.Where(x => x.VendorId == supplierId && x.IsActive && x.CompanyId == companyId)
+                                                  //    on t2.VendorId equals t1.VendorId
+                                                  //join t3 in _db.HeadGLs on t2.PaymentFromHeadGLId equals t3.Id
+                                                  //join t4 in _db.HeadGLs on t2.PaymentToHeadGLId equals t4.Id
 
 
                                                   select new VMPayment

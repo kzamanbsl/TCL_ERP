@@ -10,8 +10,9 @@ namespace KGERP.Service.Interface
     public  interface IConsumptionService
     {
          Task<ConsumptionModel> GetConsumptionById(int Id);
-         Task<bool> CreateConsumption(ConsumptionModel consumption);
-         Task<bool> UpdateConsumption(ConsumptionModel consumption);
+         Task<long> CreateConsumptionMaster(ConsumptionModel consumption);
+         Task<bool> CreateConsumptionDetail(ConsumptionModel consumption);
+         Task<bool> UpdateConsumptionDetail(ConsumptionModel consumption);
          Task<bool> DeleteConsumption(ConsumptionModel consumption);
 
     }

@@ -19,6 +19,7 @@ using KGERP.Data.CustomModel;
 using KGERP.Data.Models;
 using System.Web.UI.WebControls;
 using DocumentFormat.OpenXml.Spreadsheet;
+using System.Runtime.CompilerServices;
 
 namespace KGERP.Controllers
 {
@@ -54,8 +55,20 @@ namespace KGERP.Controllers
         public async Task<ActionResult> ConsumptionMasterSlave(ConsumptionModel consumptionModel)
         {
             BillRequisitionMasterModel billRequisition = new BillRequisitionMasterModel();
-            //billRequisition.ProjectTypeList = new SelectList(await _service.GetCostCenterTypeList(CompanyInfo.CompanyId), "CostCenterTypeId", "Name");
-
+            if(consumptionModel.ActionId== (int)ActionEnum.Add)
+            {
+                if (consumptionModel.ConsumptionMasterId == 0)
+                {
+                    consumptionModel.ConsumptionMasterId = await _service.CreateConsumptionMaster(consumptionModel);
+                }
+               await _service.CreateConsumptionDetail(consumptionModel);
+            } 
+           if(consumptionModel.ActionId== (int)ActionEnum.Edit)
+            {
+               
+               await _service.UpdateConsumptionDetail(consumptionModel);
+            }
+            
             return View(billRequisition);
         }
 

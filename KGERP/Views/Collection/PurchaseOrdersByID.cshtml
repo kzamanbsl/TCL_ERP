@@ -179,11 +179,11 @@
                                             </div>
                                         </div>
                                         @*<div class="col-md-2 text-right">
-                                            <div class="form-group">
-                                                @Html.CheckBoxFor(model => model.IsAdjust, new { id = "checkboxAdjust", @class = "form-check" })
-                                                <label for="checkboxAdjust" class="form-check-label">Adjust From Deposit?</label>
-                                            </div>
-                                        </div>*@
+                                                <div class="form-group">
+                                                    @Html.CheckBoxFor(model => model.IsAdjust, new { id = "checkboxAdjust", @class = "form-check" })
+                                                    <label for="checkboxAdjust" class="form-check-label">Adjust From Deposit?</label>
+                                                </div>
+                                            </div>*@
                                     </div>
                                 }
 
@@ -201,7 +201,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="txtDescription" class="col-form-label">Payable Amount :</label>
-                                            <input name="PayableAmount" value="@(Convert.ToDecimal(Model.PayableAmountDecimal) - (Convert.ToDecimal(Model.OutAmount) + Convert.ToDecimal(Model.ReturnAmount)))" readonly="readonly" asp-for="PayableAmount" type="text" class="form-control">
+                                            <input name="PayableAmount" id="payableAmount" value="@(Convert.ToDecimal(Model.PayableAmountDecimal) - (Convert.ToDecimal(Model.OutAmount) + Convert.ToDecimal(Model.ReturnAmount)))" readonly="readonly" asp-for="PayableAmount" type="text" class="form-control">
                                             @Html.ValidationMessageFor(model => model.PayableAmount, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -210,7 +210,7 @@
                                         <div class="form-group">
                                             <label for="txtOutAmount" class="col-form-label">Payment Amount :</label>
                                             <input name="OutAmount" asp-for="OutAmount" type="text" required="required" class="form-control" id="txtOutAmount" placeholder="Payment amount">
-                                            @Html.ValidationMessageFor(model => model.OutAmount, "", new { @class = "text-danger" })
+                                            @Html.ValidationMessageFor(model => model.OutAmount, "", new { id= "validOutAmount", @class = "text-danger" })
                                         </div>
                                     </div>
                                 </div>
@@ -241,7 +241,7 @@
                                                 <tr>
                                                     <th>SL</th>
                                                     <th>
-                                                       WO No
+                                                        WO No
                                                     </th>
                                                     <th>
                                                         WO Date
@@ -389,9 +389,26 @@
                     success: function (data) {
 
                         $('#txtOutAmount').val(data);
+                        $('#payableAmount').val(data);
 
                     }
                 });
+            });
+
+
+            $('#txtOutAmount').on('input', function () {
+                var payableValue = parseFloat($('#payableAmount').val()) || 0;
+                var AmountValue = parseFloat($('#txtOutAmount').val()) || 0;
+                if (AmountValue <= payableValue ) {
+                    $("#validOutAmount").text("");
+
+                }
+                else {
+                    $('#txtOutAmount').val(payableValue);
+
+                    $("#validOutAmount").text("Amount cannot exceed the Payable amount!");
+                }
+
             });
 
             $("#ddlAccounting_BankOrCashParantId").change(function () {
