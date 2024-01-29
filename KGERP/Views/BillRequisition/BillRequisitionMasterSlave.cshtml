@@ -288,7 +288,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label class="form-label">Requisition For<sup class="text-danger" title="Required">*</sup></label>
-                                            @Html.DropDownListFor(model => model.DetailModel.RequisitionSubtypeId, Model.RequisitionSubTypeList as SelectList, "==Requisition For==", new { id = "ddlBRSubTypeId", onchange = "GetMaterialListBySubCategoryId()", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.DropDownListFor(model => model.DetailModel.RequisitionSubtypeId, Model.RequisitionSubTypeList as SelectList, "==Requisition For==", new { id = "ddlBRSubTypeId", onchange = "GetMaterialListBySubCategoryId()", @class = "form-control searchingDropdown", required = "required" })
                                             @Html.ValidationMessageFor(model => model.DetailModel.RequisitionSubtypeId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -296,7 +296,7 @@
                                     <div class="col-md-3 d-block" id="inputMaterial">
                                         <div class="form-group">
                                             <label class="form-label" id="materialTitle">@((Model.BillRequisitionTypeId == (int)EnumBillRequisitionType.Overhead) ? "Requisition Item" : "Requisition Material")<sup class="text-danger" title="Required">*</sup></label>
-                                            @Html.DropDownListFor(model => model.DetailModel.ProductId, Model.RequisitionItemList as SelectList, "==Select Material==", new { id = "ddlRequisitionItemId", onchange = "GetUnitNameByProductId()", @class = "form-control searchingDropdown", style = "width:100%", })
+                                            @Html.DropDownListFor(model => model.DetailModel.ProductId, Model.RequisitionItemList as SelectList, "==Select Material==", new { id = "ddlRequisitionItemId", onchange = "GetUnitNameByProductId()", @class = "form-control searchingDropdown" })
                                             @Html.ValidationMessageFor(model => model.DetailModel.ProductId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -900,23 +900,44 @@
             var getSubcategoryId = $("#ddlBRSubTypeId option:selected");
             var showBoqMaterialList = $("#ddlRequisitionItemId");
 
-            $.ajax({
-                type: "GET",
-                url: "/BillRequisition/GetMaterialListBySubcategoryId",
-                dataType: "json",
-                data: { id: getSubcategoryId.val() },
-                success: function (data) {
-                    showBoqMaterialList.empty();
-                    showBoqMaterialList.append("<option selected disabled>==Select Material==</option>");
+            if (getSubcategoryId.val() == @((int)EnumBillRequisitionType.Materials)){
+                $.ajax({
+                    type: "GET",
+                    url: "/BillRequisition/GetMaterialListBySubcategoryId",
+                    dataType: "json",
+                    data: { id: getSubcategoryId.val() },
+                    success: function (data) {
+                        showBoqMaterialList.empty();
+                        showBoqMaterialList.append("<option selected disabled>==Select Material==</option>");
 
-                    $.each(data, function (index, item) {
-                        showBoqMaterialList.append($('<option>', {
-                            value: item.ProductId,
-                            text: item.ProductName
-                        }));
-                    });
-                }
-            });
+                        $.each(data, function (index, item) {
+                            showBoqMaterialList.append($('<option>', {
+                                value: item.ProductId,
+                                text: item.ProductName
+                            }));
+                        });
+                    }
+                });
+            }else {
+                $.ajax({
+                    type: "GET",
+                    url: "/BillRequisition/getBoqMaterialListForOverHead",
+                    dataType: "json",
+                    data: { id: getSubcategoryId.val() },
+                    success: function (data) {
+                        showBoqMaterialList.empty();
+                        showBoqMaterialList.append("<option selected disabled>==Select Material==</option>");
+
+                        $.each(data, function (index, item) {
+                            showBoqMaterialList.append($('<option>', {
+                                value: item.ProductId,
+                                text: item.ProductName
+                            }));
+                        });
+                    }
+                });
+            }
+            
         }
 
         // Get unit name by product id

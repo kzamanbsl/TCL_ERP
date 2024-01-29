@@ -137,14 +137,15 @@
                             <thead>
                                 <tr>
                                     <th>SL</th>
+                                    <th>Project Name</th>
                                     <th>BoQ Division</th>
                                     <th>BoQ Name</th>
                                     <th>Material Type</th>
                                     <th>Material Subtype</th>
                                     <th>Material </th>
-                                    <th>Est. Quantity</th>
+                                    <th>Quantity</th>
                                     <th>Unit Price</th>
-                                    <th>Est. Amount</th>
+                                    <th>Amount</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -170,6 +171,7 @@
                                                     <input type="hidden" id="unitRateHidden_@item.BoQItemProductMapId" value="@item.UnitRate" />
 
                                                 </td>
+                                                <td id="tdBoqDivisionName_@item.BoQItemProductMapId">@item.ProjectName</td>
                                                 <td id="tdBoqDivisionName_@item.BoQItemProductMapId">@item.DivisionName</td>
                                                 <td id="tdBoqItemNo_@item.BoQItemProductMapId"><small class="label label-primary">@item.BoqNumber</small> @item.BoqName</td>
                                                 <td id="tdBoqMaterialName_@item.BoQItemProductMapId">@item.MaterialTypeName</td>

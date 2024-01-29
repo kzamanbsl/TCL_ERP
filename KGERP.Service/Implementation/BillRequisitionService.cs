@@ -404,6 +404,7 @@ namespace KGERP.Service.Implementation
                                 BoQDivisionId = (long)t1.BoQDivisionId,
                                 BoqDivisionName = t2.Name,
                                 ProjectId = t4.CostCenterId,
+                                ProjectName = t4.Name,
                                 Description = t1.Description,
                             }).ToList();
 
@@ -1684,6 +1685,8 @@ namespace KGERP.Service.Implementation
                                                                             from t5 in t5_Join.DefaultIfEmpty()
                                                                             join t6 in _context.Employees on t5.ManagerId equals t6.Id into t6_Join
                                                                             from t6 in t6_Join.DefaultIfEmpty()
+                                                                            join t9 in _context.BillRequisitionDetails on t1.BillRequisitionMasterId equals t9.BillRequisitionMasterId into t9_Join
+                                                                            from t9 in t9_Join.DefaultIfEmpty()
                                                                             select new BillRequisitionMasterModel
                                                                             {
                                                                                 BillRequisitionMasterId = t1.BillRequisitionMasterId,
@@ -1703,6 +1706,7 @@ namespace KGERP.Service.Implementation
                                                                                 EmployeeName = t1.CreatedBy + " - " + t6_Join.FirstOrDefault(x=> x.EmployeeId == t1.CreatedBy).Name,
                                                                                 EmployeeId = t6.Id,
                                                                                 EmployeeStringId = t6.EmployeeId,
+                                                                                TotalAmount = t9.DemandQty * t9.UnitRate,
                                                                                 ApprovalModelList = (from t7 in _context.BillRequisitionApprovals.Where(b => b.BillRequisitionMasterId == t1.BillRequisitionMasterId && b.IsActive)
                                                                                                      join t8 in _context.BillRequisitionMasters on t7.BillRequisitionMasterId equals t8.BillRequisitionMasterId
                                                                                                      select new BillRequisitionApprovalModel

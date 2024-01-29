@@ -88,9 +88,10 @@
                                         <th>Requisition No</th>
                                         <th>Requisition Type</th>
                                         <th>Project Name</th>
+                                        <th>Total Amount</th>
                                         <th>Status</th>
                                         <th>Action</th>
-                                        <th>Report</th>s
+                                        <th>Report</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -102,6 +103,7 @@
                                             <td>@item.BillRequisitionNo</td>
                                             <td>@item.BRTypeName</td>
                                             <td>@item.CostCenterName</td>
+                                            <td style="text-align: center">@item.TotalAmount</td>
                                             <td>
 
                                                 @if (item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.PM).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)

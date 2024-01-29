@@ -18,6 +18,7 @@ namespace KGERP.Service.ServiceModel
         public int BoqUnitId { get; set; }
         public long BoQDivisionId { get; set; }
         public int ProjectId { get; set; }
+        public string ProjectName { get; set; }
         public string BoqDivisionName { get; set; }
         public string BoqUnitName { get; set; }
         public List<Unit> BoQUnits { get; set; }

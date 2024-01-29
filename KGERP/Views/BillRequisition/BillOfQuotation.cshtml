@@ -67,7 +67,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label asp-for="BoqUnitId" class="form-control-label">Select BoQ Unit :</label>
-                                @Html.DropDownListFor(model => model.BoqUnitId, new SelectList(Model.BoQUnits.Where(c=>c.IsBoQUnit == true).OrderBy(order=>order.Name), "UnitId", "Name"), "=== Select BoQ Unit ===", new { id = "ddlBoqUnitId", @class = "form-control searchingDropdown", style = "width:100%" })
+                                @Html.DropDownListFor(model => model.BoqUnitId, new SelectList(Model.BoQUnits.Where(c => c.IsBoQUnit == true).OrderBy(order => order.Name), "UnitId", "Name"), "=== Select BoQ Unit ===", new { id = "ddlBoqUnitId", @class = "form-control searchingDropdown", style = "width:100%" })
                                 @Html.ValidationMessageFor(model => model.BoqUnitId, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -123,8 +123,8 @@
                             <thead>
                                 <tr>
                                     <th width="3%">SL</th>
-                                    <th width="20%">Division Name</th>
-                                    <th width="8%">BoQ No</th>
+                                    <th width="20%">Project Name</th>
+                                    <th width="20%">BoQ Division</th>
                                     <th width="25%">BoQ Name</th>
                                     <th width="5%">BoQ Unit</th>
                                     <th width="5%">Quantity</th>
@@ -143,9 +143,9 @@
                                             <input type="hidden" id="boqDivisionId_@item.BoQItemId" name="BoQDivisionId" value="@item.BoQDivisionId" />
                                             <input type="hidden" id="boqUnitId_@item.BoQItemId" name="BoqUnitId" value="@item.BoqUnitId" />
                                         </td>
+                                        <td id="tdBoqDivisionId_@item.BoQItemId">@item.ProjectName</td>
                                         <td id="tdBoqDivisionId_@item.BoQItemId">@item.BoqDivisionName</td>
-                                        <td id="tdBoqNumber_@item.BoQItemId" class="text-center">@item.BoQNumber</td>
-                                        <td id="tdBoqName_@item.BoQItemId">@item.Name</td>
+                                        <td id="tdBoqName_@item.BoQItemId"><small class="label label-primary">@item.BoQNumber</small> @item.Name</td>
                                         <td id="tdBoqUnitId_@item.BoQItemId">@item.BoqUnitName</td>
                                         <td id="tdBoqQuantity_@item.BoQItemId">@item.BoqQuantity</td>
                                         <td id="tdBoqDescription_@item.BoQItemId">@(item.Description != null ? item.Description : "N/A")</td>
