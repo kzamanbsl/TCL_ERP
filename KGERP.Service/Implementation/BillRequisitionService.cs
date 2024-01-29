@@ -999,7 +999,7 @@ namespace KGERP.Service.Implementation
             {
                 if (model.DetailModel.BoqItemId == 0 || model.DetailModel.BoqItemId == null)
                 {
-                    if(model.DetailModel.RequisitionSubtypeId == 19)
+                    if (model.DetailModel.RequisitionSubtypeId == 19)
                     {
                         model.DetailModel.UnitRate = 1;
                         model.DetailModel.TotalPrice = model.DetailModel.DemandQty * model.DetailModel.UnitRate;
@@ -1678,9 +1678,21 @@ namespace KGERP.Service.Implementation
             if (EmpId > 0)
             {
                 billRequisitionMasterModel.CompanyFK = companyId;
+
+                var totalPrice = (from t1 in _context.BillRequisitionMasters.Where(x => x.IsActive
+                                             && x.CompanyId == companyId
+                                             && x.StatusId >= (int)EnumBillRequisitionStatus.Submitted)
+                                  join t2 in _context.BillRequisitionDetails on t1.BillRequisitionMasterId equals t2.BillRequisitionMasterId into t2_Join
+                                  from t2 in t2_Join.DefaultIfEmpty()
+                                  select new
+                                  {
+                                      BillRequisitionMasterId = t1.BillRequisitionMasterId,
+                                      TotalAmount = t2.TotalPrice,
+                                  }).AsEnumerable();
+
                 billRequisitionMasterModel.DataList = await Task.Run(() => (from t1 in _context.BillRequisitionMasters.Where(x => x.IsActive
-                                                             && x.CompanyId == companyId
-                                                             && x.StatusId >= (int)EnumBillRequisitionStatus.Submitted)
+                                                                             && x.CompanyId == companyId
+                                                                             && x.StatusId >= (int)EnumBillRequisitionStatus.Submitted)
                                                                             join t2 in _context.Accounting_CostCenter on t1.CostCenterId equals t2.CostCenterId into t2_Join
                                                                             from t2 in t2_Join.DefaultIfEmpty()
                                                                             join t3 in _context.ProductCategories on t1.BillRequisitionTypeId equals t3.ProductCategoryId into t3_Join
@@ -1691,8 +1703,6 @@ namespace KGERP.Service.Implementation
                                                                             from t5 in t5_Join.DefaultIfEmpty()
                                                                             join t6 in _context.Employees on t5.ManagerId equals t6.Id into t6_Join
                                                                             from t6 in t6_Join.DefaultIfEmpty()
-                                                                            join t9 in _context.BillRequisitionDetails on t1.BillRequisitionMasterId equals t9.BillRequisitionMasterId into t9_Join
-                                                                            from t9 in t9_Join.DefaultIfEmpty()
                                                                             select new BillRequisitionMasterModel
                                                                             {
                                                                                 BillRequisitionMasterId = t1.BillRequisitionMasterId,
@@ -1709,10 +1719,10 @@ namespace KGERP.Service.Implementation
                                                                                 CompanyFK = t1.CompanyId,
                                                                                 CreatedDate = t1.CreateDate,
                                                                                 CreatedBy = t1.CreatedBy,
-                                                                                EmployeeName = t1.CreatedBy + " - " + t6_Join.FirstOrDefault(x=> x.EmployeeId == t1.CreatedBy).Name,
+                                                                                EmployeeName = t1.CreatedBy + " - " + t6_Join.FirstOrDefault(x => x.EmployeeId == t1.CreatedBy).Name,
                                                                                 EmployeeId = t6.Id,
                                                                                 EmployeeStringId = t6.EmployeeId,
-                                                                                TotalAmount = t9.DemandQty * t9.UnitRate,
+                                                                                TotalAmount = totalPrice.Where(x => x.BillRequisitionMasterId == t1.BillRequisitionMasterId).Select(x => x.TotalAmount).Sum(),
                                                                                 ApprovalModelList = (from t7 in _context.BillRequisitionApprovals.Where(b => b.BillRequisitionMasterId == t1.BillRequisitionMasterId && b.IsActive)
                                                                                                      join t8 in _context.BillRequisitionMasters on t7.BillRequisitionMasterId equals t8.BillRequisitionMasterId
                                                                                                      select new BillRequisitionApprovalModel
@@ -2614,15 +2624,15 @@ namespace KGERP.Service.Implementation
         {
             var subCategories = (from t1 in _context.BoQItemProductMaps
                                .Where(x => x.BoQItemId == id && x.IsActive).DefaultIfEmpty()
-                               join t2 in _context.Products on t1.ProductId equals t2.ProductId into t2_Join
-                               from t2 in t2_Join.DefaultIfEmpty()
-                               join t3 in _context.ProductSubCategories on t2.ProductSubCategoryId equals t3.ProductSubCategoryId into t3_Join
-                               from t4 in t3_Join.DefaultIfEmpty()
-                               select new
-                               {
-                                   t4.ProductSubCategoryId,
-                                   t4.Name
-                               }).ToList();
+                                 join t2 in _context.Products on t1.ProductId equals t2.ProductId into t2_Join
+                                 from t2 in t2_Join.DefaultIfEmpty()
+                                 join t3 in _context.ProductSubCategories on t2.ProductSubCategoryId equals t3.ProductSubCategoryId into t3_Join
+                                 from t4 in t3_Join.DefaultIfEmpty()
+                                 select new
+                                 {
+                                     t4.ProductSubCategoryId,
+                                     t4.Name
+                                 }).ToList();
 
             var subcategoryList = subCategories.Select(x => new ProductSubCategory
             {

@@ -82,14 +82,15 @@
                             <table id="KgErpDataTable" class="table table-dark table-striped table-responsive">
                                 <thead>
                                     <tr>
-                                        <th>SL</th>
-                                        <th>Date</th>
-                                        <th>Requisition No</th>
-                                        <th>Requisition Type</th>
-                                        <th>Project Name</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
-                                        <th>Report</th>
+                                        <th width="3%">SL</th>
+                                        <th width="10%">Date</th>
+                                        <th width="16%">Requisition No</th>
+                                        <th width="15%">Requisition Type</th>
+                                        <th width="25%">Project Name</th>
+                                        <th width="8%">Amount</th>
+                                        <th width="10%">Status</th>
+                                        <th width="8%">Action</th>
+                                        <th width="5%">Report</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -98,9 +99,14 @@
                                         <tr>
                                             <th>@(++sl)</th>
                                             <td>@item.BRDate.ToString("dd-MM-yyyy")</td>
-                                            <td>@item.BillRequisitionNo</td>
+                                            <td>
+                                                <a class="text-primary" target="_blank" href="~/Report/TCLBillRequisiontReport?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId">
+                                                    @item.BillRequisitionNo
+                                                </a>
+                                            </td>
                                             <td>@item.BRTypeName</td>
                                             <td>@item.CostCenterName</td>
+                                            <td style="text-align: center">@item.TotalAmount</td>
                                             <td>
 
                                                 @if (@item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.QS).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
@@ -133,18 +139,18 @@
                                                 }
 
                                                 @*@if (item.StatusId != EnumBillRequisitionStatus.Draft && item.StatusId != EnumBillRequisitionStatus.Rejected && item.StatusId != EnumBillRequisitionStatus.Approved)
-                                                {
-                                                    <a href="~/BillRequisition/QSBRApproveSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" title="Approve"><i class="glyphicon glyphicon-new-window"></i> Approve</a>
-                                                }
-                                                else if (item.StatusId != EnumBillRequisitionStatus.Draft && item.StatusId != EnumBillRequisitionStatus.Rejected && item.StatusId != EnumBillRequisitionStatus.Approved)
-                                                {
-                                                    <a href="~/BillRequisition/QSBRRejectSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" title="Approve"><i class="glyphicon glyphicon-new-window"></i> Reject</a>
-                                                }
-                                                else if (item.StatusId == EnumBillRequisitionStatus.Approved || item.StatusId == EnumBillRequisitionStatus.Rejected)
-                                                {
-                                                    <a href="~/BillRequisition/QSBRApproveSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i> Details</a>
+            {
+                <a href="~/BillRequisition/QSBRApproveSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" title="Approve"><i class="glyphicon glyphicon-new-window"></i> Approve</a>
+            }
+            else if (item.StatusId != EnumBillRequisitionStatus.Draft && item.StatusId != EnumBillRequisitionStatus.Rejected && item.StatusId != EnumBillRequisitionStatus.Approved)
+            {
+                <a href="~/BillRequisition/QSBRRejectSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" title="Approve"><i class="glyphicon glyphicon-new-window"></i> Reject</a>
+            }
+            else if (item.StatusId == EnumBillRequisitionStatus.Approved || item.StatusId == EnumBillRequisitionStatus.Rejected)
+            {
+                <a href="~/BillRequisition/QSBRApproveSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i> Details</a>
 
-                                                }*@
+            }*@
 
                                             </td>
                                             <td>

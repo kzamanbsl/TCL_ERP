@@ -30,7 +30,6 @@ namespace KGERP.Service.ServiceModel
         public string BRSubtypeName { get; set; }
         public string Description { get; set; }
         public decimal? TotalAmount { get; set; }
-        public decimal? GrandTotal { get; set; }
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
         public string StrFromDate { get; set; }
