@@ -1237,7 +1237,7 @@ namespace KGERP.Controllers
             {
                 return View("Error");
             }
-            return RedirectToAction(nameof(CommonSupplier), new { companyId = vmCommonSupplier.CompanyFK });
+            return RedirectToAction(nameof(CommonSubcontractor), new { companyId = vmCommonSupplier.CompanyFK });
         }
 
         #endregion

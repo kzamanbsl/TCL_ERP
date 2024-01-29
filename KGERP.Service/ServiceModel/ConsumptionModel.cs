@@ -11,6 +11,7 @@ namespace KGERP.Service.ServiceModel
     public class ConsumptionModel: BaseVM
     {
         public long ConsumptionMasterId { get; set; }
+        public long ConsumptionDetailsId { get; set; }
         public long StoreId { get; set; }
         public int ProjectTypeId { get; set; }
         public String ProjectTypeName { get; set; }
@@ -48,7 +49,7 @@ namespace KGERP.Service.ServiceModel
         public Nullable<decimal> StoredQty { get; set; }
         public Nullable<decimal> RemainingQty { get; set; }
         public Nullable<decimal> TotalAmount { get; set; }
-        public long ProductId { get; set; }
+        public long? ProductId { get; set; }
         public string ProductName { get; set; }
         public int UnitId{ get; set; }
         public string UnitName { get; set; }
