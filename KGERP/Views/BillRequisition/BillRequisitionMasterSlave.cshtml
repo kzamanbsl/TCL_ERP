@@ -760,6 +760,50 @@
                 }
             });
 
+            if ('@(Model.StatusId)' == '@(EnumBillRequisitionStatus.Draft)' && @(Model.BillRequisitionTypeId) == @((int)EnumBillRequisitionType.Materials)) {
+                var projectId = @(Model.CostCenterId);
+                var showBoqDivisionList = $("#ddlDivisionId");
+
+                $.ajax({
+                    type: "GET",
+                    url: "/BillRequisition/getBoqDivisionList",
+                    dataType: "json",
+                    data: { id: projectId },
+                    success: function (data) {
+                        showBoqDivisionList.empty();
+                        showBoqDivisionList.append("<option selected disabled>==Select BoQ Division==</option>");
+
+                        $.each(data, function (index, item) {
+                            showBoqDivisionList.append($('<option>', {
+                                value: item.BoQDivisionId,
+                                text: item.Name
+                            }));
+                        });
+                    }
+                });
+            } else if ('@(Model.StatusId)' == '@(EnumBillRequisitionStatus.Draft)' && @(Model.BillRequisitionTypeId) == @((int)EnumBillRequisitionType.Overhead)) {
+                var requisitionTypeId = @(Model.BillRequisitionTypeId);
+                var showRequisitionSubtype = $("#ddlBRSubTypeId");
+
+                $.ajax({
+                    type: "GET",
+                    url: "/Configuration/GetSubCategoryByCategoryId",
+                    dataType: "json",
+                    data: { id: requisitionTypeId },
+                    success: function (data) {
+                        showRequisitionSubtype.empty();
+                        showRequisitionSubtype.append("<option selected disabled>==Requisition For==</option>");
+
+                        $.each(data, function (index, item) {
+                            showRequisitionSubtype.append($('<option>', {
+                                value: item.ProductSubCategoryId,
+                                text: item.Name
+                            }));
+                        });
+                    }
+                });
+            }
+
             // claculate demand with unit rate and show to total
             var inputRemaining = $("#decRemainingQty");
             var inputDemand = $("#decDemandQty");
@@ -773,7 +817,7 @@
                 var unitPriceValue = parseFloat(inputUnitPrice.val()) || 0;
                 var totalPrice = 0;
 
-                if (selectedOption.val() == @((int)EnumBillRequisitionType.Materials)) {
+                if (selectedOption.val() == @((int)EnumBillRequisitionType.Materials) || @(Model.BillRequisitionTypeId) == @((int)EnumBillRequisitionType.Materials)) {
                     if (!isNaN(remainingValue) && !isNaN(demandValue) && !isNaN(unitPriceValue)) {
                         if (demandValue <= remainingValue || demandValue === 0) {
                             $("#demandValidate").text("");
@@ -937,7 +981,7 @@
                     }
                 });
             }
-            
+
         }
 
         // Get unit name by product id
@@ -974,7 +1018,7 @@
             var intputDemand = $("#decDemandQty");
             var totalAmount = $("#decTotalPrice");
 
-            if (requisitionType == @((int)EnumBillRequisitionType.Materials)) {
+            if (requisitionType == @((int)EnumBillRequisitionType.Materials) || @(Model.BillRequisitionTypeId) == @((int)EnumBillRequisitionType.Materials)) {
                 $.ajax({
                     type: "GET",
                     url: "/BillRequisition/GetMaterialBudgetInfo",
