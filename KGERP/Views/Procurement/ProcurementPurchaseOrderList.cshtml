@@ -2,7 +2,7 @@
 @using KGERP.Utility;
 
 @{
-    ViewData["Title"] = "Purchase Order List";
+    ViewData["Title"] = "Work Order List";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     int sl = 0;
@@ -16,13 +16,13 @@
 <section class="content-header">
     <h1>
         <span>
-            Purchase Order List
+            Work Order List
         </span>
 
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">Purchase Order</li>
+        <li class="active">Work Order List</li>
     </ol>
 </section>
 @using (Html.BeginForm("ProcurementPurchaseOrderList", "Procurement", FormMethod.Post, new { id = "procurementPurchaseOrderListFormId", @class = "formValidator" }))
@@ -74,15 +74,15 @@
 
 
                         <hr />
-                        <div class="table-responsive col-md-12  text-nowrap">
-                            <table id="KgErpDataTable" class="table table-striped" width="100%">
+                        <div class="table-responsive col-md-12 text-nowrap">
+                            <table id="KgErpDataTable" class="table table-striped table-responsive table-dark">
                                 <thead>
                                     <tr>
                                         <th>SL</th>
-                                        <th>PO No</th>
+                                        <th>WO No</th>
                                         <th>Store Info</th>
                                         <th>Order Date</th>
-                                        <th>Supplier</th>
+                                        <th>Supplier/Subcontractor</th>
                                         <th>Delivery Date</th>
                                         <th>Delivery Address</th>
                                         <th>Payment Method</th>
@@ -105,14 +105,15 @@
                                         { holdUnholdTitle = "Make Unhold"; }
                                         else
                                         { holdUnholdTitle = "Make Hold"; }
-                                        ///////////////////////
+
                                         if (item.IsCancel)
                                         { cancelRenewTitle = "Make Renew"; }
                                         else
                                         { cancelRenewTitle = "Make Cancel"; }
-                                        //////////////////////////
+
                                         if (item.Status == (int)POStatusEnum.Draft)
                                         { statusTitle = "Make Submit"; }
+
                                         if (item.Status == (int)POStatusEnum.Submitted)
                                         { statusTitle = "Undo Submit"; }
 

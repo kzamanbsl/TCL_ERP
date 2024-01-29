@@ -2,6 +2,14 @@
 
 namespace KGERP.Utility
 {
+    public enum EnumWorkOrderFor
+    {
+        [Display(Name = "General Work Order")]
+        General = 1,
+        [Display(Name = "Requisition Work Order")]
+        Requisition
+    }
+
     public enum EnumMemberForBuilding
     {
         Pile = 1,

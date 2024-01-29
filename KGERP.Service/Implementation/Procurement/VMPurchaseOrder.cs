@@ -164,8 +164,14 @@ namespace KGERP.Service.Implementation.Procurement
 
         public long CustomerId { get; set; }
         public long CustomerTypeFk { get; set; }
+        public int WorkOrderFor { get; set; }
+        public SelectList WorkOrderForList { get { return new SelectList(BaseFunctionalities.GetEnumList<EnumWorkOrderFor>(), "Value", "Text"); } }
 
+        public int MaterialTypeId { get; set; }
+        public SelectList MaterialTypeList { get; set; } = new SelectList(new List<object>());
 
+        public int MaterialSubtypeId { get; set; }
+        public SelectList MaterialSubtypeList { get; set; } = new SelectList(new List<object>());
     }
 
     public partial class VMPromtionalOffer : BaseVM

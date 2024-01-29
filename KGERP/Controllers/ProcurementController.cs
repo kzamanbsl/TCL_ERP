@@ -28,17 +28,19 @@ namespace KGERP.Controllers
         private readonly AccountingService _accountingService;
         private readonly IProductService _productService;
         private readonly IStockInfoService _stockInfoService;
-        private readonly IBillRequisitionService _billrequisitionService;
+        private readonly IBillRequisitionService _billRequisitionService;
+        private readonly ConfigurationService _configurationService;
 
         private readonly ERPEntities _db = new ERPEntities();
-        public ProcurementController(ProcurementService configurationService, AccountingService accountingService, IOrderMasterService orderMasterService, IProductService productService, IStockInfoService stockInfoService, IBillRequisitionService billrequisitionService)
+        public ProcurementController(ProcurementService procurementService, AccountingService accountingService, IOrderMasterService orderMasterService, IProductService productService, IStockInfoService stockInfoService, IBillRequisitionService billRequisitionService, ConfigurationService configurationService)
         {
             this._orderMasterService = orderMasterService;
             _accountingService = accountingService;
-            _service = configurationService;
+            _service = procurementService;
             _productService = productService;
             _stockInfoService = stockInfoService;
-            _billrequisitionService = billrequisitionService;
+            _billRequisitionService = billRequisitionService;
+            _configurationService = configurationService;
         }
 
         #region Suppler Opening
@@ -507,8 +509,9 @@ namespace KGERP.Controllers
             vmPurchaseOrderSlave.ShippedByList = new SelectList(_service.ShippedByListDropDownList(companyId), "Value", "Text");
             vmPurchaseOrderSlave.CountryList = new SelectList(_service.CountriesDropDownList(companyId), "Value", "Text");
             vmPurchaseOrderSlave.StockInfoList = _stockInfoService.GetStockInfoSelectModels(companyId);
-            vmPurchaseOrderSlave.Requisitions = new SelectList(_billrequisitionService.ApprovedRequisitionList(companyId), "Value", "Text");
-            vmPurchaseOrderSlave.MaterialItemList = new SelectList(_billrequisitionService.ApprovedMaterialList(companyId, requisitionId), "ProductId", "ProductName");
+            vmPurchaseOrderSlave.Requisitions = new SelectList(_billRequisitionService.ApprovedRequisitionList(companyId), "Value", "Text");
+            vmPurchaseOrderSlave.MaterialItemList = new SelectList(_billRequisitionService.ApprovedMaterialList(companyId, requisitionId), "ProductId", "ProductName");
+            vmPurchaseOrderSlave.MaterialTypeList = new SelectList(_configurationService.GetAllProductCategoryList(companyId), "ProductCategoryId", "Name");
             if (companyId == (int)CompanyNameEnum.KrishibidSeedLimited)
             {
                 vmPurchaseOrderSlave.LCList = new SelectList(_service.SeedLCHeadGLList(companyId), "Value", "Text");
@@ -520,7 +523,7 @@ namespace KGERP.Controllers
         [HttpGet]
         public JsonResult GetMaterialByRequisitionId(int companyId, long requisitionId)
         {
-            return Json(_billrequisitionService.ApprovedMaterialList(companyId, requisitionId), JsonRequestBehavior.AllowGet);
+            return Json(_billRequisitionService.ApprovedMaterialList(companyId, requisitionId), JsonRequestBehavior.AllowGet);
         }
 
 
