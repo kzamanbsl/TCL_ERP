@@ -573,16 +573,9 @@ namespace KGERP.Controllers
                 billRequisitionMasterModel = await _service.GetBillRequisitionMasterDetail(companyId, billRequisitionMasterId);
             }
             billRequisitionMasterModel.ProjectTypeList = new SelectList(await _service.GetCostCenterTypeList(companyId), "CostCenterTypeId", "Name");
-            //billRequisitionMasterModel.ProjectList = new SelectList(await _service.GetProjectList(companyId), "CostCenterId", "Name");
             billRequisitionMasterModel.RequisitionTypeList = new SelectList(_configurationService.GetAllProductCategoryList(companyId), "ProductCategoryId", "Name");
-            //billRequisitionMasterModel.RequisitionSubTypeList = new SelectList((System.Collections.IEnumerable)await _configurationService.GetProductSubCategory(companyId, 0, "R"), "ProductSubCategoryId", "Name");
-            //billRequisitionMasterModel.RequisitionItemList = new SelectList(_ProductService.GetProductJson(), "ProductId", "ProductName");
-            //billRequisitionMasterModel.BOQDivisionList = new SelectList(_service.BoQDivisionList(), "BoQDivisionId", "Name");
-            //billRequisitionMasterModel.BOQItemList = new SelectList(_service.GetBillOfQuotationList(), "BoQItemId", "Name");
-            //billRequisitionMasterModel.UnitList = new SelectList(_configurationService.GetUnitForJson(), "UnitId", "Name");
 
             return View(billRequisitionMasterModel);
-
         }
 
         [HttpPost]

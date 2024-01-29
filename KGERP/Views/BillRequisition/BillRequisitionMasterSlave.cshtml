@@ -285,7 +285,7 @@
                                         </div>
                                     }
 
-                                    <div class="col-md-3">
+                                    <div class="col-md-3" id="inputRequisitionFor">
                                         <div class="form-group">
                                             <label class="form-label">Requisition For<sup class="text-danger" title="Required">*</sup></label>
                                             @Html.DropDownListFor(model => model.DetailModel.RequisitionSubtypeId, Model.RequisitionSubTypeList as SelectList, "==Requisition For==", new { id = "ddlBRSubTypeId", onchange = "GetMaterialListBySubCategoryId()", @class = "form-control searchingDropdown", required = "required" })
@@ -366,7 +366,7 @@
 
                                     <div class="col-md-12 d-block" id="inputRemarks">
                                         <div class="form-group">
-                                            <label for="txtDescription" class="col-form-label">Remarks/Particular</label>
+                                            <label for="txtDescription" class="form-label">Remarks/Particular</label>
                                             @Html.TextAreaFor(model => model.DetailModel.Remarks, new { id = "txtitemDescription", placeholder = "Type remarks here", @class = "form-control", rows = 2 })
                                             @Html.ValidationMessageFor(model => model.DetailModel.Remarks, "", new { @class = "text-danger" })
                                         </div>
@@ -740,22 +740,20 @@
                 if (selectedOption.val() == 19) {
                     $("#inputUnit").removeClass("d-block").addClass("hidden");
                     $("#inputReceivedSoFar").removeClass("d-block").addClass("hidden");
-                    $("#inputDemandQty").removeClass("d-block").addClass("hidden");
                     $("#inputUnitRate").removeClass("d-block").addClass("hidden");
+                    $("#inputTotalPrice").removeClass("d-block").addClass("hidden");
+                    $("#demandTitle").text("Payable Amount")
 
-                    $("#decTotalPrice").attr("readonly", false);
-                    $("#totalTitle").text("Payable Amount*");
-                    $("#ddlBRSubTypeId").removeClass("col-md-3").addClass("col-md-4");
+                    $("#inputRequisitionFor").removeClass("col-md-3").addClass("col-md-4");
                     $("#inputMaterial").removeClass("col-md-3").addClass("col-md-4");
                 } else {
                     $("#inputUnit").removeClass("hidden").addClass("d-block");
                     $("#inputReceivedSoFar").removeClass("hidden").addClass("d-block");
-                    $("#inputDemandQty").removeClass("hidden").addClass("d-block");
                     $("#inputUnitRate").removeClass("hidden").addClass("d-block");
+                    $("#inputTotalPrice").removeClass("hidden").addClass("d-block");
+                    $("#demandTitle").text("Demand Quantity")
 
-                    $("#decTotalPrice").attr("readonly", true);
-                    $("#totalTitle").text("Total Amount*");
-                    $("#ddlBRSubTypeId").removeClass("col-md-4").addClass("col-md-3");
+                    $("#inputRequisitionFor").removeClass("col-md-4").addClass("col-md-3");
                     $("#inputMaterial").removeClass("col-md-4").addClass("col-md-3");
                 }
             });

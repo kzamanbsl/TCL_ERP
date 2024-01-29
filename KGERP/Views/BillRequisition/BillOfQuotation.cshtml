@@ -126,6 +126,7 @@
                                     <th width="20%">Project Name</th>
                                     <th width="20%">BoQ Division</th>
                                     <th width="25%">BoQ Name</th>
+                                    <th width="25%">BoQ Number</th>
                                     <th width="5%">BoQ Unit</th>
                                     <th width="5%">Quantity</th>
                                     <th width="30%">Description</th>
@@ -145,7 +146,8 @@
                                         </td>
                                         <td id="tdBoqDivisionId_@item.BoQItemId">@item.ProjectName</td>
                                         <td id="tdBoqDivisionId_@item.BoQItemId">@item.BoqDivisionName</td>
-                                        <td id="tdBoqName_@item.BoQItemId"><small class="label label-primary">@item.BoQNumber</small> @item.Name</td>
+                                        <td id="tdBoqName_@item.BoQItemId">@item.Name</td>
+                                        <td id="tdBoqNumber_@item.BoQItemId" style="text-align: center">@item.BoQNumber</td>
                                         <td id="tdBoqUnitId_@item.BoQItemId">@item.BoqUnitName</td>
                                         <td id="tdBoqQuantity_@item.BoQItemId">@item.BoqQuantity</td>
                                         <td id="tdBoqDescription_@item.BoQItemId">@(item.Description != null ? item.Description : "N/A")</td>

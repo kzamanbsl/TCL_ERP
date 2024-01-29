@@ -985,7 +985,7 @@ namespace KGERP.Service.Implementation
                     return totalDigit + lastRowId.ToString();
                 }
 
-                string generatedNumber = $"{shortName.ToUpper()}-R-{DateTime.Now:yyMMdd}-{setZeroBeforeLastId(++getLastRowId, 4)}";
+                string generatedNumber = $"{shortName.ToUpper()}-REQ-{DateTime.Now:yyMMdd}-{setZeroBeforeLastId(++getLastRowId, 4)}";
                 return generatedNumber;
             }
 
@@ -999,6 +999,12 @@ namespace KGERP.Service.Implementation
             {
                 if (model.DetailModel.BoqItemId == 0 || model.DetailModel.BoqItemId == null)
                 {
+                    if(model.DetailModel.RequisitionSubtypeId == 19)
+                    {
+                        model.DetailModel.UnitRate = 1;
+                        model.DetailModel.TotalPrice = model.DetailModel.DemandQty * model.DetailModel.UnitRate;
+                    }
+
                     BillRequisitionDetail damageDetail = new BillRequisitionDetail
                     {
                         BillRequisitionMasterId = model.BillRequisitionMasterId,
