@@ -462,15 +462,15 @@ namespace KGERP.Service.Implementation.Configuration
 
                                                        select new VMPayment
                                                        {
-                                                           CreatedBy = t1.CreatedBy,
-                                                           TransactionDate = t1.TransactionDate,
-                                                           OrderNo = t3.PurchaseOrderNo,
+                                                           CreatedBy = t1.CreatedBy??"",
+                                                           TransactionDate = t1.TransactionDate ,
+                                                           OrderNo = t3.PurchaseOrderNo ?? "",
                                                            OrderDate = t3.PurchaseDate.Value,
-                                                           CompanyFK = t1.CompanyId,
-                                                           CompanyId = t1.CompanyId,
-                                                           OutAmount = t1.OutAmount,
-                                                           PaymentId = t1.PaymentId,
-                                                           PaymentToHeadGLId = t1.PaymentFromHeadGLId
+                                                           CompanyFK = t1.CompanyId ,
+                                                           CompanyId = t1.CompanyId ,
+                                                           OutAmount = t1.OutAmount ,
+                                                           PaymentId = t1.PaymentId ,
+                                                           PaymentToHeadGLId = t1.PaymentFromHeadGLId ?? 0
                                                        }).OrderByDescending(x => x.PaymentId).AsEnumerable());
 
 
