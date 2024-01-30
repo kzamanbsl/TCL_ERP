@@ -1255,47 +1255,93 @@ namespace KGERP.Service.Implementation.Procurement
 
             try
             {
-                PurchaseOrder procurementPurchaseOrder = new PurchaseOrder
+                if((int)EnumWorkOrderFor.Requisition == vmPurchaseOrderSlave.WorkOrderFor)
                 {
-
-                    PurchaseOrderNo = poCid,
-                    PurchaseDate = vmPurchaseOrderSlave.OrderDate,
-                    SupplierId = vmPurchaseOrderSlave.Common_SupplierFK,
-                    DeliveryDate = vmPurchaseOrderSlave.DeliveryDate,
-                    SupplierPaymentMethodEnumFK = vmPurchaseOrderSlave.SupplierPaymentMethodEnumFK,
-                    DeliveryAddress = vmPurchaseOrderSlave.DeliveryAddress,
-                    Remarks = vmPurchaseOrderSlave.Remarks,
-                    TermsAndCondition = vmPurchaseOrderSlave.TermsAndCondition,
-                    Status = (int)POStatusEnum.Draft,
-                    PurchaseOrderStatus = POStatusEnum.Draft.ToString(),
-                    EmpId = vmPurchaseOrderSlave.EmployeeId,
-                    CountryId = vmPurchaseOrderSlave.CountryId,
-                    PINo = vmPurchaseOrderSlave.PINo,
-                    LCHeadGLId = vmPurchaseOrderSlave.LCHeadGLId,
-                    LCNo = vmPurchaseOrderSlave.LCNo,
-                    LCValue = vmPurchaseOrderSlave.LCValue,
-                    InsuranceNo = vmPurchaseOrderSlave.InsuranceNo,
-                    PremiumValue = vmPurchaseOrderSlave.PremiumValue,
-                    ShippedBy = vmPurchaseOrderSlave.ShippedBy,
-                    PortOfLoading = vmPurchaseOrderSlave.PortOfLoading,
-                    FinalDestinationCountryFk = vmPurchaseOrderSlave.FinalDestinationCountryFk,
-                    PortOfDischarge = vmPurchaseOrderSlave.PortOfDischarge,
-                    FreightCharge = vmPurchaseOrderSlave.FreightCharge,
-                    OtherCharge = vmPurchaseOrderSlave.OtherCharge,
-                    BillRequisitionMasterId = vmPurchaseOrderSlave.RequisitionMasterId,
-                    CompanyId = vmPurchaseOrderSlave.CompanyFK,
-                    CreatedBy = System.Web.HttpContext.Current.Session["EmployeeName"].ToString(),
-                    CreatedDate = DateTime.Now,
-                    IsActive = true,
-                    IsOpening = vmPurchaseOrderSlave.IsOpening,
-                    StockInfoId = vmPurchaseOrderSlave.StockInfoId > 0 ? vmPurchaseOrderSlave.StockInfoId : Convert.ToInt32(System.Web.HttpContext.Current.Session["StockInfoId"])
-                };
-                _db.PurchaseOrders.Add(procurementPurchaseOrder);
-                if (await _db.SaveChangesAsync() > 0)
-                {
-                    result = procurementPurchaseOrder.PurchaseOrderId;
+                    PurchaseOrder procurementPurchaseOrder = new PurchaseOrder
+                    {
+                        PurchaseOrderNo = poCid,
+                        PurchaseDate = vmPurchaseOrderSlave.OrderDate,
+                        SupplierId = vmPurchaseOrderSlave.Common_SupplierFK,
+                        DeliveryDate = vmPurchaseOrderSlave.DeliveryDate,
+                        SupplierPaymentMethodEnumFK = vmPurchaseOrderSlave.SupplierPaymentMethodEnumFK,
+                        DeliveryAddress = vmPurchaseOrderSlave.DeliveryAddress,
+                        WorkOrderForId = vmPurchaseOrderSlave.WorkOrderFor,
+                        Remarks = vmPurchaseOrderSlave.Remarks,
+                        TermsAndCondition = vmPurchaseOrderSlave.TermsAndCondition,
+                        Status = (int)POStatusEnum.Draft,
+                        PurchaseOrderStatus = POStatusEnum.Draft.ToString(),
+                        EmpId = vmPurchaseOrderSlave.EmployeeId,
+                        CountryId = vmPurchaseOrderSlave.CountryId,
+                        PINo = vmPurchaseOrderSlave.PINo,
+                        LCHeadGLId = vmPurchaseOrderSlave.LCHeadGLId,
+                        LCNo = vmPurchaseOrderSlave.LCNo,
+                        LCValue = vmPurchaseOrderSlave.LCValue,
+                        InsuranceNo = vmPurchaseOrderSlave.InsuranceNo,
+                        PremiumValue = vmPurchaseOrderSlave.PremiumValue,
+                        ShippedBy = vmPurchaseOrderSlave.ShippedBy,
+                        PortOfLoading = vmPurchaseOrderSlave.PortOfLoading,
+                        FinalDestinationCountryFk = vmPurchaseOrderSlave.FinalDestinationCountryFk,
+                        PortOfDischarge = vmPurchaseOrderSlave.PortOfDischarge,
+                        FreightCharge = vmPurchaseOrderSlave.FreightCharge,
+                        OtherCharge = vmPurchaseOrderSlave.OtherCharge,
+                        BillRequisitionMasterId = vmPurchaseOrderSlave.RequisitionMasterId,
+                        CompanyId = vmPurchaseOrderSlave.CompanyFK,
+                        CreatedBy = System.Web.HttpContext.Current.Session["EmployeeName"].ToString(),
+                        CreatedDate = DateTime.Now,
+                        IsActive = true,
+                        IsOpening = vmPurchaseOrderSlave.IsOpening,
+                        StockInfoId = vmPurchaseOrderSlave.StockInfoId > 0 ? vmPurchaseOrderSlave.StockInfoId : Convert.ToInt32(System.Web.HttpContext.Current.Session["StockInfoId"])
+                    };
+                    _db.PurchaseOrders.Add(procurementPurchaseOrder);
+                    if (await _db.SaveChangesAsync() > 0)
+                    {
+                        result = procurementPurchaseOrder.PurchaseOrderId;
+                    }
+                    return result;
                 }
-                return result;
+                else
+                {
+                    PurchaseOrder procurementPurchaseOrder = new PurchaseOrder
+                    {
+                        PurchaseOrderNo = poCid,
+                        PurchaseDate = vmPurchaseOrderSlave.OrderDate,
+                        SupplierId = vmPurchaseOrderSlave.Common_SupplierFK,
+                        DeliveryDate = vmPurchaseOrderSlave.DeliveryDate,
+                        SupplierPaymentMethodEnumFK = vmPurchaseOrderSlave.SupplierPaymentMethodEnumFK,
+                        DeliveryAddress = vmPurchaseOrderSlave.DeliveryAddress,
+                        WorkOrderForId = vmPurchaseOrderSlave.WorkOrderFor,
+                        Remarks = vmPurchaseOrderSlave.Remarks,
+                        TermsAndCondition = vmPurchaseOrderSlave.TermsAndCondition,
+                        Status = (int)POStatusEnum.Draft,
+                        PurchaseOrderStatus = POStatusEnum.Draft.ToString(),
+                        EmpId = vmPurchaseOrderSlave.EmployeeId,
+                        CountryId = vmPurchaseOrderSlave.CountryId,
+                        PINo = vmPurchaseOrderSlave.PINo,
+                        LCHeadGLId = vmPurchaseOrderSlave.LCHeadGLId,
+                        LCNo = vmPurchaseOrderSlave.LCNo,
+                        LCValue = vmPurchaseOrderSlave.LCValue,
+                        InsuranceNo = vmPurchaseOrderSlave.InsuranceNo,
+                        PremiumValue = vmPurchaseOrderSlave.PremiumValue,
+                        ShippedBy = vmPurchaseOrderSlave.ShippedBy,
+                        PortOfLoading = vmPurchaseOrderSlave.PortOfLoading,
+                        FinalDestinationCountryFk = vmPurchaseOrderSlave.FinalDestinationCountryFk,
+                        PortOfDischarge = vmPurchaseOrderSlave.PortOfDischarge,
+                        FreightCharge = vmPurchaseOrderSlave.FreightCharge,
+                        OtherCharge = vmPurchaseOrderSlave.OtherCharge,
+                        CompanyId = vmPurchaseOrderSlave.CompanyFK,
+                        CreatedBy = System.Web.HttpContext.Current.Session["EmployeeName"].ToString(),
+                        CreatedDate = DateTime.Now,
+                        IsActive = true,
+                        IsOpening = vmPurchaseOrderSlave.IsOpening,
+                        StockInfoId = vmPurchaseOrderSlave.StockInfoId > 0 ? vmPurchaseOrderSlave.StockInfoId : Convert.ToInt32(System.Web.HttpContext.Current.Session["StockInfoId"])
+                    };
+                    _db.PurchaseOrders.Add(procurementPurchaseOrder);
+                    if (await _db.SaveChangesAsync() > 0)
+                    {
+                        result = procurementPurchaseOrder.PurchaseOrderId;
+                    }
+                    return result;
+                }
             }
             catch (Exception ex)
             {
@@ -1888,6 +1934,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                              SupplierPropietor = t2.Propietor,
                                                              SupplierAddress = t2.Address,
                                                              SupplierMobile = t3.Phone,
+                                                             WorkOrderFor = t1.WorkOrderForId ?? 0,
                                                              EmployeeName = t4 != null ? t4.Name : "",
                                                              EmployeeMobile = t4 != null ? t4.MobileNo : "",
                                                              EmployeeDesignation = t5 != null ? t5.Name : "",

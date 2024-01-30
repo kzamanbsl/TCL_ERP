@@ -57,12 +57,11 @@
                                         <tr>
                                             <th style="width:18%">Requisition Date</th>
                                             <th style="width:2%">:</th>
-                                            @*<td style="width:30%">@Model.CreatedDate.ToShortDateString()</td>*@
                                             <td style="width:30%">@Model.BRDate.ToShortDateString()</td>
 
                                             <th>Status</th>
                                             <th>:</th>
-                                            <td >@Model.StatusName</td>
+                                            <td><span class="label label-danger">@Model.StatusName</span></td>
                                         </tr>
                                         <tr>
                                             <th>Requisition No</th>

@@ -20,7 +20,7 @@
         @if (Model.PurchaseOrderId > 0)
         {
             <span>
-                Purchase Order History of: <a target="_blank" href="~/Procurement/ProcurementPurchaseOrderReport?companyId=@Model.CompanyFK&purchaseOrderId=@Model.PurchaseOrderId">@Model.CID</a>
+                Work Order History of: <a target="_blank" href="~/Procurement/ProcurementPurchaseOrderReport?companyId=@Model.CompanyFK&purchaseOrderId=@Model.PurchaseOrderId">@Model.CID</a>
             </span>
         }
         else
@@ -65,17 +65,32 @@
                                 <table class="table">
                                     <tr>
                                         <th style="width:18%">
-                                            PO No
+                                            WO No
                                         </th>
                                         <th style="width:2%">:</th>
                                         <td style="width:30%">
-                                            <label class="col-form-label">@Model.CID</label>
+                                            @Model.CID
                                         </td>
 
-                                        <th style="width:18%"> PO Date</th>
+                                        <th style="width:18%"> WO Status</th>
+                                        <th style="width:2%">:</th>
+                                        <td style="width:30%">@(Model.Status == (int)POStatusEnum.Submitted ? "Submitted" : Model.Status == (int)POStatusEnum.Closed ? "Closed": "Draft")</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th style="width:18%">WO Date</th>
                                         <th style="width:2%">:</th>
                                         <td style="width:30%">@Model.OrderDate</td>
+
+                                        <th style="width:18%">
+                                            WO For
+                                        </th>
+                                        <th style="width:2%">:</th>
+                                        <td style="width:30%">
+                                           @(Model.WorkOrderFor == (int)EnumWorkOrderFor.Requisition ? "Requisition" : "General")
+                                        </td>
                                     </tr>
+
                                     <tr>
                                         <th>Created By</th>
                                         <th>:</th>
@@ -931,7 +946,7 @@
                             $("#demandValidate").text("Demand cannot exceed the remaining amount!");
                         }
                     } else {
-                        totalPrice = remainingValue * unitValue;
+                        totalPrice = demandValue * unitValue;
                         showTotalPrice.val(totalPrice.toFixed(2));
                     }
                 }
@@ -957,6 +972,7 @@
                     $("#inputRequisition").removeClass("col-md-3").addClass("col-md-4");
                     $("#inputMaterial").removeClass("col-md-3").addClass("col-md-4");
                     $("#inputUnit").removeClass("col-md-3").addClass("col-md-4");
+                    $("#txtUnitPrice ").attr("readonly", true); 
                 } else {
                     $("#inputRequisition").removeClass("d-block").addClass("hidden");
                     $("#inputApproved").removeClass("d-block").addClass("hidden");
@@ -969,8 +985,36 @@
                     $("#inputRequisition").removeClass("col-md-4").addClass("col-md-3");
                     $("#inputMaterial").removeClass("col-md-4").addClass("col-md-3");
                     $("#inputUnit").removeClass("col-md-4").addClass("col-md-3");
+                    $("#txtUnitPrice ").attr("readonly", false); 
                 }
             });
+
+            if (@(Model.WorkOrderFor) == @((int)EnumWorkOrderFor.Requisition)) {
+                $("#inputRequisition").removeClass("hidden").addClass("d-block");
+                $("#inputRequisition").removeClass("col-md-3").addClass("col-md-4");
+                $("#inputApproved").removeClass("hidden").addClass("d-block");
+                $("#inputReceive").removeClass("hidden").addClass("d-block");
+                $("#inputRemaining").removeClass("hidden").addClass("d-block");
+
+                $("#inputType").removeClass("d-block").addClass("hidden");
+                $("#inputSubtype").removeClass("d-block").addClass("hidden");
+
+                $("#inputRequisition").removeClass("col-md-3").addClass("col-md-4");
+                $("#inputMaterial").removeClass("col-md-3").addClass("col-md-4");
+                $("#inputUnit").removeClass("col-md-3").addClass("col-md-4");
+            } else {
+                $("#inputRequisition").removeClass("d-block").addClass("hidden");
+                $("#inputApproved").removeClass("d-block").addClass("hidden");
+                $("#inputReceive").removeClass("d-block").addClass("hidden");
+                $("#inputRemaining").removeClass("d-block").addClass("hidden");
+
+                $("#inputType").removeClass("hidden").addClass("d-block");
+                $("#inputSubtype").removeClass("hidden").addClass("d-block");
+
+                $("#inputRequisition").removeClass("col-md-4").addClass("col-md-3");
+                $("#inputMaterial").removeClass("col-md-4").addClass("col-md-3");
+                $("#inputUnit").removeClass("col-md-4").addClass("col-md-3");
+            }
 
         });
 

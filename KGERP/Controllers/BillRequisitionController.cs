@@ -782,7 +782,6 @@ namespace KGERP.Controllers
             return RedirectToAction(nameof(PMBRApprovalList), new { companyId = result });
         }
 
-
         [HttpGet]
         public async Task<ActionResult> PMBRApprovalList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
         {
@@ -820,6 +819,18 @@ namespace KGERP.Controllers
         #endregion
 
         #region 1.3  QS  BillRequisition Approval Circle
+        [HttpGet]
+        public async Task<ActionResult> QSBRRejectSlave(int companyId = 0, long billRequisitionMasterId = 0)
+        {
+            BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
+
+            if (billRequisitionMasterId > 0)
+            {
+                billRequisitionMasterModel = await _service.GetBillRequisitionMasterDetailWithApproval(companyId, billRequisitionMasterId);
+                billRequisitionMasterModel.DetailDataList = billRequisitionMasterModel.DetailList.ToList();
+            }
+            return View(billRequisitionMasterModel);
+        }
 
         [HttpGet]
         public async Task<ActionResult> QSBRApproveSlave(int companyId = 0, long billRequisitionMasterId = 0)
@@ -887,6 +898,19 @@ namespace KGERP.Controllers
         #region 1.3.1  ITHead  BillRequisition Approval Circle
 
         [HttpGet]
+        public async Task<ActionResult> ITHeadBRRejectSlave(int companyId = 0, long billRequisitionMasterId = 0)
+        {
+            BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
+
+            if (billRequisitionMasterId > 0)
+            {
+                billRequisitionMasterModel = await _service.GetBillRequisitionMasterDetailWithApproval(companyId, billRequisitionMasterId);
+                billRequisitionMasterModel.DetailDataList = billRequisitionMasterModel.DetailList.ToList();
+            }
+            return View(billRequisitionMasterModel);
+        }
+
+        [HttpGet]
         public async Task<ActionResult> ITHeadBRApproveSlave(int companyId = 0, long billRequisitionMasterId = 0)
         {
             BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
@@ -950,6 +974,19 @@ namespace KGERP.Controllers
         #endregion
 
         #region 1.4  Director  BillRequisition Approval Circle
+
+        [HttpGet]
+        public async Task<ActionResult> DirectorBRRejectSlave(int companyId = 0, long billRequisitionMasterId = 0)
+        {
+            BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
+
+            if (billRequisitionMasterId > 0)
+            {
+                billRequisitionMasterModel = await _service.GetBillRequisitionMasterDetailWithApproval(companyId, billRequisitionMasterId);
+                billRequisitionMasterModel.DetailDataList = billRequisitionMasterModel.DetailList.ToList();
+            }
+            return View(billRequisitionMasterModel);
+        }
 
         [HttpGet]
         public async Task<ActionResult> DirectorBRApproveSlave(int companyId = 0, long billRequisitionMasterId = 0)
@@ -1017,6 +1054,19 @@ namespace KGERP.Controllers
         #region 1.5  PD  BillRequisition Approval Circle
 
         [HttpGet]
+        public async Task<ActionResult> PDBRRejectSlave(int companyId = 0, long billRequisitionMasterId = 0)
+        {
+            BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
+
+            if (billRequisitionMasterId > 0)
+            {
+                billRequisitionMasterModel = await _service.GetBillRequisitionMasterDetailWithApproval(companyId, billRequisitionMasterId);
+                billRequisitionMasterModel.DetailDataList = billRequisitionMasterModel.DetailList.ToList();
+            }
+            return View(billRequisitionMasterModel);
+        }
+
+        [HttpGet]
         public async Task<ActionResult> PDBRApproveSlave(int companyId = 0, long billRequisitionMasterId = 0)
         {
             BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
@@ -1080,6 +1130,20 @@ namespace KGERP.Controllers
         #endregion
 
         #region 1.6  MD  BillRequisition Approval Circle
+        [HttpGet]
+        public async Task<ActionResult> MDBRRejectSlave(int companyId = 0, long billRequisitionMasterId = 0)
+        {
+            BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
+
+            if (billRequisitionMasterId > 0)
+            {
+                billRequisitionMasterModel = await _service.GetBillRequisitionMasterDetailWithApproval(companyId, billRequisitionMasterId);
+
+                billRequisitionMasterModel.VoucherPaymentStatus = await _service.GetRequisitionVoucherStatusMd(billRequisitionMasterId);
+                billRequisitionMasterModel.DetailDataList = billRequisitionMasterModel.DetailList.ToList();
+            }
+            return View(billRequisitionMasterModel);
+        }
 
         [HttpGet]
         public async Task<ActionResult> MDBRApproveSlave(int companyId = 0, long billRequisitionMasterId = 0)
