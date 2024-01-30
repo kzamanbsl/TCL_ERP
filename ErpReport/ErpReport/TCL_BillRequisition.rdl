@@ -9,7 +9,7 @@
       <am:Name>SSDTRS</am:Name>
       <am:Version>17.7.34009.444</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2024-01-23T05:11:33.1329613Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2024-01-30T11:05:53.1791543Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
@@ -251,7 +251,8 @@ from Company Where CompanyId=@CompanyId</CommandText>
 				WHEN bra.AprrovalStatusId = 1 THEN 'Draft'
 				WHEN bra.AprrovalStatusId=2 THEN 'Submitted'
 				WHEN bra.AprrovalStatusId=3 THEN 'Pending'
-				WHEN bra.AprrovalStatusId=4 THEN 'Approved'
+				WHEN (bra.AprrovalStatusId=4 AND bra.SignatoryId = 1) THEN 'Created'
+                WHEN (bra.AprrovalStatusId=4 AND bra.SignatoryId &gt; 1) THEN 'Approved'
 				WHEN bra.AprrovalStatusId=5 THEN 'Rejected'
 				WHEN bra.AprrovalStatusId=6 THEN 'Closed'
 				END AS ApprovalStatusName,
@@ -328,14 +329,7 @@ order By SignatoryId</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Requisition </Value>
-                                  <Style>
-                                    <FontSize>9pt</FontSize>
-                                    <FontWeight>Normal</FontWeight>
-                                  </Style>
-                                </TextRun>
-                                <TextRun>
-                                  <Value>No</Value>
+                                  <Value>Project Type</Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -403,7 +397,7 @@ order By SignatoryId</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!BillRequisitionNo.Value</Value>
+                                  <Value>=Fields!ProjectTypeName.Value</Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -544,7 +538,7 @@ order By SignatoryId</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Project Type</Value>
+                                  <Value>Project</Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -612,7 +606,7 @@ order By SignatoryId</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!ProjectTypeName.Value</Value>
+                                  <Value>=Fields!CostCenterName.Value</Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -753,7 +747,7 @@ order By SignatoryId</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Project</Value>
+                                  <Value />
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -787,7 +781,7 @@ order By SignatoryId</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>:</Value>
+                                  <Value />
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -821,7 +815,7 @@ order By SignatoryId</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!CostCenterName.Value</Value>
+                                  <Value />
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -950,215 +944,6 @@ order By SignatoryId</CommandText>
                     </TablixCell>
                   </TablixCells>
                 </TablixRow>
-                <TablixRow>
-                  <Height>0.25in</Height>
-                  <TablixCells>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox110">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>Requisition Type</Value>
-                                  <Style>
-                                    <FontFamily>Times New Roman</FontFamily>
-                                    <FontSize>9pt</FontSize>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Left</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox110</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox111">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>:</Value>
-                                  <Style>
-                                    <FontFamily>Times New Roman</FontFamily>
-                                    <FontSize>9pt</FontSize>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Left</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox111</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="BRTypeName1">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!BRTypeName.Value</Value>
-                                  <Style>
-                                    <FontFamily>Times New Roman</FontFamily>
-                                    <FontSize>9pt</FontSize>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Left</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>BRTypeName1</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox113">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value />
-                                  <Style>
-                                    <FontFamily>Times New Roman</FontFamily>
-                                    <FontSize>9pt</FontSize>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Left</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox113</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox114">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>:</Value>
-                                  <Style>
-                                    <FontFamily>Times New Roman</FontFamily>
-                                    <FontSize>9pt</FontSize>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Left</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox114</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="CreatedBy">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value />
-                                  <Style>
-                                    <FontFamily>Times New Roman</FontFamily>
-                                    <FontSize>9pt</FontSize>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Left</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>CreatedBy</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                  </TablixCells>
-                </TablixRow>
               </TablixRows>
             </TablixBody>
             <TablixColumnHierarchy>
@@ -1179,15 +964,14 @@ order By SignatoryId</CommandText>
                     <TablixMember />
                     <TablixMember />
                     <TablixMember />
-                    <TablixMember />
                   </TablixMembers>
                 </TablixMember>
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>BRHederData</DataSetName>
-            <Top>0.62223in</Top>
+            <Top>0.49723in</Top>
             <Left>0.84875in</Left>
-            <Height>0.88541in</Height>
+            <Height>0.63541in</Height>
             <Width>10.18252in</Width>
             <Style>
               <Border>
@@ -2835,10 +2619,10 @@ order By SignatoryId</CommandText>
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>BRRequisitionDetail</DataSetName>
-            <Top>2.07083in</Top>
+            <Top>1.63333in</Top>
             <Left>0.51333in</Left>
             <Height>0.82292in</Height>
-            <Width>10.73108in</Width>
+            <Width>10.73106in</Width>
             <ZIndex>1</ZIndex>
             <Style>
               <Border>
@@ -2867,7 +2651,7 @@ order By SignatoryId</CommandText>
             </Style>
           </Tablix>
           <Line Name="Line1">
-            <Top>0.53959in</Top>
+            <Top>0.41459in</Top>
             <Left>0.83625in</Left>
             <Height>0in</Height>
             <Width>10.19501in</Width>
@@ -2900,7 +2684,7 @@ order By SignatoryId</CommandText>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox24</rd:DefaultName>
-            <Top>1.70416in</Top>
+            <Top>1.26666in</Top>
             <Left>0.51333in</Left>
             <Height>0.29722in</Height>
             <Width>10.73108in</Width>
@@ -2922,13 +2706,12 @@ order By SignatoryId</CommandText>
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>General Information</Value>
-                    <MarkupType>HTML</MarkupType>
+                    <Label>Requisition Type</Label>
+                    <Value>=First(Fields!BRTypeName.Value, "BRHederData")</Value>
                     <Style>
                       <FontFamily>Times New Roman</FontFamily>
                       <FontSize>14pt</FontSize>
                       <FontWeight>Bold</FontWeight>
-                      <TextDecoration>None</TextDecoration>
                     </Style>
                   </TextRun>
                 </TextRuns>
@@ -2938,10 +2721,10 @@ order By SignatoryId</CommandText>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox5</rd:DefaultName>
-            <Top>0.15757in</Top>
-            <Left>0.9in</Left>
-            <Height>0.34792in</Height>
-            <Width>10.13126in</Width>
+            <Top>0.04931in</Top>
+            <Left>0.84875in</Left>
+            <Height>0.32361in</Height>
+            <Width>10.18252in</Width>
             <ZIndex>4</ZIndex>
             <Style>
               <Border>
@@ -2973,7 +2756,7 @@ order By SignatoryId</CommandText>
           </Textbox>
           <Rectangle Name="Rectangle1">
             <KeepTogether>true</KeepTogether>
-            <Top>3.51619in</Top>
+            <Top>2.95369in</Top>
             <Left>0.83272in</Left>
             <Height>0.59889in</Height>
             <Width>10.19855in</Width>
@@ -3117,7 +2900,7 @@ order By SignatoryId</CommandText>
                           <Paragraph>
                             <TextRuns>
                               <TextRun>
-                                <Value>...................................</Value>
+                                <Value>----------------------------</Value>
                                 <Style>
                                   <FontFamily>Times New Roman</FontFamily>
                                   <FontSize>8pt</FontSize>
@@ -3189,7 +2972,7 @@ order By SignatoryId</CommandText>
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>SignatoryDSet</DataSetName>
-            <Top>3.51619in</Top>
+            <Top>2.95369in</Top>
             <Left>0.83272in</Left>
             <Height>0.43916in</Height>
             <Width>1.67347in</Width>
@@ -3217,8 +3000,8 @@ order By SignatoryId</CommandText>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox23</rd:DefaultName>
-            <Top>3.02568in</Top>
-            <Left>1.65777in</Left>
+            <Top>2.58818in</Top>
+            <Left>1.54527in</Left>
             <Height>0.25347in</Height>
             <Width>9.29496in</Width>
             <ZIndex>7</ZIndex>
@@ -3245,19 +3028,17 @@ order By SignatoryId</CommandText>
                       <FontWeight>Bold</FontWeight>
                     </Style>
                   </TextRun>
-                  <TextRun>
-                    <Value xml:space="preserve"> </Value>
-                    <Style />
-                  </TextRun>
                 </TextRuns>
-                <Style />
+                <Style>
+                  <TextAlign>Right</TextAlign>
+                </Style>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox26</rd:DefaultName>
-            <Top>3.02568in</Top>
-            <Left>0.51333in</Left>
+            <Top>2.58818in</Top>
+            <Left>0.48972in</Left>
             <Height>0.25347in</Height>
-            <Width>1.15277in</Width>
+            <Width>1.06111in</Width>
             <ZIndex>8</ZIndex>
             <Style>
               <Border>
@@ -3270,17 +3051,11 @@ order By SignatoryId</CommandText>
             </Style>
           </Textbox>
         </ReportItems>
-        <Height>4.35952in</Height>
+        <Height>4.04008in</Height>
         <Style>
           <Border>
-            <Color>White</Color>
             <Style>None</Style>
           </Border>
-          <RightBorder>
-            <Color>Green</Color>
-            <Style>Solid</Style>
-            <Width>6pt</Width>
-          </RightBorder>
         </Style>
       </Body>
       <Width>11.54584in</Width>
@@ -3395,7 +3170,7 @@ order By SignatoryId</CommandText>
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>Print Date : </Value>
+                      <Value>Print Date:</Value>
                       <Style>
                         <FontFamily>Times New Roman</FontFamily>
                         <FontSize>9pt</FontSize>
@@ -3416,11 +3191,55 @@ order By SignatoryId</CommandText>
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox83</rd:DefaultName>
-              <Top>0.48542in</Top>
+              <Top>0.23542in</Top>
               <Left>9.52981in</Left>
               <Height>0.22917in</Height>
               <Width>1.47292in</Width>
               <ZIndex>2</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Textbox6">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>REQ No: </Value>
+                      <Style>
+                        <FontFamily>Times New Roman</FontFamily>
+                        <FontSize>9pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=First(Fields!BillRequisitionNo.Value, "BRHederData")</Value>
+                      <Style>
+                        <FontFamily>Times New Roman</FontFamily>
+                        <FontSize>9pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Right</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox6</rd:DefaultName>
+              <Top>0.48542in</Top>
+              <Left>8.76939in</Left>
+              <Height>0.25in</Height>
+              <Width>2.23334in</Width>
+              <ZIndex>3</ZIndex>
               <Style>
                 <Border>
                   <Style>None</Style>
@@ -3439,9 +3258,50 @@ order By SignatoryId</CommandText>
           </Style>
         </PageHeader>
         <PageFooter>
-          <Height>0.29166in</Height>
+          <Height>0.36207in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
+          <ReportItems>
+            <Textbox Name="Textbox7">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>Page: </Value>
+                      <Style>
+                        <FontSize>9pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=Globals.PageNumber &amp; " of " &amp; Globals.TotalPages</Value>
+                      <Style>
+                        <FontSize>9pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Right</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox7</rd:DefaultName>
+              <Top>0.04123in</Top>
+              <Left>9.34275in</Left>
+              <Height>0.25in</Height>
+              <Width>1.90166in</Width>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+          </ReportItems>
           <Style>
             <Border>
               <Style>None</Style>
