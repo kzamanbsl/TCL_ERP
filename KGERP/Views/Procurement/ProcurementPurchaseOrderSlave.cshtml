@@ -186,7 +186,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="txtDescription" class="col-form-label">Terms & Condition :</label>
-                                            @Html.TextAreaFor(model => model.TermsAndCondition, new { id = "txtTermsAndCondition", @class = "form-control", style = "width:100%", rows = 2, @readonly="true", placeholder = "Terms & Conditions", })
+                                            @Html.TextAreaFor(model => model.TermsAndCondition, new { id = "txtTermsAndCondition", @class = "form-control", style = "width:100%", rows = 2, @readonly = "true", placeholder = "Terms & Conditions", })
                                             @Html.ValidationMessageFor(model => model.TermsAndCondition, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -316,7 +316,7 @@
                                     <div class="col-md-3 d-block" id="inputType">
                                         <div class="form-group">
                                             <label>Select Work Order Type :</label>
-                                            @Html.DropDownListFor(model => model.MaterialTypeId, Model.MaterialTypeList as SelectList, "==Work Order Type==", new { id = "ddlMaterialTypeId", onchange = "", @class = "form-control searchingDropdown", style = "width:100%" })
+                                            @Html.DropDownListFor(model => model.MaterialTypeId, Model.MaterialTypeList as SelectList, "==Work Order Type==", new { id = "ddlMaterialTypeId", onchange = "GetSubtypeByTypeId()", @class = "form-control searchingDropdown", style = "width:100%" })
                                             @Html.ValidationMessageFor(model => model.MaterialTypeId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -324,7 +324,7 @@
                                     <div class="col-md-3 d-block" id="inputSubtype">
                                         <div class="form-group">
                                             <label>Select Work Order Subtype :</label>
-                                            @Html.DropDownListFor(model => model.MaterialSubtypeId, Model.MaterialSubtypeList as SelectList, "==Work Order Subtype==", new { id = "ddlMaterialSubtypeId", onchange = "", @class = "form-control searchingDropdown", style = "width:100%" })
+                                            @Html.DropDownListFor(model => model.MaterialSubtypeId, Model.MaterialSubtypeList as SelectList, "==Work Order Subtype==", new { id = "ddlMaterialSubtypeId", onchange = "GetMaterialBySubtypeId()", @class = "form-control searchingDropdown", style = "width:100%" })
                                             @Html.ValidationMessageFor(model => model.MaterialSubtypeId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -332,7 +332,7 @@
                                     <div class="col-md-3" id="inputMaterial">
                                         <div class="form-group">
                                             <label>Select Material Item :</label>
-                                            @Html.DropDownListFor(model => model.MaterialItemId, Model.MaterialItemList as SelectList, "==Select Material Item==", new { id = "ddlMaterialItemId", onchange = "getUnitName()", @class = "form-control searchingDropdown", required = "required", style = "width:100%" })
+                                            @Html.DropDownListFor(model => model.MaterialItemId, Model.MaterialItemList as SelectList, "==Select Material==", new { id = "ddlMaterialItemId", onchange = "getUnitName()", @class = "form-control searchingDropdown", required = "required", style = "width:100%" })
                                             @Html.ValidationMessageFor(model => model.MaterialItemId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -475,31 +475,31 @@
                                             </tr>
                                             @*<tr style="font-weight: bold; font-size: 14px;">
 
-                                                <th style="border:none;"></th>
+                                                    <th style="border:none;"></th>
 
-                                                <th style="border:none;"></th>
-                                                <th style="border:none;"></th>
-                                                <th style="text-align: left;">&nbsp;Freight Charge</th>
-                                                <th style="text-align: right;padding-right:5px;">৳@Model.FreightCharge</th>
-                                            </tr>
-                                            <tr style="font-weight: bold; font-size: 14px;">
+                                                    <th style="border:none;"></th>
+                                                    <th style="border:none;"></th>
+                                                    <th style="text-align: left;">&nbsp;Freight Charge</th>
+                                                    <th style="text-align: right;padding-right:5px;">৳@Model.FreightCharge</th>
+                                                </tr>
+                                                <tr style="font-weight: bold; font-size: 14px;">
 
-                                                <th style="border:none;"></th>
-                                                <th style="border:none;"></th>
-                                                <th style="border:none;"></th>
+                                                    <th style="border:none;"></th>
+                                                    <th style="border:none;"></th>
+                                                    <th style="border:none;"></th>
 
-                                                <th style="text-align: left;">&nbsp;Other Charge</th>
-                                                <th style="text-align: right;padding-right:5px;">৳@Model.OtherCharge</th>
-                                            </tr>
-                                            <tr style="font-weight: bold; font-size: 14px;">
+                                                    <th style="text-align: left;">&nbsp;Other Charge</th>
+                                                    <th style="text-align: right;padding-right:5px;">৳@Model.OtherCharge</th>
+                                                </tr>
+                                                <tr style="font-weight: bold; font-size: 14px;">
 
-                                                <th style="border:none;"></th>
-                                                <th style="border:none;"></th>
+                                                    <th style="border:none;"></th>
+                                                    <th style="border:none;"></th>
 
-                                                <th style="border:none;"></th>
-                                                <th style="text-align: left;"><b>&nbsp;GRAND TOTAL</b></th>
-                                                <th style="text-align: right;padding-right:5px;">৳@(TotalPrice + Model.FreightCharge + Model.OtherCharge )</th>
-                                            </tr>*@
+                                                    <th style="border:none;"></th>
+                                                    <th style="text-align: left;"><b>&nbsp;GRAND TOTAL</b></th>
+                                                    <th style="text-align: right;padding-right:5px;">৳@(TotalPrice + Model.FreightCharge + Model.OtherCharge )</th>
+                                                </tr>*@
                                         </tfoot>
                                     </table>
                                 </div>
@@ -629,7 +629,7 @@
             $('.formValidator').bootstrapValidator();
 
             $("#ddlMaterialItemId").empty();
-            $("#ddlMaterialItemId").append("<option selected disabled>==Select Requisition First==</option>");
+            $("#ddlMaterialItemId").append("<option selected disabled>==Select Material==</option>");
 
             $("#ddlFinalDestinationCountryFk").val(19).change();
               $("#txtProductName").autocomplete({
@@ -856,6 +856,54 @@
             });
         }
 
+        // Show subtype by type id
+        function GetSubtypeByTypeId() {
+            var requisitionTypeId = $("#ddlMaterialTypeId option:selected").val();
+            var showRequisitionSubtype = $("#ddlMaterialSubtypeId");
+
+            $.ajax({
+                type: "GET",
+                url: "/Configuration/GetSubCategoryByCategoryId",
+                dataType: "json",
+                data: { id: requisitionTypeId },
+                success: function (data) {
+                    showRequisitionSubtype.empty();
+                    showRequisitionSubtype.append("<option selected disabled>==Work Order Subtype==</option>");
+
+                    $.each(data, function (index, item) {
+                        showRequisitionSubtype.append($('<option>', {
+                            value: item.ProductSubCategoryId,
+                            text: item.Name
+                        }));
+                    });
+                }
+            });
+        }
+
+        // Get material by subtype id
+        function GetMaterialBySubtypeId() {
+            var getSubcategoryId = $("#ddlMaterialSubtypeId option:selected").val();
+            var showBoqMaterialList = $("#ddlMaterialItemId");
+
+            $.ajax({
+                type: "GET",
+                url: "/BillRequisition/GetMaterialListBySubcategoryId",
+                dataType: "json",
+                data: { id: getSubcategoryId },
+                success: function (data) {
+                    showBoqMaterialList.empty();
+                    showBoqMaterialList.append("<option selected disabled>==Select Material==</option>");
+
+                    $.each(data, function (index, item) {
+                        showBoqMaterialList.append($('<option>', {
+                            value: item.ProductId,
+                            text: item.ProductName
+                        }));
+                    });
+                }
+            });
+        }
+
         // claculate workable demand with unit rate and show to total
         $(document).ready(function () {
 
@@ -871,15 +919,20 @@
                 var unitValue = parseFloat(inputUnitPrice.val()) || 0;
 
                 if (!isNaN(remainingValue) && !isNaN(demandValue) && !isNaN(unitValue)) {
-                    if (demandValue <= remainingValue || demandValue === 0) {
-                        $("#demandValidate").text("");
-                        totalPrice = demandValue * unitValue;
-                        showTotalPrice.val(totalPrice.toFixed(2));
+                    if ($("#ddlWorkOrderFor").val() == @((int)EnumWorkOrderFor.Requisition)) {
+                        if (demandValue <= remainingValue || demandValue === 0) {
+                            $("#demandValidate").text("");
+                            totalPrice = demandValue * unitValue;
+                            showTotalPrice.val(totalPrice.toFixed(2));
+                        } else {
+                            inputWorkableDemand.val(remainingValue);
+                            totalPrice = remainingValue * unitValue;
+                            showTotalPrice.val(totalPrice.toFixed(2));
+                            $("#demandValidate").text("Demand cannot exceed the remaining amount!");
+                        }
                     } else {
-                        inputWorkableDemand.val(remainingValue);
                         totalPrice = remainingValue * unitValue;
                         showTotalPrice.val(totalPrice.toFixed(2));
-                        $("#demandValidate").text("Demand cannot exceed the remaining amount!");
                     }
                 }
             }

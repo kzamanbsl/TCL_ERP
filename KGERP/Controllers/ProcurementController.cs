@@ -526,7 +526,6 @@ namespace KGERP.Controllers
             return Json(_billRequisitionService.ApprovedMaterialList(companyId, requisitionId), JsonRequestBehavior.AllowGet);
         }
 
-
         [HttpPost]
         public async Task<ActionResult> ProcurementPurchaseOrderSlave(VMPurchaseOrderSlave vmPurchaseOrderSlave)
         {
