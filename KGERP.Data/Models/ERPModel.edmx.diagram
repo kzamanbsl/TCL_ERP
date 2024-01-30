@@ -514,16 +514,6 @@
         <AssociationConnector Association="ERPModel.FK_BoQDivision_Company" />
         <AssociationConnector Association="ERPModel.FK_BillReqApprovalHistory_Employee" />
         <EntityTypeShape EntityType="ERPModel.BillRequisitionMaster" Width="1.5" PointX="69.375" PointY="71" />
-        <EntityTypeShape EntityType="ERPModel.PurchaseOrder" Width="1.5" PointX="71.625" PointY="42.375" />
-        <EntityTypeShape EntityType="ERPModel.PurchaseOrderDetail" Width="1.5" PointX="73.875" PointY="45.625" />
-        <AssociationConnector Association="ERPModel.FK_PurchaseOrder_ModeOfPurchase" />
-        <AssociationConnector Association="ERPModel.FK_PurchaseOrder_ProductOrigin" />
-        <AssociationConnector Association="ERPModel.FK_PurchaseOrder_PurchaseOrder" />
-        <AssociationConnector Association="ERPModel.FK_PurchaseOrder_Demand" />
-        <AssociationConnector Association="ERPModel.FK_MaterialReceive_PurchaseOrder" />
-        <AssociationConnector Association="ERPModel.FK_PurchaseOrder_StockInfo" />
-        <AssociationConnector Association="ERPModel.FK_PurchaseOrderDetail_PurchaseOrder" />
-        <AssociationConnector Association="ERPModel.FK_VendorDepositHistory_VendorDepositHistory" />
         <EntityTypeShape EntityType="ERPModel.Vendor" Width="1.5" PointX="56.375" PointY="20.25" />
         <AssociationConnector Association="ERPModel.FK_MonthlyTarget_Vendor" />
         <AssociationConnector Association="ERPModel.FK_BatchPaymentDetail_Vendor" />
@@ -531,7 +521,6 @@
         <AssociationConnector Association="ERPModel.FK_LCInfo_Vendor" />
         <AssociationConnector Association="ERPModel.FK_OrderMaster_Supplier" />
         <AssociationConnector Association="ERPModel.FK_Payment_Vendor" />
-        <AssociationConnector Association="ERPModel.FK_PurchaseOrder_Vendor" />
         <AssociationConnector Association="ERPModel.FK_PurchaseReturn_Vendor" />
         <AssociationConnector Association="ERPModel.FK_Vendor_Region" />
         <AssociationConnector Association="ERPModel.FK_SaleReturn_Vendor" />
@@ -569,9 +558,20 @@
         <AssociationConnector Association="ERPModel.FK_BoQDivision_Accounting_CostCenter" />
         <AssociationConnector Association="ERPModel.FK_CostCenterManagerMap_Accounting_CostCenter" />
         <EntityTypeShape EntityType="ERPModel.BillRequisitionDetail" Width="1.5" PointX="22.375" PointY="13.125" />
-        <AssociationConnector Association="ERPModel.FK_PurchaseOrderDetail_BillRequisitionDetail" />
         <EntityTypeShape EntityType="ERPModel.ConsumptionDetail" Width="1.5" PointX="13.375" PointY="35.75" />
         <EntityTypeShape EntityType="ERPModel.ConsumptionMaster" Width="1.5" PointX="15.375" PointY="36.75" />
+        <EntityTypeShape EntityType="ERPModel.PurchaseOrder" Width="1.5" PointX="71.625" PointY="42.25" />
+        <EntityTypeShape EntityType="ERPModel.PurchaseOrderDetail" Width="1.5" PointX="76.875" PointY="31" />
+        <AssociationConnector Association="ERPModel.FK_PurchaseOrder_ModeOfPurchase" />
+        <AssociationConnector Association="ERPModel.FK_PurchaseOrder_ProductOrigin" />
+        <AssociationConnector Association="ERPModel.FK_PurchaseOrderDetail_BillRequisitionDetail" />
+        <AssociationConnector Association="ERPModel.FK_PurchaseOrder_PurchaseOrder" />
+        <AssociationConnector Association="ERPModel.FK_PurchaseOrder_Demand" />
+        <AssociationConnector Association="ERPModel.FK_MaterialReceive_PurchaseOrder" />
+        <AssociationConnector Association="ERPModel.FK_PurchaseOrder_StockInfo" />
+        <AssociationConnector Association="ERPModel.FK_PurchaseOrder_Vendor" />
+        <AssociationConnector Association="ERPModel.FK_PurchaseOrderDetail_PurchaseOrder" />
+        <AssociationConnector Association="ERPModel.FK_VendorDepositHistory_VendorDepositHistory" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

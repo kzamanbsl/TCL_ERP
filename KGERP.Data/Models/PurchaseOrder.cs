@@ -26,6 +26,7 @@ namespace KGERP.Data.Models
         public Nullable<int> CompanyId { get; set; }
         public Nullable<long> DemandId { get; set; }
         public string PurchaseOrderNo { get; set; }
+        public Nullable<int> WorkOrderForId { get; set; }
         public Nullable<int> SupplierId { get; set; }
         public Nullable<System.DateTime> PurchaseDate { get; set; }
         public Nullable<int> ModeOfPurchaseId { get; set; }
@@ -75,10 +76,10 @@ namespace KGERP.Data.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MaterialReceive> MaterialReceives { get; set; }
         public virtual StockInfo StockInfo { get; set; }
+        public virtual Vendor Vendor { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<VendorDepositHistory> VendorDepositHistories { get; set; }
-        public virtual Vendor Vendor { get; set; }
     }
 }
