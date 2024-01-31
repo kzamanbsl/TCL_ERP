@@ -1,25 +1,9 @@
 ﻿using KGERP.Service.Implementation.Configuration;
-using KGERP.Service.Implementation.Procurement;
-using KGERP.Service.Implementation;
 using KGERP.Service.Interface;
 using KGERP.Service.ServiceModel;
 using KGERP.Utility;
-using KGERP.ViewModel;
-using PagedList;
-using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using System.Web.Services.Description;
-using DocumentFormat.OpenXml.EMMA;
-using System.Linq;
-using Remotion.Data.Linq;
-using Ninject.Activation;
-using KGERP.Data.CustomModel;
-using KGERP.Data.Models;
-using System.Web.UI.WebControls;
-using DocumentFormat.OpenXml.Spreadsheet;
-using System.Runtime.CompilerServices;
 
 namespace KGERP.Controllers
 {
@@ -45,31 +29,33 @@ namespace KGERP.Controllers
             //consumptionModel.StatusId = (int)EnumBillRequisitionStatus.Draft;
             consumptionModel.ProjectTypeList = new SelectList(await _billRequisitionService.GetCostCenterTypeList(companyId), "CostCenterTypeId", "Name");
             consumptionModel.BOQDivisionList = new SelectList(_billRequisitionService.BoQDivisionList(), "BoQDivisionId", "Name");
-            consumptionModel.BOQItemList =new SelectList  (_billRequisitionService.GetBillOfQuotationList(), "BoQItemId", "BoQNumber") ;
+            consumptionModel.BOQItemList = new SelectList(_billRequisitionService.GetBillOfQuotationList(), "BoQItemId", "BoQNumber");
             consumptionModel.MaterialTypeList = new SelectList(_configurationService.GetAllProductCategoryList(companyId));
-            consumptionModel.MaterialTypeList = new SelectList(_configurationService.GetAllProductSubCategoryList(companyId));
-            return View(consumptionModel);
+            //consumptionModel.MaterialSubTypeList = new SelectList(_configurationService.GetAllProductSubCategoryList(companyId));
+            consumptionModel.ProjectList = new SelectList(_configurationService.GetAllProductSubCategoryList(companyId));
+            consumptionModel.ActionId = (int)ActionEnum.Add;
+                return View(consumptionModel);
         }
 
         [HttpPost]
         public async Task<ActionResult> ConsumptionMasterSlave(ConsumptionModel consumptionModel)
         {
             BillRequisitionMasterModel billRequisition = new BillRequisitionMasterModel();
-            if(consumptionModel.ActionId== (int)ActionEnum.Add)
+            if (consumptionModel.ActionId == (int)ActionEnum.Add)
             {
                 if (consumptionModel.ConsumptionMasterId == 0)
                 {
                     consumptionModel.ConsumptionMasterId = await _service.CreateConsumptionMaster(consumptionModel);
                 }
-               await _service.CreateConsumptionDetail(consumptionModel);
-            } 
-           if(consumptionModel.ActionId== (int)ActionEnum.Edit)
-            {
-               
-               await _service.UpdateConsumptionDetail(consumptionModel);
+                await _service.CreateConsumptionDetail(consumptionModel);
             }
-            
-            return View(billRequisition);
+            if (consumptionModel.ActionId == (int)ActionEnum.Edit)
+            {
+
+                await _service.UpdateConsumptionDetail(consumptionModel);
+            }
+
+            return View();
         }
 
     }
