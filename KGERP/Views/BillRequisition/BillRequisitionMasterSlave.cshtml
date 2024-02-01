@@ -598,6 +598,130 @@
 @section scripts {
 
     <script type="text/javascript">
+        var isEditable = false;
+
+        // Make editable form
+        function makeEditble(rowId) {
+            isEditable = true;
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("SingleBillRequisitionDetails", "BillRequisition")",
+                datatype: "Json",
+                data: { id: rowId },
+                success: function (data) {
+                    $('#soCreateBtn').val("Update");
+                    $("#hidBRMasterId").val(data.BillRequisitionMasterId);
+                    $('#ActionId').val(2);
+                    $("#CompanyFK").val(data.CompanyId);
+                    $("#hiddenBillRequisitionDetailId").val(data.BillRequisitionDetailId);
+                    $("#txtFloor").val(data.Floor);
+                    $("#txtWrad").val(data.Ward);
+                    $("#txtDPP").val(data.DPP);
+                    $("#txtChainage").val(data.Chainage);
+                    $("#txtUnitId").val(data.UnitId);
+                    $("#decEstimatedQty").val(data.EstimatedQty);
+                    $("#decReceivedSoFar").val(data.ReceivedSoFar);
+                    $("#decRemainingQty").val(data.RemainingQty);
+                    $("#decDemandQty").val(data.DemandQty);
+                    $("#decUnitRate").val(data.UnitRate);
+                    $("#decTotalPrice").val(data.TotalPrice);
+                    $("#txtitemDescription").val(data.Remarks);
+                    $("#ddlBRSubTypeId").val(data.RequisitionSubtypeId).trigger('change');
+                    $("#ddlDivisionId").val(data.BoqDivisionId).trigger('change');
+                    GetBoqListByDivisionIdForEdit(data.BoqItemId, data.RequisitionSubtypeId, data.ProductId);
+
+                    // Get boq list by division id
+                    function GetBoqListByDivisionIdForEdit(boqId, subtypeId, materialId) {
+                        var getBoqDivisionId = $("#ddlDivisionId option:selected");
+                        var showBoqItemList = $("#ddlBOQItemId");
+                        var showSubcategoryList = $("#ddlBRSubTypeId");
+                        var showBoqMaterialList = $("#ddlRequisitionItemId");
+
+                        if (@(Model.BillRequisitionTypeId) == @((int)EnumBillRequisitionType.Materials)) {
+                            $.ajax({
+                                type: "GET",
+                                url: "/BillRequisition/getBoqItemListWithBoqNumber",
+                                dataType: "json",
+                                data: { id: getBoqDivisionId.val() },
+                                success: function (data) {
+                                    showBoqItemList.empty();
+                                    showBoqItemList.append("<option selected disabled>==Select BoQ Item==</option>");
+
+                                    $.each(data, function (index, item) {
+                                        showBoqItemList.append($('<option>', {
+                                            value: item.BoQItemId,
+                                            text: item.Name
+                                        }));
+                                    });
+
+                                    $("#ddlBOQItemId").val(boqId).trigger('change');
+
+                                    $.ajax({
+                                        type: "GET",
+                                        url: "/BillRequisition/GetSubCategoryByBoqId",
+                                        dataType: "json",
+                                        data: { id: boqId },
+                                        success: function (data) {
+                                            showSubcategoryList.empty();
+                                            showSubcategoryList.append("<option selected disabled>==Requisition For==</option>");
+
+                                            $.each(data, function (index, item) {
+                                                showSubcategoryList.append($('<option>', {
+                                                    value: item.ProductSubCategoryId,
+                                                    text: item.Name
+                                                }));
+                                            });
+                                            $("#ddlBRSubTypeId").val(subtypeId).trigger('change');
+
+                                            $.ajax({
+                                                type: "GET",
+                                                url: "/BillRequisition/GetMaterialListBySubcategoryId",
+                                                dataType: "json",
+                                                data: { id: subtypeId },
+                                                success: function (data) {
+                                                    showBoqMaterialList.empty();
+                                                    showBoqMaterialList.append("<option selected disabled>==Select Material==</option>");
+
+                                                    $.each(data, function (index, item) {
+                                                        showBoqMaterialList.append($('<option>', {
+                                                            value: item.ProductId,
+                                                            text: item.ProductName
+                                                        }));
+                                                    });
+
+                                                    $("#ddlRequisitionItemId").val(materialId).trigger('change');
+                                                }
+                                            });
+                                        }
+                                    });
+                                }
+                            });
+                        } else {
+                            $.ajax({
+                                type: "GET",
+                                url: "/BillRequisition/getBoqMaterialListForOverHead",
+                                dataType: "json",
+                                data: { id: subtypeId },
+                                success: function (data) {
+                                    showBoqMaterialList.empty();
+                                    showBoqMaterialList.append("<option selected disabled>==Select Material==</option>");
+
+                                    $.each(data, function (index, item) {
+                                        showBoqMaterialList.append($('<option>', {
+                                            value: item.ProductId,
+                                            text: item.ProductName
+                                        }));
+                                    });
+                                    $("#ddlRequisitionItemId").val(materialId).trigger('change');
+                                }
+                            });
+                        }
+                    }
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            });
+        }
+
         $(document).ready(function () {
             "use strict";
 
@@ -891,95 +1015,100 @@
 
         // Get boq list by division id
         function GetBoqItemListByDivisionId() {
-            var getBoqDivisionId = $("#ddlDivisionId option:selected");
-            var showBoqItemList = $("#ddlBOQItemId");
+            if (isEditable == false) {
+                var getBoqDivisionId = $("#ddlDivisionId option:selected");
+                var showBoqItemList = $("#ddlBOQItemId");
 
-            $.ajax({
-                type: "GET",
-                url: "/BillRequisition/getBoqItemListWithBoqNumber",
-                dataType: "json",
-                data: { id: getBoqDivisionId.val() },
-                success: function (data) {
-                    showBoqItemList.empty();
-                    showBoqItemList.append("<option selected disabled>==Select BoQ Item==</option>");
-
-                    $.each(data, function (index, item) {
-                        showBoqItemList.append($('<option>', {
-                            value: item.BoQItemId,
-                            text: item.Name
-                        }));
-                    });
-                }
-            });
-        }
-
-        // Get sub category list by boq id
-        function GetSubcategoryByBoqId() {
-            var getBoqItemId = $("#ddlBOQItemId option:selected");
-            var showSubcategoryList = $("#ddlBRSubTypeId");
-
-            $.ajax({
-                type: "GET",
-                url: "/BillRequisition/GetSubCategoryByBoqId",
-                dataType: "json",
-                data: { id: getBoqItemId.val() },
-                success: function (data) {
-                    showSubcategoryList.empty();
-                    showSubcategoryList.append("<option selected disabled>==Requisition For==</option>");
-
-                    $.each(data, function (index, item) {
-                        showSubcategoryList.append($('<option>', {
-                            value: item.ProductSubCategoryId,
-                            text: item.Name
-                        }));
-                    });
-                }
-            });
-        }
-
-        // Get material list by sub category id
-        function GetMaterialListBySubCategoryId() {
-            var getSubcategoryId = $("#ddlBRSubTypeId option:selected");
-            var showBoqMaterialList = $("#ddlRequisitionItemId");
-
-            if (getSubcategoryId.val() == @((int)EnumBillRequisitionType.Materials)){
                 $.ajax({
                     type: "GET",
-                    url: "/BillRequisition/GetMaterialListBySubcategoryId",
+                    url: "/BillRequisition/getBoqItemListWithBoqNumber",
                     dataType: "json",
-                    data: { id: getSubcategoryId.val() },
+                    data: { id: getBoqDivisionId.val() },
                     success: function (data) {
-                        showBoqMaterialList.empty();
-                        showBoqMaterialList.append("<option selected disabled>==Select Material==</option>");
+                        showBoqItemList.empty();
+                        showBoqItemList.append("<option selected disabled>==Select BoQ Item==</option>");
 
                         $.each(data, function (index, item) {
-                            showBoqMaterialList.append($('<option>', {
-                                value: item.ProductId,
-                                text: item.ProductName
-                            }));
-                        });
-                    }
-                });
-            }else {
-                $.ajax({
-                    type: "GET",
-                    url: "/BillRequisition/getBoqMaterialListForOverHead",
-                    dataType: "json",
-                    data: { id: getSubcategoryId.val() },
-                    success: function (data) {
-                        showBoqMaterialList.empty();
-                        showBoqMaterialList.append("<option selected disabled>==Select Material==</option>");
-
-                        $.each(data, function (index, item) {
-                            showBoqMaterialList.append($('<option>', {
-                                value: item.ProductId,
-                                text: item.ProductName
+                            showBoqItemList.append($('<option>', {
+                                value: item.BoQItemId,
+                                text: item.Name
                             }));
                         });
                     }
                 });
             }
+        }
 
+        // Get sub category list by boq id
+        function GetSubcategoryByBoqId() {
+            if (isEditable == false) {
+                var getBoqItemId = $("#ddlBOQItemId option:selected");
+                var showSubcategoryList = $("#ddlBRSubTypeId");
+
+                $.ajax({
+                    type: "GET",
+                    url: "/BillRequisition/GetSubCategoryByBoqId",
+                    dataType: "json",
+                    data: { id: getBoqItemId.val() },
+                    success: function (data) {
+                        showSubcategoryList.empty();
+                        showSubcategoryList.append("<option selected disabled>==Requisition For==</option>");
+
+                        $.each(data, function (index, item) {
+                            showSubcategoryList.append($('<option>', {
+                                value: item.ProductSubCategoryId,
+                                text: item.Name
+                            }));
+                        });
+                    }
+                });
+            }
+        }
+
+        // Get material list by sub category id
+        function GetMaterialListBySubCategoryId() {
+            if (isEditable == false) {
+                var getSubcategoryId = $("#ddlBRSubTypeId option:selected");
+                var showBoqMaterialList = $("#ddlRequisitionItemId");
+
+                if (getSubcategoryId.val() == @((int)EnumBillRequisitionType.Materials)){
+                    $.ajax({
+                        type: "GET",
+                        url: "/BillRequisition/GetMaterialListBySubcategoryId",
+                        dataType: "json",
+                        data: { id: getSubcategoryId.val() },
+                        success: function (data) {
+                            showBoqMaterialList.empty();
+                            showBoqMaterialList.append("<option selected disabled>==Select Material==</option>");
+
+                            $.each(data, function (index, item) {
+                                showBoqMaterialList.append($('<option>', {
+                                    value: item.ProductId,
+                                    text: item.ProductName
+                                }));
+                            });
+                        }
+                    });
+                }else {
+                    $.ajax({
+                        type: "GET",
+                        url: "/BillRequisition/getBoqMaterialListForOverHead",
+                        dataType: "json",
+                        data: { id: getSubcategoryId.val() },
+                        success: function (data) {
+                            showBoqMaterialList.empty();
+                            showBoqMaterialList.append("<option selected disabled>==Select Material==</option>");
+
+                            $.each(data, function (index, item) {
+                                showBoqMaterialList.append($('<option>', {
+                                    value: item.ProductId,
+                                    text: item.ProductName
+                                }));
+                            });
+                        }
+                    });
+                }
+            }
         }
 
         // Get unit name by product id
@@ -1001,7 +1130,9 @@
                 }
             });
 
-            GetBudgetInfo();
+            if (isEditable == false) {
+                GetBudgetInfo();
+            }
         }
 
         // Get budget info by boq id and by overhead
@@ -1053,5 +1184,30 @@
             }
         }
 
+        // make submitable form
+        function makeSubmitble(rowId) {
+
+            if (@Model.StatusId == 0) {
+                $('.submitOrDraftText').text("Make Submit");
+            }
+            else {
+                $('.submitOrDraftText').text("Make Draft");
+            }
+            $('#hidSubmitBRMasterId').val(@Model.BillRequisitionMasterId);
+        }
+
+        // make deletable form
+        function makeDeletale(rowId) {
+
+            $('#hidBillRequisitionDetailId').val(rowId);
+            $('#deleteActionId').val(3);
+        }
+
+        // reset form
+        function resetDamageDeleteSlaveForm() {
+
+            $('#BRMasterSlaveFormId')[0].reset();
+            $('#ActionId').val(1);
+        }
     </script>
 }
