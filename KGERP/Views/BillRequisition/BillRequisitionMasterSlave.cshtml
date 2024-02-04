@@ -1147,12 +1147,12 @@
             var intputDemand = $("#decDemandQty");
             var totalAmount = $("#decTotalPrice");
 
-            if (requisitionType == @((int)EnumBillRequisitionType.Materials) || @(Model.BillRequisitionTypeId) == @((int)EnumBillRequisitionType.Materials)) {
+            if (requisitionType == @((int)EnumBillRequisitionType.Overhead)) {
                 $.ajax({
                     type: "GET",
                     url: "/BillRequisition/GetMaterialBudgetInfo",
                     dataType: "json",
-                    data: { boqId: boqId, productId: productId },
+                    data: { boqId: 0, productId: productId },
                     success: function (data) {
                         if (data) {
                             showEstimate.val(data.EstimateQty);
@@ -1164,12 +1164,12 @@
                         }
                     }
                 });
-            }else {
+            } else {
                 $.ajax({
                     type: "GET",
                     url: "/BillRequisition/GetMaterialBudgetInfo",
                     dataType: "json",
-                    data: { boqId: 0, productId: productId },
+                    data: { boqId: boqId, productId: productId },
                     success: function (data) {
                         if (data) {
                             showEstimate.val(data.EstimateQty);
