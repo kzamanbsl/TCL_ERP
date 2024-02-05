@@ -36,6 +36,38 @@ namespace KGERP.Controllers
             _ProductService = productService;
         }
 
+        #region Setting for Building
+
+        // Floor for building
+        [HttpGet]
+        public async Task<ActionResult> AddNewFloor(int companyId = 0)
+        {
+            BuildingFloorModel viewModel = new BuildingFloorModel();
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> AddNewFloor(BuildingFloorModel model)
+        {
+            return View(model);
+        }
+
+        // Member for building
+        [HttpGet]
+        public async Task<ActionResult> AddNewMember(int companyId = 0)
+        {
+            BuildingMemberModel viewModel = new BuildingMemberModel();
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> AddNewMember(BuildingMemberModel model)
+        {
+            return View(model);
+        }
+
+        #endregion
+
         #region All Json Action Method for Requisition
 
         // get material budget info
