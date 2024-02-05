@@ -28,7 +28,7 @@ namespace KGERP.Controllers
             //consumptionModel.ProjectTypeList = new SelectList(await _service.GetCostCenterTypeList(companyId), "CostCenterTypeId", "Name");
             //consumptionModel.StatusId = (int)EnumBillRequisitionStatus.Draft;
             consumptionModel.ProjectTypeList = new SelectList(await _billRequisitionService.GetCostCenterTypeList(companyId), "CostCenterTypeId", "Name");
-            consumptionModel.BOQDivisionList = new SelectList(_billRequisitionService.BoQDivisionList(), "BoQDivisionId", "Name");
+            consumptionModel.BOQDivisionList = new SelectList(await _billRequisitionService.BoQDivisionList(companyId), "BoQDivisionId", "Name");
             consumptionModel.BOQItemList = new SelectList(_billRequisitionService.GetBillOfQuotationList(), "BoQItemId", "BoQNumber");
             consumptionModel.MaterialTypeList = new SelectList(_configurationService.GetAllProductCategoryList(companyId));
             //consumptionModel.MaterialSubTypeList = new SelectList(_configurationService.GetAllProductSubCategoryList(companyId));

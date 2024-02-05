@@ -12,9 +12,10 @@ namespace KGERP.Service.ServiceModel
         public long BoqDivisionId { get; set; }
         public string Name { get; set; }
         public int ProjectId { get; set; }
+        public string ProjectName { get; set; }
         public int CompanyId { get; set; }
 
-        public List<BoQDivision> BoQDivisions { get; set; }
-        public List<Accounting_CostCenter> Projecs { get; set; }
+        public List<BoqDivisionModel> BoQDivisions { get; set; }
+        public List<Accounting_CostCenter> Projects { get; set; }
     }
 }

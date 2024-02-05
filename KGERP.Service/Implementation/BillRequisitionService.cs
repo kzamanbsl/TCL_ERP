@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Dynamic;
+using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 
@@ -295,21 +296,33 @@ namespace KGERP.Service.Implementation
 
         #region  BoQ Division
 
-        public List<BoQDivision> BoQDivisionList()
+        public async Task<List<BoqDivisionModel>> GetBoqListByProjectId(long projectId)
         {
-            List<BoQDivision> BoQDivisionS = new List<BoQDivision>();
-            var getBoQDivisionS = _context.BoQDivisions.Where(c => c.CompanyId == 21 && c.IsActive == true).ToList();
-            foreach (var item in getBoQDivisionS)
-            {
-                var data = new BoQDivision()
-                {
-                    BoQDivisionId = item.BoQDivisionId,
-                    Name = item.Name,
-                    ProjectId = item.ProjectId
-                };
-                BoQDivisionS.Add(data);
-            }
-            return BoQDivisionS;
+            var data = await (from t1 in _context.BoQDivisions
+                              .Where(x => x.ProjectId == projectId)
+                              select new BoqDivisionModel
+                              {
+                                  BoqDivisionId = t1.BoQDivisionId,
+                                  Name = t1.Name
+                              }).ToListAsync();
+            return data;
+        }
+
+        public async Task<List<BoqDivisionModel>> BoQDivisionList(long companyId)
+        {
+            var data = await (from t1 in _context.BoQDivisions
+                              .Where(x => x.IsActive)
+                              join t2 in _context.Accounting_CostCenter on t1.ProjectId equals t2.CostCenterId into t2_Join
+                              from t2 in t2_Join.DefaultIfEmpty()
+                              select new BoqDivisionModel
+                              {
+                                  BoqDivisionId = t1.BoQDivisionId,
+                                  Name = t1.Name,
+                                  ProjectId = t2.CostCenterId,
+                                  ProjectName = t2.Name
+                              }).ToListAsync();
+
+            return data;
         }
 
         public bool Add(BoqDivisionModel model)
@@ -398,6 +411,19 @@ namespace KGERP.Service.Implementation
         #endregion
 
         #region Bill of Quotation
+        public async Task<List<BillRequisitionBoqModel>> GetBoqListByDivisionId(long id)
+        {
+            var data = await (from t1 in _context.BillBoQItems
+                              .Where(x => x.BoQDivisionId == id)
+                              select new BillRequisitionBoqModel
+                              { 
+                                BoQItemId = t1.BoQItemId,
+                                BoQNumber = t1.BoQNumber,
+                                Name = t1.Name
+                              }).ToListAsync();
+            return data;
+        }
+
         public List<BillRequisitionBoqModel> GetBillOfQuotationList()
         {
             var sendData = (from t1 in _context.BillBoQItems.Where(c => c.IsActive)

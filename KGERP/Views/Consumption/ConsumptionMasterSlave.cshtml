@@ -589,8 +589,6 @@
 
         ShowMaterial();
 
-
-
         var isMakeEditable = false;
         // Make editable form
         function makeEditble(rowId) {
@@ -673,9 +671,6 @@
                             text: item.Name
                         }));
                     });
-                },
-                error: function (error) {
-                    console.error("Error in AJAX request:", error);
                 }
             });
         }
@@ -700,9 +695,6 @@
                             text: item.Name
                         }));
                     });
-                },
-                error: function (error) {
-                    console.error("Error in AJAX request:", error);
                 }
             });
         }
@@ -723,13 +715,10 @@
 
                     $.each(data, function (index, item) {
                         showBoqDivisionList.append($('<option>', {
-                            value: item.BoQDivisionId,
+                            value: item.BoqDivisionId,
                             text: item.Name
                         }));
                     });
-                },
-                error: function (error) {
-                    console.error("Error in AJAX request:", error);
                 }
             });
         }
@@ -741,7 +730,7 @@
 
             $.ajax({
                 type: "GET",
-                url: "/BillRequisition/getBoqItemList",
+                url: "/BillRequisition/getBoqItemListWithBoqNumber",
                 dataType: "json",
                 data: { id: getBoqDivisionId.val() },
                 success: function (data) {
@@ -754,9 +743,6 @@
                             text: item.Name
                         }));
                     });
-                },
-                error: function (error) {
-                    console.error("Error in AJAX request:", error);
                 }
             });
         }
@@ -780,9 +766,6 @@
                             text: item.ProductName
                         }));
                     });
-                },
-                error: function (error) {
-                    console.error("Error in AJAX request:", error);
                 }
             });
         }

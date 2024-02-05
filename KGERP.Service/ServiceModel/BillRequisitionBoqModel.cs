@@ -23,7 +23,7 @@ namespace KGERP.Service.ServiceModel
         public string BoqUnitName { get; set; }
         public List<Unit> BoQUnits { get; set; }
         public List<BillRequisitionBoqModel> BillBoQItems { get; set; }
-        public List<BoQDivision> BoQDivisions { get; set; }
+        public List<BoqDivisionModel> BoQDivisions { get; set; }
         public List<Accounting_CostCenter> Projects { get; set; }
     }
 }

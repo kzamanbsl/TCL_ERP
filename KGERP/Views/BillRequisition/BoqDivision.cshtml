@@ -37,7 +37,7 @@
 
                                 <div class="form-group">
                                     <label>Select Project : </label>
-                                    @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.Projecs.OrderBy(order => order.Name), "CostCenterId", "Name"), "=== Select Project ===", new { id = "ddProjectId", @class = "form-control searchingDropdown", style = "width:100%" })
+                                    @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.Projects.OrderBy(order => order.Name), "CostCenterId", "Name"), "=== Select Project ===", new { id = "ddProjectId", @class = "form-control searchingDropdown", style = "width:100%" })
                                     @Html.ValidationMessageFor(model => model.ProjectId, "", new { @class = "text-danger" })
                                 </div>
 
@@ -82,27 +82,24 @@
                                         @{int sl = 0;}
                                         <tbody>
                                             @{
-                                                if (Model.BoQDivisions != null)
+                                                foreach (var item in Model.BoQDivisions.OrderBy(order => order.ProjectId))
                                                 {
-                                                    foreach (var item in Model.BoQDivisions.OrderBy(order => order.ProjectId))
-                                                    {
-                                                        <tr>
-                                                            <td>
-                                                                @(++sl)
-                                                                <input type="hidden" id="ddProjectId_@item.BoQDivisionId" name="ProjectId" value="@item.ProjectId" />
-                                                            </td>
-                                                            <td id=" tdBoqDivisionName_@item.BoQDivisionId">@item.Name</td>
-                                                            <td id=" tdBoqProjectname_@item.BoQDivisionId">@Model.Projecs.FirstOrDefault(c => c.CostCenterId == item.ProjectId).Name</td>
-                                                            <td>
-                                                                <a id="@item.BoQDivisionId" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
+                                                    <tr>
+                                                        <td>
+                                                            @(++sl)
+                                                            <input type="hidden" id="ddProjectId_@item.BoqDivisionId" name="ProjectId" value="@item.ProjectId" />
+                                                        </td>
+                                                        <td id=" tdBoqDivisionName_@item.BoqDivisionId">@item.Name</td>
+                                                        <td id=" tdBoqProjectname_@item.BoqDivisionId">@item.ProjectName</td>
+                                                        <td>
+                                                            <a id="@item.BoqDivisionId" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
 
-                                                                <a id="@item.BoQDivisionId" onclick="makeDeletable(@item.BoQDivisionId);" class="linkPointer" data-toggle="modal" data-target="#CostCenterTypeDeleteModal" title="Delete"
-                                                                   data-placement="top">
-                                                                    <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-                                                    }
+                                                            <a id="@item.BoqDivisionId" onclick="makeDeletable(@item.BoqDivisionId);" class="linkPointer" data-toggle="modal" data-target="#CostCenterTypeDeleteModal" title="Delete"
+                                                               data-placement="top">
+                                                                <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
                                                 }
                                             }
                                         </tbody>

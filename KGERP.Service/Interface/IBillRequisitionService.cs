@@ -37,7 +37,8 @@ namespace KGERP.Service.Interface
         bool Add(BoqDivisionModel model);
         bool Edit(BoqDivisionModel model);
         bool Delete(BoqDivisionModel model);
-        List<BoQDivision> BoQDivisionList();
+        Task<List<BoqDivisionModel>> BoQDivisionList(long companyId);
+        Task<List<BoqDivisionModel>> GetBoqListByProjectId(long projectId);
         #endregion
 
         #region Bill of Quotation
@@ -45,6 +46,7 @@ namespace KGERP.Service.Interface
         bool Edit(BillRequisitionBoqModel model);
         bool Delete(BillRequisitionBoqModel model);
         List<BillRequisitionBoqModel> GetBillOfQuotationList();
+        Task<List<BillRequisitionBoqModel>> GetBoqListByDivisionId(long id);
         List<BillBoQItem> GetBillOfQuotationListByProjectId(int id);
         #endregion
 

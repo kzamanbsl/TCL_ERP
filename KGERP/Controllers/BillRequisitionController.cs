@@ -58,7 +58,7 @@ namespace KGERP.Controllers
             return Json(new { EstimateQty = EstimateQty, UnitRate = UnitRate, ReceivedSoFar = ReceivedSoFar, RemainingQty = RemainingQty }, JsonRequestBehavior.AllowGet);
         }
 
-        public async Task<JsonResult> GetMaterialBudgetInfoForOverhead(long projectId = 0, long productId = 0)
+        public JsonResult GetMaterialBudgetInfoForOverhead(long projectId = 0, long productId = 0)
         {
             decimal EstimateQty = 0;
             decimal UnitRate = 0;
@@ -71,7 +71,7 @@ namespace KGERP.Controllers
         }
 
         // Get Unit Info by Id
-        public async Task<JsonResult> GetUnitNameWithId(int id)
+        public JsonResult GetUnitNameWithId(int id)
         {
             var unitName = "";
             var unitId = 0;
@@ -151,33 +151,30 @@ namespace KGERP.Controllers
         }
 
         // Filter with project id
-        public JsonResult getBoqDivisionList(long id)
+        public async Task<JsonResult> getBoqDivisionList(long id)
         {
-            var boqDivisionList = _service.BoQDivisionList().Where(c => c.ProjectId == id).ToList();
+            var boqDivisionList = await _service.GetBoqListByProjectId(id);
             return Json(boqDivisionList, JsonRequestBehavior.AllowGet);
         }
 
         // Filter with boq division id
-        public JsonResult getBoqItemList(long id)
+        public async Task<JsonResult> getBoqItemList(long id)
         {
-            var boqItemList = _service.GetBillOfQuotationList().Where(c => c.BoQDivisionId == id).ToList();
+            var boqItemList = await _service.GetBoqListByDivisionId(id);
             return Json(boqItemList, JsonRequestBehavior.AllowGet);
         }
 
         // Filter with boq division id
-        public JsonResult getBoqItemListWithBoqNumber(long id)
+        public async Task<JsonResult> getBoqItemListWithBoqNumber(long id)
         {
-            var boqItemList = _service.GetBillOfQuotationList().Where(c => c.BoQDivisionId == id).ToList();
-            List<BillBoQItem> boqItemWithId = new List<BillBoQItem>();
-            foreach (var item in boqItemList)
-            {
-                var data = new BillBoQItem()
-                {
-                    BoQItemId = item.BoQItemId,
-                    Name = "(" + item.BoQNumber + ") - " + item.Name,
-                };
-                boqItemWithId.Add(data);
-            }
+            var boqItemList = await _service.GetBoqListByDivisionId(id);
+
+            var boqItemWithId = (from t1 in boqItemList
+                                 select new BillRequisitionBoqModel
+                                 {
+                                     BoQItemId = t1.BoQItemId,
+                                     Name = "(" + t1.BoQNumber + ") - " + t1.Name
+                                 }).ToList();
             return Json(boqItemWithId, JsonRequestBehavior.AllowGet);
         }
 
@@ -394,8 +391,8 @@ namespace KGERP.Controllers
             BoqDivisionModel viewData = new BoqDivisionModel()
             {
                 CompanyFK = companyId,
-                Projecs = await _service.GetProjectList(companyId),
-                BoQDivisions = _service.BoQDivisionList()
+                Projects = await _service.GetProjectList(companyId),
+                BoQDivisions = await _service.BoQDivisionList(companyId)
             };
             return View(viewData);
         }
@@ -436,7 +433,7 @@ namespace KGERP.Controllers
             {
                 CompanyFK = companyId,
                 Projects = await _service.GetProjectList(companyId),
-                BoQDivisions = _service.BoQDivisionList(),
+                BoQDivisions = await _service.BoQDivisionList(companyId),
                 BillBoQItems = _service.GetBillOfQuotationList(),
                 BoQUnits = _configurationService.GetUnitForJson()
             };
@@ -479,7 +476,7 @@ namespace KGERP.Controllers
             {
                 CompanyFK = companyId,
                 Projects = await _service.GetProjectList(companyId),
-                BoQDivisions = _service.BoQDivisionList(),
+                BoQDivisions = await _service.BoQDivisionList(companyId),
                 BoQItems = _service.GetBillOfQuotationList(),
                 BoQMaterials = _ProductService.GetProductJson(),
                 BoQItemProductMaps = _service.GetBoQProductMapList(),
@@ -1209,6 +1206,5 @@ namespace KGERP.Controllers
         }
 
         #endregion
-
     }
 }

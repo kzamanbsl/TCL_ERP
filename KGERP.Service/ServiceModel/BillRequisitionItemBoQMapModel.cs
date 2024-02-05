@@ -21,7 +21,7 @@ namespace KGERP.Service.ServiceModel
         public long BoQDivisionId { get; set; }
         public List<BillRequisitionBoqModel> BoQItems { get; set; }
         public List<Product> BoQMaterials { get; set; }
-        public List<BoQDivision> BoQDivisions { get; set; }
+        public List<BoqDivisionModel> BoQDivisions { get; set; }
         public List<Accounting_CostCenter> Projects { get; set; }
         public List<BillRequisitionItemBoQMapModel> BoQItemProductMaps { get; set; }
 
