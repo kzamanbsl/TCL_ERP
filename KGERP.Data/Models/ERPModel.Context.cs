@@ -295,8 +295,6 @@ namespace KGERP.Data.Models
         public virtual DbSet<CostCenterManagerMap> CostCenterManagerMaps { get; set; }
         public virtual DbSet<Accounting_CostCenterType> Accounting_CostCenterType { get; set; }
         public virtual DbSet<Unit> Units { get; set; }
-        public virtual DbSet<BoQBudgetDetail> BoQBudgetDetails { get; set; }
-        public virtual DbSet<BoQBudgetMaster> BoQBudgetMasters { get; set; }
         public virtual DbSet<UserLog> UserLogs { get; set; }
         public virtual DbSet<BillRequisitionVoucherMap> BillRequisitionVoucherMaps { get; set; }
         public virtual DbSet<BillBoQItem> BillBoQItems { get; set; }
@@ -313,10 +311,11 @@ namespace KGERP.Data.Models
         public virtual DbSet<VoucherBRMapMasterApproval> VoucherBRMapMasterApprovals { get; set; }
         public virtual DbSet<Accounting_CostCenter> Accounting_CostCenter { get; set; }
         public virtual DbSet<BillRequisitionDetail> BillRequisitionDetails { get; set; }
-        public virtual DbSet<ConsumptionDetail> ConsumptionDetails { get; set; }
-        public virtual DbSet<ConsumptionMaster> ConsumptionMasters { get; set; }
         public virtual DbSet<PurchaseOrder> PurchaseOrders { get; set; }
         public virtual DbSet<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
+        public virtual DbSet<ConsumptionDetail> ConsumptionDetails { get; set; }
+        public virtual DbSet<ConsumptionMaster> ConsumptionMasters { get; set; }
+        public virtual DbSet<BuildingFloor> BuildingFloors { get; set; }
     
         public virtual ObjectResult<GetEmployeeListForTeam_Result> GetEmployeeListForTeam(Nullable<int> companyId)
         {

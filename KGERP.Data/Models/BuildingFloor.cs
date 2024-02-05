@@ -12,21 +12,15 @@ namespace KGERP.Data.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class BoQBudgetDetail
+    public partial class BuildingFloor
     {
-        public long BoQBudgetDetailId { get; set; }
-        public long BoQBudgetMasterId { get; set; }
-        public int ItemUnitId { get; set; }
-        public decimal Quantity { get; set; }
-        public decimal UnitPrice { get; set; }
-        public string Remarks { get; set; }
+        public int BuildingFloorId { get; set; }
+        public string Name { get; set; }
+        public int CompanyId { get; set; }
         public string CreatedBy { get; set; }
-        public System.DateTime CreatedOn { get; set; }
+        public System.DateTime CreatedDate { get; set; }
         public string ModifiedBy { get; set; }
-        public Nullable<System.DateTime> ModifiedOn { get; set; }
+        public Nullable<System.DateTime> ModifiedDate { get; set; }
         public bool IsActive { get; set; }
-    
-        public virtual BoQBudgetMaster BoQBudgetMaster { get; set; }
-        public virtual Unit Unit { get; set; }
     }
 }

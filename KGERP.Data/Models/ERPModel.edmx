@@ -926,37 +926,6 @@ warning 6002: The table/view 'TCLErp.dbo.AttendenceApproveApplication_Shadow' do
           <Property Name="Description" Type="varchar" MaxLength="50" />
           <Property Name="CompanyId" Type="int" />
         </EntityType>
-        <EntityType Name="ConsumptionDetails">
-          <Key>
-            <PropertyRef Name="ConsumptionDetailsId" />
-          </Key>
-          <Property Name="ConsumptionDetailsId" Type="bigint" Nullable="false" />
-          <Property Name="ConsumptionMasterId" Type="bigint" Nullable="false" />
-          <Property Name="ProductSubtypeId" Type="bigint" Nullable="false" />
-          <Property Name="ProductId" Type="bigint" Nullable="false" />
-          <Property Name="UnitPrice" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="ConsumedQty" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="StoredQty" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="RemainingQty" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="TotalAmount" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
-          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" />
-          <Property Name="ModifiedOn" Type="datetime" />
-        </EntityType>
-        <EntityType Name="ConsumptionMaster">
-          <Key>
-            <PropertyRef Name="ConsumptionMasterId" />
-          </Key>
-          <Property Name="ConsumptionMasterId" Type="bigint" Nullable="false" />
-          <Property Name="StoreId" Type="bigint" Nullable="false" />
-          <Property Name="DivisionId" Type="bigint" />
-          <Property Name="BoqItemId" Type="bigint" />
-          <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
-          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" />
-          <Property Name="ModifiedOn" Type="datetime" />
-        </EntityType>
         <EntityType Name="Country">
           <Key>
             <PropertyRef Name="CountryId" />
@@ -3658,38 +3627,6 @@ warning 6002: The table/view 'TCLErp.dbo.TempFeedVoucherDetail' does not have a 
           <Property Name="ModifiedDate" Type="datetime" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
-        <EntityType Name="BoQBudgetDetail">
-          <Key>
-            <PropertyRef Name="BoQBudgetDetailId" />
-          </Key>
-          <Property Name="BoQBudgetDetailId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="BoQBudgetMasterId" Type="bigint" Nullable="false" />
-          <Property Name="ItemUnitId" Type="int" Nullable="false" />
-          <Property Name="Quantity" Type="decimal" Precision="18" Scale="0" Nullable="false" />
-          <Property Name="UnitPrice" Type="decimal" Precision="18" Scale="0" Nullable="false" />
-          <Property Name="Remarks" Type="varchar" MaxLength="355" />
-          <Property Name="CreatedBy" Type="varchar" MaxLength="255" Nullable="false" />
-          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
-          <Property Name="ModifiedBy" Type="varchar" MaxLength="255" />
-          <Property Name="ModifiedOn" Type="datetime" />
-          <Property Name="IsActive" Type="bit" Nullable="false" />
-        </EntityType>
-        <EntityType Name="BoQBudgetMaster">
-          <Key>
-            <PropertyRef Name="BoQBudgetMasterId" />
-          </Key>
-          <Property Name="BoQBudgetMasterId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ProjectId" Type="int" Nullable="false" />
-          <Property Name="BoQDivisionId" Type="bigint" Nullable="false" />
-          <Property Name="BillBoQItemId" Type="int" Nullable="false" />
-          <Property Name="CompanyId" Type="int" Nullable="false" />
-          <Property Name="Description" Type="varchar" MaxLength="355" Nullable="false" />
-          <Property Name="CreatedBy" Type="varchar" MaxLength="255" Nullable="false" />
-          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
-          <Property Name="ModifiedBy" Type="varchar" MaxLength="255" />
-          <Property Name="ModifiedOn" Type="datetime" />
-          <Property Name="IsActive" Type="bit" Nullable="false" />
-        </EntityType>
         <EntityType Name="BoQDivision">
           <Key>
             <PropertyRef Name="BoQDivisionId" />
@@ -3721,6 +3658,50 @@ warning 6002: The table/view 'TCLErp.dbo.TempFeedVoucherDetail' does not have a 
           <Property Name="UnitRate" Type="decimal" Precision="18" Scale="0" />
           <Property Name="EstimatedAmount" Type="decimal" Precision="18" Scale="0" />
           <Property Name="RequisitionSubtypeId" Type="int" />
+        </EntityType>
+        <EntityType Name="BuildingFloor">
+          <Key>
+            <PropertyRef Name="BuildingFloorId" />
+          </Key>
+          <Property Name="BuildingFloorId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CompanyId" Type="int" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ConsumptionDetails">
+          <Key>
+            <PropertyRef Name="ConsumptionDetailsId" />
+          </Key>
+          <Property Name="ConsumptionDetailsId" Type="bigint" Nullable="false" />
+          <Property Name="ConsumptionMasterId" Type="bigint" Nullable="false" />
+          <Property Name="ProductSubtypeId" Type="bigint" Nullable="false" />
+          <Property Name="ProductId" Type="bigint" Nullable="false" />
+          <Property Name="UnitPrice" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="ConsumedQty" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="StoredQty" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="RemainingQty" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="TotalAmount" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" />
+          <Property Name="ModifiedOn" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ConsumptionMaster">
+          <Key>
+            <PropertyRef Name="ConsumptionMasterId" />
+          </Key>
+          <Property Name="ConsumptionMasterId" Type="bigint" Nullable="false" />
+          <Property Name="StoreId" Type="bigint" Nullable="false" />
+          <Property Name="DivisionId" Type="bigint" />
+          <Property Name="BoqItemId" Type="bigint" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" />
+          <Property Name="ModifiedOn" Type="datetime" />
         </EntityType>
         <EntityType Name="ConvertedProduct">
           <Key>
@@ -6571,54 +6552,6 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_BoQBudgetDetail_BoQBudgetMaster">
-          <End Role="BoQBudgetMaster" Type="Self.BoQBudgetMaster" Multiplicity="1" />
-          <End Role="BoQBudgetDetail" Type="Self.BoQBudgetDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BoQBudgetMaster">
-              <PropertyRef Name="BoQBudgetMasterId" />
-            </Principal>
-            <Dependent Role="BoQBudgetDetail">
-              <PropertyRef Name="BoQBudgetMasterId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_BoQBudgetDetail_Unit">
-          <End Role="Unit" Type="Self.Unit" Multiplicity="1" />
-          <End Role="BoQBudgetDetail" Type="Self.BoQBudgetDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Unit">
-              <PropertyRef Name="UnitId" />
-            </Principal>
-            <Dependent Role="BoQBudgetDetail">
-              <PropertyRef Name="ItemUnitId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_BoQBudgetMaster_Accounting_CostCenter">
-          <End Role="Accounting_CostCenter" Type="Self.Accounting_CostCenter" Multiplicity="1" />
-          <End Role="BoQBudgetMaster" Type="Self.BoQBudgetMaster" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Accounting_CostCenter">
-              <PropertyRef Name="CostCenterId" />
-            </Principal>
-            <Dependent Role="BoQBudgetMaster">
-              <PropertyRef Name="ProjectId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_BoQBudgetMaster_Company">
-          <End Role="Company" Type="Self.Company" Multiplicity="1" />
-          <End Role="BoQBudgetMaster" Type="Self.BoQBudgetMaster" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Company">
-              <PropertyRef Name="CompanyId" />
-            </Principal>
-            <Dependent Role="BoQBudgetMaster">
-              <PropertyRef Name="CompanyId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_BoQDivision_Accounting_CostCenter">
           <End Role="Accounting_CostCenter" Type="Self.Accounting_CostCenter" Multiplicity="1" />
           <End Role="BoQDivision" Type="Self.BoQDivision" Multiplicity="*" />
@@ -8927,8 +8860,6 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <EntitySet Name="CompanyVoucher" EntityType="Self.CompanyVoucher" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ComplainManagement" EntityType="Self.ComplainManagement" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ComplainType" EntityType="Self.ComplainType" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ConsumptionDetails" EntityType="Self.ConsumptionDetails" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ConsumptionMaster" EntityType="Self.ConsumptionMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CreditRecover" EntityType="Self.CreditRecover" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CreditRecoverDetail" EntityType="Self.CreditRecoverDetail" Schema="dbo" store:Type="Tables" />
@@ -9060,10 +8991,11 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <EntitySet Name="BookingCostMapping" EntityType="Self.BookingCostMapping" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="BookingInstallmentSchedule" EntityType="Self.BookingInstallmentSchedule" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="BookingInstallmentType" EntityType="Self.BookingInstallmentType" Schema="Erp" store:Type="Tables" />
-          <EntitySet Name="BoQBudgetDetail" EntityType="Self.BoQBudgetDetail" Schema="Erp" store:Type="Tables" />
-          <EntitySet Name="BoQBudgetMaster" EntityType="Self.BoQBudgetMaster" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="BoQDivision" EntityType="Self.BoQDivision" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="BoQItemProductMap" EntityType="Self.BoQItemProductMap" Schema="Erp" store:Type="Tables" />
+          <EntitySet Name="BuildingFloor" EntityType="Self.BuildingFloor" Schema="Erp" store:Type="Tables" />
+          <EntitySet Name="ConsumptionDetails" EntityType="Self.ConsumptionDetails" Schema="Erp" store:Type="Tables" />
+          <EntitySet Name="ConsumptionMaster" EntityType="Self.ConsumptionMaster" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="ConvertedProduct" EntityType="Self.ConvertedProduct" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="CostCenterManagerMap" EntityType="Self.CostCenterManagerMap" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="CustomerGroupInfo" EntityType="Self.CustomerGroupInfo" Schema="Erp" store:Type="Tables" />
@@ -9917,22 +9849,6 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <AssociationSet Name="FK_BookingInstallmentSchedule_ProductBookingInfo" Association="Self.FK_BookingInstallmentSchedule_ProductBookingInfo">
             <End Role="ProductBookingInfo" EntitySet="ProductBookingInfo" />
             <End Role="BookingInstallmentSchedule" EntitySet="BookingInstallmentSchedule" />
-          </AssociationSet>
-          <AssociationSet Name="FK_BoQBudgetDetail_BoQBudgetMaster" Association="Self.FK_BoQBudgetDetail_BoQBudgetMaster">
-            <End Role="BoQBudgetMaster" EntitySet="BoQBudgetMaster" />
-            <End Role="BoQBudgetDetail" EntitySet="BoQBudgetDetail" />
-          </AssociationSet>
-          <AssociationSet Name="FK_BoQBudgetDetail_Unit" Association="Self.FK_BoQBudgetDetail_Unit">
-            <End Role="Unit" EntitySet="Unit" />
-            <End Role="BoQBudgetDetail" EntitySet="BoQBudgetDetail" />
-          </AssociationSet>
-          <AssociationSet Name="FK_BoQBudgetMaster_Accounting_CostCenter" Association="Self.FK_BoQBudgetMaster_Accounting_CostCenter">
-            <End Role="Accounting_CostCenter" EntitySet="Accounting_CostCenter" />
-            <End Role="BoQBudgetMaster" EntitySet="BoQBudgetMaster" />
-          </AssociationSet>
-          <AssociationSet Name="FK_BoQBudgetMaster_Company" Association="Self.FK_BoQBudgetMaster_Company">
-            <End Role="Company" EntitySet="Company" />
-            <End Role="BoQBudgetMaster" EntitySet="BoQBudgetMaster" />
           </AssociationSet>
           <AssociationSet Name="FK_BoQDivision_Accounting_CostCenter" Association="Self.FK_BoQDivision_Accounting_CostCenter">
             <End Role="Accounting_CostCenter" EntitySet="Accounting_CostCenter" />
@@ -11851,20 +11767,6 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             <End Role="Unit" EntitySet="Units" />
             <End Role="ProductionMaster" EntitySet="ProductionMasters" />
           </AssociationSet>
-          <EntitySet Name="BoQBudgetDetails" EntityType="ERPModel.BoQBudgetDetail" />
-          <EntitySet Name="BoQBudgetMasters" EntityType="ERPModel.BoQBudgetMaster" />
-          <AssociationSet Name="FK_BoQBudgetMaster_Company" Association="ERPModel.FK_BoQBudgetMaster_Company">
-            <End Role="Company" EntitySet="Companies" />
-            <End Role="BoQBudgetMaster" EntitySet="BoQBudgetMasters" />
-          </AssociationSet>
-          <AssociationSet Name="FK_BoQBudgetDetail_BoQBudgetMaster" Association="ERPModel.FK_BoQBudgetDetail_BoQBudgetMaster">
-            <End Role="BoQBudgetMaster" EntitySet="BoQBudgetMasters" />
-            <End Role="BoQBudgetDetail" EntitySet="BoQBudgetDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_BoQBudgetDetail_Unit" Association="ERPModel.FK_BoQBudgetDetail_Unit">
-            <End Role="Unit" EntitySet="Units" />
-            <End Role="BoQBudgetDetail" EntitySet="BoQBudgetDetails" />
-          </AssociationSet>
           <EntitySet Name="UserLogs" EntityType="ERPModel.UserLog" />
           <AssociationSet Name="FK_UserLog_Company" Association="ERPModel.FK_UserLog_Company">
             <End Role="Company" EntitySet="Companies" />
@@ -12028,10 +11930,6 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             <End Role="Accounting_CostCenterType" EntitySet="Accounting_CostCenterType" />
             <End Role="Accounting_CostCenter" EntitySet="Accounting_CostCenter" />
           </AssociationSet>
-          <AssociationSet Name="FK_BoQBudgetMaster_Accounting_CostCenter" Association="ERPModel.FK_BoQBudgetMaster_Accounting_CostCenter">
-            <End Role="Accounting_CostCenter" EntitySet="Accounting_CostCenter" />
-            <End Role="BoQBudgetMaster" EntitySet="BoQBudgetMasters" />
-          </AssociationSet>
           <AssociationSet Name="FK_BoQDivision_Accounting_CostCenter" Association="ERPModel.FK_BoQDivision_Accounting_CostCenter">
             <End Role="Accounting_CostCenter" EntitySet="Accounting_CostCenter" />
             <End Role="BoQDivision" EntitySet="BoQDivisions" />
@@ -12041,8 +11939,6 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             <End Role="CostCenterManagerMap" EntitySet="CostCenterManagerMaps" />
           </AssociationSet>
           <EntitySet Name="BillRequisitionDetails" EntityType="ERPModel.BillRequisitionDetail" />
-          <EntitySet Name="ConsumptionDetails" EntityType="ERPModel.ConsumptionDetail" />
-          <EntitySet Name="ConsumptionMasters" EntityType="ERPModel.ConsumptionMaster" />
           <EntitySet Name="PurchaseOrders" EntityType="ERPModel.PurchaseOrder" />
           <EntitySet Name="PurchaseOrderDetails" EntityType="ERPModel.PurchaseOrderDetail" />
           <AssociationSet Name="FK_PurchaseOrder_ModeOfPurchase" Association="ERPModel.FK_PurchaseOrder_ModeOfPurchase">
@@ -12085,6 +11981,9 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
             <End Role="VendorDepositHistory" EntitySet="VendorDepositHistories" />
           </AssociationSet>
+          <EntitySet Name="ConsumptionDetails" EntityType="ERPModel.ConsumptionDetail" />
+          <EntitySet Name="ConsumptionMasters" EntityType="ERPModel.ConsumptionMaster" />
+          <EntitySet Name="BuildingFloors" EntityType="ERPModel.BuildingFloor" />
           </EntityContainer>
         <EntityType Name="AdminPolicy">
           <Key>
@@ -17566,7 +17465,6 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <NavigationProperty Name="BatchPaymentDetails" Relationship="ERPModel.FK_BatchPaymentDetail_Company" FromRole="Company" ToRole="BatchPaymentDetail" />
           <NavigationProperty Name="BatchPaymentMasters" Relationship="ERPModel.FK_Table_1_Table_1" FromRole="Company" ToRole="BatchPaymentMaster" />
           <NavigationProperty Name="Units" Relationship="ERPModel.FK_Unit_Company" FromRole="Company" ToRole="Unit" />
-          <NavigationProperty Name="BoQBudgetMasters" Relationship="ERPModel.FK_BoQBudgetMaster_Company" FromRole="Company" ToRole="BoQBudgetMaster" />
           <NavigationProperty Name="UserLogs" Relationship="ERPModel.FK_UserLog_Company" FromRole="Company" ToRole="UserLog" />
           <NavigationProperty Name="BillRequisitionVoucherMaps" Relationship="ERPModel.FK_VoucherBillRequisitionMap_Company" FromRole="Company" ToRole="BillRequisitionVoucherMap" />
           <NavigationProperty Name="BillReqApprovalHistories" Relationship="ERPModel.FK_BillReqApprovalHistory_Company" FromRole="Company" ToRole="BillReqApprovalHistory" />
@@ -20494,7 +20392,6 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <NavigationProperty Name="Company" Relationship="ERPModel.FK_Unit_Company" FromRole="Unit" ToRole="Company" />
           <NavigationProperty Name="Products" Relationship="ERPModel.FK_Product_Unit" FromRole="Unit" ToRole="Product" />
           <NavigationProperty Name="ProductionMasters" Relationship="ERPModel.FK_ProductionMaster_Unit" FromRole="Unit" ToRole="ProductionMaster" />
-          <NavigationProperty Name="BoQBudgetDetails" Relationship="ERPModel.FK_BoQBudgetDetail_Unit" FromRole="Unit" ToRole="BoQBudgetDetail" />
         </EntityType>
         <Association Name="FK_Unit_Company">
           <End Type="ERPModel.Company" Role="Company" Multiplicity="0..1" />
@@ -20529,79 +20426,6 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             </Principal>
             <Dependent Role="ProductionMaster">
               <PropertyRef Name="UnitId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="BoQBudgetDetail">
-          <Key>
-            <PropertyRef Name="BoQBudgetDetailId" />
-          </Key>
-          <Property Name="BoQBudgetDetailId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="BoQBudgetMasterId" Type="Int64" Nullable="false" />
-          <Property Name="ItemUnitId" Type="Int32" Nullable="false" />
-          <Property Name="Quantity" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
-          <Property Name="UnitPrice" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
-          <Property Name="Remarks" Type="String" MaxLength="355" FixedLength="false" Unicode="false" />
-          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="BoQBudgetMaster" Relationship="ERPModel.FK_BoQBudgetDetail_BoQBudgetMaster" FromRole="BoQBudgetDetail" ToRole="BoQBudgetMaster" />
-          <NavigationProperty Name="Unit" Relationship="ERPModel.FK_BoQBudgetDetail_Unit" FromRole="BoQBudgetDetail" ToRole="Unit" />
-        </EntityType>
-        <EntityType Name="BoQBudgetMaster">
-          <Key>
-            <PropertyRef Name="BoQBudgetMasterId" />
-          </Key>
-          <Property Name="BoQBudgetMasterId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ProjectId" Type="Int32" Nullable="false" />
-          <Property Name="BoQDivisionId" Type="Int64" Nullable="false" />
-          <Property Name="BillBoQItemId" Type="Int32" Nullable="false" />
-          <Property Name="CompanyId" Type="Int32" Nullable="false" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="355" FixedLength="false" Unicode="false" />
-          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Company" Relationship="ERPModel.FK_BoQBudgetMaster_Company" FromRole="BoQBudgetMaster" ToRole="Company" />
-          <NavigationProperty Name="BoQBudgetDetails" Relationship="ERPModel.FK_BoQBudgetDetail_BoQBudgetMaster" FromRole="BoQBudgetMaster" ToRole="BoQBudgetDetail" />
-          <NavigationProperty Name="Accounting_CostCenter" Relationship="ERPModel.FK_BoQBudgetMaster_Accounting_CostCenter" FromRole="BoQBudgetMaster" ToRole="Accounting_CostCenter" />
-        </EntityType>
-        <Association Name="FK_BoQBudgetMaster_Company">
-          <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
-          <End Type="ERPModel.BoQBudgetMaster" Role="BoQBudgetMaster" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Company">
-              <PropertyRef Name="CompanyId" />
-            </Principal>
-            <Dependent Role="BoQBudgetMaster">
-              <PropertyRef Name="CompanyId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_BoQBudgetDetail_BoQBudgetMaster">
-          <End Type="ERPModel.BoQBudgetMaster" Role="BoQBudgetMaster" Multiplicity="1" />
-          <End Type="ERPModel.BoQBudgetDetail" Role="BoQBudgetDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BoQBudgetMaster">
-              <PropertyRef Name="BoQBudgetMasterId" />
-            </Principal>
-            <Dependent Role="BoQBudgetDetail">
-              <PropertyRef Name="BoQBudgetMasterId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_BoQBudgetDetail_Unit">
-          <End Type="ERPModel.Unit" Role="Unit" Multiplicity="1" />
-          <End Type="ERPModel.BoQBudgetDetail" Role="BoQBudgetDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Unit">
-              <PropertyRef Name="UnitId" />
-            </Principal>
-            <Dependent Role="BoQBudgetDetail">
-              <PropertyRef Name="ItemUnitId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -21401,7 +21225,6 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <Property Name="CostCenterTypeId" Type="Int32" />
           <Property Name="ShortName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Accounting_CostCenterType" Relationship="ERPModel.FK_Accounting_CostCenter_Accounting_CostCenterType" FromRole="Accounting_CostCenter" ToRole="Accounting_CostCenterType" />
-          <NavigationProperty Name="BoQBudgetMasters" Relationship="ERPModel.FK_BoQBudgetMaster_Accounting_CostCenter" FromRole="Accounting_CostCenter" ToRole="BoQBudgetMaster" />
           <NavigationProperty Name="BoQDivisions" Relationship="ERPModel.FK_BoQDivision_Accounting_CostCenter" FromRole="Accounting_CostCenter" ToRole="BoQDivision" />
           <NavigationProperty Name="CostCenterManagerMaps" Relationship="ERPModel.FK_CostCenterManagerMap_Accounting_CostCenter" FromRole="Accounting_CostCenter" ToRole="CostCenterManagerMap" />
         </EntityType>
@@ -21414,18 +21237,6 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             </Principal>
             <Dependent Role="Accounting_CostCenter">
               <PropertyRef Name="CostCenterTypeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_BoQBudgetMaster_Accounting_CostCenter">
-          <End Type="ERPModel.Accounting_CostCenter" Role="Accounting_CostCenter" Multiplicity="1" />
-          <End Type="ERPModel.BoQBudgetMaster" Role="BoQBudgetMaster" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Accounting_CostCenter">
-              <PropertyRef Name="CostCenterId" />
-            </Principal>
-            <Dependent Role="BoQBudgetMaster">
-              <PropertyRef Name="ProjectId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -21482,37 +21293,6 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <Property Name="DocPath" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="PurchaseOrderDetails" Relationship="ERPModel.FK_PurchaseOrderDetail_BillRequisitionDetail" FromRole="BillRequisitionDetail" ToRole="PurchaseOrderDetail" />
-        </EntityType>
-        <EntityType Name="ConsumptionDetail">
-          <Key>
-            <PropertyRef Name="ConsumptionDetailsId" />
-          </Key>
-          <Property Name="ConsumptionDetailsId" Type="Int64" Nullable="false" />
-          <Property Name="ConsumptionMasterId" Type="Int64" Nullable="false" />
-          <Property Name="ProductSubtypeId" Type="Int64" Nullable="false" />
-          <Property Name="ProductId" Type="Int64" Nullable="false" />
-          <Property Name="UnitPrice" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="ConsumedQty" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="StoredQty" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="RemainingQty" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="TotalAmount" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
-        </EntityType>
-        <EntityType Name="ConsumptionMaster">
-          <Key>
-            <PropertyRef Name="ConsumptionMasterId" />
-          </Key>
-          <Property Name="ConsumptionMasterId" Type="Int64" Nullable="false" />
-          <Property Name="StoreId" Type="Int64" Nullable="false" />
-          <Property Name="DivisionId" Type="Int64" />
-          <Property Name="BoqItemId" Type="Int64" />
-          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="PurchaseOrder">
           <Key>
@@ -21720,6 +21500,50 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="ConsumptionDetail">
+          <Key>
+            <PropertyRef Name="ConsumptionDetailsId" />
+          </Key>
+          <Property Name="ConsumptionDetailsId" Type="Int64" Nullable="false" />
+          <Property Name="ConsumptionMasterId" Type="Int64" Nullable="false" />
+          <Property Name="ProductSubtypeId" Type="Int64" Nullable="false" />
+          <Property Name="ProductId" Type="Int64" Nullable="false" />
+          <Property Name="UnitPrice" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="ConsumedQty" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="StoredQty" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="RemainingQty" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="TotalAmount" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="ConsumptionMaster">
+          <Key>
+            <PropertyRef Name="ConsumptionMasterId" />
+          </Key>
+          <Property Name="ConsumptionMasterId" Type="Int64" Nullable="false" />
+          <Property Name="StoreId" Type="Int64" Nullable="false" />
+          <Property Name="DivisionId" Type="Int64" />
+          <Property Name="BoqItemId" Type="Int64" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="BuildingFloor">
+          <Key>
+            <PropertyRef Name="BuildingFloorId" />
+          </Key>
+          <Property Name="BuildingFloorId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -27196,40 +27020,6 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="BoQBudgetDetails">
-            <EntityTypeMapping TypeName="ERPModel.BoQBudgetDetail">
-              <MappingFragment StoreEntitySet="BoQBudgetDetail">
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
-                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
-                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="ItemUnitId" ColumnName="ItemUnitId" />
-                <ScalarProperty Name="BoQBudgetMasterId" ColumnName="BoQBudgetMasterId" />
-                <ScalarProperty Name="BoQBudgetDetailId" ColumnName="BoQBudgetDetailId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="BoQBudgetMasters">
-            <EntityTypeMapping TypeName="ERPModel.BoQBudgetMaster">
-              <MappingFragment StoreEntitySet="BoQBudgetMaster">
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
-                <ScalarProperty Name="BillBoQItemId" ColumnName="BillBoQItemId" />
-                <ScalarProperty Name="BoQDivisionId" ColumnName="BoQDivisionId" />
-                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
-                <ScalarProperty Name="BoQBudgetMasterId" ColumnName="BoQBudgetMasterId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="UserLogs">
             <EntityTypeMapping TypeName="ERPModel.UserLog">
               <MappingFragment StoreEntitySet="UserLog">
@@ -27593,39 +27383,6 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ConsumptionDetails">
-            <EntityTypeMapping TypeName="ERPModel.ConsumptionDetail">
-              <MappingFragment StoreEntitySet="ConsumptionDetails">
-                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
-                <ScalarProperty Name="RemainingQty" ColumnName="RemainingQty" />
-                <ScalarProperty Name="StoredQty" ColumnName="StoredQty" />
-                <ScalarProperty Name="ConsumedQty" ColumnName="ConsumedQty" />
-                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
-                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-                <ScalarProperty Name="ProductSubtypeId" ColumnName="ProductSubtypeId" />
-                <ScalarProperty Name="ConsumptionMasterId" ColumnName="ConsumptionMasterId" />
-                <ScalarProperty Name="ConsumptionDetailsId" ColumnName="ConsumptionDetailsId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ConsumptionMasters">
-            <EntityTypeMapping TypeName="ERPModel.ConsumptionMaster">
-              <MappingFragment StoreEntitySet="ConsumptionMaster">
-                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="BoqItemId" ColumnName="BoqItemId" />
-                <ScalarProperty Name="DivisionId" ColumnName="DivisionId" />
-                <ScalarProperty Name="StoreId" ColumnName="StoreId" />
-                <ScalarProperty Name="ConsumptionMasterId" ColumnName="ConsumptionMasterId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="PurchaseOrders">
             <EntityTypeMapping TypeName="ERPModel.PurchaseOrder">
               <MappingFragment StoreEntitySet="PurchaseOrder">
@@ -27700,6 +27457,53 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />
                 <ScalarProperty Name="PurchaseOrderId" ColumnName="PurchaseOrderId" />
                 <ScalarProperty Name="PurchaseOrderDetailId" ColumnName="PurchaseOrderDetailId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ConsumptionDetails">
+            <EntityTypeMapping TypeName="ERPModel.ConsumptionDetail">
+              <MappingFragment StoreEntitySet="ConsumptionDetails">
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+                <ScalarProperty Name="RemainingQty" ColumnName="RemainingQty" />
+                <ScalarProperty Name="StoredQty" ColumnName="StoredQty" />
+                <ScalarProperty Name="ConsumedQty" ColumnName="ConsumedQty" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="ProductSubtypeId" ColumnName="ProductSubtypeId" />
+                <ScalarProperty Name="ConsumptionMasterId" ColumnName="ConsumptionMasterId" />
+                <ScalarProperty Name="ConsumptionDetailsId" ColumnName="ConsumptionDetailsId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ConsumptionMasters">
+            <EntityTypeMapping TypeName="ERPModel.ConsumptionMaster">
+              <MappingFragment StoreEntitySet="ConsumptionMaster">
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="BoqItemId" ColumnName="BoqItemId" />
+                <ScalarProperty Name="DivisionId" ColumnName="DivisionId" />
+                <ScalarProperty Name="StoreId" ColumnName="StoreId" />
+                <ScalarProperty Name="ConsumptionMasterId" ColumnName="ConsumptionMasterId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BuildingFloors">
+            <EntityTypeMapping TypeName="ERPModel.BuildingFloor">
+              <MappingFragment StoreEntitySet="BuildingFloor">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="BuildingFloorId" ColumnName="BuildingFloorId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

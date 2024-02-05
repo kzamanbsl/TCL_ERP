@@ -49,7 +49,6 @@ namespace KGERP.Data.Models
             this.BatchPaymentDetails = new HashSet<BatchPaymentDetail>();
             this.BatchPaymentMasters = new HashSet<BatchPaymentMaster>();
             this.Units = new HashSet<Unit>();
-            this.BoQBudgetMasters = new HashSet<BoQBudgetMaster>();
             this.UserLogs = new HashSet<UserLog>();
             this.BillRequisitionVoucherMaps = new HashSet<BillRequisitionVoucherMap>();
             this.BillReqApprovalHistories = new HashSet<BillReqApprovalHistory>();
@@ -148,8 +147,6 @@ namespace KGERP.Data.Models
         public virtual ICollection<BatchPaymentMaster> BatchPaymentMasters { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Unit> Units { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BoQBudgetMaster> BoQBudgetMasters { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserLog> UserLogs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
