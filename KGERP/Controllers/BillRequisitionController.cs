@@ -39,7 +39,7 @@ namespace KGERP.Controllers
         #region All Json Action Method for Requisition
 
         // get material budget info
-        public async Task<JsonResult> GetMaterialBudgetInfo(long boqId, long productId)
+        public async Task<JsonResult> GetMaterialBudgetInfo(long projectId = 0, long boqId = 0, long productId = 0)
         {
             decimal EstimateQty = 0;
             decimal UnitRate = 0;
@@ -51,21 +51,21 @@ namespace KGERP.Controllers
             {
                 EstimateQty = (decimal)getData.EstimatedQty;
                 UnitRate = (decimal)getData.UnitRate;
-                ReceivedSoFar = _service.ReceivedSoFarTotal(boqId, productId);
+                ReceivedSoFar = _service.ReceivedSoFarTotal(projectId, boqId, productId);
                 RemainingQty = EstimateQty - ReceivedSoFar;
             }
 
             return Json(new { EstimateQty = EstimateQty, UnitRate = UnitRate, ReceivedSoFar = ReceivedSoFar, RemainingQty = RemainingQty }, JsonRequestBehavior.AllowGet);
         }
 
-        public async Task<JsonResult> GetMaterialBudgetInfoForOverhead(long productId)
+        public async Task<JsonResult> GetMaterialBudgetInfoForOverhead(long projectId = 0, long productId = 0)
         {
             decimal EstimateQty = 0;
             decimal UnitRate = 0;
             decimal? ReceivedSoFar = 0;
             decimal? RemainingQty = 0;
-
-            ReceivedSoFar = _service.ReceivedSoFarTotal(0, productId);
+            var boqId = 0;
+            ReceivedSoFar = _service.ReceivedSoFarTotal(projectId, boqId, productId);
 
             return Json(new { EstimateQty = EstimateQty, UnitRate = UnitRate, ReceivedSoFar = ReceivedSoFar, RemainingQty = RemainingQty }, JsonRequestBehavior.AllowGet);
         }

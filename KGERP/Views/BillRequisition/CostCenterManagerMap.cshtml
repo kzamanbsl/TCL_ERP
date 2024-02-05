@@ -95,9 +95,10 @@
                             <thead>
                                 <tr>
                                     <th>SL</th>
+                                    <th>Project Type</th>
                                     <th>Project Name</th>
                                     <th>Manager Name</th>
-                                    <th>Manager Id</th>
+                                    <th>Employee Id</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -114,9 +115,10 @@
                                                     <input type="hidden" id="costCenterId_@item.CostCenterManagerMapId" name="CostCenterId" value="@item.ProjectId" />
                                                     <input type="hidden" id="costCenterManagerId_@item.CostCenterManagerMapId" name="CostCenterManagerId" value="@item.EmployeeRowId" />
                                                 </td>
-                                                <td id="tdProjectName_@item.CostCenterManagerMapId">@Model.Projects.FirstOrDefault(c => c.CostCenterId == item.ProjectId).Name</td>
-                                                <td id="tdEmployeeName_@item.CostCenterManagerMapId">@Model.Employees.FirstOrDefault(c => c.Id == item.EmployeeRowId).Name</td>
-                                                <td id="tdEmployeeName_@item.CostCenterManagerMapId">@Model.Employees.FirstOrDefault(c => c.Id == item.EmployeeRowId).EmployeeId</td>
+                                                <td id="tdProjectType_@item.CostCenterManagerMapId">@item.ProjectTypeName</td>
+                                                <td id="tdProjectName_@item.CostCenterManagerMapId">@item.ProjectName</td>
+                                                <td id="tdEmployeeName_@item.CostCenterManagerMapId">@item.EmployeeName</td>
+                                                <td id="tdEmployeeId_@item.CostCenterManagerMapId">@item.EmployeeId</td>
                                                 <td>
                                                     <a id="@item.CostCenterManagerMapId" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
 

@@ -15,10 +15,11 @@ namespace KGERP.Service.ServiceModel
         public int ProjectId { get; set; }
         [Required]
         public long EmployeeRowId { get; set; }
-
+        public long ProjectTypeId { get; set; }
+        public string ProjectTypeName { get; set; }
         public string ProjectName { get; set; }
-        public string EmployeeName { get; set; }
         public string EmployeeId { get; set; }
+        public string EmployeeName { get; set; }
 
         public List<Employee> Employees { get; set; }
         public List<Employee> EmployeesWithId { get; set; }

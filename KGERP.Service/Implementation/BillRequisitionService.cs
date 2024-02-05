@@ -190,15 +190,26 @@ namespace KGERP.Service.Implementation
         #region Project Manager Assign
         public async Task<List<CostCenterManagerMapModel>> GetCostCenterManagerMapList(int companyId)
         {
-            return await _context.CostCenterManagerMaps
-                .Where(c => c.CompanyId == companyId && c.IsActive)
-                .Select(item => new CostCenterManagerMapModel
-                {
-                    CostCenterManagerMapId = item.CostCenterManagerMapId,
-                    ProjectId = item.CostCenterId,
-                    EmployeeRowId = item.ManagerId,
-                })
-                .ToListAsync();
+            var data = await (from t1 in _context.CostCenterManagerMaps
+                              .Where(x => x.CompanyId == companyId && x.IsActive)
+                              join t2 in _context.Employees on t1.ManagerId equals t2.Id into t2_Join
+                              from t2 in t2_Join.DefaultIfEmpty()
+                              join t3 in _context.Accounting_CostCenter on t1.CostCenterId equals t3.CostCenterId into t3_Join
+                              from t3 in t3_Join.DefaultIfEmpty()
+                              join t4 in _context.Accounting_CostCenterType on t3.CostCenterTypeId equals t4.CostCenterTypeId into t4_Join
+                              from t4 in t4_Join.DefaultIfEmpty()
+                              select new CostCenterManagerMapModel
+                              {
+                                  CostCenterManagerMapId = t1.CostCenterManagerMapId,
+                                  ProjectId = t3.CostCenterId,
+                                  ProjectName = t3.Name,
+                                  ProjectTypeId = t4.CostCenterTypeId,
+                                  ProjectTypeName = t4.Name,
+                                  EmployeeRowId = t2.Id,
+                                  EmployeeId = t2.EmployeeId,
+                                  EmployeeName = t2.Name
+                              }).ToListAsync();
+            return data;
         }
 
         public bool Add(CostCenterManagerMapModel model)
@@ -2769,7 +2780,7 @@ namespace KGERP.Service.Implementation
             return productList;
         }
 
-        public decimal ReceivedSoFarTotal(long boqId, long productId)
+        public decimal ReceivedSoFarTotal(long projectId = 0, long boqId = 0, long productId = 0)
         {
             decimal total = 0M;
 
@@ -2794,11 +2805,11 @@ namespace KGERP.Service.Implementation
             else
             {
                 var getRequisitionByBoqId = from t1 in _context.BillRequisitionMasters
-                                            .Where(x => x.StatusId == (int)EnumBillRequisitionStatus.Approved && x.IsActive)
+                                            .Where(x => x.CostCenterId == projectId && x.StatusId == (int)EnumBillRequisitionStatus.Approved && x.IsActive)
                                             join t2 in _context.BillRequisitionDetails
                                             on t1.BillRequisitionMasterId equals t2.BillRequisitionMasterId into t2_Join
                                             from t2 in t2_Join
-                                            .Where(x => x.BoQItemId == boqId && x.ProductId == productId)
+                                            .Where(x => x.ProductId == productId)
                                             select new
                                             {
                                                 DemandQty = t2.DemandQty ?? 0

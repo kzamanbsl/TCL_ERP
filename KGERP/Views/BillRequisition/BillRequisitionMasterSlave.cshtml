@@ -1140,6 +1140,7 @@
             var requisitionType = $("#ddlBRTypeId option:selected").val();
             var boqId = $("#ddlBOQItemId option:selected").val();
             var productId = $("#ddlRequisitionItemId option:selected").val();
+            var projectId = $("#ddlCostCenterId option:selected").val();
             var showEstimate = $("#decEstimatedQty");
             var showUnitRate = $("#decUnitRate");
             var showReceivedSoFar = $("#decReceivedSoFar");
@@ -1150,9 +1151,9 @@
             if (requisitionType == @((int)EnumBillRequisitionType.Overhead)) {
                 $.ajax({
                     type: "GET",
-                    url: "/BillRequisition/GetMaterialBudgetInfo",
+                    url: "/BillRequisition/GetMaterialBudgetInfoForOverhead",
                     dataType: "json",
-                    data: { boqId: 0, productId: productId },
+                    data: { projectId: projectId, productId: productId },
                     success: function (data) {
                         if (data) {
                             showEstimate.val(data.EstimateQty);
@@ -1169,7 +1170,7 @@
                     type: "GET",
                     url: "/BillRequisition/GetMaterialBudgetInfo",
                     dataType: "json",
-                    data: { boqId: boqId, productId: productId },
+                    data: { projectId: projectId, boqId: boqId, productId: productId },
                     success: function (data) {
                         if (data) {
                             showEstimate.val(data.EstimateQty);
@@ -1186,7 +1187,6 @@
 
         // make submitable form
         function makeSubmitble(rowId) {
-
             if (@Model.StatusId == 0) {
                 $('.submitOrDraftText').text("Make Submit");
             }

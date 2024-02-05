@@ -123,7 +123,7 @@ namespace KGERP.Service.Interface
         List<ProductSubCategory> GetSubcategoryByBoq(long id);
         List<Product> GetMaterialByBoqId(long boqId);
         List<Product> GetMaterialByBoqOverhead(int requisitionSubtypeId);
-        decimal ReceivedSoFarTotal(long boqId, long productId);
+        decimal ReceivedSoFarTotal(long projectId, long boqId, long productId);
         Task<BoQItemProductMap> BoqMaterialBudget(long boqId, long productId);
         Task<object> ApprovedRequisitionDemand(long requisitionId, long materialId);
         List<object> ApprovedRequisitionList(int companyId);
