@@ -30,22 +30,19 @@ namespace KGERP.Service.Implementation
         // Building for floor
         public async Task<List<BuildingFloorModel>> GetFloorList(int companyId)
         {
-            var floors = await _context.BuildingFloors
-                .Where(c => c.CompanyId == companyId && c.IsActive)
-                .ToListAsync();
-
-            var returnData = floors.Select(projectType => new BuildingFloorModel
-            {
-                BuildingFloorId = projectType.BuildingFloorId,
-                Name = projectType.Name,
-                CompanyFK = projectType.CompanyId,
-                CreatedBy = projectType.CreatedBy,
-                CreatedDate = projectType.CreatedDate,
-                ModifiedBy = projectType.ModifiedBy,
-                ModifiedDate = (DateTime)projectType.ModifiedDate,
-            }).ToList();
-
-            return returnData;
+            var data = await (from t1 in _context.BuildingFloors
+                              where t1.IsActive
+                              select new BuildingFloorModel
+                              {
+                                  BuildingFloorId = t1.BuildingFloorId,
+                                  Name = t1.Name,
+                                  CompanyFK = t1.CompanyId,
+                                  CreatedBy = t1.CreatedBy,
+                                  CreatedDate = t1.CreatedDate,
+                                  ModifiedBy = t1.ModifiedBy,
+                                  ModifiedDate = (DateTime)t1.ModifiedDate,
+                              }).ToListAsync();
+            return data;
         }
 
         public async Task<bool> Add(BuildingFloorModel model)

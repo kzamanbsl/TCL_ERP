@@ -38,7 +38,7 @@
                                 @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
 
                                 <div class="form-group">
-                                    <label asp-for="Name" class="form-control-label">Floor Name<sup>*</sup></label>
+                                    <label asp-for="Name" class="form-control-label">Floor Name<sup class="text-danger"><b>*</b></sup></label>
                                     @Html.TextBoxFor(model => model.Name, new { id = "txtFloorName", @class = "form-control", @placeholder = "Floor name", required = "true" })
                                     @Html.ValidationMessageFor(model => model.Name, "", new { id = "nameExist", @class = "text-danger" })
                                 </div>
@@ -80,9 +80,9 @@
                                                     <tr>
                                                         <td>
                                                             @(++sl)
-                                                            <input type="hidden" id="costCentertype_@item.BuildingFloorId" name="BuildingFloorId" value="@item.BuildingFloorId" />
+                                                            <input type="hidden" id="tdBuildingFloorId_@item.BuildingFloorId" name="BuildingFloorId" value="@item.BuildingFloorId" />
                                                         </td>
-                                                        <td id="tdCostCenterTypeName_@item.BuildingFloorId">@item.Name</td>
+                                                        <td id="tdFloorName_@item.BuildingFloorId">@item.Name</td>
                                                         <td>
                                                             <a id="@item.BuildingFloorId" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
 
@@ -104,7 +104,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </section>
 }
@@ -153,9 +152,8 @@
                 $('#BuildingFloorId').val(rowId);
                 $('#ActionId').val(2);
                 $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Update");
-                $('#txtFloorName').val($('#tdCostCenterTypeName_' + rowId).text().trim());
+                $('#txtFloorName').val($('#tdFloorName_' + rowId).text().trim());
                 window.scrollTo({ top: 0, behavior: 'smooth' });
-                console.log(rowId);
             }
         }
 
