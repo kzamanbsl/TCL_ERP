@@ -12,17 +12,15 @@ namespace KGERP.Data.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class ConsumptionMaster
+    public partial class BuildingMember
     {
-        public long ConsumptionMasterId { get; set; }
-        public long StoreId { get; set; }
-        public Nullable<long> DivisionId { get; set; }
-        public Nullable<long> BoqItemId { get; set; }
-        public Nullable<int> StatusId { get; set; }
+        public int BuildingMemberId { get; set; }
+        public string Name { get; set; }
+        public int CompanyId { get; set; }
         public string CreatedBy { get; set; }
-        public System.DateTime CreatedOn { get; set; }
+        public System.DateTime CreatedDate { get; set; }
         public string ModifiedBy { get; set; }
-        public Nullable<System.DateTime> ModifiedOn { get; set; }
-        public Nullable<bool> IsActive { get; set; }
+        public Nullable<System.DateTime> ModifiedDate { get; set; }
+        public bool IsActive { get; set; }
     }
 }

@@ -3672,6 +3672,19 @@ warning 6002: The table/view 'TCLErp.dbo.TempFeedVoucherDetail' does not have a 
           <Property Name="ModifiedDate" Type="datetime" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="BuildingMember">
+          <Key>
+            <PropertyRef Name="BuildingMemberId" />
+          </Key>
+          <Property Name="BuildingMemberId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CompanyId" Type="int" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="ConsumptionDetails">
           <Key>
             <PropertyRef Name="ConsumptionDetailsId" />
@@ -3689,6 +3702,7 @@ warning 6002: The table/view 'TCLErp.dbo.TempFeedVoucherDetail' does not have a 
           <Property Name="CreatedOn" Type="datetime" Nullable="false" />
           <Property Name="ModifiedBy" Type="varchar" MaxLength="50" />
           <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="IsActive" Type="bit" />
         </EntityType>
         <EntityType Name="ConsumptionMaster">
           <Key>
@@ -3698,10 +3712,12 @@ warning 6002: The table/view 'TCLErp.dbo.TempFeedVoucherDetail' does not have a 
           <Property Name="StoreId" Type="bigint" Nullable="false" />
           <Property Name="DivisionId" Type="bigint" />
           <Property Name="BoqItemId" Type="bigint" />
+          <Property Name="StatusId" Type="int" />
           <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="CreatedOn" Type="datetime" Nullable="false" />
           <Property Name="ModifiedBy" Type="varchar" MaxLength="50" />
           <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="IsActive" Type="bit" />
         </EntityType>
         <EntityType Name="ConvertedProduct">
           <Key>
@@ -8994,6 +9010,7 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <EntitySet Name="BoQDivision" EntityType="Self.BoQDivision" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="BoQItemProductMap" EntityType="Self.BoQItemProductMap" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="BuildingFloor" EntityType="Self.BuildingFloor" Schema="Erp" store:Type="Tables" />
+          <EntitySet Name="BuildingMember" EntityType="Self.BuildingMember" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="ConsumptionDetails" EntityType="Self.ConsumptionDetails" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="ConsumptionMaster" EntityType="Self.ConsumptionMaster" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="ConvertedProduct" EntityType="Self.ConvertedProduct" Schema="Erp" store:Type="Tables" />
@@ -11981,9 +11998,10 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
             <End Role="VendorDepositHistory" EntitySet="VendorDepositHistories" />
           </AssociationSet>
+          <EntitySet Name="BuildingFloors" EntityType="ERPModel.BuildingFloor" />
+          <EntitySet Name="BuildingMembers" EntityType="ERPModel.BuildingMember" />
           <EntitySet Name="ConsumptionDetails" EntityType="ERPModel.ConsumptionDetail" />
           <EntitySet Name="ConsumptionMasters" EntityType="ERPModel.ConsumptionMaster" />
-          <EntitySet Name="BuildingFloors" EntityType="ERPModel.BuildingFloor" />
           </EntityContainer>
         <EntityType Name="AdminPolicy">
           <Key>
@@ -21500,6 +21518,32 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="BuildingFloor">
+          <Key>
+            <PropertyRef Name="BuildingFloorId" />
+          </Key>
+          <Property Name="BuildingFloorId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BuildingMember">
+          <Key>
+            <PropertyRef Name="BuildingMemberId" />
+          </Key>
+          <Property Name="BuildingMemberId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+        </EntityType>
         <EntityType Name="ConsumptionDetail">
           <Key>
             <PropertyRef Name="ConsumptionDetailsId" />
@@ -21517,6 +21561,7 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" />
         </EntityType>
         <EntityType Name="ConsumptionMaster">
           <Key>
@@ -21526,23 +21571,12 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <Property Name="StoreId" Type="Int64" Nullable="false" />
           <Property Name="DivisionId" Type="Int64" />
           <Property Name="BoqItemId" Type="Int64" />
+          <Property Name="StatusId" Type="Int32" />
           <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
-        </EntityType>
-        <EntityType Name="BuildingFloor">
-          <Key>
-            <PropertyRef Name="BuildingFloorId" />
-          </Key>
-          <Property Name="BuildingFloorId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CompanyId" Type="Int32" Nullable="false" />
-          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -27460,9 +27494,38 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="BuildingFloors">
+            <EntityTypeMapping TypeName="ERPModel.BuildingFloor">
+              <MappingFragment StoreEntitySet="BuildingFloor">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="BuildingFloorId" ColumnName="BuildingFloorId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BuildingMembers">
+            <EntityTypeMapping TypeName="ERPModel.BuildingMember">
+              <MappingFragment StoreEntitySet="BuildingMember">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="BuildingMemberId" ColumnName="BuildingMemberId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="ConsumptionDetails">
             <EntityTypeMapping TypeName="ERPModel.ConsumptionDetail">
               <MappingFragment StoreEntitySet="ConsumptionDetails">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
                 <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
@@ -27482,28 +27545,16 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <EntitySetMapping Name="ConsumptionMasters">
             <EntityTypeMapping TypeName="ERPModel.ConsumptionMaster">
               <MappingFragment StoreEntitySet="ConsumptionMaster">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
                 <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
                 <ScalarProperty Name="BoqItemId" ColumnName="BoqItemId" />
                 <ScalarProperty Name="DivisionId" ColumnName="DivisionId" />
                 <ScalarProperty Name="StoreId" ColumnName="StoreId" />
                 <ScalarProperty Name="ConsumptionMasterId" ColumnName="ConsumptionMasterId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="BuildingFloors">
-            <EntityTypeMapping TypeName="ERPModel.BuildingFloor">
-              <MappingFragment StoreEntitySet="BuildingFloor">
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="BuildingFloorId" ColumnName="BuildingFloorId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
