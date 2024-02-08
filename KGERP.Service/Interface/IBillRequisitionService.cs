@@ -10,6 +10,13 @@ namespace KGERP.Service.Interface
 {
     public interface IBillRequisitionService
     {
+        #region Setting for building
+        Task<bool> Add(BuildingFloorModel model);
+        Task<bool> Edit(BuildingFloorModel model);
+        Task<bool> Delete(BuildingFloorModel model);
+        Task<List<BuildingFloorModel>> GetFloorList(int companyId);
+        #endregion
+
         #region Employee
         Task<List<Employee>> GetEmployeeList(int companyId);
         #endregion

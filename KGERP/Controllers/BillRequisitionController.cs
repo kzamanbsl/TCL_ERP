@@ -43,13 +43,42 @@ namespace KGERP.Controllers
         public async Task<ActionResult> AddNewFloor(int companyId = 0)
         {
             BuildingFloorModel viewModel = new BuildingFloorModel();
+            viewModel.CompanyFK = companyId;
+            viewModel.BuildingFloorModels = await _service.GetFloorList(companyId);
             return View(viewModel);
         }
 
         [HttpPost]
         public async Task<ActionResult> AddNewFloor(BuildingFloorModel model)
         {
-            return View(model);
+            try
+            {
+                if (model.ActionEum == ActionEnum.Add)
+                {
+                    // Add 
+                    await _service.Add(model);
+                }
+                else if (model.ActionEum == ActionEnum.Edit)
+                {
+                    // Edit
+                    await _service.Edit(model);
+                }
+                else if (model.ActionEum == ActionEnum.Delete)
+                {
+                    // Delete
+                    await _service.Delete(model);
+                }
+                else
+                {
+                    return View("Error");
+                }
+
+                return RedirectToAction(nameof(AddNewFloor), new { companyId = model.CompanyFK });
+            }
+            catch (Exception ex)
+            {
+                return View("Error");
+            }
         }
 
         // Member for building
@@ -147,10 +176,10 @@ namespace KGERP.Controllers
         }
 
         // Dependent Subcategory List by BoQ id
-        public JsonResult GetSubCategoryByBoqId (long id)
+        public JsonResult GetSubCategoryByBoqId(long id)
         {
             List<ProductSubCategory> subCategoryList = null;
-            if(id > 0)
+            if (id > 0)
             {
                 subCategoryList = _service.GetSubcategoryByBoq(id);
             }
@@ -231,7 +260,7 @@ namespace KGERP.Controllers
                 Console.WriteLine(ex.ToString());
             }
 
-            return Json(new { ApprovedDemand = approvedDemand, ReceivedSoFar = ReceivedSoFar, Remaining = Remaining,  UnitPrice = unitPrice }, JsonRequestBehavior.AllowGet);
+            return Json(new { ApprovedDemand = approvedDemand, ReceivedSoFar = ReceivedSoFar, Remaining = Remaining, UnitPrice = unitPrice }, JsonRequestBehavior.AllowGet);
         }
 
         #endregion
@@ -277,7 +306,6 @@ namespace KGERP.Controllers
             }
             catch (Exception ex)
             {
-                // Handle exceptions, log the error, or return an error view
                 return View("Error");
             }
         }
@@ -847,7 +875,7 @@ namespace KGERP.Controllers
 
         #endregion
 
-        #region 1.3  QS  BillRequisition Approval Circle
+        #region 1.3 QS BillRequisition Approval Circle
         [HttpGet]
         public async Task<ActionResult> QSBRRejectSlave(int companyId = 0, long billRequisitionMasterId = 0)
         {
@@ -924,7 +952,7 @@ namespace KGERP.Controllers
 
         #endregion
 
-        #region 1.3.1  ITHead  BillRequisition Approval Circle
+        #region 1.3.1 ITHead BillRequisition Approval Circle
 
         [HttpGet]
         public async Task<ActionResult> ITHeadBRRejectSlave(int companyId = 0, long billRequisitionMasterId = 0)
@@ -1002,7 +1030,7 @@ namespace KGERP.Controllers
 
         #endregion
 
-        #region 1.4  Director  BillRequisition Approval Circle
+        #region 1.4 Director BillRequisition Approval Circle
 
         [HttpGet]
         public async Task<ActionResult> DirectorBRRejectSlave(int companyId = 0, long billRequisitionMasterId = 0)
@@ -1080,7 +1108,7 @@ namespace KGERP.Controllers
 
         #endregion
 
-        #region 1.5  PD  BillRequisition Approval Circle
+        #region 1.5 PD BillRequisition Approval Circle
 
         [HttpGet]
         public async Task<ActionResult> PDBRRejectSlave(int companyId = 0, long billRequisitionMasterId = 0)
@@ -1158,7 +1186,7 @@ namespace KGERP.Controllers
 
         #endregion
 
-        #region 1.6  MD  BillRequisition Approval Circle
+        #region 1.6 MD BillRequisition Approval Circle
         [HttpGet]
         public async Task<ActionResult> MDBRRejectSlave(int companyId = 0, long billRequisitionMasterId = 0)
         {

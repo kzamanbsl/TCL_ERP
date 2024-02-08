@@ -25,6 +25,114 @@ namespace KGERP.Service.Implementation
             _configurationService = configurationService;
         }
 
+        #region Settings for Building
+
+        // Building for floor
+        public async Task<List<BuildingFloorModel>> GetFloorList(int companyId)
+        {
+            var floors = await _context.BuildingFloors
+                .Where(c => c.CompanyId == companyId && c.IsActive)
+                .ToListAsync();
+
+            var returnData = floors.Select(projectType => new BuildingFloorModel
+            {
+                BuildingFloorId = projectType.BuildingFloorId,
+                Name = projectType.Name,
+                CompanyFK = projectType.CompanyId,
+                CreatedBy = projectType.CreatedBy,
+                CreatedDate = projectType.CreatedDate,
+                ModifiedBy = projectType.ModifiedBy,
+                ModifiedDate = (DateTime)projectType.ModifiedDate,
+            }).ToList();
+
+            return returnData;
+        }
+
+        public async Task<bool> Add(BuildingFloorModel model)
+        {
+            if (model != null)
+            {
+                try
+                {
+                    BuildingFloor data = new BuildingFloor()
+                    {
+                        Name = model.Name,
+                        CompanyId = (int)model.CompanyFK,
+                        IsActive = true,
+                        CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                        CreatedDate = DateTime.Now,
+                    };
+
+                    _context.BuildingFloors.Add(data);
+                    var count = await _context.SaveChangesAsync();
+
+                    return count > 0;
+                }
+                catch (Exception error)
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        public async Task<bool> Edit(BuildingFloorModel model)
+        {
+            if (model != null)
+            {
+                try
+                {
+                    var floors = await _context.BuildingFloors.FirstOrDefaultAsync(c => c.BuildingFloorId == model.ID);
+
+                    if (floors != null)
+                    {
+                        floors.Name = model.Name;
+                        floors.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                        floors.ModifiedDate = DateTime.Now;
+                        var count = await _context.SaveChangesAsync();
+
+                        model.CompanyFK = floors.CompanyId;
+
+                        return count > 0;
+                    }
+                }
+                catch (Exception error)
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        public async Task<bool> Delete(BuildingFloorModel model)
+        {
+            if (model.BuildingFloorId > 0)
+            {
+                try
+                {
+                    var floors = await _context.BuildingFloors.FirstOrDefaultAsync(c => c.BuildingFloorId == model.BuildingFloorId);
+
+                    if (floors != null)
+                    {
+                        floors.IsActive = false;
+                        floors.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                        floors.ModifiedDate = DateTime.Now;
+                        var count = await _context.SaveChangesAsync();
+
+                        return count > 0;
+                    }
+                }
+                catch (Exception error)
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        // Building for floor
+        #endregion
+
         #region Employee
         public async Task<List<Employee>> GetEmployeeList(int companyId)
         {
@@ -1518,7 +1626,7 @@ namespace KGERP.Service.Implementation
 
         #endregion
 
-        #region 1.2 BillRequisition Approve circle
+        #region 1.2 PM BillRequisition Approve circle
         public async Task<BillRequisitionMasterModel> GetBillRequisitionMasterDetailWithApproval(int companyId = 21, long billRequisitionMasterId = 0)
         {
             BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
@@ -1721,6 +1829,7 @@ namespace KGERP.Service.Implementation
                                              && x.StatusId >= (int)EnumBillRequisitionStatus.Submitted)
                                   join t2 in _context.BillRequisitionDetails on t1.BillRequisitionMasterId equals t2.BillRequisitionMasterId into t2_Join
                                   from t2 in t2_Join.DefaultIfEmpty()
+                                  where t2.IsActive
                                   select new
                                   {
                                       BillRequisitionMasterId = t1.BillRequisitionMasterId,
@@ -1898,6 +2007,7 @@ namespace KGERP.Service.Implementation
                              && x.StatusId >= (int)EnumBillRequisitionStatus.Submitted)
                               join t2 in _context.BillRequisitionDetails on t1.BillRequisitionMasterId equals t2.BillRequisitionMasterId into t2_Join
                               from t2 in t2_Join.DefaultIfEmpty()
+                              where t2.IsActive
                               select new
                               {
                                   BillRequisitionMasterId = t1.BillRequisitionMasterId,
@@ -2068,6 +2178,7 @@ namespace KGERP.Service.Implementation
                              && x.StatusId >= (int)EnumBillRequisitionStatus.Submitted)
                               join t2 in _context.BillRequisitionDetails on t1.BillRequisitionMasterId equals t2.BillRequisitionMasterId into t2_Join
                               from t2 in t2_Join.DefaultIfEmpty()
+                              where t2.IsActive
                               select new
                               {
                                   BillRequisitionMasterId = t1.BillRequisitionMasterId,
@@ -2132,7 +2243,6 @@ namespace KGERP.Service.Implementation
 
         #region 1.4 PD BillRequisition Approve circle
 
-
         public async Task<long> PDBillRequisitionApproved(BillRequisitionMasterModel billRequisitionMasterModel)
         {
             long result = -1;
@@ -2168,7 +2278,6 @@ namespace KGERP.Service.Implementation
                     CreateDate = DateTime.Now,
                 });
             }
-
 
             foreach (var dt in details)
             {
@@ -2244,6 +2353,7 @@ namespace KGERP.Service.Implementation
                              && x.StatusId >= (int)EnumBillRequisitionStatus.Submitted)
                               join t2 in _context.BillRequisitionDetails on t1.BillRequisitionMasterId equals t2.BillRequisitionMasterId into t2_Join
                               from t2 in t2_Join.DefaultIfEmpty()
+                              where t2.IsActive
                               select new
                               {
                                   BillRequisitionMasterId = t1.BillRequisitionMasterId,
@@ -2417,6 +2527,7 @@ namespace KGERP.Service.Implementation
                              && x.StatusId >= (int)EnumBillRequisitionStatus.Submitted)
                               join t2 in _context.BillRequisitionDetails on t1.BillRequisitionMasterId equals t2.BillRequisitionMasterId into t2_Join
                               from t2 in t2_Join.DefaultIfEmpty()
+                              where t2.IsActive
                               select new
                               {
                                   BillRequisitionMasterId = t1.BillRequisitionMasterId,
@@ -2592,6 +2703,7 @@ namespace KGERP.Service.Implementation
                              && x.StatusId >= (int)EnumBillRequisitionStatus.Submitted)
                               join t2 in _context.BillRequisitionDetails on t1.BillRequisitionMasterId equals t2.BillRequisitionMasterId into t2_Join
                               from t2 in t2_Join.DefaultIfEmpty()
+                              where t2.IsActive
                               select new
                               {
                                   BillRequisitionMasterId = t1.BillRequisitionMasterId,
