@@ -28,5 +28,7 @@ namespace KGERP.Data.Models
         public string ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedOn { get; set; }
         public Nullable<bool> IsActive { get; set; }
+    
+        public virtual ConsumptionMaster ConsumptionMaster { get; set; }
     }
 }

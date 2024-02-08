@@ -3689,7 +3689,7 @@ warning 6002: The table/view 'TCLErp.dbo.TempFeedVoucherDetail' does not have a 
           <Key>
             <PropertyRef Name="ConsumptionDetailsId" />
           </Key>
-          <Property Name="ConsumptionDetailsId" Type="bigint" Nullable="false" />
+          <Property Name="ConsumptionDetailsId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ConsumptionMasterId" Type="bigint" Nullable="false" />
           <Property Name="ProductSubtypeId" Type="bigint" Nullable="false" />
           <Property Name="ProductId" Type="bigint" Nullable="false" />
@@ -3708,7 +3708,7 @@ warning 6002: The table/view 'TCLErp.dbo.TempFeedVoucherDetail' does not have a 
           <Key>
             <PropertyRef Name="ConsumptionMasterId" />
           </Key>
-          <Property Name="ConsumptionMasterId" Type="bigint" Nullable="false" />
+          <Property Name="ConsumptionMasterId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="StoreId" Type="bigint" Nullable="false" />
           <Property Name="DivisionId" Type="bigint" />
           <Property Name="BoqItemId" Type="bigint" />
@@ -6637,6 +6637,18 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             </Principal>
             <Dependent Role="ComplainManagement">
               <PropertyRef Name="ComplainTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ConsumptionDetails_ConsumptionMaster">
+          <End Role="ConsumptionMaster" Type="Self.ConsumptionMaster" Multiplicity="1" />
+          <End Role="ConsumptionDetails" Type="Self.ConsumptionDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ConsumptionMaster">
+              <PropertyRef Name="ConsumptionMasterId" />
+            </Principal>
+            <Dependent Role="ConsumptionDetails">
+              <PropertyRef Name="ConsumptionMasterId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -9891,6 +9903,10 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             <End Role="ComplainType" EntitySet="ComplainType" />
             <End Role="ComplainManagement" EntitySet="ComplainManagement" />
           </AssociationSet>
+          <AssociationSet Name="FK_ConsumptionDetails_ConsumptionMaster" Association="Self.FK_ConsumptionDetails_ConsumptionMaster">
+            <End Role="ConsumptionMaster" EntitySet="ConsumptionMaster" />
+            <End Role="ConsumptionDetails" EntitySet="ConsumptionDetails" />
+          </AssociationSet>
           <AssociationSet Name="FK_ConvertedProductDetail_ConvertedProduct" Association="Self.FK_ConvertedProductDetail_ConvertedProduct">
             <End Role="ConvertedProduct" EntitySet="ConvertedProduct" />
             <End Role="ConvertedProductDetail" EntitySet="ConvertedProductDetail" />
@@ -12002,6 +12018,10 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <EntitySet Name="BuildingMembers" EntityType="ERPModel.BuildingMember" />
           <EntitySet Name="ConsumptionDetails" EntityType="ERPModel.ConsumptionDetail" />
           <EntitySet Name="ConsumptionMasters" EntityType="ERPModel.ConsumptionMaster" />
+          <AssociationSet Name="FK_ConsumptionDetails_ConsumptionMaster" Association="ERPModel.FK_ConsumptionDetails_ConsumptionMaster">
+            <End Role="ConsumptionMaster" EntitySet="ConsumptionMasters" />
+            <End Role="ConsumptionDetail" EntitySet="ConsumptionDetails" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="AdminPolicy">
           <Key>
@@ -21548,7 +21568,7 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <Key>
             <PropertyRef Name="ConsumptionDetailsId" />
           </Key>
-          <Property Name="ConsumptionDetailsId" Type="Int64" Nullable="false" />
+          <Property Name="ConsumptionDetailsId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ConsumptionMasterId" Type="Int64" Nullable="false" />
           <Property Name="ProductSubtypeId" Type="Int64" Nullable="false" />
           <Property Name="ProductId" Type="Int64" Nullable="false" />
@@ -21562,12 +21582,13 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
           <Property Name="IsActive" Type="Boolean" />
+          <NavigationProperty Name="ConsumptionMaster" Relationship="ERPModel.FK_ConsumptionDetails_ConsumptionMaster" FromRole="ConsumptionDetail" ToRole="ConsumptionMaster" />
         </EntityType>
         <EntityType Name="ConsumptionMaster">
           <Key>
             <PropertyRef Name="ConsumptionMasterId" />
           </Key>
-          <Property Name="ConsumptionMasterId" Type="Int64" Nullable="false" />
+          <Property Name="ConsumptionMasterId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="StoreId" Type="Int64" Nullable="false" />
           <Property Name="DivisionId" Type="Int64" />
           <Property Name="BoqItemId" Type="Int64" />
@@ -21577,7 +21598,20 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
           <Property Name="IsActive" Type="Boolean" />
+          <NavigationProperty Name="ConsumptionDetails" Relationship="ERPModel.FK_ConsumptionDetails_ConsumptionMaster" FromRole="ConsumptionMaster" ToRole="ConsumptionDetail" />
         </EntityType>
+        <Association Name="FK_ConsumptionDetails_ConsumptionMaster">
+          <End Type="ERPModel.ConsumptionMaster" Role="ConsumptionMaster" Multiplicity="1" />
+          <End Type="ERPModel.ConsumptionDetail" Role="ConsumptionDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ConsumptionMaster">
+              <PropertyRef Name="ConsumptionMasterId" />
+            </Principal>
+            <Dependent Role="ConsumptionDetail">
+              <PropertyRef Name="ConsumptionMasterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->

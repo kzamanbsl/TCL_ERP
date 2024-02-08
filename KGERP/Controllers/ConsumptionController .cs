@@ -1,4 +1,5 @@
-﻿using KGERP.Service.Implementation.Configuration;
+﻿using KGERP.Data.Models;
+using KGERP.Service.Implementation.Configuration;
 using KGERP.Service.Interface;
 using KGERP.Service.ServiceModel;
 using KGERP.Utility;
@@ -22,9 +23,20 @@ namespace KGERP.Controllers
         }
 
         [HttpGet]
-       public async Task<ActionResult> ConsumptionMasterSlave(int companyId)
+        public async Task<ActionResult> ConsumptionMasterSlave(int companyId, int consumptionMasterId = 0)
         {
+            //'BillRequisitionTypeId'
             ConsumptionModel consumptionModel = new ConsumptionModel();
+            if (consumptionMasterId > 0)
+            {
+                consumptionModel = await _service.GetConsumptionMasterDetail(consumptionMasterId);
+            }
+            else
+            {
+
+            }
+
+
             //consumptionModel.ProjectTypeList = new SelectList(await _service.GetCostCenterTypeList(companyId), "CostCenterTypeId", "Name");
             //consumptionModel.StatusId = (int)EnumBillRequisitionStatus.Draft;
             consumptionModel.ProjectTypeList = new SelectList(await _billRequisitionService.GetCostCenterTypeList(companyId), "CostCenterTypeId", "Name");
@@ -33,8 +45,9 @@ namespace KGERP.Controllers
             consumptionModel.MaterialTypeList = new SelectList(_configurationService.GetAllProductCategoryList(companyId));
             //consumptionModel.MaterialSubTypeList = new SelectList(_configurationService.GetAllProductSubCategoryList(companyId));
             consumptionModel.ProjectList = new SelectList(_configurationService.GetAllProductSubCategoryList(companyId));
-            consumptionModel.ActionId = (int)ActionEnum.Add;
-                return View(consumptionModel);
+            //consumptionModel.ActionId = (int)ActionEnum.Add;
+            return View(consumptionModel);
+
         }
 
         [HttpPost]
@@ -45,7 +58,7 @@ namespace KGERP.Controllers
             {
                 if (consumptionModel.ConsumptionMasterId == 0)
                 {
-                    consumptionModel.ConsumptionMasterId = await _service.CreateConsumptionMaster(consumptionModel);
+                    consumptionModel.ConsumptionMasterId = (int)await _service.CreateConsumptionMaster(consumptionModel);
                 }
                 await _service.CreateConsumptionDetail(consumptionModel);
             }
@@ -55,8 +68,7 @@ namespace KGERP.Controllers
                 await _service.UpdateConsumptionDetail(consumptionModel);
             }
 
-            return View();
+            return RedirectToAction(nameof(ConsumptionMasterSlave), new { companyId = CompanyInfo.CompanyId, consumptionMasterId = consumptionModel.ConsumptionMasterId });
         }
-
     }
 }
