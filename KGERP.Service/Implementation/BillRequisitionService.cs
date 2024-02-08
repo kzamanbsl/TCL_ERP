@@ -127,7 +127,105 @@ namespace KGERP.Service.Implementation
             return false;
         }
 
-        // Building for floor
+        // Building for member
+        public async Task<List<BuildingMemberModel>> GetMemberList(int companyId)
+        {
+            var data = await (from t1 in _context.BuildingMembers
+                              where t1.IsActive
+                              select new BuildingMemberModel
+                              {
+                                  BuildingMemberId = t1.BuildingMemberId,
+                                  Name = t1.Name,
+                                  CompanyFK = t1.CompanyId,
+                                  CreatedBy = t1.CreatedBy,
+                                  CreatedDate = t1.CreatedDate,
+                                  ModifiedBy = t1.ModifiedBy,
+                                  ModifiedDate = (DateTime)t1.ModifiedDate,
+                              }).ToListAsync();
+            return data;
+        }
+
+        public async Task<bool> Add(BuildingMemberModel model)
+        {
+            if (model != null)
+            {
+                try
+                {
+                    BuildingMember data = new BuildingMember()
+                    {
+                        Name = model.Name,
+                        CompanyId = (int)model.CompanyFK,
+                        IsActive = true,
+                        CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                        CreatedDate = DateTime.Now,
+                    };
+
+                    _context.BuildingMembers.Add(data);
+                    var count = await _context.SaveChangesAsync();
+
+                    return count > 0;
+                }
+                catch (Exception error)
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        public async Task<bool> Edit(BuildingMemberModel model)
+        {
+            if (model != null)
+            {
+                try
+                {
+                    var floors = await _context.BuildingMembers.FirstOrDefaultAsync(c => c.BuildingMemberId == model.ID);
+
+                    if (floors != null)
+                    {
+                        floors.Name = model.Name;
+                        floors.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                        floors.ModifiedDate = DateTime.Now;
+                        var count = await _context.SaveChangesAsync();
+
+                        model.CompanyFK = floors.CompanyId;
+
+                        return count > 0;
+                    }
+                }
+                catch (Exception error)
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        public async Task<bool> Delete(BuildingMemberModel model)
+        {
+            if (model.BuildingMemberId > 0)
+            {
+                try
+                {
+                    var floors = await _context.BuildingMembers.FirstOrDefaultAsync(c => c.BuildingMemberId == model.BuildingMemberId);
+
+                    if (floors != null)
+                    {
+                        floors.IsActive = false;
+                        floors.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                        floors.ModifiedDate = DateTime.Now;
+                        var count = await _context.SaveChangesAsync();
+
+                        return count > 0;
+                    }
+                }
+                catch (Exception error)
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
         #endregion
 
         #region Employee

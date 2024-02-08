@@ -17,6 +17,13 @@ namespace KGERP.Service.Interface
         Task<List<BuildingFloorModel>> GetFloorList(int companyId);
         #endregion
 
+        #region Setting for member
+        Task<bool> Add(BuildingMemberModel model);
+        Task<bool> Edit(BuildingMemberModel model);
+        Task<bool> Delete(BuildingMemberModel model);
+        Task<List<BuildingMemberModel>> GetMemberList(int companyId);
+        #endregion
+
         #region Employee
         Task<List<Employee>> GetEmployeeList(int companyId);
         #endregion

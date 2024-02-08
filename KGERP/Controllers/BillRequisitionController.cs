@@ -86,13 +86,42 @@ namespace KGERP.Controllers
         public async Task<ActionResult> AddNewMember(int companyId = 0)
         {
             BuildingMemberModel viewModel = new BuildingMemberModel();
+            viewModel.CompanyFK = companyId;
+            viewModel.BuildingMemberModels = await _service.GetMemberList(companyId);
             return View(viewModel);
         }
 
         [HttpPost]
         public async Task<ActionResult> AddNewMember(BuildingMemberModel model)
         {
-            return View(model);
+            try
+            {
+                if (model.ActionEum == ActionEnum.Add)
+                {
+                    // Add 
+                    await _service.Add(model);
+                }
+                else if (model.ActionEum == ActionEnum.Edit)
+                {
+                    // Edit
+                    await _service.Edit(model);
+                }
+                else if (model.ActionEum == ActionEnum.Delete)
+                {
+                    // Delete
+                    await _service.Delete(model);
+                }
+                else
+                {
+                    return View("Error");
+                }
+
+                return RedirectToAction(nameof(AddNewMember), new { companyId = model.CompanyFK });
+            }
+            catch (Exception ex)
+            {
+                return View("Error");
+            }
         }
 
         #endregion

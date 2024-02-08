@@ -1,6 +1,6 @@
-﻿@model KGERP.Service.ServiceModel.CostCenterTypeModel
+﻿@model KGERP.Service.ServiceModel.BuildingMemberModel
 @{
-    ViewData["Title"] = "Project Type";
+    ViewData["Title"] = "New Floor";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -11,26 +11,17 @@
 </style>
 <section class="content-header">
     <h1>
-        @if (Model.CostCenterTypeId > 0)
-        {
-            <span>
-                Project Type
-            </span>
-        }
-        else
-        {
-            <span>
-                Project Type
-            </span>
-        }
+        <span>
+            New Floor
+        </span>
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">Project Type</li>
+        <li class="active">New Floor</li>
     </ol>
 </section>
 
-@using (Html.BeginForm("CostCenterType", "BillRequisition", FormMethod.Post, new { id = "CostCenterTypeFormId", @class = "formValidator", onreset = "resetDDL();" }))
+@using (Html.BeginForm("AddNewMember", "BillRequisition", FormMethod.Post, new { id = "BuildingMemberFormId", @class = "formValidator", onreset = "resetDDL();" }))
 {
     <section class="content">
         <div class="row">
@@ -42,13 +33,13 @@
                         <div class="box-danger">
                             <div class="box-header"></div>
                             <div class="box-body">
-                                @Html.HiddenFor(model => model.ID, new { Value = "", id = "CostCenterTypeId" })
+                                @Html.HiddenFor(model => model.ID, new { Value = "", id = "BuildingMemberId" })
                                 @Html.HiddenFor(model => model.ActionId, new { Value = "", id = "ActionId" })
                                 @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
 
                                 <div class="form-group">
-                                    <label asp-for="Name" class="form-control-label">Project Type Name : </label>
-                                    @Html.TextBoxFor(model => model.Name, new { id = "txtCostCenterTypeName", @class = "form-control", @placeholder = "Project Type", required = "true" })
+                                    <label asp-for="Name" class="form-control-label">Member Name<sup class="text-danger"><b>*</b></sup></label>
+                                    @Html.TextBoxFor(model => model.Name, new { id = "txtMemberName", @class = "form-control", @placeholder = "Floor name", required = "true" })
                                     @Html.ValidationMessageFor(model => model.Name, "", new { id = "nameExist", @class = "text-danger" })
                                 </div>
 
@@ -68,44 +59,39 @@
                 </div>
                 <div class="col-md-9">
                     <div class="box">
-
                         <div class="box-danger">
                             <div class="box-header"></div>
                             <!-- /.box-header -->
                             <div class="box-body">
-
                                 <div class="table-responsive col-md-12">
                                     <table id="KgErpDataTable" class="table table-striped">
                                         <thead>
                                             <tr>
                                                 <th>SL</th>
-                                                <th>Project Type Name</th>
+                                                <th>Floor Name</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @{
-                                                if (Model.CostCenterTypes != null)
+                                                int sl = 0;
+                                                foreach (var item in Model.BuildingMemberModels.OrderBy(order => order.Name))
                                                 {
-                                                    int sl = 0;
-                                                    foreach (var item in Model.CostCenterTypes.OrderBy(order => order.Name))
-                                                    {
-                                                        <tr>
-                                                            <td>
-                                                                @(++sl)
-                                                                <input type="hidden" id="costCentertype_@item.CostCenterTypeId" name="CostCenterTypeId" value="@item.CostCenterTypeId" />
-                                                            </td>
-                                                            <td id="tdCostCenterTypeName_@item.CostCenterTypeId">@item.Name</td>
-                                                            <td>
-                                                                <a id="@item.CostCenterTypeId" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
+                                                    <tr>
+                                                        <td>
+                                                            @(++sl)
+                                                            <input type="hidden" id="tdMemberFloorId_@item.BuildingMemberId" name="BuildingMemberId" value="@item.BuildingMemberId" />
+                                                        </td>
+                                                        <td id="tdMemberName_@item.BuildingMemberId">@item.Name</td>
+                                                        <td>
+                                                            <a id="@item.BuildingMemberId" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
 
-                                                                <a id="@item.CostCenterTypeId" onclick="makeDeletable(@item.CostCenterTypeId);" class="linkPointer" data-toggle="modal" data-target="#CostCenterTypeDeleteModal" title="Delete"
-                                                                   data-placement="top">
-                                                                    <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-                                                    }
+                                                            <a id="@item.BuildingMemberId" onclick="makeDeletable(@item.BuildingMemberId);" class="linkPointer" data-toggle="modal" data-target="#BuildingFloorDeleteModal" title="Delete"
+                                                               data-placement="top">
+                                                                <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
                                                 }
                                             }
                                         </tbody>
@@ -113,34 +99,32 @@
                                 </div>
 
                             </div>
-                            <div class="box-footer">
-                            </div>
+                            <div class="box-footer"></div>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
     </section>
 }
 
-@using (Html.BeginForm("CostCenterType", "BillRequisition", FormMethod.Post, new { id = "CostCenterTypeFormId", @class = "formValidator", onreset = "resetDDL();" }))
+@using (Html.BeginForm("AddNewMember", "BillRequisition", FormMethod.Post, new { id = "BuildingMemberFormId", @class = "formValidator", onreset = "resetDDL();" }))
 {
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    @Html.HiddenFor(model => model.CostCenterTypeId, new { Value = "", id = "CostCenterTypeIdDelete" })
+    @Html.HiddenFor(model => model.BuildingMemberId, new { Value = "", id = "BuildingFloorIdDelete" })
     @Html.HiddenFor(model => model.ActionId, new { Value = "", id = "ActionIdDelete" })
     @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFKDelete" })
 
-    <div class="modal fade" id="CostCenterTypeDeleteModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
+    <div class="modal fade" id="BuildingFloorDeleteModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" onclick="resetForm()" class="close pull-right" data-dismiss="modal" aria-label="Close">
                         &times;
                     </button>
-                    <h5 class="modal-title"><b>Project Type Delete</b></h5>
-
+                    <h5 class="modal-title"><b>Floor Delete</b></h5>
                 </div>
+
                 <div class="modal-body">
                     <div style="text-align:center">
                         <h3>Are you sure to delete?</h3>
@@ -165,25 +149,24 @@
         function makeEditble(elem) {
             if (elem !== null) {
                 var rowId = elem.id;
-                $('#CostCenterTypeId').val(rowId);
+                $('#BuildingMemberId').val(rowId);
                 $('#ActionId').val(2);
                 $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Update");
-                $('#txtCostCenterTypeName').val($('#tdCostCenterTypeName_' + rowId).text().trim());
+                $('#txtMemberName').val($('#tdMemberName_' + rowId).text().trim());
                 window.scrollTo({ top: 0, behavior: 'smooth' });
-                console.log(rowId);
             }
         }
 
         function makeDeletable(id) {
             if (id !== null) {
-                $('#CostCenterTypeIdDelete').val(id);
+                $('#BuildingFloorIdDelete').val(id);
                 $('#ActionIdDelete').val(3);
                 $("#CompanyFKDelete").val("@Model.CompanyFK");
             }
         }
 
         function resetForm() {
-            $('#CostCenterTypeFormId')[0].reset();
+            $('#BuildingMemberFormId')[0].reset();
             $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Add");
         }
     </script>

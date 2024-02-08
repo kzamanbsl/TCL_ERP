@@ -9,7 +9,7 @@ namespace KGERP.Service.ServiceModel
 {
     public class BuildingMemberModel : BaseVM
     {
-        public int CostCenterTypeId { get; set; }
+        public int BuildingMemberId { get; set; }
 
         [Required]
         [MaxLength(100)]
