@@ -892,7 +892,7 @@ namespace KGERP.Service.Implementation
         {
             if (model != null)
             {
-                var amount = model.EstimatedQty * model.UnitRate;
+                decimal totalAmount = model.EstimatedQty * model.UnitRate;
                 try
                 {
                     BoQItemProductMap data = new BoQItemProductMap()
@@ -902,7 +902,7 @@ namespace KGERP.Service.Implementation
                         CompanyId = (int)model.CompanyFK,
                         EstimatedQty = model.EstimatedQty,
                         UnitRate = model.UnitRate,
-                        EstimatedAmount = amount,
+                        EstimatedAmount = totalAmount,
                         IsActive = true,
                         CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
                         CreateDate = DateTime.Now
@@ -926,7 +926,7 @@ namespace KGERP.Service.Implementation
         {
             if (model != null)
             {
-                var amount = model.EstimatedQty * model.UnitRate;
+                decimal totalAmount = model.EstimatedQty * model.UnitRate;
                 try
                 {
                     var findBoQProductMap = _context.BoQItemProductMaps.FirstOrDefault(c => c.BoQItemProductMapId == model.ID);
@@ -935,7 +935,7 @@ namespace KGERP.Service.Implementation
                     findBoQProductMap.ProductId = model.MaterialItemId;
                     findBoQProductMap.EstimatedQty = model.EstimatedQty;
                     findBoQProductMap.UnitRate = model.UnitRate;
-                    findBoQProductMap.EstimatedAmount = amount;
+                    findBoQProductMap.EstimatedAmount = totalAmount;
                     findBoQProductMap.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
                     findBoQProductMap.ModifiedDate = DateTime.Now;
                     var count = _context.SaveChanges();
