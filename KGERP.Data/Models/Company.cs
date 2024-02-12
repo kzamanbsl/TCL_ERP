@@ -53,9 +53,9 @@ namespace KGERP.Data.Models
             this.BillRequisitionVoucherMaps = new HashSet<BillRequisitionVoucherMap>();
             this.BillReqApprovalHistories = new HashSet<BillReqApprovalHistory>();
             this.BoQDivisions = new HashSet<BoQDivision>();
-            this.BoQItemProductMaps = new HashSet<BoQItemProductMap>();
             this.BillRequisitionApprovals = new HashSet<BillRequisitionApproval>();
             this.VoucherBRMapMasterApprovals = new HashSet<VoucherBRMapMasterApproval>();
+            this.BoQItemProductMaps = new HashSet<BoQItemProductMap>();
         }
     
         public int CompanyId { get; set; }
@@ -156,10 +156,10 @@ namespace KGERP.Data.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BoQDivision> BoQDivisions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BoQItemProductMap> BoQItemProductMaps { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BillRequisitionApproval> BillRequisitionApprovals { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<VoucherBRMapMasterApproval> VoucherBRMapMasterApprovals { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BoQItemProductMap> BoQItemProductMaps { get; set; }
     }
 }

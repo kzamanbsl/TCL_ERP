@@ -523,10 +523,6 @@
         <AssociationConnector Association="ERPModel.FK_VendorDepositHistory_Vendor" />
         <AssociationConnector Association="ERPModel.FK_VendorOffer_Vendor" />
         <AssociationConnector Association="ERPModel.FK_VendorOpening_Vendor" />
-        <EntityTypeShape EntityType="ERPModel.BoQItemProductMap" Width="1.5" PointX="51.5" PointY="31.125" />
-        <AssociationConnector Association="ERPModel.FK_BillRequisitionItemBoQMap_Company" />
-        <AssociationConnector Association="ERPModel.FK_BillRequisitionItemBoQMap_BillBoQItem" />
-        <AssociationConnector Association="ERPModel.FK_BoQItemProductMap_Product" />
         <EntityTypeShape EntityType="ERPModel.BillRequisitionApproval" Width="1.5" PointX="54.125" PointY="43.625" />
         <AssociationConnector Association="ERPModel.FK_BillRequisitionApproval_Company" />
         <AssociationConnector Association="ERPModel.FK_BillRequisitionApproval_Employee" />
@@ -569,6 +565,10 @@
         <AssociationConnector Association="ERPModel.FK_PurchaseOrderDetail_BillRequisitionDetail" />
         <AssociationConnector Association="ERPModel.FK_PurchaseOrder_PurchaseOrder" />
         <AssociationConnector Association="ERPModel.FK_VoucherBRMapMaster_BillRequisitionMaster" />
+        <EntityTypeShape EntityType="ERPModel.BoQItemProductMap" Width="1.5" PointX="51.5" PointY="31" />
+        <AssociationConnector Association="ERPModel.FK_BillRequisitionItemBoQMap_Company" />
+        <AssociationConnector Association="ERPModel.FK_BillRequisitionItemBoQMap_BillBoQItem" />
+        <AssociationConnector Association="ERPModel.FK_BoQItemProductMap_Product" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
