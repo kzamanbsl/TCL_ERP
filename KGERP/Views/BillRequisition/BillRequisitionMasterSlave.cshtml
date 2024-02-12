@@ -406,6 +406,7 @@
                                             {
                                                 <th>Division Name</th>
                                                 <th>BoQ Number</th>
+                                                <th>BoQ Name</th>
                                             }
                                             @if (Model.BillRequisitionTypeId == (int)EnumBillRequisitionType.Overhead)
                                             {
@@ -453,6 +454,9 @@
                                                     <td>
                                                         @item.BoqNumber
                                                         <input type="hidden" value="@item.BoqItemId" id="boqIdHidden_@item.BillRequisitionDetailId" />
+                                                    </td>
+                                                    <td>
+                                                        @item.BoqItemName
                                                     </td>
                                                 }
 

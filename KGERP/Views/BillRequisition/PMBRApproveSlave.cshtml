@@ -109,6 +109,7 @@
                                                 {
                                                     <th class="text-center">Division Name</th>
                                                     <th class="text-center">BoQ Number</th>
+                                                    <th class="text-center">BoQ Name</th>
                                                 }
                                                 <th class="text-center">Requisition For</th>
                                                 <th class="text-center">@((Model.BillRequisitionTypeId == (int)EnumBillRequisitionType.Overhead)? "Item" : "Material")</th>
@@ -145,6 +146,7 @@
                                                     {
                                                         <td>@item.BoqDivisionName</td>
                                                         <td class="text-center">@item.BoqNumber</td>
+                                                        <td class="text-center">@item.BoqItemName</td>
                                                     }
                                                     <td>@item.RequisitionSubtypeName</td>
                                                     <td>@item.ProductName</td>
