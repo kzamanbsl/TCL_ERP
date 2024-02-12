@@ -3473,12 +3473,12 @@ warning 6002: The table/view 'TCLErp.dbo.TempFeedVoucherDetail' does not have a 
           <Property Name="ProductSubTypeId" Type="bigint" />
           <Property Name="ProductId" Type="int" />
           <Property Name="UnitId" Type="int" />
-          <Property Name="EstimatedQty" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="DemandQty" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="UnitRate" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="TotalPrice" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="ReceivedSoFar" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="RemainingQty" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="EstimatedQty" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="DemandQty" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="UnitRate" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="TotalPrice" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="ReceivedSoFar" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="RemainingQty" Type="decimal" Precision="18" Scale="2" />
           <Property Name="Ward" Type="varchar(max)" />
           <Property Name="DPP" Type="varchar(max)" />
           <Property Name="Chainage" Type="varchar(max)" />
@@ -11994,6 +11994,19 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             <End Role="ConsumptionMaster" EntitySet="ConsumptionMasters" />
             <End Role="ConsumptionDetail" EntitySet="ConsumptionDetails" />
           </AssociationSet>
+          <EntitySet Name="BoQItemProductMaps" EntityType="ERPModel.BoQItemProductMap" />
+          <AssociationSet Name="FK_BillRequisitionItemBoQMap_Company" Association="ERPModel.FK_BillRequisitionItemBoQMap_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="BoQItemProductMap" EntitySet="BoQItemProductMaps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BillRequisitionItemBoQMap_BillBoQItem" Association="ERPModel.FK_BillRequisitionItemBoQMap_BillBoQItem">
+            <End Role="BillBoQItem" EntitySet="BillBoQItems" />
+            <End Role="BoQItemProductMap" EntitySet="BoQItemProductMaps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BoQItemProductMap_Product" Association="ERPModel.FK_BoQItemProductMap_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="BoQItemProductMap" EntitySet="BoQItemProductMaps" />
+          </AssociationSet>
           <EntitySet Name="BillRequisitionDetails" EntityType="ERPModel.BillRequisitionDetail" />
           <EntitySet Name="BillRequisitionMasters" EntityType="ERPModel.BillRequisitionMaster" />
           <AssociationSet Name="FK_PurchaseOrderDetail_BillRequisitionDetail" Association="ERPModel.FK_PurchaseOrderDetail_BillRequisitionDetail">
@@ -12007,19 +12020,6 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <AssociationSet Name="FK_VoucherBRMapMaster_BillRequisitionMaster" Association="ERPModel.FK_VoucherBRMapMaster_BillRequisitionMaster">
             <End Role="BillRequisitionMaster" EntitySet="BillRequisitionMasters" />
             <End Role="VoucherBRMapMaster" EntitySet="VoucherBRMapMasters" />
-          </AssociationSet>
-          <EntitySet Name="BoQItemProductMaps" EntityType="ERPModel.BoQItemProductMap" />
-          <AssociationSet Name="FK_BillRequisitionItemBoQMap_Company" Association="ERPModel.FK_BillRequisitionItemBoQMap_Company">
-            <End Role="Company" EntitySet="Companies" />
-            <End Role="BoQItemProductMap" EntitySet="BoQItemProductMaps" />
-          </AssociationSet>
-          <AssociationSet Name="FK_BillRequisitionItemBoQMap_BillBoQItem" Association="ERPModel.FK_BillRequisitionItemBoQMap_BillBoQItem">
-            <End Role="BillBoQItem" EntitySet="BillBoQItems" />
-            <End Role="BoQItemProductMap" EntitySet="BoQItemProductMaps" />
-          </AssociationSet>
-          <AssociationSet Name="FK_BoQItemProductMap_Product" Association="ERPModel.FK_BoQItemProductMap_Product">
-            <End Role="Product" EntitySet="Products" />
-            <End Role="BoQItemProductMap" EntitySet="BoQItemProductMaps" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="AdminPolicy">
@@ -21463,6 +21463,63 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="BoQItemProductMap">
+          <Key>
+            <PropertyRef Name="BoQItemProductMapId" />
+          </Key>
+          <Property Name="BoQItemProductMapId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BoQItemId" Type="Int32" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="EstimatedQty" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="UnitRate" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="EstimatedAmount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="RequisitionSubtypeId" Type="Int32" />
+          <NavigationProperty Name="Company" Relationship="ERPModel.FK_BillRequisitionItemBoQMap_Company" FromRole="BoQItemProductMap" ToRole="Company" />
+          <NavigationProperty Name="BillBoQItem" Relationship="ERPModel.FK_BillRequisitionItemBoQMap_BillBoQItem" FromRole="BoQItemProductMap" ToRole="BillBoQItem" />
+          <NavigationProperty Name="Product" Relationship="ERPModel.FK_BoQItemProductMap_Product" FromRole="BoQItemProductMap" ToRole="Product" />
+        </EntityType>
+        <Association Name="FK_BillRequisitionItemBoQMap_Company">
+          <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
+          <End Type="ERPModel.BoQItemProductMap" Role="BoQItemProductMap" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="BoQItemProductMap">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BillRequisitionItemBoQMap_BillBoQItem">
+          <End Type="ERPModel.BillBoQItem" Role="BillBoQItem" Multiplicity="0..1" />
+          <End Type="ERPModel.BoQItemProductMap" Role="BoQItemProductMap" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BillBoQItem">
+              <PropertyRef Name="BoQItemId" />
+            </Principal>
+            <Dependent Role="BoQItemProductMap">
+              <PropertyRef Name="BoQItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BoQItemProductMap_Product">
+          <End Type="ERPModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="ERPModel.BoQItemProductMap" Role="BoQItemProductMap" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="BoQItemProductMap">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityType Name="BillRequisitionDetail">
           <Key>
             <PropertyRef Name="BillRequisitionDetailId" />
@@ -21473,12 +21530,12 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <Property Name="ProductSubTypeId" Type="Int64" />
           <Property Name="ProductId" Type="Int32" />
           <Property Name="UnitId" Type="Int32" />
-          <Property Name="EstimatedQty" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="DemandQty" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="UnitRate" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="TotalPrice" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="ReceivedSoFar" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="RemainingQty" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="EstimatedQty" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="DemandQty" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="UnitRate" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="TotalPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ReceivedSoFar" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="RemainingQty" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="Ward" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="DPP" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Chainage" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
@@ -21550,63 +21607,6 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             </Principal>
             <Dependent Role="VoucherBRMapMaster">
               <PropertyRef Name="BillRequsitionMasterId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="BoQItemProductMap">
-          <Key>
-            <PropertyRef Name="BoQItemProductMapId" />
-          </Key>
-          <Property Name="BoQItemProductMapId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="BoQItemId" Type="Int32" />
-          <Property Name="ProductId" Type="Int32" Nullable="false" />
-          <Property Name="CompanyId" Type="Int32" Nullable="false" />
-          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
-          <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <Property Name="EstimatedQty" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="UnitRate" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="EstimatedAmount" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="RequisitionSubtypeId" Type="Int32" />
-          <NavigationProperty Name="Company" Relationship="ERPModel.FK_BillRequisitionItemBoQMap_Company" FromRole="BoQItemProductMap" ToRole="Company" />
-          <NavigationProperty Name="BillBoQItem" Relationship="ERPModel.FK_BillRequisitionItemBoQMap_BillBoQItem" FromRole="BoQItemProductMap" ToRole="BillBoQItem" />
-          <NavigationProperty Name="Product" Relationship="ERPModel.FK_BoQItemProductMap_Product" FromRole="BoQItemProductMap" ToRole="Product" />
-        </EntityType>
-        <Association Name="FK_BillRequisitionItemBoQMap_Company">
-          <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
-          <End Type="ERPModel.BoQItemProductMap" Role="BoQItemProductMap" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Company">
-              <PropertyRef Name="CompanyId" />
-            </Principal>
-            <Dependent Role="BoQItemProductMap">
-              <PropertyRef Name="CompanyId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_BillRequisitionItemBoQMap_BillBoQItem">
-          <End Type="ERPModel.BillBoQItem" Role="BillBoQItem" Multiplicity="0..1" />
-          <End Type="ERPModel.BoQItemProductMap" Role="BoQItemProductMap" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BillBoQItem">
-              <PropertyRef Name="BoQItemId" />
-            </Principal>
-            <Dependent Role="BoQItemProductMap">
-              <PropertyRef Name="BoQItemId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_BoQItemProductMap_Product">
-          <End Type="ERPModel.Product" Role="Product" Multiplicity="1" />
-          <End Type="ERPModel.BoQItemProductMap" Role="BoQItemProductMap" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="ProductId" />
-            </Principal>
-            <Dependent Role="BoQItemProductMap">
-              <PropertyRef Name="ProductId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -27517,6 +27517,25 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="BoQItemProductMaps">
+            <EntityTypeMapping TypeName="ERPModel.BoQItemProductMap">
+              <MappingFragment StoreEntitySet="BoQItemProductMap">
+                <ScalarProperty Name="RequisitionSubtypeId" ColumnName="RequisitionSubtypeId" />
+                <ScalarProperty Name="EstimatedAmount" ColumnName="EstimatedAmount" />
+                <ScalarProperty Name="UnitRate" ColumnName="UnitRate" />
+                <ScalarProperty Name="EstimatedQty" ColumnName="EstimatedQty" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="BoQItemId" ColumnName="BoQItemId" />
+                <ScalarProperty Name="BoQItemProductMapId" ColumnName="BoQItemProductMapId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="BillRequisitionDetails">
             <EntityTypeMapping TypeName="ERPModel.BillRequisitionDetail">
               <MappingFragment StoreEntitySet="BillRequisitionDetail">
@@ -27567,25 +27586,6 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
                 <ScalarProperty Name="BillRequisitionTypeId" ColumnName="BillRequisitionTypeId" />
                 <ScalarProperty Name="BillRequisitionNo" ColumnName="BillRequisitionNo" />
                 <ScalarProperty Name="BillRequisitionMasterId" ColumnName="BillRequisitionMasterId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="BoQItemProductMaps">
-            <EntityTypeMapping TypeName="ERPModel.BoQItemProductMap">
-              <MappingFragment StoreEntitySet="BoQItemProductMap">
-                <ScalarProperty Name="RequisitionSubtypeId" ColumnName="RequisitionSubtypeId" />
-                <ScalarProperty Name="EstimatedAmount" ColumnName="EstimatedAmount" />
-                <ScalarProperty Name="UnitRate" ColumnName="UnitRate" />
-                <ScalarProperty Name="EstimatedQty" ColumnName="EstimatedQty" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
-                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-                <ScalarProperty Name="BoQItemId" ColumnName="BoQItemId" />
-                <ScalarProperty Name="BoQItemProductMapId" ColumnName="BoQItemProductMapId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

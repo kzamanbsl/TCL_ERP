@@ -314,9 +314,9 @@ namespace KGERP.Data.Models
         public virtual DbSet<BuildingMember> BuildingMembers { get; set; }
         public virtual DbSet<ConsumptionDetail> ConsumptionDetails { get; set; }
         public virtual DbSet<ConsumptionMaster> ConsumptionMasters { get; set; }
+        public virtual DbSet<BoQItemProductMap> BoQItemProductMaps { get; set; }
         public virtual DbSet<BillRequisitionDetail> BillRequisitionDetails { get; set; }
         public virtual DbSet<BillRequisitionMaster> BillRequisitionMasters { get; set; }
-        public virtual DbSet<BoQItemProductMap> BoQItemProductMaps { get; set; }
     
         public virtual ObjectResult<GetEmployeeListForTeam_Result> GetEmployeeListForTeam(Nullable<int> companyId)
         {
