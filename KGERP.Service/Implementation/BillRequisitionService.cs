@@ -1154,7 +1154,8 @@ namespace KGERP.Service.Implementation
                                                                               ReceivedSoFar = t1.ReceivedSoFar,
                                                                               RemainingQty = t1.RemainingQty,
                                                                               EstimatedQty = t1.EstimatedQty,
-                                                                              //Floor = t1.Floor,
+                                                                              FloorId = (int)t1.FloorId,
+                                                                              MemberId = (int)t1.MemberId,
                                                                               Ward = t1.Ward,
                                                                               DPP = t1.DPP,
                                                                               Chainage = t1.Chainage,
@@ -1243,9 +1244,8 @@ namespace KGERP.Service.Implementation
                     if (model.DetailModel.RequisitionSubtypeId == 19)
                     {
                         model.DetailModel.UnitRate = 1;
-                        model.DetailModel.TotalPrice = model.DetailModel.DemandQty * model.DetailModel.UnitRate;
                     }
-
+                    decimal totalPrice = (decimal)model.DetailModel.DemandQty * (decimal)model.DetailModel.UnitRate;
                     BillRequisitionDetail damageDetail = new BillRequisitionDetail
                     {
                         BillRequisitionMasterId = model.BillRequisitionMasterId,
@@ -1258,7 +1258,7 @@ namespace KGERP.Service.Implementation
                         ReceivedSoFar = model.DetailModel.ReceivedSoFar,
                         RemainingQty = model.DetailModel.RemainingQty,
                         EstimatedQty = model.DetailModel.EstimatedQty,
-                        TotalPrice = model.DetailModel.TotalPrice,
+                        TotalPrice = totalPrice,
                         FloorId = model.DetailModel.FloorId,
                         MemberId = model.DetailModel.MemberId,
                         Ward = model.DetailModel.Ward,
@@ -1281,6 +1281,7 @@ namespace KGERP.Service.Implementation
                 }
                 else
                 {
+                    decimal totalPrice = (decimal)model.DetailModel.DemandQty * (decimal)model.DetailModel.UnitRate;
                     BillRequisitionDetail damageDetail = new BillRequisitionDetail
                     {
                         BillRequisitionMasterId = model.BillRequisitionMasterId,
@@ -1294,7 +1295,7 @@ namespace KGERP.Service.Implementation
                         ReceivedSoFar = model.DetailModel.ReceivedSoFar,
                         RemainingQty = model.DetailModel.RemainingQty,
                         EstimatedQty = model.DetailModel.EstimatedQty,
-                        TotalPrice = model.DetailModel.TotalPrice,
+                        TotalPrice = totalPrice,
                         FloorId = model.DetailModel.FloorId,
                         MemberId = model.DetailModel.MemberId,
                         Ward = model.DetailModel.Ward,
@@ -1325,6 +1326,7 @@ namespace KGERP.Service.Implementation
         public async Task<long> BillRequisitionDetailEdit(BillRequisitionMasterModel model)
         {
             long result = -1;
+            decimal totalPrice = (decimal)model.DetailModel.DemandQty * (decimal)model.DetailModel.UnitRate;
             BillRequisitionDetail damageDetail = await _context.BillRequisitionDetails.FindAsync(model.DetailModel.BillRequisitionDetailId);
             if (damageDetail == null) throw new Exception("Sorry! item not found!");
 
@@ -1339,7 +1341,7 @@ namespace KGERP.Service.Implementation
             damageDetail.EstimatedQty = model.DetailModel.EstimatedQty;
             damageDetail.RemainingQty = model.DetailModel.RemainingQty;
             damageDetail.ReceivedSoFar = model.DetailModel.ReceivedSoFar;
-            damageDetail.TotalPrice = model.DetailModel.TotalPrice;
+            damageDetail.TotalPrice = totalPrice;
             damageDetail.Ward = model.DetailModel.Ward;
             damageDetail.FloorId = model.DetailModel.FloorId;
             damageDetail.MemberId = model.DetailModel.MemberId;

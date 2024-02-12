@@ -193,7 +193,7 @@
                                     <div class="row d-block">
                                         <div class="col-md-3">
                                             <div class="form-group d-block">
-                                                <label for="txtWrad" class="form-label">Ward/Road Id</label>
+                                                <label for="txtWrad" class="form-label">Ward</label>
                                                 @Html.TextBoxFor(model => model.DetailModel.Ward, new { id = "txtWrad", placeholder = "Ward", @class = "form-control" })
                                                 @Html.ValidationMessageFor(model => model.DetailModel.Ward, "", new { @class = "text-danger" })
                                             </div>
@@ -201,7 +201,7 @@
 
                                         <div class="col-md-3 d-block">
                                             <div class="form-group">
-                                                <label for="txtDPP" class="form-label">DPP</label>
+                                                <label for="txtDPP" class="form-label">DPP/Road Id</label>
                                                 @Html.TextBoxFor(model => model.DetailModel.DPP, new { id = "txtDPP", placeholder = "DPP", @class = "form-control" })
                                                 @Html.ValidationMessageFor(model => model.DetailModel.DPP, "", new { @class = "text-danger" })
                                             </div>
@@ -225,7 +225,7 @@
                                     <div class="row hidden" id="depandableInputForm">
                                         <div class="col-md-3" id="inputWard">
                                             <div class="form-group">
-                                                <label for="txtWrad" class="form-label">Ward/Road Id</label>
+                                                <label for="txtWrad" class="form-label">Ward</label>
                                                 @Html.TextBoxFor(model => model.DetailModel.Ward, new { id = "txtWrad", placeholder = "Ward", @class = "form-control" })
                                                 @Html.ValidationMessageFor(model => model.DetailModel.Ward, "", new { @class = "text-danger" })
                                             </div>
@@ -233,7 +233,7 @@
 
                                         <div class="col-md-3 hidden" id="inputDPP">
                                             <div class="form-group">
-                                                <label for="txtDPP" class="form-label">DPP</label>
+                                                <label for="txtDPP" class="form-label">DPP/Road Id</label>
                                                 @Html.TextBoxFor(model => model.DetailModel.DPP, new { id = "txtDPP", placeholder = "DPP", @class = "form-control" })
                                                 @Html.ValidationMessageFor(model => model.DetailModel.DPP, "", new { @class = "text-danger" })
                                             </div>
