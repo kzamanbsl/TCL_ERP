@@ -991,6 +991,19 @@ namespace KGERP.Service.Implementation
             return false;
         }
 
+        public async Task<bool> IsBoqBudgetExistByBoqId(long boqItemId, long materialId)
+        {
+            bool result = false;
+            if (boqItemId > 0 && materialId > 0)
+            {
+                if (await _context.BoQItemProductMaps.FirstOrDefaultAsync(x => x.BoQItemId == boqItemId && x.ProductId == materialId) != null)
+                {
+                    result = true;
+                }
+            }
+            return result;
+        }
+
         #endregion
 
         #region Requisition Type

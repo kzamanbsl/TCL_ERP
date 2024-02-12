@@ -85,6 +85,7 @@
                                 <label asp-for="MaterialItemId" class="form-control-label">Select Material :</label>
                                 @Html.DropDownListFor(model => model.MaterialItemId, new SelectList(Model.BoQMaterials.OrderBy(order => order.ProductName), "ProductId", "ProductName"), "==Select Budget Subtype First==", new { id = "ddlMaterialItemId", @class = "form-control searchingDropdown", })
                                 @Html.ValidationMessageFor(model => model.MaterialItemId, "", new { @class = "text-danger" })
+                                <small class="text-danger" id="errorMessage"></small>
                             </div>
                         </div>
 
@@ -551,5 +552,26 @@
             }
         })
 
+        $("#ddlMaterialItemId").on('change', function (event) {
+            var boqItemId = $("#ddlBoQItemId").val();
+            var materialId = $("#ddlMaterialItemId").val();
+            if (boqItemId != null && materialId != null) {
+                $.ajax({
+                    type: "GET",
+                    url: "/BillRequisition/CheckBoqBudget",
+                    dataType: "json",
+                    data: { boqItemId: boqItemId, materialId: materialId },
+                    success: function (data) {
+                        if (data) {
+                            $("#errorMessage").text("This Material has been already budgeted!");
+                            $("#btnSave").prop("disabled", true);
+                        } else {
+                            $("#errorMessage").text("");
+                            $("#btnSave").prop("disabled", false);
+                        }
+                    }
+                });
+            }
+        })
     </script>
 }

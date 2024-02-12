@@ -71,6 +71,7 @@ namespace KGERP.Service.Interface
         bool Delete(BillRequisitionItemBoQMapModel model);
         //List<BoQItemProductMap> GetBoQProductMapList();
         List<BillRequisitionItemBoQMapModel> GetBoQProductMapList();
+        Task<bool> IsBoqBudgetExistByBoqId(long boqItemId, long materialId);
         #endregion
 
         #region Requisition Type
