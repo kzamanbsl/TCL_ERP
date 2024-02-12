@@ -101,7 +101,7 @@
                                             <th>@(++sl)</th>
                                             <td>@item.BRDate.ToString("dd-MM-yyyy")</td>
                                             <td>
-                                                <a class="text-primary" target="_blank" href="~/Report/TCLBillRequisiontReport?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId">
+                                                <a class="text-primary" target="_blank" href="~/BillRequisition/PMBRApproveSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId">
                                                     @item.BillRequisitionNo
                                                 </a>
                                             </td>
@@ -140,19 +140,6 @@
                                                 {
                                                     <a href="~/BillRequisition/PMBRRejectSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" class="link-danger text-danger" title="Rejection Details"><i class="fa fa-external-link-square" aria-hidden="true"></i> Action</a>
                                                 }
-
-                                                @*@if (item.StatusId != EnumBillRequisitionStatus.Draft && item.StatusId != EnumBillRequisitionStatus.Rejected && item.StatusId != EnumBillRequisitionStatus.Approved)
-                                                {
-                                                    <a href="~/BillRequisition/PMBRApproveSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" title="Approve"><i class="glyphicon glyphicon-new-window"></i> Approve</a>
-                                                }
-                                                else if (item.StatusId != EnumBillRequisitionStatus.Draft && item.StatusId != EnumBillRequisitionStatus.Rejected && item.StatusId != EnumBillRequisitionStatus.Approved)
-                                                {
-                                                    <a href="~/BillRequisition/PMBRRejectSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" title="Reject"><i class="glyphicon glyphicon-new-window"></i> Reject</a>
-                                                }
-                                                else if (item.StatusId == EnumBillRequisitionStatus.Approved || item.StatusId == EnumBillRequisitionStatus.Rejected)
-                                                {
-                                                    <a href="~/BillRequisition/PMBRApproveSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" title="Details"><i class="glyphicon glyphicon-new-window"></i> Details</a>
-                                                }*@
 
                                             </td>
                                             <td>
