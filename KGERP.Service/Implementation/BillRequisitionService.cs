@@ -2915,7 +2915,7 @@ namespace KGERP.Service.Implementation
                                  {
                                      t4.ProductSubCategoryId,
                                      t4.Name
-                                 }).ToList();
+                                 }).Distinct().ToList();
 
             var subcategoryList = subCategories.Select(x => new ProductSubCategory
             {
