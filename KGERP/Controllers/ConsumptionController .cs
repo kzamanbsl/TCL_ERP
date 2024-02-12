@@ -1,5 +1,7 @@
 ﻿using KGERP.Data.Models;
+using KGERP.Service.Implementation;
 using KGERP.Service.Implementation.Configuration;
+using KGERP.Service.Implementation.Procurement;
 using KGERP.Service.Interface;
 using KGERP.Service.ServiceModel;
 using KGERP.Utility;
@@ -14,12 +16,14 @@ namespace KGERP.Controllers
         private readonly IConsumptionService _service;
         private readonly ConfigurationService _configurationService;
         private readonly IBillRequisitionService _billRequisitionService;
+        private readonly IStockInfoService _stockInfoService;
 
-        public ConsumptionController(IConsumptionService consumptionService, ConfigurationService configurationService, IBillRequisitionService billRequisitionService)
+        public ConsumptionController(IConsumptionService consumptionService, ConfigurationService configurationService, IBillRequisitionService billRequisitionService, IStockInfoService stockInfoService)
         {
             _service = consumptionService;
             _configurationService = configurationService;
             _billRequisitionService = billRequisitionService;
+            _stockInfoService = stockInfoService;
         }
 
         [HttpGet]
@@ -45,6 +49,7 @@ namespace KGERP.Controllers
             consumptionModel.MaterialTypeList = new SelectList(_configurationService.GetAllProductCategoryList(companyId));
             //consumptionModel.MaterialSubTypeList = new SelectList(_configurationService.GetAllProductSubCategoryList(companyId));
             consumptionModel.ProjectList = new SelectList(_configurationService.GetAllProductSubCategoryList(companyId));
+            consumptionModel.StockInfoList = new SelectList(_stockInfoService.GetStockInfoSelectModels(companyId), "Value","Text");
             //consumptionModel.ActionId = (int)ActionEnum.Add;
             return View(consumptionModel);
 

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using KGERP.Service.Implementation.Warehouse;
+using System.Web.Mvc;
 
 namespace KGERP.Service.Interface
 {
@@ -18,6 +19,7 @@ namespace KGERP.Service.Interface
         VMWarehousePOReceivingSlave GetMaterialReceive(int companyId, long materialReceiveId);
         Task<long> SaveMaterialReceive(VMWarehousePOReceivingSlave vmPOReceivingSlave);
         List<MaterialReceiveModel> GetMaterialIssuePendingList(int companyId, string searchDate, string searchText);
+       Task<SelectList> GetMaterialReceiveListByBoqItem(int companyId, int? projectId, int? storedLocation,int? BoqItem);
         bool MaterialReceiveIssue(MaterialReceiveModel materialReceive);
         MaterialReceiveModel GetMaterialReceiveIssue(long id);
         IList<MaterialReceiveDetailModel> GetMaterialReceiveDetailIssue(long id);

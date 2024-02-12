@@ -17,7 +17,7 @@ namespace KGERP.Service.ServiceModel
         public string ProjectTypeName { get; set; }
         public int CostCenterId { get; set; }
         public string CostCenterName { get; set; }
-        public long StoreId { get; set; }
+        public long StockInfoId { get; set; }
         public string StoreName { get; set; }
         public long BoQDivisionId { get; set; }
         public string BoQDivisionName { get; set; }
@@ -32,7 +32,7 @@ namespace KGERP.Service.ServiceModel
 
         public SelectList BOQItemList { get; set; } = new SelectList(new List<object>());
         public SelectList BOQDivisionList { get; set; } = new SelectList(new List<object>());
-        public SelectList StoreList { get; set; } = new SelectList(new List<object>());
+        public SelectList StockInfoList { get; set; } = new SelectList(new List<object>());
         public SelectList ProjectList { get; set; } = new SelectList(new List<object>());
         public SelectList ProjectTypeList { get; set; } = new SelectList(new List<object>());
         public SelectList MaterialTypeList { get; set; } = new SelectList(new List<object>());

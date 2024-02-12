@@ -889,7 +889,7 @@ namespace KGERP.Controllers
             //List<Store> feedPurchases = repository.Stores.Where(x => x.CompanyId == companyId && x.Type == "F" && x.VendorId > 0 && x.ReceivedDate >= beginDate && x.ReceivedDate <= endDate).ToList();
             //foreach (var feedPurchase in feedPurchases)
             //{
-            //    repository.Database.ExecuteSqlCommand("EXEC AccountingFeedCreateFGPurchaseVoucher {0},{1}", companyId, feedPurchase.StoreId);
+            //    repository.Database.ExecuteSqlCommand("EXEC AccountingFeedCreateFGPurchaseVoucher {0},{1}", companyId, feedPurchase.StockInfoId);
             //}
             ////20
             //List<ConvertedProduct> convertedProducts = repository.ConvertedProducts.Where(x => x.CompanyId == companyId && x.ApprovalDate >= beginDate && x.ApprovalDate <= endDate).ToList();

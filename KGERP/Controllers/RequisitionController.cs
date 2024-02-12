@@ -336,7 +336,7 @@ namespace KGERP.Controllers
         //    StoreModel store = new StoreModel()
         //    {
         //        RequisitionId = requisitionId,
-        //        StoreId = storeId,
+        //        StockInfoId = storeId,
         //        ProductId = productId,
         //        ReceivedCode = reciveCode,
         //        ReceivedDate = receiveDate

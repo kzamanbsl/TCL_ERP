@@ -8,6 +8,8 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using KGERP.Service.Implementation.Warehouse;
+using System.Web.Mvc;
+using System.IdentityModel.Protocols.WSTrust;
 
 namespace KGERP.Service.Implementation
 {
@@ -711,5 +713,19 @@ namespace KGERP.Service.Implementation
             return noOfRowsAfffected > 0;
         }
 
+        public async Task< SelectList> GetMaterialReceiveListByBoqItem(int companyId, int? projectId, int? storedLocation, int? BoqItem)
+        {
+            var meterialReceiveList= await (from t1 in _context.MaterialReceives 
+                                     join t2 in _context.MaterialReceiveDetails on t1.MaterialReceiveId equals t2.MaterialReceiveId
+                                     join t3 in _context.Products on t2.ProductId equals t3.ProductId
+
+                                     where t1.CompanyId == companyId && t1.StockInfoId==storedLocation
+                                     select new {
+                                         ProductName= t3.ProductName,
+                                         ProductId= t3.ProductId
+                                     }).Distinct().ToListAsync();
+
+            return new SelectList(meterialReceiveList, "Value", "Text");
+        }
     }
 }

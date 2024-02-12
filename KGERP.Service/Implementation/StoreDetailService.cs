@@ -75,7 +75,7 @@ namespace KGERP.Service.Implementation
         //{
         //    if (id <= 0)
         //    {
-        //        return new StoreDetailModel() { StoreId = storeId };
+        //        return new StoreDetailModel() { StockInfoId = storeId };
         //    }
         //    return ObjectConverter<StoreDetail, StoreDetailModel>.Convert(context.StoreDetails.Where(x => x.StoreDetailId == id).FirstOrDefault());
         //}

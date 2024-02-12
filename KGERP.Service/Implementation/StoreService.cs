@@ -356,7 +356,7 @@ namespace KGERP.Service.Implementation
             //    if (context.SaveChanges() > 0)
             //    {
 
-            //        //var productStore = context.Database.ExecuteSqlCommand("exec sp_InsertIntoProductStoreFromStoreAndStoreDetail {0},{1}", store.StoreId, store.Type) > 0;
+            //        //var productStore = context.Database.ExecuteSqlCommand("exec sp_InsertIntoProductStoreFromStoreAndStoreDetail {0},{1}", store.StockInfoId, store.Type) > 0;
             //        var changeStatus = ChangeRequisitionStatus(requisitionId.Value);
 
             //        var AccData = FeedRequisitionPushGet(model.CompanyId.Value, requisitionId.Value);
@@ -374,7 +374,7 @@ namespace KGERP.Service.Implementation
             //}
 
 
-            //context.Entry(store).State = store.StoreId == 0 ? EntityState.Added : EntityState.Modified;
+            //context.Entry(store).State = store.StockInfoId == 0 ? EntityState.Added : EntityState.Modified;
             //noOfRowsAffected = context.SaveChanges();
 
             //if (noOfRowsAffected > 0)

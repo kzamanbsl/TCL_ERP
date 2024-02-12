@@ -90,7 +90,7 @@ namespace KGERP.Controllers
         //    {
         //        TempData["message"] = message;
         //    }
-        //    return RedirectToAction("Index",new { id= 0, storeId= vm.StoreDetail.StoreId });
+        //    return RedirectToAction("Index",new { id= 0, storeId= vm.StoreDetail.StockInfoId });
         //}
 
 

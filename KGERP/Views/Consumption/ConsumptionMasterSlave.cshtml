@@ -148,8 +148,8 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label>Select Store :</label>
-                                        @Html.DropDownListFor(model => model.StoreId, Model.StoreList as SelectList, "==Select Store==", new { id = "ddlStoreId", onchange = "GetDivisionListByProjectId()", @class = "form-control searchingDropdown", style = "width:100%", required = "requried" })
+                                        <label>Store Location :</label>
+                                        @Html.DropDownListFor(model => model.StockInfoId, Model.StockInfoList as SelectList, "==Select Store==", new { id = "ddlStoreId", onchange = "GetDivisionListByProjectId()", @class = "form-control searchingDropdown", style = "width:100%", required = "requried" })
                                         @Html.ValidationMessageFor(model => model.CostCenterId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -544,6 +544,29 @@
             });
         }
 
+        //// get boq item list by boq division id
+        //function GetBoqItemListByDivisionId() {
+        //    var getBoqDivisionId = $("#ddlDivisionId option:selected");
+        //    var showBoqItemList = $("#ddlBOQItemId");
+
+        //    $.ajax({
+        //        type: "GET",
+        //        url: "/BillRequisition/getBoqItemListWithBoqNumber",
+        //        dataType: "json",
+        //        data: { id: getBoqDivisionId.val() },
+        //        success: function (data) {
+        //            showBoqItemList.empty();
+        //            showBoqItemList.append("<option selected disabled>==Select BoQ Item==</option>");
+
+        //            $.each(data, function (index, item) {
+        //                showBoqItemList.append($('<option>', {
+        //                    value: item.BoQItemId,
+        //                    text: item.Name
+        //                }));
+        //            });
+        //        }
+        //    });
+        //}
         // get boq item list by boq division id
         function GetBoqItemListByDivisionId() {
             var getBoqDivisionId = $("#ddlDivisionId option:selected");
@@ -568,23 +591,47 @@
             });
         }
 
+        //// get boq material list boq item id
+        //function GetMaterialListByBoqId() {
+        //    var getBoqItemId = $("#ddlBOQItemId option:selected");
+        //    var showBoqMaterialList = $("#ddlRequisitionItemId");
+        //    $.ajax({
+        //        type: "GET",
+        //        url: "/BillRequisition/getBoqMaterialList",
+        //        dataType: "json",
+        //        data: { id: getBoqItemId.val() },
+        //        success: function (data) {
+        //            showBoqMaterialList.empty();
+        //            showBoqMaterialList.append("<option selected disabled>==Select Material==</option>");
+
+        //            $.each(data, function (index, item) {
+        //                showBoqMaterialList.append($('<option>', {
+        //                    value: item.ProductId,
+        //                    text: item.ProductName
+        //                }));
+        //            });
+        //        }
+        //    });
+        //}
         // get boq material list boq item id
         function GetMaterialListByBoqId() {
-            var getBoqItemId = $("#ddlBOQItemId option:selected");
+            var getBoqItemId = $("#ddlBOQItemId").val();
+            var getProjectId = $("#ddlCostCenterId").val();
+            var getStoredId = $("#ddlStoreId").val();
             var showBoqMaterialList = $("#ddlRequisitionItemId");
             $.ajax({
                 type: "GET",
-                url: "/BillRequisition/getBoqMaterialList",
+                url: "/MaterialReceive/GetMaterialReceiveListByBoqItem",
                 dataType: "json",
-                data: { id: getBoqItemId.val() },
+                data: { companyId: @CompanyInfo.CompanyId, projectId: getProjectId, storedLocation: getStoredId, BoqItem: getBoqItemId },
                 success: function (data) {
                     showBoqMaterialList.empty();
                     showBoqMaterialList.append("<option selected disabled>==Select Material==</option>");
 
                     $.each(data, function (index, item) {
                         showBoqMaterialList.append($('<option>', {
-                            value: item.ProductId,
-                            text: item.ProductName
+                            value: item.value,
+                            text: item.text
                         }));
                     });
                 }
@@ -749,7 +796,7 @@
         $(document).ready(function () {
             'use strict';
 
-            $('#ddlStoreId').append(` "<option value=1>TCl Store</option>"`);
+           
 
             // dependable dropdown validate
             $("#ddlBRSubTypeId").empty();

@@ -37,7 +37,7 @@ namespace KGERP.Service.Implementation
             {
 
                 BoqItemId = consumption.BOQItemId,
-                StoreId = consumption?.StoreId ?? 0,
+                StoreId = consumption?.StockInfoId ?? 0,
                 DivisionId = consumption.DivisionId,
                 IsActive=true,
                 CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
@@ -207,7 +207,7 @@ namespace KGERP.Service.Implementation
                                                                ProjectTypeName = t7.Name,
                                                                CostCenterId = t6.CostCenterId > 0 ? t6.CostCenterId : 0,
                                                                CostCenterName = t6.Name,
-                                                               StoreId = t2.StoreId > 0 ? t2.StoreId : 0,
+                                                               StockInfoId = t2.StoreId > 0 ? t2.StoreId : 0,
                                                                BoQDivisionId = t3.BoQDivisionId > 0 ? t3.BoQDivisionId : 0,
                                                                BoQDivisionName = t3.Name,
                                                                BOQItemId = t4.BoQItemId > 0 ? t4.BoQItemId : 0,
