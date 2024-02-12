@@ -296,7 +296,7 @@
                                     <div class="col-md-3 d-block" id="inputMaterial">
                                         <div class="form-group">
                                             <label class="form-label" id="materialTitle">@((Model.BillRequisitionTypeId == (int)EnumBillRequisitionType.Overhead) ? "Requisition Item" : "Requisition Material")<sup class="text-danger" title="Required">*</sup></label>
-                                            @Html.DropDownListFor(model => model.DetailModel.ProductId, Model.RequisitionItemList as SelectList, "==Select Material==", new { id = "ddlRequisitionItemId", onchange = "GetUnitNameByProductId()", @class = "form-control searchingDropdown" })
+                                            @Html.DropDownListFor(model => model.DetailModel.ProductId, Model.RequisitionItemList as SelectList, "==Select Material==", new { id = "ddlRequisitionItemId", onchange = "GetUnitNameByProductId()", @class = "form-control searchingDropdown", required = "required" })
                                             @Html.ValidationMessageFor(model => model.DetailModel.ProductId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -738,6 +738,7 @@
                 }
             });
 
+            
             // Description title change when requisition type overhead is selected
             $("#ddlBRTypeId").on("change", function () {
                 var selectedOption = $(this).find("option:selected");

@@ -1137,10 +1137,10 @@ namespace KGERP.Service.Implementation
                                                                           {
                                                                               BillRequisitionDetailId = t1.BillRequisitionDetailId,
                                                                               BillRequisitionMasterId = t1.BillRequisitionMasterId,
-                                                                              BoqItemId = t5.BoQItemId,
+                                                                              BoqItemId = t5.BoQItemId == null ? 0 : t5.BoQItemId,
                                                                               BoqItemName = t5.Name ?? "N/A",
                                                                               BoqNumber = t5.BoQNumber ?? "N/A",
-                                                                              BoqDivisionId = t6.BoQDivisionId,
+                                                                              BoqDivisionId = t6.BoQDivisionId == null ? 0 : t6.BoQDivisionId,
                                                                               BoqDivisionName = t6.Name ?? "N/A",
                                                                               RequisitionSubtypeId = t7.ProductSubCategoryId,
                                                                               RequisitionSubtypeName = t7.Name,
