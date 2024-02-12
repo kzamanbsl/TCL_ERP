@@ -29,7 +29,7 @@ namespace KGERP.Data.Models
         public Nullable<int> RequisitionSubtypeId { get; set; }
     
         public virtual Company Company { get; set; }
-        public virtual BillBoQItem BillBoQItem { get; set; }
         public virtual Product Product { get; set; }
+        public virtual BillBoQItem BillBoQItem { get; set; }
     }
 }
