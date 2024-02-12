@@ -1259,7 +1259,8 @@ namespace KGERP.Service.Implementation
                         RemainingQty = model.DetailModel.RemainingQty,
                         EstimatedQty = model.DetailModel.EstimatedQty,
                         TotalPrice = model.DetailModel.TotalPrice,
-                        //Floor = model.DetailModel.Floor,
+                        FloorId = model.DetailModel.FloorId,
+                        MemberId = model.DetailModel.MemberId,
                         Ward = model.DetailModel.Ward,
                         DPP = model.DetailModel.DPP,
                         Chainage = model.DetailModel.Chainage,
@@ -1294,7 +1295,8 @@ namespace KGERP.Service.Implementation
                         RemainingQty = model.DetailModel.RemainingQty,
                         EstimatedQty = model.DetailModel.EstimatedQty,
                         TotalPrice = model.DetailModel.TotalPrice,
-                        //Floor = model.DetailModel.Floor,
+                        FloorId = model.DetailModel.FloorId,
+                        MemberId = model.DetailModel.MemberId,
                         Ward = model.DetailModel.Ward,
                         DPP = model.DetailModel.DPP,
                         Chainage = model.DetailModel.Chainage,
@@ -1339,7 +1341,8 @@ namespace KGERP.Service.Implementation
             damageDetail.ReceivedSoFar = model.DetailModel.ReceivedSoFar;
             damageDetail.TotalPrice = model.DetailModel.TotalPrice;
             damageDetail.Ward = model.DetailModel.Ward;
-            //damageDetail.Floor = model.DetailModel.Floor;
+            damageDetail.FloorId = model.DetailModel.FloorId;
+            damageDetail.MemberId = model.DetailModel.MemberId;
             damageDetail.DPP = model.DetailModel.DPP;
             damageDetail.Chainage = model.DetailModel.Chainage;
             if (await _context.SaveChangesAsync() > 0)
@@ -1536,7 +1539,8 @@ namespace KGERP.Service.Implementation
                                               UnitRate = t1.UnitRate,
                                               TotalPrice = t1.TotalPrice,
                                               Ward = t1.Ward,
-                                              //Floor = t1.Floor,
+                                              FloorId = (int)t1.FloorId,
+                                              MemberId = (int)t1.MemberId,
                                               DPP = t1.DPP,
                                               Chainage = t1.Chainage,
                                               Remarks = t1.Remarks,

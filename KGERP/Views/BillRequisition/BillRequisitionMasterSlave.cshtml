@@ -193,7 +193,7 @@
                                     <div class="row d-block">
                                         <div class="col-md-3">
                                             <div class="form-group d-block">
-                                                <label for="txtWrad" class="form-label">Ward</label>
+                                                <label for="txtWrad" class="form-label">Ward/Road Id</label>
                                                 @Html.TextBoxFor(model => model.DetailModel.Ward, new { id = "txtWrad", placeholder = "Ward", @class = "form-control" })
                                                 @Html.ValidationMessageFor(model => model.DetailModel.Ward, "", new { @class = "text-danger" })
                                             </div>
@@ -225,7 +225,7 @@
                                     <div class="row hidden" id="depandableInputForm">
                                         <div class="col-md-3" id="inputWard">
                                             <div class="form-group">
-                                                <label for="txtWrad" class="form-label">Ward</label>
+                                                <label for="txtWrad" class="form-label">Ward/Road Id</label>
                                                 @Html.TextBoxFor(model => model.DetailModel.Ward, new { id = "txtWrad", placeholder = "Ward", @class = "form-control" })
                                                 @Html.ValidationMessageFor(model => model.DetailModel.Ward, "", new { @class = "text-danger" })
                                             </div>
@@ -614,7 +614,8 @@
                     $('#ActionId').val(2);
                     $("#CompanyFK").val(data.CompanyId);
                     $("#hiddenBillRequisitionDetailId").val(data.BillRequisitionDetailId);
-                    $("#txtFloor").val(data.Floor);
+                    $("#ddlFloor").val(data.FloorId).trigger('change');
+                    $("#ddlMember").val(data.MemberId).trigger('change');
                     $("#txtWrad").val(data.Ward);
                     $("#txtDPP").val(data.DPP);
                     $("#txtChainage").val(data.Chainage);
