@@ -660,7 +660,8 @@ namespace KGERP.Controllers
             }
             billRequisitionMasterModel.ProjectTypeList = new SelectList(await _service.GetCostCenterTypeList(companyId), "CostCenterTypeId", "Name");
             billRequisitionMasterModel.RequisitionTypeList = new SelectList(_configurationService.GetAllProductCategoryList(companyId), "ProductCategoryId", "Name");
-
+            billRequisitionMasterModel.FloorList = new SelectList(await _service.GetFloorList(companyId), "BuildingFloorId", "Name");
+            billRequisitionMasterModel.MemberList = new SelectList(await _service.GetMemberList(companyId), "BuildingMemberId", "Name");
             return View(billRequisitionMasterModel);
         }
 

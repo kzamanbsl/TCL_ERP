@@ -174,9 +174,9 @@
                                     <div class="row">
                                         <div class="col-md-3 d-block">
                                             <div class="form-group">
-                                                <label for="txtFloor" class="form-label">Floor</label>
-                                                @Html.TextBoxFor(model => model.DetailModel.Floor, new { id = "txtFloor", placeholder = "Floor", @class = "form-control" })
-                                                @Html.ValidationMessageFor(model => model.DetailModel.Floor, "", new { @class = "text-danger" })
+                                                <label for="ddlFloor" class="form-label d-block">Select Floor</label>
+                                                @Html.DropDownListFor(model => model.DetailModel.FloorId, Model.FloorList as SelectList, "==Select Floor==", new { id = "ddlFloor", @class = "form-control searchingDropdown d-block", @style = "width: 100%" })
+                                                @Html.ValidationMessageFor(model => model.DetailModel.FloorId, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                         <div class="col-md-3 d-block">
@@ -249,15 +249,15 @@
 
                                         <div class="col-md-3 hidden" id="inputFloor">
                                             <div class="form-group">
-                                                <label for="txtFloor" class="form-label">Floor</label>
-                                                @Html.TextBoxFor(model => model.DetailModel.Floor, new { id = "txtFloor", placeholder = "Floor", @class = "form-control" })
-                                                @Html.ValidationMessageFor(model => model.DetailModel.Floor, "", new { @class = "text-danger" })
+                                                <label for="ddlFloor" class="form-label d-block">Select Floor</label>
+                                                @Html.DropDownListFor(model => model.DetailModel.FloorId, Model.FloorList as SelectList, "==Select Floor==", new { id = "ddlFloor", @class = "form-control searchingDropdown d-block", @style = "width: 100%" })
+                                                @Html.ValidationMessageFor(model => model.DetailModel.FloorId, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
 
                                         <div class="col-md-3 hidden" id="inputMember">
                                             <div class="form-group">
-                                                <label for="ddlMember" class="form-label d-block">Member</label>
+                                                <label for="ddlMember" class="form-label d-block">Select Member</label>
                                                 @Html.DropDownListFor(model => model.DetailModel.MemberId, Model.MemberList as SelectList, "==Select Member==", new { id = "ddlMember", @class = "form-control searchingDropdown d-block", @style = "width: 100%" })
                                                 @Html.ValidationMessageFor(model => model.DetailModel.MemberId, "", new { @class = "text-danger" })
                                             </div>

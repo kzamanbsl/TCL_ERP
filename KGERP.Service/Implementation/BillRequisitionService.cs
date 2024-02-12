@@ -65,7 +65,7 @@ namespace KGERP.Service.Implementation
 
                     return count > 0;
                 }
-                catch (Exception error)
+                catch
                 {
                     return false;
                 }
@@ -121,6 +121,7 @@ namespace KGERP.Service.Implementation
                 }
                 catch (Exception error)
                 {
+                    string message = error.Message.ToString();
                     return false;
                 }
             }
@@ -165,7 +166,7 @@ namespace KGERP.Service.Implementation
 
                     return count > 0;
                 }
-                catch (Exception error)
+                catch
                 {
                     return false;
                 }
@@ -327,7 +328,7 @@ namespace KGERP.Service.Implementation
 
                     return count > 0;
                 }
-                catch (Exception error)
+                catch
                 {
                     return false;
                 }
@@ -381,7 +382,7 @@ namespace KGERP.Service.Implementation
                         return count > 0;
                     }
                 }
-                catch (Exception error)
+                catch
                 {
                     return false;
                 }
@@ -550,7 +551,7 @@ namespace KGERP.Service.Implementation
                         return true;
                     }
                 }
-                catch (Exception e)
+                catch
                 {
                     return false;
                 }
@@ -577,7 +578,7 @@ namespace KGERP.Service.Implementation
                         return true;
                     }
                 }
-                catch (Exception e)
+                catch
                 {
                     return false;
                 }
@@ -587,7 +588,7 @@ namespace KGERP.Service.Implementation
 
         public bool Delete(BoqDivisionModel model)
         {
-            if (model.BoqDivisionId > 0 || model.BoqDivisionId != null)
+            if (model.BoqDivisionId > 0)
             {
                 try
                 {
@@ -913,7 +914,7 @@ namespace KGERP.Service.Implementation
                         return true;
                     }
                 }
-                catch (Exception e)
+                catch
                 {
                     return false;
                 }
@@ -943,7 +944,7 @@ namespace KGERP.Service.Implementation
                         return true;
                     }
                 }
-                catch (Exception e)
+                catch
                 {
                     return false;
                 }
@@ -969,7 +970,7 @@ namespace KGERP.Service.Implementation
                         return true;
                     }
                 }
-                catch (Exception e)
+                catch
                 {
                     return false;
                 }
@@ -1020,7 +1021,7 @@ namespace KGERP.Service.Implementation
                         return true;
                     }
                 }
-                catch (Exception e)
+                catch
                 {
                     return false;
                 }
@@ -1136,10 +1137,10 @@ namespace KGERP.Service.Implementation
                                                                           {
                                                                               BillRequisitionDetailId = t1.BillRequisitionDetailId,
                                                                               BillRequisitionMasterId = t1.BillRequisitionMasterId,
-                                                                              BoqItemId = (t5.BoQItemId == null ? 0 : t5.BoQItemId),
+                                                                              BoqItemId = t5.BoQItemId,
                                                                               BoqItemName = t5.Name ?? "N/A",
                                                                               BoqNumber = t5.BoQNumber ?? "N/A",
-                                                                              BoqDivisionId = (t6.BoQDivisionId == null ? 0 : t6.BoQDivisionId),
+                                                                              BoqDivisionId = t6.BoQDivisionId,
                                                                               BoqDivisionName = t6.Name ?? "N/A",
                                                                               RequisitionSubtypeId = t7.ProductSubCategoryId,
                                                                               RequisitionSubtypeName = t7.Name,
@@ -1153,7 +1154,7 @@ namespace KGERP.Service.Implementation
                                                                               ReceivedSoFar = t1.ReceivedSoFar,
                                                                               RemainingQty = t1.RemainingQty,
                                                                               EstimatedQty = t1.EstimatedQty,
-                                                                              Floor = t1.Floor,
+                                                                              //Floor = t1.Floor,
                                                                               Ward = t1.Ward,
                                                                               DPP = t1.DPP,
                                                                               Chainage = t1.Chainage,
@@ -1258,7 +1259,7 @@ namespace KGERP.Service.Implementation
                         RemainingQty = model.DetailModel.RemainingQty,
                         EstimatedQty = model.DetailModel.EstimatedQty,
                         TotalPrice = model.DetailModel.TotalPrice,
-                        Floor = model.DetailModel.Floor,
+                        //Floor = model.DetailModel.Floor,
                         Ward = model.DetailModel.Ward,
                         DPP = model.DetailModel.DPP,
                         Chainage = model.DetailModel.Chainage,
@@ -1293,7 +1294,7 @@ namespace KGERP.Service.Implementation
                         RemainingQty = model.DetailModel.RemainingQty,
                         EstimatedQty = model.DetailModel.EstimatedQty,
                         TotalPrice = model.DetailModel.TotalPrice,
-                        Floor = model.DetailModel.Floor,
+                        //Floor = model.DetailModel.Floor,
                         Ward = model.DetailModel.Ward,
                         DPP = model.DetailModel.DPP,
                         Chainage = model.DetailModel.Chainage,
@@ -1313,7 +1314,7 @@ namespace KGERP.Service.Implementation
                     return result;
                 }
             }
-            catch (Exception error)
+            catch
             {
                 return result;
             }
@@ -1322,28 +1323,28 @@ namespace KGERP.Service.Implementation
         public async Task<long> BillRequisitionDetailEdit(BillRequisitionMasterModel model)
         {
             long result = -1;
-            BillRequisitionDetail demageDetail = await _context.BillRequisitionDetails.FindAsync(model.DetailModel.BillRequisitionDetailId);
-            if (demageDetail == null) throw new Exception("Sorry! item not found!");
+            BillRequisitionDetail damageDetail = await _context.BillRequisitionDetails.FindAsync(model.DetailModel.BillRequisitionDetailId);
+            if (damageDetail == null) throw new Exception("Sorry! item not found!");
 
-            demageDetail.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
-            demageDetail.ModifiedDate = DateTime.Now;
+            damageDetail.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+            damageDetail.ModifiedDate = DateTime.Now;
 
-            demageDetail.BillRequisitionMasterId = model.BillRequisitionMasterId;
-            demageDetail.BillRequisitionDetailId = model.DetailModel.BillRequisitionDetailId;
-            demageDetail.ProductId = model.DetailModel.ProductId;
-            demageDetail.UnitRate = model.DetailModel.UnitRate;
-            demageDetail.DemandQty = model.DetailModel.DemandQty;
-            demageDetail.EstimatedQty = model.DetailModel.EstimatedQty;
-            demageDetail.RemainingQty = model.DetailModel.RemainingQty;
-            demageDetail.ReceivedSoFar = model.DetailModel.ReceivedSoFar;
-            demageDetail.TotalPrice = model.DetailModel.TotalPrice;
-            demageDetail.Ward = model.DetailModel.Ward;
-            demageDetail.Floor = model.DetailModel.Floor;
-            demageDetail.DPP = model.DetailModel.DPP;
-            demageDetail.Chainage = model.DetailModel.Chainage;
+            damageDetail.BillRequisitionMasterId = model.BillRequisitionMasterId;
+            damageDetail.BillRequisitionDetailId = model.DetailModel.BillRequisitionDetailId;
+            damageDetail.ProductId = model.DetailModel.ProductId;
+            damageDetail.UnitRate = model.DetailModel.UnitRate;
+            damageDetail.DemandQty = model.DetailModel.DemandQty;
+            damageDetail.EstimatedQty = model.DetailModel.EstimatedQty;
+            damageDetail.RemainingQty = model.DetailModel.RemainingQty;
+            damageDetail.ReceivedSoFar = model.DetailModel.ReceivedSoFar;
+            damageDetail.TotalPrice = model.DetailModel.TotalPrice;
+            damageDetail.Ward = model.DetailModel.Ward;
+            //damageDetail.Floor = model.DetailModel.Floor;
+            damageDetail.DPP = model.DetailModel.DPP;
+            damageDetail.Chainage = model.DetailModel.Chainage;
             if (await _context.SaveChangesAsync() > 0)
             {
-                result = demageDetail.BillRequisitionDetailId;
+                result = damageDetail.BillRequisitionDetailId;
             }
 
             return result;
@@ -1380,7 +1381,7 @@ namespace KGERP.Service.Implementation
 
                     billRequisitionApproval.SignatoryId = Convert.ToInt16(item.Value);
 
-                    priority = priority + 1;
+                    priority = priority++;
                     billRequisitionApproval.PriorityNo = priority;
                     billRequisitionApproval.IsActive = true;
                     billRequisitionApproval.IsSupremeApproved = false;
@@ -1471,17 +1472,17 @@ namespace KGERP.Service.Implementation
         {
             long result = -1;
 
-            BillRequisitionDetail demageDetail = await _context.BillRequisitionDetails.FindAsync(id);
-            if (demageDetail == null)
+            BillRequisitionDetail damageDetail = await _context.BillRequisitionDetails.FindAsync(id);
+            if (damageDetail == null)
             {
                 throw new Exception("Sorry! Order not found!");
             }
 
-            demageDetail.IsActive = false;
+            damageDetail.IsActive = false;
 
             if (await _context.SaveChangesAsync() > 0)
             {
-                result = demageDetail.BillRequisitionDetailId;
+                result = damageDetail.BillRequisitionDetailId;
             }
 
             return result;
@@ -1540,52 +1541,14 @@ namespace KGERP.Service.Implementation
                                               UnitRate = t1.UnitRate,
                                               TotalPrice = t1.TotalPrice,
                                               Ward = t1.Ward,
-                                              Floor = t1.Floor,
+                                              //Floor = t1.Floor,
                                               DPP = t1.DPP,
                                               Chainage = t1.Chainage,
                                               Remarks = t1.Remarks,
                                           }).FirstOrDefault());
             return v;
         }
-        //public async Task<BillRequisitionMasterModel> GetBillRequisitionMasterList(int companyId, DateTime? fromDate, DateTime? toDate, int? statusId)
-        //{
-        //    BillRequisitionMasterModel BillRequisitionMasterModel = new BillRequisitionMasterModel();
-        //    BillRequisitionMasterModel.CompanyFK = companyId;
-        //    BillRequisitionMasterModel.DataList = await Task.Run(() => (from t1 in _context.BillRequisitionMasters.Where(x => x.IsActive
-        //                                                  && x.CompanyId == companyId)
-        //                                                                join t2 in _context.Accounting_CostCenter on t1.CostCenterId equals t2.CostCenterId into t2_Join
-        //                                                                from t2 in t2_Join.DefaultIfEmpty()
-        //                                                                join t3 in _context.BillRequisitionTypes on t1.BillRequisitionTypeId equals t3.BillRequisitionTypeId into t3_Join
-        //                                                                from t3 in t3_Join.DefaultIfEmpty()
-        //                                                                join t4 in _context.Accounting_CostCenterType on t1.ProjectTypeId equals t4.CostCenterTypeId into t4_Join
-        //                                                                from t4 in t4_Join.DefaultIfEmpty()
-        //                                                                select new BillRequisitionMasterModel
-        //                                                                {
-        //                                                                    BillRequisitionMasterId = t1.BillRequisitionMasterId,
-        //                                                                    BillRequisitionTypeId = t1.BillRequisitionTypeId,
-        //                                                                    BOQItemId = t1.BOQItemId,
-        //                                                                    ProjectTypeId = t1.ProjectTypeId,
-        //                                                                    ProjectTypeName = t4.Name,
-        //                                                                    BRTypeName = t3.Name,
-        //                                                                    CostCenterId = t1.CostCenterId,
-        //                                                                    CostCenterName = t2.Name,
-        //                                                                    Description = t1.Description,
-        //                                                                    BRDate = t1.BRDate,
-        //                                                                    BillRequisitionNo = t1.BillRequisitionNo,
-        //                                                                    StatusId = (EnumBillRequisitionStatus)t1.StatusId,
-        //                                                                    CompanyFK = t1.CompanyId,
-        //                                                                    CreatedDate = t1.CreateDate,
-        //                                                                    CreatedBy = t1.CreatedBy,
-        //                                                                }).OrderByDescending(x => x.BillRequisitionMasterId).AsEnumerable());
-
-        //    if (statusId != -1 && statusId != null)
-        //    {
-        //        BillRequisitionMasterModel.DataList = BillRequisitionMasterModel.DataList.Where(q => q.StatusId == (EnumBillRequisitionStatus)statusId);
-        //    }
-        //    var masterIds = BillRequisitionMasterModel.DataList.Select(x => x.BillRequisitionMasterId);
-
-        //    return BillRequisitionMasterModel;
-        //}
+       
         public async Task<BillRequisitionMasterModel> GetBillRequisitionMasterList(int companyId, DateTime? fromDate, DateTime? toDate, int? statusId)
         {
             BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
@@ -2093,7 +2056,6 @@ namespace KGERP.Service.Implementation
         public async Task<BillRequisitionMasterModel> GetQSBillRequisitionList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
         {
             BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
-            //var EmpId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
 
             billRequisitionMasterModel.CompanyFK = companyId;
 
@@ -2785,12 +2747,6 @@ namespace KGERP.Service.Implementation
         public async Task<BillRequisitionMasterModel> GetMDBillRequisitionList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
         {
             BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
-            //var EmpId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
-            //if (EmpId <= 0)
-            //{
-            //    return billRequisitionMasterModel;
-
-            //}
             billRequisitionMasterModel.CompanyFK = companyId;
 
             var totalPrice = (from t1 in _context.BillRequisitionMasters.Where(x => x.IsActive
@@ -2848,10 +2804,6 @@ namespace KGERP.Service.Implementation
 
                                                                         }).OrderByDescending(x => x.BillRequisitionMasterId).AsEnumerable());
 
-            //var filteredMasterList = billRequisitionMasterModel.DataList.Where(
-            //q => q.ApprovalModelList.FirstOrDefault(x => x.SignatoryId == (int)EnumBRequisitionSignatory.PD)?.AprrovalStatusId == (int)EnumBillRequisitionStatus.Approved);
-
-            //billRequisitionMasterModel.DataList = filteredMasterList;
             if (vStatus != -1 && vStatus != null)
             {
                 billRequisitionMasterModel.DataList = billRequisitionMasterModel.DataList.Where(q => q.StatusId == (EnumBillRequisitionStatus)vStatus);
@@ -2862,7 +2814,7 @@ namespace KGERP.Service.Implementation
             return billRequisitionMasterModel;
         }
 
-        //public string GetRequisitionVoucherStatusMd(long billRequisitionId)
+        // Voucher status for MD
         public async Task<string> GetRequisitionVoucherStatusMd(long billRequisitionId)
         {
             string status = "";
@@ -2871,14 +2823,13 @@ namespace KGERP.Service.Implementation
             var approvedRequisitionAmount = _context.BillRequisitionDetails.Where(x => x.BillRequisitionMasterId == billRequisitionId && x.IsActive).Sum(s => s.UnitRate * s.DemandQty);
             if (requisition != null)
             {
-                var VoucherBRMapMasterList = _context.VoucherBRMapMasters
+                var VoucherBRMapMasterList = await _context.VoucherBRMapMasters
                 .Where(x => x.BillRequsitionMasterId == requisition.BillRequisitionMasterId &&
                             x.IsRequisitionVoucher &&
                             x.IsActive &&
                             (x.ApprovalStatusId == (int)EnumBillRequisitionStatus.Approved ||
                              x.ApprovalStatusId == (int)EnumBillRequisitionStatus.Submitted))
-                .ToList();
-
+                .ToListAsync();
 
                 var creditAmount = (decimal)0;
                 try
@@ -2895,9 +2846,8 @@ namespace KGERP.Service.Implementation
                     }
 
                 }
-                catch (Exception ex)
+                catch
                 {
-
                     throw;
                 }
                 if (creditAmount > 0)
@@ -2920,10 +2870,6 @@ namespace KGERP.Service.Implementation
                     }
                 }
             }
-
-            //var debitamount = _context.VoucherBRMapDetails.Where(x => VoucherBRMapMasterList.Select(s => s.VoucherBRMapMasterId).Contains(x.VoucherBRMapMasterId)).Sum(l=> l.DebitAmount);
-
-
 
             return status;
         }

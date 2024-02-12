@@ -10,11 +10,6 @@ namespace KGERP.Utility
         Requisition
     }
 
-    public enum EnumMemberForBuilding
-    {
-        Pile = 1,
-        Foundation
-    }
     public enum EnumMaterialQuality
     {
         A = 1,
