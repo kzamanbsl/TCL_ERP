@@ -53,6 +53,7 @@
                                 <label asp-for="BoQNumber" class="form-control-label">BoQ Number :</label>
                                 @Html.TextBoxFor(model => model.BoQNumber, new { id = "txtBoqItemNumber", @class = "form-control", @placeholder = "BoQ Item Number", required = "true" })
                                 @Html.ValidationMessageFor(model => model.BoQNumber, "", new { id = "nameExist", @class = "text-danger" })
+                                <small class="text-danger" id="errorMessage"></small>
                             </div>
                         </div>
 
@@ -259,13 +260,32 @@
                             text: item.Name
                         }));
                     });
-                    showBoqDivisionList.val($('#boqDivisionId_' + rowId).val().trim()).trigger('change');
-                },
-                error: function (error) {
-                    console.error("Error in AJAX request:", error);
+                    showBoqDivisionList.val($('#boqDivisionId_' + rowId).val()).trigger('change');
                 }
             });
         }
+
+        $("#txtBoqItemNumber").on('input', function (event) {
+            var divisionId = $("#ddlBoQDivisionId").val();
+            var boqNumber = $("#txtBoqItemNumber").val();
+            if (divisionId != null && boqNumber != null) {
+                $.ajax({
+                    type: "GET",
+                    url: "/BillRequisition/CheckBoqNumber",
+                    dataType: "json",
+                    data: { divisionId: divisionId, boqNumber: boqNumber },
+                    success: function (data) {
+                        if (data) {
+                            $("#errorMessage").text("This BoQ Number is already used!");
+                            $("#btnSave").prop("disabled", true);
+                        } else {
+                            $("#errorMessage").text("");
+                            $("#btnSave").prop("disabled", false);
+                        }
+                    }
+                });
+            }
+        })
 
     </script>
 }

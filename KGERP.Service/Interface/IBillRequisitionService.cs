@@ -62,6 +62,7 @@ namespace KGERP.Service.Interface
         List<BillRequisitionBoqModel> GetBillOfQuotationList();
         Task<List<BillRequisitionBoqModel>> GetBoqListByDivisionId(long id);
         List<BillBoQItem> GetBillOfQuotationListByProjectId(int id);
+        Task<bool> IsBoqExistByDivisionId(long divisionId, string boqNumber);
         #endregion
 
         #region Budget & Estimating

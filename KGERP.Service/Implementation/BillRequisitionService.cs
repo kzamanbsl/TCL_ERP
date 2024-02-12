@@ -828,6 +828,19 @@ namespace KGERP.Service.Implementation
             return false;
         }
 
+        public async Task<bool> IsBoqExistByDivisionId(long divisionId, string boqNumber)
+        {
+            bool result = false;
+            if(divisionId > 0 && boqNumber != null)
+            {
+                if (await _context.BillBoQItems.FirstOrDefaultAsync(x => x.BoQNumber == boqNumber && x.BoQDivisionId == divisionId) != null)
+                {
+                    result = true;
+                }
+            }
+            return result;
+        }
+
         #endregion
 
         #region Budget & Estimating

@@ -128,6 +128,15 @@ namespace KGERP.Controllers
 
         #region All Json Action Method for Requisition
 
+        // Check BoQ Number by Division id
+        public async Task<JsonResult> CheckBoqNumber(long divisionId, string boqNumber)
+        {
+            bool result = await _service.IsBoqExistByDivisionId(divisionId, boqNumber);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+
         // get material budget info
         public async Task<JsonResult> GetMaterialBudgetInfo(long projectId = 0, long boqId = 0, long productId = 0)
         {
