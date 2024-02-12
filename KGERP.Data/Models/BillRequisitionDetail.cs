@@ -32,10 +32,11 @@ namespace KGERP.Data.Models
         public Nullable<decimal> TotalPrice { get; set; }
         public Nullable<decimal> ReceivedSoFar { get; set; }
         public Nullable<decimal> RemainingQty { get; set; }
-        public string Floor { get; set; }
         public string Ward { get; set; }
         public string DPP { get; set; }
         public string Chainage { get; set; }
+        public Nullable<int> FloorId { get; set; }
+        public Nullable<int> MemberId { get; set; }
         public string Remarks { get; set; }
         public int CompanyId { get; set; }
         public System.DateTime CreateDate { get; set; }

@@ -1420,10 +1420,9 @@ namespace KGERP.Service.Implementation
             billRequisitionMaster.BillRequisitionNo = model.BillRequisitionNo;
             billRequisitionMaster.BillRequisitionTypeId = model.BillRequisitionTypeId;
             billRequisitionMaster.ProjectTypeId = model.ProjectTypeId;
-            billRequisitionMaster.BOQItemId = model.BOQItemId;
             billRequisitionMaster.CostCenterId = model.CostCenterId;
             billRequisitionMaster.Description = model.Description;
-            billRequisitionMaster.StatusId = (int)model.StatusId;
+            //billRequisitionMaster.StatusId = (int)model.StatusId;
             billRequisitionMaster.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
             billRequisitionMaster.ModifiedDate = DateTime.Now;
             if (await _context.SaveChangesAsync() > 0)
@@ -1440,12 +1439,10 @@ namespace KGERP.Service.Implementation
 
                                           join t2 in _context.Accounting_CostCenter on t1.CostCenterId equals t2.CostCenterId into t2_Join
                                           from t2 in t2_Join.DefaultIfEmpty()
-                                          join t3 in _context.BillRequisitionTypes on t1.BillRequisitionTypeId equals t3.BillRequisitionTypeId into t3_Join
+                                          join t3 in _context.ProductCategories on t1.BillRequisitionTypeId equals t3.ProductCategoryId into t3_Join
                                           from t3 in t3_Join.DefaultIfEmpty()
                                           join t4 in _context.Accounting_CostCenterType on t1.ProjectTypeId equals t4.CostCenterTypeId into t4_Join
                                           from t4 in t4_Join.DefaultIfEmpty()
-                                          join t5 in _context.BillBoQItems on t1.BOQItemId equals t5.BoQItemId into t5_Join
-                                          from t5 in t5_Join.DefaultIfEmpty()
 
                                           select new BillRequisitionMasterModel
                                           {
@@ -1455,8 +1452,6 @@ namespace KGERP.Service.Implementation
                                               CostCenterId = t1.CostCenterId,
                                               ProjectTypeId = t1.ProjectTypeId,
                                               ProjectTypeName = t4.Name,
-                                              BOQItemId = t1.BOQItemId,
-                                              BOQItemName = t5.Name,
                                               CostCenterName = t2.Name,
                                               Description = t1.Description,
                                               BRDate = t1.BRDate,
