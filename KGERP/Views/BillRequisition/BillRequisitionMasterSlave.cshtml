@@ -1078,10 +1078,10 @@
                 var getSubcategoryId = $("#ddlBRSubTypeId option:selected");
                 var showBoqMaterialList = $("#ddlRequisitionItemId");
 
-                if (getSubcategoryId.val() == @((int)EnumBillRequisitionType.Materials)){
+                if (getSubcategoryId.val() == @((int)EnumBillRequisitionType.Overhead) || @(Model.BillRequisitionTypeId) == @((int)EnumBillRequisitionType.Overhead)){
                     $.ajax({
                         type: "GET",
-                        url: "/BillRequisition/GetMaterialListBySubcategoryId",
+                        url: "/BillRequisition/getBoqMaterialListForOverHead",
                         dataType: "json",
                         data: { id: getSubcategoryId.val() },
                         success: function (data) {
@@ -1096,10 +1096,11 @@
                             });
                         }
                     });
-                }else {
+                } else {
+
                     $.ajax({
                         type: "GET",
-                        url: "/BillRequisition/getBoqMaterialListForOverHead",
+                        url: "/BillRequisition/GetMaterialListBySubcategoryId",
                         dataType: "json",
                         data: { id: getSubcategoryId.val() },
                         success: function (data) {
@@ -1155,7 +1156,12 @@
             var intputDemand = $("#decDemandQty");
             var totalAmount = $("#decTotalPrice");
 
-            if (requisitionType == @((int)EnumBillRequisitionType.Overhead)) {
+            if (requisitionType == @((int)EnumBillRequisitionType.Overhead) || @(Model.BillRequisitionTypeId) == @((int)EnumBillRequisitionType.Overhead)) {
+
+                if (projectId == 0 || projectId == null || projectId == undefined) {
+                    projectId = @(Model.CostCenterId);
+                }
+
                 $.ajax({
                     type: "GET",
                     url: "/BillRequisition/GetMaterialBudgetInfoForOverhead",
@@ -1173,6 +1179,11 @@
                     }
                 });
             } else {
+
+                if (projectId == 0 || projectId == null || projectId == undefined) {
+                    projectId = @(Model.CostCenterId);
+                }
+
                 $.ajax({
                     type: "GET",
                     url: "/BillRequisition/GetMaterialBudgetInfo",
