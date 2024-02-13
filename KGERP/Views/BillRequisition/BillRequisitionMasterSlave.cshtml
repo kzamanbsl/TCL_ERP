@@ -642,7 +642,26 @@
                         var showSubcategoryList = $("#ddlBRSubTypeId");
                         var showBoqMaterialList = $("#ddlRequisitionItemId");
 
-                        if (@(Model.BillRequisitionTypeId) == @((int)EnumBillRequisitionType.Materials)) {
+                        if (@(Model.BillRequisitionTypeId) == @((int)EnumBillRequisitionType.Overhead)) {
+                            $.ajax({
+                                type: "GET",
+                                url: "/BillRequisition/getBoqMaterialListForOverHead",
+                                dataType: "json",
+                                data: { id: subtypeId },
+                                success: function (data) {
+                                    showBoqMaterialList.empty();
+                                    showBoqMaterialList.append("<option selected disabled>==Select Material==</option>");
+
+                                    $.each(data, function (index, item) {
+                                        showBoqMaterialList.append($('<option>', {
+                                            value: item.ProductId,
+                                            text: item.ProductName
+                                        }));
+                                    });
+                                    $("#ddlRequisitionItemId").val(materialId).trigger('change');
+                                }
+                            });
+                        } else {
                             $.ajax({
                                 type: "GET",
                                 url: "/BillRequisition/getBoqItemListWithBoqNumber",
@@ -701,25 +720,6 @@
                                     });
                                 }
                             });
-                        } else {
-                            $.ajax({
-                                type: "GET",
-                                url: "/BillRequisition/getBoqMaterialListForOverHead",
-                                dataType: "json",
-                                data: { id: subtypeId },
-                                success: function (data) {
-                                    showBoqMaterialList.empty();
-                                    showBoqMaterialList.append("<option selected disabled>==Select Material==</option>");
-
-                                    $.each(data, function (index, item) {
-                                        showBoqMaterialList.append($('<option>', {
-                                            value: item.ProductId,
-                                            text: item.ProductName
-                                        }));
-                                    });
-                                    $("#ddlRequisitionItemId").val(materialId).trigger('change');
-                                }
-                            });
                         }
                     }
                     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -742,7 +742,7 @@
                 }
             });
 
-            
+
             // Description title change when requisition type overhead is selected
             $("#ddlBRTypeId").on("change", function () {
                 var selectedOption = $(this).find("option:selected");
@@ -888,28 +888,7 @@
                 }
             });
 
-            if ('@(Model.StatusId)' == '@(EnumBillRequisitionStatus.Draft)' && @(Model.BillRequisitionTypeId) == @((int)EnumBillRequisitionType.Materials)) {
-                var projectId = @(Model.CostCenterId);
-                var showBoqDivisionList = $("#ddlDivisionId");
-
-                $.ajax({
-                    type: "GET",
-                    url: "/BillRequisition/getBoqDivisionList",
-                    dataType: "json",
-                    data: { id: projectId },
-                    success: function (data) {
-                        showBoqDivisionList.empty();
-                        showBoqDivisionList.append("<option selected disabled>==Select BoQ Division==</option>");
-
-                        $.each(data, function (index, item) {
-                            showBoqDivisionList.append($('<option>', {
-                                value: item.BoqDivisionId,
-                                text: item.Name
-                            }));
-                        });
-                    }
-                });
-            } else if ('@(Model.StatusId)' == '@(EnumBillRequisitionStatus.Draft)' && @(Model.BillRequisitionTypeId) == @((int)EnumBillRequisitionType.Overhead)) {
+            if ('@(Model.StatusId)' == '@(EnumBillRequisitionStatus.Draft)' && @(Model.BillRequisitionTypeId) == @((int)EnumBillRequisitionType.Overhead)) {
                 var requisitionTypeId = @(Model.BillRequisitionTypeId);
                 var showRequisitionSubtype = $("#ddlBRSubTypeId");
 
@@ -925,6 +904,28 @@
                         $.each(data, function (index, item) {
                             showRequisitionSubtype.append($('<option>', {
                                 value: item.ProductSubCategoryId,
+                                text: item.Name
+                            }));
+                        });
+                    }
+                });
+
+            } else {
+                var projectId = @(Model.CostCenterId);
+                var showBoqDivisionList = $("#ddlDivisionId");
+
+                $.ajax({
+                    type: "GET",
+                    url: "/BillRequisition/getBoqDivisionList",
+                    dataType: "json",
+                    data: { id: projectId },
+                    success: function (data) {
+                        showBoqDivisionList.empty();
+                        showBoqDivisionList.append("<option selected disabled>==Select BoQ Division==</option>");
+
+                        $.each(data, function (index, item) {
+                            showBoqDivisionList.append($('<option>', {
+                                value: item.BoqDivisionId,
                                 text: item.Name
                             }));
                         });
