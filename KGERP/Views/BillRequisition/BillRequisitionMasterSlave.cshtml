@@ -220,6 +220,18 @@
                                         </div>
                                     </div>
                                 }
+                                else if (Model.ProjectTypeId == (int)EnumBillReqProjectType.Bridge)
+                                {
+                                    <div class="row d-block">
+                                        <div class="col-md-3 d-block">
+                                            <div class="form-group">
+                                                <label for="txtPier" class="form-label">Pier/Wing</label>
+                                                @Html.TextBoxFor(model => model.DetailModel.Pier, new { id = "txtPier", placeholder = "Pier/Wing", @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.DetailModel.Pier, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
                                 else if (Model.ProjectTypeId == 0)
                                 {
                                     <div class="row hidden" id="depandableInputForm">
@@ -260,6 +272,14 @@
                                                 <label for="ddlMember" class="form-label d-block">Select Member</label>
                                                 @Html.DropDownListFor(model => model.DetailModel.MemberId, Model.MemberList as SelectList, "==Select Member==", new { id = "ddlMember", @class = "form-control searchingDropdown d-block", @style = "width: 100%" })
                                                 @Html.ValidationMessageFor(model => model.DetailModel.MemberId, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3 hidden" id="inputPier">
+                                            <div class="form-group">
+                                                <label for="txtPier" class="form-label">Pier/Wing</label>
+                                                @Html.TextBoxFor(model => model.DetailModel.Pier, new { id = "txtPier", placeholder = "Pier/Wing", @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.DetailModel.Pier, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                     </div>
@@ -642,7 +662,26 @@
                         var showSubcategoryList = $("#ddlBRSubTypeId");
                         var showBoqMaterialList = $("#ddlRequisitionItemId");
 
-                        if (@(Model.BillRequisitionTypeId) == @((int)EnumBillRequisitionType.Materials)) {
+                        if (@(Model.BillRequisitionTypeId) == @((int)EnumBillRequisitionType.Overhead)) {
+                            $.ajax({
+                                type: "GET",
+                                url: "/BillRequisition/getBoqMaterialListForOverHead",
+                                dataType: "json",
+                                data: { id: subtypeId },
+                                success: function (data) {
+                                    showBoqMaterialList.empty();
+                                    showBoqMaterialList.append("<option selected disabled>==Select Material==</option>");
+
+                                    $.each(data, function (index, item) {
+                                        showBoqMaterialList.append($('<option>', {
+                                            value: item.ProductId,
+                                            text: item.ProductName
+                                        }));
+                                    });
+                                    $("#ddlRequisitionItemId").val(materialId).trigger('change');
+                                }
+                            });
+                        } else {
                             $.ajax({
                                 type: "GET",
                                 url: "/BillRequisition/getBoqItemListWithBoqNumber",
@@ -701,25 +740,6 @@
                                     });
                                 }
                             });
-                        } else {
-                            $.ajax({
-                                type: "GET",
-                                url: "/BillRequisition/getBoqMaterialListForOverHead",
-                                dataType: "json",
-                                data: { id: subtypeId },
-                                success: function (data) {
-                                    showBoqMaterialList.empty();
-                                    showBoqMaterialList.append("<option selected disabled>==Select Material==</option>");
-
-                                    $.each(data, function (index, item) {
-                                        showBoqMaterialList.append($('<option>', {
-                                            value: item.ProductId,
-                                            text: item.ProductName
-                                        }));
-                                    });
-                                    $("#ddlRequisitionItemId").val(materialId).trigger('change');
-                                }
-                            });
                         }
                     }
                     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -742,7 +762,7 @@
                 }
             });
 
-            
+
             // Description title change when requisition type overhead is selected
             $("#ddlBRTypeId").on("change", function () {
                 var selectedOption = $(this).find("option:selected");
@@ -839,6 +859,7 @@
                     $("#inputChainage").removeClass("d-block").addClass("hidden");
                     $("#inputFloor").removeClass("hidden").addClass("d-block");
                     $("#inputMember").removeClass("hidden").addClass("d-block");
+                    $("#inputPier").removeClass("d-block").addClass("hidden");
                 } else if (selectedOption.val() == @((int)EnumBillReqProjectType.Road)) {
                     $("#depandableInputForm").removeClass("hidden").addClass("d-block");
                     $("#inputWard").removeClass("hidden").addClass("d-block");
@@ -846,6 +867,7 @@
                     $("#inputChainage").removeClass("hidden").addClass("d-block");
                     $("#inputFloor").removeClass("d-block").addClass("hidden");
                     $("#inputMember").removeClass("d-block").addClass("hidden");
+                    $("#inputPier").removeClass("d-block").addClass("hidden");
                 } else if (selectedOption.val() == @((int)EnumBillReqProjectType.Runway)) {
                     $("#depandableInputForm").removeClass("hidden").addClass("d-block");
                     $("#inputWard").removeClass("d-block").addClass("hidden");
@@ -853,6 +875,15 @@
                     $("#inputChainage").removeClass("hidden").addClass("d-block");
                     $("#inputFloor").removeClass("d-block").addClass("hidden");
                     $("#inputMember").removeClass("d-block").addClass("hidden");
+                    $("#inputPier").removeClass("d-block").addClass("hidden");
+                } else if (selectedOption.val() == @((int)EnumBillReqProjectType.Bridge)) {
+                    $("#depandableInputForm").removeClass("hidden").addClass("d-block");
+                    $("#inputWard").removeClass("d-block").addClass("hidden");
+                    $("#inputDPP").removeClass("d-block").addClass("hidden");
+                    $("#inputPier").removeClass("hidden").addClass("d-block");
+                    $("#inputFloor").removeClass("d-block").addClass("hidden");
+                    $("#inputMember").removeClass("d-block").addClass("hidden");
+                    $("#inputChainage").removeClass("d-block").addClass("hidden");
                 } else {
                     $("#depandableInputForm").removeClass("d-block").addClass("hidden");
                     $("#inputWard").removeClass("d-block").addClass("hidden");
@@ -860,6 +891,7 @@
                     $("#inputChainage").removeClass("d-block").addClass("hidden");
                     $("#inputFloor").removeClass("d-block").addClass("hidden");
                     $("#inputMember").removeClass("d-block").addClass("hidden");
+                    $("#inputPier").removeClass("d-block").addClass("hidden");
                 }
             });
 
@@ -888,28 +920,7 @@
                 }
             });
 
-            if ('@(Model.StatusId)' == '@(EnumBillRequisitionStatus.Draft)' && @(Model.BillRequisitionTypeId) == @((int)EnumBillRequisitionType.Materials)) {
-                var projectId = @(Model.CostCenterId);
-                var showBoqDivisionList = $("#ddlDivisionId");
-
-                $.ajax({
-                    type: "GET",
-                    url: "/BillRequisition/getBoqDivisionList",
-                    dataType: "json",
-                    data: { id: projectId },
-                    success: function (data) {
-                        showBoqDivisionList.empty();
-                        showBoqDivisionList.append("<option selected disabled>==Select BoQ Division==</option>");
-
-                        $.each(data, function (index, item) {
-                            showBoqDivisionList.append($('<option>', {
-                                value: item.BoqDivisionId,
-                                text: item.Name
-                            }));
-                        });
-                    }
-                });
-            } else if ('@(Model.StatusId)' == '@(EnumBillRequisitionStatus.Draft)' && @(Model.BillRequisitionTypeId) == @((int)EnumBillRequisitionType.Overhead)) {
+            if ('@(Model.StatusId)' == '@(EnumBillRequisitionStatus.Draft)' && @(Model.BillRequisitionTypeId) == @((int)EnumBillRequisitionType.Overhead)) {
                 var requisitionTypeId = @(Model.BillRequisitionTypeId);
                 var showRequisitionSubtype = $("#ddlBRSubTypeId");
 
@@ -925,6 +936,28 @@
                         $.each(data, function (index, item) {
                             showRequisitionSubtype.append($('<option>', {
                                 value: item.ProductSubCategoryId,
+                                text: item.Name
+                            }));
+                        });
+                    }
+                });
+
+            } else {
+                var projectId = @(Model.CostCenterId);
+                var showBoqDivisionList = $("#ddlDivisionId");
+
+                $.ajax({
+                    type: "GET",
+                    url: "/BillRequisition/getBoqDivisionList",
+                    dataType: "json",
+                    data: { id: projectId },
+                    success: function (data) {
+                        showBoqDivisionList.empty();
+                        showBoqDivisionList.append("<option selected disabled>==Select BoQ Division==</option>");
+
+                        $.each(data, function (index, item) {
+                            showBoqDivisionList.append($('<option>', {
+                                value: item.BoqDivisionId,
                                 text: item.Name
                             }));
                         });
@@ -1077,10 +1110,10 @@
                 var getSubcategoryId = $("#ddlBRSubTypeId option:selected");
                 var showBoqMaterialList = $("#ddlRequisitionItemId");
 
-                if (getSubcategoryId.val() == @((int)EnumBillRequisitionType.Materials)){
+                if (getSubcategoryId.val() == @((int)EnumBillRequisitionType.Overhead) || @(Model.BillRequisitionTypeId) == @((int)EnumBillRequisitionType.Overhead)){
                     $.ajax({
                         type: "GET",
-                        url: "/BillRequisition/GetMaterialListBySubcategoryId",
+                        url: "/BillRequisition/getBoqMaterialListForOverHead",
                         dataType: "json",
                         data: { id: getSubcategoryId.val() },
                         success: function (data) {
@@ -1095,10 +1128,11 @@
                             });
                         }
                     });
-                }else {
+                } else {
+
                     $.ajax({
                         type: "GET",
-                        url: "/BillRequisition/getBoqMaterialListForOverHead",
+                        url: "/BillRequisition/GetMaterialListBySubcategoryId",
                         dataType: "json",
                         data: { id: getSubcategoryId.val() },
                         success: function (data) {
@@ -1154,7 +1188,12 @@
             var intputDemand = $("#decDemandQty");
             var totalAmount = $("#decTotalPrice");
 
-            if (requisitionType == @((int)EnumBillRequisitionType.Overhead)) {
+            if (requisitionType == @((int)EnumBillRequisitionType.Overhead) || @(Model.BillRequisitionTypeId) == @((int)EnumBillRequisitionType.Overhead)) {
+
+                if (projectId == 0 || projectId == null || projectId == undefined) {
+                    projectId = @(Model.CostCenterId);
+                }
+
                 $.ajax({
                     type: "GET",
                     url: "/BillRequisition/GetMaterialBudgetInfoForOverhead",
@@ -1172,6 +1211,11 @@
                     }
                 });
             } else {
+
+                if (projectId == 0 || projectId == null || projectId == undefined) {
+                    projectId = @(Model.CostCenterId);
+                }
+
                 $.ajax({
                     type: "GET",
                     url: "/BillRequisition/GetMaterialBudgetInfo",

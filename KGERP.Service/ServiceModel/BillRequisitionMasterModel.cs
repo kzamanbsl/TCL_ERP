@@ -90,6 +90,7 @@ namespace KGERP.Service.ServiceModel
         public string Ward { get; set; }
         public string DPP { get; set; }
         public string Chainage { get; set; }
+        public string Pier { get; set; }
         public int CompanyId { get; set; }
 
         public long BoqDivisionId { get; set; }

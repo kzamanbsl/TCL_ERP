@@ -562,13 +562,13 @@
         <EntityTypeShape EntityType="ERPModel.BoQItemProductMap" Width="1.5" PointX="51.5" PointY="31" />
         <AssociationConnector Association="ERPModel.FK_BillRequisitionItemBoQMap_Company" />
         <AssociationConnector Association="ERPModel.FK_BoQItemProductMap_Product" />
-        <EntityTypeShape EntityType="ERPModel.BillRequisitionDetail" Width="1.5" PointX="22.375" PointY="13.125" />
         <EntityTypeShape EntityType="ERPModel.BillRequisitionMaster" Width="1.5" PointX="69.375" PointY="62.875" />
-        <AssociationConnector Association="ERPModel.FK_PurchaseOrderDetail_BillRequisitionDetail" />
         <AssociationConnector Association="ERPModel.FK_PurchaseOrder_PurchaseOrder" />
         <AssociationConnector Association="ERPModel.FK_VoucherBRMapMaster_BillRequisitionMaster" />
         <EntityTypeShape EntityType="ERPModel.BillBoQItem" Width="1.5" PointX="8.375" PointY="47" />
         <AssociationConnector Association="ERPModel.FK_BillRequisitionItemBoQMap_BillBoQItem" />
+        <EntityTypeShape EntityType="ERPModel.BillRequisitionDetail" Width="1.5" PointX="22.375" PointY="13.125" />
+        <AssociationConnector Association="ERPModel.FK_PurchaseOrderDetail_BillRequisitionDetail" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
