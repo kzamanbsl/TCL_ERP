@@ -1185,6 +1185,7 @@ namespace KGERP.Service.Implementation
                                                                               Ward = t1.Ward,
                                                                               DPP = t1.DPP,
                                                                               Chainage = t1.Chainage,
+                                                                              Pier = t1.Pier,
                                                                               Remarks = t1.Remarks,
                                                                           }).OrderByDescending(x => x.BillRequisitionDetailId).AsEnumerable());
 
@@ -1290,6 +1291,7 @@ namespace KGERP.Service.Implementation
                         Ward = model.DetailModel.Ward,
                         DPP = model.DetailModel.DPP,
                         Chainage = model.DetailModel.Chainage,
+                        Pier = model.DetailModel.Pier,
                         Remarks = model.DetailModel.Remarks,
                         CompanyId = (int)model.CompanyFK,
                         CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
@@ -1327,6 +1329,7 @@ namespace KGERP.Service.Implementation
                         Ward = model.DetailModel.Ward,
                         DPP = model.DetailModel.DPP,
                         Chainage = model.DetailModel.Chainage,
+                        Pier = model.DetailModel.Pier,
                         Remarks = model.DetailModel.Remarks,
                         CompanyId = (int)model.CompanyFK,
                         CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
@@ -1373,6 +1376,7 @@ namespace KGERP.Service.Implementation
             damageDetail.MemberId = model.DetailModel.MemberId;
             damageDetail.DPP = model.DetailModel.DPP;
             damageDetail.Chainage = model.DetailModel.Chainage;
+            damageDetail.Pier = model.DetailModel.Pier;
             if (await _context.SaveChangesAsync() > 0)
             {
                 result = damageDetail.BillRequisitionDetailId;
@@ -1571,6 +1575,7 @@ namespace KGERP.Service.Implementation
                                               MemberId = (int)t1.MemberId,
                                               DPP = t1.DPP,
                                               Chainage = t1.Chainage,
+                                              Pier = t1.Pier,
                                               Remarks = t1.Remarks,
                                           }).FirstOrDefault());
             return v;
