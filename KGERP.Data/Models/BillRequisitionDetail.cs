@@ -35,6 +35,7 @@ namespace KGERP.Data.Models
         public string Ward { get; set; }
         public string DPP { get; set; }
         public string Chainage { get; set; }
+        public string Pier { get; set; }
         public Nullable<int> FloorId { get; set; }
         public Nullable<int> MemberId { get; set; }
         public string Remarks { get; set; }

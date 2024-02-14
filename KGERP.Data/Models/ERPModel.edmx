@@ -3479,9 +3479,10 @@ warning 6002: The table/view 'TCLErp.dbo.TempFeedVoucherDetail' does not have a 
           <Property Name="TotalPrice" Type="decimal" Precision="18" Scale="2" />
           <Property Name="ReceivedSoFar" Type="decimal" Precision="18" Scale="2" />
           <Property Name="RemainingQty" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="Ward" Type="varchar(max)" />
-          <Property Name="DPP" Type="varchar(max)" />
-          <Property Name="Chainage" Type="varchar(max)" />
+          <Property Name="Ward" Type="varchar" MaxLength="50" />
+          <Property Name="DPP" Type="varchar" MaxLength="50" />
+          <Property Name="Chainage" Type="varchar" MaxLength="50" />
+          <Property Name="Pier" Type="varchar" MaxLength="50" />
           <Property Name="FloorId" Type="int" />
           <Property Name="MemberId" Type="int" />
           <Property Name="Remarks" Type="varchar(max)" />
@@ -12002,12 +12003,7 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             <End Role="Product" EntitySet="Products" />
             <End Role="BoQItemProductMap" EntitySet="BoQItemProductMaps" />
           </AssociationSet>
-          <EntitySet Name="BillRequisitionDetails" EntityType="ERPModel.BillRequisitionDetail" />
           <EntitySet Name="BillRequisitionMasters" EntityType="ERPModel.BillRequisitionMaster" />
-          <AssociationSet Name="FK_PurchaseOrderDetail_BillRequisitionDetail" Association="ERPModel.FK_PurchaseOrderDetail_BillRequisitionDetail">
-            <End Role="BillRequisitionDetail" EntitySet="BillRequisitionDetails" />
-            <End Role="PurchaseOrderDetail" EntitySet="PurchaseOrderDetails" />
-          </AssociationSet>
           <AssociationSet Name="FK_PurchaseOrder_PurchaseOrder" Association="ERPModel.FK_PurchaseOrder_PurchaseOrder">
             <End Role="BillRequisitionMaster" EntitySet="BillRequisitionMasters" />
             <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
@@ -12020,6 +12016,11 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <AssociationSet Name="FK_BillRequisitionItemBoQMap_BillBoQItem" Association="ERPModel.FK_BillRequisitionItemBoQMap_BillBoQItem">
             <End Role="BillBoQItem" EntitySet="BillBoQItems" />
             <End Role="BoQItemProductMap" EntitySet="BoQItemProductMaps" />
+          </AssociationSet>
+          <EntitySet Name="BillRequisitionDetails" EntityType="ERPModel.BillRequisitionDetail" />
+          <AssociationSet Name="FK_PurchaseOrderDetail_BillRequisitionDetail" Association="ERPModel.FK_PurchaseOrderDetail_BillRequisitionDetail">
+            <End Role="BillRequisitionDetail" EntitySet="BillRequisitionDetails" />
+            <End Role="PurchaseOrderDetail" EntitySet="PurchaseOrderDetails" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="AdminPolicy">
@@ -21490,37 +21491,6 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="BillRequisitionDetail">
-          <Key>
-            <PropertyRef Name="BillRequisitionDetailId" />
-          </Key>
-          <Property Name="BillRequisitionDetailId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="BillRequisitionMasterId" Type="Int64" Nullable="false" />
-          <Property Name="BoQItemId" Type="Int64" />
-          <Property Name="ProductSubTypeId" Type="Int64" />
-          <Property Name="ProductId" Type="Int32" />
-          <Property Name="UnitId" Type="Int32" />
-          <Property Name="EstimatedQty" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="DemandQty" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="UnitRate" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="TotalPrice" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="ReceivedSoFar" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="RemainingQty" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Ward" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="DPP" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Chainage" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="FloorId" Type="Int32" />
-          <Property Name="MemberId" Type="Int32" />
-          <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="CompanyId" Type="Int32" Nullable="false" />
-          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
-          <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <Property Name="DocPath" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="PurchaseOrderDetails" Relationship="ERPModel.FK_PurchaseOrderDetail_BillRequisitionDetail" FromRole="BillRequisitionDetail" ToRole="PurchaseOrderDetail" />
-        </EntityType>
         <EntityType Name="BillRequisitionMaster">
           <Key>
             <PropertyRef Name="BillRequisitionMasterId" />
@@ -21544,18 +21514,6 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <NavigationProperty Name="PurchaseOrders" Relationship="ERPModel.FK_PurchaseOrder_PurchaseOrder" FromRole="BillRequisitionMaster" ToRole="PurchaseOrder" />
           <NavigationProperty Name="VoucherBRMapMasters" Relationship="ERPModel.FK_VoucherBRMapMaster_BillRequisitionMaster" FromRole="BillRequisitionMaster" ToRole="VoucherBRMapMaster" />
         </EntityType>
-        <Association Name="FK_PurchaseOrderDetail_BillRequisitionDetail">
-          <End Type="ERPModel.BillRequisitionDetail" Role="BillRequisitionDetail" Multiplicity="0..1" />
-          <End Type="ERPModel.PurchaseOrderDetail" Role="PurchaseOrderDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BillRequisitionDetail">
-              <PropertyRef Name="BillRequisitionDetailId" />
-            </Principal>
-            <Dependent Role="PurchaseOrderDetail">
-              <PropertyRef Name="BillRequisitionDetailId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_PurchaseOrder_PurchaseOrder">
           <End Type="ERPModel.BillRequisitionMaster" Role="BillRequisitionMaster" Multiplicity="0..1" />
           <End Type="ERPModel.PurchaseOrder" Role="PurchaseOrder" Multiplicity="*" />
@@ -21607,6 +21565,50 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             </Principal>
             <Dependent Role="BoQItemProductMap">
               <PropertyRef Name="BoQItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="BillRequisitionDetail">
+          <Key>
+            <PropertyRef Name="BillRequisitionDetailId" />
+          </Key>
+          <Property Name="BillRequisitionDetailId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BillRequisitionMasterId" Type="Int64" Nullable="false" />
+          <Property Name="BoQItemId" Type="Int64" />
+          <Property Name="ProductSubTypeId" Type="Int64" />
+          <Property Name="ProductId" Type="Int32" />
+          <Property Name="UnitId" Type="Int32" />
+          <Property Name="EstimatedQty" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="DemandQty" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="UnitRate" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="TotalPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ReceivedSoFar" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="RemainingQty" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Ward" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DPP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Chainage" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Pier" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FloorId" Type="Int32" />
+          <Property Name="MemberId" Type="Int32" />
+          <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="DocPath" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="PurchaseOrderDetails" Relationship="ERPModel.FK_PurchaseOrderDetail_BillRequisitionDetail" FromRole="BillRequisitionDetail" ToRole="PurchaseOrderDetail" />
+        </EntityType>
+        <Association Name="FK_PurchaseOrderDetail_BillRequisitionDetail">
+          <End Type="ERPModel.BillRequisitionDetail" Role="BillRequisitionDetail" Multiplicity="0..1" />
+          <End Type="ERPModel.PurchaseOrderDetail" Role="PurchaseOrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BillRequisitionDetail">
+              <PropertyRef Name="BillRequisitionDetailId" />
+            </Principal>
+            <Dependent Role="PurchaseOrderDetail">
+              <PropertyRef Name="BillRequisitionDetailId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -27518,37 +27520,6 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="BillRequisitionDetails">
-            <EntityTypeMapping TypeName="ERPModel.BillRequisitionDetail">
-              <MappingFragment StoreEntitySet="BillRequisitionDetail">
-                <ScalarProperty Name="DocPath" ColumnName="DocPath" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
-                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
-                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
-                <ScalarProperty Name="FloorId" ColumnName="FloorId" />
-                <ScalarProperty Name="Chainage" ColumnName="Chainage" />
-                <ScalarProperty Name="DPP" ColumnName="DPP" />
-                <ScalarProperty Name="Ward" ColumnName="Ward" />
-                <ScalarProperty Name="RemainingQty" ColumnName="RemainingQty" />
-                <ScalarProperty Name="ReceivedSoFar" ColumnName="ReceivedSoFar" />
-                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
-                <ScalarProperty Name="UnitRate" ColumnName="UnitRate" />
-                <ScalarProperty Name="DemandQty" ColumnName="DemandQty" />
-                <ScalarProperty Name="EstimatedQty" ColumnName="EstimatedQty" />
-                <ScalarProperty Name="UnitId" ColumnName="UnitId" />
-                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-                <ScalarProperty Name="ProductSubTypeId" ColumnName="ProductSubTypeId" />
-                <ScalarProperty Name="BoQItemId" ColumnName="BoQItemId" />
-                <ScalarProperty Name="BillRequisitionMasterId" ColumnName="BillRequisitionMasterId" />
-                <ScalarProperty Name="BillRequisitionDetailId" ColumnName="BillRequisitionDetailId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="BillRequisitionMasters">
             <EntityTypeMapping TypeName="ERPModel.BillRequisitionMaster">
               <MappingFragment StoreEntitySet="BillRequisitionMaster">
@@ -27586,6 +27557,38 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="BoQItemId" ColumnName="BoQItemId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BillRequisitionDetails">
+            <EntityTypeMapping TypeName="ERPModel.BillRequisitionDetail">
+              <MappingFragment StoreEntitySet="BillRequisitionDetail">
+                <ScalarProperty Name="DocPath" ColumnName="DocPath" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+                <ScalarProperty Name="FloorId" ColumnName="FloorId" />
+                <ScalarProperty Name="Pier" ColumnName="Pier" />
+                <ScalarProperty Name="Chainage" ColumnName="Chainage" />
+                <ScalarProperty Name="DPP" ColumnName="DPP" />
+                <ScalarProperty Name="Ward" ColumnName="Ward" />
+                <ScalarProperty Name="RemainingQty" ColumnName="RemainingQty" />
+                <ScalarProperty Name="ReceivedSoFar" ColumnName="ReceivedSoFar" />
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+                <ScalarProperty Name="UnitRate" ColumnName="UnitRate" />
+                <ScalarProperty Name="DemandQty" ColumnName="DemandQty" />
+                <ScalarProperty Name="EstimatedQty" ColumnName="EstimatedQty" />
+                <ScalarProperty Name="UnitId" ColumnName="UnitId" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="ProductSubTypeId" ColumnName="ProductSubTypeId" />
+                <ScalarProperty Name="BoQItemId" ColumnName="BoQItemId" />
+                <ScalarProperty Name="BillRequisitionMasterId" ColumnName="BillRequisitionMasterId" />
+                <ScalarProperty Name="BillRequisitionDetailId" ColumnName="BillRequisitionDetailId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
