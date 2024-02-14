@@ -220,6 +220,18 @@
                                         </div>
                                     </div>
                                 }
+                                else if (Model.ProjectTypeId == (int)EnumBillReqProjectType.Bridge)
+                                {
+                                    <div class="row d-block">
+                                        <div class="col-md-3 d-block">
+                                            <div class="form-group">
+                                                <label for="txtPier" class="form-label">Pier/Wing</label>
+                                                @Html.TextBoxFor(model => model.DetailModel.Pier, new { id = "txtPier", placeholder = "Pier/Wing", @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.DetailModel.Pier, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
                                 else if (Model.ProjectTypeId == 0)
                                 {
                                     <div class="row hidden" id="depandableInputForm">
@@ -260,6 +272,14 @@
                                                 <label for="ddlMember" class="form-label d-block">Select Member</label>
                                                 @Html.DropDownListFor(model => model.DetailModel.MemberId, Model.MemberList as SelectList, "==Select Member==", new { id = "ddlMember", @class = "form-control searchingDropdown d-block", @style = "width: 100%" })
                                                 @Html.ValidationMessageFor(model => model.DetailModel.MemberId, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3 hidden" id="inputPier">
+                                            <div class="form-group">
+                                                <label for="txtPier" class="form-label">Pier/Wing</label>
+                                                @Html.TextBoxFor(model => model.DetailModel.Pier, new { id = "txtPier", placeholder = "Pier/Wing", @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.DetailModel.Pier, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                     </div>
@@ -839,6 +859,7 @@
                     $("#inputChainage").removeClass("d-block").addClass("hidden");
                     $("#inputFloor").removeClass("hidden").addClass("d-block");
                     $("#inputMember").removeClass("hidden").addClass("d-block");
+                    $("#inputPier").removeClass("d-block").addClass("hidden");
                 } else if (selectedOption.val() == @((int)EnumBillReqProjectType.Road)) {
                     $("#depandableInputForm").removeClass("hidden").addClass("d-block");
                     $("#inputWard").removeClass("hidden").addClass("d-block");
@@ -846,6 +867,7 @@
                     $("#inputChainage").removeClass("hidden").addClass("d-block");
                     $("#inputFloor").removeClass("d-block").addClass("hidden");
                     $("#inputMember").removeClass("d-block").addClass("hidden");
+                    $("#inputPier").removeClass("d-block").addClass("hidden");
                 } else if (selectedOption.val() == @((int)EnumBillReqProjectType.Runway)) {
                     $("#depandableInputForm").removeClass("hidden").addClass("d-block");
                     $("#inputWard").removeClass("d-block").addClass("hidden");
@@ -853,6 +875,15 @@
                     $("#inputChainage").removeClass("hidden").addClass("d-block");
                     $("#inputFloor").removeClass("d-block").addClass("hidden");
                     $("#inputMember").removeClass("d-block").addClass("hidden");
+                    $("#inputPier").removeClass("d-block").addClass("hidden");
+                } else if (selectedOption.val() == @((int)EnumBillReqProjectType.Bridge)) {
+                    $("#depandableInputForm").removeClass("hidden").addClass("d-block");
+                    $("#inputWard").removeClass("d-block").addClass("hidden");
+                    $("#inputDPP").removeClass("d-block").addClass("hidden");
+                    $("#inputPier").removeClass("hidden").addClass("d-block");
+                    $("#inputFloor").removeClass("d-block").addClass("hidden");
+                    $("#inputMember").removeClass("d-block").addClass("hidden");
+                    $("#inputChainage").removeClass("d-block").addClass("hidden");
                 } else {
                     $("#depandableInputForm").removeClass("d-block").addClass("hidden");
                     $("#inputWard").removeClass("d-block").addClass("hidden");
@@ -860,6 +891,7 @@
                     $("#inputChainage").removeClass("d-block").addClass("hidden");
                     $("#inputFloor").removeClass("d-block").addClass("hidden");
                     $("#inputMember").removeClass("d-block").addClass("hidden");
+                    $("#inputPier").removeClass("d-block").addClass("hidden");
                 }
             });
 
