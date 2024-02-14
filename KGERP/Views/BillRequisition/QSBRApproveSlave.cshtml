@@ -222,7 +222,7 @@
                                             @foreach (var item in Model.ApprovalModelList)
                                             {
                                                 <th style="padding:5px;text-align:center;">
-                                                    @((item.SignatoryName == "QS") ? "QS/Engr./HOD" : (item.SignatoryName == "PM") ? "PM/Checker" : item.SignatoryName)
+                                                    @((item.SignatoryName == "PM") ? "PM/Checker" : (item.SignatoryName == "QS") ? "QS/Engr./HOD" : (item.SignatoryName == "PD") ? "PD/CE" : item.SignatoryName)
                                                 </th>
                                             }
                                         </tr>
@@ -290,7 +290,7 @@
                                             @foreach (var item in Model.ApprovalModelList)
                                             {
                                                 <th style="padding:5px;text-align:center;">
-                                                    @((item.SignatoryName == "QS") ? "QS/Engr./HOD" : (item.SignatoryName == "PM") ? "PM/Checker" : item.SignatoryName)
+                                                    @((item.SignatoryName == "PM") ? "PM/Checker" : (item.SignatoryName == "QS") ? "QS/Engr./HOD" : (item.SignatoryName == "PD") ? "PD/CE" : item.SignatoryName)
                                                 </th>
                                             }
                                         </tr>

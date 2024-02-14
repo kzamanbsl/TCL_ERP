@@ -1240,7 +1240,7 @@ namespace KGERP.Service.Implementation
             // Generate unique bill requisition number
             string GetUniqueRequisitionNo(int projectId)
             {
-                int getLastRowId = _context.BillRequisitionMasters.Where(c => c.BRDate == DateTime.Today).Count();
+                int getLastRowId = _context.BillRequisitionMasters.Where(c => c.BRDate == model.BRDate.Date).Count();
                 var shortName = _context.Accounting_CostCenter.Where(x => x.IsActive).FirstOrDefault(x => x.CostCenterId == projectId).ShortName;
 
                 string setZeroBeforeLastId(int lastRowId, int length)
@@ -1254,7 +1254,7 @@ namespace KGERP.Service.Implementation
                     return totalDigit + lastRowId.ToString();
                 }
 
-                string generatedNumber = $"{shortName.ToUpper()}-REQ-{DateTime.Now:yyMMdd}-{setZeroBeforeLastId(++getLastRowId, 4)}";
+                string generatedNumber = $"{shortName.ToUpper()}-REQ-{model.BRDate:yyMMdd}-{setZeroBeforeLastId(++getLastRowId, 4)}";
                 return generatedNumber;
             }
 
