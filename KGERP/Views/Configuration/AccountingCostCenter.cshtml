@@ -100,7 +100,7 @@
                                                                 @item.Name
                                                             </td>
 
-                                                            <td id="tdProjectName_@item.ID">
+                                                            <td id="tdShortName_@item.ID">
                                                                 @item.ShortName
                                                             </td>
 
@@ -170,8 +170,9 @@
                 $('#userMenuId').val(rowId);
                 $('#ActionId').val(2);
                 $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Update");
-                $('#txtMenuName').val($('#tdProjectName_' + rowId).text().trim());
                 $('#selectProjectType').val($('#costCenterTypeId_' + rowId).val().trim()).trigger('change');
+                $('#txtMenuName').val($('#tdProjectName_' + rowId).text().trim());
+                $('#txtShortName').val($('#tdShortName_' + rowId).text().trim());
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
         }
