@@ -1,7 +1,7 @@
 ﻿@model KGERP.Service.Implementation.Procurement.VMPurchaseOrderSlave
 @using KGERP.Utility;
 @{
-    ViewData["Title"] = "Work Order";
+    ViewData["Title"] = "Direct Purchase Order";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     int sl = 0;
@@ -20,13 +20,13 @@
         @if (Model.PurchaseOrderId > 0)
         {
             <span>
-                Work Order History of: <a target="_blank" href="~/Procurement/ProcurementPurchaseOrderReport?companyId=@Model.CompanyFK&purchaseOrderId=@Model.PurchaseOrderId">@Model.CID</a>
+                Direct Purchase Order History of: <a target="_blank" href="~/Procurement/ProcurementPurchaseOrderReport?companyId=@Model.CompanyFK&purchaseOrderId=@Model.PurchaseOrderId">@Model.CID</a>
             </span>
         }
         else
         {
             <span>
-                Work Order
+                Direct Purchase Order
             </span>
         }
 
@@ -87,7 +87,7 @@
                                         </th>
                                         <th style="width:2%">:</th>
                                         <td style="width:30%">
-                                           @(Model.WorkOrderFor == (int)EnumWorkOrderFor.Requisition ? "Requisition" : "General")
+                                            @(Model.WorkOrderFor == (int)EnumWorkOrderFor.Requisition ? "Requisition" : "General")
                                         </td>
                                     </tr>
 
@@ -972,7 +972,7 @@
                     $("#inputRequisition").removeClass("col-md-3").addClass("col-md-4");
                     $("#inputMaterial").removeClass("col-md-3").addClass("col-md-4");
                     $("#inputUnit").removeClass("col-md-3").addClass("col-md-4");
-                    $("#txtUnitPrice ").attr("readonly", true); 
+                    $("#txtUnitPrice ").attr("readonly", true);
                 } else {
                     $("#inputRequisition").removeClass("d-block").addClass("hidden");
                     $("#inputApproved").removeClass("d-block").addClass("hidden");
@@ -985,7 +985,7 @@
                     $("#inputRequisition").removeClass("col-md-4").addClass("col-md-3");
                     $("#inputMaterial").removeClass("col-md-4").addClass("col-md-3");
                     $("#inputUnit").removeClass("col-md-4").addClass("col-md-3");
-                    $("#txtUnitPrice ").attr("readonly", false); 
+                    $("#txtUnitPrice ").attr("readonly", false);
                 }
             });
 
