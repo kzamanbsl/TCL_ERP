@@ -234,6 +234,18 @@ namespace KGERP.Controllers
         }
 
         // Dependent material list by product sub category id
+        public JsonResult GetMaterialListByBoqIdAndSubcategoryId(long boqId, long subtypeId)
+        {
+            List<Product> materialList = null;
+            if (boqId > 0 && subtypeId > 0)
+            {
+                materialList = _service.GetMaterialByBoqAndSubCategory(boqId, subtypeId);
+            }
+
+            return Json(materialList, JsonRequestBehavior.AllowGet);
+        }
+
+        // Dependent material list by product sub category id
         public JsonResult GetMaterialListBySubcategoryId(long id)
         {
             List<Product> materialList = null;

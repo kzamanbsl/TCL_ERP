@@ -1118,10 +1118,12 @@
         // Get material list by sub category id
         function GetMaterialListBySubCategoryId() {
             if (isEditable == false) {
+                var requisitionType = $("#ddlBRTypeId option:selected");
+                var getBoqItemId = $("#ddlBOQItemId option:selected");
                 var getSubcategoryId = $("#ddlBRSubTypeId option:selected");
                 var showBoqMaterialList = $("#ddlRequisitionItemId");
 
-                if (getSubcategoryId.val() == @((int)EnumBillRequisitionType.Overhead) || @(Model.BillRequisitionTypeId) == @((int)EnumBillRequisitionType.Overhead)){
+                if (requisitionType.val() == @((int)EnumBillRequisitionType.Overhead) || @(Model.BillRequisitionTypeId) == @((int)EnumBillRequisitionType.Overhead)){
                     $.ajax({
                         type: "GET",
                         url: "/BillRequisition/getBoqMaterialListForOverHead",
@@ -1143,9 +1145,9 @@
 
                     $.ajax({
                         type: "GET",
-                        url: "/BillRequisition/GetMaterialListBySubcategoryId",
+                        url: "/BillRequisition/GetMaterialListByBoqIdAndSubcategoryId",
                         dataType: "json",
-                        data: { id: getSubcategoryId.val() },
+                        data: { boqId: getBoqItemId.val(), subtypeId: getSubcategoryId.val() },
                         success: function (data) {
                             showBoqMaterialList.empty();
                             showBoqMaterialList.append("<option selected disabled>==Select Material==</option>");

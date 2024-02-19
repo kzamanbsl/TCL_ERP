@@ -2929,6 +2929,28 @@ namespace KGERP.Service.Implementation
             return subcategoryList;
         }
 
+        public List<Product> GetMaterialByBoqAndSubCategory(long boqId, long subtypeId)
+        {
+            var materials = (
+                from t1 in _context.BoQItemProductMaps.Where(x => x.BoQItemId == boqId && x.IsActive).DefaultIfEmpty()
+                join t2 in _context.Products.Where(x => x.ProductSubCategoryId == subtypeId) on t1.ProductId equals t2.ProductId into t2_Join
+                from t2 in t2_Join.DefaultIfEmpty()
+                where t2.IsActive
+                select new
+                {
+                    t1.ProductId,
+                    t2.ProductName
+                }).ToList();
+
+            var materialList = materials.Select(x => new Product
+            {
+                ProductId = x.ProductId,
+                ProductName = x.ProductName
+            }).ToList();
+
+            return materialList;
+        }
+
         public List<Product> GetMaterialBySubCategory(long id)
         {
             var materials = (
