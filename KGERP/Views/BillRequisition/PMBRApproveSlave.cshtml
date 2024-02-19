@@ -93,7 +93,7 @@
                             </div>
 
                             <div class="row">
-                                <div class="table-responsive">
+                                <div class="">
 
                                     <h4 class="text-primary" style="margin: 20px 0 5px;">
                                         <strong>
@@ -191,7 +191,7 @@
                                             <tr>
                                                 @if (Model.BillRequisitionTypeId != (int)EnumBillRequisitionType.Overhead)
                                                 {
-                                                    <td colspan="12" style="text-align: right !important">
+                                                    <td colspan="13" style="text-align: right !important">
                                                         <b>Total Amount : </b>
                                                     </td>
                                                     <td id="totalFooter" colspan="2" style="text-align: right !important">
@@ -200,7 +200,7 @@
                                                 }
                                                 else
                                                 {
-                                                    <td colspan="8" style="text-align: right !important">
+                                                    <td colspan="13" style="text-align: right !important">
                                                         <b>Total Amount : </b>
                                                     </td>
                                                     <td id="totalFooter" colspan="2" style="text-align: right !important">
@@ -328,7 +328,7 @@
                         }
                     </div>
 
-                    @if (Model.BillRequisitionMasterId > 0 && Model.StatusName == EnumBillRequisitionStatus.Pending.ToString() && Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.PM).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
+                    @if (Model.BillRequisitionMasterId > 0 && Model.StatusName == EnumBillRequisitionStatus.Submitted.ToString() && Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.PM).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
                     {
                         <div class="box-footer">
                             <div class="row">
