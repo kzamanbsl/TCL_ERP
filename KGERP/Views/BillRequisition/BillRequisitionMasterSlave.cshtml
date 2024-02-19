@@ -231,6 +231,16 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    <div class="row d-block">
+                                        <div class="col-md-3 d-block">
+                                            <div class="form-group">
+                                                <label for="txtChainage" class="form-label">Chainage</label>
+                                                @Html.TextBoxFor(model => model.DetailModel.Chainage, new { id = "txtChainage", placeholder = "Chainage", @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.DetailModel.Chainage, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
                                 }
                                 else if (Model.ProjectTypeId == 0)
                                 {
@@ -879,12 +889,12 @@
                     $("#inputPier").removeClass("d-block").addClass("hidden");
                 } else if (selectedOption.val() == @((int)EnumBillReqProjectType.Bridge)) {
                     $("#depandableInputForm").removeClass("hidden").addClass("d-block");
+                    $("#inputPier").removeClass("hidden").addClass("d-block");
+                    $("#inputChainage").removeClass("hidden").addClass("d-block");
                     $("#inputWard").removeClass("d-block").addClass("hidden");
                     $("#inputDPP").removeClass("d-block").addClass("hidden");
-                    $("#inputPier").removeClass("hidden").addClass("d-block");
                     $("#inputFloor").removeClass("d-block").addClass("hidden");
                     $("#inputMember").removeClass("d-block").addClass("hidden");
-                    $("#inputChainage").removeClass("d-block").addClass("hidden");
                 } else {
                     $("#depandableInputForm").removeClass("d-block").addClass("hidden");
                     $("#inputWard").removeClass("d-block").addClass("hidden");
@@ -1108,10 +1118,12 @@
         // Get material list by sub category id
         function GetMaterialListBySubCategoryId() {
             if (isEditable == false) {
+                var requisitionType = $("#ddlBRTypeId option:selected");
+                var getBoqItemId = $("#ddlBOQItemId option:selected");
                 var getSubcategoryId = $("#ddlBRSubTypeId option:selected");
                 var showBoqMaterialList = $("#ddlRequisitionItemId");
 
-                if (getSubcategoryId.val() == @((int)EnumBillRequisitionType.Overhead) || @(Model.BillRequisitionTypeId) == @((int)EnumBillRequisitionType.Overhead)){
+                if (requisitionType.val() == @((int)EnumBillRequisitionType.Overhead) || @(Model.BillRequisitionTypeId) == @((int)EnumBillRequisitionType.Overhead)){
                     $.ajax({
                         type: "GET",
                         url: "/BillRequisition/getBoqMaterialListForOverHead",
@@ -1133,9 +1145,9 @@
 
                     $.ajax({
                         type: "GET",
-                        url: "/BillRequisition/GetMaterialListBySubcategoryId",
+                        url: "/BillRequisition/GetMaterialListByBoqIdAndSubcategoryId",
                         dataType: "json",
-                        data: { id: getSubcategoryId.val() },
+                        data: { boqId: getBoqItemId.val(), subtypeId: getSubcategoryId.val() },
                         success: function (data) {
                             showBoqMaterialList.empty();
                             showBoqMaterialList.append("<option selected disabled>==Select Material==</option>");
