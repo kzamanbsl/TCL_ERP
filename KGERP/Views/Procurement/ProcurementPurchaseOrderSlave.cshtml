@@ -123,7 +123,7 @@
                                 <div class="row">
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label>Work Order Date :</label>
+                                            <label>Purchase Date :</label>
                                             <input name="OrderDate" asp-for="OrderDate" type="text" value="@DateTime.Today.ToString("yyyy-MM-dd")" required="required" class="datePicker form-control" id="txtOrderDate" placeholder="Date" autocomplete="off">
                                             @Html.ValidationMessageFor(model => model.OrderDate, "", new { @class = "text-danger" })
                                         </div>
@@ -137,14 +137,22 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-3">
+                                    <div class="col-md-3  directPurchhaseHiddenField">
                                         <div class="form-group">
                                             <label>Payment Method :</label>
                                             @Html.DropDownListFor(model => model.SupplierPaymentMethodEnumFK, Model.POPaymentMethodList as SelectList, "==Select Payment Method==", new { id = "ddlSupplierPaymentMethodEnumFK", @class = "form-control", style = "width:100%", required = "required" })
                                             @Html.ValidationMessageFor(model => model.SupplierPaymentMethodEnumFK, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-3 hidden" id="dPIsStockField">
+                                        <div class="form-group">
+                                            <label class="control-label">Has Stock Location?</label>
+                                            <div class="">
+                                                <input type="checkbox" id="IsStockCheckBox">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3" id="StockLocationField">
                                         <div class="form-group">
                                             <label class="control-label">Stock Location:</label>
                                             <div class="">
@@ -153,10 +161,24 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-md-3 hidden" id="dPHasSupplierField">
+                                        <div class="form-group">
+                                            <label class="control-label">Has Supplier?</label>
+                                            <div class="">
+                                                <input type="checkbox" id="IsSupplierCheckBox">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 hidden" id="dPurchaseSupplierField">
+                                        <div class="form-group" style="padding:0px">
+                                            <label>Supplier/Subcontractor :</label>
+                                            @Html.EditorFor(model => model.SupplierName, new { htmlAttributes = new { @autocomplete = "on", @class = "form-control", @name = "Supplier Name", @id = "txtHiddenSupplierName" } })
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-md-3">
+                                    <div class="col-md-3 directPurchhaseHiddenField">
                                         <div class="form-group" style="padding:0px">
                                             <label>Supplier/Subcontractor :</label>
                                             @Html.EditorFor(model => model.SupplierName, new { htmlAttributes = new { @autocomplete = "on", @class = "form-control", @name = "Supplier Name", @id = "txtSupplierName", required = "required" } })
@@ -165,7 +187,7 @@
                                             @Html.ValidationMessageFor(model => model.Common_SupplierFK, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-3 directPurchhaseHiddenField">
                                         <div class="form-group">
                                             <label>Delivery Date :</label>
                                             <input name="DeliveryDate" asp-for="DeliveryDate" type="text" required="required" class="datePicker form-control" id="txtDeliveryDate" placeholder="Delivery date" autocomplete="off">
@@ -173,14 +195,14 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-3">
+                                    <div class="col-md-3 directPurchhaseHiddenField">
                                         <div class="form-group">
                                             <label>Delivery Address :</label>
                                             @Html.TextAreaFor(model => model.DeliveryAddress, new { id = "txtDeliveryAddress", @class = "form-control", placeholder = "Delivery address", rows = 1 })
                                             @Html.ValidationMessageFor(model => model.DeliveryAddress, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-3 directPurchhaseHiddenField">
                                         <div class="form-group">
                                             <label for="TermsAndCondition" class="col-form-label">T&C Type :</label>
                                             @Html.DropDownListFor(model => model.TermsAndConditionFk, Model.TermNCondition as SelectList, "==Terms & Condition==", new { id = "TermsAndConditionid", @class = "searchingDropdown form-control ddlReset", style = "width:100%" })
@@ -190,7 +212,7 @@
                                     <!-- /.box-body -->
                                 </div>
 
-                                <div class="row">
+                                <div class="row directPurchhaseHiddenField">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="txtDescription" class="col-form-label">Description :</label>
@@ -696,7 +718,7 @@
                 $(this).autocomplete("search");
             });
 
-              $("#txtSupplierName").autocomplete({
+            $("#txtSupplierName,#txtHiddenSupplierName").autocomplete({
                 source: function (request, response) {
 
                     $.ajax({
@@ -972,8 +994,24 @@
                     $("#inputRequisition").removeClass("col-md-3").addClass("col-md-4");
                     $("#inputMaterial").removeClass("col-md-3").addClass("col-md-4");
                     $("#inputUnit").removeClass("col-md-3").addClass("col-md-4");
-                    $("#txtUnitPrice ").attr("readonly", true); 
-                } else {
+                    $("#txtUnitPrice ").attr("readonly", true);
+                }
+                else if (selectedOption.val() == @((int)EnumWorkOrderFor.Direct_Purchase))
+                {
+                    
+                    $("#ddlSupplierPaymentMethodEnumFK").removeClass("d-block").addClass("hidden");
+                    $("#StockLocationField").removeClass("d-block").addClass("hidden");
+                    $("#dPIsStockField").removeClass("hidden").addClass("d-block");
+                    $("#dPHasSupplierField").removeClass("hidden").addClass("d-block");
+                    $(".directPurchhaseHiddenField").removeClass("d-block").addClass("hidden");
+                    $("#inputRequisition").removeClass("col-md-3").addClass("col-md-4");
+                    $("#inputMaterial").removeClass("col-md-3").addClass("col-md-4");
+                    $("#inputUnit").removeClass("col-md-3").addClass("col-md-4");
+                    //$('#txtHiddenSupplierName').val("");
+                    //$('#txtHiddenSupplierName').removeAttr('required');
+                    $("#txtUnitPrice ").attr("readonly", true);
+                }
+                else {
                     $("#inputRequisition").removeClass("d-block").addClass("hidden");
                     $("#inputApproved").removeClass("d-block").addClass("hidden");
                     $("#inputReceive").removeClass("d-block").addClass("hidden");
@@ -985,7 +1023,7 @@
                     $("#inputRequisition").removeClass("col-md-4").addClass("col-md-3");
                     $("#inputMaterial").removeClass("col-md-4").addClass("col-md-3");
                     $("#inputUnit").removeClass("col-md-4").addClass("col-md-3");
-                    $("#txtUnitPrice ").attr("readonly", false); 
+                    $("#txtUnitPrice ").attr("readonly", false);
                 }
             });
 
@@ -1018,5 +1056,19 @@
 
         });
 
+        $("#IsStockCheckBox").change(function () {
+
+            $("#dPIsStockField").removeClass("d-block").addClass("hidden");
+            $("#StockLocationField").removeClass("hidden").addClass("d-block");
+            
+        }); 
+        $("#IsSupplierCheckBox").change(function () {
+
+            $("#dPHasSupplierField").removeClass("d-block").addClass("hidden");
+            $("#dPurchaseSupplierField").removeClass("hidden").addClass("d-block");
+            
+        });
+        
+       
     </script>
 }

@@ -7,7 +7,9 @@ namespace KGERP.Utility
         [Display(Name = "General Work Order")]
         General = 1,
         [Display(Name = "Requisition Work Order")]
-        Requisition
+        Requisition,
+        [Display(Name = "Direct Purchase Order")]
+        Direct_Purchase
     }
 
     public enum EnumMaterialQuality

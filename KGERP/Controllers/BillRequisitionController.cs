@@ -184,8 +184,9 @@ namespace KGERP.Controllers
             var unitId = 0;
             if (id > 0)
             {
-                unitId = (int)_ProductService.GetProductJson().FirstOrDefault(c => c.ProductId == id).UnitId;
-                unitName = _configurationService.GetUnitForJson().FirstOrDefault(c => c.UnitId == unitId).Name;
+                var unit = _ProductService.GetProductJson().FirstOrDefault(c => c.ProductId == id);
+                unitId = unit?.UnitId ?? 0;
+                unitName = _configurationService.GetUnitForJson().FirstOrDefault(c => c.UnitId == unitId)?.Name??"";
             }
 
             var result = new { unitId = unitId, unitName = unitName };

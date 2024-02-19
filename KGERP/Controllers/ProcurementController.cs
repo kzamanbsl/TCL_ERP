@@ -587,6 +587,25 @@ namespace KGERP.Controllers
             }
             return View(vmPurchaseOrderSlave);
         }
+        [HttpPost]
+        public async Task<ActionResult> DirectPurchaseOrderSlave(VMPurchaseOrderSlave vmPurchaseOrderSlave)
+        {
+
+            if (vmPurchaseOrderSlave.ActionEum == ActionEnum.Add)
+            {
+                if (vmPurchaseOrderSlave.PurchaseOrderId == 0)
+                {
+                    vmPurchaseOrderSlave.PurchaseOrderId = await _service.ProcurementPurchaseOrderAdd(vmPurchaseOrderSlave);
+                }
+                await _service.ProcurementPurchaseOrderSlaveAdd(vmPurchaseOrderSlave);
+            }
+            else if (vmPurchaseOrderSlave.ActionEum == ActionEnum.Edit)
+            {
+                //Delete
+                await _service.ProcurementPurchaseOrderSlaveEdit(vmPurchaseOrderSlave);
+            }
+            return RedirectToAction(nameof(DirectPurchaseOrderSlave), new { companyId = vmPurchaseOrderSlave.CompanyFK, purchaseOrderId = vmPurchaseOrderSlave.PurchaseOrderId });
+        }
         public JsonResult GetTermNCondition(int id)
         {
             if (id != 0)

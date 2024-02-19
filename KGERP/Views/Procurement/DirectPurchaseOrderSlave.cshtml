@@ -34,12 +34,12 @@
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">Work Order</li>
+        <li class="active">Direct Purchase Order</li>
     </ol>
 </section>
 
 
-@using (Html.BeginForm("ProcurementPurchaseOrderSlave", "Procurement", FormMethod.Post, new { id = "procurementPurchaseOrderSlaveFormId", @class = "formValidator" }))
+@using (Html.BeginForm("DirectPurchaseOrderSlave", "Procurement", FormMethod.Post, new { id = "directPurchaseOrderSlaveFormId", @class = "formValidator" }))
 {
     <section class="content">
         <div class="row">
@@ -123,25 +123,33 @@
                                 <div class="row">
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label>Work Order Date :</label>
+                                            <label>Purchase Order Date :</label>
                                             <input name="OrderDate" asp-for="OrderDate" type="text" value="@DateTime.Today.ToString("yyyy-MM-dd")" required="required" class="datePicker form-control" id="txtOrderDate" placeholder="Date" autocomplete="off">
                                             @Html.ValidationMessageFor(model => model.OrderDate, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
 
                                     <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label>Work Order For :</label>
-                                            @Html.DropDownListFor(model => model.WorkOrderFor, Model.WorkOrderForList as SelectList, "==Work Order For==", new { id = "ddlWorkOrderFor", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
-                                            @Html.ValidationMessageFor(model => model.WorkOrderFor, "", new { @class = "text-danger" })
+                                            <div class="form-group">
+                                                <label>Work Order For :</label>
+                                                @Html.DropDownListFor(model => model.WorkOrderFor, Model.WorkOrderForList as SelectList, "==Work Order For==", new { id = "ddlWorkOrderFor", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                                @Html.ValidationMessageFor(model => model.WorkOrderFor, "", new { @class = "text-danger" })
+                                            </div>
                                         </div>
-                                    </div>
+
+                                    @*<div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Payment Method :</label>
+                                                @Html.DropDownListFor(model => model.SupplierPaymentMethodEnumFK, Model.POPaymentMethodList as SelectList, "==Select Payment Method==", new { id = "ddlSupplierPaymentMethodEnumFK", @class = "form-control", style = "width:100%", required = "required" })
+                                                @Html.ValidationMessageFor(model => model.SupplierPaymentMethodEnumFK, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>*@
 
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label>Payment Method :</label>
-                                            @Html.DropDownListFor(model => model.SupplierPaymentMethodEnumFK, Model.POPaymentMethodList as SelectList, "==Select Payment Method==", new { id = "ddlSupplierPaymentMethodEnumFK", @class = "form-control", style = "width:100%", required = "required" })
-                                            @Html.ValidationMessageFor(model => model.SupplierPaymentMethodEnumFK, "", new { @class = "text-danger" })
+                                            <label>Select Requisition No :</label>
+                                            @Html.DropDownListFor(model => model.RequisitionMasterId, Model.Requisitions as SelectList, "==Select Requisition No==", new { id = "ddlRequisitionId", onchange = "showBoQMaterial()", @class = "form-control searchingDropdown", style = "width:100%" })
+                                            @Html.ValidationMessageFor(model => model.RequisitionMasterId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -153,18 +161,19 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-
-                                <div class="row">
                                     <div class="col-md-3">
                                         <div class="form-group" style="padding:0px">
                                             <label>Supplier/Subcontractor :</label>
-                                            @Html.EditorFor(model => model.SupplierName, new { htmlAttributes = new { @autocomplete = "on", @class = "form-control", @name = "Supplier Name", @id = "txtSupplierName", required = "required" } })
+                                            @Html.EditorFor(model => model.SupplierName, new { htmlAttributes = new { @autocomplete = "on", @class = "form-control", @name = "Supplier Name", @id = "txtSupplierName" } })
 
                                             @Html.HiddenFor(model => model.Common_SupplierFK, new { id = "ddlCommon_SupplierFK" })
                                             @Html.ValidationMessageFor(model => model.Common_SupplierFK, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
+                                </div>
+
+                                <!--<div class="row">
+
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Delivery Date :</label>
@@ -186,9 +195,9 @@
                                             @Html.DropDownListFor(model => model.TermsAndConditionFk, Model.TermNCondition as SelectList, "==Terms & Condition==", new { id = "TermsAndConditionid", @class = "searchingDropdown form-control ddlReset", style = "width:100%" })
                                             @Html.ValidationMessageFor(model => model.TermsAndConditionFk, "", new { @class = "text-danger" })
                                         </div>
-                                    </div>
-                                    <!-- /.box-body -->
-                                </div>
+                                    </div>-->
+                                <!-- /.box-body -->
+                                <!--</div>-->
 
                                 <div class="row">
                                     <div class="col-md-6">
@@ -322,32 +331,32 @@
 
                                     <div class="col-md-4 hidden" id="inputRequisition">
                                         <div class="form-group">
-                                            <label>Select Requisition No :</label>
+                                            <label>Purchase Requisition No :</label>
                                             @Html.DropDownListFor(model => model.RequisitionMasterId, Model.Requisitions as SelectList, "==Select Requisition No==", new { id = "ddlRequisitionId", onchange = "showBoQMaterial()", @class = "form-control searchingDropdown", style = "width:100%" })
                                             @Html.ValidationMessageFor(model => model.RequisitionMasterId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
 
-                                    <div class="col-md-3 d-block" id="inputType">
-                                        <div class="form-group">
-                                            <label>Select Work Order Type :</label>
-                                            @Html.DropDownListFor(model => model.MaterialTypeId, Model.MaterialTypeList as SelectList, "==Work Order Type==", new { id = "ddlMaterialTypeId", onchange = "GetSubtypeByTypeId()", @class = "form-control searchingDropdown", style = "width:100%" })
-                                            @Html.ValidationMessageFor(model => model.MaterialTypeId, "", new { @class = "text-danger" })
+                                    @*<div class="col-md-3 d-block" id="inputType">
+                                            <div class="form-group">
+                                                <label>Purchase Order Type :</label>
+                                                @Html.DropDownListFor(model => model.MaterialTypeId, Model.MaterialTypeList as SelectList, "==Purchase Order Type==", new { id = "ddlMaterialTypeId", onchange = "GetSubtypeByTypeId()", @class = "form-control searchingDropdown", style = "width:100%" })
+                                                @Html.ValidationMessageFor(model => model.MaterialTypeId, "", new { @class = "text-danger" })
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div class="col-md-3 d-block" id="inputSubtype">
-                                        <div class="form-group">
-                                            <label>Select Work Order Subtype :</label>
-                                            @Html.DropDownListFor(model => model.MaterialSubtypeId, Model.MaterialSubtypeList as SelectList, "==Work Order Subtype==", new { id = "ddlMaterialSubtypeId", onchange = "GetMaterialBySubtypeId()", @class = "form-control searchingDropdown", style = "width:100%" })
-                                            @Html.ValidationMessageFor(model => model.MaterialSubtypeId, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
+                                        <div class="col-md-3 d-block" id="inputSubtype">
+                                            <div class="form-group">
+                                                <label>Purchase Order Subtype :</label>
+                                                @Html.DropDownListFor(model => model.MaterialSubtypeId, Model.MaterialSubtypeList as SelectList, "==Purchase Order Subtype==", new { id = "ddlMaterialSubtypeId", onchange = "GetMaterialBySubtypeId()", @class = "form-control searchingDropdown", style = "width:100%" })
+                                                @Html.ValidationMessageFor(model => model.MaterialSubtypeId, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>*@
 
                                     <div class="col-md-3" id="inputMaterial">
                                         <div class="form-group">
-                                            <label>Select Material Item :</label>
-                                            @Html.DropDownListFor(model => model.MaterialItemId, Model.MaterialItemList as SelectList, "==Select Material==", new { id = "ddlMaterialItemId", onchange = "getUnitName()", @class = "form-control searchingDropdown", required = "required", style = "width:100%" })
+                                            <label> Material Item :</label>
+                                            @Html.DropDownListFor(model => model.MaterialItemId, Model.MaterialItemList as SelectList, "==Purchase Material==", new { id = "ddlMaterialItemId", onchange = "getUnitName()", @class = "form-control searchingDropdown", required = "required", style = "width:100%" })
                                             @Html.ValidationMessageFor(model => model.MaterialItemId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -360,7 +369,14 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-4 hidden" id="inputApproved">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Unit Price :</label>
+                                            @Html.TextBoxFor(model => model.UnitPrice, new { id = "txtUnitPrice", type = "number", step = "0.01", @class = "form-control", placeholder = "Unit price", required = "Required", Readonly = "true" })
+                                            @Html.ValidationMessageFor(model => model.UnitPrice, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3" @*id="inputApproved"*@>
                                         <div class="form-group">
                                             <label>Approved Demand :</label>
                                             @Html.TextBoxFor(model => model.ApprovedDemand, new { id = "txtApprovedDemand", type = "number", step = "0.01", @class = "form-control", placeholder = "Approved demand", required = "Required", Readonly = "true" })
@@ -368,7 +384,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-4 hidden" id="inputReceive">
+                                    <div class="col-md-3" @*id="inputReceive"*@>
                                         <div class="form-group">
                                             <label>Received So far Demand :</label>
                                             @Html.TextBoxFor(model => model.ReceivedDemand, new { id = "txtRecievedDemand", type = "number", step = "0.01", @class = "form-control", placeholder = "Received so far demand", required = "Required", Readonly = "true" })
@@ -376,7 +392,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-4 hidden" id="inputRemaining">
+                                    <div class="col-md-3 " @*id="inputRemaining"*@>
                                         <div class="form-group">
                                             <label>Remaining Demand :</label>
                                             @Html.TextBoxFor(model => model.RemainingDemand, new { id = "txtRemainingDemand", type = "number", step = "0.01", @class = "form-control", placeholder = "Remaining demand", required = "Required", Readonly = "true" })
@@ -384,24 +400,15 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <div class="form-group">
-                                            <label>Workable Demand :</label>
+                                            <label>Purchasable Demand :</label>
                                             @Html.TextBoxFor(model => model.WorkableDemand, new { id = "txtWorkableDemand", type = "number", step = "0.01", @class = "form-control", placeholder = "Workable demand", required = "Required" })
                                             @Html.ValidationMessageFor(model => model.WorkableDemand, "", new { @class = "text-danger" })
                                             <span class="text-danger" id="demandValidate"></span>
                                         </div>
                                     </div>
-
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label>Unit Price :</label>
-                                            @Html.TextBoxFor(model => model.UnitPrice, new { id = "txtUnitPrice", type = "number", step = "0.01", @class = "form-control", placeholder = "Unit price", required = "Required", Readonly = "true" })
-                                            @Html.ValidationMessageFor(model => model.UnitPrice, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Total Price:</label>
                                             @Html.TextBoxFor(model => model.TotalPrice, new { id = "txtTotalPrice", type = "number", step = "0.01", @class = "form-control", placeholder = "Total price", required = "Required", Readonly = "true" })
@@ -423,11 +430,11 @@
                                         <i class='fa fa-plus'></i>
                                         @if (Model.PurchaseOrderId > 0)
                                         {
-                                            <span>Add Item In WO</span>
+                                            <span>Add Item In  DPO</span>
                                         }
                                         else
                                         {
-                                            <span>Create WO</span>
+                                            <span>Create  DPO</span>
                                         }
                                     </button>
                                 </div>
@@ -934,7 +941,6 @@
                 var unitValue = parseFloat(inputUnitPrice.val()) || 0;
 
                 if (!isNaN(remainingValue) && !isNaN(demandValue) && !isNaN(unitValue)) {
-                    if ($("#ddlWorkOrderFor").val() == @((int)EnumWorkOrderFor.Requisition)) {
                         if (demandValue <= remainingValue || demandValue === 0) {
                             $("#demandValidate").text("");
                             totalPrice = demandValue * unitValue;
@@ -945,10 +951,10 @@
                             showTotalPrice.val(totalPrice.toFixed(2));
                             $("#demandValidate").text("Demand cannot exceed the remaining amount!");
                         }
-                    } else {
+
                         totalPrice = demandValue * unitValue;
                         showTotalPrice.val(totalPrice.toFixed(2));
-                    }
+
                 }
             }
 
