@@ -557,55 +557,6 @@ namespace KGERP.Controllers
             return RedirectToAction(nameof(ProcurementPurchaseOrderSlave), new { companyId = vmPurchaseOrderSlave.CompanyFK, purchaseOrderId = vmPurchaseOrderSlave.PurchaseOrderId });
         }
         
-        [HttpGet]
-        public async Task<ActionResult> DirectPurchaseOrderSlave(int companyId = 0, int purchaseOrderId = 0)
-        {
-            VMPurchaseOrderSlave vmPurchaseOrderSlave = new VMPurchaseOrderSlave();
-
-            if (purchaseOrderId == 0)
-            {
-                vmPurchaseOrderSlave.CompanyFK = companyId;
-                vmPurchaseOrderSlave.Status = (int)POStatusEnum.Draft;
-            }
-            else if (purchaseOrderId > 0)
-            {
-                vmPurchaseOrderSlave = await Task.Run(() => _service.ProcurementPurchaseOrderSlaveGet(companyId, purchaseOrderId));
-
-            }
-            long requisitionId = 0;
-            vmPurchaseOrderSlave.TermNCondition = new SelectList(_service.CommonTermsAndConditionDropDownList(companyId), "Value", "Text");
-            vmPurchaseOrderSlave.ShippedByList = new SelectList(_service.ShippedByListDropDownList(companyId), "Value", "Text");
-            vmPurchaseOrderSlave.CountryList = new SelectList(_service.CountriesDropDownList(companyId), "Value", "Text");
-            vmPurchaseOrderSlave.StockInfoList = _stockInfoService.GetStockInfoSelectModels(companyId);
-            vmPurchaseOrderSlave.Requisitions = new SelectList(_billRequisitionService.ApprovedRequisitionList(companyId), "Value", "Text");
-            vmPurchaseOrderSlave.MaterialItemList = new SelectList(_billRequisitionService.ApprovedMaterialList(companyId, requisitionId), "ProductId", "ProductName");
-            vmPurchaseOrderSlave.MaterialTypeList = new SelectList(_configurationService.GetAllProductCategoryList(companyId), "ProductCategoryId", "Name");
-            if (companyId == (int)CompanyNameEnum.KrishibidSeedLimited)
-            {
-                vmPurchaseOrderSlave.LCList = new SelectList(_service.SeedLCHeadGLList(companyId), "Value", "Text");
-
-            }
-            return View(vmPurchaseOrderSlave);
-        }
-        [HttpPost]
-        public async Task<ActionResult> DirectPurchaseOrderSlave(VMPurchaseOrderSlave vmPurchaseOrderSlave)
-        {
-
-            if (vmPurchaseOrderSlave.ActionEum == ActionEnum.Add)
-            {
-                if (vmPurchaseOrderSlave.PurchaseOrderId == 0)
-                {
-                    vmPurchaseOrderSlave.PurchaseOrderId = await _service.ProcurementPurchaseOrderAdd(vmPurchaseOrderSlave);
-                }
-                await _service.ProcurementPurchaseOrderSlaveAdd(vmPurchaseOrderSlave);
-            }
-            else if (vmPurchaseOrderSlave.ActionEum == ActionEnum.Edit)
-            {
-                //Delete
-                await _service.ProcurementPurchaseOrderSlaveEdit(vmPurchaseOrderSlave);
-            }
-            return RedirectToAction(nameof(DirectPurchaseOrderSlave), new { companyId = vmPurchaseOrderSlave.CompanyFK, purchaseOrderId = vmPurchaseOrderSlave.PurchaseOrderId });
-        }
         public JsonResult GetTermNCondition(int id)
         {
             if (id != 0)
