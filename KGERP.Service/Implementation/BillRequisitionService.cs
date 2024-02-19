@@ -1923,7 +1923,7 @@ namespace KGERP.Service.Implementation
                                   select new
                                   {
                                       BillRequisitionMasterId = t1.BillRequisitionMasterId,
-                                      TotalAmount = t2.TotalPrice,
+                                      TotalAmount = t2.DemandQty * t2.UnitRate,
                                   }).AsEnumerable();
 
                 billRequisitionMasterModel.DataList = await Task.Run(() => (from t1 in _context.BillRequisitionMasters.Where(x => x.IsActive
@@ -2100,7 +2100,7 @@ namespace KGERP.Service.Implementation
                               select new
                               {
                                   BillRequisitionMasterId = t1.BillRequisitionMasterId,
-                                  TotalAmount = t2.TotalPrice,
+                                  TotalAmount = t2.DemandQty * t2.UnitRate,
                               }).AsEnumerable();
 
 
@@ -2258,8 +2258,6 @@ namespace KGERP.Service.Implementation
         public async Task<BillRequisitionMasterModel> GetITHeadBillRequisitionList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
         {
             BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
-            //var EmpId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
-
             billRequisitionMasterModel.CompanyFK = companyId;
 
             var totalPrice = (from t1 in _context.BillRequisitionMasters.Where(x => x.IsActive
@@ -2271,7 +2269,7 @@ namespace KGERP.Service.Implementation
                               select new
                               {
                                   BillRequisitionMasterId = t1.BillRequisitionMasterId,
-                                  TotalAmount = t2.TotalPrice,
+                                  TotalAmount = t2.DemandQty * t2.UnitRate,
                               }).AsEnumerable();
 
             billRequisitionMasterModel.DataList = await Task.Run(() => (from t1 in _context.BillRequisitionMasters.Where(x => x.IsActive
@@ -2446,7 +2444,7 @@ namespace KGERP.Service.Implementation
                               select new
                               {
                                   BillRequisitionMasterId = t1.BillRequisitionMasterId,
-                                  TotalAmount = t2.TotalPrice,
+                                  TotalAmount = t2.DemandQty * t2.UnitRate,
                               }).AsEnumerable();
 
             billRequisitionMasterModel.DataList = await Task.Run(() => (from t1 in _context.BillRequisitionMasters.Where(x => x.IsActive
@@ -2620,7 +2618,7 @@ namespace KGERP.Service.Implementation
                               select new
                               {
                                   BillRequisitionMasterId = t1.BillRequisitionMasterId,
-                                  TotalAmount = t2.TotalPrice,
+                                  TotalAmount = t2.DemandQty * t2.UnitRate,
                               }).AsEnumerable();
 
             billRequisitionMasterModel.DataList = await Task.Run(() => (from t1 in _context.BillRequisitionMasters.Where(x => x.IsActive
@@ -2790,7 +2788,7 @@ namespace KGERP.Service.Implementation
                               select new
                               {
                                   BillRequisitionMasterId = t1.BillRequisitionMasterId,
-                                  TotalAmount = t2.TotalPrice,
+                                  TotalAmount = t2.DemandQty * t2.UnitRate,
                               }).AsEnumerable();
 
             billRequisitionMasterModel.DataList = await Task.Run(() => (from t1 in _context.BillRequisitionMasters.Where(x => x.IsActive

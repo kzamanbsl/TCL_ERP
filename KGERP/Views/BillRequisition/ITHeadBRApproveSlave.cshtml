@@ -162,7 +162,7 @@
                                                         <td class="text-center">@String.Format("{0:0.00}", item.RemainingQty)</td>
                                                     }
                                                     <td class="text-center">
-                                                        @if (Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.QS).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
+                                                        @if (Model.StatusName == EnumBillRequisitionStatus.Pending.ToString() && Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.QS).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
                                                         {
                                                             @Html.TextBoxFor(model => model.DetailDataList[i].DemandQty, new { id = "demandQty_" + i, @class = "form-control demandValue" })
                                                         }
@@ -172,7 +172,7 @@
                                                         }
                                                     </td>
                                                     <td class="text-center">
-                                                        @if (Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.QS).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
+                                                        @if (Model.StatusName == EnumBillRequisitionStatus.Pending.ToString() && Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.QS).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
                                                         {
                                                             @Html.TextBoxFor(model => model.DetailDataList[i].UnitRate, new { id = "unitRate_" + i, @class = "form-control unitValue" })
                                                         }
@@ -232,7 +232,7 @@
                                                 if (item.AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
                                                 {
                                                     <td style="text-align:center">
-                                                        <span class="btn btn-warning btn-xs"> @item.AprrovalStatusName</span>
+                                                        <span class="btn btn-warning btn-xs">@(Model.StatusName == EnumBillRequisitionStatus.Approved.ToString() ? "Bypass" : item.AprrovalStatusName)</span>
                                                     </td>
                                                 }
                                                 else if (item.AprrovalStatusId == (int)EnumBillRequisitionStatus.Rejected)
@@ -303,19 +303,19 @@
                                                     }
                                                     else
                                                     {
-                                                        <span style="font-size: 12px"><b>Remarks: </b> @((item.SignatoryName == "Initiator") ? "Requisition Created. " : "N/A")</span>
+                                                        <span style="font-size: 12px"><b>Remarks: </b> @(item.SignatoryName == "Initiator" ? "Requisition Created. " : "N/A")</span>
                                                     }
                                                     <br />
                                                     @if (item.SignatoryName == "Initiator")
                                                     {
                                                         <span style="font-size: 11px">
-                                                            <b>Time: </b> @((item.ModifiedDate == null) ? "Pending" : item.ModifiedDate.ToString())
+                                                            <b>Time: </b> @(item.ModifiedDate == null ? "Pending" : item.ModifiedDate.ToString())
                                                         </span>
                                                     }
                                                     else
                                                     {
                                                         <span style="font-size: 11px">
-                                                            <b>Time: </b> @((item.ModifiedDate == null) ? "Pending" : item.ModifiedDate.ToString())
+                                                            <b>Time: </b> @(item.ModifiedDate == null ? "Pending" : item.ModifiedDate.ToString())
                                                         </span>
                                                     }
                                                 </td>
@@ -328,7 +328,7 @@
                         }
                     </div>
 
-                    @if (Model.BillRequisitionMasterId > 0 && Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.QS).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
+                    @if (Model.StatusName == EnumBillRequisitionStatus.Pending.ToString() && Model.BillRequisitionMasterId > 0 && Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.QS).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
                     {
                         <div class="box-footer">
                             <div class="row">
