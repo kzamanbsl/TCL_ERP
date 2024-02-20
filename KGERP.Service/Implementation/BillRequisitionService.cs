@@ -618,7 +618,7 @@ namespace KGERP.Service.Implementation
         public async Task<List<BillRequisitionBoqModel>> GetBoqListByDivisionId(long id)
         {
             var data = await (from t1 in _context.BillBoQItems
-                              .Where(x => x.BoQDivisionId == id)
+                              .Where(x => x.BoQDivisionId == id && x.IsActive)
                               select new BillRequisitionBoqModel
                               { 
                                 BoQItemId = t1.BoQItemId,
@@ -2913,11 +2913,35 @@ namespace KGERP.Service.Implementation
                                  join t2 in _context.Products on t1.ProductId equals t2.ProductId into t2_Join
                                  from t2 in t2_Join.DefaultIfEmpty()
                                  join t3 in _context.ProductSubCategories on t2.ProductSubCategoryId equals t3.ProductSubCategoryId into t3_Join
-                                 from t4 in t3_Join.DefaultIfEmpty()
+                                 from t3 in t3_Join.DefaultIfEmpty()
                                  select new
                                  {
-                                     t4.ProductSubCategoryId,
-                                     t4.Name
+                                     t3.ProductSubCategoryId,
+                                     t3.Name
+                                 }).Distinct().ToList();
+
+            var subcategoryList = subCategories.Select(x => new ProductSubCategory
+            {
+                ProductSubCategoryId = x.ProductSubCategoryId,
+                Name = x.Name
+            }).ToList();
+
+            return subcategoryList;
+        }
+
+        public List<ProductSubCategory> GetSubcategoryByTypeAndBoq(long typeId, long boqId)
+        {
+            var subCategories = (from t1 in _context.BoQItemProductMaps
+                               .Where(x => x.BoQItemId == boqId && x.IsActive).DefaultIfEmpty()
+                                 join t2 in _context.Products on t1.ProductId equals t2.ProductId into t2_Join
+                                 from t2 in t2_Join.DefaultIfEmpty()
+                                 join t3 in _context.ProductSubCategories on t2.ProductSubCategoryId equals t3.ProductSubCategoryId into t3_Join
+                                 from t3 in t3_Join.DefaultIfEmpty()
+                                 where t3.ProductCategoryId == typeId
+                                 select new
+                                 {
+                                     t3.ProductSubCategoryId,
+                                     t3.Name
                                  }).Distinct().ToList();
 
             var subcategoryList = subCategories.Select(x => new ProductSubCategory

@@ -222,6 +222,15 @@ namespace KGERP.Controllers
             return Json(materialList, JsonRequestBehavior.AllowGet);
         }
 
+        // Dependent Subcategory List by BoQ and Type
+        public JsonResult GetSubCategoryByTypeAndBoQ(long typeId, long boqId)
+        {
+            List<ProductSubCategory> subCategoryList = null;
+            subCategoryList = _service.GetSubcategoryByTypeAndBoq(typeId, boqId);
+
+            return Json(subCategoryList, JsonRequestBehavior.AllowGet);
+        }
+
         // Dependent Subcategory List by BoQ id
         public JsonResult GetSubCategoryByBoqId(long id)
         {

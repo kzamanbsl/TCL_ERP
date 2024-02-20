@@ -1092,14 +1092,15 @@
         // Get sub category list by boq id
         function GetSubcategoryByBoqId() {
             if (isEditable == false) {
+                var getRequisitionTypeId = $("#ddlBRTypeId option:selected");
                 var getBoqItemId = $("#ddlBOQItemId option:selected");
                 var showSubcategoryList = $("#ddlBRSubTypeId");
 
                 $.ajax({
                     type: "GET",
-                    url: "/BillRequisition/GetSubCategoryByBoqId",
+                    url: "/BillRequisition/GetSubCategoryByTypeAndBoQ",
                     dataType: "json",
-                    data: { id: getBoqItemId.val() },
+                    data: { typeId: getRequisitionTypeId.val(), boqId: getBoqItemId.val() },
                     success: function (data) {
                         showSubcategoryList.empty();
                         showSubcategoryList.append("<option selected disabled>==Requisition For==</option>");

@@ -139,6 +139,7 @@ namespace KGERP.Service.Interface
 
         List<Product> GetMaterialByBoqAndSubCategory(long boqId, long subtypeId);
         List<Product> GetMaterialBySubCategory(long id);
+        List<ProductSubCategory> GetSubcategoryByTypeAndBoq(long typeId, long boqId);
         List<ProductSubCategory> GetSubcategoryByBoq(long id);
         List<Product> GetMaterialByBoqId(long boqId);
         List<Product> GetMaterialByBoqOverhead(int requisitionSubtypeId);
