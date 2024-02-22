@@ -23,15 +23,17 @@ namespace KGERP.Controllers
     [SessionExpire]
     public class QuotationController : BaseController
     {
-        private readonly IQuotationService _service;
-        private readonly ConfigurationService _configurationService;
+        private readonly IQuotationService _Service;
+        private readonly ConfigurationService _ConfigurationService;
         private readonly ProductService _ProductService;
+        private readonly IBillRequisitionService _RequisitionService;
 
-        public QuotationController(IQuotationService quotationService, ConfigurationService configurationService, ProductService productService)
+        public QuotationController(IQuotationService quotationService, ConfigurationService configurationService, ProductService productService, IBillRequisitionService requisitionService)
         {
-            _service = quotationService;
-            _configurationService = configurationService;
+            _Service = quotationService;
+            _ConfigurationService = configurationService;
             _ProductService = productService;
+            _RequisitionService = requisitionService;
         }
 
         [HttpGet]
@@ -40,6 +42,8 @@ namespace KGERP.Controllers
             QuotationMasterModel viewData = new QuotationMasterModel();
             viewData.CompanyFK = companyId;
             viewData.StatusId = (int)EnumQuotationStatus.Draft;
+            viewData.RequisitionList = new SelectList(_RequisitionService.ApprovedRequisitionList(companyId), "Value", "Text");
+            viewData.DetailModel.MaterialTypeList = new SelectList(_ConfigurationService.GetAllProductCategoryList(companyId), "ProductCategoryId", "Name");
             return View(viewData);
         }
     }

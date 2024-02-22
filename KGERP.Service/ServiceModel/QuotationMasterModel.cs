@@ -40,12 +40,15 @@ namespace KGERP.Service.ServiceModel
         public int UnitId { get; set; }
         public string UnitName { get; set; }
         public int MaterialQualityId { get; set; }
-        public int MaterialSubTypeId { get; set; }
+        public int MaterialTypeId { get; set; }
+        public string MaterialTypeName { get; set; }
+        public int MaterialSubtypeId { get; set; }
         public string MaterialSubtypeName { get; set; }
         public int Quantity { get; set; }
         public decimal UnitPrice { get; set; }
         public decimal TotalAmount { get; set; }
         public string EmployeeName { get; set; }
+        public SelectList MaterialTypeList { get; set; } = new SelectList(new List<object>());
         public SelectList MaterialSubtypeList { get; set; } = new SelectList(new List<object>());
         public SelectList MaterialList { get; set; } = new SelectList(new List<object>());
         public SelectList MaterialQualityList { get; set; } = new SelectList(Enum.GetValues(typeof(EnumMaterialQuality)).Cast<EnumMaterialQuality>().Select(e => new SelectListItem { Text = e.ToString(), Value = ((int)e).ToString() }), "Value", "Text");
