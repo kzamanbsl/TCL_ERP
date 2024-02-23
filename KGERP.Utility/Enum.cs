@@ -26,6 +26,14 @@ namespace KGERP.Utility
         Accepted
     }
 
+    public enum EnumChequeRegisterFor
+    {
+        [Display(Name = "General Register")]
+        General = 1,
+        [Display(Name = "Requisition Register")]
+        Requisition
+    }
+
     public enum EnumQuotationFor
     {
         [Display(Name = "General Quotation")]

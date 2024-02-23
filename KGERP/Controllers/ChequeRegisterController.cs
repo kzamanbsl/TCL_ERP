@@ -23,12 +23,12 @@ namespace KGERP.Controllers
     [SessionExpire]
     public class ChequeRegisterController : BaseController
     {
-        private readonly ConfigurationService _ConfigurationService;
+        private readonly IChequeRegisterService _Service;
         private readonly IBillRequisitionService _RequisitionService;
 
-        public ChequeRegisterController(IQuotationService quotationService, ConfigurationService configurationService, ProductService productService, IBillRequisitionService requisitionService)
+        public ChequeRegisterController(IChequeRegisterService chequeRegisterService, IBillRequisitionService requisitionService)
         {
-            _ConfigurationService = configurationService;
+            _Service = chequeRegisterService;
             _RequisitionService = requisitionService;
         }
 
