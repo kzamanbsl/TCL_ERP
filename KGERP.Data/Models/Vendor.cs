@@ -31,6 +31,7 @@ namespace KGERP.Data.Models
             this.VendorOffers = new HashSet<VendorOffer>();
             this.VendorOpenings = new HashSet<VendorOpening>();
             this.PurchaseOrders = new HashSet<PurchaseOrder>();
+            this.ChequeRegisters = new HashSet<ChequeRegister>();
         }
     
         public int VendorId { get; set; }
@@ -131,5 +132,7 @@ namespace KGERP.Data.Models
         public virtual ICollection<VendorOpening> VendorOpenings { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PurchaseOrder> PurchaseOrders { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ChequeRegister> ChequeRegisters { get; set; }
     }
 }
