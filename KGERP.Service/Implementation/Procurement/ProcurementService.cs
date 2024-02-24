@@ -1918,7 +1918,8 @@ namespace KGERP.Service.Implementation.Procurement
         {
             VMPurchaseOrderSlave vmPurchaseOrderSlave = new VMPurchaseOrderSlave();
             vmPurchaseOrderSlave = await Task.Run(() => (from t1 in _db.PurchaseOrders.Where(x => x.IsActive && x.PurchaseOrderId == purchaseOrderId && x.CompanyId == companyId)
-                                                         join t2 in _db.Vendors on t1.SupplierId equals t2.VendorId
+                                                         join t2 in _db.Vendors on t1.SupplierId equals t2.VendorId into t2_Join
+                                                         from t2 in t2_Join.DefaultIfEmpty()
                                                          join t3 in _db.Companies on t1.CompanyId equals t3.CompanyId
                                                          join t4 in _db.Employees on t1.EmpId equals t4.Id into t4_Join
                                                          from t4 in t4_Join.DefaultIfEmpty()

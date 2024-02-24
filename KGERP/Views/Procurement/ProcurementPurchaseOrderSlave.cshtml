@@ -956,7 +956,9 @@
                 var unitValue = parseFloat(inputUnitPrice.val()) || 0;
 
                 if (!isNaN(remainingValue) && !isNaN(demandValue) && !isNaN(unitValue)) {
-                    if ($("#ddlWorkOrderFor").val() == @((int)EnumWorkOrderFor.Requisition)) {
+                    if ($("#ddlWorkOrderFor").val() == @((int)EnumWorkOrderFor.Requisition)
+                       || $("#ddlWorkOrderFor").val() == @((int)EnumWorkOrderFor.Direct_Purchase))
+                    {
                         if (demandValue <= remainingValue || demandValue === 0) {
                             $("#demandValidate").text("");
                             totalPrice = demandValue * unitValue;
@@ -983,12 +985,16 @@
 
                 if (selectedOption.val() == @((int)EnumWorkOrderFor.Requisition)) {
                     $("#inputRequisition").removeClass("hidden").addClass("d-block");
+                    $(".directPurchhaseHiddenField").removeClass("hidden").addClass("d-block");
                     $("#inputRequisition").removeClass("col-md-3").addClass("col-md-4");
                     $("#inputApproved").removeClass("hidden").addClass("d-block");
+                    $("#StockLocationField").removeClass("hidden").addClass("d-block");
                     $("#inputReceive").removeClass("hidden").addClass("d-block");
                     $("#inputRemaining").removeClass("hidden").addClass("d-block");
+                    $("#dPHasSupplierField").removeClass("d-block").addClass("hidden");
 
                     $("#inputType").removeClass("d-block").addClass("hidden");
+                    $("#dPIsStockField").removeClass("d-block").addClass("hidden");
                     $("#inputSubtype").removeClass("d-block").addClass("hidden");
 
                     $("#inputRequisition").removeClass("col-md-3").addClass("col-md-4");
@@ -998,10 +1004,11 @@
                 }
                 else if (selectedOption.val() == @((int)EnumWorkOrderFor.Direct_Purchase))
                 {
-                    
-                    $("#ddlSupplierPaymentMethodEnumFK").removeClass("d-block").addClass("hidden");
+
+                    //$("#ddlSupplierPaymentMethodEnumFK").removeClass("d-block").addClass("hidden");
                     $("#StockLocationField").removeClass("d-block").addClass("hidden");
                     $("#dPIsStockField").removeClass("hidden").addClass("d-block");
+                    $("#inputApproved").removeClass("hidden").addClass("d-block");
                     $("#inputReceive").removeClass("hidden").addClass("d-block");
                     $("#inputRemaining").removeClass("hidden").addClass("d-block");
                     $("#dPHasSupplierField").removeClass("hidden").addClass("d-block");
@@ -1063,15 +1070,15 @@
 
             $("#dPIsStockField").removeClass("d-block").addClass("hidden");
             $("#StockLocationField").removeClass("hidden").addClass("d-block");
-            
-        }); 
+
+        });
         $("#IsSupplierCheckBox").change(function () {
 
             $("#dPHasSupplierField").removeClass("d-block").addClass("hidden");
             $("#dPurchaseSupplierField").removeClass("hidden").addClass("d-block");
-            
+
         });
-        
-       
+
+
     </script>
 }
