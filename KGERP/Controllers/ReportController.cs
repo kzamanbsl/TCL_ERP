@@ -5418,5 +5418,26 @@ namespace KGERP.Controllers
             return View();
         }
 
+        [HttpGet]
+        [SessionExpire]
+        public ActionResult ChequeRegisterPrinting( long chequeRegisterId)
+        {
+            NetworkCredential nwc = new NetworkCredential(_admin, _password);
+            WebClient client = new WebClient();
+            client.Credentials = nwc;
+            var ReportName = CompanyInfo.ReportPrefix + "ChequeRegisterInfoReport";
+            var ReportType = "PDF";
+            if (chequeRegisterId == null)
+            {
+                chequeRegisterId = 0;
+            }
+
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&ChequeRegisterId={2}",
+                ReportName, ReportType, chequeRegisterId);
+
+
+                return File(client.DownloadData(reportUrl), "application/pdf");
+            
+        }
     }
 }
