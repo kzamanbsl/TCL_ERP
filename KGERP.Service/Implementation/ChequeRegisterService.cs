@@ -10,6 +10,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Linq.Dynamic;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace KGERP.Service.Implementation
 {
@@ -79,9 +80,26 @@ namespace KGERP.Service.Implementation
             throw new NotImplementedException();
         }
 
-        public Task<bool> ChequeSign(long chequeRegisterId)
+        public async Task<bool> ChequeSign(long chequeRegisterId)
         {
-            throw new NotImplementedException();
+            bool sendData = false;
+            if(chequeRegisterId > 0)
+            {
+                var result = await _Context.ChequeRegisters.FirstOrDefaultAsync(x => x.ChequeRegisterId == chequeRegisterId);
+                if( result != null)
+                {
+                    result.IsSigned = true;
+                    result.ModifiedBy = HttpContext.Current.User.Identity.Name;
+                    result.ModifiedOn = DateTime.Now;
+
+                    if (await _Context.SaveChangesAsync() > 0)
+                    {
+                        sendData = true;
+                    }
+                }
+            }
+
+            return sendData;
         }
     }
 }

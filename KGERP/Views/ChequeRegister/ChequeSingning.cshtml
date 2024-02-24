@@ -172,9 +172,21 @@
         });
 
         function ChequeSign(chequeRegisterId) {
-            $("#hideSigned").removeClass("d-block").addClass("hidden");
-            $("#showSigned").removeClass("hidden").addClass("d-block");
-            console.log(chequeRegisterId);
+            console.log("Ok");
+            $.ajax({
+                type: "GET",
+                url: "/ChequeRegister/MakeSignToCheque",
+                dataType: "json",
+                data: { chequeRegisterId: chequeRegisterId },
+                success: function (data) {
+                    console.log(data);
+                    if (data) {
+                        $("#hideSigned").removeClass("d-block").addClass("hidden");
+                        $("#showSigned").removeClass("hidden").addClass("d-block");
+                    }
+                }
+            });
+
         }
     </script>
 }
