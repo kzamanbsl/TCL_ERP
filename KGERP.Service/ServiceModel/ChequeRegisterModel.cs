@@ -29,7 +29,9 @@ namespace KGERP.Service.ServiceModel
         public DateTime ClearingDate { get; set; }
         public string PayTo { get; set; }
         public bool IsSigned { get; set; }
-        public SelectList RegisterForList { get; set; } = new SelectList(Enum.GetValues(typeof(EnumChequeRegisterFor)).Cast<EnumChequeRegisterFor>().Select(e => new SelectListItem { Text = e.ToString(), Value = ((int)e).ToString() }), "Value", "Text");
+        public DateTime StrFromDate { get; set; }
+        public DateTime StrToDate { get; set; }
+        public SelectList RegisterForList { get { return new SelectList(BaseFunctionalities.GetEnumList<EnumChequeRegisterFor>(), "Value", "Text"); } }
         public SelectList RequisitionList { get; set; } = new SelectList(new List<object>());
         public SelectList ProjectList { get; set; } = new SelectList(new List<object>());
         public SelectList SupplierList { get; set; } = new SelectList(new List<object>());

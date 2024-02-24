@@ -33,15 +33,21 @@ namespace KGERP.Controllers
         }
 
         [HttpGet]
-        public ActionResult Index(int companyId = 0)
+        public async Task<ActionResult> Index(int companyId = 0)
         {
-            return View();
+            ChequeRegisterModel viewData = new ChequeRegisterModel();
+            viewData.chequeRegisterList = await _Service.GetChequeRegisterList(companyId);
+            return View(viewData);
         }
 
         [HttpGet]
-        public ActionResult NewChequeRegister(int companyId = 0)
+        public async Task<ActionResult> NewChequeRegister(int companyId = 0)
         {
-            return View();
+            ChequeRegisterModel viewData = new ChequeRegisterModel();
+            viewData.ProjectList = new SelectList(await _RequisitionService.GetProjectList(companyId), "CostCenterId", "Name");
+            viewData.RequisitionList = new SelectList(_RequisitionService.ApprovedRequisitionList(companyId), "Value", "Text");
+            viewData.chequeRegisterList = await _Service.GetChequeRegisterList(companyId);
+            return View(viewData);
         }
     }
 }
