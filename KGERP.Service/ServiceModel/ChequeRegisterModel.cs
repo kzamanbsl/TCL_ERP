@@ -31,6 +31,7 @@ namespace KGERP.Service.ServiceModel
         public bool IsSigned { get; set; }
         public DateTime StrFromDate { get; set; }
         public DateTime StrToDate { get; set; }
+        public string ReportType { get; set; }
         public SelectList RegisterForList { get { return new SelectList(BaseFunctionalities.GetEnumList<EnumChequeRegisterFor>(), "Value", "Text"); } }
         public SelectList RequisitionList { get; set; } = new SelectList(new List<object>());
         public SelectList ProjectList { get; set; } = new SelectList(new List<object>());

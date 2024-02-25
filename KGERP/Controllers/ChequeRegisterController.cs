@@ -45,7 +45,7 @@ namespace KGERP.Controllers
         public async Task<JsonResult> MakeSignToCheque(long chequeRegisterId)
         {
             bool response = false;
-            if(chequeRegisterId > 0)
+            if (chequeRegisterId > 0)
             {
                 response = await _Service.ChequeSign(chequeRegisterId);
             }
@@ -86,6 +86,18 @@ namespace KGERP.Controllers
                 return View("Error");
             }
             return RedirectToAction(nameof(NewChequeRegister), new { companyId = model.CompanyFK });
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> ChequeRegisterReport(int companyId = 0)
+        {
+            ChequeRegisterModel viewData = new ChequeRegisterModel();
+            viewData.CompanyFK = companyId;
+            //viewData.ChequeDate = DateTime.Now;
+            viewData.ProjectList = new SelectList(await _RequisitionService.GetProjectList(companyId), "CostCenterId", "Name");
+            viewData.RequisitionList = new SelectList(_RequisitionService.ApprovedRequisitionList(companyId), "Value", "Text");
+            //viewData.chequeRegisterList = await _Service.GetChequeRegisterList(companyId);
+            return View(viewData);
         }
     }
 }
