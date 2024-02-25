@@ -65,7 +65,7 @@ namespace KGERP.Service.Implementation
             throw new NotImplementedException();
         }
 
-        public Task<bool> Create(ChequeRegisterModel model)
+        public Task<bool> Add(ChequeRegisterModel model)
         {
             throw new NotImplementedException();
         }
@@ -75,7 +75,7 @@ namespace KGERP.Service.Implementation
             throw new NotImplementedException();
         }
 
-        public Task<bool> Delete(long chequeRegisterId)
+        public Task<bool> Delete(ChequeRegisterModel model)
         {
             throw new NotImplementedException();
         }

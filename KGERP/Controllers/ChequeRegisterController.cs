@@ -33,7 +33,7 @@ namespace KGERP.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> ChequeSingning(int companyId = 0)
+        public async Task<ActionResult> ChequeSigning(int companyId = 0)
         {
             ChequeRegisterModel viewData = new ChequeRegisterModel();
             viewData.CompanyFK = companyId;
@@ -61,6 +61,31 @@ namespace KGERP.Controllers
             viewData.RequisitionList = new SelectList(_RequisitionService.ApprovedRequisitionList(companyId), "Value", "Text");
             viewData.chequeRegisterList = await _Service.GetChequeRegisterList(companyId);
             return View(viewData);
+        }
+
+        [HttpPost]
+        public ActionResult NewChequeRegister(ChequeRegisterModel model)
+        {
+            if (model.ActionEum == ActionEnum.Add)
+            {
+                //Add 
+                _Service.Add(model);
+            }
+            else if (model.ActionEum == ActionEnum.Edit)
+            {
+                //Edit
+                _Service.Edit(model);
+            }
+            else if (model.ActionEum == ActionEnum.Delete)
+            {
+                //Delete
+                _Service.Delete(model);
+            }
+            else
+            {
+                return View("Error");
+            }
+            return RedirectToAction(nameof(NewChequeRegister), new { companyId = model.CompanyFK });
         }
     }
 }

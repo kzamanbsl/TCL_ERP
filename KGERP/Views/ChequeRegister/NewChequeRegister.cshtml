@@ -1,1 +1,304 @@
-﻿new cheque register
+﻿@model KGERP.Service.ServiceModel.ChequeRegisterModel
+@{
+    ViewData["Title"] = "New Cheque Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style type="text/css">
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
+<section class="content-header">
+    <h1>
+        New Cheque Register
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
+        <li class="active">New Cheque Register</li>
+    </ol>
+</section>
+
+@using (Html.BeginForm("NewChequeRegister", "ChequeRegister", FormMethod.Post, new { id = "NewChequeRegisterFormId", @class = "formValidator", onreset = "resetDDL();" }))
+{
+    <section class="content">
+        <div class="row">
+            <div class="box">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="box-danger">
+                    <div class="box-body row">
+                        @Html.HiddenFor(model => model.ID, new { Value = "", id = "chequeResgisterItemId" })
+                        @Html.HiddenFor(model => model.ActionId, new { Value = "", id = "ActionId" })
+                        @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="ProjectId">Select Project<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.ProjectList.OrderBy(order => order.Text)), "==Select Project==", new { id = "ddlProjectId", onchange = "GetRequisitionList()", @class = "form-control searchingDropdown", style = "width:100%" })
+                                @Html.ValidationMessageFor(model => model.ProjectId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="RequisitionId">Select Requisition<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                @Html.DropDownListFor(model => model.RequisitionId, new SelectList(Model.RequisitionList.OrderBy(order => order.Text)), "==Select Requisition==", new { id = "ddlRequisitionnId", @class = "form-control searchingDropdown", style = "width:100%" })
+                                @Html.ValidationMessageFor(model => model.RequisitionId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="BoQNumber" class="form-control-label">Party/Supplier<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                @Html.TextBoxFor(model => model.SupplierId, new { id = "txtBoqItemNumber", @class = "form-control", @placeholder = "BoQ Item Number", required = "true" })
+                                @Html.ValidationMessageFor(model => model.SupplierId, "", new { id = "nameExist", @class = "text-danger" })
+                                <small class="text-danger" id="errorMessage"></small>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="payTo" class="form-control-label">Pay To<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                @Html.TextBoxFor(model => model.PayTo, new { id = "txtBoqItemName", @class = "form-control", @placeholder = "Pay to", required = "true", @readonly = "true" })
+                                @Html.ValidationMessageFor(model => model.PayTo, "", new { id = "nameExist", @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="message-text" class="form-label">Issue Date<sup class="text-danger" title="Required">*</sup></label>
+                                <br />
+                                <input name="IssueDate" asp-for="IssueDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker w-100 dateCustom" placeholder="From Date" autocomplete="off" id="txtFromDate">
+                                @Html.ValidationMessageFor(model => model.IssueDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="message-text" class="form-label">Cheque Date<sup class="text-danger" title="Required">*</sup></label>
+                                <br />
+                                <input name="ChequeDate" asp-for="ChequeDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker w-100 dateCustom" placeholder="From Date" autocomplete="off" id="txtFromDate">
+                                @Html.ValidationMessageFor(model => model.ChequeDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="message-text" class="form-label">Clearing Date<sup class="text-danger" title="Required">*</sup></label>
+                                <br />
+                                <input name="ClearingDate" asp-for="ClearingDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker w-100 dateCustom" placeholder="From Date" autocomplete="off" id="txtFromDate">
+                                @Html.ValidationMessageFor(model => model.ClearingDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="ChequeNo" class="form-control-label">Cheque No<sup class="text-danger" title="Required">*</sup></label>
+                                @Html.TextBoxFor(model => model.ChequeNo, new { id = "txtBoqQuantity", @class = "form-control", @placeholder = "BoQ BoqQuantity", required = "true" })
+                                @Html.ValidationMessageFor(model => model.ChequeNo, "", new { id = "nameExist", @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Amount" class="form-control-label">Amount<sup class="text-danger" title="Required">*</sup></label>
+                                @Html.TextBoxFor(model => model.Amount, new { id = "txtBoqQuantity", @class = "form-control", @placeholder = "BoQ BoqQuantity", required = "true" })
+                                @Html.ValidationMessageFor(model => model.Amount, "", new { id = "nameExist", @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label asp-for="Remarks" class="form-control-label">Remarks/Purpose</label>
+                                @Html.TextAreaFor(model => model.Remarks, new { id = "txtBoqDescription", @class = "form-control", @placeholder = "BoQ Description/Notes", required = "true" })
+                                @Html.ValidationMessageFor(model => model.Remarks, "", new { id = "nameExist", @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6"></div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="col-md-6">
+                                    <button type="button" onclick="resetForm()" class="btn btn-secondary" data-dismiss="modal" style="width:100% !important">Reset</button>
+                                </div>
+                                <div class="col-md-6">
+                                    <button type="submit" id="btnSave" class="btn btn-primary btn-block" style="width:100% !important"><i class='fa fa-edit'></i> Add</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+
+<section class="content">
+    <div class="row">
+        <div class="box">
+            <div class="box-danger">
+                <div class="box-header">
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="table-responsive col-md-12">
+                        <table id="KgErpDataTable" class="table table-dark table-striped table-responsive">
+                            <thead>
+                                <tr>
+                                    <th width="3%">SL</th>
+                                    <th width="4%">Action</th>
+                                </tr>
+                            </thead>
+                            @{int sl = 0;}
+                            <tbody>
+                                @foreach (var item in Model.chequeRegisterList)
+                                {
+                                    <tr>
+                                        <td>
+                                            @(++sl)
+                                            <input type="hidden" id="boqProjectId_@item.ChequeRegisterId" name="ProjectId" value="@item.ProjectId" />
+                                            <input type="hidden" id="boqDivisionId_@item.ChequeRegisterId" name="BoQDivisionId" value="@item.RequisitionId" />
+                                            <input type="hidden" id="boqUnitId_@item.ChequeRegisterId" name="BoqUnitId" value="@item.SupplierId" />
+                                        </td>
+                                        <td>
+                                            <a id="@item.ChequeRegisterId" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
+
+                                            <a id="@item.ChequeRegisterId" onclick="makeDeletable(@item.ChequeRegisterId);" class="linkPointer" data-toggle="modal" data-target="#ChequeRegisterDeleteModal" title="Delete"
+                                               data-placement="top">
+                                                <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@using (Html.BeginForm("NewChequeRegister", "ChequeRegister", FormMethod.Post, new { id = "NewChequeRegisterFormId", @class = "formValidator", onreset = "resetDDL();" }))
+{
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    @Html.HiddenFor(model => model.ChequeRegisterId, new { Value = "", id = "ChequeRegisterDelete" })
+    @Html.HiddenFor(model => model.ActionId, new { Value = "", id = "ActionIdDelete" })
+    @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFKDelete" })
+
+    <div class="modal fade" id="ChequeRegisterDeleteModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" onclick="resetForm()" class="close pull-right" data-dismiss="modal" aria-label="Close">
+                        &times;
+                    </button>
+                    <h5 class="modal-title"><b>Cheque Register Delete</b></h5>
+
+                </div>
+                <div class="modal-body">
+                    <div style="text-align:center">
+                        <h3>Are you sure to delete?</h3>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" id="btnClose" onclick="resetForm()" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" id="btnDelete" class="deleteId btn btn-primary"><i class="glyphicon glyphicon-check"></i> Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#ddlBoQDivisionId").empty();
+            $("#ddlBoQDivisionId").append("<option selected disabled>===Select Project First===</option>");
+
+            $('.formValidator').bootstrapValidator();
+        });
+
+        function makeEditble(elem) {
+            if (elem !== null) {
+                var rowId = elem.id;
+                $('#chequeResgisterItemId').val(rowId);
+                $('#ActionId').val(2);
+                $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Update");
+                $('#txtBoqItemNumber').val($('#tdBoqNumber_' + rowId).text().trim());
+                $('#txtBoqItemName').val($('#tdBoqName_' + rowId).text().trim());
+                $('#txtBoqQuantity').val($('#tdBoqQuantity_' + rowId).text().trim());
+                $('#txtBoqDescription').val($('#tdBoqDescription_' + rowId).text().trim());
+                $('#ddlProjectId').val($('#boqProjectId_' + rowId).val().trim()).trigger('change');
+                getBoqDivisionList(rowId);
+                $('#ddlBoqUnitId').val($('#boqUnitId_' + rowId).val().trim()).trigger('change');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function makeDeletable(id) {
+            if (id !== null) {
+                $('#ChequeRegisterDelete').val(id);
+                $('#ActionIdDelete').val(3);
+                $("#CompanyFKDelete").val("@Model.CompanyFK");
+            }
+        }
+
+        function resetForm() {
+            $('#NewChequeRegisterFormId')[0].reset();
+            $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Add");
+        }
+
+        function getBoqDivisionList(rowId) {
+            var getProjectId = $("#ddlProjectId option:selected");
+            var showBoqDivisionList = $("#ddlBoQDivisionId");
+
+            $.ajax({
+                type: "GET",
+                url: "/BillRequisition/getBoqDivisionList",
+                dataType: "json",
+                data: { id: getProjectId.val() },
+                success: function (data) {
+                    showBoqDivisionList.empty();
+                    showBoqDivisionList.append("<option selected disabled>===Select BoQ Division===</option>");
+                    $.each(data, function (index, item) {
+                        showBoqDivisionList.append($('<option>', {
+                            value: item.BoqDivisionId,
+                            text: item.Name
+                        }));
+                    });
+                    showBoqDivisionList.val($('#boqDivisionId_' + rowId).val()).trigger('change');
+                }
+            });
+        }
+
+        $("#txtBoqItemNumber").on('input', function (event) {
+            var divisionId = $("#ddlBoQDivisionId").val();
+            var boqNumber = $("#txtBoqItemNumber").val();
+            if (divisionId != null && boqNumber != null) {
+                $.ajax({
+                    type: "GET",
+                    url: "/BillRequisition/CheckBoqNumber",
+                    dataType: "json",
+                    data: { divisionId: divisionId, boqNumber: boqNumber },
+                    success: function (data) {
+                        if (data) {
+                            $("#errorMessage").text("This BoQ Number is already used!");
+                            $("#btnSave").prop("disabled", true);
+                        } else {
+                            $("#errorMessage").text("");
+                            $("#btnSave").prop("disabled", false);
+                        }
+                    }
+                });
+            }
+        })
+
+    </script>
+}
