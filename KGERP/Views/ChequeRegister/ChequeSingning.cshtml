@@ -2,7 +2,7 @@
 @using KGERP.Utility;
 
 @{
-    ViewData["Title"] = "Cheque Register";
+    ViewData["Title"] = "Cheque Signning";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     int sl = 0;
@@ -17,14 +17,14 @@
 <section class="content-header">
     <h1>
         <span>
-            Cheque Register
+            Cheque Signning
         </span>
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
         <li class="active">
             <span>
-                Cheque Register
+                Cheque Signning
             </span>
         </li>
     </ol>
@@ -87,14 +87,13 @@
                                         <th>SL</th>
                                         <th>Cheque No</th>
                                         <th>Amount</th>
-                                        <th>PayTo</th>
                                         <th>Issue Date</th>
                                         <th>Cheque Date</th>
                                         <th>Clearing Date</th>
                                         <th>Project Name</th>
                                         <th>Party/Supplier</th>
                                         <th>Requisition No</th>
-                                        <th>Signed?</th>
+                                        <th>Signed</th>
                                         <th>Print</th>
                                     </tr>
                                 </thead>
@@ -105,14 +104,13 @@
                                             <th>@(++sl)</th>
                                             <td>@item.ChequeNo</td>
                                             <td>@item.Amount</td>
-                                            <td>@item.PayTo</td>
                                             <td>@item.IssueDate.ToString("dd-MM-yyyy")</td>
                                             <td>@item.ChequeDate.ToString("dd-MM-yyyy")</td>
                                             <td>@item.ClearingDate.ToString("dd-MM-yyyy")</td>
                                             <td>@item.ProjectName</td>
                                             <td>[@item.SupplierCode] - @item.SupplierName</td>
                                             <td>
-                                                <a href="~/BillRequisition/BillRequisitionMasterCommonSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.RequisitionId" class="link-primary text-primary" title="See Requisition Detail">@item.RequisitionNo</a>
+                                                <a href="~/BillRequisition/BillRequisitionMasterCommonSlave?companyId=@Model.CompanyFK&billRequisitionMasterId=@item.RequisitionId" class="link-primary text-primary" target="_blank" title="See Requisition Detail">@item.RequisitionNo</a>
                                             </td>
                                             <td>
                                                 @if (item.IsSigned == false)
@@ -131,10 +129,21 @@
                                                     </span>
                                                 }
                                             </td>
-                                            <td>
-                                                <a class="label label-primary text-center" target="_blank" href="~/Report/ChequeRegisterPrinting?chequeRegisterId=@item.ChequeRegisterId">
-                                                    <i class="fa fa-print"></i> Print
-                                                </a>
+                                            <td class="text-center">
+                                                @if (item.IsSigned == true)
+                                                {
+                                                    <a class="label label-primary text-center" target="_blank" href="~/Report/ChequeRegisterPrinting?chequeRegisterId=@item.ChequeRegisterId">
+                                                        <i class="fa fa-print"></i> Print
+                                                    </a>
+                                                }
+                                                else
+                                                {
+                                                    <a class="label label-primary text-center hidden" id="showPrintButton" target="_blank" href="~/Report/ChequeRegisterPrinting?chequeRegisterId=@item.ChequeRegisterId">
+                                                        <i class="fa fa-print"></i> Print
+                                                    </a>
+                                                    <span class="text-center d-block" id="hidePrintButton">-</span>
+                                                }
+
                                             </td>
                                         </tr>
                                     }
@@ -183,6 +192,9 @@
                     if (data) {
                         $("#hideSigned").removeClass("d-block").addClass("hidden");
                         $("#showSigned").removeClass("hidden").addClass("d-block");
+
+                        $("#showPrintButton").removeClass("hidden").addClass("d-block");
+                        $("#hidePrintButton").removeClass("d-block").addClass("hidden");
                     }
                 }
             });
