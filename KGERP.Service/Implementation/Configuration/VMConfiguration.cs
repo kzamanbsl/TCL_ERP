@@ -79,11 +79,16 @@ namespace KGERP.Service.Implementation.Configuration
         public string CompanyName { get; set; }
         public string Name { get; set; }
         public int Priority { get; set; }
-        public IEnumerable<VMUserMenu> DataList { get; set; }
         public int? LayerNo { get; set; }
         public string ShortName { get; set; }
         public int accounting_CostCenterTypeId { get; set; }
         public string CostCenterTypeName { get; set; }
+        public string ProjectLocation { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public decimal TotalAmount { get; set; }
+        public string Currency { get; set; }
+        public IEnumerable<VMUserMenu> DataList { get; set; }
         public List<Accounting_CostCenterType> accounting_CostCenterTypes { get; set; }
         public SelectList CompanyList { get; set; } = new SelectList(new List<object>());
     }
