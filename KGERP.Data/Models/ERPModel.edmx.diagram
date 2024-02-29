@@ -540,10 +540,6 @@
         <AssociationConnector Association="ERPModel.FK_VoucherBRMapMasterApproval_Voucher" />
         <AssociationConnector Association="ERPModel.FK_VoucherDetail_Voucher" />
         <AssociationConnector Association="ERPModel.FK_VoucherBRMapMasterApproval_VoucherBRMapMaster" />
-        <EntityTypeShape EntityType="ERPModel.Accounting_CostCenter" Width="1.5" PointX="3.375" PointY="29" />
-        <AssociationConnector Association="ERPModel.FK_Accounting_CostCenter_Accounting_CostCenterType" />
-        <AssociationConnector Association="ERPModel.FK_BoQDivision_Accounting_CostCenter" />
-        <AssociationConnector Association="ERPModel.FK_CostCenterManagerMap_Accounting_CostCenter" />
         <EntityTypeShape EntityType="ERPModel.PurchaseOrder" Width="1.5" PointX="71.625" PointY="42.25" />
         <EntityTypeShape EntityType="ERPModel.PurchaseOrderDetail" Width="1.5" PointX="76.875" PointY="31" />
         <AssociationConnector Association="ERPModel.FK_PurchaseOrder_ModeOfPurchase" />
@@ -574,9 +570,13 @@
         <AssociationConnector Association="ERPModel.FK_QuotationDetail_Product" />
         <AssociationConnector Association="ERPModel.FK_QuotationDetail_QuotationMaster" />
         <EntityTypeShape EntityType="ERPModel.ChequeRegister" Width="1.5" PointX="74.625" PointY="41.5" />
-        <AssociationConnector Association="ERPModel.FK_ChequeRegister_Accounting_CostCenter" />
         <AssociationConnector Association="ERPModel.FK_ChequeRegister_BillRequisitionMaster" />
         <AssociationConnector Association="ERPModel.FK_ChequeRegister_ChequeRegister" />
+        <EntityTypeShape EntityType="ERPModel.Accounting_CostCenter" Width="1.5" PointX="3.375" PointY="28.625" />
+        <AssociationConnector Association="ERPModel.FK_Accounting_CostCenter_Accounting_CostCenterType" />
+        <AssociationConnector Association="ERPModel.FK_BoQDivision_Accounting_CostCenter" />
+        <AssociationConnector Association="ERPModel.FK_ChequeRegister_Accounting_CostCenter" />
+        <AssociationConnector Association="ERPModel.FK_CostCenterManagerMap_Accounting_CostCenter" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -101,15 +101,15 @@
                                 <div class="form-group">
                                     <label class="form-label">Currency<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                     @Html.TextBoxFor(model => model.Currency, new { id = "txtCurrency", @class = "form-control", @placeholder = "Amount", @style = "width: 100%", @required = "true" })
-                                    @Html.ValidationMessageFor(model => model.TotalAmount, "", new { @class = "text-danger" })
+                                    @Html.ValidationMessageFor(model => model.Currency, "", new { @class = "text-danger" })
                                 </div>
                             </div>
 
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="form-label">Location<sup class="text-danger" title="Required"><b>*</b></sup></label>
-                                    @Html.TextAreaFor(model => model.Remarks, new { id = "txtLocation", @class = "form-control", @placeholder = "Type project location here", @style = "width: 100%", @required = "true" })
-                                    @Html.ValidationMessageFor(model => model.TotalAmount, "", new { @class = "text-danger" })
+                                    @Html.TextAreaFor(model => model.ProjectLocation, new { id = "txtLocation", @class = "form-control", @placeholder = "Type project location here", @style = "width: 100%", @required = "true" })
+                                    @Html.ValidationMessageFor(model => model.ProjectLocation, "", new { @class = "text-danger" })
                                 </div>
                             </div>
 
