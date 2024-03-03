@@ -141,7 +141,7 @@
                                             <th>Name</th>
                                             <th>Amount</th>
                                             <th>Currency</th>
-                                            <th>Date</th>
+                                            <th>Project Date</th>
                                             <th>Location</th>
                                             <th>Action</th>
                                         </tr>
@@ -153,34 +153,41 @@
                                                 int sl = 0;
                                                 foreach (var item in Model.DataList.OrderBy(order => order.CostCenterTypeName))
                                                 {
-                                                    <tr>
-                                                        <td>
-                                                            @(++sl)
-                                                            <input type="hidden" id="hidCompanyFK_@item.ID" value="@item.CompanyFK" />
-                                                            <input type="hidden" id="costCenterTypeId_@item.ID" name="accounting_CostCenterTypeId" value="@item.accounting_CostCenterTypeId" />
-                                                        </td>
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        @(++sl)
+                                                                                        <input type="hidden" id="hidCompanyFK_@item.ID" value="@item.CompanyFK" />
+                                                                                        <input type="hidden" id="costCenterTypeId_@item.ID" value="@item.accounting_CostCenterTypeId" />
+                                                                                        <input type="hidden" id="shortName_@item.ID" value="@item.ShortName" />
+                                                                                        <input type="hidden" id="costCenterName_@item.ID" value="@item.ShortName" />
+                                                                                        <input type="hidden" id="startDate_@item.ID" value="@item.StartDate.ToString("dd/MM/yyy")" />
+                                                                                        <input type="hidden" id="endDate_@item.ID" value="@item.EndDate.ToString("dd/MM/yyyy")" />
+                                                                                        <input type="hidden" id="totalAmount_@item.ID" value="@item.TotalAmount" />
+                                                                                        <input type="hidden" id="currency_@item.ID" value="@item.Currency" />
+                                                                                        <input type="hidden" id="location_@item.ID" value="@item.ProjectLocation" />
+                                                                                    </td>
 
-                                                        <td id="tdprojectType_@item.ID">
-                                                            @item.CostCenterTypeName
-                                                        </td>
+                                                                                    <td>
+                                                                                        @item.CostCenterTypeName
+                                                                                    </td>
 
-                                                        <td id="tdProjectName_@item.ID">
-                                                            [@item.ShortName] - @item.Name
-                                                        </td>
+                                                                                    <td>
+                                                                                        [@item.ShortName] - @item.Name
+                                                                                    </td>
 
-                                                        <td>100</td>
-                                                        <td>BDT</td>
-                                                        <td>12-02-2024 - 21-04-2024</td>
-                                                        <td>Jessore, Bangladesh</td>
+                                                                                    <td>@item.TotalAmount</td>
+                                                                                    <td>@item.Currency</td>
+                                                                                    <td>@item.StartDate.ToString("dd/MM/yyyy") - @item.EndDate.ToString("dd/MM/yyyy")</td>
+                                                                                    <td>@item.ProjectLocation</td>
 
-                                                        <td>
-                                                            <a id="@item.ID" onclick=" makeEditble(this);" class="linkPointer" data-toggle="modal" data-target="#exampleModal" title="Edit" data-placement="top"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                                                            <a id="@item.ID" onclick="makeDeletable(@item.ID);" class="linkPointer" data-toggle="modal" data-target="#itemActionModal" title="Delete"
-                                                               data-placement="top">
-                                                                <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
-                                                            </a>
-                                                        </td>
-                                                    </tr>
+                                                                                    <td>
+                                                                                        <a id="@item.ID" onclick=" makeEditble(this);" class="linkPointer" data-toggle="modal" data-target="#exampleModal" title="Edit" data-placement="top"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                                                                        <a id="@item.ID" onclick="makeDeletable(@item.ID);" class="linkPointer" data-toggle="modal" data-target="#itemActionModal" title="Delete"
+                                                                                           data-placement="top">
+                                                                                            <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+                                                                                        </a>
+                                                                                    </td>
+                                                                                </tr>
                                                 }
                                             }
                                         }
@@ -247,9 +254,14 @@
                 $('#userMenuId').val(rowId);
                 $('#ActionId').val(2);
                 $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Update");
-                $('#selectProjectType').val($('#costCenterTypeId_' + rowId).val().trim()).trigger('change');
-                $('#txtMenuName').val($('#tdProjectName_' + rowId).text().trim());
-                $('#txtShortName').val($('#tdShortName_' + rowId).text().trim());
+                $('#ddlProjectType').val($('#costCenterTypeId_' + rowId).val().trim()).trigger('change');
+                $('#txtShortName').val($('#shortName_' + rowId).val());
+                $('#txtMenuName').val($('#costCenterName_' + rowId).val());
+                $('#txtStartDate').val($('#startDate_' + rowId).val());
+                $('#txtEndtDate').val($('#endDate_' + rowId).val());
+                $('#txtAmount').val($('#totalAmount_' + rowId).val());
+                $('#txtCurrency').val($('#currency_' + rowId).val());
+                $('#txtLocation').val($('#location_' + rowId).val());
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
         }

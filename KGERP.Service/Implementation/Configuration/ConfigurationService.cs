@@ -322,6 +322,11 @@ namespace KGERP.Service.Implementation.Configuration
                                        ID = t1.CostCenterId,
                                        Name = t1.Name,
                                        ShortName = t1.ShortName,
+                                       TotalAmount = t1.Amount ?? 0,
+                                       Currency = t1.Currency ?? "N/A",
+                                       StartDate = (DateTime)t1.StartDate,
+                                       EndDate = (DateTime)t1.EndDate,
+                                       ProjectLocation = t1.Location ?? "N/A",
                                        accounting_CostCenterTypeId = t3.CostCenterTypeId,
                                        CostCenterTypeName = t3.Name,
                                        CompanyName = t2.Name,
@@ -357,6 +362,11 @@ namespace KGERP.Service.Implementation.Configuration
                 Name = vmUserMenu.Name,
                 CostCenterTypeId = vmUserMenu.accounting_CostCenterTypeId,
                 ShortName = vmUserMenu.ShortName.ToUpper(),
+                Amount = vmUserMenu.TotalAmount,
+                Currency = vmUserMenu?.Currency,
+                StartDate = vmUserMenu.StartDate,
+                EndDate = vmUserMenu.EndDate,
+                Location = vmUserMenu.ProjectLocation,
                 CompanyId = vmUserMenu.CompanyFK.Value,
                 CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
                 CreatedDate = DateTime.Now,
@@ -378,6 +388,11 @@ namespace KGERP.Service.Implementation.Configuration
             costCenter.Name = vmUserMenu.Name;
             costCenter.CostCenterTypeId = vmUserMenu.accounting_CostCenterTypeId;
             costCenter.ShortName = vmUserMenu.ShortName.ToUpper();
+            costCenter.Amount = vmUserMenu.TotalAmount;
+            costCenter.Currency = vmUserMenu.Currency;
+            costCenter.StartDate = vmUserMenu.StartDate;
+            costCenter.EndDate = vmUserMenu.EndDate;
+            costCenter.Location = vmUserMenu.ProjectLocation;
             costCenter.ModifiedDate = DateTime.Now;
             costCenter.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
 
