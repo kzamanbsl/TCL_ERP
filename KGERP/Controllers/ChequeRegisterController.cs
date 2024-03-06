@@ -37,7 +37,7 @@ namespace KGERP.Controllers
         {
             ChequeRegisterModel viewData = new ChequeRegisterModel();
             viewData.CompanyFK = companyId;
-            viewData.chequeRegisterList = await _Service.GetChequeRegisterList(companyId);
+            viewData.ChequeRegisterList = await _Service.GetChequeRegisterList(companyId);
             return View(viewData);
         }
 
@@ -59,7 +59,7 @@ namespace KGERP.Controllers
             viewData.CompanyFK = companyId;
             viewData.ProjectList = new SelectList(await _RequisitionService.GetProjectList(companyId), "CostCenterId", "Name");
             viewData.RequisitionList = new SelectList(_RequisitionService.ApprovedRequisitionList(companyId), "Value", "Text");
-            viewData.chequeRegisterList = await _Service.GetChequeRegisterList(companyId);
+            viewData.ChequeRegisterList = await _Service.GetChequeRegisterList(companyId);
             return View(viewData);
         }
 
@@ -93,11 +93,16 @@ namespace KGERP.Controllers
         {
             ChequeRegisterModel viewData = new ChequeRegisterModel();
             viewData.CompanyFK = companyId;
-            //viewData.ChequeDate = DateTime.Now;
             viewData.ProjectList = new SelectList(await _RequisitionService.GetProjectList(companyId), "CostCenterId", "Name");
             viewData.RequisitionList = new SelectList(_RequisitionService.ApprovedRequisitionList(companyId), "Value", "Text");
-            //viewData.chequeRegisterList = await _Service.GetChequeRegisterList(companyId);
             return View(viewData);
+        }
+
+        [HttpGet]
+        public async Task<JsonResult> ChequeRegisterById(long chequeRegisterId)
+        {
+            var data = await _Service.GetChequeRegisterById(chequeRegisterId);
+            return Json(data, JsonRequestBehavior.AllowGet);
         }
     }
 }

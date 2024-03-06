@@ -33,7 +33,7 @@
     </ol>
 </section>
 
-@using (Html.BeginForm("NewChequeRegister", "ChequeRegister", FormMethod.Post, new { id = "NewChequeRegisterFormId", @class = "formValidator", onreset = "resetDDL();" }))
+@using (Html.BeginForm("NewChequeRegister", "ChequeRegister", FormMethod.Post, new { id = "ChequeRegisterFormId", @class = "formValidator"}))
 {
     <section class="content">
         <div class="row">
@@ -49,7 +49,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label class="form-label">Select Project<sup class="text-danger" title="Required"><b>*</b></sup></label>
-                                @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.ProjectList.OrderBy(order => order.Text)), "==Select Project==", new { id = "ddlProjectId", onchange = "GetRequisitionList()", @class = "form-control searchingDropdown", style = "width:100%" })
+                                @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.ProjectList.OrderBy(order => order.Text), "Value", "Text"), "==Select Project==", new { id = "ddlProjectId", @class = "form-control searchingDropdown", style = "width:100%" })
                                 @Html.ValidationMessageFor(model => model.ProjectId, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -57,17 +57,17 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label class="form-label">Select Requisition<sup class="text-danger" title="Required"><b>*</b></sup></label>
-                                @Html.DropDownListFor(model => model.RequisitionId, new SelectList(Model.RequisitionList.OrderBy(order => order.Text)), "==Select Requisition==", new { id = "ddlRequisitionnId", @class = "form-control searchingDropdown", style = "width:100%" })
+                                @Html.DropDownListFor(model => model.RequisitionId, new SelectList(Model.RequisitionList.OrderBy(order => order.Text), "Value", "Text"), "==Select Requisition==", new { id = "ddlRequisitionId", @class = "form-control searchingDropdown", style = "width:100%" })
                                 @Html.ValidationMessageFor(model => model.RequisitionId, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label class="form-label">Party/Supplier<sup class="text-danger" title="Required"><b>*</b></sup></label>
-                                @Html.TextBoxFor(model => model.SupplierId, new { id = "txtBoqItemNumber", @class = "form-control", @placeholder = "BoQ Item Number", required = "true" })
-                                @Html.ValidationMessageFor(model => model.SupplierId, "", new { id = "nameExist", @class = "text-danger" })
-                                <small class="text-danger" id="errorMessage"></small>
+                                <label>Supplier/Party<sup class="text-danger" title="Required">*</sup></label>
+                                @Html.EditorFor(model => model.SupplierName, new { htmlAttributes = new { @autocomplete = "on", @class = "form-control", @name = "Supplier Name", @id = "txtSupplierName", required = "required" } })
+                                @Html.HiddenFor(model => model.SupplierId, new { id = "ddlCommon_SupplierFK" })
+                                @Html.ValidationMessageFor(model => model.SupplierId, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
@@ -75,9 +75,8 @@
                             <div class="form-group">
                                 <div class="form-group">
                                     <label class="form-label">Issue Date<sup class="text-danger" title="Required">*</sup></label>
-                                    <br />
-                                    <input name="ClearingDate" asp-for="ClearingDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker w-100 dateCustom" autocomplete="off" id="txtIssueDate">
-                                    @Html.ValidationMessageFor(model => model.ClearingDate, "", new { @class = "text-danger" })
+                                    <input name="IssueDate" asp-for="IssueDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker w-100 dateCustom" autocomplete="off" id="txtIssueDate">
+                                    @Html.ValidationMessageFor(model => model.IssueDate, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                         </div>
@@ -86,9 +85,8 @@
                             <div class="form-group">
                                 <div class="form-group">
                                     <label class="form-label">Cheque Date<sup class="text-danger" title="Required">*</sup></label>
-                                    <br />
-                                    <input name="ClearingDate" asp-for="ClearingDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker w-100 dateCustom" autocomplete="off" id="txtChequeDate">
-                                    @Html.ValidationMessageFor(model => model.ClearingDate, "", new { @class = "text-danger" })
+                                    <input name="ChequeDate" asp-for="ChequeDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker w-100 dateCustom" autocomplete="off" id="txtChequeDate">
+                                    @Html.ValidationMessageFor(model => model.ChequeDate, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                         </div>
@@ -96,7 +94,6 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label class="form-label">Clearing Date<sup class="text-danger" title="Required">*</sup></label>
-                                <br />
                                 <input name="ClearingDate" asp-for="ClearingDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker w-100 dateCustom" autocomplete="off" id="txtClearingDate">
                                 @Html.ValidationMessageFor(model => model.ClearingDate, "", new { @class = "text-danger" })
                             </div>
@@ -121,7 +118,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label class="form-label">Pay To<sup class="text-danger" title="Required"><b>*</b></sup></label>
-                                @Html.TextBoxFor(model => model.PayTo, new { id = "txtPayTo", @class = "form-control", @placeholder = "Pay to", required = "true", @readonly = "true" })
+                                @Html.TextBoxFor(model => model.PayTo, new { id = "txtPayTo", @class = "form-control", @placeholder = "Pay to", required = "true" })
                                 @Html.ValidationMessageFor(model => model.PayTo, "", new { id = "nameExist", @class = "text-danger" })
                             </div>
                         </div>
@@ -129,7 +126,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label class="form-label">Remarks/Purpose</label>
-                                @Html.TextAreaFor(model => model.Remarks, new { id = "txtremarks", @class = "form-control", @placeholder = "Type remarks/purpose here", required = "true" })
+                                @Html.TextAreaFor(model => model.Remarks, new { id = "txtRemarks", @class = "form-control", @placeholder = "Type remarks/purpose here", required = "true" })
                                 @Html.ValidationMessageFor(model => model.Remarks, "", new { id = "nameExist", @class = "text-danger" })
                             </div>
                         </div>
@@ -168,23 +165,41 @@
                         <table id="KgErpDataTable" class="table table-dark table-striped table-responsive">
                             <thead>
                                 <tr>
-                                    <th width="3%">SL</th>
-                                    <th width="4%">Action</th>
+                                    <th>SL</th>
+                                    <th>Cheque No</th>
+                                    <th>Amount</th>
+                                    <th>Issue Date</th>
+                                    <th>Cheque Date</th>
+                                    <th>Clearing Date</th>
+                                    <th>Project Name</th>
+                                    <th>Party/Supplier</th>
+                                    <th>Requisition No</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             @{int sl = 0;}
                             <tbody>
-                                @foreach (var item in Model.chequeRegisterList)
+                                @foreach (var item in Model.ChequeRegisterList)
                                 {
                                     <tr>
                                         <td>
                                             @(++sl)
-                                            <input type="hidden" id="boqProjectId_@item.ChequeRegisterId" name="ProjectId" value="@item.ProjectId" />
-                                            <input type="hidden" id="boqDivisionId_@item.ChequeRegisterId" name="BoQDivisionId" value="@item.RequisitionId" />
-                                            <input type="hidden" id="boqUnitId_@item.ChequeRegisterId" name="BoqUnitId" value="@item.SupplierId" />
+                                            <input type="hidden" id="hiddenIssueDate_@item.ChequeRegisterId" value="@item.IssueDate.ToString("dd/MM/yyyy")" />
+                                            <input type="hidden" id="hiddenChequeDate_@item.ChequeRegisterId" value="@item.ChequeDate.ToString("dd/MM/yyyy")" />
+                                            <input type="hidden" id="hiddenClearingDate_@item.ChequeRegisterId" value="@item.ClearingDate.ToString("dd/MM/yyyy")" />
+                                        </td>
+                                        <td>@item.ChequeNo</td>
+                                        <td>@item.Amount</td>
+                                        <td>@item.IssueDate.ToString("dd-MM-yyyy")</td>
+                                        <td>@item.ChequeDate.ToString("dd-MM-yyyy")</td>
+                                        <td>@item.ClearingDate.ToString("dd-MM-yyyy")</td>
+                                        <td>@item.ProjectName</td>
+                                        <td>[@item.SupplierCode] - @item.SupplierName</td>
+                                        <td>
+                                            <a href="~/BillRequisition/BillRequisitionMasterCommonSlave?companyId=@Model.CompanyFK&billRequisitionMasterId=@item.RequisitionId" class="link-primary text-primary" target="_blank" title="See Requisition Detail">@item.RequisitionNo</a>
                                         </td>
                                         <td>
-                                            <a id="@item.ChequeRegisterId" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
+                                            <a id="@item.ChequeRegisterId" onclick="makeEditble(@item.ChequeRegisterId);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
 
                                             <a id="@item.ChequeRegisterId" onclick="makeDeletable(@item.ChequeRegisterId);" class="linkPointer" data-toggle="modal" data-target="#ChequeRegisterDeleteModal" title="Delete"
                                                data-placement="top">
@@ -202,7 +217,7 @@
     </div>
 </section>
 
-@using (Html.BeginForm("NewChequeRegister", "ChequeRegister", FormMethod.Post, new { id = "NewChequeRegisterFormId", @class = "formValidator", onreset = "resetDDL();" }))
+@using (Html.BeginForm("NewChequeRegister", "ChequeRegister", FormMethod.Post, new { id = "DeleteChequeRegisterFormId", @class = "formValidator", }))
 {
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     @Html.HiddenFor(model => model.ChequeRegisterId, new { Value = "", id = "ChequeRegisterDelete" })
@@ -249,19 +264,32 @@
             yearRange: "2001:+50"
         });
 
-        function makeEditble(elem) {
-            if (elem !== null) {
-                var rowId = elem.id;
-                $('#chequeResgisterItemId').val(rowId);
-                $('#ActionId').val(2);
-                $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Update");
-                $('#txtBoqItemNumber').val($('#tdBoqNumber_' + rowId).text().trim());
-                $('#txtBoqItemName').val($('#tdBoqName_' + rowId).text().trim());
-                $('#txtBoqQuantity').val($('#tdBoqQuantity_' + rowId).text().trim());
-                $('#txtBoqDescription').val($('#tdBoqDescription_' + rowId).text().trim());
-                $('#ddlProjectId').val($('#boqProjectId_' + rowId).val().trim()).trigger('change');
-                getBoqDivisionList(rowId);
-                $('#ddlBoqUnitId').val($('#boqUnitId_' + rowId).val().trim()).trigger('change');
+        function makeEditble(chequeRegisterId) {
+            if (chequeRegisterId !== null) {
+
+                $.ajax({
+                    type: "get",
+                    url:"@Url.Action("ChequeRegisterById", "ChequeRegister")",
+                    data: { chequeRegisterId: chequeRegisterId },
+                    dataType: "json",
+                    success: function (data) {
+                        $('#chequeResgisterItemId').val(chequeRegisterId);
+                        $('#ActionId').val(2);
+                        $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Update");
+                        $('#ddlProjectId').val(data.ProjectId).trigger('change');
+                        $('#ddlRequisitionId').val(data.RequisitionId).trigger('change');
+                        $('#txtSupplierName').val("[" + data.SupplierCode + "] " + data.SupplierName);
+                        $('#ddlCommon_SupplierFK').val(data.SupplierId);
+                        $('#txtIssueDate').val($('#hiddenIssueDate_' + chequeRegisterId).val());
+                        $('#txtChequeDate').val($('#hiddenChequeDate_' + chequeRegisterId).val());
+                        $('#txtClearingDate').val($('#hiddenClearingDate_' + chequeRegisterId).val());
+                        $('#txtChequeNo').val(data.ChequeNo);
+                        $('#txtAmount').val(data.Amount);
+                        $('#txtPayTo').val(data.PayTo);
+                        $('#txtRemarks').val(data.Remarks);
+                    }
+                });
+
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
         }
@@ -275,10 +303,39 @@
         }
 
         function resetForm() {
-            $('#NewChequeRegisterFormId')[0].reset();
+            $('#ChequeRegisterFormId')[0].reset();
+            $('#DeleteChequeRegisterFormId')[0].reset();
             $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Add");
         }
 
+        $('#txtSupplierName').autocomplete({
+             source: function (request, response) {
+
+                 $.ajax({
+                     url:"@Url.Action("GetAutoCompleteSupplierGet", "Procurement")",
+                     data: { prefix: request.term, companyId: "@Model.CompanyFK" },
+                     dataType: "json",
+                     type: "get",
+                     cache: true,
+                     contentType: "application/json; charset=utf-8",
+                     success: function (data) {
+                        response($.map(data, function (item) {
+                            return item;
+                        }))
+                     }
+                 });
+             },
+
+             select: function (e, i) {
+                 $("#ddlCommon_SupplierFK").val(i.item.val);
+
+                 },
+             minLength: 1,
+             cache: true
+
+         }).focus(function () {
+             $(this).autocomplete("search");
+         });
 
     </script>
 }

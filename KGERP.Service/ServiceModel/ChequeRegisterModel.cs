@@ -36,6 +36,6 @@ namespace KGERP.Service.ServiceModel
         public SelectList RequisitionList { get; set; } = new SelectList(new List<object>());
         public SelectList ProjectList { get; set; } = new SelectList(new List<object>());
         public SelectList SupplierList { get; set; } = new SelectList(new List<object>());
-        public IEnumerable<ChequeRegisterModel> chequeRegisterList { get; set; } = new List<ChequeRegisterModel>();
+        public IEnumerable<ChequeRegisterModel> ChequeRegisterList { get; set; } = new List<ChequeRegisterModel>();
     }
 }
