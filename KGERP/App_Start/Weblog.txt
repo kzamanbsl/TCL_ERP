@@ -495,3 +495,9 @@ ERROR 2024-03-02 12:54:00,295 175956ms UserController         Login             
    at System.Data.Entity.Internal.LazyEnumerator`1.MoveNext()
    at System.Linq.Enumerable.First[TSource](IEnumerable`1 source)
    at KGERP.Controllers.UserController.Login(UserLogin userLogin, String returnUrl) in D:\CsharpApplication\KGeCom\TCL_ERP\KGERP\Controllers\UserController.cs:line 127
+ERROR 2024-03-03 17:05:04,546 159421ms UserController         Login              - System.InvalidOperationException: Sequence contains no elements
+   at System.Linq.Enumerable.First[TSource](IEnumerable`1 source)
+   at KGERP.Controllers.UserController.Login(UserLogin userLogin, String returnUrl) in D:\CsharpApplication\KGeCom\TCL_ERP\KGERP\Controllers\UserController.cs:line 127
+ERROR 2024-03-03 17:06:06,402 221277ms UserController         Login              - System.InvalidOperationException: Sequence contains no elements
+   at System.Linq.Enumerable.First[TSource](IEnumerable`1 source)
+   at KGERP.Controllers.UserController.Login(UserLogin userLogin, String returnUrl) in D:\CsharpApplication\KGeCom\TCL_ERP\KGERP\Controllers\UserController.cs:line 127

@@ -18,16 +18,16 @@ namespace KGERP.Controllers
         private readonly IVoucherService _voucherService;
         private readonly IAccountHeadService _accountHeadService;
         private readonly AccountingService _accountingService;
-        private readonly IBillRequisitionService _billrequisitionService;
+        private readonly IBillRequisitionService _billRequisitionService;
 
 
         public VouchersController(ERPEntities db, IAccountHeadService accountHeadService, IVoucherTypeService voucherTypeService, IVoucherService voucherService, IBillRequisitionService billrequisitionService)
         {
-            this._voucherTypeService = voucherTypeService;
-            this._voucherService = voucherService;
-            this._accountHeadService = accountHeadService;
+            _voucherTypeService = voucherTypeService;
+            _voucherService = voucherService;
+            _accountHeadService = accountHeadService;
             _accountingService = new AccountingService(db);
-            _billrequisitionService = billrequisitionService;
+            _billRequisitionService = billrequisitionService;
         }
 
 
@@ -367,8 +367,8 @@ namespace KGERP.Controllers
             {
                 long requisitionId = 0;
                 vmJournalSlave.BankOrCashParantList = new SelectList(_accountingService.SeedCashAndBankDropDownList(companyId), "Value", "Text");
-                vmJournalSlave.Requisitions = new SelectList(_billrequisitionService.ApprovedRequisitionList(companyId), "Value", "Text");
-                vmJournalSlave.MaterialItemList = new SelectList(_billrequisitionService.ApprovedMaterialList(companyId, requisitionId), "ProductId", "ProductName");
+                vmJournalSlave.Requisitions = new SelectList(_billRequisitionService.ApprovedRequisitionList(companyId), "Value", "Text");
+                vmJournalSlave.MaterialItemList = new SelectList(_billRequisitionService.ApprovedMaterialList(companyId, requisitionId), "ProductId", "ProductName");
 
             }
 
@@ -498,8 +498,8 @@ namespace KGERP.Controllers
             {
                 long requisitionId = 0;
                 vmJournalSlave.BankOrCashParantList = new SelectList(_accountingService.SeedCashAndBankDropDownList(companyId), "Value", "Text");
-                vmJournalSlave.Requisitions = new SelectList(_billrequisitionService.ApprovedRequisitionList(companyId), "Value", "Text");
-                vmJournalSlave.MaterialItemList = new SelectList(_billrequisitionService.ApprovedMaterialList(companyId, requisitionId), "ProductId", "ProductName");
+                vmJournalSlave.Requisitions = new SelectList(_billRequisitionService.ApprovedRequisitionList(companyId), "Value", "Text");
+                vmJournalSlave.MaterialItemList = new SelectList(_billRequisitionService.ApprovedMaterialList(companyId, requisitionId), "ProductId", "ProductName");
 
             }
 
@@ -594,8 +594,8 @@ namespace KGERP.Controllers
             {
                 long requisitionId = 0;
                 vmJournalSlave.BankOrCashParantList = new SelectList(_accountingService.SeedCashAndBankDropDownList(companyId), "Value", "Text");
-                vmJournalSlave.Requisitions = new SelectList(_billrequisitionService.ApprovedRequisitionList(companyId), "Value", "Text");
-                vmJournalSlave.MaterialItemList = new SelectList(_billrequisitionService.ApprovedMaterialList(companyId, requisitionId), "ProductId", "ProductName");
+                vmJournalSlave.Requisitions = new SelectList(_billRequisitionService.ApprovedRequisitionList(companyId), "Value", "Text");
+                vmJournalSlave.MaterialItemList = new SelectList(_billRequisitionService.ApprovedMaterialList(companyId, requisitionId), "ProductId", "ProductName");
 
             }
 
