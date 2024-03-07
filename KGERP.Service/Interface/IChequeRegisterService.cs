@@ -9,11 +9,12 @@ namespace KGERP.Service.Interface
 {
     public interface IChequeRegisterService
     {
-        Task<List<ChequeRegisterModel>> GetChequeRegisterList(int companyId);
-        Task<ChequeRegisterModel> GetChequeRegisterById(long chequeRegisterId);
         Task<bool> Add(ChequeRegisterModel model);
         Task<bool> Edit(ChequeRegisterModel model);
         Task<bool> Delete(ChequeRegisterModel model);
         Task<bool> ChequeSign(long chequeRegisterId);
+        Task<ChequeRegisterModel> GetChequeRegisterById(long chequeRegisterId);
+        Task<List<ChequeRegisterModel>> GetChequeRegisterList(int companyId);
+        Task<List<ChequeRegisterModel>> GetChequeRegisterListByDate(ChequeRegisterModel model);
     }
 }

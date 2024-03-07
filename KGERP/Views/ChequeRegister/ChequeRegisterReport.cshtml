@@ -1,51 +1,75 @@
 ﻿@model KGERP.Service.ServiceModel.ChequeRegisterModel
-@using KGERP.Utility;
-
 @{
     ViewData["Title"] = "Cheque Register Report";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="row">
-    <div class="col-md-12" style="background-color:lightblue">
-        @Html.Label("Cheque Register List", new { @style = "font-size:20px" })
-    </div>
-</div>
-<br />
+<style type="text/css">
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
 
-@using (Html.BeginForm("ChequeRegisterReport", "Report", FormMethod.Post, new { @id = "idForm" }))
+<section class="content-header">
+    <h1>
+        Cheque Register Report
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
+        <li class="active">Cheque Register Report</li>
+    </ol>
+</section>
+
+@using (Html.BeginForm("ChequeRegisterReport", "Report", FormMethod.Post, new { id = "ChequeRegisterReportFormId", @class = "formValidator" }))
 {
-    @Html.AntiForgeryToken()
+    <section class="content">
+        <div class="row">
+            <div class="box">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="box-danger">
+                    <div class="box-body row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label">Select Project<sup class="text-danger" title="Required">*</sup></label>
+                                @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.ProjectList, "Value", "Text"), "==Select Requisition==", new { @class = "form-control searchingDropdown" })
+                                @Html.ValidationMessageFor(model => model.ProjectId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
 
-    <div class="row">
-        <div class="col-md-4">
-            <div class="form-group">
-                <label class="form-label">Select Project:</label>
-                @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.ProjectList, "Value", "Text"), "==Select Requisition==", new { @class = "form-control searchingDropdown" })
-                @Html.ValidationMessageFor(model => model.ProjectId, "", new { @class = "text-danger" })
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label">Requisition No<sup class="text-danger" title="Required">*</sup></label>
+                                @Html.DropDownListFor(model => model.RequisitionId, new SelectList(Model.RequisitionList, "Value", "Text"), "==Select Requisition==", new { @class = "form-control searchingDropdown" })
+                                @Html.ValidationMessageFor(model => model.RequisitionId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <select class="form-control" name="ReportType" id="ReportType" style="margin-top:24px; width: 100%">
+                                        <option value="PDF">PDF</option>
+                                        <option value="EXCEL">EXCEL</option>
+                                        <option value="WORD">WORD</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="submit" name="EXPORT" value="EXPORT" class="btn btn-primary" formtarget="_blank" style="margin-top:24px; width: 100%"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-
-        <div class="col-md-4">
-            <div class="form-group">
-                <label class="form-label">Requisition No:</label>
-                @Html.DropDownListFor(model => model.RequisitionId, new SelectList(Model.RequisitionList, "Value", "Text"), "==Select Requisition==", new { @class = "form-control searchingDropdown" })
-                @Html.ValidationMessageFor(model => model.RequisitionId, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="col-md-4" style="margin-top:24px;float:left;display:flex">
-            <select class="pull-right form-control" style="color:black; background-color:lightgray;height:34px;font-size:15px;width:50%" name="ReportType" id="ReportType">
-                <option value="PDF">PDF</option>
-                <option value="EXCEL">EXCEL</option>
-                <option value="WORD">WORD</option>
-            </select>
-            &nbsp;
-            <input type="submit" name="EXPORT" value="EXPORT" class="btn btn-primary pull-right" formtarget="_blank" />
-        </div>
-    </div>
-
+    </section>
 }
+
+@Scripts.Render("~/bundles/jqueryui")
+@Styles.Render("~/Content/cssjqryUi")
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryui")
@@ -53,63 +77,7 @@
 
     <script>
         $(document).ready(function () {
-            $('.datepicker').datepicker({
-                dateFormat: "mm/dd/yy",
-                showOn: 'both',
-                buttonText: "<i class='fa fa-calendar'></i>",
-                changeMonth: true,
-                changeYear: true,
-                yearRange: "2001:+50"
-            });
+            "use strict"
         });
-
-        $("#ddlCommon_ProductCategoryFk").change(function () {
-
-            var productCategoryFk = $("#ddlCommon_ProductCategoryFk").val();
-            $.ajax({
-                type: "GET",
-                url: "@Url.Action("GetCommonProductSubCategory", "Warehouse")",
-                datatype: "Json",
-                data: { id: productCategoryFk },
-                success: function (data) {
-                    var items = "";
-                    if (data) {
-                        $("#ddlCommonProductSubCategoryFk").empty();
-                        $("#ddlCommonProductSubCategoryFk").append("<option value=''>==Select Subcategory==</option>");
-                        $(data).each(function (index, item) {
-                            $("#ddlCommonProductSubCategoryFk").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
-                        });
-
-                    }
-                }
-            });
-        });
-
-        $("#ddlCommonProductSubCategoryFk").change(function () {
-
-            var productSubCategoryFk = $("#ddlCommonProductSubCategoryFk").val();
-            $.ajax({
-                type: "GET",
-                url: "@Url.Action("GetCommonProduct", "Warehouse")",
-                datatype: "Json",
-                data: { id: productSubCategoryFk },
-                success: function (data) {
-                    var items = "";
-                    if (data) {
-                        $("#ddlCommonProductFk").empty();
-                        $("#ddlCommonProductFk").append("<option value=''>==Select Item==</option>");
-                        $(data).each(function (index, item) {
-                            $("#ddlCommonProductFk").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
-                        });
-                    }
-                }
-            });
-        });
-
     </script>
 }
-
-
-
-
-

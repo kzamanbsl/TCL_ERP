@@ -5,12 +5,26 @@
     ViewData["Title"] = "Cheque Signning";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
+    KGERP.Service.ServiceModel.ChequeRegisterModel searchData = TempData["ChequeRegisterModel"] as KGERP.Service.ServiceModel.ChequeRegisterModel;
     int sl = 0;
 }
 
 <style type="text/css">
     input, select, textarea {
         max-width: 100%;
+    }
+
+    .ui-datepicker-trigger {
+        width: 37px !important;
+        height: 33px !important;
+        margin-left: 5px !important;
+    }
+
+    .dateCustom {
+        width: 82% !important;
+        border-radius: 1px !important;
+        border: 1px solid #d2d6de !important;
+        height: 33px !important;
     }
 </style>
 
@@ -43,35 +57,30 @@
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        @Html.Label("Register For:", htmlAttributes: new { @class = "control-label" })
-                                        <br />
-                                        @Html.DropDownListFor(model => model.RegisterFor, Model.RegisterForList as SelectList, "==Register For==", new { id = "ddlregissterFor", @class = "form-control ddlReset searchingDropdown", style = "width:100%", required = "required" })
+                                        <label class="form-label">Search For<sup class="text-danger" title="Required">*</sup></label>
+                                        @Html.DropDownListFor(model => model.RegisterFor, Model.RegisterForList as SelectList, "==Search For==", new { id = "ddlregissterFor", @class = "form-control ddlReset searchingDropdown", style = "width:100%", required = "required" })
                                         @Html.ValidationMessageFor(model => model.RegisterFor, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="message-text" class="form-label">From Date<sup class="text-danger" title="Required">*</sup></label>
-                                        <br />
-                                        <input name="StrFromDate" asp-for="StrFromDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker w-100 dateCustom" placeholder="From Date" autocomplete="off" id="txtFromDate">
+                                        <label class="form-label">Issue Date From<sup class="text-danger" title="Required">*</sup></label>
+                                        <input name="StrFromDate" asp-for="StrFromDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker w-100 dateCustom" autocomplete="off" id="txtFromDate">
                                         @Html.ValidationMessageFor(model => model.StrFromDate, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="message-text" class="form-label">To Date<sup class="text-danger" title="Required">*</sup></label>
-                                        <br />
-                                        <input name="StrToDate" asp-for="StrToDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker w-100 dateCustom" placeholder="To Date" autocomplete="off" id="txtToDate">
+                                        <label class="form-label">Issue Date To<sup class="text-danger" title="Required">*</sup></label>
+                                        <input name="StrToDate" asp-for="StrToDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker w-100 dateCustom" autocomplete="off" id="txtToDate">
                                         @Html.ValidationMessageFor(model => model.StrToDate, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
 
-                                <div class="col-md-3" style="padding: 0px 2px 0px 8px;">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label>&nbsp;</label>
-                                        <button type="submit" id="btnSave" class="btn btn-primary btn-block">Show</button>
+                                        <button type="submit" id="btnSave" class="btn btn-primary btn-block">Search</button>
                                     </div>
                                 </div>
                             </div>
@@ -80,72 +89,136 @@
                         <hr />
 
                         <div class="table-responsive">
-                            <table id="KgErpDataTable" class="table table-striped table-responsive table-dark">
+                            <table id="KgErpDataTable" class="table table-striped table-responsive text-center">
                                 <thead>
-
                                     <tr>
                                         <th>SL</th>
-                                        <th>Cheque No</th>
-                                        <th>Amount</th>
-                                        <th>Issue Date</th>
-                                        <th>Cheque Date</th>
-                                        <th>Clearing Date</th>
                                         <th>Project Name</th>
-                                        <th>Party/Supplier</th>
-                                        <th>Requisition No</th>
-                                        <th>Signed</th>
+                                        <th>Requisition</th>
+                                        <th>Issue Date</th>
+                                        <th>Cheque No</th>
+                                        <th>Pay To</th>
+                                        <th>Amount</th>
+                                        <th>Status</th>
                                         <th>Print</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var item in Model.ChequeRegisterList)
-                                    {
-                                        <tr>
-                                            <th>@(++sl)</th>
-                                            <td>@item.ChequeNo</td>
-                                            <td>@item.Amount</td>
-                                            <td>@item.IssueDate.ToString("dd-MM-yyyy")</td>
-                                            <td>@item.ChequeDate.ToString("dd-MM-yyyy")</td>
-                                            <td>@item.ClearingDate.ToString("dd-MM-yyyy")</td>
-                                            <td>@item.ProjectName</td>
-                                            <td>[@item.SupplierCode] - @item.SupplierName</td>
-                                            <td>
-                                                <a href="~/BillRequisition/BillRequisitionMasterCommonSlave?companyId=@Model.CompanyFK&billRequisitionMasterId=@item.RequisitionId" class="link-primary text-primary" target="_blank" title="See Requisition Detail">@item.RequisitionNo</a>
-                                            </td>
-                                            <td>
-                                                @if (item.IsSigned == false)
-                                                {
-                                                    <span class="btn btn-xs btn-warning text-center" title="Click to signing" style="display: block; padding-left: 7px; padding-right: 7px;" id="hideSigned" onclick="ChequeSign(@item.ChequeRegisterId)">
-                                                        Unsigned
-                                                    </span>
-                                                    <span class="btn btn-xs btn-success text-center hidden" style="display: block; padding-left: 7px; padding-right: 7px;" id="showSigned">
-                                                        Signed
-                                                    </span>
-                                                }
-                                                else
-                                                {
-                                                    <span class="btn btn-xs btn-success text-center" style="display: block; padding-left: 7px; padding-right: 7px;">
-                                                        Signed
-                                                    </span>
-                                                }
-                                            </td>
-                                            <td class="text-center">
-                                                @if (item.IsSigned == true)
-                                                {
-                                                    <a class="label label-primary text-center" target="_blank" href="~/Report/ChequeRegisterPrinting?chequeRegisterId=@item.ChequeRegisterId">
-                                                        <i class="fa fa-print"></i> Print
-                                                    </a>
-                                                }
-                                                else
-                                                {
-                                                    <a class="label label-primary text-center hidden" id="showPrintButton" target="_blank" href="~/Report/ChequeRegisterPrinting?chequeRegisterId=@item.ChequeRegisterId">
-                                                        <i class="fa fa-print"></i> Print
-                                                    </a>
-                                                    <span class="text-center d-block" id="hidePrintButton">-</span>
-                                                }
+                                    @{
+                                        if (searchData != null)
+                                        {
+                                            foreach (var item in searchData.ChequeRegisterList)
+                                            {
+                                                <tr>
+                                                    <th>@(++sl)</th>
+                                                    <td>@item.ProjectName</td>
+                                                    <td>
+                                                        @if (item.RequisitionId > 0)
+                                                        {
+                                                            <a href="~/BillRequisition/BillRequisitionMasterCommonSlave?companyId=@Model.CompanyFK&billRequisitionMasterId=@item.RequisitionId" class="link-primary text-primary" target="_blank" title="See Requisition Detail">@item.RequisitionNo</a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span>N/A</span>
+                                                        }
+                                                    </td>
+                                                    <td>@item.IssueDate.ToString("dd-MM-yyyy")</td>
+                                                    <td>@item.ChequeNo</td>
+                                                    <td>@item.PayTo</td>
+                                                    <td>@item.Amount</td>
+                                                    <td>
+                                                        @if (item.IsSigned == false)
+                                                        {
+                                                            <span class="btn btn-xs btn-warning text-center" title="Click to signing" style="display: block; padding-left: 7px; padding-right: 7px;" id="hideSigned" onclick="ChequeSign(@item.ChequeRegisterId)">
+                                                                Unsigned
+                                                            </span>
+                                                            <span class="btn btn-xs btn-success text-center hidden" style="display: block; padding-left: 7px; padding-right: 7px;" id="showSigned">
+                                                                Signed
+                                                            </span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="btn btn-xs btn-success text-center" style="display: block; padding-left: 7px; padding-right: 7px;">
+                                                                Signed
+                                                            </span>
+                                                        }
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @if (item.IsSigned == true)
+                                                        {
+                                                            <a class="btn btn-xs btn-primary text-center" target="_blank" href="~/Report/ChequeRegisterPrinting?chequeRegisterId=@item.ChequeRegisterId">
+                                                                <i class="fa fa-print"></i> Print Here
+                                                            </a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <a class="btn btn-xs btn-primary text-center hidden" id="showPrintButton" target="_blank" href="~/Report/ChequeRegisterPrinting?chequeRegisterId=@item.ChequeRegisterId">
+                                                                <i class="fa fa-print"></i> Print Here
+                                                            </a>
+                                                            <span class="text-center d-block" id="hidePrintButton">-</span>
+                                                        }
 
-                                            </td>
-                                        </tr>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            foreach (var item in Model.ChequeRegisterList)
+                                            {
+                                                <tr>
+                                                    <th>@(++sl)</th>
+                                                    <td>@item.ProjectName</td>
+                                                    <td>
+                                                        @if (item.RequisitionId > 0)
+                                                        {
+                                                            <a href="~/BillRequisition/BillRequisitionMasterCommonSlave?companyId=@Model.CompanyFK&billRequisitionMasterId=@item.RequisitionId" class="link-primary text-primary" target="_blank" title="See Requisition Detail">@item.RequisitionNo</a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span>N/A</span>
+                                                        }
+                                                    </td>
+                                                    <td>@item.IssueDate.ToString("dd-MM-yyyy")</td>
+                                                    <td>@item.ChequeNo</td>
+                                                    <td>@item.PayTo</td>
+                                                    <td>@item.Amount</td>
+                                                    <td>
+                                                        @if (item.IsSigned == false)
+                                                        {
+                                                            <span class="btn btn-xs btn-warning text-center" title="Click to signing" style="display: block; padding-left: 7px; padding-right: 7px;" id="hideSigned" onclick="ChequeSign(@item.ChequeRegisterId)">
+                                                                Unsigned
+                                                            </span>
+                                                            <span class="btn btn-xs btn-success text-center hidden" style="display: block; padding-left: 7px; padding-right: 7px;" id="showSigned">
+                                                                Signed
+                                                            </span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="btn btn-xs btn-success text-center" style="display: block; padding-left: 7px; padding-right: 7px;">
+                                                                Signed
+                                                            </span>
+                                                        }
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @if (item.IsSigned == true)
+                                                        {
+                                                            <a class="btn btn-xs btn-primary text-center" target="_blank" href="~/Report/ChequeRegisterPrinting?chequeRegisterId=@item.ChequeRegisterId">
+                                                                <i class="fa fa-print"></i> Print Here
+                                                            </a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <a class="btn btn-xs btn-primary text-center hidden" id="showPrintButton" target="_blank" href="~/Report/ChequeRegisterPrinting?chequeRegisterId=@item.ChequeRegisterId">
+                                                                <i class="fa fa-print"></i> Print Here
+                                                            </a>
+                                                            <span class="text-center d-block" id="hidePrintButton">-</span>
+                                                        }
+
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
                                     }
                                 </tbody>
                             </table>
