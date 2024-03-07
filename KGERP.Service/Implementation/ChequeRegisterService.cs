@@ -138,7 +138,7 @@ namespace KGERP.Service.Implementation
             bool sendData = false;
             if (model.ID > 0)
             {
-                var result = await _context.ChequeRegisters.FirstOrDefaultAsync(x => x.ChequeRegisterId == model.ID);
+                var result = _context.ChequeRegisters.FirstOrDefault(x => x.ChequeRegisterId == model.ID);
                 if (result != null)
                 {
                     result.RequisitionMasterId = model.RequisitionId;
@@ -152,7 +152,7 @@ namespace KGERP.Service.Implementation
                     result.ClearingDate = model.ClearingDate;
                     result.IsSigned = result.IsSigned;
                     result.Remarks = model.Remarks;
-                    result.ModifiedBy = HttpContext.Current.User.Identity.Name.ToString();
+                    result.ModifiedBy = HttpContext.Current.User.Identity.Name;
                     result.ModifiedOn = DateTime.Now;
 
                     if (await _context.SaveChangesAsync() > 0)
@@ -170,7 +170,7 @@ namespace KGERP.Service.Implementation
             bool sendData = false;
             if (model.ChequeRegisterId > 0)
             {
-                var result = await _context.ChequeRegisters.FirstOrDefaultAsync(x => x.ChequeRegisterId == model.ChequeRegisterId);
+                var result = _context.ChequeRegisters.FirstOrDefault(x => x.ChequeRegisterId == model.ChequeRegisterId);
                 if (result != null)
                 {
                     result.IsActive = false;

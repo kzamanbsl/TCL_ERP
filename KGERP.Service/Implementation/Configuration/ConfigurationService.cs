@@ -802,6 +802,18 @@ namespace KGERP.Service.Implementation.Configuration
             _db.Units.Add(commonUnit);
             if (await _db.SaveChangesAsync() > 0)
             {
+                UserLog logData = new UserLog();
+                logData.ActionType = vmCommonUnit.ActionId;
+                logData.EmployeeId = _db.Employees.FirstOrDefault(c => c.EmployeeId == System.Web.HttpContext.Current.User.Identity.Name).Id;
+                logData.EmpUserId = System.Web.HttpContext.Current.User.Identity.Name;
+                logData.CompanyId = (int)vmCommonUnit.CompanyFK;
+                logData.ActionTimeStamp = DateTime.Now;
+                logData.Details = $"New material unit is added! " +
+                    $"Name: {vmCommonUnit.Name}, " +
+                    $"IsBoQUnit: {vmCommonUnit.IsBoQUnit}";
+
+                _ = this.UserActionLog(logData);
+
                 result = commonUnit.UnitId;
             }
             return result;
@@ -816,6 +828,18 @@ namespace KGERP.Service.Implementation.Configuration
 
             if (await _db.SaveChangesAsync() > 0)
             {
+                UserLog logData = new UserLog();
+                logData.ActionType = vmCommonUnit.ActionId;
+                logData.EmployeeId = _db.Employees.FirstOrDefault(c => c.EmployeeId == System.Web.HttpContext.Current.User.Identity.Name).Id;
+                logData.EmpUserId = System.Web.HttpContext.Current.User.Identity.Name;
+                logData.CompanyId = (int)vmCommonUnit.CompanyFK;
+                logData.ActionTimeStamp = DateTime.Now;
+                logData.Details = $"Material unit: {vmCommonUnit.ID} is updated! " +
+                    $"Name: {vmCommonUnit.Name}, " +
+                    $"IsBoQUnit: {vmCommonUnit.IsBoQUnit}";
+
+                _ = this.UserActionLog(logData);
+
                 result = commonUnit.UnitId;
             }
             return result;
@@ -831,6 +855,15 @@ namespace KGERP.Service.Implementation.Configuration
                 commonUnit.ModifiedDate = DateTime.Now;
                 if (await _db.SaveChangesAsync() > 0)
                 {
+                    UserLog logData = new UserLog();
+                    logData.ActionType = 3;
+                    logData.EmployeeId = _db.Employees.FirstOrDefault(c => c.EmployeeId == System.Web.HttpContext.Current.User.Identity.Name).Id;
+                    logData.EmpUserId = System.Web.HttpContext.Current.User.Identity.Name;
+                    logData.CompanyId = 21;
+                    logData.ActionTimeStamp = DateTime.Now;
+                    logData.Details = $"Material unit: {id} is deleted!";
+
+                    _ = this.UserActionLog(logData);
                     result = commonUnit.UnitId;
                 }
             }
