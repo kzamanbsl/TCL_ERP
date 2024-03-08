@@ -1,22 +1,8 @@
-﻿using KGERP.Service.Implementation.Configuration;
-using KGERP.Service.Implementation.Procurement;
-using KGERP.Service.Implementation;
-using KGERP.Service.Interface;
+﻿using KGERP.Service.Interface;
 using KGERP.Service.ServiceModel;
 using KGERP.Utility;
-using KGERP.ViewModel;
-using PagedList;
-using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using System.Web.Services.Description;
-using DocumentFormat.OpenXml.EMMA;
-using System.Linq;
-using Remotion.Data.Linq;
-using Ninject.Activation;
-using KGERP.Data.CustomModel;
-using KGERP.Data.Models;
 
 namespace KGERP.Controllers
 {
@@ -74,6 +60,15 @@ namespace KGERP.Controllers
             ChequeRegisterModel viewData = new ChequeRegisterModel();
             viewData.CompanyFK = companyId;
             viewData.ChequeRegisterList = await _Service.GetChequeRegisterList(companyId);
+            return View(viewData);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> ChequePrinting(int companyId = 0)
+        {
+            ChequeRegisterModel viewData = new ChequeRegisterModel();
+            viewData.CompanyFK = companyId;
+            viewData.ChequeRegisterList = await _Service.GetSignedChequeList(companyId);
             return View(viewData);
         }
 

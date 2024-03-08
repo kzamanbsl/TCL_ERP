@@ -15,6 +15,7 @@ namespace KGERP.Service.Interface
         Task<bool> ChequeSign(long chequeRegisterId);
         Task<ChequeRegisterModel> GetChequeRegisterById(long chequeRegisterId);
         Task<List<ChequeRegisterModel>> GetChequeRegisterList(int companyId);
+        Task<List<ChequeRegisterModel>> GetSignedChequeList(int companyId);
         Task<List<ChequeRegisterModel>> GetChequeRegisterListByDate(ChequeRegisterModel model);
     }
 }

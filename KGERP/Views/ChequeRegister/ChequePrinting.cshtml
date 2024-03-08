@@ -2,7 +2,7 @@
 @using KGERP.Utility;
 
 @{
-    ViewData["Title"] = "Cheque Signning";
+    ViewData["Title"] = "Cheque Print";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     KGERP.Service.ServiceModel.ChequeRegisterModel searchData = TempData["ChequeRegisterModel"] as KGERP.Service.ServiceModel.ChequeRegisterModel;
@@ -31,14 +31,14 @@
 <section class="content-header">
     <h1>
         <span>
-            Cheque Signning
+            Cheque Print
         </span>
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
         <li class="active">
             <span>
-                Cheque Signning
+                Cheque Print
             </span>
         </li>
     </ol>
@@ -99,7 +99,6 @@
                                         <th>Cheque No</th>
                                         <th>Pay To</th>
                                         <th>Amount</th>
-                                        <th>Status</th>
                                         <th>Print</th>
                                     </tr>
                                 </thead>
@@ -123,38 +122,10 @@
                                                     <td>@item.ChequeNo</td>
                                                     <td><p style="text-align:left !important;">@item.PayTo</p></td>
                                                     <td><p style="text-align:right !important;">@item.Amount</p></td>
-                                                    <td>
-                                                        @if (item.IsSigned == false)
-                                                        {
-                                                            <span class="btn btn-xs btn-warning text-center" title="Click to signing" style="display: block; padding-left: 7px; padding-right: 7px;" id="hideSigned" onclick="ChequeSign(@item.ChequeRegisterId)">
-                                                                Unsigned
-                                                            </span>
-                                                            <span class="btn btn-xs btn-success text-center hidden" style="display: block; padding-left: 7px; padding-right: 7px;" id="showSigned">
-                                                                Signed
-                                                            </span>
-                                                        }
-                                                        else
-                                                        {
-                                                            <span class="btn btn-xs btn-success text-center" style="display: block; padding-left: 7px; padding-right: 7px;">
-                                                                Signed
-                                                            </span>
-                                                        }
-                                                    </td>
                                                     <td class="text-center">
-                                                        @if (item.IsSigned == true)
-                                                        {
-                                                            <a class="btn btn-xs btn-primary text-center" target="_blank" href="~/Report/ChequeRegisterPrinting?chequeRegisterId=@item.ChequeRegisterId">
-                                                                <i class="fa fa-print"></i> Print Here
-                                                            </a>
-                                                        }
-                                                        else
-                                                        {
-                                                            <a class="btn btn-xs btn-primary text-center hidden" id="showPrintButton" target="_blank" href="~/Report/ChequeRegisterPrinting?chequeRegisterId=@item.ChequeRegisterId">
-                                                                <i class="fa fa-print"></i> Print Here
-                                                            </a>
-                                                            <small class="text-center text-gray d-block" id="hidePrintButton">Unavailable</small>
-                                                        }
-
+                                                        <a class="btn btn-xs btn-primary text-center" target="_blank" href="~/Report/ChequeRegisterPrinting?chequeRegisterId=@item.ChequeRegisterId">
+                                                            <i class="fa fa-print"></i> Print Here
+                                                        </a>
                                                     </td>
                                                 </tr>
                                             }
@@ -177,38 +148,10 @@
                                                     <td>@item.ChequeNo</td>
                                                     <td><p style="text-align:left !important;">@item.PayTo</p></td>
                                                     <td><p style="text-align:right !important;">@item.Amount</p></td>
-                                                    <td>
-                                                        @if (item.IsSigned == false)
-                                                        {
-                                                            <span class="btn btn-xs btn-warning text-center" title="Click to signing" style="display: block; padding-left: 7px; padding-right: 7px;" id="hideSigned" onclick="ChequeSign(@item.ChequeRegisterId)">
-                                                                Unsigned
-                                                            </span>
-                                                            <span class="btn btn-xs btn-success text-center hidden" style="display: block; padding-left: 7px; padding-right: 7px;" id="showSigned">
-                                                                Signed
-                                                            </span>
-                                                        }
-                                                        else
-                                                        {
-                                                            <span class="btn btn-xs btn-success text-center" style="display: block; padding-left: 7px; padding-right: 7px;">
-                                                                Signed
-                                                            </span>
-                                                        }
-                                                    </td>
                                                     <td class="text-center">
-                                                        @if (item.IsSigned == true)
-                                                        {
-                                                            <a class="btn btn-xs btn-primary text-center" target="_blank" href="~/Report/ChequeRegisterPrinting?chequeRegisterId=@item.ChequeRegisterId">
-                                                                <i class="fa fa-print"></i> Print Here
-                                                            </a>
-                                                        }
-                                                        else
-                                                        {
-                                                            <a class="btn btn-xs btn-primary text-center hidden" id="showPrintButton" target="_blank" href="~/Report/ChequeRegisterPrinting?chequeRegisterId=@item.ChequeRegisterId">
-                                                                <i class="fa fa-print"></i> Print Here
-                                                            </a>
-                                                            <small class="text-center text-secondary d-block" id="hidePrintButton">Unavailable</small>
-                                                        }
-
+                                                        <a class="btn btn-xs btn-primary text-center" target="_blank" href="~/Report/ChequeRegisterPrinting?chequeRegisterId=@item.ChequeRegisterId">
+                                                            <i class="fa fa-print"></i> Print Here
+                                                        </a>
                                                     </td>
                                                 </tr>
                                             }
