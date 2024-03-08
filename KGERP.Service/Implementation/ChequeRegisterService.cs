@@ -166,6 +166,21 @@ namespace KGERP.Service.Implementation
             return sendData;
         }
 
+        public List<object> RegisteredRequisitionList(int projectId)
+        {
+            var getData = (from t1 in _context.ChequeRegisters.Where(x => x.IsActive)
+                           join t2 in _context.BillRequisitionMasters on t1.RequisitionMasterId equals t2.BillRequisitionMasterId into t2_Join
+                           from t2 in t2_Join.DefaultIfEmpty()
+                           where t2.CostCenterId == projectId
+                           select new
+                           {
+                               Text = t2.BillRequisitionNo,
+                               Value = t2.BillRequisitionMasterId
+                           }).ToList();
+            return getData.Cast<object>().ToList();
+
+        }
+
         public async Task<List<ChequeRegisterModel>> GetChequeRegisterList(int companyId)
         {
             List<ChequeRegisterModel> sendData = await (from t1 in _context.ChequeRegisters
