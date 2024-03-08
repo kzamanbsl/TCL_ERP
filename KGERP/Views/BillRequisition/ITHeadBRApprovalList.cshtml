@@ -78,7 +78,7 @@
                         <hr />
 
                         <div class="table-responsive">
-                            <table id="KgErpDataTable" class="table table-dark table-striped table-responsive">
+                            <table id="KgErpDataTable33" class="table table-dark table-striped table-responsive">
                                 <thead>
                                     <tr>
                                         <th width="3%">SL</th>
@@ -108,17 +108,21 @@
                                             <td>@item.TotalAmount</td>
                                             <td>
 
-                                                @if (@item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.QS).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
+                                                @if (@item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.QS).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending && @item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
                                                 {
-                                                    <span class="btn btn-xs btn-warning text-center" style="display: block; padding-left: 7px; padding-right: 7px;"> @item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.QS).AprrovalStatusName</span>
+                                                    <span class="btn btn-xs btn-warning text-center" style="display: block; padding-left: 7px; padding-right: 7px;">@item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.QS).AprrovalStatusName</span>
                                                 }
                                                 @if (@item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.QS).AprrovalStatusId == (int)EnumBillRequisitionStatus.Approved)
                                                 {
-                                                    <span class="btn btn-xs btn-success text-center" style="display: block; padding-left: 7px; padding-right: 7px;"> @item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.QS).AprrovalStatusName</span>
+                                                    <span class="btn btn-xs btn-success text-center" style="display: block; padding-left: 7px; padding-right: 7px;">@item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.QS).AprrovalStatusName</span>
                                                 }
                                                 @if (@item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.QS).AprrovalStatusId == (int)EnumBillRequisitionStatus.Rejected)
                                                 {
-                                                    <span class="btn btn-xs btn-danger text-center" style="display: block; padding-left: 7px; padding-right: 7px;"> @item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.QS).AprrovalStatusName</span>
+                                                    <span class="btn btn-xs btn-danger text-center" style="display: block; padding-left: 7px; padding-right: 7px;">@item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.QS).AprrovalStatusName</span>
+                                                }
+                                                @if (@item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.QS).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending && @item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Approved)
+                                                {
+                                                    <span class="btn btn-xs btn-warning text-center" style="display: block; padding-left: 7px; padding-right: 7px;">Bypass</span>
                                                 }
 
                                             </td>
@@ -182,5 +186,8 @@
             $('#SOEditActionId').val(1);
         }
 
+        $('#KgErpDataTable33').dataTable({
+            "pageLength": 100
+        });
     </script>
 }

@@ -80,7 +80,7 @@
                         <hr />
 
                         <div class="table-responsive">
-                            <table id="KgErpDataTable" class="table table-dark table-striped table-responsive">
+                            <table id="KgErpDataTable33" class="table table-dark table-striped table-responsive">
                                 <thead>
                                     <tr>
                                         <th width="3%">SL</th>
@@ -112,15 +112,15 @@
 
                                                 @if (@item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
                                                 {
-                                                    <span class="btn btn-xs btn-warning text-center" style="display: block; padding-left: 7px; padding-right: 7px;"> @item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusName</span>
+                                                    <span class="btn btn-xs btn-warning text-center" style="display: block; padding-left: 7px; padding-right: 7px;">@item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusName</span>
                                                 }
                                                 @if (@item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Approved)
                                                 {
-                                                    <span class="btn btn-xs btn-success text-center" style="display: block; padding-left: 7px; padding-right: 7px;"> @item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusName</span>
+                                                    <span class="btn btn-xs btn-success text-center" style="display: block; padding-left: 7px; padding-right: 7px;">@item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusName</span>
                                                 }
                                                 @if (@item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Rejected)
                                                 {
-                                                    <span class="btn btn-xs btn-danger text-center" style="display: block; padding-left: 7px; padding-right: 7px;"> @item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusName</span>
+                                                    <span class="btn btn-xs btn-danger text-center" style="display: block; padding-left: 7px; padding-right: 7px;">@item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusName</span>
                                                 }
 
                                             </td>
@@ -184,5 +184,8 @@
             $('#SOEditActionId').val(1);
         }
 
+        $('#KgErpDataTable33').dataTable({
+            "pageLength": 100
+        });
     </script>
 }
