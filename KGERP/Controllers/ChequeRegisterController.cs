@@ -122,5 +122,12 @@ namespace KGERP.Controllers
             var data = _Service.RegisteredRequisitionList(projectId);
             return Json(data, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpGet]
+        public async Task<JsonResult> GetSupplierPayeeName(int supplierId)
+        {
+            var data = await _Service.GetPayeeNameBySupplierId(supplierId);
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
     }
 }

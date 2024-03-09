@@ -1,5 +1,6 @@
 ﻿using KGERP.Data.Models;
 using KGERP.Service.Implementation.Configuration;
+using KGERP.Service.Implementation.Warehouse;
 using KGERP.Service.ServiceModel;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ namespace KGERP.Service.Interface
         Task<bool> ChequeSign(long chequeRegisterId);
         Task<ChequeRegisterModel> GetChequeRegisterById(long chequeRegisterId);
         List<object> RegisteredRequisitionList(int projectId);
+        Task<string> GetPayeeNameBySupplierId(int supplierId);
         Task<List<ChequeRegisterModel>> GetChequeRegisterList(int companyId);
         Task<List<ChequeRegisterModel>> GetSignedChequeList(int companyId);
         Task<List<ChequeRegisterModel>> GetChequeRegisterListByDate(ChequeRegisterModel model);

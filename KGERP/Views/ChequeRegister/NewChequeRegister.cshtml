@@ -303,8 +303,8 @@
                         $('#chequeResgisterItemId').val(chequeRegisterId);
                         $('#ActionId').val(2);
                         $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Update");
+                        $('#ddlRegisterFor').val(data.RegisterFor).trigger('change');
                         $('#ddlProjectId').val(data.ProjectId).trigger('change');
-                        $('#ddlRequisitionId').val(data.RequisitionId).trigger('change');
                         $('#txtSupplierName').val("[" + data.SupplierCode + "] " + data.SupplierName);
                         $('#ddlCommon_SupplierFK').val(data.SupplierId);
                         $('#txtIssueDate').val($('#hiddenIssueDate_' + chequeRegisterId).val());
@@ -314,6 +314,26 @@
                         $('#txtAmount').val(data.Amount);
                         $('#txtPayTo').val(data.PayTo);
                         $('#txtRemarks').val(data.Remarks);
+
+                        var showRequisitionList = $("#ddlRequisitionId");
+                        $.ajax({
+                            type: "GET",
+                            url: "/ChequeRegister/RequisitionListWithFilter",
+                            dataType: "json",
+                            data: { projectId: data.ProjectId },
+                            success: function (data) {
+                                showRequisitionList.empty();
+                                showRequisitionList.append("<option selected disabled>==Select Requisition==</option>");
+
+                                $.each(data, function (index, item) {
+                                    showRequisitionList.append($('<option>', {
+                                        value: item.Value,
+                                        text: item.Text
+                                    }));
+                                });
+                                $('#ddlRequisitionId').val(data.RequisitionId).trigger('change');
+                            }
+                        });
                     }
                 });
 
@@ -354,8 +374,18 @@
              },
 
              select: function (e, i) {
-                 $("#ddlCommon_SupplierFK").val(i.item.val);
-
+                    $("#ddlCommon_SupplierFK").val(i.item.val);
+                     if (i.item.val > 0) {
+                         $.ajax({
+                             type: "GET",
+                             url: "/ChequeRegister/GetSupplierPayeeName",
+                             dataType: "json",
+                             data: { supplierId: i.item.val },
+                             success: function (data) {
+                                 $('#txtPayTo').val(data);
+                             }
+                         });
+                     }
                  },
              minLength: 1,
              cache: true

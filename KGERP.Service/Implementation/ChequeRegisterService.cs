@@ -199,7 +199,12 @@ namespace KGERP.Service.Implementation
             return getData.Cast<object>().ToList();
 
         }
+        public async Task<string> GetPayeeNameBySupplierId(int supplierId)
+        {
+            var getData = await _context.Vendors.FirstOrDefaultAsync(x => x.VendorId == supplierId && x.IsActive);
+            return getData.ContactName;
 
+        }
         public async Task<List<ChequeRegisterModel>> GetChequeRegisterList(int companyId)
         {
             List<ChequeRegisterModel> sendData = await (from t1 in _context.ChequeRegisters
@@ -241,79 +246,79 @@ namespace KGERP.Service.Implementation
 
         public async Task<List<ChequeRegisterModel>> GetSignedChequeList(int companyId)
         {
-            List<ChequeRegisterModel> sendData = await(from t1 in _context.ChequeRegisters
-                                                       join t2 in _context.BillRequisitionMasters on t1.RequisitionMasterId equals t2.BillRequisitionMasterId into t2_Join
-                                                       from t2 in t2_Join.DefaultIfEmpty()
-                                                       join t3 in _context.Vendors on t1.SupplierId equals t3.VendorId into t3_Join
-                                                       from t3 in t3_Join.DefaultIfEmpty()
-                                                       join t4 in _context.Accounting_CostCenter on t1.ProjectId equals t4.CostCenterId into t4_Join
-                                                       from t4 in t4_Join.DefaultIfEmpty()
-                                                       where t1.IsActive && t1.IsSigned
-                                                       select new ChequeRegisterModel
-                                                       {
-                                                           ChequeRegisterId = t1.ChequeRegisterId,
-                                                           RegisterFor = t1.RequisitionMasterId == null ? (int)EnumChequeRegisterFor.General : (int)EnumChequeRegisterFor.Requisition,
-                                                           RequisitionId = (int)(t1.RequisitionMasterId == null ? 0 : t1.RequisitionMasterId),
-                                                           RequisitionNo = t2.BillRequisitionNo,
-                                                           ProjectId = t1.ProjectId,
-                                                           ProjectName = t4.Name,
-                                                           SupplierId = (int)t1.SupplierId,
-                                                           SupplierName = t3.Name,
-                                                           SupplierCode = t3.Code,
-                                                           PayTo = t1.PayTo,
-                                                           IssueDate = t1.IssueDate,
-                                                           ChequeDate = t1.ChequeDate,
-                                                           ChequeNo = t1.ChequeNo,
-                                                           Amount = t1.Amount,
-                                                           ClearingDate = t1.ClearingDate,
-                                                           Remarks = t1.Remarks,
-                                                           IsSigned = t1.IsSigned,
-                                                           CreatedBy = t1.CreatedBy,
-                                                           CreatedDate = t1.CreatedOn,
-                                                           ModifiedBy = t1.ModifiedBy,
-                                                           ModifiedDate = t1.ModifiedOn,
-                                                           IsActive = t1.IsActive,
-                                                           CompanyFK = 21,
-                                                       }).ToListAsync();
+            List<ChequeRegisterModel> sendData = await (from t1 in _context.ChequeRegisters
+                                                        join t2 in _context.BillRequisitionMasters on t1.RequisitionMasterId equals t2.BillRequisitionMasterId into t2_Join
+                                                        from t2 in t2_Join.DefaultIfEmpty()
+                                                        join t3 in _context.Vendors on t1.SupplierId equals t3.VendorId into t3_Join
+                                                        from t3 in t3_Join.DefaultIfEmpty()
+                                                        join t4 in _context.Accounting_CostCenter on t1.ProjectId equals t4.CostCenterId into t4_Join
+                                                        from t4 in t4_Join.DefaultIfEmpty()
+                                                        where t1.IsActive && t1.IsSigned
+                                                        select new ChequeRegisterModel
+                                                        {
+                                                            ChequeRegisterId = t1.ChequeRegisterId,
+                                                            RegisterFor = t1.RequisitionMasterId == null ? (int)EnumChequeRegisterFor.General : (int)EnumChequeRegisterFor.Requisition,
+                                                            RequisitionId = (int)(t1.RequisitionMasterId == null ? 0 : t1.RequisitionMasterId),
+                                                            RequisitionNo = t2.BillRequisitionNo,
+                                                            ProjectId = t1.ProjectId,
+                                                            ProjectName = t4.Name,
+                                                            SupplierId = (int)t1.SupplierId,
+                                                            SupplierName = t3.Name,
+                                                            SupplierCode = t3.Code,
+                                                            PayTo = t1.PayTo,
+                                                            IssueDate = t1.IssueDate,
+                                                            ChequeDate = t1.ChequeDate,
+                                                            ChequeNo = t1.ChequeNo,
+                                                            Amount = t1.Amount,
+                                                            ClearingDate = t1.ClearingDate,
+                                                            Remarks = t1.Remarks,
+                                                            IsSigned = t1.IsSigned,
+                                                            CreatedBy = t1.CreatedBy,
+                                                            CreatedDate = t1.CreatedOn,
+                                                            ModifiedBy = t1.ModifiedBy,
+                                                            ModifiedDate = t1.ModifiedOn,
+                                                            IsActive = t1.IsActive,
+                                                            CompanyFK = 21,
+                                                        }).ToListAsync();
             return sendData;
         }
-    public async Task<List<ChequeRegisterModel>> GetChequeRegisterListByDate(ChequeRegisterModel model)
-    {
-        List<ChequeRegisterModel> sendData = await (from t1 in _context.ChequeRegisters
-                                                    join t2 in _context.BillRequisitionMasters on t1.RequisitionMasterId equals t2.BillRequisitionMasterId into t2_Join
-                                                    from t2 in t2_Join.DefaultIfEmpty()
-                                                    join t3 in _context.Vendors on t1.SupplierId equals t3.VendorId into t3_Join
-                                                    from t3 in t3_Join.DefaultIfEmpty()
-                                                    join t4 in _context.Accounting_CostCenter on t1.ProjectId equals t4.CostCenterId into t4_Join
-                                                    from t4 in t4_Join.DefaultIfEmpty()
-                                                    where t1.IssueDate >= model.StrFromDate && t1.IssueDate <= model.StrToDate
-                                                    select new ChequeRegisterModel
-                                                    {
-                                                        ChequeRegisterId = t1.ChequeRegisterId,
-                                                        RegisterFor = t1.RequisitionMasterId == null ? (int)EnumChequeRegisterFor.General : (int)EnumChequeRegisterFor.Requisition,
-                                                        RequisitionId = (int)t1.RequisitionMasterId,
-                                                        RequisitionNo = t2.BillRequisitionNo,
-                                                        ProjectId = t1.ProjectId,
-                                                        ProjectName = t4.Name,
-                                                        SupplierId = (int)t1.SupplierId,
-                                                        SupplierName = t3.Name,
-                                                        SupplierCode = t3.Code,
-                                                        PayTo = t1.PayTo,
-                                                        IssueDate = t1.IssueDate,
-                                                        ChequeDate = t1.ChequeDate,
-                                                        ChequeNo = t1.ChequeNo,
-                                                        Amount = t1.Amount,
-                                                        ClearingDate = t1.ClearingDate,
-                                                        Remarks = t1.Remarks,
-                                                        IsSigned = t1.IsSigned,
-                                                        CreatedBy = t1.CreatedBy,
-                                                        CreatedDate = t1.CreatedOn,
-                                                        ModifiedBy = t1.ModifiedBy,
-                                                        ModifiedDate = t1.ModifiedOn,
-                                                        IsActive = t1.IsActive,
-                                                        CompanyFK = 21,
-                                                    }).ToListAsync();
-        return sendData;
+        public async Task<List<ChequeRegisterModel>> GetChequeRegisterListByDate(ChequeRegisterModel model)
+        {
+            List<ChequeRegisterModel> sendData = await (from t1 in _context.ChequeRegisters
+                                                        join t2 in _context.BillRequisitionMasters on t1.RequisitionMasterId equals t2.BillRequisitionMasterId into t2_Join
+                                                        from t2 in t2_Join.DefaultIfEmpty()
+                                                        join t3 in _context.Vendors on t1.SupplierId equals t3.VendorId into t3_Join
+                                                        from t3 in t3_Join.DefaultIfEmpty()
+                                                        join t4 in _context.Accounting_CostCenter on t1.ProjectId equals t4.CostCenterId into t4_Join
+                                                        from t4 in t4_Join.DefaultIfEmpty()
+                                                        where t1.IssueDate >= model.StrFromDate && t1.IssueDate <= model.StrToDate
+                                                        select new ChequeRegisterModel
+                                                        {
+                                                            ChequeRegisterId = t1.ChequeRegisterId,
+                                                            RegisterFor = t1.RequisitionMasterId == null ? (int)EnumChequeRegisterFor.General : (int)EnumChequeRegisterFor.Requisition,
+                                                            RequisitionId = (int)t1.RequisitionMasterId,
+                                                            RequisitionNo = t2.BillRequisitionNo,
+                                                            ProjectId = t1.ProjectId,
+                                                            ProjectName = t4.Name,
+                                                            SupplierId = (int)t1.SupplierId,
+                                                            SupplierName = t3.Name,
+                                                            SupplierCode = t3.Code,
+                                                            PayTo = t1.PayTo,
+                                                            IssueDate = t1.IssueDate,
+                                                            ChequeDate = t1.ChequeDate,
+                                                            ChequeNo = t1.ChequeNo,
+                                                            Amount = t1.Amount,
+                                                            ClearingDate = t1.ClearingDate,
+                                                            Remarks = t1.Remarks,
+                                                            IsSigned = t1.IsSigned,
+                                                            CreatedBy = t1.CreatedBy,
+                                                            CreatedDate = t1.CreatedOn,
+                                                            ModifiedBy = t1.ModifiedBy,
+                                                            ModifiedDate = t1.ModifiedOn,
+                                                            IsActive = t1.IsActive,
+                                                            CompanyFK = 21,
+                                                        }).ToListAsync();
+            return sendData;
+        }
     }
-}
 }
