@@ -115,9 +115,16 @@
                                                         <p style="text-align:left !important;">@item.ProjectName</p>
                                                     </td>
                                                     <td>
-                                                        <p style="text-align:left !important;">
-                                                            <a href="~/BillRequisition/BillRequisitionMasterCommonSlave?companyId=@Model.CompanyFK&billRequisitionMasterId=@item.RequisitionId" class="link-primary text-primary" target="_blank" title="See Requisition Detail" style="text-align:left !important;">@item.RequisitionNo</a>
-                                                        </p>
+                                                        @if (item.RequisitionId > 0)
+                                                        {
+                                                            <p style="text-align:left !important;">
+                                                                <a href="~/BillRequisition/BillRequisitionMasterCommonSlave?companyId=@Model.CompanyFK&billRequisitionMasterId=@item.RequisitionId" class="link-primary text-primary" target="_blank" title="See Requisition Detail" style="text-align:left !important;">@item.RequisitionNo</a>
+                                                            </p>
+                                                        }
+                                                        else
+                                                        {
+                                                            <small class="text-center text-secondary d-block" id="hidePrintButton">General Cheque</small>
+                                                        }
                                                     </td>
                                                     <td>@item.IssueDate.ToString("dd-MM-yyyy")</td>
                                                     <td>@item.ChequeNo</td>
@@ -169,9 +176,16 @@
                                                         <p style="text-align:left !important;">@item.ProjectName</p>
                                                     </td>
                                                     <td>
-                                                        <p style="text-align:left !important;">
-                                                            <a href="~/BillRequisition/BillRequisitionMasterCommonSlave?companyId=@Model.CompanyFK&billRequisitionMasterId=@item.RequisitionId" class="link-primary text-primary" target="_blank" title="See Requisition Detail" style="text-align:left !important;">@item.RequisitionNo</a>
-                                                        </p>
+                                                        @if (item.RequisitionId > 0)
+                                                        {
+                                                            <p style="text-align:left !important;">
+                                                                <a href="~/BillRequisition/BillRequisitionMasterCommonSlave?companyId=@Model.CompanyFK&billRequisitionMasterId=@item.RequisitionId" class="link-primary text-primary" target="_blank" title="See Requisition Detail" style="text-align:left !important;">@item.RequisitionNo</a>
+                                                            </p>
+                                                        }
+                                                        else
+                                                        {
+                                                            <small class="text-center text-secondary d-block" id="hidePrintButton">General Cheque</small>
+                                                        }
                                                     </td>
                                                     <td>@item.IssueDate.ToString("dd-MM-yyyy")</td>
                                                     <td>@item.ChequeNo</td>

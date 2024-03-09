@@ -27,20 +27,39 @@ namespace KGERP.Service.Implementation
             if (model != null)
             {
                 ChequeRegister data = new ChequeRegister();
-                data.RequisitionMasterId = model.RequisitionId;
-                data.ProjectId = model.ProjectId;
-                data.SupplierId = model.SupplierId;
-                data.PayTo = model.PayTo;
-                data.IssueDate = model.IssueDate;
-                data.ChequeDate = model.ChequeDate;
-                data.ChequeNo = model.ChequeNo;
-                data.Amount = model.Amount;
-                data.ClearingDate = model.ClearingDate;
-                data.Remarks = model.Remarks;
-                data.IsSigned = false;
-                data.IsActive = true;
-                data.CreatedBy = HttpContext.Current.User.Identity.Name;
-                data.CreatedOn = DateTime.Now;
+                if (model.RequisitionId > 0)
+                {
+                    data.ProjectId = model.ProjectId;
+                    data.RequisitionMasterId = model.RequisitionId;
+                    data.SupplierId = model.SupplierId;
+                    data.PayTo = model.PayTo;
+                    data.IssueDate = model.IssueDate;
+                    data.ChequeDate = model.ChequeDate;
+                    data.ChequeNo = model.ChequeNo;
+                    data.Amount = model.Amount;
+                    data.ClearingDate = model.ClearingDate;
+                    data.Remarks = model.Remarks;
+                    data.IsSigned = false;
+                    data.IsActive = true;
+                    data.CreatedBy = HttpContext.Current.User.Identity.Name;
+                    data.CreatedOn = DateTime.Now;
+                }
+                else
+                {
+                    data.ProjectId = model.ProjectId;
+                    data.SupplierId = model.SupplierId;
+                    data.PayTo = model.PayTo;
+                    data.IssueDate = model.IssueDate;
+                    data.ChequeDate = model.ChequeDate;
+                    data.ChequeNo = model.ChequeNo;
+                    data.Amount = model.Amount;
+                    data.ClearingDate = model.ClearingDate;
+                    data.Remarks = model.Remarks;
+                    data.IsSigned = false;
+                    data.IsActive = true;
+                    data.CreatedBy = HttpContext.Current.User.Identity.Name;
+                    data.CreatedOn = DateTime.Now;
+                }
 
                 _context.ChequeRegisters.Add(data);
                 if (await _context.SaveChangesAsync() > 0)
@@ -141,7 +160,7 @@ namespace KGERP.Service.Implementation
                                                   {
                                                       ChequeRegisterId = t1.ChequeRegisterId,
                                                       RegisterFor = t1.RequisitionMasterId == null ? (int)EnumChequeRegisterFor.General : (int)EnumChequeRegisterFor.Requisition,
-                                                      RequisitionId = (int)t1.RequisitionMasterId,
+                                                      RequisitionId = (int)(t1.RequisitionMasterId == null ? 0 : t1.RequisitionMasterId),
                                                       RequisitionNo = t2.BillRequisitionNo,
                                                       ProjectId = t1.ProjectId,
                                                       ProjectName = t4.Name,
@@ -195,7 +214,7 @@ namespace KGERP.Service.Implementation
                                                         {
                                                             ChequeRegisterId = t1.ChequeRegisterId,
                                                             RegisterFor = t1.RequisitionMasterId == null ? (int)EnumChequeRegisterFor.General : (int)EnumChequeRegisterFor.Requisition,
-                                                            RequisitionId = (int)t1.RequisitionMasterId,
+                                                            RequisitionId = (int)(t1.RequisitionMasterId == null ? 0 : t1.RequisitionMasterId),
                                                             RequisitionNo = t2.BillRequisitionNo,
                                                             ProjectId = t1.ProjectId,
                                                             ProjectName = t4.Name,
@@ -234,7 +253,7 @@ namespace KGERP.Service.Implementation
                                                        {
                                                            ChequeRegisterId = t1.ChequeRegisterId,
                                                            RegisterFor = t1.RequisitionMasterId == null ? (int)EnumChequeRegisterFor.General : (int)EnumChequeRegisterFor.Requisition,
-                                                           RequisitionId = (int)t1.RequisitionMasterId,
+                                                           RequisitionId = (int)(t1.RequisitionMasterId == null ? 0 : t1.RequisitionMasterId),
                                                            RequisitionNo = t2.BillRequisitionNo,
                                                            ProjectId = t1.ProjectId,
                                                            ProjectName = t4.Name,

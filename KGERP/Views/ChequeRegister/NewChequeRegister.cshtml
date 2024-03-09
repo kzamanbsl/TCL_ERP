@@ -33,7 +33,7 @@
     </ol>
 </section>
 
-@using (Html.BeginForm("NewChequeRegister", "ChequeRegister", FormMethod.Post, new { id = "ChequeRegisterFormId", @class = "formValidator"}))
+@using (Html.BeginForm("NewChequeRegister", "ChequeRegister", FormMethod.Post, new { id = "ChequeRegisterFormId", @class = "formValidator" }))
 {
     <section class="content">
         <div class="row">
@@ -46,7 +46,15 @@
                         @Html.HiddenFor(model => model.ActionId, new { Value = "", id = "ActionId" })
                         @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
 
-                        <div class="col-md-4">
+                        <div class="col-md-4" id="inputRegisterFor">
+                            <div class="form-group">
+                                <label class="form-label">Register For<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                @Html.DropDownListFor(model => model.RegisterFor, Model.RegisterForList as SelectList, "==Register For==", new { id = "ddlRegisterFor", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                @Html.ValidationMessageFor(model => model.RegisterFor, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-4" id="inputProject">
                             <div class="form-group">
                                 <label class="form-label">Select Project<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                 @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.ProjectList.OrderBy(order => order.Text), "Value", "Text"), "==Select Project==", new { id = "ddlProjectId", @class = "form-control searchingDropdown", style = "width:100%" })
@@ -54,7 +62,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-3 hidden" id="inputRequisition">
                             <div class="form-group">
                                 <label class="form-label">Select Requisition<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                 @Html.DropDownListFor(model => model.RequisitionId, new SelectList(Model.RequisitionList.OrderBy(order => order.Text), "Value", "Text"), "==Select Requisition==", new { id = "ddlRequisitionId", @class = "form-control searchingDropdown", style = "width:100%" })
@@ -62,7 +70,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-4" id="inputSupplier">
                             <div class="form-group">
                                 <label>Supplier/Party<sup class="text-danger" title="Required">*</sup></label>
                                 @Html.EditorFor(model => model.SupplierName, new { htmlAttributes = new { @autocomplete = "on", @class = "form-control", @name = "Supplier Name", @id = "txtSupplierName", required = "required" } })
@@ -196,7 +204,14 @@
                                         <td>@item.ProjectName</td>
                                         <td>[@item.SupplierCode] - @item.SupplierName</td>
                                         <td>
-                                            <a href="~/BillRequisition/BillRequisitionMasterCommonSlave?companyId=@Model.CompanyFK&billRequisitionMasterId=@item.RequisitionId" class="link-primary text-primary" target="_blank" title="See Requisition Detail">@item.RequisitionNo</a>
+                                            @if (item.RequisitionId > 0)
+                                            {
+                                                <a href="~/BillRequisition/BillRequisitionMasterCommonSlave?companyId=@Model.CompanyFK&billRequisitionMasterId=@item.RequisitionId" class="link-primary text-primary" target="_blank" title="See Requisition Detail" style="text-align:left !important;">@item.RequisitionNo</a>
+                                            }
+                                            else
+                                            {
+                                                <small class="text-center text-secondary d-block" id="hidePrintButton">General Cheque</small>
+                                            }
                                         </td>
                                         <td>
                                             @if (item.IsSigned == false)
@@ -369,6 +384,22 @@
                     });
                 }
             });
+        });
+
+        $('#ddlRegisterFor').on('change', function (event) {
+            var registerForId = $(this).val();
+
+            if (registerForId == @((int)KGERP.Utility.EnumChequeRegisterFor.Requisition)) {
+                $('#inputRequisition').removeClass('hidden').addClass('d-block');
+                $('#inputRegisterFor').removeClass('col-md-4').addClass('col-md-3');
+                $('#inputProject').removeClass('col-md-4').addClass('col-md-3');
+                $('#inputSupplier').removeClass('col-md-4').addClass('col-md-3');
+            } else {
+                $('#inputRequisition').removeClass('d-block').addClass('hidden');
+                $('#inputRegisterFor').removeClass('col-md-3').addClass('col-md-4');
+                $('#inputProject').removeClass('col-md-3').addClass('col-md-4');
+                $('#inputSupplier').removeClass('col-md-3').addClass('col-md-4');
+            }
         });
 
     </script>
