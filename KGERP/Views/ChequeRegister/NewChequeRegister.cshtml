@@ -172,7 +172,7 @@
                                     <th>Cheque Date</th>
                                     <th>Clearing Date</th>
                                     <th>Project Name</th>
-                                    <th>Party/Supplier</th>
+                                    <th>Supplier/Party</th>
                                     <th>Requisition No</th>
                                     <th>Action</th>
                                 </tr>
@@ -199,12 +199,24 @@
                                             <a href="~/BillRequisition/BillRequisitionMasterCommonSlave?companyId=@Model.CompanyFK&billRequisitionMasterId=@item.RequisitionId" class="link-primary text-primary" target="_blank" title="See Requisition Detail">@item.RequisitionNo</a>
                                         </td>
                                         <td>
-                                            <a id="@item.ChequeRegisterId" onclick="makeEditble(@item.ChequeRegisterId);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
+                                            @if (item.IsSigned == false)
+                                            {
+                                                <a id="@item.ChequeRegisterId" onclick="makeEditble(@item.ChequeRegisterId);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
 
-                                            <a id="@item.ChequeRegisterId" onclick="makeDeletable(@item.ChequeRegisterId);" class="linkPointer" data-toggle="modal" data-target="#ChequeRegisterDeleteModal" title="Delete"
-                                               data-placement="top">
-                                                <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
-                                            </a>
+                                                <a id="@item.ChequeRegisterId" onclick="makeDeletable(@item.ChequeRegisterId);" class="linkPointer" data-toggle="modal" data-target="#ChequeRegisterDeleteModal" title="Delete"
+                                                   data-placement="top">
+                                                    <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <a id="@item.ChequeRegisterId" class="linkPointer disabled" title="Disabled"><i class="fa fa-pencil-square-o"></i></a>
+
+                                                <a id="@item.ChequeRegisterId" class="linkPointer disabled" title="Disabled"
+                                                   data-placement="top">
+                                                    <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+                                                </a>
+                                            }
                                         </td>
                                     </tr>
                                 }
@@ -336,6 +348,28 @@
          }).focus(function () {
              $(this).autocomplete("search");
          });
+
+        $('#ddlProjectId').on('change', function (event) {
+            var projectId = $("#ddlProjectId option:selected").val();
+            var showRequisitionList = $("#ddlRequisitionId");
+            $.ajax({
+                type: "GET",
+                url: "/ChequeRegister/RequisitionListWithFilter",
+                dataType: "json",
+                data: { projectId: projectId },
+                success: function (data) {
+                    showRequisitionList.empty();
+                    showRequisitionList.append("<option selected disabled>==Select Requisition==</option>");
+
+                    $.each(data, function (index, item) {
+                        showRequisitionList.append($('<option>', {
+                            value: item.Value,
+                            text: item.Text
+                        }));
+                    });
+                }
+            });
+        });
 
     </script>
 }

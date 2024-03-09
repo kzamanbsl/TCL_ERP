@@ -32,7 +32,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label class="form-label">Select Project<sup class="text-danger" title="Required">*</sup></label>
-                                @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.ProjectList, "Value", "Text"), "==Select Requisition==", new { @class = "form-control searchingDropdown" })
+                                @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.ProjectList, "Value", "Text"), "==Select Project==", new { id = "ddlProjectId", @class = "form-control searchingDropdown" })
                                 @Html.ValidationMessageFor(model => model.ProjectId, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -40,7 +40,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label class="form-label">Requisition No<sup class="text-danger" title="Required">*</sup></label>
-                                @Html.DropDownListFor(model => model.RequisitionId, new SelectList(Model.RequisitionList, "Value", "Text"), "==Select Requisition==", new { @class = "form-control searchingDropdown" })
+                                @Html.DropDownListFor(model => model.RequisitionId, new SelectList(Model.RequisitionList, "Value", "Text"), "==Select Requisition==", new { id = "ddlRequisitionId", @class = "form-control searchingDropdown" })
                                 @Html.ValidationMessageFor(model => model.RequisitionId, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -68,9 +68,6 @@
     </section>
 }
 
-@Scripts.Render("~/bundles/jqueryui")
-@Styles.Render("~/Content/cssjqryUi")
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryui")
     @Styles.Render("~/Content/cssjqryUi")
@@ -78,6 +75,28 @@
     <script>
         $(document).ready(function () {
             "use strict"
+        });
+
+        $('#ddlProjectId').on('change', function (event) {
+            var projectId = $("#ddlProjectId option:selected").val();
+            var showRequisitionList = $("#ddlRequisitionId");
+            $.ajax({
+                type: "GET",
+                url: "/ChequeRegister/RegisteredRequisitionListByProjectId",
+                dataType: "json",
+                data: { projectId: projectId },
+                success: function (data) {
+                    showRequisitionList.empty();
+                    showRequisitionList.append("<option selected disabled>==Select Requisition==</option>");
+
+                    $.each(data, function (index, item) {
+                        showRequisitionList.append($('<option>', {
+                            value: item.Value,
+                            text: item.Text
+                        }));
+                    });
+                }
+            });
         });
     </script>
 }

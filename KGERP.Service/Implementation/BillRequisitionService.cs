@@ -3143,6 +3143,18 @@ namespace KGERP.Service.Implementation
             return list;
 
         }
+
+        public List<object> FilteredApprovedRequisitionList(int projectId)
+        {
+            var list = new List<object>();
+            foreach (var item in _context.BillRequisitionMasters.Where(a => a.StatusId == (int)EnumBillRequisitionStatus.Approved && a.IsActive == true && a.CostCenterId == projectId).ToList())
+            {
+                list.Add(new { Text = item.BillRequisitionNo, Value = item.BillRequisitionMasterId });
+            }
+            return list;
+
+        }
+
         // approved material item by requisition id
         public List<Product> ApprovedMaterialList(int companyId, long requisitionId)
         {
