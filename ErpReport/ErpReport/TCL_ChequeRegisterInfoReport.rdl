@@ -7,9 +7,9 @@
     </am:CreatedBy>
     <am:UpdatedBy>
       <am:Name>SSDTRS</am:Name>
-      <am:Version>17.9.34607.119</am:Version>
+      <am:Version>17.9.34622.214</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2024-02-24T17:32:59.6051155Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2024-03-09T08:22:34.1632798Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
@@ -76,8 +76,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>DateText</rd:DefaultName>
-            <Top>0.375in</Top>
-            <Left>5.15in</Left>
+            <Top>0.6875in</Top>
+            <Left>5.275in</Left>
             <Height>0.25in</Height>
             <Width>0.25in</Width>
             <Style>
@@ -105,8 +105,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>DateText</rd:DefaultName>
-            <Top>0.375in</Top>
-            <Left>5.4in</Left>
+            <Top>0.6875in</Top>
+            <Left>5.525in</Left>
             <Height>0.25in</Height>
             <Width>0.25in</Width>
             <ZIndex>1</ZIndex>
@@ -137,10 +137,10 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>PayTo1</rd:DefaultName>
-            <Top>0.8625in</Top>
-            <Left>0.75in</Left>
+            <Top>1.1875in</Top>
+            <Left>0.875in</Left>
             <Height>0.3in</Height>
-            <Width>5.6in</Width>
+            <Width>5.475in</Width>
             <ZIndex>2</ZIndex>
             <Style>
               <Border>
@@ -171,8 +171,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>DateText</rd:DefaultName>
-            <Top>0.375in</Top>
-            <Left>5.9in</Left>
+            <Top>0.6875in</Top>
+            <Left>6.025in</Left>
             <Height>0.25in</Height>
             <Width>0.25in</Width>
             <ZIndex>3</ZIndex>
@@ -201,8 +201,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>DateText</rd:DefaultName>
-            <Top>0.375in</Top>
-            <Left>5.65in</Left>
+            <Top>0.6875in</Top>
+            <Left>5.775in</Left>
             <Height>0.25in</Height>
             <Width>0.25in</Width>
             <ZIndex>4</ZIndex>
@@ -231,8 +231,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>DateText</rd:DefaultName>
-            <Top>0.375in</Top>
-            <Left>6.15in</Left>
+            <Top>0.6875in</Top>
+            <Left>6.275in</Left>
             <Height>0.25in</Height>
             <Width>0.25in</Width>
             <ZIndex>5</ZIndex>
@@ -261,8 +261,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>DateText</rd:DefaultName>
-            <Top>0.375in</Top>
-            <Left>6.4in</Left>
+            <Top>0.6875in</Top>
+            <Left>6.525in</Left>
             <Height>0.25in</Height>
             <Width>0.25in</Width>
             <ZIndex>6</ZIndex>
@@ -291,8 +291,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>DateText</rd:DefaultName>
-            <Top>0.375in</Top>
-            <Left>6.65in</Left>
+            <Top>0.6875in</Top>
+            <Left>6.775in</Left>
             <Height>0.25in</Height>
             <Width>0.25in</Width>
             <ZIndex>7</ZIndex>
@@ -321,8 +321,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>DateText</rd:DefaultName>
-            <Top>0.375in</Top>
-            <Left>6.9in</Left>
+            <Top>0.6875in</Top>
+            <Left>7.025in</Left>
             <Height>0.25in</Height>
             <Width>0.25in</Width>
             <ZIndex>8</ZIndex>
@@ -343,6 +343,13 @@
                     <Value>=First(Fields!AmountAsWord.Value, "ChequeInfoDSet")</Value>
                     <Style>
                       <FontFamily>times New Roman</FontFamily>
+                      <FontSize>12pt</FontSize>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value xml:space="preserve"> </Value>
+                    <Style>
+                      <FontFamily>times New Roman</FontFamily>
                     </Style>
                   </TextRun>
                 </TextRuns>
@@ -352,8 +359,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>AmountToWord</rd:DefaultName>
-            <Top>1.6375in</Top>
-            <Left>1.3125in</Left>
+            <Top>1.625in</Top>
+            <Left>1.45in</Left>
             <Height>0.5in</Height>
             <Width>3.5in</Width>
             <ZIndex>9</ZIndex>
@@ -378,7 +385,7 @@
                     <Value>=First(Fields!Amount.Value, "ChequeInfoDSet")</Value>
                     <Style>
                       <FontFamily>times New Roman</FontFamily>
-                      <FontSize>12pt</FontSize>
+                      <FontSize>14pt</FontSize>
                       <Format>0.00;(0.00)</Format>
                     </Style>
                   </TextRun>
@@ -389,8 +396,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>PayAmount</rd:DefaultName>
-            <Top>1.6625in</Top>
-            <Left>5.3375in</Left>
+            <Top>1.675in</Top>
+            <Left>5.35in</Left>
             <Height>0.4375in</Height>
             <Width>1.83543in</Width>
             <ZIndex>10</ZIndex>
@@ -406,7 +413,11 @@
           </Textbox>
         </ReportItems>
         <Height>3.44333in</Height>
-        <Style />
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
       </Body>
       <Width>7.42918in</Width>
       <Page>
