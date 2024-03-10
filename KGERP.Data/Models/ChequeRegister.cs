@@ -18,6 +18,7 @@ namespace KGERP.Data.Models
         public Nullable<long> RequisitionMasterId { get; set; }
         public int ProjectId { get; set; }
         public Nullable<int> SupplierId { get; set; }
+        public long ChequeBookId { get; set; }
         public string PayTo { get; set; }
         public System.DateTime IssueDate { get; set; }
         public System.DateTime ChequeDate { get; set; }
@@ -32,8 +33,9 @@ namespace KGERP.Data.Models
         public string ModifiedBy { get; set; }
         public bool IsActive { get; set; }
     
-        public virtual BillRequisitionMaster BillRequisitionMaster { get; set; }
-        public virtual Vendor Vendor { get; set; }
         public virtual Accounting_CostCenter Accounting_CostCenter { get; set; }
+        public virtual BillRequisitionMaster BillRequisitionMaster { get; set; }
+        public virtual ChequeBook ChequeBook { get; set; }
+        public virtual Vendor Vendor { get; set; }
     }
 }

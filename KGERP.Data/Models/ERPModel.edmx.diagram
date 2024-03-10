@@ -569,14 +569,18 @@
         <EntityTypeShape EntityType="ERPModel.QuotationMaster" Width="1.5" PointX="49.25" PointY="0.75" />
         <AssociationConnector Association="ERPModel.FK_QuotationDetail_Product" />
         <AssociationConnector Association="ERPModel.FK_QuotationDetail_QuotationMaster" />
-        <EntityTypeShape EntityType="ERPModel.ChequeRegister" Width="1.5" PointX="74.625" PointY="41.5" />
-        <AssociationConnector Association="ERPModel.FK_ChequeRegister_BillRequisitionMaster" />
-        <AssociationConnector Association="ERPModel.FK_ChequeRegister_ChequeRegister" />
         <EntityTypeShape EntityType="ERPModel.Accounting_CostCenter" Width="1.5" PointX="3.375" PointY="28.625" />
         <AssociationConnector Association="ERPModel.FK_Accounting_CostCenter_Accounting_CostCenterType" />
         <AssociationConnector Association="ERPModel.FK_BoQDivision_Accounting_CostCenter" />
-        <AssociationConnector Association="ERPModel.FK_ChequeRegister_Accounting_CostCenter" />
         <AssociationConnector Association="ERPModel.FK_CostCenterManagerMap_Accounting_CostCenter" />
+        <EntityTypeShape EntityType="ERPModel.ChequeBook" Width="1.5" PointX="72.375" PointY="55.625" />
+        <EntityTypeShape EntityType="ERPModel.ChequeRegister" Width="1.5" PointX="74.625" PointY="41.25" />
+        <AssociationConnector Association="ERPModel.FK_ChequeRegister_Accounting_CostCenter" />
+        <AssociationConnector Association="ERPModel.FK_ChequeBook_Bank" />
+        <AssociationConnector Association="ERPModel.FK_ChequeBook_BankBranch" />
+        <AssociationConnector Association="ERPModel.FK_ChequeRegister_BillRequisitionMaster" />
+        <AssociationConnector Association="ERPModel.FK_ChequeRegister_ChequeBook" />
+        <AssociationConnector Association="ERPModel.FK_ChequeRegister_ChequeRegister" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

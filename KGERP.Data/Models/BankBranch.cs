@@ -19,6 +19,7 @@ namespace KGERP.Data.Models
         {
             this.Accounting_ChequeInfo = new HashSet<Accounting_ChequeInfo>();
             this.Employees = new HashSet<Employee>();
+            this.ChequeBooks = new HashSet<ChequeBook>();
         }
     
         public Nullable<int> CompanyId { get; set; }
@@ -37,5 +38,7 @@ namespace KGERP.Data.Models
         public virtual ICollection<Accounting_ChequeInfo> Accounting_ChequeInfo { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Employee> Employees { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ChequeBook> ChequeBooks { get; set; }
     }
 }
