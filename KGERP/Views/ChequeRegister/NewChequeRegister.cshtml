@@ -126,7 +126,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label class="form-label">Pay To<sup class="text-danger" title="Required"><b>*</b></sup></label>
-                                @Html.TextBoxFor(model => model.PayTo, new { id = "txtPayTo", @class = "form-control", @placeholder = "Pay to", required = "true" })
+                                @Html.TextBoxFor(model => model.PayTo, new { id = "txtPayTo", @class = "form-control", @placeholder = "Pay to", required = "true", @readonly = "true" })
                                 @Html.ValidationMessageFor(model => model.PayTo, "", new { id = "nameExist", @class = "text-danger" })
                             </div>
                         </div>
@@ -182,6 +182,7 @@
                                     <th>Project Name</th>
                                     <th>Supplier/Party</th>
                                     <th>Requisition No</th>
+                                    <th>Remarks/Purpose</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -213,6 +214,7 @@
                                                 <small class="text-center text-secondary d-block" id="hidePrintButton">General Cheque</small>
                                             }
                                         </td>
+                                        <td>@item.Remarks</td>
                                         <td>
                                             @if (item.IsSigned == false)
                                             {
