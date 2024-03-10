@@ -39,4 +39,20 @@ namespace KGERP.Service.ServiceModel
         public IEnumerable<ChequeRegisterModel> ChequeRegisterList { get; set; } = new List<ChequeRegisterModel>();
        
     }
+
+    public class ChequeBookModel : BaseVM
+    {
+        public long ChequeBookId { get; set; }
+        public int BankId { get; set; }
+        public string BankName { get; set; }
+        public int BankBranchId { get; set; }
+        public string BankBranchName { get; set; }
+        public int BookFirstPageNumber { get; set; }
+        public int BookLastPageNumber { get; set; }
+        public int TotalBookPage { get; set; }
+        public int UsedBookPage { get; set; }
+        public SelectList BankList { get; set; } = new SelectList(new List<object>());
+        public SelectList bankBranchList { get; set; } = new SelectList(new List<object>());
+        public IEnumerable<ChequeBookModel> ChequeBoookList { get; set; } = new List<ChequeBookModel>();
+    }
 }

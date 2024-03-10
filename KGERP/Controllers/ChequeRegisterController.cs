@@ -129,5 +129,41 @@ namespace KGERP.Controllers
             var data = await _Service.GetPayeeNameBySupplierId(supplierId);
             return Json(data, JsonRequestBehavior.AllowGet);
         }
+
+        #region Add Cheque Book
+
+        public async Task<ActionResult> NewChequeBook(int companyId = 0)
+        {
+            ChequeBookModel viewData = new ChequeBookModel();
+            viewData.CompanyFK = companyId;
+            return View(viewData);
+        }
+
+        [HttpPost]
+        public ActionResult NewChequeBook(ChequeBookModel model)
+        {
+            if (model.ActionEum == ActionEnum.Add)
+            {
+                //Add 
+                //_Service.Add(model);
+            }
+            else if (model.ActionEum == ActionEnum.Edit)
+            {
+                //Edit
+                //_Service.Edit(model);
+            }
+            else if (model.ActionEum == ActionEnum.Delete)
+            {
+                //Delete
+                //_Service.Delete(model);
+            }
+            else
+            {
+                return View("Error");
+            }
+            return RedirectToAction(nameof(NewChequeRegister), new { companyId = model.CompanyFK });
+        }
+
+        #endregion
     }
 }
