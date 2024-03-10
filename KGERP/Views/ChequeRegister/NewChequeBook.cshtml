@@ -8,19 +8,6 @@
     input, select, textarea {
         max-width: 100%;
     }
-
-    .ui-datepicker-trigger {
-        width: 37px !important;
-        height: 33px !important;
-        margin-left: 5px !important;
-    }
-
-    .dateCustom {
-        width: 82% !important;
-        border-radius: 1px !important;
-        border: 1px solid #d2d6de !important;
-        height: 33px !important;
-    }
 </style>
 
 <section class="content-header">
@@ -64,6 +51,30 @@
 
                         <div class="col-md-3">
                             <div class="form-group">
+                                <label class="form-label">A/C Holder Name<sup class="text-danger" title="Required">*</sup></label>
+                                @Html.TextBoxFor(model => model.AccountName, new { id = "txtAccountName", @class = "form-control", @placeholder = "A/C name", required = "true" })
+                                @Html.ValidationMessageFor(model => model.AccountName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="form-label">A/C Number<sup class="text-danger" title="Required">*</sup></label>
+                                @Html.TextBoxFor(model => model.AccountNumber, new { id = "txtAccountNumber", @class = "form-control", @placeholder = "A/C number", required = "true" })
+                                @Html.ValidationMessageFor(model => model.AccountNumber, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="form-label">Cheque Book No<sup class="text-danger" title="Required">*</sup></label>
+                                @Html.TextBoxFor(model => model.ChequeBookNo, new { id = "txtChequeBookNo", @class = "form-control", @placeholder = "Cheque Book No", required = "true", @readonly = "true" })
+                                @Html.ValidationMessageFor(model => model.ChequeBookNo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
                                 <label class="form-label">First Page Number<sup class="text-danger" title="Required">*</sup></label>
                                 @Html.TextBoxFor(model => model.BookFirstPageNumber, new { id = "txtFirstPageNumber", @class = "form-control", @placeholder = "First page number", required = "true" })
                                 @Html.ValidationMessageFor(model => model.BookFirstPageNumber, "", new { @class = "text-danger" })
@@ -78,29 +89,23 @@
                             </div>
                         </div>
 
-
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="form-label">Total Page<sup class="text-danger" title="Required">*</sup></label>
+                                @Html.TextBoxFor(model => model.TotalBookPage, new { id = "txtTotalBookPage", @class = "form-control", @placeholder = "Total book page", required = "true", @readonly = "true" })
+                                @Html.ValidationMessageFor(model => model.TotalBookPage, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
 
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label class="form-label">Remarks/Purpose</label>
-                                @Html.TextAreaFor(model => model.Remarks, new { id = "txtRemarks", @class = "form-control", @placeholder = "Type remarks/purpose here", required = "true" })
+                                @Html.TextAreaFor(model => model.Remarks, new { id = "txtRemarks", @class = "form-control", @placeholder = "Type remarks/purpose here" })
                                 @Html.ValidationMessageFor(model => model.Remarks, "", new { id = "nameExist", @class = "text-danger" })
                             </div>
                         </div>
 
-                        <div class="col-md-6">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label class="form-label" style="margin-top: 7px !important;">Total Book Page</label>
-                                </div>
-                            </div>
-                            <div class="col-md-8">
-                                <div class="form-group">
-                                    @Html.TextBoxFor(model => model.TotalBookPage, new { id = "txtTotalBookPage", @class = "form-control", @placeholder = "Total book page", required = "true", @readonly = "true" })
-                                    @Html.ValidationMessageFor(model => model.TotalBookPage, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                        </div>
+                        <div class="col-md-6"></div>
 
                         <div class="col-md-6">
                             <div class="form-group">
@@ -114,13 +119,11 @@
                         </div>
 
                     </div>
-
                 </div>
             </div>
         </div>
     </section>
 }
-
 
 <section class="content">
     <div class="row">
@@ -137,8 +140,11 @@
                                     <th>SL</th>
                                     <th>Bank Name</th>
                                     <th>Branch Name</th>
+                                    <th>A/C Name</th>
+                                    <th>A/C Number</th>
+                                    <th>Cheque Book No</th>
                                     <th>Frist Page Number</th>
-                                    <th>Laste Page Number</th>
+                                    <th>Last Page Number</th>
                                     <th>Total Page</th>
                                     <th>Used Page</th>
                                     <th>Remarks/Purpose</th>
@@ -155,8 +161,12 @@
                                         </td>
                                         <td>@item.BankName</td>
                                         <td>@item.BankBranchName</td>
+                                        <td>@item.AccountName</td>
+                                        <td>@item.AccountNumber</td>
+                                        <td>@item.ChequeBookNo</td>
                                         <td>@item.BookFirstPageNumber</td>
                                         <td>[@item.BookLastPageNumber</td>
+                                        <td>[@item.TotalBookPage</td>
                                         <td>[@item.UsedBookPage</td>
                                         <td>[@item.Remarks</td>
                                         <td>
@@ -228,6 +238,55 @@
 
 @section scripts {
     <script type="text/javascript">
+
+        var isEdited = false;
+        var reuisitionId = 0;
+
+        function makeEditble(chequeRegisterId) {
+            if (chequeRegisterId !== null) {
+
+                $.ajax({
+                    type: "get",
+                    url:"@Url.Action("ChequeRegisterById", "ChequeRegister")",
+                    data: { chequeRegisterId: chequeRegisterId },
+                    dataType: "json",
+                    success: function (data) {
+                        $('#chequeResgisterItemId').val(chequeRegisterId);
+                        $('#ActionId').val(2);
+                        $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Update");
+                        $('#ddlRegisterFor').val(data.RegisterFor).trigger('change');
+                        $('#ddlProjectId').val(data.ProjectId).trigger('change');
+                        $('#txtSupplierName').val("[" + data.SupplierCode + "] " + data.SupplierName);
+                        $('#ddlCommon_SupplierFK').val(data.SupplierId);
+                        $('#txtIssueDate').val($('#hiddenIssueDate_' + chequeRegisterId).val());
+                        $('#txtChequeDate').val($('#hiddenChequeDate_' + chequeRegisterId).val());
+                        $('#txtClearingDate').val($('#hiddenClearingDate_' + chequeRegisterId).val());
+                        $('#txtChequeNo').val(data.ChequeNo);
+                        $('#txtAmount').val(data.Amount);
+                        $('#txtPayTo').val(data.PayTo);
+                        $('#txtRemarks').val(data.Remarks);
+                        isEdited = true;
+                        reuisitionId = data.RequisitionId;
+                    }
+                });
+
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function makeDeletable(id) {
+            if (id !== null) {
+                $('#ChequeRegisterDelete').val(id);
+                $('#ActionIdDelete').val(3);
+                $("#CompanyFKDelete").val("@Model.CompanyFK");
+            }
+        }
+
+        function resetForm() {
+            $('#ChequeRegisterFormId')[0].reset();
+            $('#DeleteChequeRegisterFormId')[0].reset();
+            $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Add");
+        }
 
     </script>
 }

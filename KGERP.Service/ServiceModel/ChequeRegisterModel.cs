@@ -47,6 +47,9 @@ namespace KGERP.Service.ServiceModel
         public string BankName { get; set; }
         public int BankBranchId { get; set; }
         public string BankBranchName { get; set; }
+        public string AccountName { get; set; }
+        public long AccountNumber { get; set; }
+        public string ChequeBookNo { get; set; }
         public int BookFirstPageNumber { get; set; }
         public int BookLastPageNumber { get; set; }
         public int TotalBookPage { get; set; }

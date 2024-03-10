@@ -12,7 +12,7 @@
     .ui-datepicker-trigger {
         width: 37px !important;
         height: 33px !important;
-        margin-left: 5px !important;
+        margin-left: 20px !important;
     }
 
     .dateCustom {
@@ -134,7 +134,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label class="form-label">Remarks/Purpose</label>
-                                @Html.TextAreaFor(model => model.Remarks, new { id = "txtRemarks", @class = "form-control", @placeholder = "Type remarks/purpose here", required = "true" })
+                                @Html.TextAreaFor(model => model.Remarks, new { id = "txtRemarks", @class = "form-control", @placeholder = "Type remarks/purpose here" })
                                 @Html.ValidationMessageFor(model => model.Remarks, "", new { id = "nameExist", @class = "text-danger" })
                             </div>
                         </div>
