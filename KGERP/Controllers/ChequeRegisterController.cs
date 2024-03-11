@@ -1,8 +1,10 @@
-﻿using KGERP.Service.Interface;
+﻿using KGERP.Service.Implementation.Configuration;
+using KGERP.Service.Interface;
 using KGERP.Service.ServiceModel;
 using KGERP.Utility;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using System.Web.Services.Description;
 
 namespace KGERP.Controllers
 {
@@ -11,11 +13,13 @@ namespace KGERP.Controllers
     {
         private readonly IChequeRegisterService _Service;
         private readonly IBillRequisitionService _RequisitionService;
+        private readonly ConfigurationService _ConfigurationService;
 
-        public ChequeRegisterController(IChequeRegisterService chequeRegisterService, IBillRequisitionService requisitionService)
+        public ChequeRegisterController(IChequeRegisterService chequeRegisterService, IBillRequisitionService requisitionService, ConfigurationService configurationService)
         {
             _Service = chequeRegisterService;
             _RequisitionService = requisitionService;
+            _ConfigurationService = configurationService;
         }
 
         [HttpGet]
@@ -132,10 +136,11 @@ namespace KGERP.Controllers
 
         #region Add Cheque Book
 
-        public async Task<ActionResult> NewChequeBook(int companyId = 0)
+        public ActionResult NewChequeBook(int companyId = 0)
         {
             ChequeBookModel viewData = new ChequeBookModel();
             viewData.CompanyFK = companyId;
+            viewData.BankList = new SelectList(_ConfigurationService.CommonBanksDropDownList(companyId), "Value", "Text");
             return View(viewData);
         }
 
@@ -145,23 +150,30 @@ namespace KGERP.Controllers
             if (model.ActionEum == ActionEnum.Add)
             {
                 //Add 
-                //_Service.Add(model);
+                _Service.Add(model);
             }
             else if (model.ActionEum == ActionEnum.Edit)
             {
                 //Edit
-                //_Service.Edit(model);
+                _Service.Edit(model);
             }
             else if (model.ActionEum == ActionEnum.Delete)
             {
                 //Delete
-                //_Service.Delete(model);
+                _Service.Delete(model);
             }
             else
             {
                 return View("Error");
             }
-            return RedirectToAction(nameof(NewChequeRegister), new { companyId = model.CompanyFK });
+            return RedirectToAction(nameof(NewChequeBook), new { companyId = model.CompanyFK });
+        }
+
+        [HttpGet]
+        public JsonResult GetBranchBybankId(int bankId)
+        {
+            var data = _ConfigurationService.GetBankBranchesById(bankId);
+            return Json(data, JsonRequestBehavior.AllowGet);
         }
 
         #endregion

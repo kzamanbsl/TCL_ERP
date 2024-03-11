@@ -56,17 +56,17 @@ namespace KGERP.Service.Implementation.Configuration
             bool result = false;
             try
             {
-                if(userLog != null)
+                if (userLog != null)
                 {
                     _db.UserLogs.Add(userLog);
-                    if(await _db.SaveChangesAsync() > 0)
+                    if (await _db.SaveChangesAsync() > 0)
                     {
                         result = true;
                     }
                     result = false;
                 }
             }
-            catch(Exception)
+            catch (Exception)
             {
                 result = false;
             }
@@ -79,16 +79,16 @@ namespace KGERP.Service.Implementation.Configuration
             VmUserActionLog returnData = new VmUserActionLog();
             returnData.DataList = await (from t1 in _db.UserLogs.Where(c => c.ActionTimeStamp >= model.FromDate && c.ActionTimeStamp <= model.ToDate)
                                          join t2 in _db.Employees.Where(c => c.Active) on t1.EmployeeId equals t2.Id
-                                        select new VmUserActionLog
-                                        {
-                                            UserLogId = t1.UserLogId,
-                                            CompanyId = t1.CompanyId,
-                                            ActionType = t1.ActionType,
-                                            EmployeeName = t2.Name,
-                                            EmpUserId = t1.EmpUserId,
-                                            Details = t1.Details,
-                                            ActionTimeStamp = t1.ActionTimeStamp,
-                                        }).ToListAsync();
+                                         select new VmUserActionLog
+                                         {
+                                             UserLogId = t1.UserLogId,
+                                             CompanyId = t1.CompanyId,
+                                             ActionType = t1.ActionType,
+                                             EmployeeName = t2.Name,
+                                             EmpUserId = t1.EmpUserId,
+                                             Details = t1.Details,
+                                             ActionTimeStamp = t1.ActionTimeStamp,
+                                         }).ToListAsync();
             return returnData;
         }
 
@@ -302,7 +302,7 @@ namespace KGERP.Service.Implementation.Configuration
         {
             bool result = false;
 
-            if(await _db.Accounting_CostCenter.FirstOrDefaultAsync(q => q.ShortName == shortName) != null)
+            if (await _db.Accounting_CostCenter.FirstOrDefaultAsync(q => q.ShortName == shortName) != null)
             {
                 result = true;
             }
@@ -314,7 +314,7 @@ namespace KGERP.Service.Implementation.Configuration
         {
             VMUserMenu vmUserMenu = new VMUserMenu();
             vmUserMenu.CompanyFK = companyId;
-            vmUserMenu.DataList = (from t1 in _db.Accounting_CostCenter.Where( x => x.CompanyId == 21 && x.IsActive)
+            vmUserMenu.DataList = (from t1 in _db.Accounting_CostCenter.Where(x => x.CompanyId == 21 && x.IsActive)
                                    join t2 in _db.Companies.Where(x => x.IsActive) on t1.CompanyId equals t2.CompanyId
                                    join t3 in _db.Accounting_CostCenterType.Where(x => x.IsActive) on t1.CostCenterTypeId equals t3.CostCenterTypeId
                                    select new VMUserMenu
@@ -1162,7 +1162,7 @@ namespace KGERP.Service.Implementation.Configuration
 
             var newString = "";
 
-            if(vmCommonSupplier.VendorTypeId == (int)ProviderEnum.Subcontractor)
+            if (vmCommonSupplier.VendorTypeId == (int)ProviderEnum.Subcontractor)
             {
                 int totalSupplier = _db.Vendors.Count(x => x.VendorTypeId == (int)ProviderEnum.Subcontractor && x.CompanyId == vmCommonSupplier.CompanyFK);
 
@@ -4927,6 +4927,21 @@ namespace KGERP.Service.Implementation.Configuration
                                                                     CompanyFK = t1.CompanyId
                                                                 }).OrderByDescending(x => x.ID).AsEnumerable());
             return vmCommonBankBranch;
+        }
+
+        public List<object> GetBankBranchesById(int bankId)
+        {
+            var data = (from t1 in _db.Banks.Where(x => x.IsActive)
+                        join t2 in _db.BankBranches on t1.BankId equals t2.BankId into t2_Join
+                        from t2 in t2_Join.DefaultIfEmpty()
+                        where t1.BankId == bankId
+                        select new
+                        {
+                            BankId = t1.BankId,
+                            BranchId = t2.BankBranchId,
+                            BranchName = t2.Name,
+                        }).ToList();
+            return data.Cast<object>().ToList();
         }
 
         public async Task<int> BankBranchAdd(VMCommonBankBranch vMCommonBankBranch)

@@ -288,5 +288,52 @@
             $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Add");
         }
 
+        $('#txtFirstPageNumber').on('input', function (event) {
+            var totalPage = $('#txtLastPageNumber').val() - $('#txtFirstPageNumber').val();
+            var chequeBookNo = "CH-" + $('#txtFirstPageNumber').val() + "-" + $('#txtLastPageNumber').val();
+
+            if (totalPage > 0) {
+                $('#txtTotalBookPage').val(totalPage);
+                $('#txtChequeBookNo').val(chequeBookNo);
+            } else {
+                $('#txtTotalBookPage').val(0);
+                $('#txtChequeBookNo').val('');
+            }
+        });
+
+        $('#txtLastPageNumber').on('input', function (event) {
+            var totalPage = $('#txtLastPageNumber').val() - $('#txtFirstPageNumber').val();
+            var chequeBookNo = "CH-" + $('#txtFirstPageNumber').val() + "-" + $('#txtLastPageNumber').val();
+
+            if (totalPage > 0) {
+                $('#txtTotalBookPage').val(totalPage);
+                $('#txtChequeBookNo').val(chequeBookNo);
+            } else {
+                $('#txtTotalBookPage').val(0);
+                $('#txtChequeBookNo').val('');
+            }
+        });
+
+        $('#ddlBankId').on('change', function (event) {
+            var bankId = $("#ddlBankId option:selected").val();
+            var showBarnchList = $("#ddlBankBranchId");
+            $.ajax({
+                type: "GET",
+                url: "/ChequeRegister/GetBranchBybankId",
+                dataType: "json",
+                data: { bankId: bankId },
+                success: function (data) {
+                    showBarnchList.empty();
+                    showBarnchList.append("<option selected disabled>==Select Branch==</option>");
+                    $.each(data, function (index, item) {
+                        showBarnchList.append($('<option>', {
+                            value: item.BranchId,
+                            text: item.BranchName
+                        }));
+                    });
+                }
+            });
+        });
+
     </script>
 }

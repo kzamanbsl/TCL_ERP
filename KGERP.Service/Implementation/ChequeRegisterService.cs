@@ -323,5 +323,30 @@ namespace KGERP.Service.Implementation
                                                         }).ToListAsync();
             return sendData;
         }
+
+        public Task<bool> Add(ChequeBookModel model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> Edit(ChequeBookModel model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> Delete(ChequeBookModel model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ChequeBookModel> GetChequeBookById(long chequeBookId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<object> ChequeBookList(int companyId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
