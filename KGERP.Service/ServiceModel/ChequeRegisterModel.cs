@@ -15,6 +15,11 @@ namespace KGERP.Service.ServiceModel
     {
         public long ChequeRegisterId { get; set; }
         public int RegisterFor { get; set; }
+        public long ChequeBookId { get; set; }
+        public int BankId { get; set; }
+        public string BankName { get; set; }
+        public int BankBranchId { get; set; }
+        public string BankBranchName { get; set; }
         public int RequisitionId { get; set; }
         public string RequisitionNo { get; set; }
         public int ProjectId { get; set; }

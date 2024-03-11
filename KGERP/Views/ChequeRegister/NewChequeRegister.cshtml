@@ -109,6 +109,14 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
+                                <label class="form-label">Select Cheque Book<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                @Html.DropDownListFor(model => model.ChequeBookId, Model.RegisterForList as SelectList, "==Cheque Book==", new { id = "ddlCheqeBookId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                @Html.ValidationMessageFor(model => model.ChequeBookId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
                                 <label class="form-label">Cheque No<sup class="text-danger" title="Required">*</sup></label>
                                 @Html.TextBoxFor(model => model.ChequeNo, new { id = "txtChequeNo", @class = "form-control", @placeholder = "Cheque no", required = "true" })
                                 @Html.ValidationMessageFor(model => model.ChequeNo, "", new { id = "nameExist", @class = "text-danger" })

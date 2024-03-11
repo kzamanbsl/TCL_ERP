@@ -29,6 +29,7 @@ namespace KGERP.Service.Implementation
                 ChequeRegister data = new ChequeRegister();
                 if (model.RequisitionId > 0)
                 {
+                    data.ChequeBookId = model.ChequeBookId;
                     data.ProjectId = model.ProjectId;
                     data.RequisitionMasterId = model.RequisitionId;
                     data.SupplierId = model.SupplierId;
@@ -46,6 +47,7 @@ namespace KGERP.Service.Implementation
                 }
                 else
                 {
+                    data.ChequeBookId = model.ChequeBookId;
                     data.ProjectId = model.ProjectId;
                     data.SupplierId = model.SupplierId;
                     data.PayTo = model.PayTo;
@@ -79,6 +81,7 @@ namespace KGERP.Service.Implementation
                 var result = _context.ChequeRegisters.FirstOrDefault(x => x.ChequeRegisterId == model.ID);
                 if (result != null)
                 {
+                    result.ChequeBookId = model.ChequeBookId;
                     result.RequisitionMasterId = model.RequisitionId;
                     result.ProjectId = model.ProjectId;
                     result.SupplierId = model.SupplierId;
