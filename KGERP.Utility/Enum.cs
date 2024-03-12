@@ -2,7 +2,7 @@
 
 namespace KGERP.Utility
 {
-    public enum BankAccountType
+    public enum EnumBankAccountType
     {
         [Display(Name = "Saving Account")]
         Saving = 1,

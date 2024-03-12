@@ -1,4 +1,4 @@
-﻿@model KGERP.Service.ServiceModel.BankAccountInfo
+﻿@model KGERP.Service.ServiceModel.BankAccountInfoModel
 @{
     ViewData["Title"] = "Bank A/C Info";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -20,7 +20,7 @@
     </ol>
 </section>
 
-@using (Html.BeginForm("BankAccountInformation", "ChequeRegister", FormMethod.Post, new { id = "BankAccountInformationFormId", @class = "formValidator" }))
+@using (Html.BeginForm("BankAccountInformation", "ChequeRegister", FormMethod.Post, new { id = "BankAccountInfoFormId", @class = "formValidator" }))
 {
     <section class="content">
         <div class="row">
@@ -29,11 +29,11 @@
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="box-danger">
                     <div class="box-body row">
-                        @Html.HiddenFor(model => model.ID, new { Value = "", id = "chequeBookItemId" })
+                        @Html.HiddenFor(model => model.ID, new { Value = "", id = "bankAccountInfoItemId" })
                         @Html.HiddenFor(model => model.ActionId, new { Value = "", id = "ActionId" })
                         @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
 
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label class="form-label">Select Bank<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                 @Html.DropDownListFor(model => model.BankId, new SelectList(Model.BankList.OrderBy(order => order.Text), "Value", "Text"), "==Select Bank==", new { id = "ddlBankId", @class = "form-control searchingDropdown", style = "width:100%" })
@@ -41,30 +41,37 @@
                             </div>
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label class="form-label">Select Branch<sup class="text-danger" title="Required"><b>*</b></sup></label>
-                                @Html.DropDownListFor(model => model.BankBranchId, new SelectList(Model.bankBranchList.OrderBy(order => order.Text), "Value", "Text"), "==Select Branch==", new { id = "ddlBankBranchId", @class = "form-control searchingDropdown", style = "width:100%" })
+                                @Html.DropDownListFor(model => model.BankBranchId, new SelectList(Model.BankBranchList.OrderBy(order => order.Text), "Value", "Text"), "==Select Branch==", new { id = "ddlBankBranchId", @class = "form-control searchingDropdown", style = "width:100%" })
                                 @Html.ValidationMessageFor(model => model.BankBranchId, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group">
-                                <label class="form-label">A/C Name<sup class="text-danger" title="Required">*</sup></label>
+                                <label class="form-label">Account Type<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                @Html.DropDownListFor(model => model.AccountTypeId, new SelectList(Model.AccountTypeList.OrderBy(order => order.Text), "Value", "Text"), "==Select A/C Type==", new { id = "ddlAccountTypeId", @class = "form-control searchingDropdown", style = "width:100%" })
+                                @Html.ValidationMessageFor(model => model.AccountTypeId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label">Account Name<sup class="text-danger" title="Required">*</sup></label>
                                 @Html.TextBoxFor(model => model.AccountName, new { id = "txtAccountName", @class = "form-control", @placeholder = "A/C name", required = "true" })
                                 @Html.ValidationMessageFor(model => model.AccountName, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group">
-                                <label class="form-label">A/C Number<sup class="text-danger" title="Required">*</sup></label>
+                                <label class="form-label">Account Number<sup class="text-danger" title="Required">*</sup></label>
                                 @Html.TextBoxFor(model => model.AccountNumber, new { id = "txtAccountNumber", @class = "form-control", @placeholder = "A/C number", required = "true" })
                                 @Html.ValidationMessageFor(model => model.AccountNumber, "", new { @class = "text-danger" })
                             </div>
                         </div>
-
 
                         <div class="col-md-12">
                             <div class="form-group">
@@ -109,13 +116,9 @@
                                     <th>SL</th>
                                     <th>Bank Name</th>
                                     <th>Branch Name</th>
-                                    <th>A/C Name</th>
-                                    <th>A/C Number</th>
-                                    <th>Cheque Book No</th>
-                                    <th>Frist Page Number</th>
-                                    <th>Last Page Number</th>
-                                    <th>Total Page</th>
-                                    <th>Used Page</th>
+                                    <th>Account Type</th>
+                                    <th>Account Name</th>
+                                    <th>Account Number</th>
                                     <th>Remarks/Purpose</th>
                                     <th>Action</th>
                                 </tr>
@@ -130,13 +133,14 @@
                                         </td>
                                         <td>@item.BankName</td>
                                         <td>@item.BankBranchName</td>
+                                        <td>@(Enum.GetName(typeof(KGERP.Utility.EnumBankAccountType), item.AccountTypeId))</td>
                                         <td>@item.AccountName</td>
                                         <td>@item.AccountNumber</td>
                                         <td>@item.Remarks</td>
                                         <td>
                                             <a id="@item.BankAccountInfoId" onclick="makeEditble(@item.BankAccountInfoId);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
 
-                                            <a id="@item.BankAccountInfoId" onclick="makeDeletable(@item.BankAccountInfoId);" class="linkPointer" data-toggle="modal" data-target="#ChequeRegisterDeleteModal" title="Delete"
+                                            <a id="@item.BankAccountInfoId" onclick="makeDeletable(@item.BankAccountInfoId);" class="linkPointer" data-toggle="modal" data-target="#BankAccountInfoDeleteModal" title="Delete"
                                                data-placement="top">
                                                 <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
                                             </a>
@@ -152,21 +156,21 @@
     </div>
 </section>
 
-@using (Html.BeginForm("NewChequeBook", "ChequeRegister", FormMethod.Post, new { id = "DeleteChequeBookFormId", @class = "formValidator", }))
+@using (Html.BeginForm("BankAccountInformation", "ChequeRegister", FormMethod.Post, new { id = "DeleteBankAccountInfoFormId", @class = "formValidator", }))
 {
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    @Html.HiddenFor(model => model.BankAccountInfoId, new { Value = "", id = "ChequeBookDelete" })
+    @Html.HiddenFor(model => model.BankAccountInfoId, new { Value = "", id = "BankAccountInfoDelete" })
     @Html.HiddenFor(model => model.ActionId, new { Value = "", id = "ActionIdDelete" })
     @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFKDelete" })
 
-    <div class="modal fade" id="ChequeRegisterDeleteModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
+    <div class="modal fade" id="BankAccountInfoDeleteModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" onclick="resetForm()" class="close pull-right" data-dismiss="modal" aria-label="Close">
                         &times;
                     </button>
-                    <h5 class="modal-title"><b>Cheque Book Delete</b></h5>
+                    <h5 class="modal-title"><b>Bank Account Delete</b></h5>
 
                 </div>
                 <div class="modal-body">
@@ -193,25 +197,22 @@
         var isEdited = false;
         var bankBranchId = 0;
 
-        function makeEditble(chequeBookId) {
-            if (chequeBookId !== null) {
+        function makeEditble(bankAccountInfoId) {
+            if (bankAccountInfoId !== null) {
 
                 $.ajax({
                     type: "get",
-                    url:"@Url.Action("ChequeBookById", "ChequeRegister")",
-                    data: { chequeBookId: chequeBookId },
+                    url:"@Url.Action("BankAccountInfoById", "ChequeRegister")",
+                    data: { bankAccountInfoId: bankAccountInfoId },
                     dataType: "json",
                     success: function (data) {
-                        $('#chequeBookItemId').val(chequeBookId);
+                        $('#bankAccountInfoItemId').val(bankAccountInfoId);
                         $('#ActionId').val(2);
                         $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Update");
                         $('#ddlBankId').val(data.BankId).trigger('change');
+                        $('#ddlAccountTypeId').val(data.AccountTypeId).trigger('change');
                         $('#txtAccountName').val(data.AccountName);
                         $('#txtAccountNumber').val(data.AccountNumber);
-                        $('#txtChequeBookNo').val(data.ChequeBookNo);
-                        $('#txtFirstPageNumber').val(data.BookFirstPageNumber);
-                        $('#txtLastPageNumber').val(data.BookLastPageNumber);
-                        $('#txtTotalBookPage').val(data.TotalBookPage);
                         $('#txtRemarks').val(data.Remarks);
                         isEdited = true;
                         bankBranchId = data.BankBranchId;
@@ -224,7 +225,7 @@
 
         function makeDeletable(id) {
             if (id !== null) {
-                $('#ChequeRegisterDelete').val(id);
+                $('#BankAccountInfoDelete').val(id);
                 $('#ActionIdDelete').val(3);
                 $("#CompanyFKDelete").val("@Model.CompanyFK");
             }
@@ -235,32 +236,6 @@
             $('#DeleteChequeBookFormId')[0].reset();
             $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Add");
         }
-
-        $('#txtFirstPageNumber').on('input', function (event) {
-            var totalPage = $('#txtLastPageNumber').val() - $('#txtFirstPageNumber').val();
-            var chequeBookNo = "CH-" + $('#txtFirstPageNumber').val() + "-" + $('#txtLastPageNumber').val();
-
-            if (totalPage > 0) {
-                $('#txtTotalBookPage').val(totalPage);
-                $('#txtChequeBookNo').val(chequeBookNo);
-            } else {
-                $('#txtTotalBookPage').val(0);
-                $('#txtChequeBookNo').val('');
-            }
-        });
-
-        $('#txtLastPageNumber').on('input', function (event) {
-            var totalPage = $('#txtLastPageNumber').val() - $('#txtFirstPageNumber').val();
-            var chequeBookNo = "CH-" + $('#txtFirstPageNumber').val() + "-" + $('#txtLastPageNumber').val();
-
-            if (totalPage > 0) {
-                $('#txtTotalBookPage').val(totalPage);
-                $('#txtChequeBookNo').val(chequeBookNo);
-            } else {
-                $('#txtTotalBookPage').val(0);
-                $('#txtChequeBookNo').val('');
-            }
-        });
 
         $('#ddlBankId').on('change', function (event) {
             var bankId = $("#ddlBankId option:selected").val();

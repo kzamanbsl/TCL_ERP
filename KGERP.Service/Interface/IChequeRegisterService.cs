@@ -15,7 +15,7 @@ namespace KGERP.Service.Interface
         Task<bool> Add(BankAccountInfoModel model);
         Task<bool> Edit(BankAccountInfoModel model);
         Task<bool> Delete(BankAccountInfoModel model);
-        Task<BankAccountInfoModel> GetBankAccountInfoById(long chequeBookId);
+        Task<BankAccountInfoModel> GetBankAccountInfoById(long bankAccountInfoId);
         Task<List<BankAccountInfoModel>> GetBankAccountInfoList(int companyId);
 
         #endregion

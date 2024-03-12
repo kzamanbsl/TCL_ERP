@@ -19,12 +19,13 @@ namespace KGERP.Service.ServiceModel
         public int BankBranchId { get; set; }
         public string BankBranchName { get; set; }
         public int AccountTypeId { get; set; }
+        public string AccountTypeName { get; set; }
         public string AccountName { get; set; }
-        public long AccountNumber { get; set; }
-        public SelectList AccountTypeList { get { return new SelectList(BaseFunctionalities.GetEnumList<BankAccountType>(), "Value", "Text"); } }
+        public decimal AccountNumber { get; set; }
+        public SelectList AccountTypeList { get { return new SelectList(BaseFunctionalities.GetEnumList<EnumBankAccountType>(), "Value", "Text"); } }
         public SelectList BankList { get; set; } = new SelectList(new List<object>());
-        public SelectList bankBranchList { get; set; } = new SelectList(new List<object>());
-        public IEnumerable<BankAccountInfo> BankAccountInfoList { get; set; } = new List<BankAccountInfo>();
+        public SelectList BankBranchList { get; set; } = new SelectList(new List<object>());
+        public IEnumerable<BankAccountInfoModel> BankAccountInfoList { get; set; } = new List<BankAccountInfoModel>();
     }
 
     public class ChequeBookModel : BaseVM

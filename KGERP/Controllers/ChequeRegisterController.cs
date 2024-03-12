@@ -24,11 +24,12 @@ namespace KGERP.Controllers
 
         #region Bank A/C Information
 
-        public ActionResult BankAccountInformation(int companyId)
+        public async Task<ActionResult> BankAccountInformation(int companyId)
         {
             BankAccountInfoModel viewData = new BankAccountInfoModel();
             viewData.CompanyFK = companyId;
             viewData.BankList = new SelectList(_ConfigurationService.CommonBanksDropDownList(companyId), "Value", "Text");
+            viewData.BankAccountInfoList = await _Service.GetBankAccountInfoList(companyId);
             return View(viewData);
         }
 
@@ -38,17 +39,17 @@ namespace KGERP.Controllers
             if (model.ActionEum == ActionEnum.Add)
             {
                 //Add 
-                //_Service.Add(model);
+                _Service.Add(model);
             }
             else if (model.ActionEum == ActionEnum.Edit)
             {
                 //Edit
-                //_Service.Edit(model);
+                _Service.Edit(model);
             }
             else if (model.ActionEum == ActionEnum.Delete)
             {
                 //Delete
-                //_Service.Delete(model);
+                _Service.Delete(model);
             }
             else
             {
@@ -57,12 +58,12 @@ namespace KGERP.Controllers
             return RedirectToAction(nameof(BankAccountInformation), new { companyId = model.CompanyFK });
         }
 
-        //[HttpGet]
-        //public async Task<JsonResult> BankAccountInfoById(long bankAccountInfoId)
-        //{
-        //    var data = await _Service.GetChequeBookById(chequeBookId);
-        //    return Json(data, JsonRequestBehavior.AllowGet);
-        //}
+        [HttpGet]
+        public async Task<JsonResult> BankAccountInfoById(long bankAccountInfoId)
+        {
+            var data = await _Service.GetBankAccountInfoById(bankAccountInfoId);
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
 
         #endregion
 

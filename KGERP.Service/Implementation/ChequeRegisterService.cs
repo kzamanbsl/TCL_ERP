@@ -332,7 +332,7 @@ namespace KGERP.Service.Implementation
             if (model != null)
             {
                 ChequeBook data = new ChequeBook();
-                
+
                 data.ChequeBookNo = model.ChequeBookNo;
                 data.BookFirstPageNumber = model.BookFirstPageNumber;
                 data.BookLastPageNumber = model.BookLastPageNumber;
@@ -428,47 +428,153 @@ namespace KGERP.Service.Implementation
             List<ChequeBookModel> sendData = await (from t1 in _context.ChequeBooks
                                                     where t1.IsActive
                                                     select new ChequeBookModel
-                                                        {
-                                                            ChequeBookId = t1.ChequeBookId,
-                                                            ChequeBookNo = t1.ChequeBookNo,
-                                                            BookFirstPageNumber = t1.BookFirstPageNumber,
-                                                            BookLastPageNumber = t1.BookLastPageNumber,
-                                                            TotalBookPage = t1.TotalBookPage,
-                                                            UsedBookPage = t1.UsedBookPage,
-                                                            Remarks = t1.Remarks,
-                                                            CreatedBy = t1.CreatedBy,
-                                                            CreatedDate = t1.CreatedOn,
-                                                            ModifiedBy = t1.ModifiedBy,
-                                                            ModifiedDate = t1.ModifiedOn,
-                                                            IsActive = t1.IsActive,
-                                                            CompanyFK = 21,
-                                                        }).ToListAsync();
+                                                    {
+                                                        ChequeBookId = t1.ChequeBookId,
+                                                        ChequeBookNo = t1.ChequeBookNo,
+                                                        BookFirstPageNumber = t1.BookFirstPageNumber,
+                                                        BookLastPageNumber = t1.BookLastPageNumber,
+                                                        TotalBookPage = t1.TotalBookPage,
+                                                        UsedBookPage = t1.UsedBookPage,
+                                                        Remarks = t1.Remarks,
+                                                        CreatedBy = t1.CreatedBy,
+                                                        CreatedDate = t1.CreatedOn,
+                                                        ModifiedBy = t1.ModifiedBy,
+                                                        ModifiedDate = t1.ModifiedOn,
+                                                        IsActive = t1.IsActive,
+                                                        CompanyFK = 21,
+                                                    }).ToListAsync();
             return sendData;
         }
 
-        public Task<bool> Add(BankAccountInfoModel model)
+        public async Task<bool> Add(BankAccountInfoModel model)
         {
-            throw new NotImplementedException();
+            bool sendData = false;
+
+            if (model != null)
+            {
+                BankAccountInfo data = new BankAccountInfo();
+
+                data.BankId = model.BankId;
+                data.BranchId = model.BankBranchId;
+                data.AccountTypeId = model.AccountTypeId;
+                data.AccountName = model.AccountName;
+                data.AccountNumber = model.AccountNumber;
+                data.Remarks = model.Remarks;
+                data.CompanyId = (int)model.CompanyFK;
+                data.CreatedBy = HttpContext.Current.User.Identity.Name;
+                data.CreatedOn = DateTime.Now;
+                data.IsActive = true;
+                _context.BankAccountInfoes.Add(data);
+                if (await _context.SaveChangesAsync() > 0)
+                {
+                    sendData = true;
+                }
+            }
+
+            return sendData;
         }
 
-        public Task<bool> Edit(BankAccountInfoModel model)
+        public async Task<bool> Edit(BankAccountInfoModel model)
         {
-            throw new NotImplementedException();
+            bool sendData = false;
+            if (model.ID > 0)
+            {
+                var result = _context.BankAccountInfoes.FirstOrDefault(x => x.BankAccountInfoId == model.ID);
+                if (result != null)
+                {
+                    result.BankId = model.BankId;
+                    result.BranchId = model.BankBranchId;
+                    result.AccountTypeId = model.AccountTypeId;
+                    result.AccountName = model.AccountName;
+                    result.AccountNumber = model.AccountNumber;
+                    result.Remarks = model.Remarks;
+                    result.ModifiedBy = HttpContext.Current.User.Identity.Name;
+                    result.ModifiedOn = DateTime.Now;
+
+                    if (await _context.SaveChangesAsync() > 0)
+                    {
+                        sendData = true;
+                    }
+                }
+            }
+
+            return sendData;
         }
 
-        public Task<bool> Delete(BankAccountInfoModel model)
+        public async Task<bool> Delete(BankAccountInfoModel model)
         {
-            throw new NotImplementedException();
+            bool sendData = false;
+            if (model.BankAccountInfoId > 0)
+            {
+                var result = _context.BankAccountInfoes.FirstOrDefault(x => x.BankAccountInfoId == model.BankAccountInfoId);
+                if (result != null)
+                {
+                    result.IsActive = false;
+                    result.ModifiedBy = HttpContext.Current.User.Identity.Name;
+                    result.ModifiedOn = DateTime.Now;
+
+                    if (await _context.SaveChangesAsync() > 0)
+                    {
+                        sendData = true;
+                    }
+                }
+            }
+
+            return sendData;
         }
 
-        public Task<BankAccountInfoModel> GetBankAccountInfoById(long chequeBookId)
+        public async Task<BankAccountInfoModel> GetBankAccountInfoById(long bankAccountInfoId)
         {
-            throw new NotImplementedException();
+            BankAccountInfoModel sendData = await (from t1 in _context.BankAccountInfoes.Where(x => x.BankAccountInfoId == bankAccountInfoId && x.IsActive)
+                                                   join t2 in _context.BankBranches on t1.BranchId equals t2.BankBranchId into t2_Join
+                                                   from t2 in t2_Join.DefaultIfEmpty()
+                                                   join t3 in _context.Banks on t2.BankId equals t3.BankId into t3_Join
+                                                   from t3 in t3_Join.DefaultIfEmpty()
+                                                   select new BankAccountInfoModel
+                                                   {
+                                                       BankAccountInfoId = t1.BankAccountInfoId,
+                                                       BankId = t3.BankId,
+                                                       BankName = t3.Name,
+                                                       BankBranchId = t2.BankBranchId,
+                                                       BankBranchName = t2.Name,
+                                                       AccountTypeId = t1.AccountTypeId,
+                                                       AccountName = t1.AccountName,
+                                                       AccountNumber = t1.AccountNumber,
+                                                       Remarks = t1.Remarks,
+                                                       CreatedBy = t1.CreatedBy,
+                                                       CreatedDate = t1.CreatedOn,
+                                                       ModifiedBy = t1.ModifiedBy,
+                                                       ModifiedDate = t1.ModifiedOn,
+                                                       IsActive = t1.IsActive,
+                                                   }).FirstOrDefaultAsync();
+            return sendData;
         }
 
-        public Task<List<BankAccountInfoModel>> GetBankAccountInfoList(int companyId)
+        public async Task<List<BankAccountInfoModel>> GetBankAccountInfoList(int companyId)
         {
-            throw new NotImplementedException();
+            List<BankAccountInfoModel> sendData = await (from t1 in _context.BankAccountInfoes.Where(x => x.CompanyId == companyId && x.IsActive)
+                                                         join t2 in _context.BankBranches on t1.BranchId equals t2.BankBranchId into t2_Join
+                                                         from t2 in t2_Join.DefaultIfEmpty()
+                                                         join t3 in _context.Banks on t2.BankId equals t3.BankId into t3_Join
+                                                         from t3 in t3_Join.DefaultIfEmpty()
+                                                         select new BankAccountInfoModel
+                                                         {
+                                                             BankAccountInfoId = t1.BankAccountInfoId,
+                                                             BankId = t3.BankId,
+                                                             BankName = t3.Name,
+                                                             BankBranchId = t2.BankBranchId,
+                                                             BankBranchName = t2.Name,
+                                                             AccountTypeId = t1.AccountTypeId,
+                                                             AccountName = t1.AccountName,
+                                                             AccountNumber = t1.AccountNumber,
+                                                             Remarks = t1.Remarks,
+                                                             CreatedBy = t1.CreatedBy,
+                                                             CreatedDate = t1.CreatedOn,
+                                                             ModifiedBy = t1.ModifiedBy,
+                                                             ModifiedDate = t1.ModifiedOn,
+                                                             IsActive = t1.IsActive,
+                                                         }).ToListAsync();
+            return sendData;
         }
     }
 }
