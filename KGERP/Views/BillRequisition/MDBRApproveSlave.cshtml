@@ -125,6 +125,10 @@
                                                     <th>Remaining</th>
                                                 }
                                                 <th class="text-center">Demand</th>
+                                                @if (Model.BillRequisitionTypeId != (int)EnumBillRequisitionType.Overhead)
+                                                {
+                                                    <th>Available</th>
+                                                }
                                                 <th class="text-center">Unit Price</th>
                                                 <th class="text-center">Total</th>
                                             </tr>
@@ -159,28 +163,36 @@
                                                     <td class="text-center">@String.Format("{0:0.00}", item.ReceivedSoFar)</td>
                                                     @if (Model.BillRequisitionTypeId != (int)EnumBillRequisitionType.Overhead)
                                                     {
-                                                        <td class="text-center">@String.Format("{0:0.00}", item.RemainingQty)</td>
+                                                        <td class="text-center remainingValue">@String.Format("{0:0.00}", item.RemainingQty)</td>
                                                     }
                                                     <td class="text-center">
                                                         @if (Model.BillRequisitionMasterId > 0 && Model.StatusName == EnumBillRequisitionStatus.Submitted.ToString() && Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending || Model.BillRequisitionMasterId > 0 && Model.StatusName == EnumBillRequisitionStatus.Pending.ToString() && Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
                                                         {
-                                                            @Html.TextBoxFor(model => model.DetailDataList[i].DemandQty, new { id = "demandQty_" + i, @class = "form-control demandValue" })
+                                                            @Html.TextBoxFor(model => model.DetailDataList[i].DemandQty, new { value = "0", id = "demandQty_" + i, @class = "form-control demandValue" })
+                                                            <small class="text-center text-danger" id="inputValidationDemand"></small>
                                                         }
                                                         else
                                                         {
                                                             @String.Format("{0:0.00}", item.DemandQty)
                                                         }
                                                     </td>
-                                                    <td class="text-center">
-                                                        @if (Model.BillRequisitionMasterId > 0 && Model.StatusName == EnumBillRequisitionStatus.Submitted.ToString() && Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending || Model.BillRequisitionMasterId > 0 && Model.StatusName == EnumBillRequisitionStatus.Pending.ToString() && Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
-                                                        {
-                                                            @Html.TextBoxFor(model => model.DetailDataList[i].UnitRate, new { id = "unitRate_" + i, @class = "form-control unitValue" })
-                                                        }
-                                                        else
-                                                        {
-                                                            @String.Format("{0:0.00}", item.UnitRate)
-                                                        }
-                                                    </td>
+                                                    @if (Model.BillRequisitionTypeId != (int)EnumBillRequisitionType.Overhead)
+                                                    {
+                                                        <td class="text-center availableValue">
+                                                            @String.Format("{0:0.00}", item.RemainingQty - item.DemandQty)
+                                                        </td>
+                                                    }
+                                                <td class="text-center">
+                                                    @if (Model.BillRequisitionMasterId > 0 && Model.StatusName == EnumBillRequisitionStatus.Submitted.ToString() && Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending || Model.BillRequisitionMasterId > 0 && Model.StatusName == EnumBillRequisitionStatus.Pending.ToString() && Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
+                                                    {
+                                                        @Html.TextBoxFor(model => model.DetailDataList[i].UnitRate, new { value = "0", id = "unitRate_" + i, @class = "form-control unitValue" })
+                                                        <small class="text-center text-danger" id="inputValidationUnit"></small>
+                                                    }
+                                                    else
+                                                    {
+                                                        @String.Format("{0:0.00}", item.UnitRate)
+                                                    }
+                                                </td>
                                                     <td class="totalValue text-center" style="text-align: right !important" id="totalAmount_+@i">@String.Format("{0:0.00}", item.TotalPrice)</td>
                                                 </tr>
                                                 i++;
@@ -461,22 +473,46 @@
         function LineCalculator() {
 
             $("#itemTable tbody tr").each(function () {
+                var remainingValue = $(this).find(".remainingValue");
                 var inputDemadValue = $(this).find(".demandValue");
                 var inputUnitValue = $(this).find(".unitValue");
                 var inputTotalValue = $(this).find(".totalValue");
+                var availableValue = $(this).find(".availableValue");
+                var available = 0;
+                var total = 0;
 
-                if (!isNaN(inputDemadValue.val()) && !isNaN(inputUnitValue.val())) {
+                $(inputDemadValue).on('input', function (event) {
+                    var remainedvalue = parseFloat(remainingValue.text());
                     var demandValue = parseFloat(inputDemadValue.val());
                     var unitValue = parseFloat(inputUnitValue.val());
 
-                    var total = 0;
-                    total = demandValue * unitValue;
-                    inputTotalValue.text(total.toFixed(2));
-                } else {
-                    console.log("Only number is allowed!");
-                    inputTotalValue.text(inputTotalValue.text().toFixed(2));
-                }
+                    if (demandValue >= 0 && demandValue <= remainedvalue) {
+                        available = remainedvalue - demandValue;
+                        availableValue.text(available.toFixed(2));
 
+                        total = demandValue * unitValue;
+                        inputTotalValue.text(total.toFixed(2));
+                        $("#inputValidationDemand").text("");
+                    } else {
+                        inputDemadValue.val(remainedvalue);
+                        $("#inputValidationDemand").text("Please, type a number smaller than remaining!");
+                    }
+                });
+
+                $(inputUnitValue).on('input', function (event) {
+                    var demandValue = parseFloat(inputDemadValue.val());
+                    var unitValue = parseFloat(inputUnitValue.val());
+
+                    if (unitValue > 0 || unitValue === 0) {
+                        total = demandValue * unitValue;
+                        inputTotalValue.text(total.toFixed(2));
+                        $("#inputValidationUnit").text("");
+                    }
+                    else {
+                        inputUnitValue.val(0);
+                        $("#inputValidationUnit").text("Please, type a number!");
+                    }
+                });
             });
         }
 
