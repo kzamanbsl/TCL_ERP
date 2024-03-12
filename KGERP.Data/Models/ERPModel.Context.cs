@@ -319,6 +319,7 @@ namespace KGERP.Data.Models
         public virtual DbSet<QuotationDetail> QuotationDetails { get; set; }
         public virtual DbSet<QuotationMaster> QuotationMasters { get; set; }
         public virtual DbSet<Accounting_CostCenter> Accounting_CostCenter { get; set; }
+        public virtual DbSet<BankAccountInfo> BankAccountInfoes { get; set; }
         public virtual DbSet<ChequeBook> ChequeBooks { get; set; }
         public virtual DbSet<ChequeRegister> ChequeRegisters { get; set; }
     

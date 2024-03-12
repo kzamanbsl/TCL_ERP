@@ -27,6 +27,7 @@ namespace KGERP.Data.Models
         public System.DateTime ClearingDate { get; set; }
         public string Remarks { get; set; }
         public bool IsSigned { get; set; }
+        public bool IsPrinted { get; set; }
         public System.DateTime CreatedOn { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> ModifiedOn { get; set; }

@@ -603,6 +603,24 @@ warning 6002: The table/view 'TCLErp.dbo.AttendenceApproveApplication_Shadow' do
           <Property Name="ModifiedDate" Type="datetime" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="BankAccountInfo">
+          <Key>
+            <PropertyRef Name="BankAccountInfoId" />
+          </Key>
+          <Property Name="BankAccountInfoId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BankId" Type="int" Nullable="false" />
+          <Property Name="BranchId" Type="int" Nullable="false" />
+          <Property Name="AccountTypeId" Type="int" Nullable="false" />
+          <Property Name="AccountName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="AccountNumber" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="CompanyId" Type="int" Nullable="false" />
+          <Property Name="Remarks" Type="varchar(max)" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="BankBranch">
           <Key>
             <PropertyRef Name="BankBranchId" />
@@ -3694,11 +3712,8 @@ warning 6002: The table/view 'TCLErp.dbo.TempFeedVoucherDetail' does not have a 
           <Key>
             <PropertyRef Name="ChequeBookId" />
           </Key>
-          <Property Name="ChequeBookId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="BankId" Type="int" Nullable="false" />
-          <Property Name="BankBranchId" Type="int" Nullable="false" />
-          <Property Name="AccountName" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="AccountNumber" Type="bigint" Nullable="false" />
+          <Property Name="ChequeBookId" Type="bigint" Nullable="false" />
+          <Property Name="BankAccountInfoId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ChequeBookNo" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="BookFirstPageNumber" Type="int" Nullable="false" />
           <Property Name="BookLastPageNumber" Type="int" Nullable="false" />
@@ -3715,11 +3730,11 @@ warning 6002: The table/view 'TCLErp.dbo.TempFeedVoucherDetail' does not have a 
           <Key>
             <PropertyRef Name="ChequeRegisterId" />
           </Key>
-          <Property Name="ChequeRegisterId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ChequeRegisterId" Type="bigint" Nullable="false" />
           <Property Name="RequisitionMasterId" Type="bigint" />
           <Property Name="ProjectId" Type="int" Nullable="false" />
           <Property Name="SupplierId" Type="int" />
-          <Property Name="ChequeBookId" Type="bigint" Nullable="false" />
+          <Property Name="ChequeBookId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="PayTo" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="IssueDate" Type="datetime" Nullable="false" />
           <Property Name="ChequeDate" Type="datetime" Nullable="false" />
@@ -3728,6 +3743,7 @@ warning 6002: The table/view 'TCLErp.dbo.TempFeedVoucherDetail' does not have a 
           <Property Name="ClearingDate" Type="datetime" Nullable="false" />
           <Property Name="Remarks" Type="varchar(max)" />
           <Property Name="IsSigned" Type="bit" Nullable="false" />
+          <Property Name="IsPrinted" Type="bit" Nullable="false" />
           <Property Name="CreatedOn" Type="datetime" Nullable="false" />
           <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ModifiedOn" Type="datetime" />
@@ -6449,6 +6465,30 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_BankAccountInfo_Bank">
+          <End Role="Bank" Type="Self.Bank" Multiplicity="1" />
+          <End Role="BankAccountInfo" Type="Self.BankAccountInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bank">
+              <PropertyRef Name="BankId" />
+            </Principal>
+            <Dependent Role="BankAccountInfo">
+              <PropertyRef Name="BankId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BankAccountInfo_BankBranch">
+          <End Role="BankBranch" Type="Self.BankBranch" Multiplicity="1" />
+          <End Role="BankAccountInfo" Type="Self.BankAccountInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BankBranch">
+              <PropertyRef Name="BankBranchId" />
+            </Principal>
+            <Dependent Role="BankAccountInfo">
+              <PropertyRef Name="BranchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_BankBranch_Bank">
           <End Role="Bank" Type="Self.Bank" Multiplicity="0..1" />
           <End Role="BankBranch" Type="Self.BankBranch" Multiplicity="*" />
@@ -6677,27 +6717,15 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ChequeBook_Bank">
-          <End Role="Bank" Type="Self.Bank" Multiplicity="1" />
+        <Association Name="FK_ChequeBook_BankAccountInfo">
+          <End Role="BankAccountInfo" Type="Self.BankAccountInfo" Multiplicity="1" />
           <End Role="ChequeBook" Type="Self.ChequeBook" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Bank">
-              <PropertyRef Name="BankId" />
+            <Principal Role="BankAccountInfo">
+              <PropertyRef Name="BankAccountInfoId" />
             </Principal>
             <Dependent Role="ChequeBook">
-              <PropertyRef Name="BankId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ChequeBook_BankBranch">
-          <End Role="BankBranch" Type="Self.BankBranch" Multiplicity="1" />
-          <End Role="ChequeBook" Type="Self.ChequeBook" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BankBranch">
-              <PropertyRef Name="BankBranchId" />
-            </Principal>
-            <Dependent Role="ChequeBook">
-              <PropertyRef Name="BankBranchId" />
+              <PropertyRef Name="BankAccountInfoId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -9041,6 +9069,7 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <EntitySet Name="AttendenceHistory" EntityType="Self.AttendenceHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Bag" EntityType="Self.Bag" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Bank" EntityType="Self.Bank" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BankAccountInfo" EntityType="Self.BankAccountInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BankBranch" EntityType="Self.BankBranch" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BoardOfDirector" EntityType="Self.BoardOfDirector" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Brand" EntityType="Self.Brand" Schema="dbo" store:Type="Tables" />
@@ -9988,6 +10017,14 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             <End Role="Company" EntitySet="Company" />
             <End Role="AttendancePolicy" EntitySet="AttendancePolicy" />
           </AssociationSet>
+          <AssociationSet Name="FK_BankAccountInfo_Bank" Association="Self.FK_BankAccountInfo_Bank">
+            <End Role="Bank" EntitySet="Bank" />
+            <End Role="BankAccountInfo" EntitySet="BankAccountInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BankAccountInfo_BankBranch" Association="Self.FK_BankAccountInfo_BankBranch">
+            <End Role="BankBranch" EntitySet="BankBranch" />
+            <End Role="BankAccountInfo" EntitySet="BankAccountInfo" />
+          </AssociationSet>
           <AssociationSet Name="FK_BankBranch_Bank" Association="Self.FK_BankBranch_Bank">
             <End Role="Bank" EntitySet="Bank" />
             <End Role="BankBranch" EntitySet="BankBranch" />
@@ -10064,12 +10101,8 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             <End Role="Product" EntitySet="Product" />
             <End Role="BoQItemProductMap" EntitySet="BoQItemProductMap" />
           </AssociationSet>
-          <AssociationSet Name="FK_ChequeBook_Bank" Association="Self.FK_ChequeBook_Bank">
-            <End Role="Bank" EntitySet="Bank" />
-            <End Role="ChequeBook" EntitySet="ChequeBook" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ChequeBook_BankBranch" Association="Self.FK_ChequeBook_BankBranch">
-            <End Role="BankBranch" EntitySet="BankBranch" />
+          <AssociationSet Name="FK_ChequeBook_BankAccountInfo" Association="Self.FK_ChequeBook_BankAccountInfo">
+            <End Role="BankAccountInfo" EntitySet="BankAccountInfo" />
             <End Role="ChequeBook" EntitySet="ChequeBook" />
           </AssociationSet>
           <AssociationSet Name="FK_ChequeRegister_Accounting_CostCenter" Association="Self.FK_ChequeRegister_Accounting_CostCenter">
@@ -12237,18 +12270,23 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             <End Role="Accounting_CostCenter" EntitySet="Accounting_CostCenter" />
             <End Role="CostCenterManagerMap" EntitySet="CostCenterManagerMaps" />
           </AssociationSet>
+          <EntitySet Name="BankAccountInfoes" EntityType="ERPModel.BankAccountInfo" />
           <EntitySet Name="ChequeBooks" EntityType="ERPModel.ChequeBook" />
           <EntitySet Name="ChequeRegisters" EntityType="ERPModel.ChequeRegister" />
           <AssociationSet Name="FK_ChequeRegister_Accounting_CostCenter" Association="ERPModel.FK_ChequeRegister_Accounting_CostCenter">
             <End Role="Accounting_CostCenter" EntitySet="Accounting_CostCenter" />
             <End Role="ChequeRegister" EntitySet="ChequeRegisters" />
           </AssociationSet>
-          <AssociationSet Name="FK_ChequeBook_Bank" Association="ERPModel.FK_ChequeBook_Bank">
+          <AssociationSet Name="FK_BankAccountInfo_Bank" Association="ERPModel.FK_BankAccountInfo_Bank">
             <End Role="Bank" EntitySet="Banks" />
-            <End Role="ChequeBook" EntitySet="ChequeBooks" />
+            <End Role="BankAccountInfo" EntitySet="BankAccountInfoes" />
           </AssociationSet>
-          <AssociationSet Name="FK_ChequeBook_BankBranch" Association="ERPModel.FK_ChequeBook_BankBranch">
+          <AssociationSet Name="FK_BankAccountInfo_BankBranch" Association="ERPModel.FK_BankAccountInfo_BankBranch">
             <End Role="BankBranch" EntitySet="BankBranches" />
+            <End Role="BankAccountInfo" EntitySet="BankAccountInfoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ChequeBook_BankAccountInfo" Association="ERPModel.FK_ChequeBook_BankAccountInfo">
+            <End Role="BankAccountInfo" EntitySet="BankAccountInfoes" />
             <End Role="ChequeBook" EntitySet="ChequeBooks" />
           </AssociationSet>
           <AssociationSet Name="FK_ChequeRegister_BillRequisitionMaster" Association="ERPModel.FK_ChequeRegister_BillRequisitionMaster">
@@ -15155,7 +15193,7 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="BankBranches" Relationship="ERPModel.FK_BankBranch_Bank" FromRole="Bank" ToRole="BankBranch" />
           <NavigationProperty Name="Employees" Relationship="ERPModel.FK_Employee_Bank" FromRole="Bank" ToRole="Employee" />
-          <NavigationProperty Name="ChequeBooks" Relationship="ERPModel.FK_ChequeBook_Bank" FromRole="Bank" ToRole="ChequeBook" />
+          <NavigationProperty Name="BankAccountInfoes" Relationship="ERPModel.FK_BankAccountInfo_Bank" FromRole="Bank" ToRole="BankAccountInfo" />
         </EntityType>
         <EntityType Name="BankBranch">
           <Key>
@@ -15174,7 +15212,7 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <NavigationProperty Name="Bank" Relationship="ERPModel.FK_BankBranch_Bank" FromRole="BankBranch" ToRole="Bank" />
           <NavigationProperty Name="Accounting_ChequeInfo" Relationship="ERPModel.FK_Accounting_ChequeInfo_BankBranch" FromRole="BankBranch" ToRole="Accounting_ChequeInfo" />
           <NavigationProperty Name="Employees" Relationship="ERPModel.FK_Employee_Employee" FromRole="BankBranch" ToRole="Employee" />
-          <NavigationProperty Name="ChequeBooks" Relationship="ERPModel.FK_ChequeBook_BankBranch" FromRole="BankBranch" ToRole="ChequeBook" />
+          <NavigationProperty Name="BankAccountInfoes" Relationship="ERPModel.FK_BankAccountInfo_BankBranch" FromRole="BankBranch" ToRole="BankAccountInfo" />
         </EntityType>
         <Association Name="FK_BankBranch_Bank">
           <End Type="ERPModel.Bank" Role="Bank" Multiplicity="0..1" />
@@ -21915,15 +21953,33 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="BankAccountInfo">
+          <Key>
+            <PropertyRef Name="BankAccountInfoId" />
+          </Key>
+          <Property Name="BankAccountInfoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BankId" Type="Int32" Nullable="false" />
+          <Property Name="BranchId" Type="Int32" Nullable="false" />
+          <Property Name="AccountTypeId" Type="Int32" Nullable="false" />
+          <Property Name="AccountName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AccountNumber" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Bank" Relationship="ERPModel.FK_BankAccountInfo_Bank" FromRole="BankAccountInfo" ToRole="Bank" />
+          <NavigationProperty Name="BankBranch" Relationship="ERPModel.FK_BankAccountInfo_BankBranch" FromRole="BankAccountInfo" ToRole="BankBranch" />
+          <NavigationProperty Name="ChequeBooks" Relationship="ERPModel.FK_ChequeBook_BankAccountInfo" FromRole="BankAccountInfo" ToRole="ChequeBook" />
+        </EntityType>
         <EntityType Name="ChequeBook">
           <Key>
             <PropertyRef Name="ChequeBookId" />
           </Key>
-          <Property Name="ChequeBookId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="BankId" Type="Int32" Nullable="false" />
-          <Property Name="BankBranchId" Type="Int32" Nullable="false" />
-          <Property Name="AccountName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="AccountNumber" Type="Int64" Nullable="false" />
+          <Property Name="ChequeBookId" Type="Int64" Nullable="false" />
+          <Property Name="BankAccountInfoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ChequeBookNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="BookFirstPageNumber" Type="Int32" Nullable="false" />
           <Property Name="BookLastPageNumber" Type="Int32" Nullable="false" />
@@ -21935,19 +21991,18 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Bank" Relationship="ERPModel.FK_ChequeBook_Bank" FromRole="ChequeBook" ToRole="Bank" />
-          <NavigationProperty Name="BankBranch" Relationship="ERPModel.FK_ChequeBook_BankBranch" FromRole="ChequeBook" ToRole="BankBranch" />
+          <NavigationProperty Name="BankAccountInfo" Relationship="ERPModel.FK_ChequeBook_BankAccountInfo" FromRole="ChequeBook" ToRole="BankAccountInfo" />
           <NavigationProperty Name="ChequeRegisters" Relationship="ERPModel.FK_ChequeRegister_ChequeBook" FromRole="ChequeBook" ToRole="ChequeRegister" />
         </EntityType>
         <EntityType Name="ChequeRegister">
           <Key>
             <PropertyRef Name="ChequeRegisterId" />
           </Key>
-          <Property Name="ChequeRegisterId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ChequeRegisterId" Type="Int64" Nullable="false" />
           <Property Name="RequisitionMasterId" Type="Int64" />
           <Property Name="ProjectId" Type="Int32" Nullable="false" />
           <Property Name="SupplierId" Type="Int32" />
-          <Property Name="ChequeBookId" Type="Int64" Nullable="false" />
+          <Property Name="ChequeBookId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="PayTo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="IssueDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ChequeDate" Type="DateTime" Nullable="false" Precision="3" />
@@ -21956,6 +22011,7 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <Property Name="ClearingDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="IsSigned" Type="Boolean" Nullable="false" />
+          <Property Name="IsPrinted" Type="Boolean" Nullable="false" />
           <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
@@ -21978,27 +22034,39 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ChequeBook_Bank">
+        <Association Name="FK_BankAccountInfo_Bank">
           <End Type="ERPModel.Bank" Role="Bank" Multiplicity="1" />
-          <End Type="ERPModel.ChequeBook" Role="ChequeBook" Multiplicity="*" />
+          <End Type="ERPModel.BankAccountInfo" Role="BankAccountInfo" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Bank">
               <PropertyRef Name="BankId" />
             </Principal>
-            <Dependent Role="ChequeBook">
+            <Dependent Role="BankAccountInfo">
               <PropertyRef Name="BankId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ChequeBook_BankBranch">
+        <Association Name="FK_BankAccountInfo_BankBranch">
           <End Type="ERPModel.BankBranch" Role="BankBranch" Multiplicity="1" />
-          <End Type="ERPModel.ChequeBook" Role="ChequeBook" Multiplicity="*" />
+          <End Type="ERPModel.BankAccountInfo" Role="BankAccountInfo" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="BankBranch">
               <PropertyRef Name="BankBranchId" />
             </Principal>
+            <Dependent Role="BankAccountInfo">
+              <PropertyRef Name="BranchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ChequeBook_BankAccountInfo">
+          <End Type="ERPModel.BankAccountInfo" Role="BankAccountInfo" Multiplicity="1" />
+          <End Type="ERPModel.ChequeBook" Role="ChequeBook" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BankAccountInfo">
+              <PropertyRef Name="BankAccountInfoId" />
+            </Principal>
             <Dependent Role="ChequeBook">
-              <PropertyRef Name="BankBranchId" />
+              <PropertyRef Name="BankAccountInfoId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -28049,6 +28117,25 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="BankAccountInfoes">
+            <EntityTypeMapping TypeName="ERPModel.BankAccountInfo">
+              <MappingFragment StoreEntitySet="BankAccountInfo">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="AccountNumber" ColumnName="AccountNumber" />
+                <ScalarProperty Name="AccountName" ColumnName="AccountName" />
+                <ScalarProperty Name="AccountTypeId" ColumnName="AccountTypeId" />
+                <ScalarProperty Name="BranchId" ColumnName="BranchId" />
+                <ScalarProperty Name="BankId" ColumnName="BankId" />
+                <ScalarProperty Name="BankAccountInfoId" ColumnName="BankAccountInfoId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="ChequeBooks">
             <EntityTypeMapping TypeName="ERPModel.ChequeBook">
               <MappingFragment StoreEntitySet="ChequeBook">
@@ -28063,10 +28150,7 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
                 <ScalarProperty Name="BookLastPageNumber" ColumnName="BookLastPageNumber" />
                 <ScalarProperty Name="BookFirstPageNumber" ColumnName="BookFirstPageNumber" />
                 <ScalarProperty Name="ChequeBookNo" ColumnName="ChequeBookNo" />
-                <ScalarProperty Name="AccountNumber" ColumnName="AccountNumber" />
-                <ScalarProperty Name="AccountName" ColumnName="AccountName" />
-                <ScalarProperty Name="BankBranchId" ColumnName="BankBranchId" />
-                <ScalarProperty Name="BankId" ColumnName="BankId" />
+                <ScalarProperty Name="BankAccountInfoId" ColumnName="BankAccountInfoId" />
                 <ScalarProperty Name="ChequeBookId" ColumnName="ChequeBookId" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -28079,6 +28163,7 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
                 <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="IsPrinted" ColumnName="IsPrinted" />
                 <ScalarProperty Name="IsSigned" ColumnName="IsSigned" />
                 <ScalarProperty Name="Remarks" ColumnName="Remarks" />
                 <ScalarProperty Name="ClearingDate" ColumnName="ClearingDate" />

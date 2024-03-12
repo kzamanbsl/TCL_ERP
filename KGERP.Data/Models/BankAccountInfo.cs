@@ -12,30 +12,31 @@ namespace KGERP.Data.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Bank
+    public partial class BankAccountInfo
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Bank()
+        public BankAccountInfo()
         {
-            this.BankBranches = new HashSet<BankBranch>();
-            this.Employees = new HashSet<Employee>();
-            this.BankAccountInfoes = new HashSet<BankAccountInfo>();
+            this.ChequeBooks = new HashSet<ChequeBook>();
         }
     
-        public Nullable<int> CompanyId { get; set; }
+        public int BankAccountInfoId { get; set; }
         public int BankId { get; set; }
-        public string Name { get; set; }
+        public int BranchId { get; set; }
+        public int AccountTypeId { get; set; }
+        public string AccountName { get; set; }
+        public decimal AccountNumber { get; set; }
+        public int CompanyId { get; set; }
+        public string Remarks { get; set; }
         public string CreatedBy { get; set; }
-        public Nullable<System.DateTime> CreatedDate { get; set; }
+        public System.DateTime CreatedOn { get; set; }
         public string ModifiedBy { get; set; }
-        public Nullable<System.DateTime> ModifiedDate { get; set; }
+        public Nullable<System.DateTime> ModifiedOn { get; set; }
         public bool IsActive { get; set; }
     
+        public virtual Bank Bank { get; set; }
+        public virtual BankBranch BankBranch { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BankBranch> BankBranches { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Employee> Employees { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BankAccountInfo> BankAccountInfoes { get; set; }
+        public virtual ICollection<ChequeBook> ChequeBooks { get; set; }
     }
 }

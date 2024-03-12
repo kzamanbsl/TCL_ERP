@@ -332,10 +332,7 @@ namespace KGERP.Service.Implementation
             if (model != null)
             {
                 ChequeBook data = new ChequeBook();
-                data.BankId = model.BankId;
-                data.BankBranchId = model.BankBranchId;
-                data.AccountName = model.AccountName;
-                data.AccountNumber = model.AccountNumber;
+                
                 data.ChequeBookNo = model.ChequeBookNo;
                 data.BookFirstPageNumber = model.BookFirstPageNumber;
                 data.BookLastPageNumber = model.BookLastPageNumber;
@@ -363,10 +360,6 @@ namespace KGERP.Service.Implementation
                 var result = _context.ChequeBooks.FirstOrDefault(x => x.ChequeBookId == model.ID);
                 if (result != null)
                 {
-                    result.BankId = model.BankId;
-                    result.BankBranchId = model.BankBranchId;
-                    result.AccountName = model.AccountName;
-                    result.AccountNumber = model.AccountNumber;
                     result.ChequeBookNo = model.ChequeBookNo;
                     result.BookFirstPageNumber = model.BookFirstPageNumber;
                     result.BookLastPageNumber = model.BookLastPageNumber;
@@ -410,21 +403,11 @@ namespace KGERP.Service.Implementation
         public async Task<ChequeBookModel> GetChequeBookById(long chequeBookId)
         {
             ChequeBookModel sendData = await (from t1 in _context.ChequeBooks.Where(x => x.IsActive)
-                                              join t2 in _context.BankBranches on t1.BankBranchId equals t2.BankBranchId into t2_Join
-                                              from t2 in t2_Join.DefaultIfEmpty()
-                                              join t3 in _context.Banks on t2.BankId equals t3.BankId into t3_Join
-                                              from t3 in t3_Join.DefaultIfEmpty()
                                               where t1.ChequeBookId == chequeBookId
                                               select new ChequeBookModel
                                               {
                                                   ChequeBookId = t1.ChequeBookId,
                                                   ChequeBookNo = t1.ChequeBookNo,
-                                                  BankId = t3.BankId,
-                                                  BankName = t3.Name,
-                                                  BankBranchId = t2.BankBranchId,
-                                                  BankBranchName = t2.Name,
-                                                  AccountName = t1.AccountName,
-                                                  AccountNumber = t1.AccountNumber,
                                                   BookFirstPageNumber = t1.BookFirstPageNumber,
                                                   BookLastPageNumber = t1.BookLastPageNumber,
                                                   TotalBookPage = t1.TotalBookPage,
@@ -443,21 +426,11 @@ namespace KGERP.Service.Implementation
         public async Task<List<ChequeBookModel>> GetChequeBookList(int companyId)
         {
             List<ChequeBookModel> sendData = await (from t1 in _context.ChequeBooks
-                                                    join t2 in _context.BankBranches on t1.BankBranchId equals t2.BankBranchId into t2_Join
-                                                    from t2 in t2_Join.DefaultIfEmpty()
-                                                    join t3 in _context.Banks on t2.BankId equals t3.BankId into t3_Join
-                                                    from t3 in t3_Join.DefaultIfEmpty()
                                                     where t1.IsActive
                                                     select new ChequeBookModel
                                                         {
                                                             ChequeBookId = t1.ChequeBookId,
                                                             ChequeBookNo = t1.ChequeBookNo,
-                                                            BankId = t3.BankId,
-                                                            BankName = t3.Name,
-                                                            BankBranchId = t2.BankBranchId,
-                                                            BankBranchName = t2.Name,
-                                                            AccountName = t1.AccountName,
-                                                            AccountNumber = t1.AccountNumber,
                                                             BookFirstPageNumber = t1.BookFirstPageNumber,
                                                             BookLastPageNumber = t1.BookLastPageNumber,
                                                             TotalBookPage = t1.TotalBookPage,

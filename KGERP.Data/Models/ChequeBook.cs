@@ -21,10 +21,7 @@ namespace KGERP.Data.Models
         }
     
         public long ChequeBookId { get; set; }
-        public int BankId { get; set; }
-        public int BankBranchId { get; set; }
-        public string AccountName { get; set; }
-        public long AccountNumber { get; set; }
+        public int BankAccountInfoId { get; set; }
         public string ChequeBookNo { get; set; }
         public int BookFirstPageNumber { get; set; }
         public int BookLastPageNumber { get; set; }
@@ -37,8 +34,7 @@ namespace KGERP.Data.Models
         public Nullable<System.DateTime> ModifiedOn { get; set; }
         public bool IsActive { get; set; }
     
-        public virtual Bank Bank { get; set; }
-        public virtual BankBranch BankBranch { get; set; }
+        public virtual BankAccountInfo BankAccountInfo { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ChequeRegister> ChequeRegisters { get; set; }
     }
