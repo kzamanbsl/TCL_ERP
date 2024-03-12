@@ -52,6 +52,7 @@ namespace KGERP.Service.ServiceModel
         public string BankName { get; set; }
         public int BankBranchId { get; set; }
         public string BankBranchName { get; set; }
+        public long BankAccountInfoId { get; set; }
         public string AccountName { get; set; }
         public long AccountNumber { get; set; }
         public string ChequeBookNo { get; set; }
@@ -61,6 +62,20 @@ namespace KGERP.Service.ServiceModel
         public int UsedBookPage { get; set; }
         public SelectList BankList { get; set; } = new SelectList(new List<object>());
         public SelectList bankBranchList { get; set; } = new SelectList(new List<object>());
-        public IEnumerable<ChequeBookModel> ChequeBoookList { get; set; } = new List<ChequeBookModel>();
+        public IEnumerable<ChequeBookModel> ChequeBookList { get; set; } = new List<ChequeBookModel>();
+    }
+
+    public class BankAccountInfo : BaseVM
+    {
+        public long BankAccountInfoId { get; set; }
+        public int BankId { get; set; }
+        public string BankName { get; set; }
+        public int BankBranchId { get; set; }
+        public string BankBranchName { get; set; }
+        public string AccountName { get; set; }
+        public long AccountNumber { get; set; }
+        public SelectList BankList { get; set; } = new SelectList(new List<object>());
+        public SelectList bankBranchList { get; set; } = new SelectList(new List<object>());
+        public IEnumerable<BankAccountInfo> BankAccountInfoList { get; set; } = new List<BankAccountInfo>();
     }
 }

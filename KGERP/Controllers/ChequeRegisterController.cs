@@ -141,7 +141,7 @@ namespace KGERP.Controllers
             ChequeBookModel viewData = new ChequeBookModel();
             viewData.CompanyFK = companyId;
             viewData.BankList = new SelectList(_ConfigurationService.CommonBanksDropDownList(companyId), "Value", "Text");
-            viewData.ChequeBoookList = await _Service.GetChequeBookList(companyId);
+            viewData.ChequeBookList = await _Service.GetChequeBookList(companyId);
             return View(viewData);
         }
 
@@ -182,6 +182,18 @@ namespace KGERP.Controllers
         {
             var data = _ConfigurationService.GetBankBranchesById(bankId);
             return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion
+
+        #region Bank A/C Information
+
+        public ActionResult BankAccountInformation(int companyId)
+        {
+            BankAccountInfo viewData = new BankAccountInfo();
+            viewData.CompanyFK = companyId;
+            viewData.BankList = new SelectList(_ConfigurationService.CommonBanksDropDownList(companyId), "Value", "Text");
+            return View(viewData);
         }
 
         #endregion
