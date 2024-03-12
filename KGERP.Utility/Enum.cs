@@ -2,6 +2,19 @@
 
 namespace KGERP.Utility
 {
+    public enum BankAccountType
+    {
+        [Display(Name = "Saving Account")]
+        Saving = 1,
+        [Display(Name = "Current Account")]
+        Current,
+        [Display(Name = "Current Account (JV)")]
+        Current_JV,
+        [Display(Name = "SND Account")]
+        SND,
+        [Display(Name = "SND Account")]
+        FDR
+    }
     public enum EnumWorkOrderFor
     {
         [Display(Name = "General Work Order")]

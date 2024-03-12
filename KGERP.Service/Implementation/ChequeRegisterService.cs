@@ -445,5 +445,30 @@ namespace KGERP.Service.Implementation
                                                         }).ToListAsync();
             return sendData;
         }
+
+        public Task<bool> Add(BankAccountInfoModel model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> Edit(BankAccountInfoModel model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> Delete(BankAccountInfoModel model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<BankAccountInfoModel> GetBankAccountInfoById(long chequeBookId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<BankAccountInfoModel>> GetBankAccountInfoList(int companyId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

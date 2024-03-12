@@ -10,18 +10,17 @@ namespace KGERP.Service.Interface
 {
     public interface IChequeRegisterService
     {
-        Task<bool> Add(ChequeRegisterModel model);
-        Task<bool> Edit(ChequeRegisterModel model);
-        Task<bool> Delete(ChequeRegisterModel model);
-        Task<bool> ChequeSign(long chequeRegisterId);
-        Task<ChequeRegisterModel> GetChequeRegisterById(long chequeRegisterId);
-        List<object> RegisteredRequisitionList(int projectId);
-        Task<string> GetPayeeNameBySupplierId(int supplierId);
-        Task<List<ChequeRegisterModel>> GetChequeRegisterList(int companyId);
-        Task<List<ChequeRegisterModel>> GetSignedChequeList(int companyId);
-        Task<List<ChequeRegisterModel>> GetChequeRegisterListByDate(ChequeRegisterModel model);
+        #region Bank Account Info
 
-        #region Cheque Book
+        Task<bool> Add(BankAccountInfoModel model);
+        Task<bool> Edit(BankAccountInfoModel model);
+        Task<bool> Delete(BankAccountInfoModel model);
+        Task<BankAccountInfoModel> GetBankAccountInfoById(long chequeBookId);
+        Task<List<BankAccountInfoModel>> GetBankAccountInfoList(int companyId);
+
+        #endregion
+
+        #region Cheque Book Register
 
         Task<bool> Add(ChequeBookModel model);
         Task<bool> Edit(ChequeBookModel model);
@@ -30,5 +29,21 @@ namespace KGERP.Service.Interface
         Task<List<ChequeBookModel>> GetChequeBookList(int companyId);
 
         #endregion
+
+        #region Cheque Register
+
+        Task<bool> Add(ChequeRegisterModel model);
+        Task<bool> Edit(ChequeRegisterModel model);
+        Task<bool> Delete(ChequeRegisterModel model);
+        Task<List<ChequeRegisterModel>> GetChequeRegisterListByDate(ChequeRegisterModel model);
+        Task<ChequeRegisterModel> GetChequeRegisterById(long chequeRegisterId);
+        Task<bool> ChequeSign(long chequeRegisterId);
+        Task<List<ChequeRegisterModel>> GetChequeRegisterList(int companyId);
+        Task<List<ChequeRegisterModel>> GetSignedChequeList(int companyId);
+        List<object> RegisteredRequisitionList(int projectId);
+
+        #endregion
+
+        Task<string> GetPayeeNameBySupplierId(int supplierId);
     }
 }
