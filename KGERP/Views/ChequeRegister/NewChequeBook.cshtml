@@ -178,7 +178,6 @@
                                                    data-placement="top">
                                                     <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
                                                 </a>
-
                                             }
                                             else
                                             {
@@ -240,33 +239,30 @@
     <script type="text/javascript">
 
         var isEdited = false;
-        var reuisitionId = 0;
+        var bankBranchId = 0;
 
-        function makeEditble(chequeRegisterId) {
-            if (chequeRegisterId !== null) {
+        function makeEditble(chequeBookId) {
+            if (chequeBookId !== null) {
 
                 $.ajax({
                     type: "get",
-                    url:"@Url.Action("ChequeRegisterById", "ChequeRegister")",
-                    data: { chequeRegisterId: chequeRegisterId },
+                    url:"@Url.Action("ChequeBookById", "ChequeRegister")",
+                    data: { chequeBookId: chequeBookId },
                     dataType: "json",
                     success: function (data) {
-                        $('#chequeResgisterItemId').val(chequeRegisterId);
+                        $('#chequeBookItemId').val(chequeBookId);
                         $('#ActionId').val(2);
                         $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Update");
-                        $('#ddlRegisterFor').val(data.RegisterFor).trigger('change');
-                        $('#ddlProjectId').val(data.ProjectId).trigger('change');
-                        $('#txtSupplierName').val("[" + data.SupplierCode + "] " + data.SupplierName);
-                        $('#ddlCommon_SupplierFK').val(data.SupplierId);
-                        $('#txtIssueDate').val($('#hiddenIssueDate_' + chequeRegisterId).val());
-                        $('#txtChequeDate').val($('#hiddenChequeDate_' + chequeRegisterId).val());
-                        $('#txtClearingDate').val($('#hiddenClearingDate_' + chequeRegisterId).val());
-                        $('#txtChequeNo').val(data.ChequeNo);
-                        $('#txtAmount').val(data.Amount);
-                        $('#txtPayTo').val(data.PayTo);
+                        $('#ddlBankId').val(data.BankId).trigger('change');
+                        $('#txtAccountName').val(data.AccountName);
+                        $('#txtAccountNumber').val(data.AccountNumber);
+                        $('#txtChequeBookNo').val(data.ChequeBookNo);
+                        $('#txtFirstPageNumber').val(data.BookFirstPageNumber);
+                        $('#txtLastPageNumber').val(data.BookLastPageNumber);
+                        $('#txtTotalBookPage').val(data.TotalBookPage);
                         $('#txtRemarks').val(data.Remarks);
                         isEdited = true;
-                        reuisitionId = data.RequisitionId;
+                        bankBranchId = data.BankBranchId;
                     }
                 });
 
@@ -283,8 +279,8 @@
         }
 
         function resetForm() {
-            $('#ChequeRegisterFormId')[0].reset();
-            $('#DeleteChequeRegisterFormId')[0].reset();
+            $('#ChequeBookFormId')[0].reset();
+            $('#DeleteChequeBookFormId')[0].reset();
             $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Add");
         }
 
@@ -331,6 +327,9 @@
                             text: item.BranchName
                         }));
                     });
+                    if (isEdited) {
+                        $('#ddlBankBranchId').val(bankBranchId).trigger('change');
+                    }
                 }
             });
         });

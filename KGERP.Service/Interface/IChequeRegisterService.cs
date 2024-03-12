@@ -22,11 +22,13 @@ namespace KGERP.Service.Interface
         Task<List<ChequeRegisterModel>> GetChequeRegisterListByDate(ChequeRegisterModel model);
 
         #region Cheque Book
+
         Task<bool> Add(ChequeBookModel model);
         Task<bool> Edit(ChequeBookModel model);
         Task<bool> Delete(ChequeBookModel model);
         Task<ChequeBookModel> GetChequeBookById(long chequeBookId);
-        List<object> ChequeBookList(int companyId);
+        Task<List<ChequeBookModel>> GetChequeBookList(int companyId);
+
         #endregion
     }
 }

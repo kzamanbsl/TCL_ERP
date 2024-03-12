@@ -136,11 +136,12 @@ namespace KGERP.Controllers
 
         #region Add Cheque Book
 
-        public ActionResult NewChequeBook(int companyId = 0)
+        public async Task<ActionResult> NewChequeBook(int companyId = 0)
         {
             ChequeBookModel viewData = new ChequeBookModel();
             viewData.CompanyFK = companyId;
             viewData.BankList = new SelectList(_ConfigurationService.CommonBanksDropDownList(companyId), "Value", "Text");
+            viewData.ChequeBoookList = await _Service.GetChequeBookList(companyId);
             return View(viewData);
         }
 
@@ -167,6 +168,13 @@ namespace KGERP.Controllers
                 return View("Error");
             }
             return RedirectToAction(nameof(NewChequeBook), new { companyId = model.CompanyFK });
+        }
+
+        [HttpGet]
+        public async Task<JsonResult> ChequeBookById(long chequeBookId)
+        {
+            var data = await _Service.GetChequeBookById(chequeBookId);
+            return Json(data, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
