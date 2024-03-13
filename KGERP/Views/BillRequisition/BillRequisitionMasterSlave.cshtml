@@ -989,7 +989,12 @@
                 var unitPriceValue = parseFloat(inputUnitPrice.val()) || 0;
                 var totalPrice = 0;
 
-                if (selectedOption.val() == @((int)EnumBillRequisitionType.Materials) || @(Model.BillRequisitionTypeId) == @((int)EnumBillRequisitionType.Materials)) {
+                if (selectedOption.val() == @((int)EnumBillRequisitionType.Overhead) || @(Model.BillRequisitionTypeId) == @((int)EnumBillRequisitionType.Overhead)) {
+                    if (!isNaN(demandValue) && !isNaN(unitPriceValue)) {
+                        totalPrice = demandValue * unitPriceValue;
+                        showTotalPrice.val(totalPrice.toFixed(2));
+                    }
+                } else {
                     if (!isNaN(remainingValue) && !isNaN(demandValue) && !isNaN(unitPriceValue)) {
                         if (demandValue <= remainingValue || demandValue === 0) {
                             $("#demandValidate").text("");
@@ -1001,11 +1006,6 @@
                             showTotalPrice.val(totalPrice.toFixed(2));
                             $("#demandValidate").text("Demand cannot exceed the remaining amount!");
                         }
-                    }
-                } else {
-                    if (!isNaN(demandValue) && !isNaN(unitPriceValue)) {
-                        totalPrice = demandValue * unitPriceValue;
-                        showTotalPrice.val(totalPrice.toFixed(2));
                     }
                 }
             }

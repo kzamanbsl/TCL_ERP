@@ -118,7 +118,7 @@
                                                         @if (item.RequisitionId > 0)
                                                         {
                                                             <p style="text-align:left !important;">
-                                                                <a href="~/BillRequisition/BillRequisitionMasterCommonSlave?companyId=@Model.CompanyFK&billRequisitionMasterId=@item.RequisitionId" class="link-primary text-primary" target="_blank" title="See Requisition Detail" style="text-align:left !important;">@item.RequisitionNo</a>
+                                                                <a href="~/BillRequisition/MDBRApproveSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.RequisitionId" class="link-primary text-primary" target="_blank" title="See Requisition Detail" style="text-align:left !important;">@item.RequisitionNo</a>
                                                             </p>
                                                         }
                                                         else
@@ -131,24 +131,24 @@
                                                     <td><p style="text-align:left !important;">@item.PayTo</p></td>
                                                     <td><p style="text-align:right !important;">@item.Amount</p></td>
                                                     <td>
-                                                        @if (item.IsSigned == false)
+                                                        @if (!item.IsSigned)
                                                         {
-                                                            <span class="btn btn-xs btn-warning text-center" title="Click to signing" style="display: block; padding-left: 7px; padding-right: 7px;" id="hideSigned" onclick="ChequeSign(@item.ChequeRegisterId)">
+                                                            <center class="btn btn-xs btn-warning text-center d-block" title="Click to signing" style="padding-left: 7px; padding-right: 7px;" id="showToHide" onclick="ChequeSign(@item.ChequeRegisterId)">
                                                                 Unsigned
-                                                            </span>
-                                                            <span class="btn btn-xs btn-success text-center hidden" style="display: block; padding-left: 7px; padding-right: 7px;" id="showSigned">
+                                                            </center>
+                                                            <center class="btn btn-xs btn-success text-center hidden" style="padding-left: 7px; padding-right: 7px;" id="hideToShow">
                                                                 Signed
-                                                            </span>
+                                                            </center>
                                                         }
                                                         else
                                                         {
-                                                            <span class="btn btn-xs btn-success text-center" style="display: block; padding-left: 7px; padding-right: 7px;">
+                                                            <center class="btn btn-xs btn-success text-center" style="padding-left: 7px; padding-right: 7px;">
                                                                 Signed
-                                                            </span>
+                                                            </center>
                                                         }
                                                     </td>
                                                     <td class="text-center">
-                                                        @if (item.IsSigned == true)
+                                                        @if (item.IsSigned)
                                                         {
                                                             <a class="btn btn-xs btn-primary text-center" target="_blank" href="~/Report/ChequeRegisterPrinting?chequeRegisterId=@item.ChequeRegisterId">
                                                                 <i class="fa fa-print"></i> Print Here
@@ -156,12 +156,11 @@
                                                         }
                                                         else
                                                         {
-                                                            <a class="btn btn-xs btn-primary text-center hidden" id="showPrintButton" target="_blank" href="~/Report/ChequeRegisterPrinting?chequeRegisterId=@item.ChequeRegisterId">
+                                                            <a class="btn btn-xs btn-primary text-center hidden" id="hideToShowPrint" target="_blank" href="~/Report/ChequeRegisterPrinting?chequeRegisterId=@item.ChequeRegisterId">
                                                                 <i class="fa fa-print"></i> Print Here
                                                             </a>
-                                                            <small class="text-center text-gray d-block" id="hidePrintButton">Unavailable</small>
+                                                            <small class="text-center text-gray d-block" id="showToHidePrint">Unavailable</small>
                                                         }
-
                                                     </td>
                                                 </tr>
                                             }
@@ -179,7 +178,7 @@
                                                         @if (item.RequisitionId > 0)
                                                         {
                                                             <p style="text-align:left !important;">
-                                                                <a href="~/BillRequisition/BillRequisitionMasterCommonSlave?companyId=@Model.CompanyFK&billRequisitionMasterId=@item.RequisitionId" class="link-primary text-primary" target="_blank" title="See Requisition Detail" style="text-align:left !important;">@item.RequisitionNo</a>
+                                                                <a href="~/BillRequisition/MDBRApproveSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.RequisitionId" class="link-primary text-primary" target="_blank" title="See Requisition Detail" style="text-align:left !important;">@item.RequisitionNo</a>
                                                             </p>
                                                         }
                                                         else
@@ -192,24 +191,24 @@
                                                     <td><p style="text-align:left !important;">@item.PayTo</p></td>
                                                     <td><p style="text-align:right !important;">@item.Amount</p></td>
                                                     <td>
-                                                        @if (item.IsSigned == false)
+                                                        @if (!item.IsSigned)
                                                         {
-                                                            <span class="btn btn-xs btn-warning text-center" title="Click to signing" style="display: block; padding-left: 7px; padding-right: 7px;" id="hideSigned" onclick="ChequeSign(@item.ChequeRegisterId)">
+                                                            <center class="btn btn-xs btn-warning text-center d-block" title="Click to signing" style="padding-left: 7px; padding-right: 7px;" id="showToHide" onclick="ChequeSign(@item.ChequeRegisterId)">
                                                                 Unsigned
-                                                            </span>
-                                                            <span class="btn btn-xs btn-success text-center hidden" style="display: block; padding-left: 7px; padding-right: 7px;" id="showSigned">
+                                                            </center>
+                                                            <center class="btn btn-xs btn-success text-center hidden" style="padding-left: 7px; padding-right: 7px;" id="hideToShow">
                                                                 Signed
-                                                            </span>
+                                                            </center>
                                                         }
                                                         else
                                                         {
-                                                            <span class="btn btn-xs btn-success text-center" style="display: block; padding-left: 7px; padding-right: 7px;">
+                                                            <center class="btn btn-xs btn-success text-center" style="padding-left: 7px; padding-right: 7px;">
                                                                 Signed
-                                                            </span>
+                                                            </center>
                                                         }
                                                     </td>
                                                     <td class="text-center">
-                                                        @if (item.IsSigned == true)
+                                                        @if (item.IsSigned)
                                                         {
                                                             <a class="btn btn-xs btn-primary text-center" target="_blank" href="~/Report/ChequeRegisterPrinting?chequeRegisterId=@item.ChequeRegisterId">
                                                                 <i class="fa fa-print"></i> Print Here
@@ -217,12 +216,11 @@
                                                         }
                                                         else
                                                         {
-                                                            <a class="btn btn-xs btn-primary text-center hidden" id="showPrintButton" target="_blank" href="~/Report/ChequeRegisterPrinting?chequeRegisterId=@item.ChequeRegisterId">
+                                                            <a class="btn btn-xs btn-primary text-center hidden" id="hideToShowPrint" target="_blank" href="~/Report/ChequeRegisterPrinting?chequeRegisterId=@item.ChequeRegisterId">
                                                                 <i class="fa fa-print"></i> Print Here
                                                             </a>
-                                                            <small class="text-center text-secondary d-block" id="hidePrintButton">Unavailable</small>
+                                                            <small class="text-center text-gray d-block" id="showToHidePrint">Unavailable</small>
                                                         }
-
                                                     </td>
                                                 </tr>
                                             }
@@ -269,13 +267,12 @@
                 dataType: "json",
                 data: { chequeRegisterId: chequeRegisterId },
                 success: function (data) {
-                    console.log(data);
                     if (data) {
-                        $("#hideSigned").removeClass("d-block").addClass("hidden");
-                        $("#showSigned").removeClass("hidden").addClass("d-block");
+                        $("#showToHide").removeClass("d-block").addClass("hidden");
+                        $("#hideToShow").removeClass("hidden").addClass("d-block");
 
-                        $("#showPrintButton").removeClass("hidden").addClass("d-block");
-                        $("#hidePrintButton").removeClass("d-block").addClass("hidden");
+                        $("#hideToShowPrint").removeClass("hidden").addClass("d-block");
+                        $("#showToHidePrint").removeClass("d-block").addClass("hidden");
                     }
                 }
             });

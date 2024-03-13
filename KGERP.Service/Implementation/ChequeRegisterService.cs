@@ -142,6 +142,24 @@ namespace KGERP.Service.Implementation
 
                     if (await _context.SaveChangesAsync() > 0)
                     {
+                        if(result.RequisitionMasterId > 0)
+                        {
+                            var requisitionMaster = _context.BillRequisitionMasters.FirstOrDefault(x => x.BillRequisitionMasterId == result.RequisitionMasterId);
+                            requisitionMaster.PaymentStatus = true;
+                            requisitionMaster.ModifiedBy = HttpContext.Current.User.Identity.Name;
+                            requisitionMaster.ModifiedDate = DateTime.Now;
+                            _context.SaveChanges();
+                        }
+
+                        if(result.ChequeBookId > 0)
+                        {
+                            var chequeBook = _context.ChequeBooks.FirstOrDefault(x => x.ChequeBookId == result.ChequeBookId);
+                            chequeBook.UsedBookPage = ++chequeBook.UsedBookPage;
+                            chequeBook.ModifiedBy = HttpContext.Current.User.Identity.Name;
+                            chequeBook.ModifiedOn = DateTime.Now;
+                            _context.SaveChanges();
+                        }
+
                         sendData = true;
                     }
                 }
