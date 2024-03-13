@@ -574,14 +574,14 @@
         <AssociationConnector Association="ERPModel.FK_BoQDivision_Accounting_CostCenter" />
         <AssociationConnector Association="ERPModel.FK_CostCenterManagerMap_Accounting_CostCenter" />
         <EntityTypeShape EntityType="ERPModel.BankAccountInfo" Width="1.5" PointX="70.125" PointY="56.875" />
-        <EntityTypeShape EntityType="ERPModel.ChequeRegister" Width="1.5" PointX="74.625" PointY="41.125" />
-        <AssociationConnector Association="ERPModel.FK_ChequeRegister_Accounting_CostCenter" />
         <AssociationConnector Association="ERPModel.FK_BankAccountInfo_Bank" />
         <AssociationConnector Association="ERPModel.FK_BankAccountInfo_BankBranch" />
-        <AssociationConnector Association="ERPModel.FK_ChequeRegister_BillRequisitionMaster" />
-        <AssociationConnector Association="ERPModel.FK_ChequeRegister_ChequeRegister" />
         <EntityTypeShape EntityType="ERPModel.ChequeBook" Width="1.5" PointX="72.375" PointY="57.125" />
         <AssociationConnector Association="ERPModel.FK_ChequeBook_BankAccountInfo" />
+        <EntityTypeShape EntityType="ERPModel.ChequeRegister" Width="1.5" PointX="74.625" PointY="41.25" />
+        <AssociationConnector Association="ERPModel.FK_ChequeRegister_Accounting_CostCenter" />
+        <AssociationConnector Association="ERPModel.FK_ChequeRegister_BillRequisitionMaster" />
+        <AssociationConnector Association="ERPModel.FK_ChequeRegister_ChequeRegister" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
