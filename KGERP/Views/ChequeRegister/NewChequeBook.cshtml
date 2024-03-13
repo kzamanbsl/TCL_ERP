@@ -184,7 +184,7 @@
                                             {
                                                 <a id="@item.ChequeBookId" onclick="makeEditble(@item.ChequeBookId);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
 
-                                                <a id="@item.ChequeBookId" onclick="makeDeletable(@item.ChequeBookId);" class="linkPointer" data-toggle="modal" data-target="#ChequeRegisterDeleteModal" title="Delete"
+                                                <a id="@item.ChequeBookId" onclick="makeDeletable(@item.ChequeBookId);" class="linkPointer" data-toggle="modal" data-target="#ChequeBookDeleteModal" title="Delete"
                                                    data-placement="top">
                                                     <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
                                                 </a>
@@ -208,7 +208,7 @@
     @Html.HiddenFor(model => model.ActionId, new { Value = "", id = "ActionIdDelete" })
     @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFKDelete" })
 
-    <div class="modal fade" id="ChequeRegisterDeleteModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
+    <div class="modal fade" id="ChequeBookDeleteModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -265,6 +265,7 @@
                         $('#txtRemarks').val(data.Remarks);
                         isEdited = true;
                         bankBranchId = data.BankBranchId;
+                        bankInfoId = data.BankAccountInfoId;
                     }
                 });
 

@@ -334,7 +334,7 @@ namespace KGERP.Service.Implementation
                 ChequeBook data = new ChequeBook();
                 data.BankAccountInfoId = model.BankAccountInfoId;
                 data.ChequeBookNo = model.ChequeBookNo;
-                data.BookLastPageNumber = model.BookFirstPageNumber;
+                data.BookFirstPageNumber = model.BookFirstPageNumber;
                 data.BookLastPageNumber = model.BookLastPageNumber;
                 data.TotalBookPage = model.TotalBookPage;
                 data.UsedBookPage = 0;

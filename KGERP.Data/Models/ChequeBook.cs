@@ -14,12 +14,6 @@ namespace KGERP.Data.Models
     
     public partial class ChequeBook
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public ChequeBook()
-        {
-            this.ChequeRegisters = new HashSet<ChequeRegister>();
-        }
-    
         public long ChequeBookId { get; set; }
         public int BankAccountInfoId { get; set; }
         public string ChequeBookNo { get; set; }
@@ -35,7 +29,5 @@ namespace KGERP.Data.Models
         public bool IsActive { get; set; }
     
         public virtual BankAccountInfo BankAccountInfo { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ChequeRegister> ChequeRegisters { get; set; }
     }
 }

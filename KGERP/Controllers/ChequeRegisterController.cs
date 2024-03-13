@@ -69,7 +69,7 @@ namespace KGERP.Controllers
 
         #region Cheque Book Register
 
-        public async Task<ActionResult> NewChequeBook(int companyId = 0)
+        public async Task<ActionResult> NewChequeBook(int companyId)
         {
             ChequeBookModel viewData = new ChequeBookModel();
             viewData.CompanyFK = companyId;
