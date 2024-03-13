@@ -604,5 +604,62 @@ namespace KGERP.Service.Implementation
                                                          }).ToListAsync();
             return sendData;
         }
+
+        public async Task<List<ChequeBookModel>> GetChequeBookListByAccountInfo(int bankAccountInfoId)
+        {
+            List<ChequeBookModel> sendData = await (from t1 in _context.ChequeBooks.Where(x => x.IsActive)
+                                                    join t2 in _context.BankAccountInfoes on t1.BankAccountInfoId equals t2.BankAccountInfoId into t2_Join
+                                                    from t2 in t2_Join.DefaultIfEmpty()
+                                                    join t3 in _context.BankBranches on t2.BranchId equals t3.BankBranchId into t3_Join
+                                                    from t3 in t3_Join.DefaultIfEmpty()
+                                                    join t4 in _context.Banks on t2.BankId equals t4.BankId into t4_Join
+                                                    from t4 in t4_Join.DefaultIfEmpty()
+                                                    where t1.BankAccountInfoId == bankAccountInfoId
+                                                    select new ChequeBookModel
+                                                    {
+                                                        ChequeBookId = t1.ChequeBookId,
+                                                        BankAccountInfoId = t2.BankAccountInfoId,
+                                                        JournalType = t2.AccountTypeId,
+                                                        AccountName = t2.AccountName,
+                                                        AccountNumber = (long)t2.AccountNumber,
+                                                        ChequeBookNo = t1.ChequeBookNo,
+                                                        BankId = t4.BankId,
+                                                        BankName = t4.Name,
+                                                        BankBranchId = t3.BankBranchId,
+                                                        BankBranchName = t3.Name,
+                                                        BookFirstPageNumber = t1.BookFirstPageNumber,
+                                                        BookLastPageNumber = t1.BookLastPageNumber,
+                                                        TotalBookPage = t1.TotalBookPage,
+                                                        UsedBookPage = t1.UsedBookPage,
+                                                        Remarks = t1.Remarks,
+                                                        CreatedBy = t1.CreatedBy,
+                                                        CreatedDate = t1.CreatedOn,
+                                                        ModifiedBy = t1.ModifiedBy,
+                                                        ModifiedDate = t1.ModifiedOn,
+                                                        IsActive = t1.IsActive,
+                                                        CompanyFK = 21,
+                                                    }).ToListAsync();
+            return sendData;
+        }
+
+        public async Task<object> GetChequeBookInfo(long chequeBookId)
+        {
+            object sendData = await(from t1 in _context.ChequeBooks.Where(x => x.ChequeBookId == chequeBookId && x.IsActive)
+                                             join t2 in _context.BankAccountInfoes on t1.BankAccountInfoId equals t2.BankAccountInfoId into t2_Join
+                                             from t2 in t2_Join.DefaultIfEmpty()
+                                             join t3 in _context.BankBranches on t2.BranchId equals t3.BankBranchId into t3_Join
+                                             from t3 in t3_Join.DefaultIfEmpty()
+                                             join t4 in _context.Banks on t2.BankId equals t4.BankId into t4_Join
+                                             from t4 in t4_Join.DefaultIfEmpty()
+                                             select new 
+                                             {
+                                                 ChequeBookId = t1.ChequeBookId,
+                                                 BookFirstPageNumber = t1.BookFirstPageNumber,
+                                                 BookLastPageNumber = t1.BookLastPageNumber,
+                                                 TotalBookPage = t1.TotalBookPage,
+                                                 UsedBookPage = t1.UsedBookPage,
+                                             }).FirstOrDefaultAsync();
+            return sendData;
+        }
     }
 }

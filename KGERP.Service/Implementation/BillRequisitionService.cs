@@ -10,6 +10,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Linq.Dynamic;
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 
@@ -620,10 +621,10 @@ namespace KGERP.Service.Implementation
             var data = await (from t1 in _context.BillBoQItems
                               .Where(x => x.BoQDivisionId == id && x.IsActive)
                               select new BillRequisitionBoqModel
-                              { 
-                                BoQItemId = t1.BoQItemId,
-                                BoQNumber = t1.BoQNumber,
-                                Name = t1.Name
+                              {
+                                  BoQItemId = t1.BoQItemId,
+                                  BoQNumber = t1.BoQNumber,
+                                  Name = t1.Name
                               }).ToListAsync();
             return data;
         }
@@ -831,7 +832,7 @@ namespace KGERP.Service.Implementation
         public async Task<bool> IsBoqExistByDivisionId(long divisionId, string boqNumber)
         {
             bool result = false;
-            if(divisionId > 0 && boqNumber != null)
+            if (divisionId > 0 && boqNumber != null)
             {
                 if (await _context.BillBoQItems.FirstOrDefaultAsync(x => x.BoQNumber == boqNumber && x.BoQDivisionId == divisionId) != null)
                 {
@@ -1580,7 +1581,7 @@ namespace KGERP.Service.Implementation
                                           }).FirstOrDefault());
             return v;
         }
-       
+
         public async Task<BillRequisitionMasterModel> GetBillRequisitionMasterList(int companyId, DateTime? fromDate, DateTime? toDate, int? statusId)
         {
             BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
@@ -3187,6 +3188,22 @@ namespace KGERP.Service.Implementation
             }
             return list;
 
+        }
+
+        public decimal GetTotalByMasterId(long requisitionId)
+        {
+            var totalPrice = (from t1 in _context.BillRequisitionMasters.Where(x => x.IsActive
+                 && x.StatusId >= (int)EnumBillRequisitionStatus.Submitted)
+                              join t2 in _context.BillRequisitionDetails on t1.BillRequisitionMasterId equals t2.BillRequisitionMasterId into t2_Join
+                              from t2 in t2_Join.DefaultIfEmpty()
+                              where t2.IsActive
+                              select new
+                              {
+                                  BillRequisitionMasterId = t1.BillRequisitionMasterId,
+                                  TotalAmount = t2.DemandQty * t2.UnitRate,
+                              }).AsEnumerable();
+
+            return (decimal)totalPrice.Where(x => x.BillRequisitionMasterId == requisitionId).Select(x => x.TotalAmount).Sum();
         }
     }
 }

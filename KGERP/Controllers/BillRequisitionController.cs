@@ -128,6 +128,13 @@ namespace KGERP.Controllers
 
         #region All Json Action Method for Requisition
 
+        public JsonResult GetTotalAmountByRequisitionId(long requisitionId)
+        {
+            decimal result = _service.GetTotalByMasterId(requisitionId);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
         // check BoQ Budget by BoQ item id
         public async Task<JsonResult> CheckBoqBudget(long boqItemId, long materialId)
         {

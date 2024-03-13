@@ -26,7 +26,9 @@ namespace KGERP.Service.Interface
         Task<bool> Edit(ChequeBookModel model);
         Task<bool> Delete(ChequeBookModel model);
         Task<ChequeBookModel> GetChequeBookById(long chequeBookId);
+        Task<object> GetChequeBookInfo(long chequeBookId);
         Task<List<ChequeBookModel>> GetChequeBookList(int companyId);
+        Task<List<ChequeBookModel>> GetChequeBookListByAccountInfo(int bankAccountInfoId);
 
         #endregion
 

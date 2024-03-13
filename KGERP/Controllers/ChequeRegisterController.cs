@@ -124,6 +124,20 @@ namespace KGERP.Controllers
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
+        public async Task<JsonResult> GetChequeBookListByAccountInfo(int bankAccountInfoId)
+        {
+            var data = await _Service.GetChequeBookListByAccountInfo(bankAccountInfoId);
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public async Task<JsonResult> GetChequeBookInfoById(long chequeBookId)
+        {
+            var data = await _Service.GetChequeBookInfo(chequeBookId);
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
         #endregion
 
         #region Cheque Register
@@ -133,6 +147,7 @@ namespace KGERP.Controllers
         {
             ChequeRegisterModel viewData = new ChequeRegisterModel();
             viewData.CompanyFK = companyId;
+            viewData.BankList = new SelectList(_ConfigurationService.CommonBanksDropDownList(companyId), "Value", "Text");
             viewData.ProjectList = new SelectList(await _RequisitionService.GetProjectList(companyId), "CostCenterId", "Name");
             viewData.ChequeRegisterList = await _Service.GetChequeRegisterList(companyId);
             return View(viewData);
