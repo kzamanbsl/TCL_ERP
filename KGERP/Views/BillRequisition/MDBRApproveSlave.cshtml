@@ -114,7 +114,7 @@
                                                 <th class="text-center">Requisition For</th>
                                                 <th class="text-center">@((Model.BillRequisitionTypeId == (int)EnumBillRequisitionType.Overhead)? "Item" : "Material")</th>
                                                 <th class="text-center">Unit</th>
-                                                <th class="text-center">Remarks/Particular</th>
+                                                <th class="text-center">Remarks/ Particular</th>
                                                 @if (Model.BillRequisitionTypeId != (int)EnumBillRequisitionType.Overhead)
                                                 {
                                                     <th class="text-center">Estimated</th>
@@ -182,17 +182,17 @@
                                                             @String.Format("{0:0.00}", item.RemainingQty - item.DemandQty)
                                                         </td>
                                                     }
-                                                <td class="text-center">
-                                                    @if (Model.BillRequisitionMasterId > 0 && Model.StatusName == EnumBillRequisitionStatus.Submitted.ToString() && Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending || Model.BillRequisitionMasterId > 0 && Model.StatusName == EnumBillRequisitionStatus.Pending.ToString() && Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
-                                                    {
-                                                        @Html.TextBoxFor(model => model.DetailDataList[i].UnitRate, new { value = "0", id = "unitRate_" + i, @class = "form-control unitValue" })
-                                                        <small class="text-center text-danger" id="inputValidationUnit"></small>
-                                                    }
-                                                    else
-                                                    {
-                                                        @String.Format("{0:0.00}", item.UnitRate)
-                                                    }
-                                                </td>
+                                                    <td class="text-center">
+                                                        @if (Model.BillRequisitionMasterId > 0 && Model.StatusName == EnumBillRequisitionStatus.Submitted.ToString() && Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending || Model.BillRequisitionMasterId > 0 && Model.StatusName == EnumBillRequisitionStatus.Pending.ToString() && Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
+                                                        {
+                                                            @Html.TextBoxFor(model => model.DetailDataList[i].UnitRate, new { value = "0", id = "unitRate_" + i, @class = "form-control unitValue" })
+                                                            <small class="text-center text-danger" id="inputValidationUnit"></small>
+                                                        }
+                                                        else
+                                                        {
+                                                            @String.Format("{0:0.00}", item.UnitRate)
+                                                        }
+                                                    </td>
                                                     <td class="totalValue text-center" style="text-align: right !important" id="totalAmount_+@i">@String.Format("{0:0.00}", item.TotalPrice)</td>
                                                 </tr>
                                                 i++;
@@ -212,7 +212,7 @@
                                                 }
                                                 else
                                                 {
-                                                    <td colspan="13" style="text-align: right !important">
+                                                    <td colspan="14" style="text-align: right !important">
                                                         <b>Total Amount : </b>
                                                     </td>
                                                     <td id="totalFooter" colspan="2" style="text-align: right !important">
@@ -290,31 +290,42 @@
                                                     <td style="padding:5px; text-align:center;">@item.AprrovalStatusName</td>
                                                 }
                                             }
+                                            @*<td style="padding:5px; text-align:center;">
+                                                    @if (Model.VoucherPaymentStatus == "Paid")
+                                                    {
+                                                        <a title="Download Report" class="" style="width:100%" target="_blank" href="~/Report/TCLBillRequisiontPaymentReport?companyId=@Model.CompanyFK&billRequisitionMasterId=@Model.BillRequisitionMasterId">
+                                                            <i class="fa fa-download"></i> Download
+                                                            <span class="btn btn-success btn-xs"> @Model.VoucherPaymentStatus</span>
+                                                        </a>
+                                                    }
+                                                    else if (Model.VoucherPaymentStatus == "Pending")
+                                                    {
+                                                        <a title="Download Report" class="" style="width:100%" target="_blank" href="~/Report/TCLBillRequisiontPaymentReport?companyId=@Model.CompanyFK&billRequisitionMasterId=@Model.BillRequisitionMasterId">
+                                                            <span class="btn btn-warning btn-xs"> @Model.VoucherPaymentStatus</span>
+                                                        </a>
+                                                    }
+                                                    else if (Model.VoucherPaymentStatus == "Partially Paid")
+                                                    {
+                                                        <a title="Download Report" class="" style="width:100%" target="_blank" href="~/Report/TCLBillRequisiontPaymentReport?companyId=@Model.CompanyFK&billRequisitionMasterId=@Model.BillRequisitionMasterId">
+                                                            <span class="btn btn-info btn-xs"> @Model.VoucherPaymentStatus</span>
+                                                        </a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a title="Download Report" class="" style="width:100%" target="_blank" href="~/Report/TCLBillRequisiontPaymentReport?companyId=@Model.CompanyFK&billRequisitionMasterId=@Model.BillRequisitionMasterId">
+                                                            <span class="btn btn-warning btn-xs">Pending</span>
+                                                        </a>
+                                                    }
+                                                </td>*@
+
                                             <td style="padding:5px; text-align:center;">
-                                                @if (Model.VoucherPaymentStatus == "Paid")
+                                                @if (false)
                                                 {
-                                                    <a title="Download Report" class="" style="width:100%" target="_blank" href="~/Report/TCLBillRequisiontPaymentReport?companyId=@Model.CompanyFK&billRequisitionMasterId=@Model.BillRequisitionMasterId">
-                                                        @*<i class="fa fa-download"></i>*@ Download
-                                                        <span class="btn btn-success btn-xs"> @Model.VoucherPaymentStatus</span>
-                                                    </a>
-                                                }
-                                                else if (Model.VoucherPaymentStatus == "Pending")
-                                                {
-                                                    <a title="Download Report" class="" style="width:100%" target="_blank" href="~/Report/TCLBillRequisiontPaymentReport?companyId=@Model.CompanyFK&billRequisitionMasterId=@Model.BillRequisitionMasterId">
-                                                        <span class="btn btn-warning btn-xs"> @Model.VoucherPaymentStatus</span>
-                                                    </a>
-                                                }
-                                                else if (Model.VoucherPaymentStatus == "Partially Paid")
-                                                {
-                                                    <a title="Download Report" class="" style="width:100%" target="_blank" href="~/Report/TCLBillRequisiontPaymentReport?companyId=@Model.CompanyFK&billRequisitionMasterId=@Model.BillRequisitionMasterId">
-                                                        <span class="btn btn-info btn-xs"> @Model.VoucherPaymentStatus</span>
-                                                    </a>
+                                                    <span class="label label-success">Payment Done!</span>
                                                 }
                                                 else
-                                                {
-                                                    <a title="Download Report" class="" style="width:100%" target="_blank" href="~/Report/TCLBillRequisiontPaymentReport?companyId=@Model.CompanyFK&billRequisitionMasterId=@Model.BillRequisitionMasterId">
-                                                        <span class="btn btn-warning btn-xs">Pending</span>
-                                                    </a>
+                                                { 
+                                                    <span class="label label-info">Not Yet!</span>
                                                 }
                                             </td>
 
@@ -335,6 +346,7 @@
                                                     @((item.SignatoryName == "PM") ? "PM/Checker" : (item.SignatoryName == "QS") ? "QS/Engr./HOD" : (item.SignatoryName == "PD") ? "PD/CE" : item.SignatoryName)
                                                 </th>
                                             }
+                                            <th>Payment Method</th>
                                         </tr>
                                         <tr>
                                             @foreach (var item in Model.ApprovalModelList)
@@ -363,6 +375,20 @@
                                                     }
                                                 </td>
                                             }
+                                            <td>
+                                                @if (false)
+                                                {
+                                                    <center>
+                                                        <b>Chash</b>
+                                                    </center>
+                                                }
+                                                else
+                                                {
+                                                    <center>
+                                                        <small>Not selected!</small>
+                                                    </center>
+                                                }
+                                            </td>
                                         </tr>
                                     </table>
 
@@ -397,12 +423,27 @@
                                     </div>
                                     <div class="modal-body">
                                         <div class="row">
-                                            <div class="col-md-12 py-5">
-                                                <label class="text-secondary">Approval Remarks :</label>
+
+                                            <div class="col-md-7">
+                                                <div class="form-group">
+                                                    <label class="form-label text-secondary">Approval Remarks</label>
+                                                    @Html.TextAreaFor(model => model.CancelReason, new { @class = "modal-input form-control" })
+                                                </div>
                                             </div>
-                                            <div class="col-md-12 py-5">
-                                                @Html.TextAreaFor(model => model.CancelReason, new { @class = "modal-input form-control" })
+                                            <div class="col-md-5">
+                                                <div class="form-group">
+                                                    <label class="form-label text-secondary">Choose Payment Method<sup class="text-danger" title="Requied"><b>*</b></sup></label>
+                                                    <div class="custom-control custom-radio custom-control-inline">
+                                                        <input type="radio" id="cash" name="PaymentMethod" class="custom-control-input" required>
+                                                        <label class="custom-control-label" for="cash">Pay with cash</label>
+                                                    </div>
+                                                    <div class="custom-control custom-radio custom-control-inline">
+                                                        <input type="radio" id="cheque" name="PaymentMethod" class="custom-control-input" required>
+                                                        <label class="custom-control-label" for="cheque">Pay with cheque</label>
+                                                    </div>
+                                                </div>
                                             </div>
+
                                         </div>
                                     </div>
                                     <div class="modal-footer">

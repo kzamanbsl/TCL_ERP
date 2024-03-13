@@ -28,6 +28,7 @@ namespace KGERP.Data.Models
         public string ModifiedBy { get; set; }
         public bool IsActive { get; set; }
         public string Reasons { get; set; }
+        public string PaymentMethod { get; set; }
     
         public virtual Company Company { get; set; }
         public virtual Employee Employee { get; set; }
