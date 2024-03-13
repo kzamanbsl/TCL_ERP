@@ -4944,6 +4944,17 @@ namespace KGERP.Service.Implementation.Configuration
             return data.Cast<object>().ToList();
         }
 
+        public List<object> GetBankAccountInfoByBankBranchId(int bankId, int bankBranchId)
+        {
+            var data = (from t1 in _db.BankAccountInfoes.Where(x => x.BankId == bankId && x.BranchId == bankBranchId && x.IsActive)
+                        select new
+                        {
+                            BankAccountInfoId = t1.BankAccountInfoId,
+                            AccountNo = t1.AccountNumber,
+                        }).ToList();
+            return data.Cast<object>().ToList();
+        }
+
         public async Task<int> BankBranchAdd(VMCommonBankBranch vMCommonBankBranch)
         {
             var result = -1;

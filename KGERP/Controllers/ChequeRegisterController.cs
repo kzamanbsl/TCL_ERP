@@ -117,6 +117,13 @@ namespace KGERP.Controllers
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
+        public JsonResult GetAccountNoByBankBranchId(int bankId, int bankBranchId)
+        {
+            var data = _ConfigurationService.GetBankAccountInfoByBankBranchId(bankId, bankBranchId);
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
         #endregion
 
         #region Cheque Register

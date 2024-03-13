@@ -44,26 +44,27 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label class="form-label">Select Branch<sup class="text-danger" title="Required"><b>*</b></sup></label>
-                                @Html.DropDownListFor(model => model.BankBranchId, new SelectList(Model.bankBranchList.OrderBy(order => order.Text), "Value", "Text"), "==Select Branch==", new { id = "ddlBankBranchId", @class = "form-control searchingDropdown", style = "width:100%" })
+                                @Html.DropDownListFor(model => model.BankBranchId, new SelectList(Model.BankBranchList.OrderBy(order => order.Text), "Value", "Text"), "==Select Branch==", new { id = "ddlBankBranchId", @class = "form-control searchingDropdown", style = "width:100%" })
                                 @Html.ValidationMessageFor(model => model.BankBranchId, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="form-label">A/C Holder Name<sup class="text-danger" title="Required">*</sup></label>
-                                @Html.TextBoxFor(model => model.AccountName, new { id = "txtAccountName", @class = "form-control", @placeholder = "A/C name", required = "true" })
-                                @Html.ValidationMessageFor(model => model.AccountName, "", new { @class = "text-danger" })
+                                <label class="form-label">Account Number<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                @Html.DropDownListFor(model => model.BankAccountInfoId, new SelectList(Model.AccountNoList.OrderBy(order => order.Text), "Value", "Text"), "==Select Account No==", new { id = "ddlBankAccountInfoId", @class = "form-control searchingDropdown", style = "width:100%" })
+                                @Html.ValidationMessageFor(model => model.BankAccountInfoId, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="form-label">A/C Number<sup class="text-danger" title="Required">*</sup></label>
-                                @Html.TextBoxFor(model => model.AccountNumber, new { id = "txtAccountNumber", @class = "form-control", @placeholder = "A/C number", required = "true" })
-                                @Html.ValidationMessageFor(model => model.AccountNumber, "", new { @class = "text-danger" })
+                                <label class="form-label">Account Name<sup class="text-danger" title="Required">*</sup></label>
+                                @Html.TextBoxFor(model => model.AccountName, new { id = "txtAccountName", @class = "form-control", @placeholder = "Account name", required = "true", @readonly = "true" })
+                                @Html.ValidationMessageFor(model => model.AccountName, "", new { @class = "text-danger" })
                             </div>
                         </div>
+
 
                         <div class="col-md-3">
                             <div class="form-group">
@@ -240,6 +241,7 @@
 
         var isEdited = false;
         var bankBranchId = 0;
+        var bankInfoId = 0;
 
         function makeEditble(chequeBookId) {
             if (chequeBookId !== null) {
@@ -272,7 +274,7 @@
 
         function makeDeletable(id) {
             if (id !== null) {
-                $('#ChequeRegisterDelete').val(id);
+                $('#ChequeBookDelete').val(id);
                 $('#ActionIdDelete').val(3);
                 $("#CompanyFKDelete").val("@Model.CompanyFK");
             }
@@ -285,8 +287,8 @@
         }
 
         $('#txtFirstPageNumber').on('input', function (event) {
-            var totalPage = $('#txtLastPageNumber').val() - $('#txtFirstPageNumber').val();
-            var chequeBookNo = "CH-" + $('#txtFirstPageNumber').val() + "-" + $('#txtLastPageNumber').val();
+            var totalPage = ($('#txtLastPageNumber').val() - $('#txtFirstPageNumber').val()) + 1;
+            var chequeBookNo = "CH-" + $('#txtFirstPageNumber').val() + "-" + $('#txtLastPageNumber').val() % 100;
 
             if (totalPage > 0) {
                 $('#txtTotalBookPage').val(totalPage);
@@ -298,8 +300,8 @@
         });
 
         $('#txtLastPageNumber').on('input', function (event) {
-            var totalPage = $('#txtLastPageNumber').val() - $('#txtFirstPageNumber').val();
-            var chequeBookNo = "CH-" + $('#txtFirstPageNumber').val() + "-" + $('#txtLastPageNumber').val();
+            var totalPage = ($('#txtLastPageNumber').val() - $('#txtFirstPageNumber').val()) + 1;
+            var chequeBookNo = "CH-" + $('#txtFirstPageNumber').val() + "-" + $('#txtLastPageNumber').val() % 100;
 
             if (totalPage > 0) {
                 $('#txtTotalBookPage').val(totalPage);
@@ -330,6 +332,45 @@
                     if (isEdited) {
                         $('#ddlBankBranchId').val(bankBranchId).trigger('change');
                     }
+                }
+            });
+        });
+
+        $('#ddlBankBranchId').on('change', function (event) {
+            var bankId = $("#ddlBankId option:selected").val();
+            var bankBranchId = $("#ddlBankBranchId option:selected").val();
+            var showAccountList = $("#ddlBankAccountInfoId");
+            $.ajax({
+                type: "GET",
+                url: "/ChequeRegister/GetAccountNoByBankBranchId",
+                dataType: "json",
+                data: { bankId: bankId, bankBranchId: bankBranchId },
+                success: function (data) {
+                    showAccountList.empty();
+                    showAccountList.append("<option selected disabled>==Select Account No==</option>");
+                    $.each(data, function (index, item) {
+                        showAccountList.append($('<option>', {
+                            value: item.BankAccountInfoId,
+                            text: item.AccountNo
+                        }));
+                    });
+                    if (isEdited) {
+                        $('#ddlBankAccountInfoId').val(bankInfoId).trigger('change');
+                    }
+                }
+            });
+        });
+
+        $('#ddlBankAccountInfoId').on('change', function (event) {
+            var bankAccountInfoId = $("#ddlBankAccountInfoId option:selected").val();
+            var accountName = $('#txtAccountName');
+            $.ajax({
+                type: "GET",
+                url: "/ChequeRegister/BankAccountInfoById",
+                dataType: "json",
+                data: { bankAccountInfoId: bankAccountInfoId },
+                success: function (data) {
+                    accountName.val(data.AccountName);
                 }
             });
         });
