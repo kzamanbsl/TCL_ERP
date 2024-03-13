@@ -1143,6 +1143,7 @@ namespace KGERP.Service.Implementation
                                                                    CompanyFK = t1.CompanyId,
                                                                    CreatedDate = t1.CreateDate,
                                                                    CreatedBy = t1.CreatedBy,
+                                                                   PaymentStatus = (bool)t1.PaymentStatus,
                                                                    EmployeeName = t1.CreatedBy + " - " + t5.Name
 
                                                                }).FirstOrDefault());
@@ -1217,6 +1218,7 @@ namespace KGERP.Service.Implementation
                     Description = model.Description,
                     StatusId = (int)model.StatusId,
                     CompanyId = (int)model.CompanyFK,
+                    PaymentStatus = false,
                     CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
                     CreateDate = DateTime.Now,
                     IsActive = true
@@ -1747,6 +1749,7 @@ namespace KGERP.Service.Implementation
                                                                    BRDate = t1.BRDate,
                                                                    BillRequisitionNo = t1.BillRequisitionNo,
                                                                    StatusId = (EnumBillRequisitionStatus)t1.StatusId,
+                                                                   PaymentStatus = (bool)t1.PaymentStatus,
                                                                    CompanyFK = t1.CompanyId,
                                                                    CreatedDate = t1.CreateDate,
                                                                    CreatedBy = t1.CreatedBy,
@@ -1808,6 +1811,7 @@ namespace KGERP.Service.Implementation
                                                                                      EmployeeId = t1.EmployeeId,
                                                                                      EmployeeName = t3.EmployeeId,
                                                                                      ApprobalRemarks = t1.Reasons ?? "N/A",
+                                                                                     VoucherPaymentStatus = t1.PaymentMethod ?? "N/A",
                                                                                      ModifiedDate = t1.ModifiedDate
                                                                                  }).OrderBy(x => x.BRApprovalId).ToList());
             return billRequisitionMasterModel;
@@ -2733,6 +2737,7 @@ namespace KGERP.Service.Implementation
             BRApproval.IsSupremeApproved = true;
             BRApproval.EmployeeId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
             BRApproval.Reasons = billRequisitionMasterModel.CancelReason;
+            BRApproval.PaymentMethod = billRequisitionMasterModel.VoucherPaymentStatus;
             BRApproval.ModifiedBy = userName;
             BRApproval.ModifiedDate = DateTime.Now;
 

@@ -1287,7 +1287,7 @@ namespace KGERP.Controllers
             {
                 billRequisitionMasterModel = await _service.GetBillRequisitionMasterDetailWithApproval(companyId, billRequisitionMasterId);
 
-                billRequisitionMasterModel.VoucherPaymentStatus = await _service.GetRequisitionVoucherStatusMd(billRequisitionMasterId);
+                //billRequisitionMasterModel.VoucherPaymentStatus = await _service.GetRequisitionVoucherStatusMd(billRequisitionMasterId);
                 billRequisitionMasterModel.DetailDataList = billRequisitionMasterModel.DetailList.ToList();
             }
             return View(billRequisitionMasterModel);

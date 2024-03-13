@@ -319,7 +319,7 @@
                                                 </td>*@
 
                                             <td style="padding:5px; text-align:center;">
-                                                @if (false)
+                                                @if (Model.PaymentStatus)
                                                 {
                                                     <span class="label label-success">Payment Done!</span>
                                                 }
@@ -374,21 +374,24 @@
                                                         </span>
                                                     }
                                                 </td>
+                                                if (item.SignatoryId == (int)EnumBRequisitionSignatory.MD)
+                                                {
+                                                    <td>
+                                                        @if (item.VoucherPaymentStatus != null)
+                                                        {
+                                                            <center>
+                                                                <b>@item.VoucherPaymentStatus</b>
+                                                            </center>
+                                                        }
+                                                        else
+                                                        {
+                                                            <center>
+                                                                <small>Not selected!</small>
+                                                            </center>
+                                                        }
+                                                    </td>
+                                                }
                                             }
-                                            <td>
-                                                @if (false)
-                                                {
-                                                    <center>
-                                                        <b>Chash</b>
-                                                    </center>
-                                                }
-                                                else
-                                                {
-                                                    <center>
-                                                        <small>Not selected!</small>
-                                                    </center>
-                                                }
-                                            </td>
                                         </tr>
                                     </table>
 
@@ -434,11 +437,11 @@
                                                 <div class="form-group">
                                                     <label class="form-label text-secondary">Choose Payment Method<sup class="text-danger" title="Requied"><b>*</b></sup></label>
                                                     <div class="custom-control custom-radio custom-control-inline">
-                                                        <input type="radio" id="cash" name="PaymentMethod" class="custom-control-input" required>
+                                                        <input type="radio" id="cash" value="Cash" name="VoucherPaymentStatus" class="custom-control-input" required>
                                                         <label class="custom-control-label" for="cash">Pay with cash</label>
                                                     </div>
                                                     <div class="custom-control custom-radio custom-control-inline">
-                                                        <input type="radio" id="cheque" name="PaymentMethod" class="custom-control-input" required>
+                                                        <input type="radio" id="cheque" value="Cheque" name="VoucherPaymentStatus" class="custom-control-input" required>
                                                         <label class="custom-control-label" for="cheque">Pay with cheque</label>
                                                     </div>
                                                 </div>

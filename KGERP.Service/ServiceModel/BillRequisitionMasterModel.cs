@@ -43,6 +43,7 @@ namespace KGERP.Service.ServiceModel
         public string CancelReason { get; set; }
         public string VoucherPaymentStatus { get; set; }
         public string EmployeeName { get; set; }
+        public bool PaymentStatus { get; set; }
 
         public EnumVoucherPaymentStatus VoucherPaymentStatusId { get; set; }
         public string VoucherPaymentStatusName { get { return BaseFunctionalities.GetEnumDescription(this.VoucherPaymentStatusId); } }
@@ -122,7 +123,7 @@ namespace KGERP.Service.ServiceModel
         public string ModifiedBy { get; set; }
         public bool IsActive { get; set; }
         public string ApprobalRemarks { get; set; }
+        public string VoucherPaymentStatus { get; set; }
     }
-
 
 }
