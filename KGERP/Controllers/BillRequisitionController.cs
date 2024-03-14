@@ -19,6 +19,7 @@ using KGERP.Data.CustomModel;
 using KGERP.Data.Models;
 using DocumentFormat.OpenXml.Office2010.Excel;
 using DocumentFormat.OpenXml.Wordprocessing;
+using Microsoft.AspNetCore.Mvc;
 
 namespace KGERP.Controllers
 {
@@ -648,6 +649,19 @@ namespace KGERP.Controllers
             return RedirectToAction(nameof(BillRequisitionItemBoQMap), new { companyId = model.CompanyFK });
         }
         #endregion
+        #region Budget & Estimating Approval List
+        [HttpGet]
+        public ActionResult BillRequisitionItemApprovalList(int companyId=0)
+        {
+
+            BillRequisitionMasterModel billRequisitionMaster= new BillRequisitionMasterModel();
+
+            return  View(billRequisitionMaster);  
+        }
+
+
+        #endregion
+
 
         #region Requisition Type
 

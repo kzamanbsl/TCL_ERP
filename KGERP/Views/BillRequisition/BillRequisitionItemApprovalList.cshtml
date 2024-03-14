@@ -1,0 +1,198 @@
+﻿@model KGERP.Service.ServiceModel.BillRequisitionMasterModel
+@using KGERP.Utility;
+
+@{
+    ViewData["Title"] = "Bill Requisition Item Approval List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    int sl = 0;
+}
+
+<style type="text/css">
+
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
+
+<section class="content-header">
+    <h1>
+        <span>
+          Bill Requisition Item Approval List
+        </span>
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
+        <li class="active">
+            Bill Requisition Item Approval List
+        </li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-danger">
+                    <div class="box-body">
+                        @using (Html.BeginForm("MDBRApprovalListSearch", "BillRequisition", FormMethod.Post, new { id = "dealerReceivedListFormId", @class = "formValidator" }))
+                        {
+                            @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyId" })
+
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        @Html.Label("Status:", htmlAttributes: new { @class = "control-label" })
+                                        <br />
+                                        @Html.DropDownListFor(model => model.StatusId, Model.EnumBRStatusList as SelectList, "==Select Status==", new { id = "ddlStatusEnumFK", @class = "form-control ddlReset searchingDropdown", style = "width:100%", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.StatusId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        @Html.Label("From Date:", htmlAttributes: new { @class = "control-label" })
+                                        <br />
+                                        @Html.EditorFor(model => model.StrFromDate, new { htmlAttributes = new { @class = "datepicker", @autocomplete = "off" } })
+                                        @Html.ValidationMessageFor(model => model.StrFromDate, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        @Html.Label("To Date:", htmlAttributes: new { @class = "control-label" })
+                                        <br />
+                                        @Html.EditorFor(model => model.StrToDate, new { htmlAttributes = new { @class = "datepicker", @autocomplete = "off" } })
+                                        @Html.ValidationMessageFor(model => model.StrToDate, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3" style="padding: 0px 2px 0px 8px;">
+                                    <div class="form-group">
+                                        <label>&nbsp;</label>
+                                        <button type="submit" id="btnSave" class="btn btn-primary btn-block">Show</button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        <hr />
+
+                        <section class="content">
+                            <div class="row">
+                                <div class="box">
+                                    <div class="box-danger">
+                                        <div class="box-header">
+                                        </div>
+                                        <!-- /.box-header -->
+                                        <div class="box-body">
+                                            <div class="table-responsive col-md-12">
+                                                <table id="KgErpDataTable" class="table table-dark table-responsive">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>SL</th>
+                                                            <th>Project Name</th>
+                                                            <th>BoQ Division</th>
+                                                            <th>BoQ Name</th>
+                                                            <th>Material Type</th>
+                                                            <th>Material Subtype</th>
+                                                            <th>Material </th>
+                                                            <th>Quantity</th>
+                                                            <th>Unit Price</th>
+                                                            <th>Amount</th>
+                                                            <th>Status</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                   
+                                                    <tbody>
+                                                        @{
+                                                            if (Model.BoQItemProductMaps != null)
+                                                            {
+                                                                foreach (var item in Model.BoQItemProductMaps)
+                                                                {
+                                                                    <tr>
+                                                                        <td>
+                                                                            @(++sl)
+
+                                                                            <input type="hidden" id="projectTypeIdHidden_@item.BoQItemProductMapId" value="@item.ProjectTypeId" />
+                                                                            <input type="hidden" id="projectIdHidden_@item.BoQItemProductMapId" value="@item.ProjectId" />
+                                                                            <input type="hidden" id="divisionIdHidden_@item.BoQItemProductMapId" value="@item.BoQDivisionId" />
+                                                                            <input type="hidden" id="boqIdHidden_@item.BoQItemProductMapId" value="@item.BoQItemId" />
+                                                                            <input type="hidden" id="materialTypeIdHidden_@item.BoQItemProductMapId" value="@item.BudgetTypeId" />
+                                                                            <input type="hidden" id="materialSubtypeIdHidden_@item.BoQItemProductMapId" value="@item.BudgetSubtypeId" />
+                                                                            <input type="hidden" id="materialIdHidden_@item.BoQItemProductMapId" value="@item.MaterialItemId" />
+                                                                            <input type="hidden" id="quantityHidden_@item.BoQItemProductMapId" value="@item.EstimatedQty" />
+                                                                            <input type="hidden" id="unitRateHidden_@item.BoQItemProductMapId" value="@item.UnitRate" />
+
+                                                                        </td>
+                                                                        <td id="tdBoqDivisionName_@item.BoQItemProductMapId">@item.ProjectName</td>
+                                                                        <td id="tdBoqDivisionName_@item.BoQItemProductMapId">@item.DivisionName</td>
+                                                                        <td id="tdBoqItemNo_@item.BoQItemProductMapId"><small class="label label-primary">@item.BoqNumber</small> @item.BoqName</td>
+                                                                        <td id="tdBoqMaterialName_@item.BoQItemProductMapId">@item.MaterialTypeName</td>
+                                                                        <td id="tdBoqMaterialName_@item.BoQItemProductMapId">@item.MaterialSubtypeName</td>
+                                                                        <td id="tdBoqMaterialName_@item.BoQItemProductMapId">@item.MaterialName</td>
+                                                                        <td id="tdBoqEstimateQty_@item.BoQItemProductMapId">@item.EstimatedQty</td>
+                                                                        <td id="tdBoqUnitRate_@item.BoQItemProductMapId">@item.UnitRate</td>
+                                                                        <td id="tdBoqEstimateAmount_@item.BoQItemProductMapId">@item.EstimatedAmount</td>
+                                                                        <td></td>
+                                                                        <td>
+                                                                            <a id="@item.BoQItemProductMapId" onclick="makeEditble(@item.BoQItemProductMapId);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
+
+                                                                            <a id="@item.BoQItemProductMapId" onclick="makeDeletable(@item.BoQItemProductMapId);" class="linkPointer" data-toggle="modal" data-target="#BillRequisitionBoQMapModelDeleteModal" title="Delete"
+                                                                               data-placement="top">
+                                                                                <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+                                                                            </a>
+                                                                        </td>
+                                                                    </tr>
+                                                                }
+                                                            }
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+@Scripts.Render("~/bundles/jqueryui")
+@Styles.Render("~/Content/cssjqryUi")
+
+@section scripts {
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('#ddlStatusEnumFK').removeAttr('title');
+        });
+
+        $('.datepicker').datepicker({
+            dateFormat: "dd/mm/yy",
+            showOn: 'both',
+            buttonText: "<i class='fa fa-calendar'></i>",
+            changeMonth: true,
+            changeYear: true,
+            yearRange: "2001:+50"
+        });
+
+        function resetForm() {
+
+            $('#dealerReceivedListFormId')[0].reset();
+            $('#SOEditActionId').val(1);
+        }
+
+        $('#KgErpDataTable33').dataTable({
+            "pageLength": 100
+        });
+    </script>
+}

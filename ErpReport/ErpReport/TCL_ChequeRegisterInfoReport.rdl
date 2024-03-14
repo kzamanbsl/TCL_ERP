@@ -9,7 +9,7 @@
       <am:Name>SSDTRS</am:Name>
       <am:Version>17.9.34622.214</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2024-03-09T08:22:34.1632798Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2024-03-10T06:59:55.5931975Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
@@ -382,11 +382,11 @@
                 <TextRuns>
                   <TextRun>
                     <Label>Amount</Label>
-                    <Value>=First(Fields!Amount.Value, "ChequeInfoDSet")</Value>
+                    <Value>=First(Fields!Amount.Value,"ChequeInfoDSet")</Value>
                     <Style>
                       <FontFamily>times New Roman</FontFamily>
                       <FontSize>14pt</FontSize>
-                      <Format>0.00;(0.00)</Format>
+                      <Format>#,0.00;(#,0.00);'-'</Format>
                     </Style>
                   </TextRun>
                 </TextRuns>

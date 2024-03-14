@@ -68,6 +68,7 @@ namespace KGERP.Service.ServiceModel
         public SelectList UnitList { get; set; } = new SelectList(new List<object>());
         public SelectList EnumBRStatusList { get { return new SelectList(BaseFunctionalities.GetEnumList<EnumBillRequisitionStatus>(), "Value", "Text"); } }
         public SelectList EnumBRSignatoryList { get { return new SelectList(BaseFunctionalities.GetEnumList<EnumBRequisitionSignatory>(), "Value", "Text"); } }
+        public List<BillRequisitionItemBoQMapModel> BoQItemProductMaps { get; set; }
         public SelectList FloorList { get; set; } = new SelectList(new List<object>());
         public SelectList MemberList { get; set; } = new SelectList(new List<object>());
     }
