@@ -18,14 +18,14 @@
 <section class="content-header">
     <h1>
         <span>
-         BudgetAndEstimating Item Approval List
+         Budget And Estimating Item Approval List
         </span>
 
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
         <li class="active">
-        BudgetAndEstimating Item Approval List
+        Budget And Estimating Item Approval List
         </li>
     </ol>
 </section>
@@ -36,7 +36,7 @@
             <div class="box">
                 <div class="box-danger">
                     <div class="box-body">
-                        @using (Html.BeginForm("MDBRApprovalListSearch", "BillRequisition", FormMethod.Post, new { id = "dealerReceivedListFormId", @class = "formValidator" }))
+                        @using (Html.BeginForm("BudgetAndEstimatingApprovalList", "BillRequisition", FormMethod.Post, new { id = "dealerReceivedListFormId", @class = "formValidator" }))
                         {
                             @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyId" })
 
@@ -140,11 +140,8 @@
                                                                         <td></td>
                                                                         <td></td>
                                                                         <td>
-                                                                            <a id="@item.BoQItemProductMapId" onclick="makeEditble(@item.BoQItemProductMapId);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
-
-                                                                            <a id="@item.BoQItemProductMapId" onclick="makeDeletable(@item.BoQItemProductMapId);" class="linkPointer" data-toggle="modal" data-target="#BillRequisitionBoQMapModelDeleteModal" title="Delete"
-                                                                               data-placement="top">
-                                                                                <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+                                                                            <a class="label label-primary text-center" target="_blank" href="">
+                                                                                <i class="fa fa-download"></i> Download
                                                                             </a>
                                                                         </td>
                                                                     </tr>

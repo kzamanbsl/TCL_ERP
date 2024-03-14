@@ -868,7 +868,8 @@ namespace KGERP.Service.Implementation
 
         public List<BillRequisitionItemBoQMapModel> GetBoQProductMapList()
         {
-            var sendData = (from t1 in _context.BoQItemProductMaps.Where(c => c.IsActive)
+            var sendData = (
+                from t1 in _context.BoQItemProductMaps.Where(c => c.IsActive)
                             join t2 in _context.Products.Where(c => c.IsActive) on t1.ProductId equals t2.ProductId
                             join t3 in _context.BillBoQItems.Where(c => c.IsActive) on t1.BoQItemId equals t3.BoQItemId
                             join t4 in _context.BoQDivisions.Where(c => c.IsActive) on t3.BoQDivisionId equals t4.BoQDivisionId
@@ -1004,6 +1005,10 @@ namespace KGERP.Service.Implementation
             }
             return result;
         }
+
+        #endregion
+
+        #region Budget & Estimating Approval
 
         #endregion
 

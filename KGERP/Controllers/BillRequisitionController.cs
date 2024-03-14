@@ -649,9 +649,19 @@ namespace KGERP.Controllers
             return RedirectToAction(nameof(BillRequisitionItemBoQMap), new { companyId = model.CompanyFK });
         }
         #endregion
-        #region Budget & Estimating Approval List
+
+        #region Budget & Estimating Approval
         [HttpGet]
         public ActionResult BudgetAndEstimatingApprovalList(int companyId=0)
+        {
+
+            BillRequisitionMasterModel billRequisitionMaster= new BillRequisitionMasterModel();
+            billRequisitionMaster.BoQItemProductMaps = _service.GetBoQProductMapList();
+            return  View(billRequisitionMaster);  
+        }
+
+        [HttpPost]
+        public ActionResult BudgetAndEstimatingApprovalList(BillRequisitionMasterModel model)
         {
 
             BillRequisitionMasterModel billRequisitionMaster= new BillRequisitionMasterModel();
@@ -659,9 +669,18 @@ namespace KGERP.Controllers
             return  View(billRequisitionMaster);  
         }
 
+        [HttpGet]
+        public ActionResult BudgetAndEstimatingApproveSlave(int companyId=0)
+        {
+
+            BillRequisitionMasterModel billRequisitionMaster= new BillRequisitionMasterModel();
+            
+            
+            return  View(billRequisitionMaster);  
+        }
+
 
         #endregion
-
 
         #region Requisition Type
 
