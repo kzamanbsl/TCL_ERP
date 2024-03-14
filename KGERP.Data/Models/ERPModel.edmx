@@ -3652,6 +3652,20 @@ warning 6002: The table/view 'TCLErp.dbo.TempFeedVoucherDetail' does not have a 
           <Property Name="ModifiedDate" Type="datetime" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="BoqBNEApprovalHistroy">
+          <Key>
+            <PropertyRef Name="BoqBNEApprovalHistroyId" />
+          </Key>
+          <Property Name="BoqBNEApprovalHistroyId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BoqBudgetId" Type="bigint" Nullable="false" />
+          <Property Name="PreEstimatedQty" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="PreUnitPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="ApprovalStatusId" Type="int" Nullable="false" />
+          <Property Name="ApprovalRemarks" Type="nvarchar" MaxLength="50" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ModifiedOn" Type="datetime" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="BoQDivision">
           <Key>
             <PropertyRef Name="BoQDivisionId" />
@@ -6683,6 +6697,18 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_BoqBNEApprovalHistroy_BoQItemProductMap">
+          <End Role="BoQItemProductMap" Type="Self.BoQItemProductMap" Multiplicity="1" />
+          <End Role="BoqBNEApprovalHistroy" Type="Self.BoqBNEApprovalHistroy" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BoQItemProductMap">
+              <PropertyRef Name="BoQItemProductMapId" />
+            </Principal>
+            <Dependent Role="BoqBNEApprovalHistroy">
+              <PropertyRef Name="BoqBudgetId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_BoQDivision_Accounting_CostCenter">
           <End Role="Accounting_CostCenter" Type="Self.Accounting_CostCenter" Multiplicity="1" />
           <End Role="BoQDivision" Type="Self.BoQDivision" Multiplicity="*" />
@@ -9207,6 +9233,7 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <EntitySet Name="BookingCostMapping" EntityType="Self.BookingCostMapping" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="BookingInstallmentSchedule" EntityType="Self.BookingInstallmentSchedule" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="BookingInstallmentType" EntityType="Self.BookingInstallmentType" Schema="Erp" store:Type="Tables" />
+          <EntitySet Name="BoqBNEApprovalHistroy" EntityType="Self.BoqBNEApprovalHistroy" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="BoQDivision" EntityType="Self.BoQDivision" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="BoQItemProductMap" EntityType="Self.BoQItemProductMap" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="BuildingFloor" EntityType="Self.BuildingFloor" Schema="Erp" store:Type="Tables" />
@@ -10078,6 +10105,10 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <AssociationSet Name="FK_BookingInstallmentSchedule_ProductBookingInfo" Association="Self.FK_BookingInstallmentSchedule_ProductBookingInfo">
             <End Role="ProductBookingInfo" EntitySet="ProductBookingInfo" />
             <End Role="BookingInstallmentSchedule" EntitySet="BookingInstallmentSchedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BoqBNEApprovalHistroy_BoQItemProductMap" Association="Self.FK_BoqBNEApprovalHistroy_BoQItemProductMap">
+            <End Role="BoQItemProductMap" EntitySet="BoQItemProductMap" />
+            <End Role="BoqBNEApprovalHistroy" EntitySet="BoqBNEApprovalHistroy" />
           </AssociationSet>
           <AssociationSet Name="FK_BoQDivision_Accounting_CostCenter" Association="Self.FK_BoQDivision_Accounting_CostCenter">
             <End Role="Accounting_CostCenter" EntitySet="Accounting_CostCenter" />
@@ -12282,6 +12313,11 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <AssociationSet Name="FK_BillRequisitionApproval_Employee" Association="ERPModel.FK_BillRequisitionApproval_Employee">
             <End Role="Employee" EntitySet="Employees" />
             <End Role="BillRequisitionApproval" EntitySet="BillRequisitionApprovals" />
+          </AssociationSet>
+          <EntitySet Name="BoqBNEApprovalHistroys" EntityType="ERPModel.BoqBNEApprovalHistroy" />
+          <AssociationSet Name="FK_BoqBNEApprovalHistroy_BoQItemProductMap" Association="ERPModel.FK_BoqBNEApprovalHistroy_BoQItemProductMap">
+            <End Role="BoQItemProductMap" EntitySet="BoQItemProductMaps" />
+            <End Role="BoqBNEApprovalHistroy" EntitySet="BoqBNEApprovalHistroys" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="AdminPolicy">
@@ -21631,6 +21667,7 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <NavigationProperty Name="Company" Relationship="ERPModel.FK_BillRequisitionItemBoQMap_Company" FromRole="BoQItemProductMap" ToRole="Company" />
           <NavigationProperty Name="Product" Relationship="ERPModel.FK_BoQItemProductMap_Product" FromRole="BoQItemProductMap" ToRole="Product" />
           <NavigationProperty Name="BillBoQItem" Relationship="ERPModel.FK_BillRequisitionItemBoQMap_BillBoQItem" FromRole="BoQItemProductMap" ToRole="BillBoQItem" />
+          <NavigationProperty Name="BoqBNEApprovalHistroys" Relationship="ERPModel.FK_BoqBNEApprovalHistroy_BoQItemProductMap" FromRole="BoQItemProductMap" ToRole="BoqBNEApprovalHistroy" />
         </EntityType>
         <Association Name="FK_BillRequisitionItemBoQMap_Company">
           <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
@@ -22073,6 +22110,33 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             </Principal>
             <Dependent Role="BillRequisitionApproval">
               <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="BoqBNEApprovalHistroy">
+          <Key>
+            <PropertyRef Name="BoqBNEApprovalHistroyId" />
+          </Key>
+          <Property Name="BoqBNEApprovalHistroyId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BoqBudgetId" Type="Int64" Nullable="false" />
+          <Property Name="PreEstimatedQty" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="PreUnitPrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="ApprovalStatusId" Type="Int32" Nullable="false" />
+          <Property Name="ApprovalRemarks" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="BoQItemProductMap" Relationship="ERPModel.FK_BoqBNEApprovalHistroy_BoQItemProductMap" FromRole="BoqBNEApprovalHistroy" ToRole="BoQItemProductMap" />
+        </EntityType>
+        <Association Name="FK_BoqBNEApprovalHistroy_BoQItemProductMap">
+          <End Type="ERPModel.BoQItemProductMap" Role="BoQItemProductMap" Multiplicity="1" />
+          <End Type="ERPModel.BoqBNEApprovalHistroy" Role="BoqBNEApprovalHistroy" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BoQItemProductMap">
+              <PropertyRef Name="BoQItemProductMapId" />
+            </Principal>
+            <Dependent Role="BoqBNEApprovalHistroy">
+              <PropertyRef Name="BoqBudgetId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -28149,6 +28213,21 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
                 <ScalarProperty Name="AprrovalStatusId" ColumnName="AprrovalStatusId" />
                 <ScalarProperty Name="BillRequisitionMasterId" ColumnName="BillRequisitionMasterId" />
                 <ScalarProperty Name="BRApprovalId" ColumnName="BRApprovalId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BoqBNEApprovalHistroys">
+            <EntityTypeMapping TypeName="ERPModel.BoqBNEApprovalHistroy">
+              <MappingFragment StoreEntitySet="BoqBNEApprovalHistroy">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ApprovalRemarks" ColumnName="ApprovalRemarks" />
+                <ScalarProperty Name="ApprovalStatusId" ColumnName="ApprovalStatusId" />
+                <ScalarProperty Name="PreUnitPrice" ColumnName="PreUnitPrice" />
+                <ScalarProperty Name="PreEstimatedQty" ColumnName="PreEstimatedQty" />
+                <ScalarProperty Name="BoqBudgetId" ColumnName="BoqBudgetId" />
+                <ScalarProperty Name="BoqBNEApprovalHistroyId" ColumnName="BoqBNEApprovalHistroyId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

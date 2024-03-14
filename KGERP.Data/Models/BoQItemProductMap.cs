@@ -14,6 +14,12 @@ namespace KGERP.Data.Models
     
     public partial class BoQItemProductMap
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public BoQItemProductMap()
+        {
+            this.BoqBNEApprovalHistroys = new HashSet<BoqBNEApprovalHistroy>();
+        }
+    
         public long BoQItemProductMapId { get; set; }
         public Nullable<int> BoQItemId { get; set; }
         public int ProductId { get; set; }
@@ -31,5 +37,7 @@ namespace KGERP.Data.Models
         public virtual Company Company { get; set; }
         public virtual Product Product { get; set; }
         public virtual BillBoQItem BillBoQItem { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BoqBNEApprovalHistroy> BoqBNEApprovalHistroys { get; set; }
     }
 }

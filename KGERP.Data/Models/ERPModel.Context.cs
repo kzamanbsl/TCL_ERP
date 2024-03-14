@@ -322,6 +322,7 @@ namespace KGERP.Data.Models
         public virtual DbSet<ChequeRegister> ChequeRegisters { get; set; }
         public virtual DbSet<BillRequisitionMaster> BillRequisitionMasters { get; set; }
         public virtual DbSet<BillRequisitionApproval> BillRequisitionApprovals { get; set; }
+        public virtual DbSet<BoqBNEApprovalHistroy> BoqBNEApprovalHistroys { get; set; }
     
         public virtual ObjectResult<GetEmployeeListForTeam_Result> GetEmployeeListForTeam(Nullable<int> companyId)
         {
