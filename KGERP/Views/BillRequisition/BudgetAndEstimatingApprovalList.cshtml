@@ -101,8 +101,9 @@
                                                             <th>Quantity</th>
                                                             <th>Unit Price</th>
                                                             <th>Amount</th>
+                                                            <th>Remarks/Particular</th>
                                                             <th>Status</th>
-                                                            <th>Action</th>
+                                                            <th>Report</th>
                                                         </tr>
                                                     </thead>
                                                    
@@ -136,6 +137,7 @@
                                                                         <td id="tdBoqEstimateQty_@item.BoQItemProductMapId">@item.EstimatedQty</td>
                                                                         <td id="tdBoqUnitRate_@item.BoQItemProductMapId">@item.UnitRate</td>
                                                                         <td id="tdBoqEstimateAmount_@item.BoQItemProductMapId">@item.EstimatedAmount</td>
+                                                                        <td></td>
                                                                         <td></td>
                                                                         <td>
                                                                             <a id="@item.BoQItemProductMapId" onclick="makeEditble(@item.BoQItemProductMapId);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>

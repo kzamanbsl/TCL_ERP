@@ -651,7 +651,7 @@ namespace KGERP.Controllers
         #endregion
         #region Budget & Estimating Approval List
         [HttpGet]
-        public ActionResult BillRequisitionItemApprovalList(int companyId=0)
+        public ActionResult BudgetAndEstimatingApprovalList(int companyId=0)
         {
 
             BillRequisitionMasterModel billRequisitionMaster= new BillRequisitionMasterModel();

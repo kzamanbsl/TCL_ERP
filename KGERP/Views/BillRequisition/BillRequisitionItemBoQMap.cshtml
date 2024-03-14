@@ -34,7 +34,7 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label>Select Project Type :</label>
+                                <label>Select Project Type<sup class="text-danger" title="Required"><b>*</b></sup> :</label>
                                 @Html.DropDownListFor(model => model.ProjectTypeId, new SelectList(Model.ProjectTypes.OrderBy(order => order.Name), "CostCenterTypeId", "Name"), "==Select Project Type==", new { id = "projectTypeId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
                                 @Html.ValidationMessageFor(model => model.ProjectTypeId, "", new { @class = "text-danger" })
                             </div>
@@ -42,7 +42,7 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label asp-for="ProjectId" class="form-control-label">Select Project :</label>
+                                <label asp-for="ProjectId" class="form-control-label">Select Project<sup class="text-danger" title="Required"><b>*</b></sup> :</label>
                                 @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.Projects.OrderBy(order => order.Name), "CostCenterId", "Name"), "==Select Project Type First==", new { id = "ddlProjectId", @class = "form-control searchingDropdown", style = "width:100%" })
                                 @Html.ValidationMessageFor(model => model.ProjectId, "", new { @class = "text-danger" })
                             </div>
@@ -50,7 +50,7 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label asp-for="BoQDivisionId" class="form-control-label">Select BoQ Division :</label>
+                                <label asp-for="BoQDivisionId" class="form-control-label">Select BoQ Division<sup class="text-danger" title="Required"><b>*</b></sup> :</label>
                                 @Html.DropDownListFor(model => model.BoQDivisionId, new SelectList(Model.BoQDivisions.OrderBy(order => order.Name), "BoQDivisionId", "Name"), "==Select Project First==", new { id = "ddlBoQDivisionId", @class = "form-control searchingDropdown", style = "width:100%" })
                                 @Html.ValidationMessageFor(model => model.BoQDivisionId, "", new { @class = "text-danger" })
                             </div>
@@ -58,7 +58,7 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label asp-for="BoQItemId" class="form-control-label">Select BoQ Item :</label>
+                                <label asp-for="BoQItemId" class="form-control-label">Select BoQ Item<sup class="text-danger" title="Required"><b>*</b></sup> :</label>
                                 @Html.DropDownListFor(model => model.BoQItemId, new SelectList(Model.BoQItems.OrderBy(order => order.Name), "BoQItemId", "Name"), "==Select BoQ Division First==", new { id = "ddlBoQItemId", @class = "form-control searchingDropdown", style = "width:100%" })
                                 @Html.ValidationMessageFor(model => model.BoQItemId, "", new { @class = "text-danger" })
                             </div>
@@ -66,7 +66,7 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label>Select Material Type :</label>
+                                <label>Select Material Type<sup class="text-danger" title="Required"><b>*</b></sup> :</label>
                                 @Html.DropDownListFor(model => model.BudgetTypeId, new SelectList(Model.BudgetTypes.OrderBy(order => order.Name), "ProductCategoryId", "Name"), "==Select Budget Type==", new { id = "ddlBRTypeId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
                                 @Html.ValidationMessageFor(model => model.BudgetTypeId, "", new { @class = "text-danger" })
                             </div>
@@ -74,7 +74,7 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label>Select Material Subtype :</label>
+                                <label>Select Material Subtype<sup class="text-danger" title="Required"><b>*</b></sup>:</label>
                                 @Html.DropDownListFor(model => model.BudgetSubtypeId, new SelectList(Model.BudgetSubtypes.OrderBy(order => order.Name), "ProductSubCategoryId", "Name"), "==Select Budget Type First==", new { id = "ddlBRSubTypeId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
                                 @Html.ValidationMessageFor(model => model.BudgetSubtypeId, "", new { @class = "text-danger" })
                             </div>
@@ -82,7 +82,7 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label asp-for="MaterialItemId" class="form-control-label">Select Material :</label>
+                                <label asp-for="MaterialItemId" class="form-control-label">Select Material<sup class="text-danger" title="Required"><b>*</b></sup> :</label>
                                 @Html.DropDownListFor(model => model.MaterialItemId, new SelectList(Model.BoQMaterials.OrderBy(order => order.ProductName), "ProductId", "ProductName"), "==Select Budget Subtype First==", new { id = "ddlMaterialItemId", @class = "form-control searchingDropdown", })
                                 @Html.ValidationMessageFor(model => model.MaterialItemId, "", new { @class = "text-danger" })
                                 <small class="text-danger" id="errorMessage"></small>
