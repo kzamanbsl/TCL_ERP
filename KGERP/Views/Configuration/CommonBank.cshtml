@@ -1,22 +1,20 @@
 ﻿@model KGERP.Service.Implementation.Configuration.VMCommonBank
 @{
-    ViewData["Title"] = "Bank";
+    ViewData["Title"] = "New Bank";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
 <style type="text/css">
-
     input, select, textarea {
         max-width: 100%;
     }
 </style>
 
 <section class="content-header">
-    <h1>Bank</h1>
+    <h1>New Bank</h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">Bank</li>
+        <li class="active">New Bank</li>
     </ol>
 </section>
 
@@ -30,9 +28,7 @@
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
                     <div class="box-danger">
-                        <div class="box-header">
-                            <h4>Add Bank</h4>
-                        </div>
+                        <div class="box-header"></div>
                         <!-- /.box-header -->
                         <div class="box-body">
                             @Html.HiddenFor(model => model.ID, new { id = "BankId" })
@@ -40,7 +36,7 @@
                             @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
 
                             <div class="form-group">
-                                @*<label for="message-text" class="col-form-label">Bank:</label>*@
+                                <label class="form-label">Bank Name <sup class="text-danger" title="Required"><b>*</b></sup></label>
                                 @Html.TextBoxFor(model => model.Name, new { Style = "width:100%;", id = "txtBankName", @class = "form-control input-sm ", @placeholder = "Bank Name", required = "true", })
                                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                             </div>
@@ -51,7 +47,6 @@
                                 </div>
                                 <div class="col-md-7">
                                     <button type="submit" id="btnSave" class="btn btn-primary btn-block"><i class='fa fa-edit'></i> Add</button>
-
                                 </div>
                             </div>
 
@@ -65,9 +60,7 @@
             <div class="col-md-9">
                 <div class="box">
                     <div class="box-danger">
-                        <div class="box-header">
-                            <h4>Bank List</h4>
-                        </div>
+                        <div class="box-header"></div>
 
                         <!-- /.box-header -->
                         <div class="box-body">
@@ -143,7 +136,6 @@
                     <div style="text-align:center">
                         <h3>Are you sure to delete this bank?</h3>
                     </div>
-
                 </div>
 
                 <div class="modal-footer">
