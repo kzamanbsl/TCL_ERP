@@ -23,21 +23,21 @@ namespace KGERP.Data.Models
         public long BoQItemProductMapId { get; set; }
         public Nullable<int> BoQItemId { get; set; }
         public int ProductId { get; set; }
+        public Nullable<decimal> EstimatedQty { get; set; }
+        public Nullable<decimal> UnitRate { get; set; }
+        public Nullable<decimal> EstimatedAmount { get; set; }
+        public Nullable<bool> IsApproved { get; set; }
         public int CompanyId { get; set; }
         public System.DateTime CreateDate { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public string ModifiedBy { get; set; }
         public bool IsActive { get; set; }
-        public Nullable<decimal> EstimatedQty { get; set; }
-        public Nullable<decimal> UnitRate { get; set; }
-        public Nullable<decimal> EstimatedAmount { get; set; }
-        public Nullable<int> RequisitionSubtypeId { get; set; }
     
         public virtual Company Company { get; set; }
-        public virtual Product Product { get; set; }
         public virtual BillBoQItem BillBoQItem { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BoqBNEApprovalHistroy> BoqBNEApprovalHistroys { get; set; }
+        public virtual Product Product { get; set; }
     }
 }
