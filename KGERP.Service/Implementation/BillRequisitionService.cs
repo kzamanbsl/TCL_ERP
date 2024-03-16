@@ -1815,8 +1815,9 @@ namespace KGERP.Service.Implementation
                                                                                      IsSupremeApproved = t1.IsSupremeApproved,
                                                                                      EmployeeId = t1.EmployeeId,
                                                                                      EmployeeName = t3.EmployeeId,
-                                                                                     ApprobalRemarks = t1.Reasons ?? "N/A",
-                                                                                     VoucherPaymentStatus = t1.PaymentMethod ?? "N/A",
+                                                                                     ApprovalRemarks = t1.Reasons ?? "N/A",
+                                                                                     VoucherPaymentStatus = t1.PaymentMethod ?? "Not selected!",
+                                                                                     ApproverNameWithId = t3.Name + " (" + t3.EmployeeId + ")" ?? "N/A",
                                                                                      ModifiedDate = t1.ModifiedDate
                                                                                  }).OrderBy(x => x.BRApprovalId).ToList());
             return billRequisitionMasterModel;

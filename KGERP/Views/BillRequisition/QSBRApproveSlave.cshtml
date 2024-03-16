@@ -298,26 +298,40 @@
                                             @foreach (var item in Model.ApprovalModelList)
                                             {
                                                 <td>
-                                                    @if (item.ApprobalRemarks != null)
+                                                    @if (item.SignatoryName == "Initiator")
                                                     {
-                                                        <span style="font-size: 12px"><b>Remarks: </b> @item.ApprobalRemarks</span>
+                                                        <span style="font-size: 11px">
+                                                            <b>Time: </b> @item.ModifiedDate.ToString()
+                                                        </span>
                                                     }
                                                     else
                                                     {
-                                                        <span style="font-size: 12px"><b>Remarks: </b> @(item.SignatoryName == "Initiator" ? "Requisition Created. " : "N/A")</span>
+                                                        <span style="font-size: 11px">
+                                                            <b>Time: </b> @(item.ModifiedDate == null ? "Not Approve Yet!" : item.ModifiedDate.ToString())
+                                                        </span>
                                                     }
+
                                                     <br />
                                                     @if (item.SignatoryName == "Initiator")
                                                     {
                                                         <span style="font-size: 11px">
-                                                            <b>Time: </b> @(item.ModifiedDate == null ? "Pending" : item.ModifiedDate.ToString())
+                                                            <b>Created By: </b>  @item.ApproverNameWithId
                                                         </span>
                                                     }
                                                     else
                                                     {
                                                         <span style="font-size: 11px">
-                                                            <b>Time: </b> @(item.ModifiedDate == null ? "Pending" : item.ModifiedDate.ToString())
+                                                            <b>Approved By: </b> @(item.ApproverNameWithId == " ()" ? "-" : item.ApproverNameWithId)
                                                         </span>
+                                                    }
+                                                    <br />
+                                                    @if (item.ApprovalRemarks != null)
+                                                    {
+                                                        <span style="font-size: 12px"><b>Remarks: </b> @item.ApprovalRemarks</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span style="font-size: 12px"><b>Remarks: </b> @(item.SignatoryName == "Initiator" ? "Requisition Created. " : "N/A")</span>
                                                     }
                                                 </td>
                                             }

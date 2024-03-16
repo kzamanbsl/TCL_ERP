@@ -123,7 +123,8 @@ namespace KGERP.Service.ServiceModel
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public string ModifiedBy { get; set; }
         public bool IsActive { get; set; }
-        public string ApprobalRemarks { get; set; }
+        public string ApprovalRemarks { get; set; }
+        public string ApproverNameWithId { get; set; }
         public string VoucherPaymentStatus { get; set; }
     }
 
