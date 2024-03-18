@@ -1,0 +1,193 @@
+﻿@model KGERP.Service.ServiceModel.BillRequisitionMasterModel
+@using KGERP.Utility;
+
+@{
+    ViewData["Title"] = "Fuel Approval List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    int sl = 0;
+}
+
+<style type="text/css">
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
+
+<section class="content-header">
+    <h1>
+        <span>
+            Fuel Approval List
+        </span>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
+        <li class="active">
+            Fuel Approval List
+        </li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-danger">
+                    <div class="box-body">
+                        @using (Html.BeginForm("FuelBRApprovalListSearch", "BillRequisition", FormMethod.Post, new { id = "dealerReceivedListFormId", @class = "formValidator" }))
+                        {
+                            @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyId" })
+
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        @Html.Label("Status:", htmlAttributes: new { @class = "control-label" })
+                                        <br />
+                                        @Html.DropDownListFor(model => model.StatusId, Model.EnumBRStatusList as SelectList, "==Select Status==", new { id = "ddlStatusEnumFK", @class = "form-control ddlReset searchingDropdown", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.StatusId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        @Html.Label("From Date:", htmlAttributes: new { @class = "control-label" })
+                                        <br />
+                                        @Html.EditorFor(model => model.StrFromDate, new { htmlAttributes = new { @class = "datepicker", @autocomplete = "off" } })
+                                        @Html.ValidationMessageFor(model => model.StrFromDate, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        @Html.Label("To Date:", htmlAttributes: new { @class = "control-label" })
+                                        <br />
+                                        @Html.EditorFor(model => model.StrToDate, new { htmlAttributes = new { @class = "datepicker", @autocomplete = "off" } })
+                                        @Html.ValidationMessageFor(model => model.StrToDate, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3" style="padding: 0px 2px 0px 8px;">
+                                    <div class="form-group">
+                                        <label>&nbsp;</label>
+                                        <button type="submit" id="btnSave" class="btn btn-primary btn-block">Show</button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        <hr />
+
+                        <div class="table-responsive">
+                            <table id="KgErpDataTable33" class="table table-dark table-striped table-responsive">
+                                <thead>
+                                    <tr>
+                                        <th width="3%">SL</th>
+                                        <th width="10%">Date</th>
+                                        <th width="16%">Requisition No</th>
+                                        <th width="15%">Requisition Type</th>
+                                        <th width="25%">Project Name</th>
+                                        <th width="8%">Amount</th>
+                                        <th width="10%">Status</th>
+                                        <th width="8%">Action</th>
+                                        <th width="5%">Report</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.DataList)
+                                    {
+                                        <tr>
+                                            <th>@(++sl)</th>
+                                            <td>@item.BRDate.ToString("dd-MM-yyyy")</td>
+                                            <td>
+                                                <a class="text-primary" target="_blank" href="~/BillRequisition/ITHeadBRApproveSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId">
+                                                    @item.BillRequisitionNo
+                                                </a>
+                                            </td>
+                                            <td>@item.BRTypeName</td>
+                                            <td>@item.CostCenterName</td>
+                                            <td>@item.TotalAmount</td>
+                                            <td>
+
+                                                @if (@item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.QS).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending && @item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
+                                                {
+                                                    <span class="btn btn-xs btn-warning text-center" style="display: block; padding-left: 7px; padding-right: 7px;">@item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.QS).AprrovalStatusName</span>
+                                                }
+                                                @if (@item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.QS).AprrovalStatusId == (int)EnumBillRequisitionStatus.Approved)
+                                                {
+                                                    <span class="btn btn-xs btn-success text-center" style="display: block; padding-left: 7px; padding-right: 7px;">@item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.QS).AprrovalStatusName</span>
+                                                }
+                                                @if (@item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.QS).AprrovalStatusId == (int)EnumBillRequisitionStatus.Rejected)
+                                                {
+                                                    <span class="btn btn-xs btn-danger text-center" style="display: block; padding-left: 7px; padding-right: 7px;">@item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.QS).AprrovalStatusName</span>
+                                                }
+                                                @if (@item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.QS).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending && @item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Approved)
+                                                {
+                                                    <span class="btn btn-xs btn-warning text-center" style="display: block; padding-left: 7px; padding-right: 7px;">Bypass</span>
+                                                }
+
+                                            </td>
+                                            <td>
+
+                                                @if (@item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.QS).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
+                                                {
+                                                    <a href="~/BillRequisition/FuelBRApproveSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" class="link-primary text-primary" title="Action for Approve"><i class="fa fa-external-link-square" aria-hidden="true"></i> Action</a>
+                                                }
+                                                @if (@item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.QS).AprrovalStatusId == (int)EnumBillRequisitionStatus.Approved)
+                                                {
+                                                    <a href="~/BillRequisition/FuelBRApproveSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" class="link-warning text-warning" title="Action for Details"><i class="fa fa-external-link-square" aria-hidden="true"></i> Action</a>
+                                                }
+                                                @if (@item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.QS).AprrovalStatusId == (int)EnumBillRequisitionStatus.Rejected)
+                                                {
+                                                    <a href="~/BillRequisition/FuelBRRejectSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId" class="link-danger text-danger" title="Rejection Details"><i class="fa fa-external-link-square" aria-hidden="true"></i> Action</a>
+                                                }
+
+                                            </td>
+                                            <td>
+                                                <a class="label label-primary text-center" target="_blank" href="~/Report/TCLBillRequisiontReport?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId">
+                                                    <i class="fa fa-download"></i> Download
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+@Scripts.Render("~/bundles/jqueryui")
+@Styles.Render("~/Content/cssjqryUi")
+
+@section scripts {
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('#ddlStatusEnumFK').removeAttr('title');
+        });
+
+        $('.datepicker').datepicker({
+            dateFormat: "dd/mm/yy",
+            showOn: 'both',
+            buttonText: "<i class='fa fa-calendar'></i>",
+            changeMonth: true,
+            changeYear: true,
+            yearRange: "2001:+50"
+        });
+
+        function resetForm() {
+
+            $('#dealerReceivedListFormId')[0].reset();
+            $('#SOEditActionId').val(1);
+        }
+
+        $('#KgErpDataTable33').dataTable({
+            "pageLength": 100
+        });
+    </script>
+}

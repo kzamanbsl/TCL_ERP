@@ -163,7 +163,7 @@
                                                     <td class="text-center">@String.Format("{0:0.00}", item.ReceivedSoFar)</td>
                                                     @if (Model.BillRequisitionTypeId != (int)EnumBillRequisitionType.Overhead)
                                                     {
-                                                        <td class="text-center">@String.Format("{0:0.00}", item.RemainingQty)</td>
+                                                        <td class="text-center remainingValue">@String.Format("{0:0.00}", item.RemainingQty)</td>
                                                     }
                                                     <td class="text-center">
                                                         @if (Model.BillRequisitionMasterId > 0 && Model.StatusName == EnumBillRequisitionStatus.Submitted.ToString() && Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.PM).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
@@ -443,91 +443,91 @@
 
 @section scripts {
     <script>
-    $(".demandValue, .unitValue").on('input', function (event) {
-        LineCalculator();
-    });
-
-    function LineCalculator() {
-        $("#itemTable tbody tr").each(function () {
-            var getRemainingValue = $(this).find(".remainingValue");
-            var getAvailableValue = $(this).find(".availableValue");
-            var inputDemadValue = $(this).find(".demandValue");
-            var inputUnitValue = $(this).find(".unitValue");
-            var inputTotalValue = $(this).find(".totalValue");
-            var demandMessage = $(this).find(".errorDemand");
-            var unitMessage = $(this).find(".errorUnit");
-            var available = 0;
-            var lineTotal = 0;
-
-            if (@Model.BillRequisitionTypeId == @((int)EnumBillRequisitionType.Overhead)) {
-                if (!isNaN(inputDemadValue.val()) && !isNaN(inputUnitValue.val())) {
-                    var demandValue = parseFloat(inputDemadValue.val());
-                    var unitValue = parseFloat(inputUnitValue.val());
-
-                    if (demandValue > 0 && unitValue > 0) {
-                        lineTotal = demandValue * unitValue;
-                    } else {
-                        demandValue = unitValue = 0;
-                    }
-                } else {
-                    demandValue = unitValue = 0;
-                    $(demandMessage).text("Only number is allowed!");
-                    $(unitMessage).text("Only number is allowed!");
-                }
-
-                inputTotalValue.text(lineTotal.toFixed(2));
-            } else {
-                if (!isNaN(inputDemadValue.val()) && !isNaN(inputUnitValue.val()) && !isNaN(getRemainingValue.text())) {
-                    var demandValue = parseFloat(inputDemadValue.val());
-                    var unitValue = parseFloat(inputUnitValue.val());
-                    var remainingValue = parseFloat(getRemainingValue.text());
-
-                    if (demandValue > 0 && unitValue > 0) {
-                        if (remainingValue >= demandValue) {
-                            available = remainingValue - demandValue;
-                            $(demandMessage).text("");
-                        } else {
-                            inputDemadValue.val(remainingValue);
-                            demandValue = remainingValue;
-                            available = remainingValue - demandValue;
-                            $(demandMessage).text("Demand cannot exceed remaining!");
-                        }
-                        lineTotal = demandValue * unitValue;
-                    } else {
-                        demandValue = unitValue = 0;
-                    }
-
-                } else {
-                    demandValue = unitValue = 0;
-                    $(demandMessage).text("Only number is allowed!");
-                    $(unitMessage).text("Only number is allowed!");
-                }
-
-                inputTotalValue.text(lineTotal.toFixed(2));
-                getAvailableValue.text(available.toFixed(2));
-            }
+        $(".demandValue, .unitValue").on('input', function (event) {
+            LineCalculator();
         });
+
+        function LineCalculator() {
+            $("#itemTable tbody tr").each(function () {
+                var getRemainingValue = $(this).find(".remainingValue");
+                var getAvailableValue = $(this).find(".availableValue");
+                var inputDemadValue = $(this).find(".demandValue");
+                var inputUnitValue = $(this).find(".unitValue");
+                var inputTotalValue = $(this).find(".totalValue");
+                var demandMessage = $(this).find(".errorDemand");
+                var unitMessage = $(this).find(".errorUnit");
+                var available = 0;
+                var lineTotal = 0;
+
+                if (@Model.BillRequisitionTypeId == @((int)EnumBillRequisitionType.Overhead)) {
+                    if (!isNaN(inputDemadValue.val()) && !isNaN(inputUnitValue.val())) {
+                        var demandValue = parseFloat(inputDemadValue.val());
+                        var unitValue = parseFloat(inputUnitValue.val());
+
+                        if (demandValue > 0 && unitValue > 0) {
+                            lineTotal = demandValue * unitValue;
+                        } else {
+                            demandValue = unitValue = 0;
+                        }
+                    } else {
+                        demandValue = unitValue = 0;
+                        $(demandMessage).text("Only number is allowed!");
+                        $(unitMessage).text("Only number is allowed!");
+                    }
+
+                    inputTotalValue.text(lineTotal.toFixed(2));
+                } else {
+                    if (!isNaN(inputDemadValue.val()) && !isNaN(inputUnitValue.val()) && !isNaN(getRemainingValue.text())) {
+                        var demandValue = parseFloat(inputDemadValue.val());
+                        var unitValue = parseFloat(inputUnitValue.val());
+                        var remainingValue = parseFloat(getRemainingValue.text());
+
+                        if (demandValue > 0 && unitValue > 0) {
+                            if (remainingValue >= demandValue) {
+                                available = remainingValue - demandValue;
+                                $(demandMessage).text("");
+                            } else {
+                                inputDemadValue.val(remainingValue);
+                                demandValue = remainingValue;
+                                available = remainingValue - demandValue;
+                                $(demandMessage).text("Demand cannot exceed remaining!");
+                            }
+                            lineTotal = demandValue * unitValue;
+                        } else {
+                            demandValue = unitValue = 0;
+                        }
+
+                    } else {
+                        demandValue = unitValue = 0;
+                        $(demandMessage).text("Only number is allowed!");
+                        $(unitMessage).text("Only number is allowed!");
+                    }
+
+                    inputTotalValue.text(lineTotal.toFixed(2));
+                    getAvailableValue.text(available.toFixed(2));
+                }
+            });
+
+            TotalCalculator();
+        }
+
+        function TotalCalculator() {
+            var showTotalValue = $("#showTotalValue");
+            var total = 0;
+
+            $("#itemTable tbody tr").each(function (event) {
+                var inputTotalValue = $(this).find(".totalValue");
+                var totalValue = parseFloat(inputTotalValue.text());
+
+                if (!isNaN(totalValue)) {
+                    total += totalValue;
+                }
+            });
+
+            showTotalValue.text(total.toFixed(2));
+        }
 
         TotalCalculator();
-    }
-
-    function TotalCalculator() {
-        var showTotalValue = $("#showTotalValue");
-        var total = 0;
-
-        $("#itemTable tbody tr").each(function (event) {
-            var inputTotalValue = $(this).find(".totalValue");
-            var totalValue = parseFloat(inputTotalValue.text());
-
-            if (!isNaN(totalValue)) {
-                total += totalValue;
-            }
-        });
-
-        showTotalValue.text(total.toFixed(2));
-    }
-
-    TotalCalculator();
 
     </script>
 }

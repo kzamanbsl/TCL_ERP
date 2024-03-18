@@ -2,7 +2,7 @@
 @using KGERP.Utility;
 
 @{
-    ViewData["Title"] = "Requisition : Project Director Approval";
+    ViewData["Title"] = "Requisition : Fuel Approval";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     int sl = 0;
@@ -17,16 +17,16 @@
 <section class="content-header">
     <h1>
         <span>
-            Requisition : Project Director Approval
+            Requisition : Fuel Approval
         </span>
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">Project Director Approval</li>
+        <li class="active">Fuel Approval</li>
     </ol>
 </section>
 
-@using (Html.BeginForm("PDBRApproveSlave", "BillRequisition", FormMethod.Post, new { id = "pmBillRRSlaveReceiveFormId", @class = "formValidator" }))
+@using (Html.BeginForm("FuelBRApproveSlave", "BillRequisition", FormMethod.Post, new { id = "QSBillRRSlaveReceiveFormId", @class = "formValidator" }))
 {
     <section class="content">
         <div class="row">
@@ -166,7 +166,7 @@
                                                         <td class="text-center remainingValue">@String.Format("{0:0.00}", item.RemainingQty)</td>
                                                     }
                                                     <td class="text-center">
-                                                        @if (Model.StatusName == EnumBillRequisitionStatus.Pending.ToString() && Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.PD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
+                                                        @if (Model.StatusName == EnumBillRequisitionStatus.Pending.ToString() && Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.QS).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
                                                         {
                                                             @Html.TextBoxFor(model => model.DetailDataList[i].DemandQty, new { value = "0", @class = "form-control demandValue", required = "true" })
                                                             @Html.ValidationMessageFor(model => model.DetailDataList[i].DemandQty, "", new { @class = "text-danger" })
@@ -184,7 +184,7 @@
                                                         </td>
                                                     }
                                                     <td class="text-center">
-                                                        @if (Model.StatusName == EnumBillRequisitionStatus.Pending.ToString() && Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.PD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
+                                                        @if (Model.StatusName == EnumBillRequisitionStatus.Pending.ToString() && Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.QS).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
                                                         {
                                                             @Html.TextBoxFor(model => model.DetailDataList[i].UnitRate, new { value = "0", @class = "form-control unitValue", required = "true" })
                                                             @Html.ValidationMessageFor(model => model.DetailDataList[i].UnitRate, "", new { @class = "text-danger" })
@@ -287,7 +287,6 @@
                                                 else
                                                 {
                                                     <td style="padding:5px; text-align:center;">@item.AprrovalStatusName</td>
-
                                                 }
                                             }
                                         </tr>
@@ -354,11 +353,10 @@
 
                                 </div>
                             </div>
-
                         }
                     </div>
 
-                    @if (Model.BillRequisitionMasterId > 0 && Model.StatusName == EnumBillRequisitionStatus.Pending.ToString() && Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.PD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
+                    @if (Model.StatusName == EnumBillRequisitionStatus.Pending.ToString() && Model.BillRequisitionMasterId > 0 && Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.QS).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
                     {
                         <div class="box-footer">
                             <div class="row">
@@ -407,7 +405,7 @@
     </section>
 }
 
-@using (Html.BeginForm("PDReject", "BillRequisition", FormMethod.Post, new { id = "RejectedFormId", @class = "formValidator", onreset = "resetDDL();" }))
+@using (Html.BeginForm("FuelReject", "BillRequisition", FormMethod.Post, new { id = "RejectedFormId", @class = "formValidator", onreset = "resetDDL();" }))
 {
     @Html.HiddenFor(model => model.BillRequisitionMasterId, new { Value = Model.BillRequisitionMasterId, id = "RejectedBillRequisitionMasterId" })
 
