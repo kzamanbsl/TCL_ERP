@@ -26,7 +26,7 @@
     </ol>
 </section>
 
-@using (Html.BeginForm("MDBRApproveSlave", "BillRequisition", FormMethod.Post, new { id = "pmBillRRSlaveReceiveFormId", @class = "formValidator" }))
+@using (Html.BeginForm("MDBRApproveSlave", "BillRequisition", FormMethod.Post, new { id = "MDBRApproveSlaveFormId", @class = "formValidator" }))
 {
     <section class="content">
         <div class="row">
@@ -168,8 +168,9 @@
                                                     <td class="text-center">
                                                         @if (Model.BillRequisitionMasterId > 0 && Model.StatusName == EnumBillRequisitionStatus.Submitted.ToString() && Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending || Model.BillRequisitionMasterId > 0 && Model.StatusName == EnumBillRequisitionStatus.Pending.ToString() && Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
                                                         {
-                                                            @Html.TextBoxFor(model => model.DetailDataList[i].DemandQty, new { value = "0", id = "demandQty_" + i, @class = "form-control demandValue" })
-                                                            <small class="text-center text-danger" id="inputValidationDemand"></small>
+                                                            @Html.TextBoxFor(model => model.DetailDataList[i].DemandQty, new { value = "0", @class = "form-control demandValue", required = "true" })
+                                                            @Html.ValidationMessageFor(model => model.DetailDataList[i].DemandQty, "", new { @class = "text-danger" })
+                                                            <small class="text-center text-danger errorDemand"></small>
                                                         }
                                                         else
                                                         {
@@ -185,8 +186,9 @@
                                                     <td class="text-center">
                                                         @if (Model.BillRequisitionMasterId > 0 && Model.StatusName == EnumBillRequisitionStatus.Submitted.ToString() && Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending || Model.BillRequisitionMasterId > 0 && Model.StatusName == EnumBillRequisitionStatus.Pending.ToString() && Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
                                                         {
-                                                            @Html.TextBoxFor(model => model.DetailDataList[i].UnitRate, new { value = "0", id = "unitRate_" + i, @class = "form-control unitValue" })
-                                                            <small class="text-center text-danger" id="inputValidationUnit"></small>
+                                                            @Html.TextBoxFor(model => model.DetailDataList[i].UnitRate, new { value = "0", @class = "form-control unitValue", required = "true" })
+                                                            @Html.ValidationMessageFor(model => model.DetailDataList[i].UnitRate, "", new { @class = "text-danger" })
+                                                            <small class="text-center text-danger errorUnit"></small>
                                                         }
                                                         else
                                                         {
@@ -204,7 +206,7 @@
                                                 @if (Model.BillRequisitionTypeId == (int)EnumBillRequisitionType.Overhead)
                                                 {
                                                     <td colspan="8" style="text-align: right !important">
-                                                        <b>Total Amount : </b>
+                                                        <b>Total Amount</b>
                                                     </td>
                                                     <td id="totalFooter" colspan="2" style="text-align: right !important">
                                                         <span id="showTotalValue"></span>
@@ -213,7 +215,7 @@
                                                 else
                                                 {
                                                     <td colspan="14" style="text-align: right !important">
-                                                        <b>Total Amount : </b>
+                                                        <b>Total Amount</b>
                                                     </td>
                                                     <td id="totalFooter" colspan="2" style="text-align: right !important">
                                                         <span id="showTotalValue"></span>
@@ -478,7 +480,7 @@
     </section>
 }
 
-@using (Html.BeginForm("MDReject", "BillRequisition", FormMethod.Post, new { id = "RejectedFormId", @class = "formValidator", onreset = "resetDDL();" }))
+@using (Html.BeginForm("MDReject", "BillRequisition", FormMethod.Post, new { id = "MDBRRejectFormId", @class = "formValidator", onreset = "resetDDL();" }))
 {
     @Html.HiddenFor(model => model.BillRequisitionMasterId, new { Value = Model.BillRequisitionMasterId, id = "RejectedBillRequisitionMasterId" })
 
@@ -515,63 +517,74 @@
 @Styles.Render("~/Content/cssjqryUi")
 
 @section scripts {
+    <script>
 
-    <script type="text/javascript">
-
-        $(".demandValue").on('input', function (event) {
+        $(".demandValue, .unitValue").on('input', function (event) {
             LineCalculator();
-            TotalCalculator();
-        });
-
-        $(".unitValue").on('input', function (event) {
-            LineCalculator();
-            TotalCalculator();
         });
 
         function LineCalculator() {
-
             $("#itemTable tbody tr").each(function () {
-                var remainingValue = $(this).find(".remainingValue");
+                var getRemainingValue = $(this).find(".remainingValue");
+                var getAvailableValue = $(this).find(".availableValue");
                 var inputDemadValue = $(this).find(".demandValue");
                 var inputUnitValue = $(this).find(".unitValue");
                 var inputTotalValue = $(this).find(".totalValue");
-                var availableValue = $(this).find(".availableValue");
+                var demandMessage = $(this).find(".errorDemand");
+                var unitMessage = $(this).find(".errorUnit");
                 var available = 0;
-                var total = 0;
+                var lineTotal = 0;
 
-                $(inputDemadValue).on('input', function (event) {
-                    var remainedvalue = parseFloat(remainingValue.text());
-                    var demandValue = parseFloat(inputDemadValue.val());
-                    var unitValue = parseFloat(inputUnitValue.val());
+                if (@Model.BillRequisitionTypeId == @((int)EnumBillRequisitionType.Overhead)) {
+                    if (!isNaN(inputDemadValue.val()) && !isNaN(inputUnitValue.val())) {
+                        var demandValue = parseFloat(inputDemadValue.val());
+                        var unitValue = parseFloat(inputUnitValue.val());
 
-                    if (demandValue >= 0 && demandValue <= remainedvalue) {
-                        available = remainedvalue - demandValue;
-                        availableValue.text(available.toFixed(2));
-
-                        total = demandValue * unitValue;
-                        inputTotalValue.text(total.toFixed(2));
-                        $("#inputValidationDemand").text("");
+                        if (demandValue > 0 && unitValue > 0) {
+                            lineTotal = demandValue * unitValue;
+                        } else {
+                            demandValue = unitValue = 0;
+                        }
                     } else {
-                        inputDemadValue.val(remainedvalue);
-                        $("#inputValidationDemand").text("Please, type a number smaller than remaining!");
+                        demandValue = unitValue = 0;
+                        $(demandMessage).text("Only number is allowed!");
+                        $(unitMessage).text("Only number is allowed!");
                     }
-                });
 
-                $(inputUnitValue).on('input', function (event) {
-                    var demandValue = parseFloat(inputDemadValue.val());
-                    var unitValue = parseFloat(inputUnitValue.val());
+                    inputTotalValue.text(lineTotal.toFixed(2));
+                } else {
+                    if (!isNaN(inputDemadValue.val()) && !isNaN(inputUnitValue.val()) && !isNaN(getRemainingValue.text())) {
+                        var demandValue = parseFloat(inputDemadValue.val());
+                        var unitValue = parseFloat(inputUnitValue.val());
+                        var remainingValue = parseFloat(getRemainingValue.text());
 
-                    if (unitValue > 0 || unitValue === 0) {
-                        total = demandValue * unitValue;
-                        inputTotalValue.text(total.toFixed(2));
-                        $("#inputValidationUnit").text("");
+                        if (demandValue > 0 && unitValue > 0) {
+                            if (remainingValue >= demandValue) {
+                                available = remainingValue - demandValue;
+                                $(demandMessage).text("");
+                            } else {
+                                inputDemadValue.val(remainingValue);
+                                demandValue = remainingValue;
+                                available = remainingValue - demandValue;
+                                $(demandMessage).text("Demand cannot exceed remaining!");
+                            }
+                            lineTotal = demandValue * unitValue;
+                        } else {
+                            demandValue = unitValue = 0;
+                        }
+
+                    } else {
+                        demandValue = unitValue = 0;
+                        $(demandMessage).text("Only number is allowed!");
+                        $(unitMessage).text("Only number is allowed!");
                     }
-                    else {
-                        inputUnitValue.val(0);
-                        $("#inputValidationUnit").text("Please, type a number!");
-                    }
-                });
+
+                    inputTotalValue.text(lineTotal.toFixed(2));
+                    getAvailableValue.text(available.toFixed(2));
+                }
             });
+
+            TotalCalculator();
         }
 
         function TotalCalculator() {
@@ -580,9 +593,9 @@
 
             $("#itemTable tbody tr").each(function (event) {
                 var inputTotalValue = $(this).find(".totalValue");
+                var totalValue = parseFloat(inputTotalValue.text());
 
-                if (!isNaN(inputTotalValue.text())) {
-                    var totalValue = parseFloat(inputTotalValue.text());
+                if (!isNaN(totalValue)) {
                     total += totalValue;
                 }
             });
