@@ -894,6 +894,7 @@ namespace KGERP.Service.Implementation
                                 ProjectName = t5.Name ?? "N/A",
                                 BudgetTypeId = t7.ProductCategoryId,
                                 MaterialTypeName = t7.Name ?? "N/A",
+                                IsApproved=t1.IsApproved,
                                 BudgetSubtypeId = t6.ProductSubCategoryId,
                                 MaterialSubtypeName = t6.Name ?? "N/A",
                                 ProjectTypeId = t8.CostCenterTypeId,

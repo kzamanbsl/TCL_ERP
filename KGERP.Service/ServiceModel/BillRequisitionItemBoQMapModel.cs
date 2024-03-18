@@ -30,6 +30,7 @@ namespace KGERP.Service.ServiceModel
         public string BoqName { get; set; }
         public string BoqNumber { get; set; }
         public string MaterialName { get; set; }
+        public bool? IsApproved { get; set; }
 
         public int ProjectTypeId { get; set; }
         public List<Accounting_CostCenterType> ProjectTypes { get; set; }

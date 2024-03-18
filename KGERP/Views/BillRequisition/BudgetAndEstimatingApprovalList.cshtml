@@ -79,16 +79,9 @@
 
                         <hr />
 
-                        <section class="content">
-                            <div class="row">
-                                <div class="box">
-                                    <div class="box-danger">
-                                        <div class="box-header">
-                                        </div>
-                                        <!-- /.box-header -->
-                                        <div class="box-body">
-                                            <div class="table-responsive col-md-12">
-                                                <table id="KgErpDataTable" class="table table-dark table-responsive">
+                      
+                                            <div class="table-responsive">
+                                                <table id="KgErpDataTable33" class="table  table-dark table-striped table-responsive">
                                                     <thead>
                                                         <tr>
                                                             <th>SL</th>
@@ -101,9 +94,9 @@
                                                             <th>Quantity</th>
                                                             <th>Unit Price</th>
                                                             <th>Amount</th>
-                                                            <th>Remarks/Particular</th>
                                                             <th>Status</th>
-                                                            <th>Report</th>
+                                                            <th>Action</th>
+                                                              <th>Report</th>
                                                         </tr>
                                                     </thead>
                                                    
@@ -113,49 +106,67 @@
                                                             {
                                                                 foreach (var item in Model.BoQItemProductMaps)
                                                                 {
-                                                                    <tr>
-                                                                        <td>
-                                                                            @(++sl)
+                                                                                                                <tr>
+                                                                                                                    <td>
+                                                                                                                        @(++sl)
 
-                                                                            <input type="hidden" id="projectTypeIdHidden_@item.BoQItemProductMapId" value="@item.ProjectTypeId" />
-                                                                            <input type="hidden" id="projectIdHidden_@item.BoQItemProductMapId" value="@item.ProjectId" />
-                                                                            <input type="hidden" id="divisionIdHidden_@item.BoQItemProductMapId" value="@item.BoQDivisionId" />
-                                                                            <input type="hidden" id="boqIdHidden_@item.BoQItemProductMapId" value="@item.BoQItemId" />
-                                                                            <input type="hidden" id="materialTypeIdHidden_@item.BoQItemProductMapId" value="@item.BudgetTypeId" />
-                                                                            <input type="hidden" id="materialSubtypeIdHidden_@item.BoQItemProductMapId" value="@item.BudgetSubtypeId" />
-                                                                            <input type="hidden" id="materialIdHidden_@item.BoQItemProductMapId" value="@item.MaterialItemId" />
-                                                                            <input type="hidden" id="quantityHidden_@item.BoQItemProductMapId" value="@item.EstimatedQty" />
-                                                                            <input type="hidden" id="unitRateHidden_@item.BoQItemProductMapId" value="@item.UnitRate" />
+                                                                                                                        <input type="hidden" id="projectTypeIdHidden_@item.BoQItemProductMapId" value="@item.ProjectTypeId" />
+                                                                                                                        <input type="hidden" id="projectIdHidden_@item.BoQItemProductMapId" value="@item.ProjectId" />
+                                                                                                                        <input type="hidden" id="divisionIdHidden_@item.BoQItemProductMapId" value="@item.BoQDivisionId" />
+                                                                                                                        <input type="hidden" id="boqIdHidden_@item.BoQItemProductMapId" value="@item.BoQItemId" />
+                                                                                                                        <input type="hidden" id="materialTypeIdHidden_@item.BoQItemProductMapId" value="@item.BudgetTypeId" />
+                                                                                                                        <input type="hidden" id="materialSubtypeIdHidden_@item.BoQItemProductMapId" value="@item.BudgetSubtypeId" />
+                                                                                                                        <input type="hidden" id="materialIdHidden_@item.BoQItemProductMapId" value="@item.MaterialItemId" />
+                                                                                                                        <input type="hidden" id="quantityHidden_@item.BoQItemProductMapId" value="@item.EstimatedQty" />
+                                                                                                                        <input type="hidden" id="unitRateHidden_@item.BoQItemProductMapId" value="@item.UnitRate" />
 
-                                                                        </td>
-                                                                        <td id="tdBoqDivisionName_@item.BoQItemProductMapId">@item.ProjectName</td>
-                                                                        <td id="tdBoqDivisionName_@item.BoQItemProductMapId">@item.DivisionName</td>
-                                                                        <td id="tdBoqItemNo_@item.BoQItemProductMapId"><small class="label label-primary">@item.BoqNumber</small> @item.BoqName</td>
-                                                                        <td id="tdBoqMaterialName_@item.BoQItemProductMapId">@item.MaterialTypeName</td>
-                                                                        <td id="tdBoqMaterialName_@item.BoQItemProductMapId">@item.MaterialSubtypeName</td>
-                                                                        <td id="tdBoqMaterialName_@item.BoQItemProductMapId">@item.MaterialName</td>
-                                                                        <td id="tdBoqEstimateQty_@item.BoQItemProductMapId">@item.EstimatedQty</td>
-                                                                        <td id="tdBoqUnitRate_@item.BoQItemProductMapId">@item.UnitRate</td>
-                                                                        <td id="tdBoqEstimateAmount_@item.BoQItemProductMapId">@item.EstimatedAmount</td>
-                                                                        <td></td>
-                                                                        <td></td>
-                                                                        <td>
-                                                                            <a class="label label-primary text-center" target="_blank" href="">
-                                                                                <i class="fa fa-download"></i> Download
-                                                                            </a>
-                                                                        </td>
-                                                                    </tr>
+                                                                                                                    </td>
+                                                                                                                    <td id="tdBoqDivisionName_@item.BoQItemProductMapId">@item.ProjectName</td>
+                                                                                                                    <td id="tdBoqDivisionName_@item.BoQItemProductMapId">@item.DivisionName</td>
+                                                                                                                    <td id="tdBoqItemNo_@item.BoQItemProductMapId"><small class="label label-primary">@item.BoqNumber</small> @item.BoqName</td>
+                                                                                                                    <td id="tdBoqMaterialName_@item.BoQItemProductMapId">@item.MaterialTypeName</td>
+                                                                                                                    <td id="tdBoqMaterialName_@item.BoQItemProductMapId">@item.MaterialSubtypeName</td>
+                                                                                                                    <td id="tdBoqMaterialName_@item.BoQItemProductMapId">@item.MaterialName</td>
+                                                                                                                    <td id="tdBoqEstimateQty_@item.BoQItemProductMapId">@item.EstimatedQty</td>
+                                                                                                                    <td id="tdBoqUnitRate_@item.BoQItemProductMapId">@item.UnitRate</td>
+                                                                                                                    <td id="tdBoqEstimateAmount_@item.BoQItemProductMapId">@item.EstimatedAmount</td>
+                                                                                                                    <td>
+
+                                                                                                                        @if (@item.IsApproved == true)
+                                                                                                                        {
+                                                                                                                            <span class="btn btn-xs btn-success text-center" style="display: block; padding-left: 7px; padding-right: 7px;">Approved</span>
+                                                                                                                        }
+                                                                                                                        else
+                                                                                                                        {
+                                                                                                                            <span class="btn btn-xs btn-warning text-center" style="display: block; padding-left: 7px; padding-right: 7px;">Pending</span>
+                                                                                                                        }
+
+                                                                                                                    </td>
+                                                                                                                    <td>
+
+                                                                                                                        @if (@item.IsApproved == false)
+                                                                                                                        {
+                                                                                                                            <a href="~/BillRequisition/BudgetAndEstimatingApproveSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BoQItemProductMapId" class="link-primary text-primary" title="Action for Approve"><i class="fa fa-external-link-square" aria-hidden="true"></i> Action</a>
+                                                                                                                        }else
+                                                                                                                        {
+                                                                                                                            <a href="~/BillRequisition/BudgetAndEstimatingApproveSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BoQItemProductMapId" class="link-primary text-primary" title="Action for Approve"><i class="fa fa-external-link-square" aria-hidden="true"></i> Action</a>
+
+                                                                                                                        }
+
+                                                                                                                    </td>
+                                                                                                                    <td>
+                                                                                                                        <a class="label label-primary text-center" target="_blank" href="">
+                                                                                                                            <i class="fa fa-download"></i> Download
+                                                                                                                        </a>
+                                                                                                                    </td>
+                                                                                                                </tr>
                                                                 }
                                                             }
                                                         }
                                                     </tbody>
                                                 </table>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
+                                        
                     </div>
                 </div>
             </div>
