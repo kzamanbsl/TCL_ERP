@@ -72,6 +72,8 @@ namespace KGERP.Service.Interface
         //List<BoQItemProductMap> GetBoQProductMapList();
         List<BillRequisitionItemBoQMapModel> GetBoQProductMapList();
         Task<bool> IsBoqBudgetExistByBoqId(long boqItemId, long materialId);
+        Task<BillRequisitionMasterModel> GetBoqAndBudgetDetailWithApproval(int companyId = 21, int boqItemId = 0);
+
         #endregion
 
         #region Requisition Type

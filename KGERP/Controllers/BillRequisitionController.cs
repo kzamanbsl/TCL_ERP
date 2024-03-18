@@ -670,12 +670,18 @@ namespace KGERP.Controllers
         }
 
         [HttpGet]
-        public ActionResult BudgetAndEstimatingApproveSlave(int companyId=0)
+        public async Task<ActionResult> BudgetAndEstimatingApproveSlave(int companyId = 0,int boqItemId = 0)
         {
 
             BillRequisitionMasterModel billRequisitionMaster= new BillRequisitionMasterModel();
-            
-            
+            if (boqItemId > 0)
+            {
+                billRequisitionMaster = await _service.GetBoqAndBudgetDetailWithApproval(companyId, boqItemId);
+
+                //billRequisitionMasterModel.VoucherPaymentStatus = await _service.GetRequisitionVoucherStatusMd(billRequisitionMasterId);
+                billRequisitionMaster.DetailDataList = billRequisitionMaster.DetailList.ToList();
+            }
+
             return  View(billRequisitionMaster);  
         }
 
