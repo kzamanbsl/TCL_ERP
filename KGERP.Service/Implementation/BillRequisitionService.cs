@@ -870,36 +870,36 @@ namespace KGERP.Service.Implementation
         {
             var sendData = (
                 from t1 in _context.BoQItemProductMaps.Where(c => c.IsActive)
-                            join t2 in _context.Products.Where(c => c.IsActive) on t1.ProductId equals t2.ProductId
-                            join t3 in _context.BillBoQItems.Where(c => c.IsActive) on t1.BoQItemId equals t3.BoQItemId
-                            join t4 in _context.BoQDivisions.Where(c => c.IsActive) on t3.BoQDivisionId equals t4.BoQDivisionId
-                            join t5 in _context.Accounting_CostCenter.Where(c => c.IsActive) on t4.ProjectId equals t5.CostCenterId
-                            join t6 in _context.ProductSubCategories.DefaultIfEmpty() on t2.ProductSubCategoryId equals t6.ProductSubCategoryId
-                            join t7 in _context.ProductCategories.DefaultIfEmpty() on t6.ProductCategoryId equals t7.ProductCategoryId
-                            join t8 in _context.Accounting_CostCenterType.DefaultIfEmpty() on t5.CostCenterTypeId equals t8.CostCenterTypeId
-                            select new BillRequisitionItemBoQMapModel()
-                            {
-                                BoQItemProductMapId = t1.BoQItemProductMapId,
-                                EstimatedAmount = t1.EstimatedAmount ?? 0M,
-                                EstimatedQty = t1.EstimatedQty ?? 0M,
-                                UnitRate = t1.UnitRate ?? 0M,
-                                MaterialItemId = t1.ProductId,
-                                MaterialName = t2.ProductName ?? "N/A",
-                                BoQItemId = t3.BoQItemId,
-                                BoqName = t3.Name ?? "N/A",
-                                BoqNumber = t3.BoQNumber ?? "0",
-                                BoQDivisionId = t4.BoQDivisionId,
-                                DivisionName = t4.Name ?? "N/A",
-                                ProjectId = t5.CostCenterId,
-                                ProjectName = t5.Name ?? "N/A",
-                                BudgetTypeId = t7.ProductCategoryId,
-                                MaterialTypeName = t7.Name ?? "N/A",
-                                IsApproved=t1.IsApproved,
-                                BudgetSubtypeId = t6.ProductSubCategoryId,
-                                MaterialSubtypeName = t6.Name ?? "N/A",
-                                ProjectTypeId = t8.CostCenterTypeId,
-                                ProjectTypeName = t8.Name ?? "N/A"
-                            }).ToList();
+                join t2 in _context.Products.Where(c => c.IsActive) on t1.ProductId equals t2.ProductId
+                join t3 in _context.BillBoQItems.Where(c => c.IsActive) on t1.BoQItemId equals t3.BoQItemId
+                join t4 in _context.BoQDivisions.Where(c => c.IsActive) on t3.BoQDivisionId equals t4.BoQDivisionId
+                join t5 in _context.Accounting_CostCenter.Where(c => c.IsActive) on t4.ProjectId equals t5.CostCenterId
+                join t6 in _context.ProductSubCategories.DefaultIfEmpty() on t2.ProductSubCategoryId equals t6.ProductSubCategoryId
+                join t7 in _context.ProductCategories.DefaultIfEmpty() on t6.ProductCategoryId equals t7.ProductCategoryId
+                join t8 in _context.Accounting_CostCenterType.DefaultIfEmpty() on t5.CostCenterTypeId equals t8.CostCenterTypeId
+                select new BillRequisitionItemBoQMapModel()
+                {
+                    BoQItemProductMapId = t1.BoQItemProductMapId,
+                    EstimatedAmount = t1.EstimatedAmount ?? 0M,
+                    EstimatedQty = t1.EstimatedQty ?? 0M,
+                    UnitRate = t1.UnitRate ?? 0M,
+                    MaterialItemId = t1.ProductId,
+                    MaterialName = t2.ProductName ?? "N/A",
+                    BoQItemId = t3.BoQItemId,
+                    BoqName = t3.Name ?? "N/A",
+                    BoqNumber = t3.BoQNumber ?? "0",
+                    BoQDivisionId = t4.BoQDivisionId,
+                    DivisionName = t4.Name ?? "N/A",
+                    ProjectId = t5.CostCenterId,
+                    ProjectName = t5.Name ?? "N/A",
+                    BudgetTypeId = t7.ProductCategoryId,
+                    MaterialTypeName = t7.Name ?? "N/A",
+                    IsApproved = t1.IsApproved,
+                    BudgetSubtypeId = t6.ProductSubCategoryId,
+                    MaterialSubtypeName = t6.Name ?? "N/A",
+                    ProjectTypeId = t8.CostCenterTypeId,
+                    ProjectTypeName = t8.Name ?? "N/A"
+                }).ToList();
 
             return sendData;
         }
@@ -2118,7 +2118,7 @@ namespace KGERP.Service.Implementation
 
             billRequisitionMasterModel.DataList = await Task.Run(() => (from t1 in _context.BillRequisitionMasters.Where(x => x.IsActive
                                                          && x.CompanyId == companyId
-                                                         && x.BillRequisitionTypeId != (int)EnumBillRequisitionSubType.It
+                                                         && x.BillRequisitionTypeId != (int)EnumBillRequisitionType.Oil
                                                          && x.StatusId >= (int)EnumBillRequisitionStatus.Submitted)
                                                                         join t2 in _context.Accounting_CostCenter on t1.CostCenterId equals t2.CostCenterId into t2_Join
                                                                         from t2 in t2_Join.DefaultIfEmpty()
@@ -2239,20 +2239,20 @@ namespace KGERP.Service.Implementation
             }
             return result;
         }
-        public async Task<int> ITHeadBillRequisitionRejected(long billRequisitionMasterId)
+        public async Task<int> ITHeadBillRequisitionRejected(BillRequisitionMasterModel model)
         {
             int result = -1;
-            if (billRequisitionMasterId <= 0) throw new Exception("Sorry! BillRequisition not found to Receive!");
+            if (model.BillRequisitionMasterId <= 0) throw new Exception("Sorry! BillRequisition not found to Receive!");
             //if (billRequisitionMasterModel.DetailDataList.Count() <= 0) throw new Exception("Sorry! BillRequisition  Detail not found to Receive!");
 
             var userName = System.Web.HttpContext.Current.User.Identity.Name;
 
-            BillRequisitionMaster billRequisitionMaster = _context.BillRequisitionMasters.FirstOrDefault(c => c.BillRequisitionMasterId == billRequisitionMasterId);
+            BillRequisitionMaster billRequisitionMaster = _context.BillRequisitionMasters.FirstOrDefault(c => c.BillRequisitionMasterId == model.BillRequisitionMasterId);
             billRequisitionMaster.StatusId = (int)EnumBillRequisitionStatus.Rejected;
             billRequisitionMaster.ModifiedBy = userName;
             billRequisitionMaster.ModifiedDate = DateTime.Now;
 
-            var BRApproval = _context.BillRequisitionApprovals.FirstOrDefault(x => x.BillRequisitionMasterId == billRequisitionMasterId && x.SignatoryId == (int)EnumBRequisitionSignatory.QS);
+            var BRApproval = _context.BillRequisitionApprovals.FirstOrDefault(x => x.BillRequisitionMasterId == model.BillRequisitionMasterId && x.SignatoryId == (int)EnumBRequisitionSignatory.QS);
             BRApproval.AprrovalStatusId = (int)EnumBillRequisitionStatus.Rejected;
             BRApproval.EmployeeId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
             BRApproval.ModifiedBy = userName;
@@ -2287,6 +2287,174 @@ namespace KGERP.Service.Implementation
             billRequisitionMasterModel.DataList = await Task.Run(() => (from t1 in _context.BillRequisitionMasters.Where(x => x.IsActive
                                                          && x.CompanyId == companyId
                                                          && x.BillRequisitionTypeId == (int)EnumBillRequisitionSubType.It
+                                                         && x.StatusId >= (int)EnumBillRequisitionStatus.Submitted)
+                                                                        join t2 in _context.Accounting_CostCenter on t1.CostCenterId equals t2.CostCenterId into t2_Join
+                                                                        from t2 in t2_Join.DefaultIfEmpty()
+                                                                        join t3 in _context.ProductCategories on t1.BillRequisitionTypeId equals t3.ProductCategoryId into t3_Join
+                                                                        from t3 in t3_Join.DefaultIfEmpty()
+                                                                        join t4 in _context.Accounting_CostCenterType on t1.ProjectTypeId equals t4.CostCenterTypeId into t4_Join
+                                                                        from t4 in t4_Join.DefaultIfEmpty()
+                                                                        join t5 in _context.Employees on t1.CreatedBy equals t5.EmployeeId into t5_Join
+                                                                        from t5 in t5_Join.DefaultIfEmpty()
+                                                                        select new BillRequisitionMasterModel
+                                                                        {
+                                                                            BillRequisitionMasterId = t1.BillRequisitionMasterId,
+                                                                            BillRequisitionTypeId = t3.ProductCategoryId,
+                                                                            BRTypeName = t3.Name,
+                                                                            ProjectTypeId = t1.ProjectTypeId,
+                                                                            ProjectTypeName = t4.Name,
+                                                                            CostCenterId = t1.CostCenterId,
+                                                                            CostCenterName = t2.Name,
+                                                                            Description = t1.Description,
+                                                                            BRDate = t1.BRDate,
+                                                                            BillRequisitionNo = t1.BillRequisitionNo,
+                                                                            StatusId = (EnumBillRequisitionStatus)t1.StatusId,
+                                                                            CompanyFK = t1.CompanyId,
+                                                                            CreatedDate = t1.CreateDate,
+                                                                            CreatedBy = t1.CreatedBy,
+                                                                            EmployeeName = t1.CreatedBy + "-" + t5.Name,
+                                                                            TotalAmount = totalPrice.Where(x => x.BillRequisitionMasterId == t1.BillRequisitionMasterId).Select(x => x.TotalAmount).Sum(),
+                                                                            ApprovalModelList = (from t7 in _context.BillRequisitionApprovals.Where(b => b.BillRequisitionMasterId == t1.BillRequisitionMasterId && b.IsActive)
+                                                                                                 join t8 in _context.BillRequisitionMasters on t7.BillRequisitionMasterId equals t8.BillRequisitionMasterId
+                                                                                                 select new BillRequisitionApprovalModel
+                                                                                                 {
+                                                                                                     BRApprovalId = t7.BRApprovalId,
+                                                                                                     BillRequisitionMasterId = t8.BillRequisitionMasterId,
+                                                                                                     SignatoryId = t7.SignatoryId,
+                                                                                                     IsSupremeApproved = t7.IsSupremeApproved,
+                                                                                                     AprrovalStatusId = t7.AprrovalStatusId,
+                                                                                                 }).OrderBy(m => m.BRApprovalId).ToList(),
+
+
+                                                                        }).OrderByDescending(x => x.BillRequisitionMasterId).AsEnumerable());
+
+            var filteredMasterList = billRequisitionMasterModel.DataList.Where(
+            q => q.ApprovalModelList.FirstOrDefault(x => x.SignatoryId == (int)EnumBRequisitionSignatory.PM)?.AprrovalStatusId == (int)EnumBillRequisitionStatus.Approved);
+            billRequisitionMasterModel.DataList = filteredMasterList;
+            if (vStatus != -1 && vStatus != null)
+            {
+                billRequisitionMasterModel.DataList = billRequisitionMasterModel.DataList.Where(q => q.StatusId == (EnumBillRequisitionStatus)vStatus);
+            }
+            return billRequisitionMasterModel;
+        }
+
+        #endregion
+
+        #region 1.3.2 Fuel BillRequisition Approve circle
+
+        public async Task<long> FuelBillRequisitionApproved(BillRequisitionMasterModel billRequisitionMasterModel)
+        {
+            long result = -1;
+            if (billRequisitionMasterModel.BillRequisitionMasterId <= 0) throw new Exception("Sorry! BillRequisition not found to Receive!");
+            if (billRequisitionMasterModel.DetailDataList.Count() <= 0) throw new Exception("Sorry! BillRequisition  Detail not found to Receive!");
+
+            var userName = System.Web.HttpContext.Current.User.Identity.Name;
+
+            BillRequisitionMaster billRequisitionMaster = _context.BillRequisitionMasters.FirstOrDefault(c => c.BillRequisitionMasterId == billRequisitionMasterModel.BillRequisitionMasterId);
+            billRequisitionMaster.StatusId = (int)EnumBillRequisitionStatus.Pending;
+
+            billRequisitionMaster.ModifiedBy = userName;
+            billRequisitionMaster.ModifiedDate = DateTime.Now;
+            List<BillRequisitionDetail> details = _context.BillRequisitionDetails.Where(c => c.BillRequisitionMasterId == billRequisitionMasterModel.BillRequisitionMasterId && c.IsActive == true).ToList();
+            if (details?.Count() <= 0) throw new Exception("Sorry! Damage  not found to Receive!");
+
+            List<BillReqApprovalHistory> history = new List<BillReqApprovalHistory>();
+            foreach (var item in details)
+            {
+                history.Add(new BillReqApprovalHistory
+                {
+                    BillReqApprovalHistoryId = 0,
+                    BillRequisitionDetailId = item.BillRequisitionDetailId,
+                    BillRequisitionMasterId = item.BillRequisitionMasterId,
+                    DemandQty = item.DemandQty,
+                    RemainingQty = item.RemainingQty,
+                    ReceivedSoFar = item.ReceivedSoFar,
+                    UnitRate = item.UnitRate,
+                    TotalPrice = item.TotalPrice,
+                    CompanyId = item.CompanyId,
+                    EmployeeId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]),
+                    CreatedBy = System.Web.HttpContext.Current.Session["EmployeeName"].ToString(),
+                    CreateDate = DateTime.Now,
+                });
+            }
+
+            foreach (var dt in details)
+            {
+                var obj = billRequisitionMasterModel.DetailDataList.FirstOrDefault(c => c.BillRequisitionDetailId == dt.BillRequisitionDetailId);
+
+                dt.DemandQty = obj.DemandQty;
+                dt.TotalPrice = obj.DemandQty * obj.UnitRate;
+                dt.UnitRate = obj.UnitRate;
+                //dt.Remarks = obj.Remarks;
+                dt.ModifiedBy = userName;
+                dt.ModifiedDate = DateTime.Now;
+            }
+
+            var BRApproval = _context.BillRequisitionApprovals.FirstOrDefault(x => x.BillRequisitionMasterId == billRequisitionMasterModel.BillRequisitionMasterId && x.SignatoryId == (int)EnumBRequisitionSignatory.QS);
+            BRApproval.AprrovalStatusId = (int)EnumBillRequisitionStatus.Approved;
+            BRApproval.EmployeeId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
+            BRApproval.Reasons = billRequisitionMasterModel.CancelReason;
+            BRApproval.ModifiedBy = userName;
+            BRApproval.ModifiedDate = DateTime.Now;
+
+            using (var scope = _context.Database.BeginTransaction())
+            {
+                _context.BillReqApprovalHistories.AddRange(history);
+                await _context.SaveChangesAsync();
+
+                result = billRequisitionMasterModel.BillRequisitionMasterId;
+                scope.Commit();
+            }
+            return result;
+        }
+        public async Task<int> FuelBillRequisitionRejected(BillRequisitionMasterModel model)
+        {
+            int result = -1;
+            if (model.BillRequisitionMasterId <= 0) throw new Exception("Sorry! BillRequisition not found to Receive!");
+            //if (billRequisitionMasterModel.DetailDataList.Count() <= 0) throw new Exception("Sorry! BillRequisition  Detail not found to Receive!");
+
+            var userName = System.Web.HttpContext.Current.User.Identity.Name;
+
+            BillRequisitionMaster billRequisitionMaster = _context.BillRequisitionMasters.FirstOrDefault(c => c.BillRequisitionMasterId == model.BillRequisitionMasterId);
+            billRequisitionMaster.StatusId = (int)EnumBillRequisitionStatus.Rejected;
+            billRequisitionMaster.ModifiedBy = userName;
+            billRequisitionMaster.ModifiedDate = DateTime.Now;
+
+            var BRApproval = _context.BillRequisitionApprovals.FirstOrDefault(x => x.BillRequisitionMasterId == model.BillRequisitionMasterId && x.SignatoryId == (int)EnumBRequisitionSignatory.QS);
+            BRApproval.AprrovalStatusId = (int)EnumBillRequisitionStatus.Rejected;
+            BRApproval.EmployeeId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
+            BRApproval.ModifiedBy = userName;
+            BRApproval.ModifiedDate = DateTime.Now;
+
+            using (var scope = _context.Database.BeginTransaction())
+            {
+                await _context.SaveChangesAsync();
+                scope.Commit();
+                result = billRequisitionMaster.CompanyId;
+            }
+            return result;
+        }
+
+        public async Task<BillRequisitionMasterModel> GetFuelBillRequisitionList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus)
+        {
+            BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
+            billRequisitionMasterModel.CompanyFK = companyId;
+
+            var totalPrice = (from t1 in _context.BillRequisitionMasters.Where(x => x.IsActive
+                             && x.CompanyId == companyId
+                             && x.StatusId >= (int)EnumBillRequisitionStatus.Submitted)
+                              join t2 in _context.BillRequisitionDetails on t1.BillRequisitionMasterId equals t2.BillRequisitionMasterId into t2_Join
+                              from t2 in t2_Join.DefaultIfEmpty()
+                              where t2.IsActive
+                              select new
+                              {
+                                  BillRequisitionMasterId = t1.BillRequisitionMasterId,
+                                  TotalAmount = t2.DemandQty * t2.UnitRate,
+                              }).AsEnumerable();
+
+            billRequisitionMasterModel.DataList = await Task.Run(() => (from t1 in _context.BillRequisitionMasters.Where(x => x.IsActive
+                                                         && x.CompanyId == companyId
+                                                         && x.BillRequisitionTypeId == (int)EnumBillRequisitionType.Oil
                                                          && x.StatusId >= (int)EnumBillRequisitionStatus.Submitted)
                                                                         join t2 in _context.Accounting_CostCenter on t1.CostCenterId equals t2.CostCenterId into t2_Join
                                                                         from t2 in t2_Join.DefaultIfEmpty()

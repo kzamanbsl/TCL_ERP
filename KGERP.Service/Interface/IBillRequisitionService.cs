@@ -112,8 +112,14 @@ namespace KGERP.Service.Interface
 
         #region 1.3.1 ITHead BillRequisition Approved Circle
         Task<long> ITHeadBillRequisitionApproved(BillRequisitionMasterModel BillRequisitionMasterModel);
-        Task<int> ITHeadBillRequisitionRejected(long billRequisitionMasterId);
+        Task<int> ITHeadBillRequisitionRejected(BillRequisitionMasterModel model);
         Task<BillRequisitionMasterModel> GetITHeadBillRequisitionList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus);
+        #endregion
+
+        #region 1.3.2 Fuel BillRequisition Approved Circle
+        Task<long> FuelBillRequisitionApproved(BillRequisitionMasterModel BillRequisitionMasterModel);
+        Task<int> FuelBillRequisitionRejected(BillRequisitionMasterModel model);
+        Task<BillRequisitionMasterModel> GetFuelBillRequisitionList(int companyId, DateTime? fromDate, DateTime? toDate, int? vStatus);
         #endregion
 
         #region 1.4 PD BillRequisition Approved Circle
