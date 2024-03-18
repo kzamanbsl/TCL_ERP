@@ -183,18 +183,18 @@
                                                             @String.Format("{0:0.00}", item.RemainingQty - item.DemandQty)
                                                         </td>
                                                     }
-                                                <td class="text-center">
-                                                    @if (Model.StatusName == EnumBillRequisitionStatus.Pending.ToString() && Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.Director).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
-                                                    {
-                                                        @Html.TextBoxFor(model => model.DetailDataList[i].UnitRate, new { value = "0", @class = "form-control unitValue", required = "true" })
-                                                        @Html.ValidationMessageFor(model => model.DetailDataList[i].UnitRate, "", new { @class = "text-danger" })
-                                                        <small class="text-center text-danger errorUnit"></small>
-                                                    }
-                                                    else
-                                                    {
-                                                        @String.Format("{0:0.00}", item.UnitRate)
-                                                    }
-                                                </td>
+                                                    <td class="text-center">
+                                                        @if (Model.StatusName == EnumBillRequisitionStatus.Pending.ToString() && Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.Director).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
+                                                        {
+                                                            @Html.TextBoxFor(model => model.DetailDataList[i].UnitRate, new { value = "0", @class = "form-control unitValue", required = "true" })
+                                                            @Html.ValidationMessageFor(model => model.DetailDataList[i].UnitRate, "", new { @class = "text-danger" })
+                                                            <small class="text-center text-danger errorUnit"></small>
+                                                        }
+                                                        else
+                                                        {
+                                                            @String.Format("{0:0.00}", item.UnitRate)
+                                                        }
+                                                    </td>
                                                     <td class="totalValue text-center" style="text-align: right !important" id="totalAmount_+@i">@String.Format("{0:0.00}", item.TotalPrice)</td>
                                                 </tr>
                                                 i++;
@@ -443,7 +443,6 @@
 
 @section scripts {
     <script>
-
     $(".demandValue, .unitValue").on('input', function (event) {
         LineCalculator();
     });
