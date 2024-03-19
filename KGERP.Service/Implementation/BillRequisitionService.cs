@@ -13,6 +13,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace KGERP.Service.Implementation
 {
@@ -1007,74 +1008,69 @@ namespace KGERP.Service.Implementation
             return result;
         }
 
-        public async Task<BillRequisitionMasterModel> GetBoqAndBudgetDetailWithApproval(int companyId = 21, int boqItemId = 0)
+        public async Task<BillRequisitionMasterModel> GetBoqAndBudgetDetailWithApproval(int companyId = 21, int boqMapId = 0)
         {
             BillRequisitionMasterModel billRequisitionMasterModel = new BillRequisitionMasterModel();
 
 
-            //billRequisitionMasterModel = await Task.Run(() => (from t1 in _context.BoQItemProductMaps.Where(x => x.IsActive && x.BillRequisitionMasterId == billRequisitionMasterId )
+            billRequisitionMasterModel = await Task.Run(() => (from t1 in _context.BoQItemProductMaps.Where(x => x.IsActive && x.BoQItemProductMapId == boqMapId)
 
-            //                                                   join t2 in _context.Accounting_CostCenter on t1.CostCenterId equals t2.CostCenterId into t2_Join
-            //                                                   from t2 in t2_Join.DefaultIfEmpty()
-            //                                                   join t3 in _context.ProductCategories on t1.BillRequisitionTypeId equals t3.ProductCategoryId into t3_Join
-            //                                                   from t3 in t3_Join.DefaultIfEmpty()
-            //                                                   join t4 in _context.Accounting_CostCenterType on t1.ProjectTypeId equals t4.CostCenterTypeId into t4_Join
-            //                                                   from t4 in t4_Join.DefaultIfEmpty()
-            //                                                   join t5 in _context.Employees on t1.CreatedBy equals t5.EmployeeId into t5_Join
-            //                                                   from t5 in t5_Join.DefaultIfEmpty()
 
-            //                                                   select new BillRequisitionMasterModel
-            //                                                   {
-            //                                                       BillRequisitionMasterId = t1.BillRequisitionMasterId,
-            //                                                       BillRequisitionTypeId = t3.ProductCategoryId,
-            //                                                       BRTypeName = t3.Name,
-            //                                                       ProjectTypeId = t1.ProjectTypeId,
-            //                                                       ProjectTypeName = t4.Name,
-            //                                                       CostCenterId = t1.CostCenterId,
-            //                                                       //CostCenterName = t2.Name,
-            //                                                       Description = t1.Description,
-            //                                                       BRDate = t1.BRDate,
-            //                                                       BillRequisitionNo = t1.BillRequisitionNo,
-            //                                                       StatusId = (EnumBillRequisitionStatus)t1.StatusId,
-            //                                                       PaymentStatus = (bool)t1.PaymentStatus,
-            //                                                       CompanyFK = t1.CompanyId,
-            //                                                       CreatedDate = t1.CreateDate,
-            //                                                       CreatedBy = t1.CreatedBy,
-            //                                                       EmployeeName = t1.CreatedBy + " - " + t5.Name,
+                                                               join t2 in _context.BillBoQItems on t1.BoQItemId equals t2.BoQItemId into t2_Join
+                                                               from t2 in t2_Join.DefaultIfEmpty()
+                                                               join t3 in _context.BoQDivisions on t2.BoQDivisionId equals t3.BoQDivisionId into t3_Join
+                                                               from t3 in t3_Join.DefaultIfEmpty()
+                                                               join t4 in _context.Accounting_CostCenter on t3.ProjectId equals t4.CostCenterTypeId into t4_Join
+                                                               from t4 in t4_Join.DefaultIfEmpty()
+                                                               join t5 in _context.Accounting_CostCenterType on t4.CostCenterTypeId equals t5.CostCenterTypeId into t5_Join
+                                                               from t5 in t5_Join.DefaultIfEmpty()
 
-            //                                                   }).FirstOrDefault());
 
-            billRequisitionMasterModel.BoQItemProductMaps =  (from t1 in _context.BoQItemProductMaps.Where(c => c.IsActive && c.BoQItemProductMapId == boqItemId)
-                                                                          join t2 in _context.Products.Where(c => c.IsActive) on t1.ProductId equals t2.ProductId
-                                                                          join t3 in _context.BillBoQItems.Where(c => c.IsActive) on t1.BoQItemId equals t3.BoQItemId
-                                                                          join t4 in _context.BoQDivisions.Where(c => c.IsActive) on t3.BoQDivisionId equals t4.BoQDivisionId
-                                                                          join t5 in _context.Accounting_CostCenter.Where(c => c.IsActive) on t4.ProjectId equals t5.CostCenterId
-                                                                          join t6 in _context.ProductSubCategories.DefaultIfEmpty() on t2.ProductSubCategoryId equals t6.ProductSubCategoryId
-                                                                          join t7 in _context.ProductCategories.DefaultIfEmpty() on t6.ProductCategoryId equals t7.ProductCategoryId
-                                                                          join t8 in _context.Accounting_CostCenterType.DefaultIfEmpty() on t5.CostCenterTypeId equals t8.CostCenterTypeId
-                                                                          select new BillRequisitionItemBoQMapModel()
-                                                                          {
-                                                                              BoQItemProductMapId = t1.BoQItemProductMapId,
-                                                                              EstimatedAmount = t1.EstimatedAmount ?? 0M,
-                                                                              EstimatedQty = t1.EstimatedQty ?? 0M,
-                                                                              UnitRate = t1.UnitRate ?? 0M,
-                                                                              MaterialItemId = t1.ProductId,
-                                                                              MaterialName = t2.ProductName ?? "N/A",
-                                                                              BoQItemId = t3.BoQItemId,
-                                                                              BoqName = t3.Name ?? "N/A",
-                                                                              BoqNumber = t3.BoQNumber ?? "0",
-                                                                              BoQDivisionId = t4.BoQDivisionId,
-                                                                              DivisionName = t4.Name ?? "N/A",
-                                                                              ProjectId = t5.CostCenterId,
-                                                                              ProjectName = t5.Name ?? "N/A",
-                                                                              BudgetTypeId = t7.ProductCategoryId,
-                                                                              MaterialTypeName = t7.Name ?? "N/A",
-                                                                              IsApproved = t1.IsApproved,
-                                                                              BudgetSubtypeId = t6.ProductSubCategoryId,
-                                                                              MaterialSubtypeName = t6.Name ?? "N/A",
-                                                                              ProjectTypeId = t8.CostCenterTypeId,
-                                                                              ProjectTypeName = t8.Name ?? "N/A"
-                                                                          }).ToList();
+                                                               select new BillRequisitionMasterModel
+                                                               {
+                                                                   ProjectTypeName = t5.Name,
+                                                                   CostCenterName = t4.Name,
+                                                                   BOQNumber = t2.BoQNumber,
+                                                                   BoQItemProductMapId = t1.BoQItemProductMapId,
+                                                                   BOQStatusName = t1.IsApproved == true ? "Approved" : "Pending",
+                                                                   BoqQty = t2.BoqQuantity,
+                                                                   Description = t2.Description,
+                                                                   CreatedBy = t1.CreatedBy,
+                                                                   EmployeeName = t1.CreatedBy + " - " + t5.Name,
+
+                                                               }).FirstOrDefault());
+
+            billRequisitionMasterModel.BoQItemProductMaps = (from t1 in _context.BoQItemProductMaps.Where(c => c.IsActive && c.BoQItemProductMapId == boqMapId)
+                                                             join t2 in _context.Products.Where(c => c.IsActive) on t1.ProductId equals t2.ProductId
+                                                             join t3 in _context.BillBoQItems.Where(c => c.IsActive) on t1.BoQItemId equals t3.BoQItemId
+                                                             join t4 in _context.BoQDivisions.Where(c => c.IsActive) on t3.BoQDivisionId equals t4.BoQDivisionId
+                                                             join t5 in _context.Accounting_CostCenter.Where(c => c.IsActive) on t4.ProjectId equals t5.CostCenterId
+                                                             join t6 in _context.ProductSubCategories.DefaultIfEmpty() on t2.ProductSubCategoryId equals t6.ProductSubCategoryId
+                                                             join t7 in _context.ProductCategories.DefaultIfEmpty() on t6.ProductCategoryId equals t7.ProductCategoryId
+                                                             join t8 in _context.Accounting_CostCenterType.DefaultIfEmpty() on t5.CostCenterTypeId equals t8.CostCenterTypeId
+                                                             select new BillRequisitionItemBoQMapModel()
+                                                             {
+                                                                 BoQItemProductMapId = t1.BoQItemProductMapId,
+                                                                 EstimatedAmount = t1.EstimatedAmount ?? 0M,
+                                                                 EstimatedQty = t1.EstimatedQty ?? 0M,
+                                                                 UnitRate = t1.UnitRate ?? 0M,
+                                                                 MaterialItemId = t1.ProductId,
+                                                                 MaterialName = t2.ProductName ?? "N/A",
+                                                                 BoQItemId = t3.BoQItemId,
+                                                                 BoqName = t3.Name ?? "N/A",
+                                                                 BoqNumber = t3.BoQNumber ?? "0",
+                                                                 BoQDivisionId = t4.BoQDivisionId,
+                                                                 DivisionName = t4.Name ?? "N/A",
+                                                                 ProjectId = t5.CostCenterId,
+                                                                 ProjectName = t5.Name ?? "N/A",
+                                                                 BudgetTypeId = t7.ProductCategoryId,
+                                                                 MaterialTypeName = t7.Name ?? "N/A",
+                                                                 IsApproved = t1.IsApproved ?? false,
+                                                                 BudgetSubtypeId = t6.ProductSubCategoryId,
+                                                                 MaterialSubtypeName = t6.Name ?? "N/A",
+                                                                 ProjectTypeId = t8.CostCenterTypeId,
+                                                                 ProjectTypeName = t8.Name ?? "N/A"
+                                                             }).ToList();
 
 
 
@@ -1102,6 +1098,107 @@ namespace KGERP.Service.Implementation
             return billRequisitionMasterModel;
         }
 
+        public async Task<long> BoqAndEstimatingItemApproved(BillRequisitionMasterModel masterModel)
+        {
+            var result = -1;
+            if (masterModel == null)
+            {
+                return result;
+            }
+            var BoQItemProductMapObject = _context.BoQItemProductMaps.FirstOrDefault(c => c.BoQItemProductMapId == masterModel.BoQItemProductMapId);
+            var modelMapProduct = masterModel.BoQItemProductMaps.FirstOrDefault();
+            if (BoQItemProductMapObject == null || modelMapProduct == null)
+            {
+                return result;
+            }
+            var boqApprovalHistoryObject = new BoqBNEApprovalHistroy()
+            {
+                BoqBudgetId = BoQItemProductMapObject.BoQItemProductMapId,
+                PreEstimatedQty = BoQItemProductMapObject.EstimatedAmount ?? 0,
+                PreUnitPrice = BoQItemProductMapObject.UnitRate ?? 0,
+                IsActive = true,
+                ApprovalStatusId = 1,
+                ApprovalRemarks = masterModel.CancelReason,
+                ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                ModifiedOn = DateTime.Now,
+
+            };
+
+            BoQItemProductMapObject.EstimatedAmount = modelMapProduct.EstimatedAmount;
+            BoQItemProductMapObject.UnitRate = modelMapProduct.UnitRate;
+            BoQItemProductMapObject.IsApproved = true;
+            BoQItemProductMapObject.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+            BoQItemProductMapObject.ModifiedDate = DateTime.Now;
+
+            using (var transaction = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    _context.BoqBNEApprovalHistroys.Add(boqApprovalHistoryObject);
+                    _context.BoQItemProductMaps.Add(BoQItemProductMapObject);
+                    _context.SaveChanges();
+                    transaction.Commit();
+
+                }
+                catch (Exception)
+                {
+                    transaction.Rollback();
+
+                    return result;
+                }
+            }
+            return BoQItemProductMapObject.BoQItemProductMapId;
+        }
+
+        public async Task<BillRequisitionItemBoQMapModel> FilteredBudgetAndEstimatingApprovalList(int projectId = 0, long? boqDivisionId = 0, int? BoqItemId = 0, BudgetAndEstimatingApprovalStatus approvalStatus = default)
+        {
+            var modelList = new BillRequisitionItemBoQMapModel();
+            if (projectId == 0)
+            {
+                return modelList;
+
+            }
+            modelList.BoQItemProductMaps = await Task.Run(() => (from t1 in _context.BoQItemProductMaps
+                                             join t2 in _context.Products.DefaultIfEmpty() on t1.ProductId equals t2.ProductId
+                                             join t3 in _context.BillBoQItems.DefaultIfEmpty() on t1.BoQItemId equals t3.BoQItemId
+                                             join t4 in _context.BoQDivisions.DefaultIfEmpty() on t3.BoQDivisionId equals t4.BoQDivisionId
+                                             join t5 in _context.Accounting_CostCenter.DefaultIfEmpty() on t4.ProjectId equals t5.CostCenterId
+                                             join t6 in _context.ProductSubCategories.DefaultIfEmpty() on t2.ProductSubCategoryId equals t6.ProductSubCategoryId
+                                             join t7 in _context.ProductCategories.DefaultIfEmpty() on t6.ProductCategoryId equals t7.ProductCategoryId
+                                             join t8 in _context.Accounting_CostCenterType.DefaultIfEmpty() on t5.CostCenterTypeId equals t8.CostCenterTypeId
+
+                                             where projectId>0? t5.CostCenterId == projectId : t5.CostCenterId>0
+                                             && boqDivisionId > 0 ? t4.BoQDivisionId == boqDivisionId : t4.BoQDivisionId > 0
+                                             && BoqItemId > 0 ? t3.BoQItemId == BoqItemId : t3.BoQItemId > 0 
+                                             && approvalStatus != default ? t1.IsApproved == (approvalStatus == BudgetAndEstimatingApprovalStatus.Approved ? true : false) : t1.IsApproved != default
+
+                                             select new BillRequisitionItemBoQMapModel
+                                             {
+                                                 BoQItemProductMapId = t1.BoQItemProductMapId,
+                                                 EstimatedAmount = t1.EstimatedAmount ?? 0M,
+                                                 EstimatedQty = t1.EstimatedQty ?? 0M,
+                                                 UnitRate = t1.UnitRate ?? 0M,
+                                                 MaterialItemId = t1.ProductId,
+                                                 MaterialName = t2.ProductName ?? "N/A",
+                                                 BoQItemId = t3.BoQItemId,
+                                                 BoqName = t3.Name ?? "N/A",
+                                                 BoqNumber = t3.BoQNumber ?? "0",
+                                                 BoQDivisionId = t4.BoQDivisionId,
+                                                 DivisionName = t4.Name ?? "N/A",
+                                                 ProjectId = t5.CostCenterId,
+                                                 ProjectName = t5.Name ?? "N/A",
+                                                 BudgetTypeId = t7.ProductCategoryId,
+                                                 MaterialTypeName = t7.Name ?? "N/A",
+                                                 IsApproved = t1.IsApproved??false,
+                                                 BudgetSubtypeId = t6.ProductSubCategoryId,
+                                                 MaterialSubtypeName = t6.Name ?? "N/A",
+                                                 ProjectTypeId = t8.CostCenterTypeId,
+                                                 ProjectTypeName = t8.Name ?? "N/A"
+                                             }).ToList());
+
+
+            return modelList;
+        }
         #endregion
 
 
@@ -3478,5 +3575,7 @@ namespace KGERP.Service.Implementation
 
             return (decimal)totalPrice.Where(x => x.BillRequisitionMasterId == requisitionId).Select(x => x.TotalAmount).Sum();
         }
+
+
     }
 }

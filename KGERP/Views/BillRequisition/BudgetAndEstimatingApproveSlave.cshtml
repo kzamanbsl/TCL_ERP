@@ -26,14 +26,14 @@
     </ol>
 </section>
 
-@using (Html.BeginForm("MDBRApproveSlave", "BillRequisition", FormMethod.Post, new { id = "pmBillRRSlaveReceiveFormId", @class = "formValidator" }))
+@using (Html.BeginForm("BudgetAndEstimatingApproveSlave", "BillRequisition", FormMethod.Post, new { id = "pmBillRRSlaveReceiveFormId", @class = "formValidator" }))
 {
     <section class="content">
         <div class="row">
             <div class="box">
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                @Html.HiddenFor(model => model.BillRequisitionMasterId, new { id = "hidbrMasterId" })
+                @Html.HiddenFor(model => model.BoQItemProductMapId, new { id = "hidbrBoQItemProductMapId" })
                 @Html.HiddenFor(model => model.DetailModel.BillRequisitionDetailId, new { id = "hidDamageDetailId" })
 
                 @Html.HiddenFor(model => model.ActionId, new { id = "ActionId" })
@@ -43,30 +43,12 @@
                 <div class="box-danger">
 
                     <div class="box-body">
-                        @if (Model.BillRequisitionMasterId > 0)
+                        @if (Model.BoQItemProductMapId > 0)
                         {
                             <div class="row">
                                 <div class="col-md-1"> </div>
                                 <div class="col-md-10">
                                     <table class="table">
-                                        <tr>
-                                            <th style="width:17% !important">Requisition No</th>
-                                            <th>:</th>
-                                            <td>@Model.BillRequisitionNo</td>
-
-                                            <th style="width:17% !important">Requisition Status</th>
-                                            <th>:</th>
-                                            <td>@Model.StatusName</td>
-                                        </tr>
-                                        <tr>
-                                            <th style="width:17% !important">Requisition Date</th>
-                                            <th>:</th>
-                                            <td>@Model.BRDate.ToShortDateString()</td>
-
-                                            <th style="width:17% !important">Requisition Type</th>
-                                            <th>:</th>
-                                            <td>@Model.BRTypeName</td>
-                                        </tr>
                                         <tr>
                                             <th style="width:17% !important">Project Type</th>
                                             <th>:</th>
@@ -77,15 +59,33 @@
                                             <td>@Model.CostCenterName</td>
                                         </tr>
                                         <tr>
+                                            <th style="width:17% !important">Boq Number:</th>
+                                            <th>:</th>
+                                            <td>@Model.BOQNumber</td>
+
+                                            <th style="width:17% !important">Status</th>
+                                            <th>:</th>
+                                            <td>@Model.BOQStatusName</td>
+                                        </tr>
+                                        <tr>
+                                            <th style="width:17% !important">Boq Quantity</th>
+                                            <th>:</th>
+                                            <td>@Model.BoqQty</td>
+
+                                            <th style="width:17% !important">Boq Unit</th>
+                                            <th>:</th>
+                                            <td>@Model.BoqUnit</td>
+                                        </tr>
+                                        <tr>
                                             <th>
-                                                @((Model.BillRequisitionTypeId == (int)EnumBillRequisitionType.Overhead)? "Item Description" : "Work Details")
+                                                Boq Description
                                             </th>
                                             <th>:</th>
                                             <td>@(Model.Description != null ? Model.Description : "N/A")</td>
 
                                             <th>Created By</th>
                                             <th>:</th>
-                                            <td>@Model.EmployeeName</td>
+                                            <td>@Model.CreatedBy</td>
                                         </tr>
                                     </table>
                                 </div>
@@ -97,40 +97,24 @@
 
                                     <h4 class="text-primary" style="margin: 20px 0 5px;">
                                         <strong>
-                                            Requisition Item List:
+                                            BOQ and Budget Item List:
                                         </strong>
                                     </h4>
 
                                     <table id="itemTable" class="table table-bordered table-striped table-responsive">
                                         <thead>
                                             <tr class="bg-gray">
-                                                <th class="text-center">SL</th>
-                                                @if (Model.BillRequisitionTypeId != (int)EnumBillRequisitionType.Overhead)
-                                                {
-                                                    <th class="text-center">Division Name</th>
-                                                    <th class="text-center">BoQ Number</th>
-                                                    <th class="text-center">BoQ Name</th>
-                                                }
-                                                <th class="text-center">Requisition For</th>
-                                                <th class="text-center">@((Model.BillRequisitionTypeId == (int)EnumBillRequisitionType.Overhead)? "Item" : "Material")</th>
-                                                <th class="text-center">Unit</th>
-                                                <th class="text-center">Remarks/ Particular</th>
-                                                @if (Model.BillRequisitionTypeId != (int)EnumBillRequisitionType.Overhead)
-                                                {
-                                                    <th class="text-center">Estimated</th>
-                                                }
-                                                <th class="text-center">Recieved</th>
-                                                @if (Model.BillRequisitionTypeId != (int)EnumBillRequisitionType.Overhead)
-                                                {
-                                                    <th>Remaining</th>
-                                                }
-                                                <th class="text-center">Demand</th>
-                                                @if (Model.BillRequisitionTypeId != (int)EnumBillRequisitionType.Overhead)
-                                                {
-                                                    <th>Available</th>
-                                                }
-                                                <th class="text-center">Unit Price</th>
-                                                <th class="text-center">Total</th>
+                                                <th>SL</th>
+                                                <th>BoQ Division</th>
+                                                <th>BoQ Name</th>
+                                                <th>Material Type</th>
+                                                <th>Material Subtype</th>
+                                                <th>Material </th>
+                                                <th>Estimated Qty</th>
+                                                <th>Unit Price</th>
+                                                <th> Total Amount</th>
+
+
                                             </tr>
                                         </thead>
 
@@ -138,63 +122,35 @@
                                             @{
                                                 int i = 0;
                                             }
-                                            @foreach (var item in Model.DetailDataList)
+                                            @if (Model.BoQItemProductMaps != null)
                                             {
-                                                <tr>
-                                                    <td class="text-center">
-                                                        @Html.HiddenFor(model => model.DetailDataList[i].BillRequisitionMasterId)
-                                                        @Html.HiddenFor(model => model.DetailDataList[i].BillRequisitionDetailId)
-                                                        @(++sl)
-                                                    </td>
-                                                    @if (Model.BillRequisitionTypeId != (int)EnumBillRequisitionType.Overhead)
-                                                    {
-                                                        <td>@item.BoqDivisionName</td>
-                                                        <td class="text-center">@item.BoqNumber</td>
-                                                        <td class="text-center">@item.BoqItemName</td>
-                                                    }
-                                                    <td>@item.RequisitionSubtypeName</td>
-                                                    <td>@item.ProductName</td>
-                                                    <td>@item.UnitName</td>
-                                                    <td>@(item.Remarks != null ? item.Remarks : "N/A")</td>
-                                                    @if (Model.BillRequisitionTypeId != (int)EnumBillRequisitionType.Overhead)
-                                                    {
-                                                        <td class="text-center">@String.Format("{0:0.00}", item.EstimatedQty)</td>
-                                                    }
-                                                    <td class="text-center">@String.Format("{0:0.00}", item.ReceivedSoFar)</td>
-                                                    @if (Model.BillRequisitionTypeId != (int)EnumBillRequisitionType.Overhead)
-                                                    {
-                                                        <td class="text-center remainingValue">@String.Format("{0:0.00}", item.RemainingQty)</td>
-                                                    }
-                                                    <td class="text-center">
-                                                        @if (Model.BillRequisitionMasterId > 0 && Model.StatusName == EnumBillRequisitionStatus.Submitted.ToString() && Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending || Model.BillRequisitionMasterId > 0 && Model.StatusName == EnumBillRequisitionStatus.Pending.ToString() && Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
-                                                        {
-                                                            @Html.TextBoxFor(model => model.DetailDataList[i].DemandQty, new { value = "0", id = "demandQty_" + i, @class = "form-control demandValue" })
-                                                            <small class="text-center text-danger" id="inputValidationDemand"></small>
-                                                        }
-                                                        else
-                                                        {
-                                                            @String.Format("{0:0.00}", item.DemandQty)
-                                                        }
-                                                    </td>
-                                                    @if (Model.BillRequisitionTypeId != (int)EnumBillRequisitionType.Overhead)
-                                                    {
-                                                        <td class="text-center availableValue">
-                                                            @String.Format("{0:0.00}", item.RemainingQty - item.DemandQty)
+                                                foreach (var item in Model.BoQItemProductMaps)
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            @(++sl)
                                                         </td>
-                                                    }
-                                                    <td class="text-center">
-                                                        @if (Model.BillRequisitionMasterId > 0 && Model.StatusName == EnumBillRequisitionStatus.Submitted.ToString() && Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending || Model.BillRequisitionMasterId > 0 && Model.StatusName == EnumBillRequisitionStatus.Pending.ToString() && Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
+                                                        <td id="tdBoqDivisionName_@item.BoQItemProductMapId">@item.DivisionName</td>
+                                                        <td id="tdBoqItemNo_@item.BoQItemProductMapId"><small class="label label-primary">@item.BoqNumber</small> @item.BoqName</td>
+                                                        <td id="tdBoqMaterialName_@item.BoQItemProductMapId">@item.MaterialTypeName</td>
+                                                        <td id="tdBoqMaterialName_@item.BoQItemProductMapId">@item.MaterialSubtypeName</td>
+                                                        <td id="tdBoqMaterialName_@item.BoQItemProductMapId">@item.MaterialName</td>
+                                                        @if (item.IsApproved == false)
                                                         {
-                                                            @Html.TextBoxFor(model => model.DetailDataList[i].UnitRate, new { value = "0", id = "unitRate_" + i, @class = "form-control unitValue" })
-                                                            <small class="text-center text-danger" id="inputValidationUnit"></small>
+                                                            <td><input id="quantityHidden_@item.BoQItemProductMapId" value="@item.EstimatedQty" /></td>
+
+                                                            <td> <input id="unitRateHidden_@item.BoQItemProductMapId" value="@item.UnitRate" /> </td>
+
                                                         }
                                                         else
                                                         {
-                                                            @String.Format("{0:0.00}", item.UnitRate)
+                                                            <td id="tdBoqEstimateQty_@item.BoQItemProductMapId">@item.EstimatedQty</td>
+                                                            <td id="tdBoqUnitRate_@item.BoQItemProductMapId">@item.UnitRate</td>
+
                                                         }
-                                                    </td>
-                                                    <td class="totalValue text-center" style="text-align: right !important" id="totalAmount_+@i">@String.Format("{0:0.00}", item.TotalPrice)</td>
-                                                </tr>
+                                                        <td class="totalValue" id="tdBoqEstimateAmount_@item.BoQItemProductMapId">@item.EstimatedAmount</td>
+                                                    </tr>
+                                                }
                                                 i++;
                                             }
                                         </tbody>
@@ -212,7 +168,7 @@
                                                 }
                                                 else
                                                 {
-                                                    <td colspan="14" style="text-align: right !important">
+                                                    <td colspan="8" style="text-align: right !important">
                                                         <b>Total Amount : </b>
                                                     </td>
                                                     <td id="totalFooter" colspan="2" style="text-align: right !important">
@@ -223,240 +179,246 @@
                                         </tfoot>
                                     </table>
 
-                                    <h4 class="text-primary" style="margin: 20px 0 5px;">
-                                        <strong>
-                                            Requisition Approval Status:
-                                        </strong>
-                                    </h4>
+                                    @*<h4 class="text-primary" style="margin: 20px 0 5px;">
+                                            <strong>
+                                                Approval Status:
+                                            </strong>
+                                        </h4>
 
-                                    <table class="table table-bordered table-striped table-responsive">
-                                        <tr class="bg-gray">
-                                            @foreach (var item in Model.ApprovalModelList)
-                                            {
+                                        <table class="table table-bordered table-striped table-responsive">
+                                            <tr class="bg-gray">
+                                                @foreach (var item in Model.ApprovalModelList)
+                                                {
+                                                    <th style="padding:5px;text-align:center;">
+                                                        @((item.SignatoryName == "PM") ? "PM/Checker" : (item.SignatoryName == "QS") ? "QS/Engr./HOD" : (item.SignatoryName == "PD") ? "PD/CE" : item.SignatoryName)
+                                                    </th>
+                                                }
                                                 <th style="padding:5px;text-align:center;">
-                                                    @((item.SignatoryName == "PM") ? "PM/Checker" : (item.SignatoryName == "QS") ? "QS/Engr./HOD" : (item.SignatoryName == "PD") ? "PD/CE" : item.SignatoryName)
+                                                    Payment Status
                                                 </th>
-                                            }
-                                            <th style="padding:5px;text-align:center;">
-                                                Payment Status
-                                            </th>
-                                        </tr>
-                                        <tr>
-                                            @foreach (var item in Model.ApprovalModelList)
-                                            {
-                                                if (item.AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
+                                            </tr>
+                                            <tr>
+                                                @foreach (var item in Model.ApprovalModelList)
                                                 {
-                                                    <td style="text-align:center">
-                                                        <span class="btn btn-warning btn-xs">@(Model.StatusName == EnumBillRequisitionStatus.Approved.ToString() ? "Bypass" : item.AprrovalStatusName)</span>
-                                                    </td>
-                                                }
-                                                else if (item.AprrovalStatusId == (int)EnumBillRequisitionStatus.Rejected)
-                                                {
-                                                    <td style="text-align:center">
-                                                        <span class="btn btn-danger btn-xs"> @item.AprrovalStatusName</span>
-                                                    </td>
-                                                }
-                                                else if (item.AprrovalStatusId == (int)EnumBillRequisitionStatus.Approved)
-                                                {
-                                                    <td style="text-align:center">
-                                                        @if (item.SignatoryId == (int)EnumBRequisitionSignatory.Initiator)
-                                                        {
-                                                            <span class="btn btn-success btn-xs"> Prepared</span>
-                                                        }
-                                                        else if (item.SignatoryId == (int)EnumBRequisitionSignatory.PM)
-                                                        {
-                                                            <span class="btn btn-success btn-xs"> Checked</span>
-                                                        }
-                                                        else if (item.SignatoryId == (int)EnumBRequisitionSignatory.QS)
-                                                        {
-                                                            <span class="btn btn-success btn-xs"> Forwarded</span>
-                                                        }
-                                                        else if (item.SignatoryId == (int)EnumBRequisitionSignatory.Director)
-                                                        {
-                                                            <span class="btn btn-success btn-xs"> Forwarded</span>
-                                                        }
-                                                        else if (item.SignatoryId == (int)EnumBRequisitionSignatory.PD)
-                                                        {
-                                                            <span class="btn btn-success btn-xs"> Recommended</span>
-                                                        }
-                                                        else if (item.SignatoryId == (int)EnumBRequisitionSignatory.MD)
-                                                        {
-                                                            <span class="btn btn-success btn-xs"> Approved</span>
-                                                        }
-                                                    </td>
-                                                }
-                                                else
-                                                {
-                                                    <td style="padding:5px; text-align:center;">@item.AprrovalStatusName</td>
-                                                }
-                                            }
-                                            @*<td style="padding:5px; text-align:center;">
-                                                    @if (Model.VoucherPaymentStatus == "Paid")
+                                                    if (item.AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
                                                     {
-                                                        <a title="Download Report" class="" style="width:100%" target="_blank" href="~/Report/TCLBillRequisiontPaymentReport?companyId=@Model.CompanyFK&billRequisitionMasterId=@Model.BillRequisitionMasterId">
-                                                            <i class="fa fa-download"></i> Download
-                                                            <span class="btn btn-success btn-xs"> @Model.VoucherPaymentStatus</span>
-                                                        </a>
+                                                        <td style="text-align:center">
+                                                            <span class="btn btn-warning btn-xs">@(Model.StatusName == EnumBillRequisitionStatus.Approved.ToString() ? "Bypass" : item.AprrovalStatusName)</span>
+                                                        </td>
                                                     }
-                                                    else if (Model.VoucherPaymentStatus == "Pending")
+                                                    else if (item.AprrovalStatusId == (int)EnumBillRequisitionStatus.Rejected)
                                                     {
-                                                        <a title="Download Report" class="" style="width:100%" target="_blank" href="~/Report/TCLBillRequisiontPaymentReport?companyId=@Model.CompanyFK&billRequisitionMasterId=@Model.BillRequisitionMasterId">
-                                                            <span class="btn btn-warning btn-xs"> @Model.VoucherPaymentStatus</span>
-                                                        </a>
+                                                        <td style="text-align:center">
+                                                            <span class="btn btn-danger btn-xs"> @item.AprrovalStatusName</span>
+                                                        </td>
                                                     }
-                                                    else if (Model.VoucherPaymentStatus == "Partially Paid")
+                                                    else if (item.AprrovalStatusId == (int)EnumBillRequisitionStatus.Approved)
                                                     {
-                                                        <a title="Download Report" class="" style="width:100%" target="_blank" href="~/Report/TCLBillRequisiontPaymentReport?companyId=@Model.CompanyFK&billRequisitionMasterId=@Model.BillRequisitionMasterId">
-                                                            <span class="btn btn-info btn-xs"> @Model.VoucherPaymentStatus</span>
-                                                        </a>
+                                                        <td style="text-align:center">
+                                                            @if (item.SignatoryId == (int)EnumBRequisitionSignatory.Initiator)
+                                                            {
+                                                                <span class="btn btn-success btn-xs"> Prepared</span>
+                                                            }
+                                                            else if (item.SignatoryId == (int)EnumBRequisitionSignatory.PM)
+                                                            {
+                                                                <span class="btn btn-success btn-xs"> Checked</span>
+                                                            }
+                                                            else if (item.SignatoryId == (int)EnumBRequisitionSignatory.QS)
+                                                            {
+                                                                <span class="btn btn-success btn-xs"> Forwarded</span>
+                                                            }
+                                                            else if (item.SignatoryId == (int)EnumBRequisitionSignatory.Director)
+                                                            {
+                                                                <span class="btn btn-success btn-xs"> Forwarded</span>
+                                                            }
+                                                            else if (item.SignatoryId == (int)EnumBRequisitionSignatory.PD)
+                                                            {
+                                                                <span class="btn btn-success btn-xs"> Recommended</span>
+                                                            }
+                                                            else if (item.SignatoryId == (int)EnumBRequisitionSignatory.MD)
+                                                            {
+                                                                <span class="btn btn-success btn-xs"> Approved</span>
+                                                            }
+                                                        </td>
                                                     }
                                                     else
                                                     {
-                                                        <a title="Download Report" class="" style="width:100%" target="_blank" href="~/Report/TCLBillRequisiontPaymentReport?companyId=@Model.CompanyFK&billRequisitionMasterId=@Model.BillRequisitionMasterId">
-                                                            <span class="btn btn-warning btn-xs">Pending</span>
-                                                        </a>
+                                                        <td style="padding:5px; text-align:center;">@item.AprrovalStatusName</td>
                                                     }
-                                                </td>*@
-
-                                            <td style="padding:5px; text-align:center;">
-                                                @if (Model.PaymentStatus)
-                                                {
-                                                    <span class="label label-success">Payment Done!</span>
-                                                }
-                                                else
-                                                { 
-                                                    <span class="label label-info">Not Yet!</span>
-                                                }
-                                            </td>
-
-                                        </tr>
-                                    </table>
-
-                                    <h4 class="text-primary" style="margin: 20px 0 5px;">
-                                        <strong>
-                                            Requisition Approval Histroy:
-                                        </strong>
-                                    </h4>
-
-                                    <table class="table table-bordered table-striped table-responsive">
-                                        <tr class="bg-gray">
-                                            @foreach (var item in Model.ApprovalModelList)
+                                                }*@
+                                    @*<td style="padding:5px; text-align:center;">
+                                            @if (Model.VoucherPaymentStatus == "Paid")
                                             {
-                                                <th style="padding:5px;text-align:center;">
-                                                    @((item.SignatoryName == "PM") ? "PM/Checker" : (item.SignatoryName == "QS") ? "QS/Engr./HOD" : (item.SignatoryName == "PD") ? "PD/CE" : item.SignatoryName)
-                                                </th>
+                                                <a title="Download Report" class="" style="width:100%" target="_blank" href="~/Report/TCLBillRequisiontPaymentReport?companyId=@Model.CompanyFK&billRequisitionMasterId=@Model.BillRequisitionMasterId">
+                                                    <i class="fa fa-download"></i> Download
+                                                    <span class="btn btn-success btn-xs"> @Model.VoucherPaymentStatus</span>
+                                                </a>
                                             }
-                                            <th>Payment Method</th>
-                                        </tr>
-                                        <tr>
-                                            @foreach (var item in Model.ApprovalModelList)
+                                            else if (Model.VoucherPaymentStatus == "Pending")
                                             {
-                                                <td>
-                                                    @if (item.ApprovalRemarks != null)
+                                                <a title="Download Report" class="" style="width:100%" target="_blank" href="~/Report/TCLBillRequisiontPaymentReport?companyId=@Model.CompanyFK&billRequisitionMasterId=@Model.BillRequisitionMasterId">
+                                                    <span class="btn btn-warning btn-xs"> @Model.VoucherPaymentStatus</span>
+                                                </a>
+                                            }
+                                            else if (Model.VoucherPaymentStatus == "Partially Paid")
+                                            {
+                                                <a title="Download Report" class="" style="width:100%" target="_blank" href="~/Report/TCLBillRequisiontPaymentReport?companyId=@Model.CompanyFK&billRequisitionMasterId=@Model.BillRequisitionMasterId">
+                                                    <span class="btn btn-info btn-xs"> @Model.VoucherPaymentStatus</span>
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <a title="Download Report" class="" style="width:100%" target="_blank" href="~/Report/TCLBillRequisiontPaymentReport?companyId=@Model.CompanyFK&billRequisitionMasterId=@Model.BillRequisitionMasterId">
+                                                    <span class="btn btn-warning btn-xs">Pending</span>
+                                                </a>
+                                            }
+                                        </td>*@
+
+                                    @*<td style="padding:5px; text-align:center;">
+                                                    @if (Model.PaymentStatus)
                                                     {
-                                                        <span style="font-size: 12px"><b>Remarks: </b> @item.ApprovalRemarks</span>
+                                                        <span class="label label-success">Payment Done!</span>
                                                     }
                                                     else
                                                     {
-                                                        <span style="font-size: 12px"><b>Remarks: </b> @(item.SignatoryName == "Initiator" ? "Requisition Created. " : "N/A")</span>
-                                                    }
-                                                    <br />
-                                                    @if (item.SignatoryName == "Initiator")
-                                                    {
-                                                        <span style="font-size: 11px">
-                                                            <b>Time: </b> @(item.ModifiedDate == null ? "Pending" : item.ModifiedDate.ToString())
-                                                        </span>
-                                                    }
-                                                    else
-                                                    {
-                                                        <span style="font-size: 11px">
-                                                            <b>Time: </b> @(item.ModifiedDate == null ? "Pending" : item.ModifiedDate.ToString())
-                                                        </span>
+                                                        <span class="label label-info">Not Yet!</span>
                                                     }
                                                 </td>
-                                                if (item.SignatoryId == (int)EnumBRequisitionSignatory.MD)
+
+                                            </tr>
+                                        </table>*@
+                                    @if (Model.ApprovalModelList.Count() > 0)
+                                    {
+                                        <h4 class="text-primary" style="margin: 20px 0 5px;">
+                                            <strong>
+                                                Approval Histroy:
+                                            </strong>
+                                        </h4>
+
+                                        <table class="table table-bordered table-striped table-responsive">
+                                            <tr class="bg-gray">
+
+                                                <th style="padding:5px;text-align:center;">Approved By</th>
+                                                <th style="padding:5px;text-align:center;">Approved Date</th>
+                                                <th style="padding:5px;text-align:center;">Pre. Estimated Qty</th>
+                                                <th style="padding:5px;text-align:center;">Pre. Unit Price</th>
+                                                <th style="padding:5px;text-align:center;">Remarks</th>
+
+
+                                            </tr>
+                                            <tr>
+                                                @foreach (var item in Model.ApprovalModelList)
                                                 {
                                                     <td>
-                                                        @if (item.VoucherPaymentStatus != null)
+                                                        @if (item.ApprovalRemarks != null)
                                                         {
-                                                            <center>
-                                                                <b>@item.VoucherPaymentStatus</b>
-                                                            </center>
+                                                            <span style="font-size: 12px"><b>Remarks: </b> @item.ApprovalRemarks</span>
                                                         }
                                                         else
                                                         {
-                                                            <center>
-                                                                <small>Not selected!</small>
-                                                            </center>
+                                                            <span style="font-size: 12px"><b>Remarks: </b> @(item.SignatoryName == "Initiator" ? "Requisition Created. " : "N/A")</span>
+                                                        }
+                                                        <br />
+                                                        @if (item.SignatoryName == "Initiator")
+                                                        {
+                                                            <span style="font-size: 11px">
+                                                                <b>Time: </b> @(item.ModifiedDate == null ? "Pending" : item.ModifiedDate.ToString())
+                                                            </span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span style="font-size: 11px">
+                                                                <b>Time: </b> @(item.ModifiedDate == null ? "Pending" : item.ModifiedDate.ToString())
+                                                            </span>
                                                         }
                                                     </td>
+                                                    if (item.SignatoryId == (int)EnumBRequisitionSignatory.MD)
+                                                    {
+                                                        <td>
+                                                            @if (item.VoucherPaymentStatus != null)
+                                                            {
+                                                                <center>
+                                                                    <b>@item.VoucherPaymentStatus</b>
+                                                                </center>
+                                                            }
+                                                            else
+                                                            {
+                                                                <center>
+                                                                    <small>Not selected!</small>
+                                                                </center>
+                                                            }
+                                                        </td>
+                                                    }
                                                 }
-                                            }
-                                        </tr>
-                                    </table>
-
+                                            </tr>
+                                        </table>
+                                    }
                                 </div>
                             </div>
                         }
                     </div>
 
-                    @if (Model.BillRequisitionMasterId > 0 && Model.StatusName == EnumBillRequisitionStatus.Submitted.ToString() && Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending || Model.BillRequisitionMasterId > 0 && Model.StatusName == EnumBillRequisitionStatus.Pending.ToString() && Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
+                    @if (Model.BoQItemProductMaps != null)
                     {
-                        <div class="box-footer">
-                            <div class="row">
-                                <div class="col-md-3"></div>
-                                <div class="col-md-3"></div>
-                                <div class="col-md-3">
-                                    <a class="btn btn-danger btn-block linkPointer" data-toggle="modal" data-target="#RejectedModalId" data-placement="top">Proceed to Reject</a>
-                                </div>
-                                <div class="col-md-3">
-                                    <a class="btn btn-primary btn-block linkPointer" data-toggle="modal" data-target="#ApprovedModalId" data-placement="top">Proceed to Approve</a>
+                        if (Model.BoQItemProductMaps.FirstOrDefault().IsApproved == false)
+                        {
+                            <div class="box-footer">
+                                <div class="row">
+                                    <div class="col-md-3"></div>
+                                    <div class="col-md-3"></div>
+                                    <div class="col-md-3">
+                                        <a class="btn btn-danger btn-block linkPointer" data-toggle="modal" data-target="#RejectedModalId" data-placement="top">Proceed to Reject</a>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <a class="btn btn-primary btn-block linkPointer" data-toggle="modal" data-target="#ApprovedModalId" data-placement="top">Proceed to Approve</a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <!-- Approve Modal-->
-                        <div class="modal fade" id="ApprovedModalId" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" onclick="resetForm()" class="close pull-right" data-dismiss="modal" aria-label="Close">
-                                            &times;
-                                        </button>
-                                        <h4 class="modal-title text-primary"><b>Bill Requisition Approval</b></h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="row">
+                            <!-- Approve Modal-->
+                            <div class="modal fade" id="ApprovedModalId" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" onclick="resetForm()" class="close pull-right" data-dismiss="modal" aria-label="Close">
+                                                &times;
+                                            </button>
+                                            <h4 class="modal-title text-primary"><b>B & E Item Approval</b></h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
 
-                                            <div class="col-md-7">
-                                                <div class="form-group">
-                                                    <label class="form-label text-secondary">Approval Remarks</label>
-                                                    @Html.TextAreaFor(model => model.CancelReason, new { @class = "modal-input form-control" })
-                                                </div>
-                                            </div>
-                                            <div class="col-md-5">
-                                                <div class="form-group">
-                                                    <label class="form-label text-secondary">Choose Payment Method<sup class="text-danger" title="Requied"><b>*</b></sup></label>
-                                                    <div class="custom-control custom-radio custom-control-inline">
-                                                        <input type="radio" id="cash" value="Cash" name="VoucherPaymentStatus" class="custom-control-input" required>
-                                                        <label class="custom-control-label" for="cash">Pay with cash</label>
-                                                    </div>
-                                                    <div class="custom-control custom-radio custom-control-inline">
-                                                        <input type="radio" id="cheque" value="Cheque" name="VoucherPaymentStatus" class="custom-control-input" required>
-                                                        <label class="custom-control-label" for="cheque">Pay with cheque</label>
+                                                <div class="col-md-7">
+                                                    <div class="form-group">
+                                                        <label class="form-label text-secondary">Approval Remarks</label>
+                                                        @Html.TextAreaFor(model => model.CancelReason, new { @class = "modal-input form-control" })
                                                     </div>
                                                 </div>
-                                            </div>
+                                                <div class="col-md-5">
+                                                    @*<div class="form-group">
+                                                            <label class="form-label text-secondary">Choose Payment Method<sup class="text-danger" title="Requied"><b>*</b></sup></label>
+                                                            <div class="custom-control custom-radio custom-control-inline">
+                                                                <input type="radio" id="cash" value="Cash" name="VoucherPaymentStatus" class="custom-control-input" required>
+                                                                <label class="custom-control-label" for="cash">Pay with cash</label>
+                                                            </div>
+                                                            <div class="custom-control custom-radio custom-control-inline">
+                                                                <input type="radio" id="cheque" value="Cheque" name="VoucherPaymentStatus" class="custom-control-input" required>
+                                                                <label class="custom-control-label" for="cheque">Pay with cheque</label>
+                                                            </div>
+                                                        </div>*@
+                                                </div>
 
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" id="btnClose" onclick="resetForm()" class="btn btn-outline-warning" data-dismiss="modal">Go Back</button>
+                                            <button type="submit" id="btnDelete" class="deleteId btn btn-success">Approve</button>
                                         </div>
                                     </div>
-                                    <div class="modal-footer">
-                                        <button type="button" id="btnClose" onclick="resetForm()" class="btn btn-outline-warning" data-dismiss="modal">Go Back</button>
-                                        <button type="submit" id="btnDelete" class="deleteId btn btn-success">Approve</button>
-                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <!-- Approve Modal-->
+                            <!-- Approve Modal-->
+
+                        }
                     }
                 </div>
             </div>

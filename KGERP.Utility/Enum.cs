@@ -105,6 +105,13 @@ namespace KGERP.Utility
         Rejected,
         Closed
     }
+    public enum BudgetAndEstimatingApprovalStatus
+    {
+        Pending=0,
+        Approved,
+        //Rejected,
+        //Closed
+    }
     public enum EnumBillRequisitionType
     {
         [Display(Name = "Construction Materials")]
