@@ -42,7 +42,7 @@ namespace KGERP.Service.ServiceModel
         public int BudgetSubtypeId { get; set; }
         public string MaterialSubtypeName { get; set; }
         public List<ProductSubCategory> BudgetSubtypes { get; set; }
-        public EnumBudgetAndEstimatingApprovalStatus BNEStatusId { get; set; }
+        public EnumBudgetAndEstimatingApprovalStatus BNEApprovalStatus { get; set; }
         public SelectList EnumBNEStatusList { get { return new SelectList(BaseFunctionalities.GetEnumList<EnumBudgetAndEstimatingApprovalStatus>(), "Value", "Text"); } }
         public SelectList BoqDivisionsSelectList { get; set; } = new SelectList(new List<SelectListItem>());
         public SelectList BoqItemSelectList { get; set; } = new SelectList(new List<SelectListItem>());
