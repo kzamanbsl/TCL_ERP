@@ -848,10 +848,10 @@ namespace KGERP.Service.Implementation
 
         #region Budget & Estimating
 
-        public async Task<BoQItemProductMap> BoqMaterialBudget(long boqId, long productId)
+        public BoQItemProductMap BoqMaterialBudget(long boqId, long productId)
         {
-            var data = await _context.BoQItemProductMaps
-                .FirstOrDefaultAsync(c => c.BoQItemId == boqId && c.ProductId == productId);
+            var data = _context.BoQItemProductMaps
+                .FirstOrDefault(c => c.BoQItemId == boqId && c.ProductId == productId);
 
             if (data == null)
             {
@@ -2309,7 +2309,6 @@ namespace KGERP.Service.Implementation
 
             billRequisitionMasterModel.DataList = await Task.Run(() => (from t1 in _context.BillRequisitionMasters.Where(x => x.IsActive
                                                          && x.CompanyId == companyId
-                                                         && x.BillRequisitionTypeId != (int)EnumBillRequisitionType.Oil
                                                          && x.StatusId >= (int)EnumBillRequisitionStatus.Submitted)
                                                                         join t2 in _context.Accounting_CostCenter on t1.CostCenterId equals t2.CostCenterId into t2_Join
                                                                         from t2 in t2_Join.DefaultIfEmpty()
@@ -3418,7 +3417,7 @@ namespace KGERP.Service.Implementation
                                             join t2 in _context.BillRequisitionDetails
                                             on t1.BillRequisitionMasterId equals t2.BillRequisitionMasterId into t2_Join
                                             from t2 in t2_Join
-                                            .Where(x => x.BoQItemId == boqId && x.ProductId == productId)
+                                            .Where(x => x.BoQItemId == boqId && x.ProductId == productId && x.IsActive)
                                             select new
                                             {
                                                 DemandQty = t2.DemandQty ?? 0
@@ -3436,7 +3435,7 @@ namespace KGERP.Service.Implementation
                                             join t2 in _context.BillRequisitionDetails
                                             on t1.BillRequisitionMasterId equals t2.BillRequisitionMasterId into t2_Join
                                             from t2 in t2_Join
-                                            .Where(x => x.ProductId == productId)
+                                            .Where(x => x.ProductId == productId && x.IsActive)
                                             select new
                                             {
                                                 DemandQty = t2.DemandQty ?? 0

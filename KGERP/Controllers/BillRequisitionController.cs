@@ -154,14 +154,14 @@ namespace KGERP.Controllers
 
 
         // get material budget info
-        public async Task<JsonResult> GetMaterialBudgetInfo(long projectId = 0, long boqId = 0, long productId = 0)
+        public JsonResult GetMaterialBudgetInfo(long projectId = 0, long boqId = 0, long productId = 0)
         {
             decimal EstimateQty = 0;
             decimal UnitRate = 0;
             decimal? ReceivedSoFar = 0;
             decimal? RemainingQty = 0;
 
-            var getData = await _service.BoqMaterialBudget(boqId, productId);
+            var getData = _service.BoqMaterialBudget(boqId, productId);
             if (getData != null)
             {
                 EstimateQty = (decimal)getData.EstimatedQty;
