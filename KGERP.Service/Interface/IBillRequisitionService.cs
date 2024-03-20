@@ -1,6 +1,7 @@
 ﻿using KGERP.Data.Models;
 using KGERP.Service.Implementation.Configuration;
 using KGERP.Service.ServiceModel;
+using KGERP.Utility;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -72,6 +73,10 @@ namespace KGERP.Service.Interface
         //List<BoQItemProductMap> GetBoQProductMapList();
         List<BillRequisitionItemBoQMapModel> GetBoQProductMapList();
         Task<bool> IsBoqBudgetExistByBoqId(long boqItemId, long materialId);
+        Task<BillRequisitionMasterModel> GetBoqAndBudgetDetailWithApproval(int companyId = 21, int boqMapId = 0);
+        Task<BillRequisitionItemBoQMapModel> FilteredBudgetAndEstimatingApprovalList(int projectId = 0, long? boqDivisionId = 0,int? BoqItemId=0, BudgetAndEstimatingApprovalStatus approvalStatus=default );
+        Task<long> BoqAndEstimatingItemApproved(BillRequisitionMasterModel masterModel);
+
         #endregion
 
         #region Requisition Type

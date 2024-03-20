@@ -17,12 +17,16 @@ namespace KGERP.Service.ServiceModel
         public DateTime BRDate { get; set; }
         public int ProjectTypeId { get; set; }
         public string ProjectTypeName { get; set; }
-        public int? BOQItemId { get; set; }
+        public long? BoQItemProductMapId { get; set; }
+        public string BOQNumber { get; set; }
+        public decimal? BoqQty { get; set; }
         public string BOQItemName { get; set; }
+        public string BOQStatusName { get; set; }
         public string BillRequisitionNo { get; set; }
         public int CostCenterId { get; set; }
         public long BoQDivisionId { get; set; }
         public string BoQDivisionName { get; set; }
+        public int? BoqUnit { get; set; }
         public string CostCenterName { get; set; }
         public int BillRequisitionTypeId { get; set; }
         public string BRTypeName { get; set; }

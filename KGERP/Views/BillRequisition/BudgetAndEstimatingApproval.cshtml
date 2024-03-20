@@ -1,0 +1,243 @@
+﻿@model KGERP.Service.ServiceModel.BillRequisitionItemBoQMapModel
+@using KGERP.Utility;
+
+@{
+    ViewData["Title"] = "Bill Requisition Item Approval List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    int sl = 0;
+}
+
+<style type="text/css">
+
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
+
+<section class="content-header">
+    <h1>
+        <span>
+            Budget And Estimating Item Approval List
+        </span>
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
+        <li class="active">
+            Budget And Estimating Item Approval List
+        </li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-danger">
+                    <div class="box-body">
+                        @using (Html.BeginForm("BudgetAndEstimatingApproval", "BillRequisition", FormMethod.Post, new { id = "dealerReceivedListFormId", @class = "formValidator" }))
+                        {
+                            @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyId" })
+
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label asp-for="ProjectId" class="form-control-label">Select Project<sup class="text-danger" title="Required"><b>*</b></sup> :</label>
+                                        @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.Projects.OrderBy(order => order.Name), "CostCenterId", "Name"), "==Select Project Type First==", new { id = "ddlProjectId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.ProjectId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label asp-for="BoQDivisionId" class="form-control-label">Select BoQ Division :</label>
+                                        @Html.DropDownListFor(model => model.BoQDivisionId, new SelectList(Enumerable.Empty<SelectListItem>()), "==Select BoQ Division==", new { id = "ddlBoQDivisionId", @class = "form-control searchingDropdown", style = "width:100%" })
+                                        @Html.ValidationMessageFor(model => model.BoQDivisionId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label asp-for="BoQItemId" class="form-control-label">Select BoQ Item:</label>
+                                        @Html.DropDownListFor(model => model.BoQItemId, new SelectList(Enumerable.Empty<SelectListItem>()), "==Select BoQ Item==", new { id = "ddlBoQItemId", @class = "form-control searchingDropdown", style = "width:100%" })
+                                        @Html.ValidationMessageFor(model => model.BoQItemId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        @Html.Label("Status:", htmlAttributes: new { @class = "control-label" })
+                                        <br />
+                                        @Html.DropDownListFor(model => model.BNEStatusId, Model.EnumBNEStatusList as SelectList, "==Select Status==", new { id = "ddlStatusEnumFK", @class = "form-control ddlReset searchingDropdown", style = "width:100%" })
+                                        @Html.ValidationMessageFor(model => model.BNEStatusId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-9">
+
+                                </div>
+
+                                <div class="col-md-3" style="padding: 0px 2px 0px 8px;">
+                                    <div class="form-group">
+                                        <label>&nbsp;</label>
+                                        <button type="submit" id="btnSave" class="btn btn-primary btn-block">Show</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        }
+
+                        <hr />
+
+                        @if (Model.BoQItemProductMaps?.Any()??false)
+                        {
+                            <table id="KgErpDataTable33" class="table table-bordered table-striped table-responsive">
+                                <thead>
+                                    <tr class="bg-gray">
+                                        <th>SL</th>
+                                        <th>BoQ Division</th>
+                                        <th>BoQ Name</th>
+                                        <th>Material Type</th>
+                                        <th>Material Subtype</th>
+                                        <th>Material </th>
+                                        <th>Estimated Qty</th>
+                                        <th>Unit Price</th>
+                                        <th> Total Amount</th>
+
+
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @{
+                                        int i = 0;
+                                    }
+                                    @if (Model.BoQItemProductMaps != null)
+                                    {
+                                        foreach (var item in Model.BoQItemProductMaps)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @(++sl)
+                                                </td>
+                                                <td id="tdBoqDivisionName_@item.BoQItemProductMapId">@item.DivisionName</td>
+                                                <td id="tdBoqItemNo_@item.BoQItemProductMapId"><small class="label label-primary">@item.BoqNumber</small> @item.BoqName</td>
+                                                <td id="tdBoqMaterialName_@item.BoQItemProductMapId">@item.MaterialTypeName</td>
+                                                <td id="tdBoqMaterialName_@item.BoQItemProductMapId">@item.MaterialSubtypeName</td>
+                                                <td id="tdBoqMaterialName_@item.BoQItemProductMapId">@item.MaterialName</td>
+                                                @if (item.IsApproved == false)
+                                                {
+                                                    <td><input id="quantityHidden_@item.BoQItemProductMapId" value="@item.EstimatedQty" /></td>
+
+                                                    <td> <input id="unitRateHidden_@item.BoQItemProductMapId" value="@item.UnitRate" /> </td>
+
+                                                }
+                                                else
+                                                {
+                                                    <td id="tdBoqEstimateQty_@item.BoQItemProductMapId">@item.EstimatedQty</td>
+                                                    <td id="tdBoqUnitRate_@item.BoQItemProductMapId">@item.UnitRate</td>
+
+                                                }
+                                                <td class="totalValue" id="tdBoqEstimateAmount_@item.BoQItemProductMapId">@item.EstimatedAmount</td>
+                                            </tr>
+                                        }
+                                        i++;
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+@Scripts.Render("~/bundles/jqueryui")
+@Styles.Render("~/Content/cssjqryUi")
+
+@section scripts {
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('#ddlStatusEnumFK').removeAttr('title');
+            $("#ddlBoQDivisionId").empty();
+            $("#ddlBoQDivisionId").append("<option selected disabled>==Select Project==</option>");
+
+            $("#ddlBoQItemId").empty();
+            $("#ddlBoQItemId").append("<option selected disabled>==Select BoQ Division==</option>");
+        });
+
+        $('.datepicker').datepicker({
+            dateFormat: "dd/mm/yy",
+            showOn: 'both',
+            buttonText: "<i class='fa fa-calendar'></i>",
+            changeMonth: true,
+            changeYear: true,
+            yearRange: "2001:+50"
+        });
+
+        function resetForm() {
+
+            $('#dealerReceivedListFormId')[0].reset();
+            $('#SOEditActionId').val(1);
+        }
+
+        $('#KgErpDataTable33').dataTable({
+            "pageLength": 100
+        });
+
+        $("#ddlProjectId").on('change', function () {
+
+            var getProjectId = $("#ddlProjectId").val();
+            var showBoqDivisionList = $("#ddlBoQDivisionId");
+            $.ajax({
+                type: "GET",
+                url: "/BillRequisition/getBoqDivisionList",
+                dataType: "json",
+                data: { id: getProjectId },
+                success: function (data) {
+                    showBoqDivisionList.empty();
+                    showBoqDivisionList.append("<option selected disabled>==Select BoQ Division==</option>");
+
+                    $.each(data, function (index, item) {
+                        showBoqDivisionList.append($('<option>', {
+                            value: item.BoqDivisionId,
+                            text: item.Name
+                        }));
+                    });
+                }
+            });
+
+        })
+
+        $("#ddlBoQDivisionId").on('change', function () {
+
+            var getBoqDivisionId = $("#ddlBoQDivisionId").val();
+            var showBoqItemList = $("#ddlBoQItemId");
+
+            $.ajax({
+                type: "GET",
+                //url: "/BillRequisition/getBoqItemList",
+                url: "/BillRequisition/getBoqItemListWithBoqNumber",
+                dataType: "json",
+                data: { id: getBoqDivisionId },
+                success: function (data) {
+                    showBoqItemList.empty();
+                    showBoqItemList.append("<option selected disabled>==Select BoQ Item==</option>");
+
+                    $.each(data, function (index, item) {
+                        showBoqItemList.append($('<option>', {
+                            value: item.BoQItemId,
+                            text: item.Name
+                        }));
+                    });
+                }
+            });
+
+        });
+    </script>
+}
