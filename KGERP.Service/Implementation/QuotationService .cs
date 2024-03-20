@@ -28,9 +28,61 @@ namespace KGERP.Service.Implementation
             throw new NotImplementedException();
         }
 
-        public Task<long> QuotationMasterAdd(QuotationMasterModel model)
+        public async Task<long> QuotationMasterAdd(QuotationMasterModel model)
         {
-            throw new NotImplementedException();
+            long result = -1;
+
+            if (model.StatusId == 0)
+            {
+                model.StatusId = (int)EnumQuotationStatus.Draft;
+            }
+
+            QuotationMaster quotationMaster = new QuotationMaster
+            {
+                QutationDate = model.QuotationDate,
+                QuotationNo = GetUniqueQuotationNo(),
+                QuotationName = model.QuotationName,
+                //SupplierId = model.SupplierId,
+                QuotationForId = model.QuotationFor,
+                BillRequisitionMasterId = model.RequisitionId,
+                Description = model.Description,
+                StatusId = (int)model.StatusId,
+                //CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                //CreateDate = DateTime.Now,
+                //IsActive = true
+            };
+
+            _context.QuotationMasters.Add(quotationMaster);
+
+            if (await _context.SaveChangesAsync() > 0)
+            {
+                result = quotationMaster.QuotationMasterId;
+            }
+            return result;
+
+            #region Generate Unique Requisition Number With Last Id
+
+            // Generate Unique Quotation Number
+            string GetUniqueQuotationNo()
+            {
+                int getLastRowId = _context.BillRequisitionMasters.Where(c => c.BRDate == model.QuotationDate).Count();
+
+                string setZeroBeforeLastId(int lastRowId, int length)
+                {
+                    string totalDigit = "";
+
+                    for (int i = (length - lastRowId.ToString().Length); 0 < i; i--)
+                    {
+                        totalDigit += "0";
+                    }
+                    return totalDigit + lastRowId.ToString();
+                }
+
+                string generatedNumber = $"QUO-{model.QuotationDate:yyMMdd}-{setZeroBeforeLastId(++getLastRowId, 4)}";
+                return generatedNumber;
+            }
+
+            #endregion
         }
 
         public Task<long> QuotationDetailAdd(QuotationMasterModel model)
