@@ -4981,7 +4981,7 @@ warning 6002: The table/view 'TCLErp_Dev.Erp.FormulaHistory' does not have a pri
           <Key>
             <PropertyRef Name="QuotationDetailId" />
           </Key>
-          <Property Name="QuotationDetailId" Type="bigint" Nullable="false" />
+          <Property Name="QuotationDetailId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="QuotationMasterId" Type="bigint" Nullable="false" />
           <Property Name="MaterialId" Type="int" Nullable="false" />
           <Property Name="MaterialQuality" Type="int" Nullable="false" />
@@ -4996,9 +4996,10 @@ warning 6002: The table/view 'TCLErp_Dev.Erp.FormulaHistory' does not have a pri
           </Key>
           <Property Name="QuotationMasterId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="QutationDate" Type="datetime" Nullable="false" />
-          <Property Name="Name" Type="varchar(max)" Nullable="false" />
+          <Property Name="QuotationNo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="QuotationName" Type="varchar(max)" Nullable="false" />
           <Property Name="QuotationForId" Type="int" Nullable="false" />
-          <Property Name="BillRequisitionMasterId" Type="bigint" />
+          <Property Name="BillRequisitionMasterId" Type="bigint" Nullable="false" />
           <Property Name="Description" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="Region">
@@ -12233,16 +12234,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             <End Role="BillRequisitionDetail" EntitySet="BillRequisitionDetails" />
             <End Role="PurchaseOrderDetail" EntitySet="PurchaseOrderDetails" />
           </AssociationSet>
-          <EntitySet Name="QuotationDetails" EntityType="ERPModel.QuotationDetail" />
-          <EntitySet Name="QuotationMasters" EntityType="ERPModel.QuotationMaster" />
-          <AssociationSet Name="FK_QuotationDetail_Product" Association="ERPModel.FK_QuotationDetail_Product">
-            <End Role="Product" EntitySet="Products" />
-            <End Role="QuotationDetail" EntitySet="QuotationDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_QuotationDetail_QuotationMaster" Association="ERPModel.FK_QuotationDetail_QuotationMaster">
-            <End Role="QuotationMaster" EntitySet="QuotationMasters" />
-            <End Role="QuotationDetail" EntitySet="QuotationDetails" />
-          </AssociationSet>
           <EntitySet Name="Accounting_CostCenter" EntityType="ERPModel.Accounting_CostCenter" />
           <AssociationSet Name="FK_Accounting_CostCenter_Accounting_CostCenterType" Association="ERPModel.FK_Accounting_CostCenter_Accounting_CostCenterType">
             <End Role="Accounting_CostCenterType" EntitySet="Accounting_CostCenterType" />
@@ -12318,6 +12309,16 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
           <AssociationSet Name="FK_BoQItemProductMap_Product" Association="ERPModel.FK_BoQItemProductMap_Product">
             <End Role="Product" EntitySet="Products" />
             <End Role="BoQItemProductMap" EntitySet="BoQItemProductMaps" />
+          </AssociationSet>
+          <EntitySet Name="QuotationDetails" EntityType="ERPModel.QuotationDetail" />
+          <EntitySet Name="QuotationMasters" EntityType="ERPModel.QuotationMaster" />
+          <AssociationSet Name="FK_QuotationDetail_Product" Association="ERPModel.FK_QuotationDetail_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="QuotationDetail" EntitySet="QuotationDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_QuotationDetail_QuotationMaster" Association="ERPModel.FK_QuotationDetail_QuotationMaster">
+            <End Role="QuotationMaster" EntitySet="QuotationMasters" />
+            <End Role="QuotationDetail" EntitySet="QuotationDetails" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="AdminPolicy">
@@ -16356,8 +16357,8 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
           <NavigationProperty Name="OrderDetails" Relationship="ERPModel.FK_OrderDetail_Product" FromRole="Product" ToRole="OrderDetail" />
           <NavigationProperty Name="ProductionDetails" Relationship="ERPModel.FK_ProductionDetails_Product" FromRole="Product" ToRole="ProductionDetail" />
           <NavigationProperty Name="Unit" Relationship="ERPModel.FK_Product_Unit" FromRole="Product" ToRole="Unit" />
-          <NavigationProperty Name="QuotationDetails" Relationship="ERPModel.FK_QuotationDetail_Product" FromRole="Product" ToRole="QuotationDetail" />
           <NavigationProperty Name="BoQItemProductMaps" Relationship="ERPModel.FK_BoQItemProductMap_Product" FromRole="Product" ToRole="BoQItemProductMap" />
+          <NavigationProperty Name="QuotationDetails" Relationship="ERPModel.FK_QuotationDetail_Product" FromRole="Product" ToRole="QuotationDetail" />
         </EntityType>
         <Association Name="FK_Product_FacingInfo">
           <End Type="ERPModel.FacingInfo" Role="FacingInfo" Multiplicity="0..1" />
@@ -21709,57 +21710,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="QuotationDetail">
-          <Key>
-            <PropertyRef Name="QuotationDetailId" />
-          </Key>
-          <Property Name="QuotationDetailId" Type="Int64" Nullable="false" />
-          <Property Name="QuotationMasterId" Type="Int64" Nullable="false" />
-          <Property Name="MaterialId" Type="Int32" Nullable="false" />
-          <Property Name="MaterialQuality" Type="Int32" Nullable="false" />
-          <Property Name="Quantity" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="UnitPrice" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="TotalAmount" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Remarks" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <NavigationProperty Name="Product" Relationship="ERPModel.FK_QuotationDetail_Product" FromRole="QuotationDetail" ToRole="Product" />
-          <NavigationProperty Name="QuotationMaster" Relationship="ERPModel.FK_QuotationDetail_QuotationMaster" FromRole="QuotationDetail" ToRole="QuotationMaster" />
-        </EntityType>
-        <EntityType Name="QuotationMaster">
-          <Key>
-            <PropertyRef Name="QuotationMasterId" />
-          </Key>
-          <Property Name="QuotationMasterId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="QutationDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="QuotationForId" Type="Int32" Nullable="false" />
-          <Property Name="BillRequisitionMasterId" Type="Int64" />
-          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="QuotationDetails" Relationship="ERPModel.FK_QuotationDetail_QuotationMaster" FromRole="QuotationMaster" ToRole="QuotationDetail" />
-        </EntityType>
-        <Association Name="FK_QuotationDetail_Product">
-          <End Type="ERPModel.Product" Role="Product" Multiplicity="1" />
-          <End Type="ERPModel.QuotationDetail" Role="QuotationDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="ProductId" />
-            </Principal>
-            <Dependent Role="QuotationDetail">
-              <PropertyRef Name="MaterialId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_QuotationDetail_QuotationMaster">
-          <End Type="ERPModel.QuotationMaster" Role="QuotationMaster" Multiplicity="1" />
-          <End Type="ERPModel.QuotationDetail" Role="QuotationDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="QuotationMaster">
-              <PropertyRef Name="QuotationMasterId" />
-            </Principal>
-            <Dependent Role="QuotationDetail">
-              <PropertyRef Name="QuotationMasterId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Accounting_CostCenter">
           <Key>
             <PropertyRef Name="CostCenterId" />
@@ -22137,6 +22087,58 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             </Principal>
             <Dependent Role="BoQItemProductMap">
               <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="QuotationDetail">
+          <Key>
+            <PropertyRef Name="QuotationDetailId" />
+          </Key>
+          <Property Name="QuotationDetailId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QuotationMasterId" Type="Int64" Nullable="false" />
+          <Property Name="MaterialId" Type="Int32" Nullable="false" />
+          <Property Name="MaterialQuality" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="UnitPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="TotalAmount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Remarks" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Product" Relationship="ERPModel.FK_QuotationDetail_Product" FromRole="QuotationDetail" ToRole="Product" />
+          <NavigationProperty Name="QuotationMaster" Relationship="ERPModel.FK_QuotationDetail_QuotationMaster" FromRole="QuotationDetail" ToRole="QuotationMaster" />
+        </EntityType>
+        <EntityType Name="QuotationMaster">
+          <Key>
+            <PropertyRef Name="QuotationMasterId" />
+          </Key>
+          <Property Name="QuotationMasterId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QutationDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="QuotationNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="QuotationName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="QuotationForId" Type="Int32" Nullable="false" />
+          <Property Name="BillRequisitionMasterId" Type="Int64" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="QuotationDetails" Relationship="ERPModel.FK_QuotationDetail_QuotationMaster" FromRole="QuotationMaster" ToRole="QuotationDetail" />
+        </EntityType>
+        <Association Name="FK_QuotationDetail_Product">
+          <End Type="ERPModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="ERPModel.QuotationDetail" Role="QuotationDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="QuotationDetail">
+              <PropertyRef Name="MaterialId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_QuotationDetail_QuotationMaster">
+          <End Type="ERPModel.QuotationMaster" Role="QuotationMaster" Multiplicity="1" />
+          <End Type="ERPModel.QuotationDetail" Role="QuotationDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QuotationMaster">
+              <PropertyRef Name="QuotationMasterId" />
+            </Principal>
+            <Dependent Role="QuotationDetail">
+              <PropertyRef Name="QuotationMasterId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -28042,32 +28044,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="QuotationDetails">
-            <EntityTypeMapping TypeName="ERPModel.QuotationDetail">
-              <MappingFragment StoreEntitySet="QuotationDetail">
-                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
-                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
-                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
-                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="MaterialQuality" ColumnName="MaterialQuality" />
-                <ScalarProperty Name="MaterialId" ColumnName="MaterialId" />
-                <ScalarProperty Name="QuotationMasterId" ColumnName="QuotationMasterId" />
-                <ScalarProperty Name="QuotationDetailId" ColumnName="QuotationDetailId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="QuotationMasters">
-            <EntityTypeMapping TypeName="ERPModel.QuotationMaster">
-              <MappingFragment StoreEntitySet="QuotationMaster">
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="BillRequisitionMasterId" ColumnName="BillRequisitionMasterId" />
-                <ScalarProperty Name="QuotationForId" ColumnName="QuotationForId" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="QutationDate" ColumnName="QutationDate" />
-                <ScalarProperty Name="QuotationMasterId" ColumnName="QuotationMasterId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Accounting_CostCenter">
             <EntityTypeMapping TypeName="ERPModel.Accounting_CostCenter">
               <MappingFragment StoreEntitySet="Accounting_CostCenter">
@@ -28228,6 +28204,33 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />
                 <ScalarProperty Name="BoQItemId" ColumnName="BoQItemId" />
                 <ScalarProperty Name="BoQItemProductMapId" ColumnName="BoQItemProductMapId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QuotationDetails">
+            <EntityTypeMapping TypeName="ERPModel.QuotationDetail">
+              <MappingFragment StoreEntitySet="QuotationDetail">
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="MaterialQuality" ColumnName="MaterialQuality" />
+                <ScalarProperty Name="MaterialId" ColumnName="MaterialId" />
+                <ScalarProperty Name="QuotationMasterId" ColumnName="QuotationMasterId" />
+                <ScalarProperty Name="QuotationDetailId" ColumnName="QuotationDetailId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QuotationMasters">
+            <EntityTypeMapping TypeName="ERPModel.QuotationMaster">
+              <MappingFragment StoreEntitySet="QuotationMaster">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="BillRequisitionMasterId" ColumnName="BillRequisitionMasterId" />
+                <ScalarProperty Name="QuotationForId" ColumnName="QuotationForId" />
+                <ScalarProperty Name="QuotationName" ColumnName="QuotationName" />
+                <ScalarProperty Name="QuotationNo" ColumnName="QuotationNo" />
+                <ScalarProperty Name="QutationDate" ColumnName="QutationDate" />
+                <ScalarProperty Name="QuotationMasterId" ColumnName="QuotationMasterId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

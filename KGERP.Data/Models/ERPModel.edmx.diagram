@@ -555,10 +555,6 @@
         <EntityTypeShape EntityType="ERPModel.BillBoQItem" Width="1.5" PointX="8.375" PointY="47" />
         <EntityTypeShape EntityType="ERPModel.BillRequisitionDetail" Width="1.5" PointX="22.375" PointY="13.125" />
         <AssociationConnector Association="ERPModel.FK_PurchaseOrderDetail_BillRequisitionDetail" />
-        <EntityTypeShape EntityType="ERPModel.QuotationDetail" Width="1.5" PointX="51.5" PointY="22.5" />
-        <EntityTypeShape EntityType="ERPModel.QuotationMaster" Width="1.5" PointX="49.25" PointY="0.75" />
-        <AssociationConnector Association="ERPModel.FK_QuotationDetail_Product" />
-        <AssociationConnector Association="ERPModel.FK_QuotationDetail_QuotationMaster" />
         <EntityTypeShape EntityType="ERPModel.Accounting_CostCenter" Width="1.5" PointX="3.375" PointY="28.625" />
         <AssociationConnector Association="ERPModel.FK_Accounting_CostCenter_Accounting_CostCenterType" />
         <AssociationConnector Association="ERPModel.FK_BoQDivision_Accounting_CostCenter" />
@@ -584,6 +580,10 @@
         <AssociationConnector Association="ERPModel.FK_BillRequisitionItemBoQMap_BillBoQItem" />
         <AssociationConnector Association="ERPModel.FK_BoqBNEApprovalHistroy_BoQItemProductMap" />
         <AssociationConnector Association="ERPModel.FK_BoQItemProductMap_Product" />
+        <EntityTypeShape EntityType="ERPModel.QuotationDetail" Width="1.5" PointX="51.5" PointY="22.5" />
+        <EntityTypeShape EntityType="ERPModel.QuotationMaster" Width="1.5" PointX="49.25" PointY="0.75" />
+        <AssociationConnector Association="ERPModel.FK_QuotationDetail_Product" />
+        <AssociationConnector Association="ERPModel.FK_QuotationDetail_QuotationMaster" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

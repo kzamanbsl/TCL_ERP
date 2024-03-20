@@ -16,7 +16,7 @@
     .ui-datepicker-trigger {
         width: 37px !important;
         height: 33px !important;
-        margin-left: 5px !important;
+        margin-left: 20px !important;
     }
 
     .dateCustom {
@@ -118,24 +118,25 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-4" id="inputName">
+                                    <div class="col-md-4" id="inputQuotationName">
                                         <div class="form-group">
                                             <label class="form-label">Quotation Name<sup class="text-danger" title="Required"><b>*</b></sup></label>
-                                            @Html.TextBoxFor(model => model.QuotationName, new { id = "txtQuotationName", @class = "form-control", @placeholder = "Quotation name", @required = "true" })
+                                            @Html.TextBoxFor(model => model.QuotationName, new { id = "txtQuotationName", @class = "form-control", @placeholder = "Quotation Name", @required = "true" })
                                             @Html.ValidationMessageFor(model => model.QuotationName, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
 
-                                    <div class="col-md-4" id="inputName">
+                                    <div class="col-md-4" id="inputSupplier">
                                         <div class="form-group">
                                             <label class="form-label">Supplier/Party<sup class="text-danger" title="Required"><b>*</b></sup></label>
-                                            @Html.TextBoxFor(model => model.SupplierId, new { id = "txtQuotationName", @class = "form-control", @placeholder = "Quotation/Supplier name", @required = "true" })
+                                            @Html.EditorFor(model => model.SupplierName, new { htmlAttributes = new { @autocomplete = "on", @class = "form-control", @name = "Supplier Name", @id = "txtSupplierName", required = "required" } })
+
+                                            @Html.HiddenFor(model => model.SupplierId, new { id = "ddlCommon_SupplierFK" })
                                             @Html.ValidationMessageFor(model => model.SupplierId, "", new { @class = "text-danger" })
-                                            @Html.HiddenFor(model => model.SupplierId, new { id = "SupplierId" })
                                         </div>
                                     </div>
 
-                                    <div class="col-md-3 hidden" id="inputRequisition">
+                                    <div class="col-md-4 hidden" id="inputRequisition">
                                         <div class="form-group">
                                             <label class="form-label">Select Requisition<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                             @Html.DropDownListFor(model => model.RequisitionId, Model.RequisitionList as SelectList, "==Select Requisition==", new { id = "ddlRequisitionId", @class = "form-control searchingDropdown", style = "width:100%", @required = "true" })
@@ -185,15 +186,16 @@
                                         <div class="form-group">
                                             <label class="form-label">Unit Name<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                             @Html.TextBoxFor(model => model.DetailModel.UnitName, new { id = "txtUnitName", style = "width:100%", @class = "form-control", placeholder = "Unit name", @required = "true", ReadOnly = "true" })
-                                            @Html.ValidationMessageFor(model => model.DetailModel.TotalAmount, "", new { @class = "text-danger" })
+                                            @Html.ValidationMessageFor(model => model.DetailModel.UnitName, "", new { @class = "text-danger" })
+                                            @Html.HiddenFor(model => model.DetailModel.UnitId, new { id = "txtUnitId" })
                                         </div>
                                     </div>
 
                                     <div class="col-md-3" id="inputQuality">
                                         <div class="form-group">
                                             <label class="form-label">Material Quality<sup class="text-danger" title="Required"><b>*</b></sup></label>
-                                            @Html.DropDownListFor(model => model.DetailModel.MaterialId, Model.DetailModel.MaterialQualityList as SelectList, "==Select Quality==", new { id = "ddlMaterialQualityId", @class = "form-control searchingDropdown", @required = "true" })
-                                            @Html.ValidationMessageFor(model => model.DetailModel.MaterialId, "", new { @class = "text-danger" })
+                                            @Html.DropDownListFor(model => model.DetailModel.MaterialQualityId, Model.DetailModel.MaterialQualityList as SelectList, "==Select Quality==", new { id = "ddlMaterialQualityId", @class = "form-control searchingDropdown", style="width: 100%", @required = "true" })
+                                            @Html.ValidationMessageFor(model => model.DetailModel.MaterialQualityId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
 
@@ -453,6 +455,54 @@
                     });
                 }
             });
+        });
+
+        // get selected material unit name
+        function GetUnitName() {
+            var getMaterialId = $("#ddlMaterialId option:selected");
+            var showName = $("#txtUnitName");
+            var showValue = $("#txtUnitId");
+
+            $.ajax({
+                type: "GET",
+                url: "/BillRequisition/GetUnitNameWithId",
+                dataType: "json",
+                data: { id: getMaterialId.val() },
+                success: function (data) {
+                    if (data) {
+                        showName.val(data.unitName);
+                        showValue.val(data.unitId);
+                    }
+                }
+            });
+        }
+
+        $("#txtSupplierName").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url:"@Url.Action("GetAutoCompleteSupplierGet", "Procurement")",
+                    data: { prefix: request.term, companyId: "@Model.CompanyFK" },
+                    dataType: "json",
+                    type: "get",
+                    cache: true,
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                       response($.map(data, function (item) {
+                           return item;
+                       }))
+                    }
+                });
+            },
+
+            select: function (e, i) {
+                $("#ddlCommon_SupplierFK").val(i.item.val);
+
+                },
+            minLength: 1,
+            cache: true
+
+        }).focus(function () {
+            $(this).autocomplete("search");
         });
 
     </script>
