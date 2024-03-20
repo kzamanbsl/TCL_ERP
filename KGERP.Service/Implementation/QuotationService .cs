@@ -22,5 +22,25 @@ namespace KGERP.Service.Implementation
             _context = context;
             _configurationService = configurationService;
         }
+
+        public Task<QuotationMasterModel> GetQuotationMasterDetail(int companyId, long quotationMasterId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<long> QuotationMasterAdd(QuotationMasterModel model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<long> QuotationDetailAdd(QuotationMasterModel model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<long> QuotationDetailEdit(QuotationMasterModel model)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

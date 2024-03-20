@@ -37,14 +37,39 @@ namespace KGERP.Controllers
         }
 
         [HttpGet]
-        public ActionResult QuotationMasterSlave(int companyId = 0, long QuotationMasterId = 0)
+        public async Task<ActionResult> QuotationMasterSlave(int companyId = 0, long quotationMasterId = 0)
         {
             QuotationMasterModel viewData = new QuotationMasterModel();
-            viewData.CompanyFK = companyId;
-            viewData.StatusId = (int)EnumQuotationStatus.Draft;
-            viewData.RequisitionList = new SelectList(_RequisitionService.ApprovedRequisitionList(companyId), "Value", "Text");
-            viewData.DetailModel.MaterialTypeList = new SelectList(_ConfigurationService.GetAllProductCategoryList(companyId), "ProductCategoryId", "Name");
+            if (quotationMasterId == 0)
+            {
+                viewData.CompanyFK = companyId;
+                viewData.StatusId = (int)EnumQuotationStatus.Draft;
+                viewData.RequisitionList = new SelectList(_RequisitionService.ApprovedRequisitionList(companyId), "Value", "Text");
+                viewData.DetailModel.MaterialTypeList = new SelectList(_ConfigurationService.GetAllProductCategoryList(companyId), "ProductCategoryId", "Name");
+            }
+            else
+            {
+                viewData = await _Service.GetQuotationMasterDetail(companyId, quotationMasterId);
+            }
             return View(viewData);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> QuotationMasterSlave(QuotationMasterModel quotationMasterModel)
+        {
+            if (quotationMasterModel.ActionEum == ActionEnum.Add)
+            {
+                if (quotationMasterModel.QuotationMasterId == 0)
+                {
+                    quotationMasterModel.QuotationMasterId = await _Service.QuotationMasterAdd(quotationMasterModel);
+                }
+                await _Service.QuotationDetailAdd(quotationMasterModel);
+            }
+            else if (quotationMasterModel.ActionEum == ActionEnum.Edit)
+            {
+                await _Service.QuotationDetailEdit(quotationMasterModel);
+            }
+            return RedirectToAction(nameof(quotationMasterModel), new { companyId = quotationMasterModel.CompanyFK, quotationMasterId = quotationMasterModel.QuotationMasterId });
         }
     }
 }
