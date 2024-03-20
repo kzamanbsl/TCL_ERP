@@ -896,7 +896,7 @@ namespace KGERP.Service.Implementation
                     ProjectName = t5.Name ?? "N/A",
                     BudgetTypeId = t7.ProductCategoryId,
                     MaterialTypeName = t7.Name ?? "N/A",
-                    IsApproved = t1.IsApproved,
+                    ApprovalStatus = t1.ApprovalStatus,
                     BudgetSubtypeId = t6.ProductSubCategoryId,
                     MaterialSubtypeName = t6.Name ?? "N/A",
                     ProjectTypeId = t8.CostCenterTypeId,
@@ -1033,7 +1033,7 @@ namespace KGERP.Service.Implementation
                                                                    CostCenterName = t4.Name,
                                                                    BOQNumber = t2.BoQNumber,
                                                                    BoQItemProductMapId = t1.BoQItemProductMapId,
-                                                                   BOQStatusName = t1.IsApproved == true ? "Approved" : "Pending",
+                                                                   //BOQStatusName = t1.ApprovalStatus,
                                                                    BoqQty = t2.BoqQuantity,
                                                                    Description = t2.Description,
                                                                    CreatedBy = t1.CreatedBy,
@@ -1066,7 +1066,7 @@ namespace KGERP.Service.Implementation
                                                                  ProjectName = t5.Name ?? "N/A",
                                                                  BudgetTypeId = t7.ProductCategoryId,
                                                                  MaterialTypeName = t7.Name ?? "N/A",
-                                                                 IsApproved = t1.IsApproved ?? false,
+                                                                 ApprovalStatus = t1.ApprovalStatus,
                                                                  BudgetSubtypeId = t6.ProductSubCategoryId,
                                                                  MaterialSubtypeName = t6.Name ?? "N/A",
                                                                  ProjectTypeId = t8.CostCenterTypeId,
@@ -1127,7 +1127,7 @@ namespace KGERP.Service.Implementation
 
             BoQItemProductMapObject.EstimatedAmount = modelMapProduct.EstimatedAmount;
             BoQItemProductMapObject.UnitRate = modelMapProduct.UnitRate;
-            BoQItemProductMapObject.IsApproved = true;
+           // BoQItemProductMapObject.IsApproved = true;
             BoQItemProductMapObject.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
             BoQItemProductMapObject.ModifiedDate = DateTime.Now;
 
@@ -1151,7 +1151,7 @@ namespace KGERP.Service.Implementation
             return BoQItemProductMapObject.BoQItemProductMapId;
         }
 
-        public async Task<BillRequisitionItemBoQMapModel> FilteredBudgetAndEstimatingApprovalList(int projectId = 0, long? boqDivisionId = 0, int? BoqItemId = 0, BudgetAndEstimatingApprovalStatus approvalStatus = default)
+        public async Task<BillRequisitionItemBoQMapModel> FilteredBudgetAndEstimatingApprovalList(int projectId = 0, long? boqDivisionId = 0, int? BoqItemId = 0, EnumBudgetAndEstimatingApprovalStatus approvalStatus = default)
         {
             var modelList = new BillRequisitionItemBoQMapModel();
             if (projectId == 0)
@@ -1159,21 +1159,23 @@ namespace KGERP.Service.Implementation
                 return modelList;
 
             }
-            modelList.BoQItemProductMaps = await Task.Run(() => (from t1 in _context.BoQItemProductMaps
+            var approvalFlag = EnumBudgetAndEstimatingApprovalStatus.Approved| EnumBudgetAndEstimatingApprovalStatus.Pending;
+
+            modelList.BoQItemProductMaps = await (from t1 in _context.BoQItemProductMaps
                                              join t2 in _context.Products.DefaultIfEmpty() on t1.ProductId equals t2.ProductId
-                                             join t3 in _context.BillBoQItems.DefaultIfEmpty() on t1.BoQItemId equals t3.BoQItemId
-                                             join t4 in _context.BoQDivisions.DefaultIfEmpty() on t3.BoQDivisionId equals t4.BoQDivisionId
+                                             join t3 in _context.BillBoQItems.DefaultIfEmpty().Where(c => c.BoQItemId == (BoqItemId > 0 ? BoqItemId ?? 0 : c.BoQItemId)) on t1.BoQItemId equals t3.BoQItemId
+                                             join t4 in _context.BoQDivisions.DefaultIfEmpty().Where(c=>c.BoQDivisionId== (boqDivisionId > 0 ? boqDivisionId??0 : c.BoQDivisionId)) on t3.BoQDivisionId equals t4.BoQDivisionId 
                                              join t5 in _context.Accounting_CostCenter.DefaultIfEmpty() on t4.ProjectId equals t5.CostCenterId
                                              join t6 in _context.ProductSubCategories.DefaultIfEmpty() on t2.ProductSubCategoryId equals t6.ProductSubCategoryId
                                              join t7 in _context.ProductCategories.DefaultIfEmpty() on t6.ProductCategoryId equals t7.ProductCategoryId
                                              join t8 in _context.Accounting_CostCenterType.DefaultIfEmpty() on t5.CostCenterTypeId equals t8.CostCenterTypeId
 
                                              where projectId>0? t5.CostCenterId == projectId : t5.CostCenterId>0
-                                             && boqDivisionId > 0 ? t4.BoQDivisionId == boqDivisionId : t4.BoQDivisionId > 0
-                                             && BoqItemId > 0 ? t3.BoQItemId == BoqItemId : t3.BoQItemId > 0 
-                                             && approvalStatus != default ? t1.IsApproved == (approvalStatus == BudgetAndEstimatingApprovalStatus.Approved ? true : false) : t1.IsApproved != default
-
-                                             select new BillRequisitionItemBoQMapModel
+                                             //&& (boqDivisionId > 0 ? t4.BoQDivisionId == boqDivisionId : true)
+                                             //&& (BoqItemId > 0 ? t3.BoQItemId == BoqItemId : t3.BoQItemId > 0 )
+                                            // && approvalStatus.HasFlag(approvalFlag) ? t1.ApprovalStatus == (approvalStatus == EnumBudgetAndEstimatingApprovalStatus.Approved ? true : false) : (t1.ApprovalStatus??false) == (true|false)
+                                             
+                                                  select new BillRequisitionItemBoQMapModel
                                              {
                                                  BoQItemProductMapId = t1.BoQItemProductMapId,
                                                  EstimatedAmount = t1.EstimatedAmount ?? 0M,
@@ -1190,12 +1192,12 @@ namespace KGERP.Service.Implementation
                                                  ProjectName = t5.Name ?? "N/A",
                                                  BudgetTypeId = t7.ProductCategoryId,
                                                  MaterialTypeName = t7.Name ?? "N/A",
-                                                 IsApproved = t1.IsApproved??false,
+                                                 ApprovalStatus = t1.ApprovalStatus,
                                                  BudgetSubtypeId = t6.ProductSubCategoryId,
                                                  MaterialSubtypeName = t6.Name ?? "N/A",
                                                  ProjectTypeId = t8.CostCenterTypeId,
                                                  ProjectTypeName = t8.Name ?? "N/A"
-                                             }).ToList());
+                                             }).ToListAsync();
 
 
             return modelList;

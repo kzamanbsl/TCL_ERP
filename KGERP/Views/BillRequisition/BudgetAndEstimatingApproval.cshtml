@@ -52,7 +52,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label asp-for="BoQDivisionId" class="form-control-label">Select BoQ Division :</label>
-                                        @Html.DropDownListFor(model => model.BoQDivisionId, new SelectList(Enumerable.Empty<SelectListItem>()), "==Select BoQ Division==", new { id = "ddlBoQDivisionId", @class = "form-control searchingDropdown", style = "width:100%" })
+                                        @Html.DropDownListFor(model => model.BoQDivisionId, Model.BoqDivisionsSelectList, "==Select BoQ Division==", new { id = "ddlBoQDivisionId", @class = "form-control searchingDropdown", style = "width:100%" })
                                         @Html.ValidationMessageFor(model => model.BoQDivisionId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -60,7 +60,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label asp-for="BoQItemId" class="form-control-label">Select BoQ Item:</label>
-                                        @Html.DropDownListFor(model => model.BoQItemId, new SelectList(Enumerable.Empty<SelectListItem>()), "==Select BoQ Item==", new { id = "ddlBoQItemId", @class = "form-control searchingDropdown", style = "width:100%" })
+                                        @Html.DropDownListFor(model => model.BoQItemId, Model.BoqItemSelectList, "==Select BoQ Item==", new { id = "ddlBoQItemId", @class = "form-control searchingDropdown", style = "width:100%" })
                                         @Html.ValidationMessageFor(model => model.BoQItemId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -126,7 +126,7 @@
                                                 <td id="tdBoqMaterialName_@item.BoQItemProductMapId">@item.MaterialTypeName</td>
                                                 <td id="tdBoqMaterialName_@item.BoQItemProductMapId">@item.MaterialSubtypeName</td>
                                                 <td id="tdBoqMaterialName_@item.BoQItemProductMapId">@item.MaterialName</td>
-                                                @if (item.IsApproved == false)
+                                                @if (item.ApprovalStatus ==(int) EnumBudgetAndEstimatingApprovalStatus.Pending)
                                                 {
                                                     <td><input id="quantityHidden_@item.BoQItemProductMapId" value="@item.EstimatedQty" /></td>
 
