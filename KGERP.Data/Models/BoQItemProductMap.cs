@@ -26,7 +26,7 @@ namespace KGERP.Data.Models
         public Nullable<decimal> EstimatedQty { get; set; }
         public Nullable<decimal> UnitRate { get; set; }
         public Nullable<decimal> EstimatedAmount { get; set; }
-        public Nullable<bool> IsApproved { get; set; }
+        public Nullable<int> ApprovalStatus { get; set; }
         public int CompanyId { get; set; }
         public System.DateTime CreateDate { get; set; }
         public string CreatedBy { get; set; }

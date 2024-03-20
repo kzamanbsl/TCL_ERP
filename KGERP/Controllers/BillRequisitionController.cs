@@ -20,6 +20,7 @@ using KGERP.Data.Models;
 using DocumentFormat.OpenXml.Office2010.Excel;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace KGERP.Controllers
 {
@@ -687,10 +688,22 @@ namespace KGERP.Controllers
 
             BillRequisitionItemBoQMapModel billRequisitionMaster = new BillRequisitionItemBoQMapModel();
 
-            var ProjectList = _service.GetProjectList(CompanyInfo.CompanyId);
+            var ProjectList = await _service.GetProjectList(CompanyInfo.CompanyId);
+            //var data = await getBoqDivisionList(model.ProjectId);
+            //var boqdivisionJson= data.Data.ToString();
+            //var boqItemJson= (await getBoqItemListWithBoqNumber(model.BoQDivisionId??0)).Data.ToString();
+            //var divisionList = JsonConvert.DeserializeObject<List<SelectList>>(data.Data);
+            //var ItemList = JsonConvert.DeserializeObject<List<SelectList>>(boqItemJson);
             
+            //billRequisitionMaster.BoqDivisionsSelectList = new SelectList(divisionList, "Value", "Text");
+            //billRequisitionMaster.BoQDivisionId = model.BoQDivisionId > 0 ? model.BoQDivisionId : null;
+            //billRequisitionMaster.BoqItemSelectList= model.BoQDivisionId>0?billRequisitionMaster.BoqItemSelectList = new SelectList(ItemList, "Value", "Text"): default;
+            //billRequisitionMaster.BoQItemId = model.BoQItemId > 0 ? model.BoQItemId : null;
+
+            billRequisitionMaster.BNEStatusId= model.BNEStatusId;
+
             billRequisitionMaster = await _service.FilteredBudgetAndEstimatingApprovalList(model.ProjectId,model.BoQDivisionId,model.BoQItemId,model.BNEStatusId);
-            billRequisitionMaster.Projects = await ProjectList;
+            billRequisitionMaster.Projects =  ProjectList;
             return  View(billRequisitionMaster);  
         }
 
