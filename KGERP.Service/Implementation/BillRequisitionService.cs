@@ -10,6 +10,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Linq.Dynamic;
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.ComTypes;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
@@ -3266,7 +3267,7 @@ namespace KGERP.Service.Implementation
             decimal TotalCr = 0M, TotalDr = 0M, totalReceivedSoFar = 0M;
 
             var getReqInfo = await _context.BillRequisitionDetails
-                .FirstOrDefaultAsync(a => a.BillRequisitionMasterId == requisitionId && a.ProductId == materialId && a.IsActive);
+                .Where(a => a.BillRequisitionMasterId == requisitionId && a.ProductId == materialId && a.IsActive).ToListAsync();
 
             var getReceivedSoFar = await _context.PurchaseOrders
                             .Where(t1 => t1.BillRequisitionMasterId == requisitionId && t1.IsActive)
@@ -3302,8 +3303,8 @@ namespace KGERP.Service.Implementation
             {
                 return new
                 {
-                    ApprovedDemand = getReqInfo.DemandQty,
-                    UnitPrice = getReqInfo.UnitRate,
+                    ApprovedDemand = getReqInfo.Sum(x => x.DemandQty),
+                    UnitPrice = getReqInfo.Average(x => x.UnitRate),
                     TotalCredited = TotalCr,
                     TotalDebited = TotalDr,
                     RecivedSoFar = totalReceivedSoFar
@@ -3339,36 +3340,30 @@ namespace KGERP.Service.Implementation
         // approved material item by requisition id
         public List<Product> ApprovedMaterialList(int companyId, long requisitionId)
         {
-            var list = new List<Product>();
-            if (requisitionId > 0)
-            {
-                var materials = (
-                    from t1 in _context.BillRequisitionDetails
-                        .Where(x => x.BillRequisitionMasterId == requisitionId && x.CompanyId == companyId && x.IsActive)
-                    join t2 in _context.Products
-                        .Where(x => x.IsActive) on t1.ProductId equals t2.ProductId
-                    select new
-                    {
-                        t1.ProductId,
-                        t2.ProductName
-                    }).ToList();
+            var sendData = (from t1 in _context.BillRequisitionMasters
+                            .Where(x => x.StatusId == (int)EnumBillRequisitionStatus.Approved && x.IsActive)
+                            join t2 in _context.BillRequisitionDetails on t1.BillRequisitionMasterId equals t2.BillRequisitionMasterId into t2_Join
+                            from t2 in t2_Join.DefaultIfEmpty()
+                            join t3 in _context.Products on t2.ProductId equals t3.ProductId into t3_Join
+                            from t3 in t3_Join.DefaultIfEmpty()
+                            where t1.BillRequisitionMasterId == requisitionId
+                            select new
+                            {
+                                t3.ProductId,
+                                t3.ProductName
+                            })
+                            .Distinct() 
+                            .ToList()
+                            .Select(x => new Product
+                            {
+                                ProductId = x.ProductId,
+                                ProductName = x.ProductName
+                            })
+                            .ToList();
 
-                list = materials.Select(x => new Product
-                {
-                    ProductId = (int)x.ProductId,
-                    ProductName = x.ProductName
-                }).ToList();
-
-                return list;
-            }
-
-            foreach (var item in _context.Products.Where(a => a.IsActive == true).ToList())
-            {
-                list.Add(new Product() { ProductId = item.ProductId, ProductName = item.ProductName });
-            }
-            return list;
-
+            return sendData;
         }
+
 
         public decimal GetTotalByMasterId(long requisitionId)
         {

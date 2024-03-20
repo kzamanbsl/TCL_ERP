@@ -18,6 +18,8 @@ namespace KGERP.Service.ServiceModel
         public DateTime QuotationDate { get; set; }
         public int QuotationFor { get; set; }
         public string QuotationName { get; set; }
+        public long SupplierId { get; set; }
+        public string SupplierName { get; set; }
         public int StatusId { get; set; }
         public long RequisitionId { get; set; }
         public string RequisitionNo { get; set; }
