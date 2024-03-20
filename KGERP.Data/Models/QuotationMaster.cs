@@ -26,6 +26,7 @@ namespace KGERP.Data.Models
         public string QuotationName { get; set; }
         public int QuotationForId { get; set; }
         public long BillRequisitionMasterId { get; set; }
+        public int StatusId { get; set; }
         public string Description { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
