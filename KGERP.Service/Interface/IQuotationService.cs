@@ -13,6 +13,7 @@ namespace KGERP.Service.Interface
         Task<long> QuotationMasterAdd(QuotationMasterModel model);
         Task<QuotationMasterModel> GetQuotationMasterDetail(int companyId, long quotationMasterId);
         Task<long> SubmitQuotationMaster(long quotationMasterId);
+        Task<QuotationMasterModel> GetQuotationList(DateTime? fromDate, DateTime? toDate);
         #endregion
 
         #region Quotation Detail

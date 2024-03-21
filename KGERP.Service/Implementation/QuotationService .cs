@@ -271,5 +271,51 @@ namespace KGERP.Service.Implementation
                                              }).FirstOrDefaultAsync());
             return data;
         }
+
+        public async Task<QuotationMasterModel> GetQuotationList(DateTime? fromDate, DateTime? toDate)
+        {
+            QuotationMasterModel quotationMasterModel = new QuotationMasterModel();
+            var totalPrice = (from t1 in _context.QuotationMasters.Where(x => x.IsActive)
+                              join t2 in _context.QuotationDetails on t1.QuotationMasterId equals t2.QuotationMasterId into t2_Join
+                              from t2 in t2_Join.DefaultIfEmpty()
+                              where t2.IsActive
+                              select new
+                              {
+                                  QuotationMasterId = t1.QuotationMasterId,
+                                  TotalAmount = t2.Quantity * t2.UnitPrice,
+                              }).AsQueryable();
+
+            quotationMasterModel.DataList = await Task.Run(() => (from t1 in _context.QuotationMasters.Where(x => x.IsActive)
+                                                                  join t2 in _context.BillRequisitionMasters on t1.BillRequisitionMasterId equals t2.BillRequisitionMasterId into t2_Join
+                                                                  from t2 in t2_Join.DefaultIfEmpty()
+                                                                  join t3 in _context.Vendors on t1.SupplierId equals t3.VendorId into t3_Join
+                                                                  from t3 in t3_Join.DefaultIfEmpty()
+                                                                  join t4 in _context.Employees on t1.CreatedBy equals t4.EmployeeId into t4_Join
+                                                                  from t4 in t4_Join.DefaultIfEmpty()
+                                                                  select new QuotationMasterModel
+                                                                  {
+                                                                      QuotationMasterId = t1.QuotationMasterId,
+                                                                      QuotationNo = t1.QuotationNo,
+                                                                      QuotationDate = t1.QutationDate,
+                                                                      QuotationName = t1.QuotationName,
+                                                                      SupplierId = t1.SupplierId,
+                                                                      SupplierName = "[" + t3.Code + "] " + t3.Name,
+                                                                      RequisitionId = t1.BillRequisitionMasterId,
+                                                                      RequisitionNo = t2.BillRequisitionNo,
+                                                                      QuotationFor = (int)(EnumQuotationFor)t1.QuotationForId,
+                                                                      Description = t1.Description ?? "N/A",
+                                                                      StatusId = (int)(EnumQuotationStatus)t1.StatusId,
+                                                                      CreatedDate = t1.CreatedOn,
+                                                                      CreatedBy = t1.CreatedBy,
+                                                                      EmployeeName = t1.CreatedBy + " - " + t4.Name,
+                                                                      TotalAmount = totalPrice
+                                                                                    .Where(x => x.QuotationMasterId == t1.QuotationMasterId)
+                                                                                    .Select(x => (decimal?)x.TotalAmount)
+                                                                                    .Sum() ?? 0,
+                                                                      CompanyFK = 21
+                                                                  }).ToListAsync());
+
+            return quotationMasterModel;
+        }
     }
 }

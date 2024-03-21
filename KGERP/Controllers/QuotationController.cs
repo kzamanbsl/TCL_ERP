@@ -36,6 +36,7 @@ namespace KGERP.Controllers
             _RequisitionService = requisitionService;
         }
 
+        #region Quotation CRUD
         [HttpGet]
         public async Task<ActionResult> QuotationMasterSlave(int companyId = 0, long quotationMasterId = 0)
         {
@@ -95,5 +96,20 @@ namespace KGERP.Controllers
             }
             return RedirectToAction(nameof(QuotationMasterSlave), new { companyId = quotationMasterModel.CompanyFK, quotationMasterId = quotationMasterModel.QuotationMasterId });
         }
+        #endregion
+
+        #region Quotation List
+        [HttpGet]
+        public async Task<ActionResult> GetQuotationDetail(int companyId, DateTime? fromDate, DateTime? toDate)
+        {
+            if (!fromDate.HasValue) fromDate = DateTime.Now.AddMonths(-2);
+            if (!toDate.HasValue) toDate = DateTime.Now;
+
+            QuotationMasterModel viewData = new QuotationMasterModel();
+            viewData = await _Service.GetQuotationList(fromDate, toDate);
+            viewData.CompanyFK = companyId;
+            return View(viewData);
+        }
+        #endregion
     }
 }
