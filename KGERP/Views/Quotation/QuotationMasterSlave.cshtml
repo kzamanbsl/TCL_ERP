@@ -264,7 +264,7 @@
                                             <th>Quantity</th>
                                             <th>Unit Price</th>
                                             <th>Total</th>
-                                            @if (Model.StatusId == (int)EnumBillRequisitionStatus.Draft)
+                                            @if (Model.StatusId == (int)EnumQuotationStatus.Draft)
                                             {
                                                 <th style="padding:5px;text-align:center;">Action</th>
                                             }
@@ -283,7 +283,7 @@
                                                 <td>123</td>
                                                 <td>1</td>
                                                 <td>123</td>
-                                                @if (Model.StatusId == (int)EnumBillRequisitionStatus.Draft)
+                                                @if (Model.StatusId == (int)EnumQuotationStatus.Draft)
                                                 {
                                                     <td style="padding:5px;text-align:center;">
                                                         Edit Delete
@@ -298,14 +298,14 @@
 
                     </div>
 
-                    @if (Model.QuotationMasterId > 0 && Model.StatusId == (int)EnumBillRequisitionStatus.Draft)
+                    @if (Model.QuotationMasterId > 0 && Model.StatusId == (int)EnumQuotationStatus.Draft)
                     {
                         <div class="box-footer">
                             <div class="row">
                                 <div class="col-md-6"></div>
                                 <div class="col-md-6">
                                     <a id="@Model.QuotationMasterId" onclick="makeSubmitble(@Model.QuotationMasterId)" class="linkPointer btn btn-success" data-toggle="modal" style="width:100%" data-target="#submitDamageModal" data-placement="top">
-                                        @if (Model.StatusId == (int)EnumBillRequisitionStatus.Submitted)
+                                        @if (Model.StatusId == (int)EnumQuotationStatus.Submitted)
                                         {
                                             <i>Undo Submit</i>
                                         }
@@ -325,7 +325,7 @@
     </section>
 }
 
-@using (Html.BeginForm("QuotationMasterSlave", "Quotation", FormMethod.Post, new { id = "BRMasterSlaveFormId", @class = "formValidator" }))
+@using (Html.BeginForm("SubmitQuotationMasterSlave", "Quotation", FormMethod.Post, new { id = "BRMasterSlaveFormId", @class = "formValidator" }))
 {
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="modal fade" id="submitDamageModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">

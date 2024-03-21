@@ -25,6 +25,7 @@ namespace KGERP.Service.ServiceModel
         public string RequisitionNo { get; set; }
         public string Description { get; set; }
         public string EmployeeName { get; set; }
+        public decimal TotalAmount { get; set; }
         public SelectList QuotationForList { get; set; } = new SelectList(Enum.GetValues(typeof(EnumQuotationFor)).Cast<EnumQuotationFor>().Select(e => new SelectListItem { Text = e.ToString(), Value = ((int)e).ToString() }), "Value", "Text");
         public SelectList RequisitionList { get; set; } = new SelectList(new List<object>());
         public IEnumerable<QuotationMasterModel> DataList { get; set; } = new List<QuotationMasterModel>();
@@ -46,7 +47,7 @@ namespace KGERP.Service.ServiceModel
         public string MaterialTypeName { get; set; }
         public int MaterialSubtypeId { get; set; }
         public string MaterialSubtypeName { get; set; }
-        public int Quantity { get; set; }
+        public decimal Quantity { get; set; }
         public decimal UnitPrice { get; set; }
         public decimal TotalAmount { get; set; }
         public string EmployeeName { get; set; }
