@@ -9,7 +9,9 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Dynamic;
+using System.Net.Http;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace KGERP.Service.Implementation
 {
@@ -228,6 +230,8 @@ namespace KGERP.Service.Implementation
 
             QuotationDetail quotationDetail = _context.QuotationDetails.FirstOrDefault(x => x.QuotationDetailId == id);
             quotationDetail.IsActive = false;
+            quotationDetail.ModifiedBy = HttpContext.Current.User.Identity.Name;
+            quotationDetail.ModifiedOn = DateTime.Now;
 
             if (await _context.SaveChangesAsync() > 0)
             {
@@ -316,6 +320,23 @@ namespace KGERP.Service.Implementation
                                                                   }).ToListAsync());
 
             return quotationMasterModel;
+        }
+
+        public async Task<bool> QuotationMasterDelete(long id)
+        {
+            bool result = false;
+
+            QuotationMaster quotationMaster = _context.QuotationMasters.FirstOrDefault(x => x.QuotationMasterId == id);
+            quotationMaster.IsActive = false;
+            quotationMaster.ModifiedBy = HttpContext.Current.User.Identity.Name;
+            quotationMaster.ModifiedOn = DateTime.Now;
+
+            if (await _context.SaveChangesAsync() > 0)
+            {
+                result = true;
+            }
+
+            return result;
         }
     }
 }

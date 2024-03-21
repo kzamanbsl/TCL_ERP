@@ -153,7 +153,7 @@
     </div>
 </section>
 
-@using (Html.BeginForm("DeleteQuotationMasterById", "Quotation", FormMethod.Post))
+@using (Html.BeginForm("DeleteQuotationMaster", "Quotation", FormMethod.Post))
 {
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="modal fade" id="deleteFoodCustomerOrderModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
@@ -172,8 +172,8 @@
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                    @Html.HiddenFor(model => model.QuotationMasterId, new { id = "hidDeleteBRMasterId" })
-                    @Html.HiddenFor(model => model.CompanyFK, new { id = "SOdeleteCompanyFK" })
+                    @Html.HiddenFor(model => model.QuotationMasterId, new { id = "hiddenQuotationMasterId" })
+                    @Html.HiddenFor(model => model.CompanyFK, new { id = "hiddenCompanyFK" })
                     @Html.HiddenFor(model => model.ActionId, new { id = "deleteActionId" })
 
                     <div style="text-align:center">
@@ -187,49 +187,6 @@
                     </div>
                     <div class="col-md-9">
                         <button type="submit" id="btnsave" style="width:100%" class="btn btn-primary fa fa-remove">&nbsp; Delete</button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-}
-
-
-@using (Html.BeginForm("SubmitBillRequisitionMaster", "BillRequisition", FormMethod.Post))
-{
-
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="modal fade" id="submitBillRequisitionMastermodal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
-                        &times;
-                    </button>
-                    <h5 class="modal-title"><b><span class="submitOrDraftText"></span> Damage (<span id="submitOrDraftSOCIdText"></span>)</b></h5>
-                </div>
-
-                <div class="modal-body">
-                    @Html.AntiForgeryToken()
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-                    @Html.HiddenFor(model => model.QuotationMasterId, new { id = "hidSubmitBRMasterId" })
-                    @Html.HiddenFor(model => model.CompanyFK, new { id = "SOSubmitCompanyFK" })
-
-
-                    <div style="text-align:center">
-                        <h3>Are you sure to <span class="submitOrDraftText"></span> this item?</h3>
-                    </div>
-                </div>
-
-                <div class="modal-footer">
-                    <div class="col-md-3">
-                        <button type="button" onclick="resetDamageEditForm()" class="btn btn-warning fa fa-close" data-dismiss="modal">&nbsp;NO</button>
-                    </div>
-                    <div class="col-md-9">
-                        <button type="submit" id="btnSave" style="width:100%" class="btn btn-primary fa fa-check">&nbsp;<span class="submitOrDraftText"></span></button>
                     </div>
                 </div>
 
@@ -262,25 +219,25 @@
         }
 
         function MakeDeletable(rowId) {
-
-            $('#hidDeleteBRMasterId').val(rowId);
+            $('#hiddenQuotationMasterId').val(rowId);
+            $('#hiddenCompanyFK').val(@Model.CompanyFK);
             $('#deleteActionId').val(3);
         }
 
-        //function DateCustom(orderDate) {
+        function DateCustom(orderDate) {
 
-        //    var dateString = orderDate.substr(6);
-        //    var currentTime = new Date(parseInt(dateString));
-        //    var month = currentTime.getMonth() + 1;
-        //    if (month < 10) {
-        //        month = "0" + month;
-        //    }
+            var dateString = orderDate.substr(6);
+            var currentTime = new Date(parseInt(dateString));
+            var month = currentTime.getMonth() + 1;
+            if (month < 10) {
+                month = "0" + month;
+            }
 
-        //    var day = currentTime.getDate();
-        //    var year = currentTime.getFullYear();
-        //    var date = year + "-" + month + "-" + day;
-        //    return date;
-        //}
+            var day = currentTime.getDate();
+            var year = currentTime.getFullYear();
+            var date = year + "-" + month + "-" + day;
+            return date;
+        }
 
     </script>
 }

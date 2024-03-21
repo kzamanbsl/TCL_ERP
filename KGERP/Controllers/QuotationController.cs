@@ -96,6 +96,13 @@ namespace KGERP.Controllers
             }
             return RedirectToAction(nameof(QuotationMasterSlave), new { companyId = quotationMasterModel.CompanyFK, quotationMasterId = quotationMasterModel.QuotationMasterId });
         }
+
+        [HttpPost]
+        public async Task<ActionResult> DeleteQuotationMaster(QuotationMasterModel quotationMasterModel)
+        {
+            await _Service.QuotationMasterDelete(quotationMasterModel.QuotationMasterId);
+            return RedirectToAction(nameof(GetQuotationDetail), new { companyId = quotationMasterModel.CompanyFK });
+        }
         #endregion
 
         #region Quotation List
