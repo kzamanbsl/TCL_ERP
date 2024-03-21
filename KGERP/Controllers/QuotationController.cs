@@ -45,12 +45,12 @@ namespace KGERP.Controllers
                 viewData.CompanyFK = companyId;
                 viewData.StatusId = (int)EnumQuotationStatus.Draft;
                 viewData.RequisitionList = new SelectList(_RequisitionService.ApprovedRequisitionList(companyId), "Value", "Text");
-                viewData.DetailModel.MaterialTypeList = new SelectList(_ConfigurationService.GetAllProductCategoryList(companyId), "ProductCategoryId", "Name");
             }
             else
             {
                 viewData = await _Service.GetQuotationMasterDetail(companyId, quotationMasterId);
             }
+            viewData.DetailModel.MaterialTypeList = new SelectList(_ConfigurationService.GetAllProductCategoryList(companyId), "ProductCategoryId", "Name");
             return View(viewData);
         }
 
@@ -80,9 +80,10 @@ namespace KGERP.Controllers
         }
 
         [HttpGet]
-        public async Task<JsonResult> QuotationDetailById(long id)
+        public async Task<JsonResult> GetQuotationDetailById(long id)
         {
-            return Json("ok", JsonRequestBehavior.AllowGet);
+            var data = await _Service.QuotationDetailBbyId(id);
+            return Json(data, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]

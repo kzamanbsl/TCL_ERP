@@ -863,6 +863,14 @@ namespace KGERP.Controllers
         #endregion
 
         #region Common Raw Product
+
+        [HttpGet]
+        public async Task<JsonResult> GetProductBySubcategoryId(long id)
+        {
+            var data = await _service.GetProductBySubCategory(id);
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
         [HttpGet]
         public async Task<ActionResult> CommonRawProduct(int companyId, int categoryId = 0, int subCategoryId = 0)
         {

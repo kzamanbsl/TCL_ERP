@@ -2821,6 +2821,23 @@ namespace KGERP.Service.Implementation.Configuration
 
         #endregion
 
+        public async Task<List<Product>> GetProductBySubCategory(long id)
+        {
+            List<Product> sendData = new List<Product>();
+            var getAllData = await _db.Products.Where(c => c.ProductSubCategoryId == id && c.IsActive == true).ToListAsync();
+
+            foreach (var item in getAllData)
+            {
+                var data = new Product()
+                {
+                    ProductId = item.ProductId,
+                    ProductName = item.ProductName
+                };
+                sendData.Add(data);
+            }
+
+            return sendData;
+        }
         public class CustomerPaymentType
         {
             public string Text { get; set; }
