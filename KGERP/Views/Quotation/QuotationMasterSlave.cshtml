@@ -194,7 +194,7 @@
                                     <div class="col-md-3" id="inputQuality">
                                         <div class="form-group">
                                             <label class="form-label">Material Quality<sup class="text-danger" title="Required"><b>*</b></sup></label>
-                                            @Html.DropDownListFor(model => model.DetailModel.MaterialQualityId, Model.DetailModel.MaterialQualityList as SelectList, "==Select Quality==", new { id = "ddlMaterialQualityId", @class = "form-control searchingDropdown", style="width: 100%", @required = "true" })
+                                            @Html.DropDownListFor(model => model.DetailModel.MaterialQualityId, Model.DetailModel.MaterialQualityList as SelectList, "==Select Quality==", new { id = "ddlMaterialQualityId", @class = "form-control searchingDropdown", style = "width: 100%", @required = "true" })
                                             @Html.ValidationMessageFor(model => model.DetailModel.MaterialQualityId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -286,7 +286,9 @@
                                                 @if (Model.StatusId == (int)EnumQuotationStatus.Draft)
                                                 {
                                                     <td style="padding:5px;text-align:center;">
-                                                        Edit Delete
+                                                        <a id="@item.QuotationDetailId" onclick="MakeEdiable(@item.QuotationDetailId);" class="linkPointer" title="Edit"><i class="fa fa-edit" aria-hidden="true"></i></a>
+
+                                                        <a id="@item.QuotationDetailId" onclick="MakeDeletable(@item.QuotationDetailId)" class="linkPointer" data-toggle="modal" data-target="#deleteDamageSlaveModal" title="Delete" data-placement="top"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>
                                                     </td>
                                                 }
                                             </tr>
@@ -360,7 +362,7 @@
     </div>
 }
 
-@using (Html.BeginForm("DeleteQuotationDetailById", "Quotation", FormMethod.Post, new { id = "BRMasterSlaveFormId", @class = "formValidator" }))
+@using (Html.BeginForm("DeleteQuotationDetail", "Quotation", FormMethod.Post, new { id = "BRMasterSlaveFormId", @class = "formValidator" }))
 {
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="modal fade" id="deleteDamageSlaveModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
@@ -370,19 +372,19 @@
                     <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
                         &times;
                     </button>
-                    <h5 class="modal-title"><b>Delete Requisition Item</b></h5>
+                    <h5 class="modal-title"><b>Delete Quotation Item</b></h5>
                 </div>
                 <div class="modal-body">
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
                     @Html.HiddenFor(model => model.DetailModel.QuotationDetailId, new { id = "hiddenQuotationDetailId" })
-                    @Html.HiddenFor(model => model.DetailModel.QuotationMasterId, new { id = "hiddenQuotationMasterId" })
+                    @Html.HiddenFor(model => model.QuotationMasterId, new { id = "hiddenQuotationMasterId" })
                     @Html.HiddenFor(model => model.CompanyFK, new { id = "deleteCompanyFK" })
                     @Html.HiddenFor(model => model.ActionId, new { id = "deleteActionId" })
 
                     <div style="text-align:center">
-                        <h3>Are you sure to Delete this Requisition Item?</h3>
+                        <h3>Are you sure to Delete this Quotation Item?</h3>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -435,6 +437,58 @@
             });
         });
 
+        // make submitable form
+        function makeSubmitble(rowId) {
+            if (@Model.StatusId == 0) {
+                $('.submitOrDraftText').text("Make Submit");
+            }
+            else {
+                $('.submitOrDraftText').text("Make Draft");
+            }
+            $('#hidSubmitBRMasterId').val(@Model.QuotationMasterId);
+        }
+
+        // make deletable form
+        function MakeDeletable(rowId) {
+            $('#hiddenQuotationDetailId').val(rowId);
+            $('#deleteCompanyFK').val(@Model.CompanyFK);
+            $('#deleteActionId').val(3);
+            console.log("ok");
+            console.log(rowId);
+        }
+
+        // reset form
+        function resetDamageDeleteSlaveForm() {
+
+            $('#BRMasterSlaveFormId')[0].reset();
+            $('#ActionId').val(1);
+        }
+
+        function makeEditble(rowId) {
+            isEditable = true;
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("QuotationDetailById", "Quotation")",
+                datatype: "Json",
+                data: { id: rowId },
+                success: function (data) {
+                    $('#soCreateBtn').val("Update");
+                    $("#hidBRMasterId").val(data.BillRequisitionMasterId);
+                    $('#ActionId').val(2);
+                    $("#CompanyFK").val(data.CompanyId);
+                    $("#hiddenBillRequisitionDetailId").val(data.BillRequisitionDetailId);
+                    $("#ddlFloor").val(data.FloorId).trigger('change');
+                    $("#ddlMember").val(data.MemberId).trigger('change');
+                    $("#txtWrad").val(data.Ward);
+                    $("#txtDPP").val(data.DPP);
+                    $("#txtChainage").val(data.Chainage);
+                    $("#txtPier").val(data.Pier);
+
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            });
+        }
+
         $('#ddlRequisitionId').on('change', function (event) {
             var getRequisitionId = $(this).val();
             var showMaterialList = $("#ddlMaterialId");
@@ -442,7 +496,7 @@
                 type: "GET",
                 url: "/Procurement/GetMaterialByRequisitionId",
                 dataType: "json",
-                data: { companyId: @Model.CompanyFK, requisitionId: getRequisitionId },
+                data: { companyId: 21, requisitionId: getRequisitionId },
                 success: function (data) {
                     showMaterialList.empty();
                     showMaterialList.append("<option selected disabled>===Select Material===</option>");
@@ -457,7 +511,6 @@
             });
         });
 
-        // get selected material unit name
         function GetUnitName() {
             var getMaterialId = $("#ddlMaterialId option:selected");
             var showName = $("#txtUnitName");
@@ -481,7 +534,7 @@
             source: function (request, response) {
                 $.ajax({
                     url:"@Url.Action("GetAutoCompleteSupplierGet", "Procurement")",
-                    data: { prefix: request.term, companyId: "@Model.CompanyFK" },
+                    data: { prefix: request.term, companyId: @Model.CompanyFK },
                     dataType: "json",
                     type: "get",
                     cache: true,

@@ -18,6 +18,7 @@ namespace KGERP.Service.Interface
         #region Quotation Detail
         Task<long> QuotationDetailAdd(QuotationMasterModel model);
         Task<long> QuotationDetailEdit(QuotationMasterModel model);
+        Task<long> QuotationDetailDelete(long id);
         #endregion
     }
 }

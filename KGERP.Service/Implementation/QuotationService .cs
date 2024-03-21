@@ -49,8 +49,8 @@ namespace KGERP.Service.Implementation
                                                              StatusId = (int)(EnumQuotationStatus)t1.StatusId,
                                                              CreatedDate = t1.CreatedOn,
                                                              CreatedBy = t1.CreatedBy,
-                                                             EmployeeName = t1.CreatedBy + " - " + t4.Name
-
+                                                             EmployeeName = t1.CreatedBy + " - " + t4.Name,
+                                                             CompanyFK = 21
                                                          }).FirstOrDefault());
 
             quotationMasterModel.DetailList = await Task.Run(() => (from t1 in _context.QuotationDetails.Where(x => x.IsActive && x.QuotationMasterId == quotationMasterId)
@@ -192,6 +192,21 @@ namespace KGERP.Service.Implementation
                     result = quotationMasterId;
                 }
             }
+            return result;
+        }
+
+        public async Task<long> QuotationDetailDelete(long id)
+        {
+            long result = -1;
+
+            QuotationDetail quotationDetail =  _context.QuotationDetails.FirstOrDefault(x => x.QuotationDetailId == id);
+            quotationDetail.IsActive = false;
+
+            if (await _context.SaveChangesAsync() > 0)
+            {
+                result = quotationDetail.QuotationMasterId;
+            }
+
             return result;
         }
     }
