@@ -275,7 +275,8 @@
 
                         @if (Model.QuotationMasterId > 0)
                         {
-                            @Html.HiddenFor(model => model.ID, new { id = "hidSlaveID" })<div class="table-responsive col-md-12  text-wrap">
+                            @Html.HiddenFor(model => model.ID, new { id = "hidSlaveID" })
+                            <div class="table-responsive col-md-12  text-wrap">
                                 <table id="KgErpDataTable" class="table table-striped table-responsive">
                                     <thead>
                                         <tr>
@@ -295,6 +296,7 @@
                                             <th>Quantity</th>
                                             <th>Unit Price</th>
                                             <th>Total</th>
+                                            <th>Rmarks</th>
                                             @if (Model.StatusId == (int)EnumQuotationStatus.Draft)
                                             {
                                                 <th style="padding:5px;text-align:center;">Action</th>
@@ -324,6 +326,7 @@
                                                 <td>@item.Quantity</td>
                                                 <td>@item.UnitPrice</td>
                                                 <td>@item.TotalAmount</td>
+                                                <td>@item.Remarks</td>
                                                 @if (Model.StatusId == (int)EnumQuotationStatus.Draft)
                                                 {
                                                     <td style="padding:5px;text-align:center;">
@@ -502,15 +505,15 @@
                 data: { id: rowId },
                 success: function (data) {
                     $('#soCreateBtn').val("Update");
-                    $("#quotationMasterIdHidden").val(data.BillRequisitionMasterId);
-                    $("#quotationDetailIdHidden").val(data.BillRequisitionDetailId);
+                    $("#quotationDetailIdHidden").val(rowId);
+                    $("#quotationMasterIdHidden").val(data.QuotationDetailId);
                     $('#ActionId').val(2);
                     $("#CompanyFK").val(data.CompanyFK);
                     $("#ddlMaterialQualityId").val(data.MaterialQualityId).trigger('change');
                     $("#txtQuantity").val(data.Quantity);
                     $("#txtUnitPrice").val(data.UnitPrice);
                     $("#txtTotalAmount").val(data.TotalAmount);
-                    $("#txtRemarks").val(data.Remarks);
+                    $("#txtRemarks").val(data.Remarks == null ? "" : data.Remarks.trim());
 
                     if (@Model.QuotationFor == @((int)EnumQuotationFor.General)) {
                         $("#ddlMaterialTypeId").val(data.MaterialTypeId).trigger('change');

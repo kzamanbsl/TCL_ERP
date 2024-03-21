@@ -67,7 +67,7 @@ namespace KGERP.Controllers
             }
             else if (quotationMasterModel.ActionEum == ActionEnum.Edit)
             {
-                await _Service.QuotationDetailEdit(quotationMasterModel);
+                quotationMasterModel.QuotationMasterId = _Service.QuotationDetailEdit(quotationMasterModel);
             }
             return RedirectToAction(nameof(QuotationMasterSlave), new { companyId = quotationMasterModel.CompanyFK, quotationMasterId = quotationMasterModel.QuotationMasterId });
         }

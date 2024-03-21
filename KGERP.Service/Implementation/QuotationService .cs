@@ -46,7 +46,7 @@ namespace KGERP.Service.Implementation
                                                              RequisitionId = t1.BillRequisitionMasterId,
                                                              RequisitionNo = t2.BillRequisitionNo,
                                                              QuotationFor = (int)(EnumQuotationFor)t1.QuotationForId,
-                                                             Description = t1.Description,
+                                                             Description = t1.Description ?? "N/A",
                                                              StatusId = (int)(EnumQuotationStatus)t1.StatusId,
                                                              CreatedDate = t1.CreatedOn,
                                                              CreatedBy = t1.CreatedBy,
@@ -65,7 +65,7 @@ namespace KGERP.Service.Implementation
                                                                     from t5 in t5_Join.DefaultIfEmpty()
                                                                     join t6 in _context.Units on t3.UnitId equals t6.UnitId into t6_Join
                                                                     from t6 in t6_Join.DefaultIfEmpty()
-                                                                    
+
                                                                     select new QuotationDetailModel
                                                                     {
                                                                         QuotationDetailId = t1.QuotationDetailId,
@@ -82,7 +82,7 @@ namespace KGERP.Service.Implementation
                                                                         Quantity = t1.Quantity,
                                                                         UnitPrice = t1.UnitPrice,
                                                                         TotalAmount = t1.TotalAmount,
-                                                                        Remarks = t1.Remarks,
+                                                                        Remarks = t1.Remarks ?? "N/A",
                                                                         CompanyFK = 21
                                                                     }).OrderByDescending(x => x.QuotationDetailId).AsEnumerable());
 
@@ -128,7 +128,7 @@ namespace KGERP.Service.Implementation
             // Generate Unique Quotation Number
             string GetUniqueQuotationNo()
             {
-                int getLastRowId = _context.BillRequisitionMasters.Where(c => c.BRDate == model.QuotationDate).Count();
+                int getLastRowId = _context.QuotationMasters.Where(c => c.QutationDate == model.QuotationDate).Count();
 
                 string setZeroBeforeLastId(int lastRowId, int length)
                 {
@@ -176,9 +176,27 @@ namespace KGERP.Service.Implementation
             return result;
         }
 
-        public Task<long> QuotationDetailEdit(QuotationMasterModel model)
+        public long QuotationDetailEdit(QuotationMasterModel model)
         {
-            throw new NotImplementedException();
+            long result = -1;
+            decimal totalPrice = model.DetailModel.Quantity * model.DetailModel.UnitPrice;
+            QuotationDetail quotationDetail = _context.QuotationDetails.FirstOrDefault(x => x.QuotationDetailId == model.DetailModel.QuotationDetailId);
+            quotationDetail.QuotationMasterId = quotationDetail.QuotationMasterId;
+            quotationDetail.MaterialId = (int)model.DetailModel.MaterialId;
+            quotationDetail.MaterialQuality = model.DetailModel.MaterialQualityId;
+            quotationDetail.Quantity = model.DetailModel.Quantity;
+            quotationDetail.UnitPrice = model.DetailModel.UnitPrice;
+            quotationDetail.TotalAmount = totalPrice;
+            quotationDetail.Remarks = model.DetailModel.Remarks;
+            quotationDetail.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+            quotationDetail.ModifiedOn = DateTime.Now;
+
+            if (_context.SaveChanges() > 0)
+            {
+                result = quotationDetail.QuotationMasterId;
+            }
+
+            return result;
         }
 
         public async Task<long> SubmitQuotationMaster(long quotationMasterId)
