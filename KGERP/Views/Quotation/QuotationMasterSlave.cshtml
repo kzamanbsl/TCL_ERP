@@ -378,7 +378,7 @@
                     <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
                         &times;
                     </button>
-                    <h5 class="modal-title"><b><span class="submitOrDraftText"></span> Requisition </b></h5>
+                    <h5 class="modal-title"><b>Quotation Submit</b></h5>
                 </div>
                 <div class="modal-body">
                     @Html.HiddenFor(model => model.QuotationMasterId, new { id = "hidSubmitBRMasterId" })
@@ -395,7 +395,7 @@
                         <button type="button" class="btn btn-warning fa fa-close" data-dismiss="modal">&nbsp;NO</button>
                     </div>
                     <div class="col-md-9">
-                        <button type="submit" id="btnDelete2" onclick="makeSubmitble(this)" style="width:100%" class="btn btn-primary fa fa-check">&nbsp;<span class="submitOrDraftText"></span>Yes</button>
+                        <button type="submit" id="btnDelete2" onclick="makeSubmitble(this)" style="width:100%" class="btn btn-primary fa fa-check">Make Submit</button>
                     </div>
                 </div>
             </div>
@@ -478,17 +478,6 @@
             });
         });
 
-        // make submitable form
-        function makeSubmitble(rowId) {
-            if (@Model.StatusId == 0) {
-                $('.submitOrDraftText').text("Make Submit");
-            }
-            else {
-                $('.submitOrDraftText').text("Make Draft");
-            }
-            $('#hidSubmitBRMasterId').val(@Model.QuotationMasterId);
-        }
-
         // make deletable form
         function MakeDeletable(rowId) {
             $('#hiddenQuotationDetailId').val(rowId);
@@ -503,9 +492,9 @@
             $('#ActionId').val(1);
         }
 
+        var materialSubtypeId = 0;
+        var materialId = 0;
         function MakeEditable(rowId) {
-            var isEditable = true;
-            console.log('ok');
             $.ajax({
                 type: "GET",
                 url: "@Url.Action("GetQuotationDetailById", "Quotation")",
@@ -517,15 +506,21 @@
                     $("#quotationDetailIdHidden").val(data.BillRequisitionDetailId);
                     $('#ActionId').val(2);
                     $("#CompanyFK").val(data.CompanyFK);
-                    $("#ddlMaterialId").val(data.MaterialId).trigger('change');
                     $("#ddlMaterialQualityId").val(data.MaterialQualityId).trigger('change');
                     $("#txtQuantity").val(data.Quantity);
                     $("#txtUnitPrice").val(data.UnitPrice);
                     $("#txtTotalAmount").val(data.TotalAmount);
                     $("#txtRemarks").val(data.Remarks);
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
 
-                    console.log(data);
+                    if (@Model.QuotationFor == @((int)EnumQuotationFor.General)) {
+                        $("#ddlMaterialTypeId").val(data.MaterialTypeId).trigger('change');
+                        materialSubtypeId = data.MaterialSubtypeId;
+                        materialId = data.MaterialId;
+                    } else {
+                        $("#ddlMaterialId").val(data.MaterialId).trigger('change');
+                    }
+
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
                 }
             });
         }
@@ -548,6 +543,9 @@
                             text: item.Name
                         }));
                     });
+                    if (materialSubtypeId > 0) {
+                        $("#ddlMaterialSubtypeId").val(materialSubtypeId).trigger('change');
+                    }
                 }
             });
         });
@@ -570,6 +568,9 @@
                             text: item.ProductName
                         }));
                     });
+                    if (materialId > 0) {
+                        $("#ddlMaterialId").val(materialId).trigger('change');
+                    }
                 }
             });
         });
