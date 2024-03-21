@@ -25,9 +25,15 @@ namespace KGERP.Data.Models
         public string QuotationNo { get; set; }
         public string QuotationName { get; set; }
         public int QuotationForId { get; set; }
+        public long SupplierId { get; set; }
         public long BillRequisitionMasterId { get; set; }
         public int StatusId { get; set; }
         public string Description { get; set; }
+        public string CreatedBy { get; set; }
+        public System.DateTime CreatedOn { get; set; }
+        public string ModifiedBy { get; set; }
+        public Nullable<System.DateTime> ModifiedOn { get; set; }
+        public bool IsActive { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<QuotationDetail> QuotationDetails { get; set; }
