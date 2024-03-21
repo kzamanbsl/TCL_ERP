@@ -14,8 +14,10 @@ namespace KGERP.Service.ServiceModel
         public int? BoQItemId { get; set; }
         public int MaterialItemId { get; set; }
         public decimal EstimatedQty { get; set; }
+        public List<decimal?> EstimatedQtyList { get; set; } = new List<decimal?>();
         public decimal EstimatedAmount { get; set; }
         public decimal UnitRate { get; set; }
+        public List<decimal?> UnitRateList { get; set; }= new List<decimal?>();
         public int ProjectId { get; set; }
         public string ProjectTypeName { get; set; }
         public long? BoQDivisionId { get; set; }
@@ -24,6 +26,7 @@ namespace KGERP.Service.ServiceModel
         public List<BoqDivisionModel> BoQDivisions { get; set; }
         public List<Accounting_CostCenter> Projects { get; set; }
         public List<BillRequisitionItemBoQMapModel> BoQItemProductMaps { get; set; }
+        public List<BillRequisitionItemBoQMapModel> BoQMapVmList { get; set; }
 
         public string ProjectName { get; set; }
         public string DivisionName { get; set; }
@@ -42,7 +45,7 @@ namespace KGERP.Service.ServiceModel
         public int BudgetSubtypeId { get; set; }
         public string MaterialSubtypeName { get; set; }
         public List<ProductSubCategory> BudgetSubtypes { get; set; }
-        public EnumBudgetAndEstimatingApprovalStatus BNEStatusId { get; set; }
+        public EnumBudgetAndEstimatingApprovalStatus? BNEApprovalStatus { get; set; }
         public SelectList EnumBNEStatusList { get { return new SelectList(BaseFunctionalities.GetEnumList<EnumBudgetAndEstimatingApprovalStatus>(), "Value", "Text"); } }
         public SelectList BoqDivisionsSelectList { get; set; } = new SelectList(new List<SelectListItem>());
         public SelectList BoqItemSelectList { get; set; } = new SelectList(new List<SelectListItem>());

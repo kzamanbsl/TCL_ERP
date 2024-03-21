@@ -43,7 +43,7 @@
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label asp-for="ProjectId" class="form-control-label">Select Project<sup class="text-danger" title="Required"><b>*</b></sup> :</label>
+                                        <label asp-for="ProjectId" class="form-control-label">Select Project<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                         @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.Projects.OrderBy(order => order.Name), "CostCenterId", "Name"), "==Select Project Type First==", new { id = "ddlProjectId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
                                         @Html.ValidationMessageFor(model => model.ProjectId, "", new { @class = "text-danger" })
                                     </div>
@@ -51,7 +51,7 @@
 
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label asp-for="BoQDivisionId" class="form-control-label">Select BoQ Division :</label>
+                                        <label asp-for="BoQDivisionId" class="form-control-label">Select BoQ Division</label>
                                         @Html.DropDownListFor(model => model.BoQDivisionId, Model.BoqDivisionsSelectList, "==Select BoQ Division==", new { id = "ddlBoQDivisionId", @class = "form-control searchingDropdown", style = "width:100%" })
                                         @Html.ValidationMessageFor(model => model.BoQDivisionId, "", new { @class = "text-danger" })
                                     </div>
@@ -59,7 +59,7 @@
 
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label asp-for="BoQItemId" class="form-control-label">Select BoQ Item:</label>
+                                        <label asp-for="BoQItemId" class="form-control-label">Select BoQ Item</label>
                                         @Html.DropDownListFor(model => model.BoQItemId, Model.BoqItemSelectList, "==Select BoQ Item==", new { id = "ddlBoQItemId", @class = "form-control searchingDropdown", style = "width:100%" })
                                         @Html.ValidationMessageFor(model => model.BoQItemId, "", new { @class = "text-danger" })
                                     </div>
@@ -68,8 +68,8 @@
                                     <div class="form-group">
                                         @Html.Label("Status:", htmlAttributes: new { @class = "control-label" })
                                         <br />
-                                        @Html.DropDownListFor(model => model.BNEStatusId, Model.EnumBNEStatusList as SelectList, "==Select Status==", new { id = "ddlStatusEnumFK", @class = "form-control ddlReset searchingDropdown", style = "width:100%" })
-                                        @Html.ValidationMessageFor(model => model.BNEStatusId, "", new { @class = "text-danger" })
+                                        @Html.DropDownListFor(model => model.BNEApprovalStatus, Model.EnumBNEStatusList as SelectList, "==Select Status==", new { id = "ddlStatusEnumFK", @class = "form-control ddlReset searchingDropdown", style = "width:100%" })
+                                        @Html.ValidationMessageFor(model => model.BNEApprovalStatus, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
@@ -90,47 +90,56 @@
 
                         <hr />
 
-                        @if (Model.BoQItemProductMaps?.Any()??false)
+                        @using (Html.BeginForm("BudgetAndEstimatingApprovalProcess", "BillRequisition", FormMethod.Post, new { id = "budgetAndEstimatingApprovalListFormId", @class = "formValidator" }))
                         {
-                            <table id="KgErpDataTable33" class="table table-bordered table-striped table-responsive">
-                                <thead>
-                                    <tr class="bg-gray">
-                                        <th>SL</th>
-                                        <th>BoQ Division</th>
-                                        <th>BoQ Name</th>
-                                        <th>Material Type</th>
-                                        <th>Material Subtype</th>
-                                        <th>Material </th>
-                                        <th>Estimated Qty</th>
-                                        <th>Unit Price</th>
-                                        <th> Total Amount</th>
+
+                            //@Html.HiddenFor(model => model.BoQMapVmList, new { id = "BoQMapVmList" })
+                            if (Model.BoQItemProductMaps?.Any() ?? false)
+                            {
 
 
-                                    </tr>
-                                </thead>
+                                <table id="KgErpDataTable33" class="table table-bordered table-striped table-responsive">
+                                    <thead>
+                                        <tr class="bg-gray">
+                                            <th>SL</th>
+                                            <th>BoQ Division</th>
+                                            <th>BoQ Name</th>
+                                            <th>Material Type</th>
+                                            <th>Material Subtype</th>
+                                            <th>Material </th>
+                                            <th>Estimated Qty</th>
+                                            <th>Unit Price</th>
+                                            <th>Total Amount</th>
 
-                                <tbody>
-                                    @{
-                                        int i = 0;
-                                    }
-                                    @if (Model.BoQItemProductMaps != null)
-                                    {
-                                        foreach (var item in Model.BoQItemProductMaps)
+                                            @if (Model.ApprovalStatus == (int)EnumBudgetAndEstimatingApprovalStatus.Revised)
+                                            {
+                                                <th>Action</th>
+                                            }
+
+
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        @{
+                                            int i = 0;
+                                        }
+                                        @foreach (var item in Model.BoQItemProductMaps)
                                         {
                                             <tr>
                                                 <td>
                                                     @(++sl)
                                                 </td>
-                                                <td id="tdBoqDivisionName_@item.BoQItemProductMapId">@item.DivisionName</td>
-                                                <td id="tdBoqItemNo_@item.BoQItemProductMapId"><small class="label label-primary">@item.BoqNumber</small> @item.BoqName</td>
-                                                <td id="tdBoqMaterialName_@item.BoQItemProductMapId">@item.MaterialTypeName</td>
-                                                <td id="tdBoqMaterialName_@item.BoQItemProductMapId">@item.MaterialSubtypeName</td>
-                                                <td id="tdBoqMaterialName_@item.BoQItemProductMapId">@item.MaterialName</td>
-                                                @if (item.ApprovalStatus ==(int) EnumBudgetAndEstimatingApprovalStatus.Pending)
+                                                <td>@item.DivisionName</td>
+                                                <td><small class="label label-primary">@item.BoqNumber</small> @item.BoqName</td>
+                                                <td>@item.MaterialTypeName</td>
+                                                <td>@item.MaterialSubtypeName</td>
+                                                <td>@item.MaterialName</td>
+                                                @if (item.ApprovalStatus == (int)EnumBudgetAndEstimatingApprovalStatus.Pending || Model.ApprovalStatus == (int)EnumBudgetAndEstimatingApprovalStatus.Revised)
                                                 {
-                                                    <td><input id="quantityHidden_@item.BoQItemProductMapId" value="@item.EstimatedQty" /></td>
-
-                                                    <td> <input id="unitRateHidden_@item.BoQItemProductMapId" value="@item.UnitRate" /> </td>
+                                                    <td id="tdBoqEstimateQty_@item.BoQItemProductMapId"> @Html.TextBoxFor(model => model.BoQItemProductMaps[i].EstimatedQty, new { @class = "", @Value = @item.EstimatedQty })</td>
+                                                    <td id="tdBoqUnitRate_@item.BoQItemProductMapId"> @Html.TextBoxFor(model => model.BoQItemProductMaps[i].UnitRate, new { @class = "", @Value = @item.UnitRate })</td>
+                                                    @Html.HiddenFor(model => model.BoQItemProductMaps[i].BoQItemProductMapId, new { @Value = @item.BoQItemProductMapId })
 
                                                 }
                                                 else
@@ -140,12 +149,77 @@
 
                                                 }
                                                 <td class="totalValue" id="tdBoqEstimateAmount_@item.BoQItemProductMapId">@item.EstimatedAmount</td>
+
+                                                @if (Model.ApprovalStatus == (int)EnumBudgetAndEstimatingApprovalStatus.Revised)
+                                                {
+                                                    <td ><a  id="reApprovedBtn_@item.BoQItemProductMapId" onclick="revisedApproved(@item.BoQItemProductMapId)" class="btn btn-warning"> Revised </a> </td>
+                                                }
+
+
                                             </tr>
+
+                                            i++;
                                         }
-                                        i++;
-                                    }
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
+                                if (Model.ApprovalStatus != (int)EnumBudgetAndEstimatingApprovalStatus.Approved)
+                                {
+                                    <div class="box-footer">
+                                        <div class="row">
+                                            <div class="col-md-3"></div>
+                                            <div class="col-md-3"></div>
+                                            <div class="col-md-3">
+                                                <a class="btn btn-danger btn-block linkPointer" data-toggle="modal" data-target="#RejectedModalId" data-placement="top">Proceed to Reject</a>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <a class="btn btn-primary btn-block linkPointer" data-toggle="modal" data-target="#ApprovedModalId" data-placement="top">Proceed to Approve</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Approve Modal-->
+                                    <div class="modal fade" id="ApprovedModalId" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" onclick="resetForm()" class="close pull-right" data-dismiss="modal" aria-label="Close">
+                                                        &times;
+                                                    </button>
+                                                    <h4 class="modal-title text-primary"><b>B & E Item Approval</b></h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="row">
+
+                                                        <div class="col-md-7">
+                                                            <div class="form-group">
+                                                                <label class="form-label text-secondary">Approval Remarks</label>
+                                                                @Html.TextAreaFor(model => model.Remarks, new { @class = "modal-input form-control" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-5">
+                                                            @*<div class="form-group">
+                                                                    <label class="form-label text-secondary">Choose Payment Method<sup class="text-danger" title="Requied"><b>*</b></sup></label>
+                                                                    <div class="custom-control custom-radio custom-control-inline">
+                                                                        <input type="radio" id="cash" value="Cash" name="VoucherPaymentStatus" class="custom-control-input" required>
+                                                                        <label class="custom-control-label" for="cash">Pay with cash</label>
+                                                                    </div>
+                                                                    <div class="custom-control custom-radio custom-control-inline">
+                                                                        <input type="radio" id="cheque" value="Cheque" name="VoucherPaymentStatus" class="custom-control-input" required>
+                                                                        <label class="custom-control-label" for="cheque">Pay with cheque</label>
+                                                                    </div>
+                                                                </div>*@
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" id="btnClose" onclick="resetForm()" class="btn btn-outline-warning" data-dismiss="modal">Go Back</button>
+                                                    <button type="submit" id="btnDelete" class="deleteId btn btn-success">Approve</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
                         }
                     </div>
                 </div>
@@ -154,6 +228,38 @@
     </div>
 </section>
 
+@using (Html.BeginForm("MDReject", "BillRequisition", FormMethod.Post, new { id = "RejectedFormId", @class = "formValidator", onreset = "resetDDL();" }))
+{
+    @Html.HiddenFor(model => model.BoQItemProductMapId, new { Value = Model.BoQItemProductMapId, id = "RejectedBillRequisitionMasterId" })
+
+    <div class="modal fade" id="RejectedModalId" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" onclick="resetForm()" class="close pull-right" data-dismiss="modal" aria-label="Close">
+                        &times;
+                    </button>
+                    <h4 class="modal-title text-primary"><b>Bill Requisition Rejection</b></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12 py-5">
+                            <label class="text-secondary">The reason for the rejection :</label>
+                        </div>
+                        <div class="col-md-12 py-5">
+                            @Html.TextAreaFor(model => model.Remarks, new { @class = "modal-input form-control" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" id="btnClose" onclick="resetForm()" class="btn btn-outline-warning" data-dismiss="modal">Go Back</button>
+                    <button type="submit" id="btnDelete" class="deleteId btn btn-danger">Reject</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
 
 @Scripts.Render("~/bundles/jqueryui")
 @Styles.Render("~/Content/cssjqryUi")
@@ -239,5 +345,45 @@
             });
 
         });
+
+        function revisedApproved(boqMapId) {
+
+            var estimatedQty = $("#tdBoqEstimateQty_" + boqMapId).find('input').val();
+            var estimatedQtyId = $("#tdBoqEstimateQty_" + boqMapId);
+            var unitQty = $("#tdBoqUnitRate_" + boqMapId).find('input').val();
+            var unitQtyId = $("#tdBoqUnitRate_" + boqMapId);
+            var reApprovedBtn= $("#reApprovedBtn_" + boqMapId);
+            var sendData = {
+                BoQItemProductMaps: [
+                    {
+                        BoQItemProductMapId: boqMapId,
+                        EstimatedQty: estimatedQty,
+                        UnitRate: unitQty
+                    }
+                ]
+
+            };
+
+
+            $.ajax({
+                type: "POST",
+                url: "/BillRequisition/BudgetAndEstimatingRevisedApprove",
+                dataType: "json",
+                data: sendData,
+                success: function (data) {
+
+                    estimatedQtyId.addClass('readonly');
+                    unitQtyId.addClass('readonly');
+                      // Select the element by its ID and update its class
+                         reApprovedBtn.removeClass("btn-warning").addClass("btn-success");
+
+
+
+                   
+                }
+            });
+        }
+
+
     </script>
 }
