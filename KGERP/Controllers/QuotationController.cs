@@ -69,7 +69,30 @@ namespace KGERP.Controllers
             {
                 await _Service.QuotationDetailEdit(quotationMasterModel);
             }
-            return RedirectToAction(nameof(quotationMasterModel), new { companyId = quotationMasterModel.CompanyFK, quotationMasterId = quotationMasterModel.QuotationMasterId });
+            return RedirectToAction(nameof(QuotationMasterSlave), new { companyId = quotationMasterModel.CompanyFK, quotationMasterId = quotationMasterModel.QuotationMasterId });
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> SubmitQuotationMasterSlave(QuotationMasterModel quotationMasterModel)
+        {
+            quotationMasterModel.QuotationMasterId = await _Service.SubmitQuotationMaster(quotationMasterModel.QuotationMasterId);
+            return RedirectToAction(nameof(QuotationMasterSlave), new { companyId = quotationMasterModel.CompanyFK, quotationMasterId = quotationMasterModel.QuotationMasterId });
+        }
+
+        [HttpGet]
+        public async Task<JsonResult> QuotationDetailById(long id)
+        {
+            return Json("ok", JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DeleteQuotationDetail(QuotationMasterModel quotationMasterModel)
+        {
+            if (quotationMasterModel.ActionEum == ActionEnum.Delete)
+            {
+                quotationMasterModel.DetailModel.QuotationDetailId = await _Service.QuotationDetailDelete(quotationMasterModel.DetailModel.QuotationDetailId);
+            }
+            return RedirectToAction(nameof(QuotationMasterSlave), new { companyId = quotationMasterModel.CompanyFK, quotationMasterId = quotationMasterModel.QuotationMasterId });
         }
     }
 }

@@ -18,10 +18,15 @@ namespace KGERP.Data.Models
         public long QuotationMasterId { get; set; }
         public int MaterialId { get; set; }
         public int MaterialQuality { get; set; }
-        public Nullable<decimal> Quantity { get; set; }
-        public Nullable<decimal> UnitPrice { get; set; }
-        public Nullable<decimal> TotalAmount { get; set; }
+        public decimal Quantity { get; set; }
+        public decimal UnitPrice { get; set; }
+        public decimal TotalAmount { get; set; }
         public string Remarks { get; set; }
+        public string CreatedBy { get; set; }
+        public System.DateTime CreatedOn { get; set; }
+        public string ModifiedBy { get; set; }
+        public Nullable<System.DateTime> ModifiedOn { get; set; }
+        public bool IsActive { get; set; }
     
         public virtual Product Product { get; set; }
         public virtual QuotationMaster QuotationMaster { get; set; }
