@@ -90,8 +90,10 @@
 
                         <hr />
 
-                        @using (Html.BeginForm("BudgetAndEstimatingApprovalList", "BillRequisition", FormMethod.Post, new { id = "budgetAndEstimatingApprovalListFormId", @class = "formValidator" }))
+                        @using (Html.BeginForm("BudgetAndEstimatingApprovalProcess", "BillRequisition", FormMethod.Post, new { id = "budgetAndEstimatingApprovalListFormId", @class = "formValidator" }))
                         {
+
+                            //@Html.HiddenFor(model => model.BoQMapVmList, new { id = "BoQMapVmList" })
                             if (Model.BoQItemProductMaps?.Any() ?? false)
                             {
 
@@ -109,7 +111,7 @@
                                             <th>Unit Price</th>
                                             <th>Total Amount</th>
 
-                                            @if (Model.BNEApprovalStatus == EnumBudgetAndEstimatingApprovalStatus.Revised)
+                                            @if (Model.ApprovalStatus == (int)EnumBudgetAndEstimatingApprovalStatus.Revised)
                                             {
                                                 <th>Action</th>
                                             }
@@ -128,16 +130,16 @@
                                                 <td>
                                                     @(++sl)
                                                 </td>
-                                                <td id="tdBoqDivisionName_@item.BoQItemProductMapId">@item.DivisionName</td>
-                                                <td id="tdBoqItemNo_@item.BoQItemProductMapId"><small class="label label-primary">@item.BoqNumber</small> @item.BoqName</td>
-                                                <td id="tdBoqMaterialName_@item.BoQItemProductMapId">@item.MaterialTypeName</td>
-                                                <td id="tdBoqMaterialName_@item.BoQItemProductMapId">@item.MaterialSubtypeName</td>
-                                                <td id="tdBoqMaterialName_@item.BoQItemProductMapId">@item.MaterialName</td>
-                                                @if (item.ApprovalStatus == (int)EnumBudgetAndEstimatingApprovalStatus.Pending || item.ApprovalStatus == (int)EnumBudgetAndEstimatingApprovalStatus.Revised)
+                                                <td>@item.DivisionName</td>
+                                                <td><small class="label label-primary">@item.BoqNumber</small> @item.BoqName</td>
+                                                <td>@item.MaterialTypeName</td>
+                                                <td>@item.MaterialSubtypeName</td>
+                                                <td>@item.MaterialName</td>
+                                                @if (item.ApprovalStatus == (int)EnumBudgetAndEstimatingApprovalStatus.Pending || Model.ApprovalStatus == (int)EnumBudgetAndEstimatingApprovalStatus.Revised)
                                                 {
-                                                    <td><input id="quantityHidden_@item.BoQItemProductMapId" name="@item.EstimatedQtyList[i]" value="@item.EstimatedQty" /></td>
-
-                                                    <td> <input id="unitRateHidden_@item.BoQItemProductMapId" name="@item.UnitRateList[i]" value="@item.UnitRate" /> </td>
+                                                    <td id="tdBoqEstimateQty_@item.BoQItemProductMapId"> @Html.TextBoxFor(model => model.BoQItemProductMaps[i].EstimatedQty, new { @class = "", @Value = @item.EstimatedQty })</td>
+                                                    <td id="tdBoqUnitRate_@item.BoQItemProductMapId"> @Html.TextBoxFor(model => model.BoQItemProductMaps[i].UnitRate, new { @class = "", @Value = @item.UnitRate })</td>
+                                                    @Html.HiddenFor(model => model.BoQItemProductMaps[i].BoQItemProductMapId, new { @Value = @item.BoQItemProductMapId })
 
                                                 }
                                                 else
@@ -148,17 +150,19 @@
                                                 }
                                                 <td class="totalValue" id="tdBoqEstimateAmount_@item.BoQItemProductMapId">@item.EstimatedAmount</td>
 
-                                                @if (Model.BNEApprovalStatus == EnumBudgetAndEstimatingApprovalStatus.Revised)
+                                                @if (Model.ApprovalStatus == (int)EnumBudgetAndEstimatingApprovalStatus.Revised)
                                                 {
-                                                    <td id="reApprovedBtn"><a class="btn btn-warning"> Re Approved</a> </td>
+                                                    <td ><a  id="reApprovedBtn_@item.BoQItemProductMapId" onclick="revisedApproved(@item.BoQItemProductMapId)" class="btn btn-warning"> Revised </a> </td>
                                                 }
+
+
                                             </tr>
 
                                             i++;
                                         }
                                     </tbody>
                                 </table>
-                                if (Model.BNEApprovalStatus != EnumBudgetAndEstimatingApprovalStatus.Approved)
+                                if (Model.ApprovalStatus != (int)EnumBudgetAndEstimatingApprovalStatus.Approved)
                                 {
                                     <div class="box-footer">
                                         <div class="row">
@@ -341,5 +345,45 @@
             });
 
         });
+
+        function revisedApproved(boqMapId) {
+
+            var estimatedQty = $("#tdBoqEstimateQty_" + boqMapId).find('input').val();
+            var estimatedQtyId = $("#tdBoqEstimateQty_" + boqMapId);
+            var unitQty = $("#tdBoqUnitRate_" + boqMapId).find('input').val();
+            var unitQtyId = $("#tdBoqUnitRate_" + boqMapId);
+            var reApprovedBtn= $("#reApprovedBtn_" + boqMapId);
+            var sendData = {
+                BoQItemProductMaps: [
+                    {
+                        BoQItemProductMapId: boqMapId,
+                        EstimatedQty: estimatedQty,
+                        UnitRate: unitQty
+                    }
+                ]
+
+            };
+
+
+            $.ajax({
+                type: "POST",
+                url: "/BillRequisition/BudgetAndEstimatingRevisedApprove",
+                dataType: "json",
+                data: sendData,
+                success: function (data) {
+
+                    estimatedQtyId.addClass('readonly');
+                    unitQtyId.addClass('readonly');
+                      // Select the element by its ID and update its class
+                         reApprovedBtn.removeClass("btn-warning").addClass("btn-success");
+
+
+
+                   
+                }
+            });
+        }
+
+
     </script>
 }

@@ -107,8 +107,9 @@ namespace KGERP.Utility
     }
     public enum EnumBudgetAndEstimatingApprovalStatus
     {
-        Pending=0,
+        Pending=1,
         Approved,
+        Revised
         //Rejected,
         //Closed
     }

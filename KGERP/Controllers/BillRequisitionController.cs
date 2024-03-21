@@ -195,7 +195,7 @@ namespace KGERP.Controllers
             {
                 var unit = _ProductService.GetProductJson().FirstOrDefault(c => c.ProductId == id);
                 unitId = unit?.UnitId ?? 0;
-                unitName = _configurationService.GetUnitForJson().FirstOrDefault(c => c.UnitId == unitId)?.Name??"";
+                unitName = _configurationService.GetUnitForJson().FirstOrDefault(c => c.UnitId == unitId)?.Name ?? "";
             }
 
             var result = new { unitId = unitId, unitName = unitName };
@@ -687,23 +687,31 @@ namespace KGERP.Controllers
         {
 
             BillRequisitionItemBoQMapModel billRequisitionMaster = new BillRequisitionItemBoQMapModel();
+            billRequisitionMaster = await _service.FilteredBudgetAndEstimatingApprovalList(model.ProjectId, model.BoQDivisionId, model.BoQItemId, model.BNEApprovalStatus ?? default);
 
-            var ProjectList = await _service.GetProjectList(CompanyInfo.CompanyId);
-            var data = await _service.GetBoqListByProjectId(model.ProjectId);
-            var boqItemList = await _service.GetBoqListByDivisionId(model.BoQDivisionId ?? 0);
-            billRequisitionMaster.BoqDivisionsSelectList = new SelectList(data, "BoqDivisionId", "Name");
-            billRequisitionMaster.BoQDivisionId = model.BoQDivisionId > 0 ? model.BoQDivisionId : null;
-            billRequisitionMaster.BoqItemSelectList = model.BoQDivisionId > 0 ? new SelectList(boqItemList, "BoQItemId", "Name") : default;
-            billRequisitionMaster.BoQItemId = model.BoQItemId > 0 ? model.BoQItemId : null;
+            billRequisitionMaster.Projects = await _service.GetProjectList(CompanyInfo.CompanyId);
 
-            billRequisitionMaster.BNEApprovalStatus = model.BNEApprovalStatus;
+            if (model.BoQDivisionId > 0)
+            {
+                var data = await _service.GetBoqListByProjectId(model.ProjectId);
+                billRequisitionMaster.BoqDivisionsSelectList = new SelectList(data, "BoqDivisionId", "Name");
+                billRequisitionMaster.BoQDivisionId = model.BoQDivisionId;
+            }
+            if (model.BoQItemId > 0)
+            {
+                var boqItemList = await _service.GetBoqListByDivisionId(model.BoQDivisionId ?? 0);
+                billRequisitionMaster.BoqItemSelectList = model.BoQDivisionId > 0 ? new SelectList(boqItemList, "BoQItemId", "Name") : default;
+                billRequisitionMaster.BoQItemId = model.BoQItemId;
+            }
 
-            billRequisitionMaster = await _service.FilteredBudgetAndEstimatingApprovalList(model.ProjectId, model.BoQDivisionId, model.BoQItemId, model.BNEApprovalStatus);
-            billRequisitionMaster.Projects = ProjectList;
+
+            billRequisitionMaster.ApprovalStatus = (int)model.BNEApprovalStatus;
+
+
             return View(billRequisitionMaster);
         }
         [HttpPost]
-        public async Task<ActionResult> BudgetAndEstimatingApprovalList(BillRequisitionItemBoQMapModel masterModel)
+        public async Task<ActionResult> BudgetAndEstimatingApprovalProcess(BillRequisitionItemBoQMapModel masterModel)
         {
 
             //// BillRequisitionItemBoQMapModel billRequisitionMaster= new BillRequisitionItemBoQMapModel();
@@ -716,13 +724,10 @@ namespace KGERP.Controllers
             //}
             if (masterModel != null)
             {
-                //await _service.BoqAndEstimatingItemApproved(masterModel);
-
-                //billRequisitionMasterModel.VoucherPaymentStatus = await _service.GetRequisitionVoucherStatusMd(billRequisitionMasterId);
-                //billRequisitionMaster.DetailDataList = billRequisitionMaster.DetailList.ToList();
+                masterModel.BoQItemProductMapId = await _service.BoqAndEstimatingItemApproved(masterModel);
             }
 
-            return RedirectToAction(nameof(BudgetAndEstimatingApproveSlave), new { companyId = CompanyInfo.CompanyId, BoQItemProductMapId = masterModel.BoQItemProductMapId });
+            return RedirectToAction(nameof(BudgetAndEstimatingApproval), new { BillRequisitionItemBoQMapModel = masterModel });
         }
 
 
@@ -757,6 +762,23 @@ namespace KGERP.Controllers
             }
 
             return RedirectToAction(nameof(BudgetAndEstimatingApproveSlave), new { companyId = CompanyInfo.CompanyId, BoQItemProductMapId = masterModel.BoQItemProductMapId });
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> BudgetAndEstimatingRevisedApprove(BillRequisitionItemBoQMapModel masterModel)
+        {
+
+            
+            long result = -1;
+            if (masterModel != null)
+            {
+              
+
+                result = await _service.BoqAndEstimatingRevisedItemApproved(masterModel);
+              
+            }
+
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
 

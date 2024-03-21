@@ -75,7 +75,8 @@ namespace KGERP.Service.Interface
         Task<bool> IsBoqBudgetExistByBoqId(long boqItemId, long materialId);
         Task<BillRequisitionMasterModel> GetBoqAndBudgetDetailWithApproval(int companyId = 21, int boqMapId = 0);
         Task<BillRequisitionItemBoQMapModel> FilteredBudgetAndEstimatingApprovalList(int projectId = 0, long? boqDivisionId = 0,int? BoqItemId=0, EnumBudgetAndEstimatingApprovalStatus approvalStatus=default );
-        Task<long> BoqAndEstimatingItemApproved(BillRequisitionMasterModel masterModel);
+        Task<long> BoqAndEstimatingItemApproved(BillRequisitionItemBoQMapModel masterModel);
+        Task<long> BoqAndEstimatingRevisedItemApproved(BillRequisitionItemBoQMapModel masterModel);
 
         #endregion
 
