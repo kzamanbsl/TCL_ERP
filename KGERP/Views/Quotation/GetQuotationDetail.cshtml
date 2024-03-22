@@ -5,12 +5,26 @@
     ViewData["Title"] = "Quotation List";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
+    KGERP.Service.ServiceModel.QuotationMasterModel searchData = TempData["QuotationModel"] as KGERP.Service.ServiceModel.QuotationMasterModel;
     int sl = 0;
 }
 
 <style type="text/css">
     input, select, textarea {
         max-width: 100%;
+    }
+
+    .ui-datepicker-trigger {
+        width: 37px !important;
+        height: 33px !important;
+        margin-left: 5px !important;
+    }
+
+    .dateCustom {
+        width: 82% !important;
+        border-radius: 1px !important;
+        border: 1px solid #d2d6de !important;
+        height: 33px !important;
     }
 </style>
 
@@ -42,26 +56,29 @@
                             @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyId" })
 
                             <div class="row">
-
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        @Html.Label("From Date:", htmlAttributes: new { @class = "control-label" })
-                                        <br />
-                                        @Html.EditorFor(model => model.QuotationFromDate, new { htmlAttributes = new { @class = "datepicker", @autocomplete = "off" } })
+                                        <label class="form-label">Search For<sup class="text-danger" title="Required">*</sup></label>
+                                        @Html.DropDownListFor(model => model.QuotationFor, Model.QuotationForList as SelectList, "==Search For==", new { id = "ddlregissterFor", @class = "form-control ddlReset searchingDropdown", style = "width:100%", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.QuotationFor, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="form-label">Quotation Date From<sup class="text-danger" title="Required">*</sup></label>
+                                        <input name="QuotationFromDate" asp-for="QuotationFromDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker w-100 dateCustom" autocomplete="off" id="txtFromDate">
                                         @Html.ValidationMessageFor(model => model.QuotationFromDate, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        @Html.Label("To Date:", htmlAttributes: new { @class = "control-label" })
-                                        <br />
-                                        @Html.EditorFor(model => model.QuotationToDate, new { htmlAttributes = new { @class = "datepicker", @autocomplete = "off" } })
+                                        <label class="form-label">Quotation Date To<sup class="text-danger" title="Required">*</sup></label>
+                                        <input name="QuotationToDate" asp-for="QuotationToDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker w-100 dateCustom" autocomplete="off" id="txtToDate">
                                         @Html.ValidationMessageFor(model => model.QuotationToDate, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
 
-                                <div class="col-md-3" style="padding: 0px 2px 0px 8px;">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label>&nbsp;</label>
                                         <button type="submit" id="btnSave" class="btn btn-primary btn-block">Search</button>
@@ -88,61 +105,123 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var item in Model.DataList)
+                                    @if (searchData != null)
                                     {
-                                        <tr>
-                                            <td>@(++sl)</td>
-                                            <td>
-                                                <a class="text-primary" target="_blank" href="~/Quotation/QuotationMasterSlave?companyId=@item.CompanyFK&quotationMasterId=@item.QuotationMasterId">
-                                                    @item.QuotationNo
-                                                </a>
-                                            </td>
-                                            <td>@item.QuotationName</td>
-                                            <td>
-                                                @if (item.RequisitionNo != null)
-                                                {
-                                                    <a class="text-primary" target="_blank" href="~/BillRequisition/BillRequisitionMasterSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.RequisitionId">
-                                                        @item.RequisitionNo
+                                        foreach (var item in searchData.DataList)
+                                        {
+                                            <tr>
+                                                <td>@(++sl)</td>
+                                                <td>
+                                                    <a class="text-primary" target="_blank" href="~/Quotation/QuotationMasterSlave?companyId=@item.CompanyFK&quotationMasterId=@item.QuotationMasterId">
+                                                        @item.QuotationNo
                                                     </a>
-                                                }
-                                                else
-                                                {
-                                                    <center class="text-center text-secondary">General Quotation</center>
-                                                }
-                                            </td>
-                                            <td>@item.SupplierName</td>
-                                            <td style="text-align: right;">@String.Format("{0:0.00}", item.TotalAmount)</td>
-                                            <td>
-                                                @if (item.StatusId == (int)EnumQuotationStatus.Draft)
-                                                {
-                                                    <span class="btn btn-xs btn-warning text-center" style="display: block; padding-left: 7px; padding-right: 7px;">@EnumQuotationStatus.Draft</span>
-                                                }
-                                                else
-                                                {
-                                                    <span class="btn btn-xs btn-primary text-center" style="display: block; padding-left: 7px; padding-right: 7px;">@EnumQuotationStatus.Submitted</span>
-                                                }
-                                            </td>
-                                            <td>
-                                                @if (item.StatusId == (int)EnumQuotationStatus.Draft)
-                                                {
-                                                    <a href="~/Quotation/QuotationMasterSlave?companyId=@item.CompanyFK&quotationMasterId=@item.QuotationMasterId" class="link-primary text-primary" title="Action for Submit"><i class="fa fa-external-link-square" aria-hidden="true"></i> Action</a>
-                                                    <span> | </span>
-                                                    <a id="@item.QuotationMasterId" onclick="MakeDeletable(@item.QuotationMasterId)" data-toggle="modal" data-target="#deleteFoodCustomerOrderModal" data-placement="top" class="link-primary text-danger linkPointer" title="Action for Delete" style="cursor: pointer !important;">Delete</a>
-                                                }
-                                                else
-                                                {
-                                                    <a href="~/Quotation/QuotationMasterSlave?companyId=@item.CompanyFK&quotationMasterId=@item.QuotationMasterId" class="link-primary text-warning" title="Action for Details"><i class="fa fa-external-link-square" aria-hidden="true"></i> Action</a>
-                                                    <span> | </span>
-                                                    <a id="@item.QuotationMasterId" class="link-primary text-danger linkPointer disabled" title="Disabled">Delete</a>
-                                                }
-                                            </td>
-                                            @*<td>
-                                                    <a class="label label-primary text-center" target="_blank" href="~/Report/TCLBillRequisiontReport?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId">
-                                                        <i class="fa fa-download"></i> Download
-                                                    </a>
-                                                </td>*@
-                                        </tr>
+                                                </td>
+                                                <td>@item.QuotationName</td>
+                                                <td>
+                                                    @if (item.RequisitionNo != null)
+                                                    {
+                                                        <a class="text-primary" target="_blank" href="~/BillRequisition/BillRequisitionMasterSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.RequisitionId">
+                                                            @item.RequisitionNo
+                                                        </a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <center class="text-center text-secondary">General Quotation</center>
+                                                    }
+                                                </td>
+                                                <td>@item.SupplierName</td>
+                                                <td style="text-align: right;">@String.Format("{0:0.00}", item.TotalAmount)</td>
+                                                <td>
+                                                    @if (item.StatusId == (int)EnumQuotationStatus.Draft)
+                                                    {
+                                                        <span class="btn btn-xs btn-warning text-center" style="display: block; padding-left: 7px; padding-right: 7px;">@EnumQuotationStatus.Draft</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="btn btn-xs btn-primary text-center" style="display: block; padding-left: 7px; padding-right: 7px;">@EnumQuotationStatus.Submitted</span>
+                                                    }
+                                                </td>
+                                                <td>
+                                                    @if (item.StatusId == (int)EnumQuotationStatus.Draft)
+                                                    {
+                                                        <a href="~/Quotation/QuotationMasterSlave?companyId=@item.CompanyFK&quotationMasterId=@item.QuotationMasterId" class="link-primary text-primary" title="Action for Submit"><i class="fa fa-external-link-square" aria-hidden="true"></i> Action</a>
+                                                        <span> | </span>
+                                                        <a id="@item.QuotationMasterId" onclick="MakeDeletable(@item.QuotationMasterId)" data-toggle="modal" data-target="#deleteFoodCustomerOrderModal" data-placement="top" class="link-primary text-danger linkPointer" title="Action for Delete" style="cursor: pointer !important;">Delete</a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a href="~/Quotation/QuotationMasterSlave?companyId=@item.CompanyFK&quotationMasterId=@item.QuotationMasterId" class="link-primary text-warning" title="Action for Details"><i class="fa fa-external-link-square" aria-hidden="true"></i> Action</a>
+                                                        <span> | </span>
+                                                        <a id="@item.QuotationMasterId" class="link-primary text-danger linkPointer disabled" title="Disabled">Delete</a>
+                                                    }
+                                                </td>
+                                                @*<td>
+                                                        <a class="label label-primary text-center" target="_blank" href="~/Report/TCLBillRequisiontReport?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId">
+                                                            <i class="fa fa-download"></i> Download
+                                                        </a>
+                                                    </td>*@
+                                            </tr>
+                                        }
                                     }
+                                    else
+                                    {
+                                        foreach (var item in Model.DataList)
+                                        {
+                                            <tr>
+                                                <td>@(++sl)</td>
+                                                <td>
+                                                    <a class="text-primary" target="_blank" href="~/Quotation/QuotationMasterSlave?companyId=@item.CompanyFK&quotationMasterId=@item.QuotationMasterId">
+                                                        @item.QuotationNo
+                                                    </a>
+                                                </td>
+                                                <td>@item.QuotationName</td>
+                                                <td>
+                                                    @if (item.RequisitionNo != null)
+                                                    {
+                                                        <a class="text-primary" target="_blank" href="~/BillRequisition/BillRequisitionMasterSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.RequisitionId">
+                                                            @item.RequisitionNo
+                                                        </a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <center class="text-center text-secondary">General Quotation</center>
+                                                    }
+                                                </td>
+                                                <td>@item.SupplierName</td>
+                                                <td style="text-align: right;">@String.Format("{0:0.00}", item.TotalAmount)</td>
+                                                <td>
+                                                    @if (item.StatusId == (int)EnumQuotationStatus.Draft)
+                                                    {
+                                                        <span class="btn btn-xs btn-warning text-center" style="display: block; padding-left: 7px; padding-right: 7px;">@EnumQuotationStatus.Draft</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="btn btn-xs btn-primary text-center" style="display: block; padding-left: 7px; padding-right: 7px;">@EnumQuotationStatus.Submitted</span>
+                                                    }
+                                                </td>
+                                                <td>
+                                                    @if (item.StatusId == (int)EnumQuotationStatus.Draft)
+                                                    {
+                                                        <a href="~/Quotation/QuotationMasterSlave?companyId=@item.CompanyFK&quotationMasterId=@item.QuotationMasterId" class="link-primary text-primary" title="Action for Submit"><i class="fa fa-external-link-square" aria-hidden="true"></i> Action</a>
+                                                        <span> | </span>
+                                                        <a id="@item.QuotationMasterId" onclick="MakeDeletable(@item.QuotationMasterId)" data-toggle="modal" data-target="#deleteFoodCustomerOrderModal" data-placement="top" class="link-primary text-danger linkPointer" title="Action for Delete" style="cursor: pointer !important;">Delete</a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a href="~/Quotation/QuotationMasterSlave?companyId=@item.CompanyFK&quotationMasterId=@item.QuotationMasterId" class="link-primary text-warning" title="Action for Details"><i class="fa fa-external-link-square" aria-hidden="true"></i> Action</a>
+                                                        <span> | </span>
+                                                        <a id="@item.QuotationMasterId" class="link-primary text-danger linkPointer disabled" title="Disabled">Delete</a>
+                                                    }
+                                                </td>
+                                                @*<td>
+                                                        <a class="label label-primary text-center" target="_blank" href="~/Report/TCLBillRequisiontReport?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId">
+                                                            <i class="fa fa-download"></i> Download
+                                                        </a>
+                                                    </td>*@
+                                            </tr>
+                                        }
+                                    }
+
                                 </tbody>
                             </table>
                         </div>
@@ -202,7 +281,6 @@
 @section scripts {
 
     <script type="text/javascript">
-
         $('.datepicker').datepicker({
             dateFormat: "dd/mm/yy",
             showOn: 'both',
@@ -212,32 +290,10 @@
             yearRange: "2001:+50"
         });
 
-        function resetForm() {
-
-            $('#dealerDamageEditForm')[0].reset();
-            $('#DMEditActionId').val(1);
-        }
-
         function MakeDeletable(rowId) {
             $('#hiddenQuotationMasterId').val(rowId);
             $('#hiddenCompanyFK').val(@Model.CompanyFK);
             $('#deleteActionId').val(3);
         }
-
-        function DateCustom(orderDate) {
-
-            var dateString = orderDate.substr(6);
-            var currentTime = new Date(parseInt(dateString));
-            var month = currentTime.getMonth() + 1;
-            if (month < 10) {
-                month = "0" + month;
-            }
-
-            var day = currentTime.getDate();
-            var year = currentTime.getFullYear();
-            var date = year + "-" + month + "-" + day;
-            return date;
-        }
-
     </script>
 }

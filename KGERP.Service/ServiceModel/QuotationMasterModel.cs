@@ -28,8 +28,6 @@ namespace KGERP.Service.ServiceModel
         public decimal TotalAmount { get; set; }
         public DateTime QuotationFromDate { get; set; }
         public DateTime QuotationToDate { get; set; }
-        public string QuotationFromDateString { get; set; }
-        public string QuotationToDateString { get; set; }
         public SelectList QuotationForList { get; set; } = new SelectList(Enum.GetValues(typeof(EnumQuotationFor)).Cast<EnumQuotationFor>().Select(e => new SelectListItem { Text = e.ToString(), Value = ((int)e).ToString() }), "Value", "Text");
         public SelectList RequisitionList { get; set; } = new SelectList(new List<object>());
         public IEnumerable<QuotationMasterModel> DataList { get; set; } = new List<QuotationMasterModel>();

@@ -107,15 +107,23 @@ namespace KGERP.Controllers
 
         #region Quotation List
         [HttpGet]
-        public async Task<ActionResult> GetQuotationDetail(int companyId, DateTime? fromDate, DateTime? toDate)
+        public async Task<ActionResult> GetQuotationDetail(int companyId)
         {
-            if (!fromDate.HasValue) fromDate = DateTime.Now.AddMonths(-2);
-            if (!toDate.HasValue) toDate = DateTime.Now;
-
             QuotationMasterModel viewData = new QuotationMasterModel();
-            viewData = await _Service.GetQuotationList(fromDate, toDate);
+            viewData = await _Service.GetQuotationList();
             viewData.CompanyFK = companyId;
             return View(viewData);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> QuotationSearch(QuotationMasterModel model)
+        {
+            QuotationMasterModel viewData = new QuotationMasterModel();
+            viewData.CompanyFK = model.CompanyFK;
+            viewData = await _Service.GetQuotationListByDate(model);
+            TempData["QuotationModel"] = viewData;
+
+            return RedirectToAction(nameof(GetQuotationDetail), new { companyId = viewData.CompanyFK, fromDate = model.QuotationFromDate, ToDate = model.QuotationToDate });
         }
         #endregion
     }
