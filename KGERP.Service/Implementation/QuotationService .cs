@@ -386,5 +386,116 @@ namespace KGERP.Service.Implementation
 
             return quotationMasterModel;
         }
+
+        public async Task<QuotationCompareModel> GetComparedQuotation(long quotationIdOne, long quotationIdTwo)
+        {
+            QuotationCompareModel quotationCompareModel = new QuotationCompareModel();
+
+            QuotationMasterModel masterDataOne = await GetQuotationMaster(quotationIdOne);
+            QuotationMasterModel masterDataTwo = await GetQuotationMaster(quotationIdTwo);
+
+            quotationCompareModel.QuotationMasterModel.Add(masterDataOne);
+            quotationCompareModel.QuotationMasterModel.Add(masterDataTwo);
+
+            return quotationCompareModel;
+        }
+
+        private async Task<QuotationMasterModel> GetQuotationMaster(long quotationId)
+        {
+            var masterData = await (from t1 in _context.QuotationMasters
+                                    where t1.IsActive && t1.QuotationMasterId == quotationId
+                                    join t2 in _context.BillRequisitionMasters on t1.BillRequisitionMasterId equals t2.BillRequisitionMasterId into t2_Join
+                                    from t2 in t2_Join.DefaultIfEmpty()
+                                    join t3 in _context.Vendors on t1.SupplierId equals t3.VendorId into t3_Join
+                                    from t3 in t3_Join.DefaultIfEmpty()
+                                    join t4 in _context.Employees on t1.CreatedBy equals t4.EmployeeId into t4_Join
+                                    from t4 in t4_Join.DefaultIfEmpty()
+                                    select new QuotationMasterModel
+                                    {
+                                        QuotationMasterId = t1.QuotationMasterId,
+                                        QuotationNo = t1.QuotationNo,
+                                        QuotationDate = t1.QutationDate,
+                                        QuotationName = t1.QuotationName,
+                                        SupplierId = t1.SupplierId,
+                                        SupplierName = "[" + t3.Code + "] " + t3.Name,
+                                        RequisitionId = t1.BillRequisitionMasterId,
+                                        RequisitionNo = t2.BillRequisitionNo,
+                                        QuotationFor = (int)(EnumQuotationFor)t1.QuotationForId,
+                                        Description = t1.Description ?? "N/A",
+                                        StatusId = (int)(EnumQuotationStatus)t1.StatusId,
+                                        CreatedDate = t1.CreatedOn,
+                                        CreatedBy = t1.CreatedBy,
+                                        EmployeeName = t1.CreatedBy + " - " + t4.Name,
+                                        CompanyFK = 21
+                                    }).FirstOrDefaultAsync();
+
+            if (masterData != null)
+            {
+                var detailData = await (from t1 in _context.QuotationDetails
+                                        where t1.QuotationMasterId == quotationId
+                                        join t2 in _context.Products on t1.MaterialId equals t2.ProductId into t2_Join
+                                        from t2 in t2_Join.DefaultIfEmpty()
+                                        join t3 in _context.ProductSubCategories on t2.ProductSubCategoryId equals t3.ProductSubCategoryId into t3_Join
+                                        from t3 in t3_Join.DefaultIfEmpty()
+                                        join t4 in _context.ProductCategories on t3.ProductCategoryId equals t4.ProductCategoryId into t4_Join
+                                        from t4 in t4_Join.DefaultIfEmpty()
+                                        join t5 in _context.Units on t2.UnitId equals t5.UnitId into t5_Join
+                                        from t5 in t5_Join.DefaultIfEmpty()
+                                        select new QuotationDetailModel
+                                        {
+                                            QuotationDetailId = t1.QuotationDetailId,
+                                            QuotationMasterId = t1.QuotationMasterId,
+                                            MaterialId = t1.MaterialId,
+                                            MaterialName = t2.ProductName,
+                                            MaterialSubtypeId = t3.ProductSubCategoryId,
+                                            MaterialSubtypeName = t3.Name,
+                                            MaterialTypeId = t4.ProductCategoryId,
+                                            MaterialTypeName = t4.Name,
+                                            UnitId = t5.UnitId,
+                                            UnitName = t5.Name,
+                                            MaterialQualityId = (int)(EnumMaterialQuality)t1.MaterialQuality,
+                                            Quantity = t1.Quantity,
+                                            UnitPrice = t1.UnitPrice,
+                                            TotalAmount = t1.TotalAmount,
+                                            Remarks = t1.Remarks,
+                                            CompanyFK = 21
+                                        }).ToListAsync();
+
+                masterData.DetailDataList = detailData;
+            }
+
+            return masterData;
+        }
+
+        public async Task<List<QuotationMasterModel>> GetQuotationListWithNameAndNo()
+        {
+            List<QuotationMasterModel> senddata = await Task.Run(() => (from t1 in _context.QuotationMasters.Where(x => x.IsActive)
+                                                                        join t2 in _context.BillRequisitionMasters on t1.BillRequisitionMasterId equals t2.BillRequisitionMasterId into t2_Join
+                                                                        from t2 in t2_Join.DefaultIfEmpty()
+                                                                        join t3 in _context.Vendors on t1.SupplierId equals t3.VendorId into t3_Join
+                                                                        from t3 in t3_Join.DefaultIfEmpty()
+                                                                        join t4 in _context.Employees on t1.CreatedBy equals t4.EmployeeId into t4_Join
+                                                                        from t4 in t4_Join.DefaultIfEmpty()
+                                                                        select new QuotationMasterModel
+                                                                        {
+                                                                            QuotationMasterId = t1.QuotationMasterId,
+                                                                            QuotationNo = t1.QuotationNo,
+                                                                            QuotationDate = t1.QutationDate,
+                                                                            QuotationName = t1.QuotationName,
+                                                                            QuotationNameWitNo = "[" + t1.QuotationNo + "] " + t1.QuotationName,
+                                                                            SupplierId = t1.SupplierId,
+                                                                            SupplierName = "[" + t3.Code + "] " + t3.Name,
+                                                                            RequisitionId = t1.BillRequisitionMasterId,
+                                                                            RequisitionNo = t2.BillRequisitionNo,
+                                                                            QuotationFor = (int)(EnumQuotationFor)t1.QuotationForId,
+                                                                            Description = t1.Description ?? "N/A",
+                                                                            StatusId = (int)(EnumQuotationStatus)t1.StatusId,
+                                                                            CreatedDate = t1.CreatedOn,
+                                                                            CreatedBy = t1.CreatedBy,
+                                                                            EmployeeName = t1.CreatedBy + " - " + t4.Name,
+                                                                            CompanyFK = 21
+                                                                        }).ToListAsync());
+            return senddata;
+        }
     }
 }

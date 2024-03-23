@@ -126,5 +126,25 @@ namespace KGERP.Controllers
             return RedirectToAction(nameof(GetQuotationDetail), new { companyId = viewData.CompanyFK, fromDate = model.QuotationFromDate, ToDate = model.QuotationToDate });
         }
         #endregion
+
+        #region Comparative Statement
+        [HttpGet]
+        public async Task<ActionResult> ComparativeStatement(int companyId)
+        {
+            QuotationCompareModel viewData = new QuotationCompareModel();
+            viewData.CompanyFK = companyId;
+            viewData.QuotationList = new SelectList(await _Service.GetQuotationListWithNameAndNo(), "QuotationMasterId", "QuotationNameWitNo");
+            return View(viewData);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CompareQuotation(QuotationCompareModel model)
+        {
+            QuotationCompareModel viewData = new QuotationCompareModel();
+            viewData = await _Service.GetComparedQuotation(model.QuotationIdOne, model.QuotationIdTwo);
+            TempData["CompareModel"] = viewData;
+            return RedirectToAction(nameof(ComparativeStatement), new { companyId = 21, QuotationIdOne = model.QuotationIdOne, QuotationIdTwo = model.QuotationIdTwo });
+        }
+        #endregion
     }
 }

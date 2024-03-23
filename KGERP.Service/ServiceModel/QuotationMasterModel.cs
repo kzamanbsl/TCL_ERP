@@ -13,11 +13,12 @@ namespace KGERP.Service.ServiceModel
 {
     public class QuotationMasterModel : BaseVM
     {
-        public long QuotationMasterId{ get; set; }
+        public long QuotationMasterId { get; set; }
         public string QuotationNo { get; set; }
         public DateTime QuotationDate { get; set; }
         public int QuotationFor { get; set; }
         public string QuotationName { get; set; }
+        public string QuotationNameWitNo { get; set; }
         public long SupplierId { get; set; }
         public string SupplierName { get; set; }
         public int StatusId { get; set; }
@@ -59,9 +60,14 @@ namespace KGERP.Service.ServiceModel
         public SelectList MaterialQualityList { get; set; } = new SelectList(Enum.GetValues(typeof(EnumMaterialQuality)).Cast<EnumMaterialQuality>().Select(e => new SelectListItem { Text = e.ToString(), Value = ((int)e).ToString() }), "Value", "Text");
     }
 
-    public partial class QuotationCompareModel
+    public partial class QuotationCompareModel : BaseVM
     {
         public long QuotationDetailId { get; set; }
         public long QuotationMasterId { get; set; }
+        public long QuotationIdOne { get; set; }
+        public long QuotationIdTwo { get; set; }
+        public string[] HeadingName { get; set; }
+        public SelectList QuotationList { get; set; } = new SelectList(new List<object>());
+        public List<QuotationMasterModel> QuotationMasterModel { get; set; } = new List<QuotationMasterModel>();
     }
 }

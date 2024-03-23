@@ -14,6 +14,7 @@ namespace KGERP.Service.Interface
         Task<QuotationMasterModel> GetQuotationMasterDetail(int companyId, long quotationMasterId);
         Task<long> SubmitQuotationMaster(long quotationMasterId);
         Task<QuotationMasterModel> GetQuotationList();
+        Task<List<QuotationMasterModel>> GetQuotationListWithNameAndNo();
         Task<QuotationMasterModel> GetQuotationListByDate(QuotationMasterModel model);
         Task<bool> QuotationMasterDelete(long id);
         #endregion
@@ -23,6 +24,10 @@ namespace KGERP.Service.Interface
         long QuotationDetailEdit(QuotationMasterModel model);
         Task<QuotationDetailModel> QuotationDetailBbyId(long id);
         Task<long> QuotationDetailDelete(long id);
+        #endregion
+
+        #region Comparatative Statement
+        Task<QuotationCompareModel> GetComparedQuotation(long quotationIdOne, long quotationIdTwo);
         #endregion
     }
 }
