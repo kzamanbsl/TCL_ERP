@@ -705,7 +705,7 @@ namespace KGERP.Controllers
             }
 
 
-            billRequisitionMaster.ApprovalStatus = (int)model.BNEApprovalStatus;
+            billRequisitionMaster.ApprovalStatus = ((int)model.BNEApprovalStatus)??0;
 
 
             return View(billRequisitionMaster);
