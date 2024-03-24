@@ -66,8 +66,15 @@ namespace KGERP.Service.ServiceModel
         public long QuotationMasterId { get; set; }
         public long QuotationIdOne { get; set; }
         public long QuotationIdTwo { get; set; }
-        public string[] HeadingName { get; set; }
         public SelectList QuotationList { get; set; } = new SelectList(new List<object>());
         public List<QuotationMasterModel> QuotationMasterModel { get; set; } = new List<QuotationMasterModel>();
+    }
+
+    public partial class QuotationTypeModel : BaseVM
+    {
+        public long QuotationTypeId { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public List<QuotationTypeModel> QuotationTypeList { get; set; }
     }
 }

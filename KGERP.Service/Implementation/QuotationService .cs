@@ -497,5 +497,89 @@ namespace KGERP.Service.Implementation
                                                                         }).ToListAsync());
             return senddata;
         }
+
+        #region  Project Type
+
+        public async Task<List<QuotationTypeModel>> GetQuotationTypeList(int companyId)
+        {
+            var projectTypes = await _context.Accounting_CostCenterType
+                .Where(c => c.CompanyId == companyId && c.IsActive)
+                .ToListAsync();
+
+            var returnData = projectTypes.Select(projectType => new QuotationTypeModel
+            {
+                QuotationTypeId = projectType.CostCenterTypeId,
+                Name = projectType.Name,
+                CompanyFK = projectType.CompanyId,
+                CreatedBy = projectType.CreatedBy,
+                CreatedDate = projectType.CreatedDate,
+                ModifiedBy = projectType.ModifiedBy,
+            }).ToList();
+
+            return returnData;
+        }
+
+        public async Task<bool> Add(QuotationTypeModel model)
+        {
+            if (model != null)
+            {
+                QuotationTypeModel data = new QuotationTypeModel()
+                {
+                    Name = model.Name,
+                    CompanyFK = (int)model.CompanyFK,
+                    IsActive = true,
+                    CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                    CreatedDate = DateTime.Now,
+                };
+
+                //_context.Accounting_CostCenterType.Add(data);
+                var count = await _context.SaveChangesAsync();
+
+                return count > 0;
+            }
+            return false;
+        }
+
+        public async Task<bool> Edit(QuotationTypeModel model)
+        {
+            if (model != null)
+            {
+                var findCostCenterType = await _context.Accounting_CostCenterType.FirstOrDefaultAsync(c => c.CostCenterTypeId == model.ID);
+
+                if (findCostCenterType != null)
+                {
+                    findCostCenterType.Name = model.Name;
+                    findCostCenterType.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                    findCostCenterType.ModifiedDate = DateTime.Now.ToString();
+                    var count = await _context.SaveChangesAsync();
+
+                    model.CompanyFK = findCostCenterType.CompanyId;
+
+                    return count > 0;
+                }
+            }
+            return false;
+        }
+
+        public async Task<bool> Delete(QuotationTypeModel model)
+        {
+            if (model.QuotationTypeId > 0)
+            {
+                var findCostCenterType = await _context.Accounting_CostCenterType.FirstOrDefaultAsync(c => c.CostCenterTypeId == model.QuotationTypeId);
+
+                if (findCostCenterType != null)
+                {
+                    findCostCenterType.IsActive = false;
+                    findCostCenterType.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                    findCostCenterType.ModifiedDate = DateTime.Now.ToString();
+                    var count = await _context.SaveChangesAsync();
+
+                    return count > 0;
+                }
+            }
+            return false;
+        }
+
+        #endregion
     }
 }

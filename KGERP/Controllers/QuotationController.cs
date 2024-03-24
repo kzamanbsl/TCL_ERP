@@ -17,6 +17,7 @@ using Remotion.Data.Linq;
 using Ninject.Activation;
 using KGERP.Data.CustomModel;
 using KGERP.Data.Models;
+using System.Windows.Media;
 
 namespace KGERP.Controllers
 {
@@ -35,6 +36,42 @@ namespace KGERP.Controllers
             _ProductService = productService;
             _RequisitionService = requisitionService;
         }
+
+        #region Quotation Type
+        [HttpGet]
+        public ActionResult QuotationType(int companyId = 0)
+        {
+            QuotationTypeModel viewData = new QuotationTypeModel();
+            viewData.CompanyFK = companyId;
+            return View(viewData);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> QuotationType(QuotationTypeModel model)
+        {
+            if (model.ActionEum == ActionEnum.Add)
+            {
+                // Add 
+                await _Service.Add(model);
+            }
+            else if (model.ActionEum == ActionEnum.Edit)
+            {
+                // Edit
+                await _Service.Edit(model);
+            }
+            else if (model.ActionEum == ActionEnum.Delete)
+            {
+                // Delete
+                await _Service.Delete(model);
+            }
+            else
+            {
+                return View("Error");
+            }
+
+            return RedirectToAction(nameof(QuotationType), new { companyId = model.CompanyFK });
+        }
+        #endregion
 
         #region Quotation CRUD
         [HttpGet]
