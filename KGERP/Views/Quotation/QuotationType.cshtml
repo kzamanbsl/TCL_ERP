@@ -31,10 +31,6 @@
                         @Html.AntiForgeryToken()
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         <div class="box-danger">
-                            @*<div class="box-header">
-                                    <h4>Add DamageType</h4>
-                                </div>*@
-                            <!-- /.box-header -->
                             <div class="box-body">
                                 @Html.HiddenFor(model => model.ID, new { Value = "", id = "BillRequisitionTypeId" })
                                 @Html.HiddenFor(model => model.ActionId, new { Value = "", id = "ActionId" })
@@ -115,7 +111,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </section>
 }
