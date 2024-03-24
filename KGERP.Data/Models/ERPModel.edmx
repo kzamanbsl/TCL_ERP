@@ -5014,6 +5014,25 @@ warning 6002: The table/view 'TCLErp.Erp.FormulaHistory' does not have a primary
           <Property Name="ModifiedOn" Type="datetime" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'TCLErp.Erp.QuotationType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="QuotationType">
+          <Key>
+            <PropertyRef Name="QuotationTypeId" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="CreatedBy" />
+            <PropertyRef Name="CreatedOn" />
+            <PropertyRef Name="IsActive" />
+          </Key>
+          <Property Name="QuotationTypeId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="varchar(max)" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="Region">
           <Key>
             <PropertyRef Name="RegionId" />
@@ -9682,6 +9701,18 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
     [FormulaHistory].[CompanyId] AS [CompanyId]
     FROM [Erp].[FormulaHistory] AS [FormulaHistory]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="QuotationType" EntityType="Self.QuotationType" store:Type="Tables" store:Schema="Erp">
+            <DefiningQuery>SELECT 
+    [QuotationType].[QuotationTypeId] AS [QuotationTypeId], 
+    [QuotationType].[Name] AS [Name], 
+    [QuotationType].[Description] AS [Description], 
+    [QuotationType].[CreatedBy] AS [CreatedBy], 
+    [QuotationType].[CreatedOn] AS [CreatedOn], 
+    [QuotationType].[ModifiedBy] AS [ModifiedBy], 
+    [QuotationType].[ModifiedOn] AS [ModifiedOn], 
+    [QuotationType].[IsActive] AS [IsActive]
+    FROM [Erp].[QuotationType] AS [QuotationType]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="RequisitionItemDetail" EntityType="Self.RequisitionItemDetail" store:Type="Tables" store:Schema="Erp">
             <DefiningQuery>SELECT 
     [RequisitionItemDetail].[RequistionItemDetailId] AS [RequistionItemDetailId], 
@@ -12332,6 +12363,7 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             <End Role="QuotationMaster" EntitySet="QuotationMasters" />
             <End Role="QuotationDetail" EntitySet="QuotationDetails" />
           </AssociationSet>
+          <EntitySet Name="QuotationTypes" EntityType="ERPModel.QuotationType" />
           </EntityContainer>
         <EntityType Name="AdminPolicy">
           <Key>
@@ -22166,6 +22198,23 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="QuotationType">
+          <Key>
+            <PropertyRef Name="QuotationTypeId" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="CreatedBy" />
+            <PropertyRef Name="CreatedOn" />
+            <PropertyRef Name="IsActive" />
+          </Key>
+          <Property Name="QuotationTypeId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -28267,6 +28316,20 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
                 <ScalarProperty Name="QuotationNo" ColumnName="QuotationNo" />
                 <ScalarProperty Name="QutationDate" ColumnName="QutationDate" />
                 <ScalarProperty Name="QuotationMasterId" ColumnName="QuotationMasterId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QuotationTypes">
+            <EntityTypeMapping TypeName="ERPModel.QuotationType">
+              <MappingFragment StoreEntitySet="QuotationType">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="QuotationTypeId" ColumnName="QuotationTypeId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
