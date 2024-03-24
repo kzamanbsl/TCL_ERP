@@ -5014,15 +5014,9 @@ warning 6002: The table/view 'TCLErp.Erp.FormulaHistory' does not have a primary
           <Property Name="ModifiedOn" Type="datetime" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp.Erp.QuotationType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="QuotationType">
           <Key>
             <PropertyRef Name="QuotationTypeId" />
-            <PropertyRef Name="Name" />
-            <PropertyRef Name="CreatedBy" />
-            <PropertyRef Name="CreatedOn" />
-            <PropertyRef Name="IsActive" />
           </Key>
           <Property Name="QuotationTypeId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
@@ -9328,6 +9322,7 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <EntitySet Name="PurchaseReturnDetail" EntityType="Self.PurchaseReturnDetail" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="QuotationDetail" EntityType="Self.QuotationDetail" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="QuotationMaster" EntityType="Self.QuotationMaster" Schema="Erp" store:Type="Tables" />
+          <EntitySet Name="QuotationType" EntityType="Self.QuotationType" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="Region" EntityType="Self.Region" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="RentProduction" EntityType="Self.RentProduction" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="RentProductionDetail" EntityType="Self.RentProductionDetail" Schema="Erp" store:Type="Tables" />
@@ -9700,18 +9695,6 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
     [FormulaHistory].[CreatedBy] AS [CreatedBy], 
     [FormulaHistory].[CompanyId] AS [CompanyId]
     FROM [Erp].[FormulaHistory] AS [FormulaHistory]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="QuotationType" EntityType="Self.QuotationType" store:Type="Tables" store:Schema="Erp">
-            <DefiningQuery>SELECT 
-    [QuotationType].[QuotationTypeId] AS [QuotationTypeId], 
-    [QuotationType].[Name] AS [Name], 
-    [QuotationType].[Description] AS [Description], 
-    [QuotationType].[CreatedBy] AS [CreatedBy], 
-    [QuotationType].[CreatedOn] AS [CreatedOn], 
-    [QuotationType].[ModifiedBy] AS [ModifiedBy], 
-    [QuotationType].[ModifiedOn] AS [ModifiedOn], 
-    [QuotationType].[IsActive] AS [IsActive]
-    FROM [Erp].[QuotationType] AS [QuotationType]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="RequisitionItemDetail" EntityType="Self.RequisitionItemDetail" store:Type="Tables" store:Schema="Erp">
             <DefiningQuery>SELECT 
@@ -22201,10 +22184,6 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
         <EntityType Name="QuotationType">
           <Key>
             <PropertyRef Name="QuotationTypeId" />
-            <PropertyRef Name="Name" />
-            <PropertyRef Name="CreatedBy" />
-            <PropertyRef Name="CreatedOn" />
-            <PropertyRef Name="IsActive" />
           </Key>
           <Property Name="QuotationTypeId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />

@@ -521,6 +521,7 @@ namespace KGERP.Service.Implementation
             QuotationType data = new QuotationType()
             {
                 Name = model.Name,
+                Description = model.Description,
                 IsActive = true,
                 CreatedBy = HttpContext.Current.User.Identity.Name,
                 CreatedOn = DateTime.Now,
@@ -544,6 +545,7 @@ namespace KGERP.Service.Implementation
             if (findCostCenterType != null)
             {
                 findCostCenterType.Name = model.Name;
+                findCostCenterType.Description = model.Description;
                 findCostCenterType.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
                 findCostCenterType.ModifiedOn = DateTime.Now;
 
