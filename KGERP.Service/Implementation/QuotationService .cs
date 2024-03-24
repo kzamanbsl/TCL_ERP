@@ -505,7 +505,7 @@ namespace KGERP.Service.Implementation
             List<QuotationTypeModel> sendData = await Task.Run(() => (from t1 in _context.QuotationTypes.Where(x => x.IsActive)
                                                                       select new QuotationTypeModel
                                                                       {
-                                                                          QuotationTypeId = t1.QuotationTypeId,
+                                                                          QuotationForId = t1.QuotationTypeId,
                                                                           Name = t1.Name,
                                                                           Description = t1.Description ?? "N/A",
                                                                           CreatedDate = t1.CreatedOn,
@@ -546,7 +546,7 @@ namespace KGERP.Service.Implementation
             {
                 findCostCenterType.Name = model.Name;
                 findCostCenterType.Description = model.Description;
-                findCostCenterType.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                findCostCenterType.ModifiedBy = HttpContext.Current.User.Identity.Name;
                 findCostCenterType.ModifiedOn = DateTime.Now;
 
                 if (await _context.SaveChangesAsync() > 0)
@@ -561,11 +561,11 @@ namespace KGERP.Service.Implementation
         {
             bool result = false;
 
-            var findCostCenterType = _context.QuotationTypes.FirstOrDefault(c => c.QuotationTypeId == model.QuotationTypeId);
+            var findCostCenterType = _context.QuotationTypes.FirstOrDefault(c => c.QuotationTypeId == model.QuotationForId);
             if (findCostCenterType != null)
             {
                 findCostCenterType.IsActive = false;
-                findCostCenterType.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                findCostCenterType.ModifiedBy = HttpContext.Current.User.Identity.Name;
                 findCostCenterType.ModifiedOn = DateTime.Now;
                 var count = await _context.SaveChangesAsync();
 

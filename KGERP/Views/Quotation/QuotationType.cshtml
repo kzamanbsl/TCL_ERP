@@ -1,6 +1,6 @@
 ﻿@model KGERP.Service.ServiceModel.QuotationTypeModel
 @{
-    ViewData["Title"] = "Quotation Type";
+    ViewData["Title"] = "Quotation For";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -12,16 +12,16 @@
 <section class="content-header">
     <h1>
         <span>
-            Quotation Type
+            Quotation For
         </span>
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">Quotation Type</li>
+        <li class="active">Quotation For</li>
     </ol>
 </section>
 
-@using (Html.BeginForm("QuotationType", "Quotation", FormMethod.Post, new { id = "BillRequisitionTypeFormId", @class = "formValidator", onreset = "resetDDL();" }))
+@using (Html.BeginForm("QuotationType", "Quotation", FormMethod.Post, new { id = "QuotationForFormId", @class = "formValidator", onreset = "resetDDL();" }))
 {
     <section class="content">
         <div class="row">
@@ -32,19 +32,19 @@
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         <div class="box-danger">
                             <div class="box-body">
-                                @Html.HiddenFor(model => model.ID, new { Value = "", id = "BillRequisitionTypeId" })
+                                @Html.HiddenFor(model => model.ID, new { Value = "", id = "QuotationForId" })
                                 @Html.HiddenFor(model => model.ActionId, new { Value = "", id = "ActionId" })
                                 @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
 
                                 <div class="form-group">
-                                    <label asp-for="Name" class="form-control-label">Quotatio Type Name<sup class="text-danger" title="Required"><b>*</b></sup></label>
-                                    @Html.TextBoxFor(model => model.Name, new { id = "txtRequisitionTypeName", @class = "form-control", @placeholder = "Requisition Type Name", required = "true" })
+                                    <label class="form-label">Name<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                    @Html.TextBoxFor(model => model.Name, new { id = "txtQuotationForName", @class = "form-control", @placeholder = "Quotation For Name", required = "true" })
                                     @Html.ValidationMessageFor(model => model.Name, "", new { id = "nameExist", @class = "text-danger" })
                                 </div>
 
                                 <div class="form-group">
-                                    <label asp-for="Description" class="form-control-label">Description</label>
-                                    @Html.TextAreaFor(model => model.Description, new { id = "txtRequisitionTypeDescription", @class = "form-control", @placeholder = "Requisition Type Description", required = "true" })
+                                    <label class="form-label">Description</label>
+                                    @Html.TextAreaFor(model => model.Description, new { id = "txtQuotationForDescription", @class = "form-control", @placeholder = "Type description here"})
                                     @Html.ValidationMessageFor(model => model.Description, "", new { id = "nameExist", @class = "text-danger" })
                                 </div>
                                 <div class="form-group">
@@ -74,7 +74,7 @@
                                         <thead>
                                             <tr>
                                                 <th>SL</th>
-                                                <th>Requisition Type Name</th>
+                                                <th>Name</th>
                                                 <th>Description</th>
                                                 <th>Action</th>
                                             </tr>
@@ -86,14 +86,14 @@
                                                 <tr>
                                                     <td>
                                                         @(++sl)
-                                                        <input type="hidden" id="requisitionType_@item.QuotationTypeId" name="BillRequisitionTypeId" value="@item.QuotationTypeId" />
+                                                        <input type="hidden" id="QuotationFor_@item.QuotationForId" name="QuotationForId" value="@item.QuotationForId" />
                                                     </td>
-                                                    <td id="tdRequisitionTypeName_@item.QuotationTypeId">@item.Name</td>
-                                                    <td id="tdRequisitionTypeDescription_@item.QuotationTypeId">@item.Description</td>
+                                                    <td id="tdQuotationForName_@item.QuotationForId">@item.Name</td>
+                                                    <td id="tdQuotationForDescription_@item.QuotationForId">@item.Description</td>
                                                     <td>
-                                                        <a id="@item.QuotationTypeId" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
+                                                        <a id="@item.QuotationForId" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
 
-                                                        <a id="@item.QuotationTypeId" onclick="makeDeletable(@item.QuotationTypeId);" class="linkPointer" data-toggle="modal" data-target="#BillRequisitionTypeDeleteModal" title="Delete"
+                                                        <a id="@item.QuotationForId" onclick="makeDeletable(@item.QuotationForId);" class="linkPointer" data-toggle="modal" data-target="#QuotationForDeleteModal" title="Delete"
                                                            data-placement="top">
                                                             <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
                                                         </a>
@@ -115,14 +115,14 @@
     </section>
 }
 
-@using (Html.BeginForm("QuotationType", "Quotation", FormMethod.Post, new { id = "BillRequisitionTypeFormId", @class = "formValidator", onreset = "resetDDL();" }))
+@using (Html.BeginForm("QuotationType", "Quotation", FormMethod.Post, new { id = "DeleteQuotationForFormId", @class = "formValidator", onreset = "resetDDL();" }))
 {
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    @Html.HiddenFor(model => model.QuotationTypeId, new { Value = "", id = "BillRequisitionTypeIdDelete" })
+    @Html.HiddenFor(model => model.QuotationForId, new { Value = "", id = "quotationForIdDelete" })
     @Html.HiddenFor(model => model.ActionId, new { Value = "", id = "ActionIdDelete" })
     @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFKDelete" })
 
-    <div class="modal fade" id="BillRequisitionTypeDeleteModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
+    <div class="modal fade" id="QuotationForDeleteModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -130,7 +130,6 @@
                         &times;
                     </button>
                     <h5 class="modal-title"><b>Quotation Type Delete</b></h5>
-
                 </div>
                 <div class="modal-body">
                     <div style="text-align:center">
@@ -156,11 +155,11 @@
         function makeEditble(elem) {
             if (elem !== null) {
                 var rowId = elem.id;
-                $('#BillRequisitionTypeId').val(rowId);
+                $('#QuotationForId').val(rowId);
                 $('#ActionId').val(2);
                 $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Update");
-                $('#txtRequisitionTypeName').val($('#tdRequisitionTypeName_' + rowId).text().trim());
-                $('#txtRequisitionTypeDescription').val($('#tdRequisitionTypeDescription_' + rowId).text().trim());
+                $('#txtQuotationForName').val($('#tdQuotationForName_' + rowId).text().trim());
+                $('#txtQuotationForDescription').val($('#tdQuotationForDescription_' + rowId).text().trim());
                 window.scrollTo({ top: 0, behavior: 'smooth' });
 
             }
@@ -168,14 +167,15 @@
 
         function makeDeletable(id) {
             if (id !== null) {
-                $('#BillRequisitionTypeIdDelete').val(id);
+                $('#quotationForIdDelete').val(id);
                 $('#ActionIdDelete').val(3);
                 $("#CompanyFKDelete").val("@Model.CompanyFK");
             }
         }
 
         function resetForm() {
-            $('#BillRequisitionTypeFormId')[0].reset();
+            $('#QuotationForFormId')[0].reset();
+            $('#DeleteQuotationForFormId')[0].reset();
             $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Add");
         }
     </script>

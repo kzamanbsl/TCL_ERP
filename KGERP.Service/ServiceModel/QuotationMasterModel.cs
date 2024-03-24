@@ -72,7 +72,7 @@ namespace KGERP.Service.ServiceModel
 
     public partial class QuotationTypeModel : BaseVM
     {
-        public long QuotationTypeId { get; set; }
+        public long QuotationForId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public List<QuotationTypeModel> QuotationTypeList { get; set; } = new List<QuotationTypeModel>();
