@@ -469,7 +469,7 @@ namespace KGERP.Service.Implementation
 
         public async Task<List<QuotationMasterModel>> GetQuotationListWithNameAndNo()
         {
-            List<QuotationMasterModel> senddata = await Task.Run(() => (from t1 in _context.QuotationMasters.Where(x => x.IsActive)
+            List<QuotationMasterModel> sendData = await Task.Run(() => (from t1 in _context.QuotationMasters.Where(x => x.IsActive)
                                                                         join t2 in _context.BillRequisitionMasters on t1.BillRequisitionMasterId equals t2.BillRequisitionMasterId into t2_Join
                                                                         from t2 in t2_Join.DefaultIfEmpty()
                                                                         join t3 in _context.Vendors on t1.SupplierId equals t3.VendorId into t3_Join
@@ -495,89 +495,84 @@ namespace KGERP.Service.Implementation
                                                                             EmployeeName = t1.CreatedBy + " - " + t4.Name,
                                                                             CompanyFK = 21
                                                                         }).ToListAsync());
-            return senddata;
+            return sendData;
         }
 
         #region  Project Type
 
         public async Task<List<QuotationTypeModel>> GetQuotationTypeList(int companyId)
         {
-            var projectTypes = await _context.Accounting_CostCenterType
-                .Where(c => c.CompanyId == companyId && c.IsActive)
-                .ToListAsync();
-
-            var returnData = projectTypes.Select(projectType => new QuotationTypeModel
-            {
-                QuotationTypeId = projectType.CostCenterTypeId,
-                Name = projectType.Name,
-                CompanyFK = projectType.CompanyId,
-                CreatedBy = projectType.CreatedBy,
-                CreatedDate = projectType.CreatedDate,
-                ModifiedBy = projectType.ModifiedBy,
-            }).ToList();
-
-            return returnData;
+            List<QuotationTypeModel> sendData = await Task.Run(() => (from t1 in _context.QuotationTypes.Where(x => x.IsActive)
+                                                                      select new QuotationTypeModel
+                                                                      {
+                                                                          QuotationTypeId = t1.QuotationTypeId,
+                                                                          Name = t1.Name,
+                                                                          Description = t1.Description ?? "N/A",
+                                                                          CreatedDate = t1.CreatedOn,
+                                                                          CreatedBy = t1.CreatedBy,
+                                                                          CompanyFK = 21
+                                                                      }).ToListAsync());
+            return sendData;
         }
 
         public async Task<bool> Add(QuotationTypeModel model)
         {
-            if (model != null)
+            bool result = false;
+            QuotationType data = new QuotationType()
             {
-                QuotationTypeModel data = new QuotationTypeModel()
-                {
-                    Name = model.Name,
-                    CompanyFK = (int)model.CompanyFK,
-                    IsActive = true,
-                    CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
-                    CreatedDate = DateTime.Now,
-                };
+                Name = model.Name,
+                IsActive = true,
+                CreatedBy = HttpContext.Current.User.Identity.Name,
+                CreatedOn = DateTime.Now,
+            };
 
-                //_context.Accounting_CostCenterType.Add(data);
-                var count = await _context.SaveChangesAsync();
+            _context.QuotationTypes.Add(data);
 
-                return count > 0;
+            if (await _context.SaveChangesAsync() > 0)
+            {
+                result = true;
             }
-            return false;
+
+            return result;
         }
 
         public async Task<bool> Edit(QuotationTypeModel model)
         {
-            if (model != null)
+            bool result = false;
+
+            var findCostCenterType = _context.QuotationTypes.FirstOrDefault(c => c.QuotationTypeId == model.ID);
+            if (findCostCenterType != null)
             {
-                var findCostCenterType = await _context.Accounting_CostCenterType.FirstOrDefaultAsync(c => c.CostCenterTypeId == model.ID);
+                findCostCenterType.Name = model.Name;
+                findCostCenterType.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                findCostCenterType.ModifiedOn = DateTime.Now;
 
-                if (findCostCenterType != null)
+                if (await _context.SaveChangesAsync() > 0)
                 {
-                    findCostCenterType.Name = model.Name;
-                    findCostCenterType.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
-                    findCostCenterType.ModifiedDate = DateTime.Now.ToString();
-                    var count = await _context.SaveChangesAsync();
-
-                    model.CompanyFK = findCostCenterType.CompanyId;
-
-                    return count > 0;
+                    result = true;
                 }
             }
-            return false;
+            return result;
         }
 
         public async Task<bool> Delete(QuotationTypeModel model)
         {
-            if (model.QuotationTypeId > 0)
+            bool result = false;
+
+            var findCostCenterType = _context.QuotationTypes.FirstOrDefault(c => c.QuotationTypeId == model.QuotationTypeId);
+            if (findCostCenterType != null)
             {
-                var findCostCenterType = await _context.Accounting_CostCenterType.FirstOrDefaultAsync(c => c.CostCenterTypeId == model.QuotationTypeId);
+                findCostCenterType.IsActive = false;
+                findCostCenterType.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                findCostCenterType.ModifiedOn = DateTime.Now;
+                var count = await _context.SaveChangesAsync();
 
-                if (findCostCenterType != null)
+                if (await _context.SaveChangesAsync() > 0)
                 {
-                    findCostCenterType.IsActive = false;
-                    findCostCenterType.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
-                    findCostCenterType.ModifiedDate = DateTime.Now.ToString();
-                    var count = await _context.SaveChangesAsync();
-
-                    return count > 0;
+                    result = true;
                 }
             }
-            return false;
+            return result;
         }
 
         #endregion

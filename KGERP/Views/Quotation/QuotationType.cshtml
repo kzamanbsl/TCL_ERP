@@ -37,13 +37,13 @@
                                 @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
 
                                 <div class="form-group">
-                                    <label asp-for="Name" class="form-control-label">Requisition Type Name :</label>
+                                    <label asp-for="Name" class="form-control-label">Quotatio Type Name<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                     @Html.TextBoxFor(model => model.Name, new { id = "txtRequisitionTypeName", @class = "form-control", @placeholder = "Requisition Type Name", required = "true" })
                                     @Html.ValidationMessageFor(model => model.Name, "", new { id = "nameExist", @class = "text-danger" })
                                 </div>
 
                                 <div class="form-group">
-                                    <label asp-for="Description" class="form-control-label">Description :</label>
+                                    <label asp-for="Description" class="form-control-label">Description</label>
                                     @Html.TextAreaFor(model => model.Description, new { id = "txtRequisitionTypeDescription", @class = "form-control", @placeholder = "Requisition Type Description", required = "true" })
                                     @Html.ValidationMessageFor(model => model.Description, "", new { id = "nameExist", @class = "text-danger" })
                                 </div>
@@ -129,7 +129,7 @@
                     <button type="button" onclick="resetForm()" class="close pull-right" data-dismiss="modal" aria-label="Close">
                         &times;
                     </button>
-                    <h5 class="modal-title"><b>Bill Requisition Type Delete</b></h5>
+                    <h5 class="modal-title"><b>Quotation Type Delete</b></h5>
 
                 </div>
                 <div class="modal-body">

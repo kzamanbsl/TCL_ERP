@@ -39,10 +39,11 @@ namespace KGERP.Controllers
 
         #region Quotation Type
         [HttpGet]
-        public ActionResult QuotationType(int companyId = 0)
+        public async Task<ActionResult> QuotationType(int companyId = 0)
         {
             QuotationTypeModel viewData = new QuotationTypeModel();
             viewData.CompanyFK = companyId;
+            viewData.QuotationTypeList = await _Service.GetQuotationTypeList(companyId);
             return View(viewData);
         }
 

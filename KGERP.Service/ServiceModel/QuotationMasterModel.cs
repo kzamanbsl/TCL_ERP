@@ -75,6 +75,6 @@ namespace KGERP.Service.ServiceModel
         public long QuotationTypeId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public List<QuotationTypeModel> QuotationTypeList { get; set; }
+        public List<QuotationTypeModel> QuotationTypeList { get; set; } = new List<QuotationTypeModel>();
     }
 }
