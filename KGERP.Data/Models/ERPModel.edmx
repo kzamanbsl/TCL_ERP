@@ -5014,6 +5014,19 @@ warning 6002: The table/view 'TCLErp.Erp.FormulaHistory' does not have a primary
           <Property Name="ModifiedOn" Type="datetime" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="QuotationType">
+          <Key>
+            <PropertyRef Name="QuotationTypeId" />
+          </Key>
+          <Property Name="QuotationTypeId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="varchar(max)" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="Region">
           <Key>
             <PropertyRef Name="RegionId" />
@@ -9309,6 +9322,7 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <EntitySet Name="PurchaseReturnDetail" EntityType="Self.PurchaseReturnDetail" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="QuotationDetail" EntityType="Self.QuotationDetail" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="QuotationMaster" EntityType="Self.QuotationMaster" Schema="Erp" store:Type="Tables" />
+          <EntitySet Name="QuotationType" EntityType="Self.QuotationType" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="Region" EntityType="Self.Region" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="RentProduction" EntityType="Self.RentProduction" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="RentProductionDetail" EntityType="Self.RentProductionDetail" Schema="Erp" store:Type="Tables" />
@@ -12332,6 +12346,7 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             <End Role="QuotationMaster" EntitySet="QuotationMasters" />
             <End Role="QuotationDetail" EntitySet="QuotationDetails" />
           </AssociationSet>
+          <EntitySet Name="QuotationTypes" EntityType="ERPModel.QuotationType" />
           </EntityContainer>
         <EntityType Name="AdminPolicy">
           <Key>
@@ -22166,6 +22181,19 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="QuotationType">
+          <Key>
+            <PropertyRef Name="QuotationTypeId" />
+          </Key>
+          <Property Name="QuotationTypeId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -28267,6 +28295,20 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
                 <ScalarProperty Name="QuotationNo" ColumnName="QuotationNo" />
                 <ScalarProperty Name="QutationDate" ColumnName="QutationDate" />
                 <ScalarProperty Name="QuotationMasterId" ColumnName="QuotationMasterId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QuotationTypes">
+            <EntityTypeMapping TypeName="ERPModel.QuotationType">
+              <MappingFragment StoreEntitySet="QuotationType">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="QuotationTypeId" ColumnName="QuotationTypeId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

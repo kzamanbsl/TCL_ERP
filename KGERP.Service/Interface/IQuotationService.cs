@@ -9,6 +9,13 @@ namespace KGERP.Service.Interface
 {
     public interface IQuotationService
     {
+        #region Quotation Type
+        Task<bool> Add(QuotationTypeModel model);
+        Task<bool> Edit(QuotationTypeModel model);
+        Task<bool> Delete(QuotationTypeModel model);
+        Task<List<QuotationTypeModel>> GetQuotationTypeList(int companyId);
+        #endregion
+
         #region Quotation Master
         Task<long> QuotationMasterAdd(QuotationMasterModel model);
         Task<QuotationMasterModel> GetQuotationMasterDetail(int companyId, long quotationMasterId);

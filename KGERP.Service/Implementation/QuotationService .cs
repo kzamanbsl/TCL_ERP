@@ -469,7 +469,7 @@ namespace KGERP.Service.Implementation
 
         public async Task<List<QuotationMasterModel>> GetQuotationListWithNameAndNo()
         {
-            List<QuotationMasterModel> senddata = await Task.Run(() => (from t1 in _context.QuotationMasters.Where(x => x.IsActive)
+            List<QuotationMasterModel> sendData = await Task.Run(() => (from t1 in _context.QuotationMasters.Where(x => x.IsActive)
                                                                         join t2 in _context.BillRequisitionMasters on t1.BillRequisitionMasterId equals t2.BillRequisitionMasterId into t2_Join
                                                                         from t2 in t2_Join.DefaultIfEmpty()
                                                                         join t3 in _context.Vendors on t1.SupplierId equals t3.VendorId into t3_Join
@@ -495,7 +495,88 @@ namespace KGERP.Service.Implementation
                                                                             EmployeeName = t1.CreatedBy + " - " + t4.Name,
                                                                             CompanyFK = 21
                                                                         }).ToListAsync());
-            return senddata;
+            return sendData;
         }
+
+        #region  Project Type
+
+        public async Task<List<QuotationTypeModel>> GetQuotationTypeList(int companyId)
+        {
+            List<QuotationTypeModel> sendData = await Task.Run(() => (from t1 in _context.QuotationTypes.Where(x => x.IsActive)
+                                                                      select new QuotationTypeModel
+                                                                      {
+                                                                          QuotationTypeId = t1.QuotationTypeId,
+                                                                          Name = t1.Name,
+                                                                          Description = t1.Description ?? "N/A",
+                                                                          CreatedDate = t1.CreatedOn,
+                                                                          CreatedBy = t1.CreatedBy,
+                                                                          CompanyFK = 21
+                                                                      }).ToListAsync());
+            return sendData;
+        }
+
+        public async Task<bool> Add(QuotationTypeModel model)
+        {
+            bool result = false;
+            QuotationType data = new QuotationType()
+            {
+                Name = model.Name,
+                Description = model.Description,
+                IsActive = true,
+                CreatedBy = HttpContext.Current.User.Identity.Name,
+                CreatedOn = DateTime.Now,
+            };
+
+            _context.QuotationTypes.Add(data);
+
+            if (await _context.SaveChangesAsync() > 0)
+            {
+                result = true;
+            }
+
+            return result;
+        }
+
+        public async Task<bool> Edit(QuotationTypeModel model)
+        {
+            bool result = false;
+
+            var findCostCenterType = _context.QuotationTypes.FirstOrDefault(c => c.QuotationTypeId == model.ID);
+            if (findCostCenterType != null)
+            {
+                findCostCenterType.Name = model.Name;
+                findCostCenterType.Description = model.Description;
+                findCostCenterType.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                findCostCenterType.ModifiedOn = DateTime.Now;
+
+                if (await _context.SaveChangesAsync() > 0)
+                {
+                    result = true;
+                }
+            }
+            return result;
+        }
+
+        public async Task<bool> Delete(QuotationTypeModel model)
+        {
+            bool result = false;
+
+            var findCostCenterType = _context.QuotationTypes.FirstOrDefault(c => c.QuotationTypeId == model.QuotationTypeId);
+            if (findCostCenterType != null)
+            {
+                findCostCenterType.IsActive = false;
+                findCostCenterType.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                findCostCenterType.ModifiedOn = DateTime.Now;
+                var count = await _context.SaveChangesAsync();
+
+                if (await _context.SaveChangesAsync() > 0)
+                {
+                    result = true;
+                }
+            }
+            return result;
+        }
+
+        #endregion
     }
 }

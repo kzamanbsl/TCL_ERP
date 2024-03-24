@@ -163,7 +163,7 @@
                                                     <td class="text-center">@String.Format("{0:0.00}", item.ReceivedSoFar)</td>
                                                     @if (Model.BillRequisitionTypeId != (int)EnumBillRequisitionType.Overhead)
                                                     {
-                                                        <td class="text-center">@String.Format("{0:0.00}", item.RemainingQty)</td>
+                                                        <td class="text-center remainingValue">@String.Format("{0:0.00}", item.RemainingQty)</td>
                                                     }
                                                     <td class="text-center">
                                                         @if (Model.StatusName == EnumBillRequisitionStatus.Pending.ToString() && Model.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.QS).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
