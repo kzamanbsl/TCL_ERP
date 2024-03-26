@@ -143,6 +143,14 @@
                             @if (Model.QuotationMasterId == 0)
                             {
                                 <div class="row">
+                                    <div class="col-md-4" id="inputDate">
+                                        <label class="form-label">Quotation Date<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                        <div class="form-group">
+                                            <input name="QuotationDate" asp-for="QuotationDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker w-100 dateCustom" autocomplete="off" id="txtQuotationDate">
+                                            @Html.ValidationMessageFor(model => model.QuotationDate, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
                                     <div class="col-md-4" id="inputQuotationFor">
                                         <div class="form-group">
                                             <label class="form-label">Qutation Type<sup class="text-danger" title="Required"><b>*</b></sup></label>
@@ -153,25 +161,9 @@
 
                                     <div class="col-md-4" id="inputQuotationFor">
                                         <div class="form-group">
-                                            <label class="form-label">Qutation Type<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                            <label class="form-label">Qutation For<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                             @Html.DropDownListFor(model => model.QuotationForId, Model.QuotationForList as SelectList, "==Select Quotation For==", new { id = "ddlQuotationFor", @class = "form-control searchingDropdown", @required = "true" })
                                             @Html.ValidationMessageFor(model => model.QuotationForId, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-4" id="inputDate">
-                                        <label class="form-label">Quotation Date<sup class="text-danger" title="Required"><b>*</b></sup></label>
-                                        <div class="form-group">
-                                            <input name="StartDate" asp-for="StartDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker w-100 dateCustom" autocomplete="off" id="txtQuotationDate">
-                                            @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-4" id="inputDate">
-                                        <label class="form-label">Quotation Date<sup class="text-danger" title="Required"><b>*</b></sup></label>
-                                        <div class="form-group">
-                                            <input name="EndDate" asp-for="EndDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker w-100 dateCustom" autocomplete="off" id="txtQuotationDate">
-                                            @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
 
@@ -180,6 +172,14 @@
                                             <label class="form-label">Select Requisition<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                             @Html.DropDownListFor(model => model.RequisitionId, Model.RequisitionList as SelectList, "==Select Requisition==", new { id = "ddlRequisitionId", @class = "form-control searchingDropdown", style = "width:100%", @required = "true" })
                                             @Html.ValidationMessageFor(model => model.RequisitionId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4" id="inputDate">
+                                        <label class="form-label">Submission Start Date<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                        <div class="form-group">
+                                            <input name="StartDate" asp-for="StartDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker w-100 dateCustom" autocomplete="off" id="txtQuotationDate">
+                                            @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
 

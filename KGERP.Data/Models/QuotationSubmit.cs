@@ -16,8 +16,8 @@ namespace KGERP.Data.Models
     {
         public long QuotationSubmitId { get; set; }
         public long QuotationMasterId { get; set; }
-        public long SupplierId { get; set; }
-        public long MaterialId { get; set; }
+        public int SupplierId { get; set; }
+        public int MaterialId { get; set; }
         public decimal UnitPrice { get; set; }
         public string Remarks { get; set; }
         public string CreatedBy { get; set; }
@@ -25,5 +25,9 @@ namespace KGERP.Data.Models
         public string ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedOn { get; set; }
         public bool IsActive { get; set; }
+    
+        public virtual Product Product { get; set; }
+        public virtual QuotationMaster QuotationMaster { get; set; }
+        public virtual Vendor Vendor { get; set; }
     }
 }

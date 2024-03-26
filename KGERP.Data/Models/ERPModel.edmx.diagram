@@ -580,12 +580,17 @@
         <AssociationConnector Association="ERPModel.FK_BillRequisitionItemBoQMap_BillBoQItem" />
         <AssociationConnector Association="ERPModel.FK_BoqBNEApprovalHistroy_BoQItemProductMap" />
         <AssociationConnector Association="ERPModel.FK_BoQItemProductMap_Product" />
-        <EntityTypeShape EntityType="ERPModel.QuotationDetail" Width="1.5" PointX="51.5" PointY="20.5" />
-        <EntityTypeShape EntityType="ERPModel.QuotationFor" Width="1.5" PointX="41.375" PointY="2.75" />
-        <EntityTypeShape EntityType="ERPModel.QuotationMaster" Width="1.5" PointX="49.25" PointY="54.125" />
-        <EntityTypeShape EntityType="ERPModel.QuotationSubmit" Width="1.5" PointX="37.375" PointY="41.75" />
+        <EntityTypeShape EntityType="ERPModel.QuotationDetail" Width="1.5" PointX="76.875" PointY="46" />
+        <EntityTypeShape EntityType="ERPModel.QuotationFor" Width="1.5" PointX="69.375" PointY="68.375" />
+        <EntityTypeShape EntityType="ERPModel.QuotationMaster" Width="1.5" PointX="71.625" PointY="62.5" />
+        <EntityTypeShape EntityType="ERPModel.QuotationSubmit" Width="1.5" PointX="76.875" PointY="40.875" />
+        <AssociationConnector Association="ERPModel.FK_QuotationMaster_BillRequisitionMaster" />
         <AssociationConnector Association="ERPModel.FK_QuotationDetail_Product" />
-        <AssociationConnector Association="ERPModel.FK_QuotationDetail_QuotationMaster" />
+        <AssociationConnector Association="ERPModel.FK_QuotationSubmit_QuotationSubmit1" />
+        <AssociationConnector Association="ERPModel.FK_QuotationDetail_QuotationMaster1" />
+        <AssociationConnector Association="ERPModel.FK_QuotationMaster_QuotationFor" />
+        <AssociationConnector Association="ERPModel.FK_QuotationSubmit_QuotationMaster" />
+        <AssociationConnector Association="ERPModel.FK_QuotationSubmit_QuotationSubmit" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

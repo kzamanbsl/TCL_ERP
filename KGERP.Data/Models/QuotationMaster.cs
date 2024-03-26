@@ -18,6 +18,7 @@ namespace KGERP.Data.Models
         public QuotationMaster()
         {
             this.QuotationDetails = new HashSet<QuotationDetail>();
+            this.QuotationSubmits = new HashSet<QuotationSubmit>();
         }
     
         public long QuotationMasterId { get; set; }
@@ -27,7 +28,7 @@ namespace KGERP.Data.Models
         public long QuotationForId { get; set; }
         public long BillRequisitionMasterId { get; set; }
         public System.DateTime StartDate { get; set; }
-        public System.DateTime EndDate { get; set; }
+        public Nullable<System.DateTime> EndDate { get; set; }
         public string Description { get; set; }
         public int StatusId { get; set; }
         public string CreatedBy { get; set; }
@@ -36,7 +37,11 @@ namespace KGERP.Data.Models
         public Nullable<System.DateTime> ModifiedOn { get; set; }
         public bool IsActive { get; set; }
     
+        public virtual BillRequisitionMaster BillRequisitionMaster { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<QuotationDetail> QuotationDetails { get; set; }
+        public virtual QuotationFor QuotationFor { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<QuotationSubmit> QuotationSubmits { get; set; }
     }
 }

@@ -84,6 +84,7 @@ namespace KGERP.Controllers
                 viewData.CompanyFK = companyId;
                 viewData.StatusId = (int)EnumQuotationStatus.Draft;
                 viewData.RequisitionList = new SelectList(_RequisitionService.ApprovedRequisitionList(companyId), "Value", "Text");
+                viewData.QuotationForList = new SelectList(await _Service.GetQuotationTypeList(companyId), "QuotationForId", "Name");
             }
             else
             {

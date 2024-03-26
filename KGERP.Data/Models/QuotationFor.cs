@@ -14,6 +14,12 @@ namespace KGERP.Data.Models
     
     public partial class QuotationFor
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public QuotationFor()
+        {
+            this.QuotationMasters = new HashSet<QuotationMaster>();
+        }
+    
         public long QuotationForId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
@@ -22,5 +28,8 @@ namespace KGERP.Data.Models
         public string ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedOn { get; set; }
         public bool IsActive { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<QuotationMaster> QuotationMasters { get; set; }
     }
 }
