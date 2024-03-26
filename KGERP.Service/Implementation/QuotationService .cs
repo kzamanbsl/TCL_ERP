@@ -103,11 +103,11 @@ namespace KGERP.Service.Implementation
             QuotationMaster quotationMaster = new QuotationMaster
             {
                 QuotationNo = GetUniqueQuotationNo(),
+                QuotationDate = model.QuotationDate,
                 QuotationTypeId = model.QuotationTypeId,
                 QuotationForId = model.QuotationForId,
                 BillRequisitionMasterId = model.RequisitionId,
                 StartDate = model.StartDate,
-                EndDate = model.EndDate,
                 Description = model.Description,
                 StatusId = (int)model.StatusId,
                 CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
