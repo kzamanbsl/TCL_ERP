@@ -36,7 +36,8 @@ namespace KGERP.Utility
     {
         Draft = 1,
         Submitted,
-        Accepted
+        Accepted,
+        Closed
     }
 
     public enum EnumChequeRegisterFor
@@ -47,7 +48,7 @@ namespace KGERP.Utility
         Requisition
     }
 
-    public enum EnumQuotationFor
+    public enum EnumQuotationType
     {
         [Display(Name = "General Quotation")]
         General = 1,

@@ -1,4 +1,4 @@
-﻿@model KGERP.Service.ServiceModel.QuotationTypeModel
+﻿@model KGERP.Service.ServiceModel.QuotationForModel
 @{
     ViewData["Title"] = "Quotation For";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -21,7 +21,7 @@
     </ol>
 </section>
 
-@using (Html.BeginForm("QuotationType", "Quotation", FormMethod.Post, new { id = "QuotationForFormId", @class = "formValidator", onreset = "resetDDL();" }))
+@using (Html.BeginForm("QuotationFor", "Quotation", FormMethod.Post, new { id = "QuotationForFormId", @class = "formValidator", onreset = "resetDDL();" }))
 {
     <section class="content">
         <div class="row">
@@ -81,7 +81,7 @@
                                         </thead>
                                         @{int sl = 0;}
                                         <tbody>
-                                            @foreach (var item in Model.QuotationTypeList.OrderBy(order => order.Name))
+                                            @foreach (var item in Model.QuotationForList.OrderBy(order => order.Name))
                                             {
                                                 <tr>
                                                     <td>
@@ -115,7 +115,7 @@
     </section>
 }
 
-@using (Html.BeginForm("QuotationType", "Quotation", FormMethod.Post, new { id = "DeleteQuotationForFormId", @class = "formValidator", onreset = "resetDDL();" }))
+@using (Html.BeginForm("QuotationFor", "Quotation", FormMethod.Post, new { id = "DeleteQuotationForFormId", @class = "formValidator", onreset = "resetDDL();" }))
 {
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     @Html.HiddenFor(model => model.QuotationForId, new { Value = "", id = "quotationForIdDelete" })

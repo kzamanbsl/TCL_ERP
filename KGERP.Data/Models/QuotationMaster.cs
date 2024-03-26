@@ -21,14 +21,15 @@ namespace KGERP.Data.Models
         }
     
         public long QuotationMasterId { get; set; }
-        public System.DateTime QutationDate { get; set; }
+        public System.DateTime QuotationDate { get; set; }
         public string QuotationNo { get; set; }
-        public string QuotationName { get; set; }
-        public int QuotationForId { get; set; }
-        public long SupplierId { get; set; }
+        public int QuotationTypeId { get; set; }
+        public long QuotationForId { get; set; }
         public long BillRequisitionMasterId { get; set; }
-        public int StatusId { get; set; }
+        public System.DateTime StartDate { get; set; }
+        public System.DateTime EndDate { get; set; }
         public string Description { get; set; }
+        public int StatusId { get; set; }
         public string CreatedBy { get; set; }
         public System.DateTime CreatedOn { get; set; }
         public string ModifiedBy { get; set; }

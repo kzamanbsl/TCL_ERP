@@ -31,9 +31,9 @@ namespace KGERP.Service.Implementation
 
 
             quotationMasterModel = await Task.Run(() => (from t1 in _context.QuotationMasters.Where(x => x.IsActive && x.QuotationMasterId == quotationMasterId)
-                                                         join t2 in _context.BillRequisitionMasters on t1.BillRequisitionMasterId equals t2.BillRequisitionMasterId into t2_Join
+                                                         join t2 in _context.QuotationFors on t1.QuotationForId equals t2.QuotationForId into t2_Join
                                                          from t2 in t2_Join.DefaultIfEmpty()
-                                                         join t3 in _context.Vendors on t1.SupplierId equals t3.VendorId into t3_Join
+                                                         join t3 in _context.BillRequisitionMasters on t1.BillRequisitionMasterId equals t3.BillRequisitionMasterId into t3_Join
                                                          from t3 in t3_Join.DefaultIfEmpty()
                                                          join t4 in _context.Employees on t1.CreatedBy equals t4.EmployeeId into t4_Join
                                                          from t4 in t4_Join.DefaultIfEmpty()
@@ -41,13 +41,13 @@ namespace KGERP.Service.Implementation
                                                          {
                                                              QuotationMasterId = t1.QuotationMasterId,
                                                              QuotationNo = t1.QuotationNo,
-                                                             QuotationDate = t1.QutationDate,
-                                                             QuotationName = t1.QuotationName,
-                                                             SupplierId = t1.SupplierId,
-                                                             SupplierName = "[" + t3.Code + "] " + t3.Name,
+                                                             QuotationTypeId = (int)(EnumQuotationType)t1.QuotationTypeId,
+                                                             QuotationForId = t1.QuotationForId,
+                                                             QuotationForName = t2.Name,
                                                              RequisitionId = t1.BillRequisitionMasterId,
-                                                             RequisitionNo = t2.BillRequisitionNo,
-                                                             QuotationFor = (int)(EnumQuotationFor)t1.QuotationForId,
+                                                             RequisitionNo = t3.BillRequisitionNo,
+                                                             StartDate = t1.StartDate,
+                                                             EndDate = t1.EndDate,
                                                              Description = t1.Description ?? "N/A",
                                                              StatusId = (int)(EnumQuotationStatus)t1.StatusId,
                                                              CreatedDate = t1.CreatedOn,
@@ -82,13 +82,11 @@ namespace KGERP.Service.Implementation
                                                                         UnitName = t6.Name,
                                                                         MaterialQualityId = (int)(EnumMaterialQuality)t1.MaterialQuality,
                                                                         Quantity = t1.Quantity,
-                                                                        UnitPrice = t1.UnitPrice,
-                                                                        TotalAmount = t1.TotalAmount,
                                                                         Remarks = t1.Remarks ?? "N/A",
                                                                         CompanyFK = 21
                                                                     }).OrderByDescending(x => x.QuotationDetailId).AsEnumerable());
 
-            quotationMasterModel.TotalAmount = quotationMasterModel.DetailList.Select(x => x.TotalAmount).Sum();
+            //quotationMasterModel.TotalAmount = quotationMasterModel.DetailList.Select(x => x.TotalAmount).Sum();
 
             return quotationMasterModel;
         }
@@ -104,12 +102,12 @@ namespace KGERP.Service.Implementation
 
             QuotationMaster quotationMaster = new QuotationMaster
             {
-                QutationDate = model.QuotationDate,
                 QuotationNo = GetUniqueQuotationNo(),
-                QuotationName = model.QuotationName,
-                SupplierId = model.SupplierId,
-                QuotationForId = model.QuotationFor,
+                QuotationTypeId = model.QuotationTypeId,
+                QuotationForId = model.QuotationForId,
                 BillRequisitionMasterId = model.RequisitionId,
+                StartDate = model.StartDate,
+                EndDate = model.EndDate,
                 Description = model.Description,
                 StatusId = (int)model.StatusId,
                 CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
@@ -130,7 +128,7 @@ namespace KGERP.Service.Implementation
             // Generate Unique Quotation Number
             string GetUniqueQuotationNo()
             {
-                int getLastRowId = _context.QuotationMasters.Where(c => c.QutationDate == model.QuotationDate).Count();
+                int getLastRowId = _context.QuotationMasters.Where(c => c.StartDate == model.QuotationDate).Count();
 
                 string setZeroBeforeLastId(int lastRowId, int length)
                 {
@@ -161,8 +159,6 @@ namespace KGERP.Service.Implementation
                 MaterialId = (int)model.DetailModel.MaterialId,
                 MaterialQuality = model.DetailModel.MaterialQualityId,
                 Quantity = model.DetailModel.Quantity,
-                UnitPrice = model.DetailModel.UnitPrice,
-                TotalAmount = totalPrice,
                 Remarks = model.DetailModel.Remarks,
                 CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
                 CreatedOn = DateTime.Now,
@@ -181,14 +177,11 @@ namespace KGERP.Service.Implementation
         public long QuotationDetailEdit(QuotationMasterModel model)
         {
             long result = -1;
-            decimal totalPrice = model.DetailModel.Quantity * model.DetailModel.UnitPrice;
             QuotationDetail quotationDetail = _context.QuotationDetails.FirstOrDefault(x => x.QuotationDetailId == model.DetailModel.QuotationDetailId);
             quotationDetail.QuotationMasterId = quotationDetail.QuotationMasterId;
             quotationDetail.MaterialId = (int)model.DetailModel.MaterialId;
             quotationDetail.MaterialQuality = model.DetailModel.MaterialQualityId;
             quotationDetail.Quantity = model.DetailModel.Quantity;
-            quotationDetail.UnitPrice = model.DetailModel.UnitPrice;
-            quotationDetail.TotalAmount = totalPrice;
             quotationDetail.Remarks = model.DetailModel.Remarks;
             quotationDetail.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
             quotationDetail.ModifiedOn = DateTime.Now;
@@ -268,8 +261,6 @@ namespace KGERP.Service.Implementation
                                                  UnitName = t6.Name,
                                                  MaterialQualityId = (int)(EnumMaterialQuality)t1.MaterialQuality,
                                                  Quantity = t1.Quantity,
-                                                 UnitPrice = t1.UnitPrice,
-                                                 TotalAmount = t1.TotalAmount,
                                                  Remarks = t1.Remarks,
                                                  CompanyFK = 21,
                                              }).FirstOrDefaultAsync());
@@ -279,20 +270,11 @@ namespace KGERP.Service.Implementation
         public async Task<QuotationMasterModel> GetQuotationList()
         {
             QuotationMasterModel quotationMasterModel = new QuotationMasterModel();
-            var totalPrice = (from t1 in _context.QuotationMasters.Where(x => x.IsActive)
-                              join t2 in _context.QuotationDetails on t1.QuotationMasterId equals t2.QuotationMasterId into t2_Join
-                              from t2 in t2_Join.DefaultIfEmpty()
-                              where t2.IsActive
-                              select new
-                              {
-                                  QuotationMasterId = t1.QuotationMasterId,
-                                  TotalAmount = t2.Quantity * t2.UnitPrice,
-                              }).AsQueryable();
 
             quotationMasterModel.DataList = await Task.Run(() => (from t1 in _context.QuotationMasters.Where(x => x.IsActive)
-                                                                  join t2 in _context.BillRequisitionMasters on t1.BillRequisitionMasterId equals t2.BillRequisitionMasterId into t2_Join
+                                                                  join t2 in _context.QuotationFors on t1.QuotationForId equals t2.QuotationForId into t2_Join
                                                                   from t2 in t2_Join.DefaultIfEmpty()
-                                                                  join t3 in _context.Vendors on t1.SupplierId equals t3.VendorId into t3_Join
+                                                                  join t3 in _context.BillRequisitionMasters on t1.BillRequisitionMasterId equals t3.BillRequisitionMasterId into t3_Join
                                                                   from t3 in t3_Join.DefaultIfEmpty()
                                                                   join t4 in _context.Employees on t1.CreatedBy equals t4.EmployeeId into t4_Join
                                                                   from t4 in t4_Join.DefaultIfEmpty()
@@ -300,22 +282,18 @@ namespace KGERP.Service.Implementation
                                                                   {
                                                                       QuotationMasterId = t1.QuotationMasterId,
                                                                       QuotationNo = t1.QuotationNo,
-                                                                      QuotationDate = t1.QutationDate,
-                                                                      QuotationName = t1.QuotationName,
-                                                                      SupplierId = t1.SupplierId,
-                                                                      SupplierName = "[" + t3.Code + "] " + t3.Name,
+                                                                      QuotationTypeId = (int)(EnumQuotationType)t1.QuotationTypeId,
+                                                                      QuotationForId = t1.QuotationForId,
+                                                                      QuotationForName = t2.Name,
                                                                       RequisitionId = t1.BillRequisitionMasterId,
-                                                                      RequisitionNo = t2.BillRequisitionNo,
-                                                                      QuotationFor = (int)(EnumQuotationFor)t1.QuotationForId,
+                                                                      RequisitionNo = t3.BillRequisitionNo,
+                                                                      StartDate = t1.StartDate,
+                                                                      EndDate = t1.EndDate,
                                                                       Description = t1.Description ?? "N/A",
                                                                       StatusId = (int)(EnumQuotationStatus)t1.StatusId,
                                                                       CreatedDate = t1.CreatedOn,
                                                                       CreatedBy = t1.CreatedBy,
                                                                       EmployeeName = t1.CreatedBy + " - " + t4.Name,
-                                                                      TotalAmount = totalPrice
-                                                                                    .Where(x => x.QuotationMasterId == t1.QuotationMasterId)
-                                                                                    .Select(x => (decimal?)x.TotalAmount)
-                                                                                    .Sum() ?? 0,
                                                                       CompanyFK = 21
                                                                   }).ToListAsync());
 
@@ -342,44 +320,31 @@ namespace KGERP.Service.Implementation
         public async Task<QuotationMasterModel> GetQuotationListByDate(QuotationMasterModel model)
         {
             QuotationMasterModel quotationMasterModel = new QuotationMasterModel();
-            var totalPrice = (from t1 in _context.QuotationMasters.Where(x => x.IsActive)
-                              join t2 in _context.QuotationDetails on t1.QuotationMasterId equals t2.QuotationMasterId into t2_Join
-                              from t2 in t2_Join.DefaultIfEmpty()
-                              where t2.IsActive
-                              select new
-                              {
-                                  QuotationMasterId = t1.QuotationMasterId,
-                                  TotalAmount = t2.Quantity * t2.UnitPrice,
-                              }).AsQueryable();
 
             quotationMasterModel.DataList = await Task.Run(() => (from t1 in _context.QuotationMasters.Where(x => x.IsActive)
-                                                                  join t2 in _context.BillRequisitionMasters on t1.BillRequisitionMasterId equals t2.BillRequisitionMasterId into t2_Join
+                                                                  join t2 in _context.QuotationFors on t1.QuotationForId equals t2.QuotationForId into t2_Join
                                                                   from t2 in t2_Join.DefaultIfEmpty()
-                                                                  join t3 in _context.Vendors on t1.SupplierId equals t3.VendorId into t3_Join
+                                                                  join t3 in _context.BillRequisitionMasters on t1.BillRequisitionMasterId equals t3.BillRequisitionMasterId into t3_Join
                                                                   from t3 in t3_Join.DefaultIfEmpty()
                                                                   join t4 in _context.Employees on t1.CreatedBy equals t4.EmployeeId into t4_Join
                                                                   from t4 in t4_Join.DefaultIfEmpty()
-                                                                  where t1.QutationDate >= model.QuotationFromDate && t1.QutationDate <= model.QuotationToDate
+                                                                  where t1.StartDate >= model.QuotationFromDate && t1.StartDate <= model.QuotationToDate
                                                                   select new QuotationMasterModel
                                                                   {
                                                                       QuotationMasterId = t1.QuotationMasterId,
                                                                       QuotationNo = t1.QuotationNo,
-                                                                      QuotationDate = t1.QutationDate,
-                                                                      QuotationName = t1.QuotationName,
-                                                                      SupplierId = t1.SupplierId,
-                                                                      SupplierName = "[" + t3.Code + "] " + t3.Name,
+                                                                      QuotationTypeId = (int)(EnumQuotationType)t1.QuotationTypeId,
+                                                                      QuotationForId = t1.QuotationForId,
+                                                                      QuotationForName = t2.Name,
                                                                       RequisitionId = t1.BillRequisitionMasterId,
-                                                                      RequisitionNo = t2.BillRequisitionNo,
-                                                                      QuotationFor = (int)(EnumQuotationFor)t1.QuotationForId,
+                                                                      RequisitionNo = t3.BillRequisitionNo,
+                                                                      StartDate = t1.StartDate,
+                                                                      EndDate = t1.EndDate,
                                                                       Description = t1.Description ?? "N/A",
                                                                       StatusId = (int)(EnumQuotationStatus)t1.StatusId,
                                                                       CreatedDate = t1.CreatedOn,
                                                                       CreatedBy = t1.CreatedBy,
                                                                       EmployeeName = t1.CreatedBy + " - " + t4.Name,
-                                                                      TotalAmount = totalPrice
-                                                                                    .Where(x => x.QuotationMasterId == t1.QuotationMasterId)
-                                                                                    .Select(x => (decimal?)x.TotalAmount)
-                                                                                    .Sum() ?? 0,
                                                                       CompanyFK = 21
                                                                   }).ToListAsync());
             quotationMasterModel.CompanyFK = 21;
@@ -402,11 +367,10 @@ namespace KGERP.Service.Implementation
 
         private async Task<QuotationMasterModel> GetQuotationMaster(long quotationId)
         {
-            var masterData = await (from t1 in _context.QuotationMasters
-                                    where t1.IsActive && t1.QuotationMasterId == quotationId
-                                    join t2 in _context.BillRequisitionMasters on t1.BillRequisitionMasterId equals t2.BillRequisitionMasterId into t2_Join
+            var masterData = await (from t1 in _context.QuotationMasters.Where(x => x.IsActive)
+                                    join t2 in _context.QuotationFors on t1.QuotationForId equals t2.QuotationForId into t2_Join
                                     from t2 in t2_Join.DefaultIfEmpty()
-                                    join t3 in _context.Vendors on t1.SupplierId equals t3.VendorId into t3_Join
+                                    join t3 in _context.BillRequisitionMasters on t1.BillRequisitionMasterId equals t3.BillRequisitionMasterId into t3_Join
                                     from t3 in t3_Join.DefaultIfEmpty()
                                     join t4 in _context.Employees on t1.CreatedBy equals t4.EmployeeId into t4_Join
                                     from t4 in t4_Join.DefaultIfEmpty()
@@ -414,13 +378,13 @@ namespace KGERP.Service.Implementation
                                     {
                                         QuotationMasterId = t1.QuotationMasterId,
                                         QuotationNo = t1.QuotationNo,
-                                        QuotationDate = t1.QutationDate,
-                                        QuotationName = t1.QuotationName,
-                                        SupplierId = t1.SupplierId,
-                                        SupplierName = "[" + t3.Code + "] " + t3.Name,
+                                        QuotationTypeId = (int)(EnumQuotationType)t1.QuotationTypeId,
+                                        QuotationForId = t1.QuotationForId,
+                                        QuotationForName = t2.Name,
                                         RequisitionId = t1.BillRequisitionMasterId,
-                                        RequisitionNo = t2.BillRequisitionNo,
-                                        QuotationFor = (int)(EnumQuotationFor)t1.QuotationForId,
+                                        RequisitionNo = t3.BillRequisitionNo,
+                                        StartDate = t1.StartDate,
+                                        EndDate = t1.EndDate,
                                         Description = t1.Description ?? "N/A",
                                         StatusId = (int)(EnumQuotationStatus)t1.StatusId,
                                         CreatedDate = t1.CreatedOn,
@@ -455,8 +419,6 @@ namespace KGERP.Service.Implementation
                                             UnitName = t5.Name,
                                             MaterialQualityId = (int)(EnumMaterialQuality)t1.MaterialQuality,
                                             Quantity = t1.Quantity,
-                                            UnitPrice = t1.UnitPrice,
-                                            TotalAmount = t1.TotalAmount,
                                             Remarks = t1.Remarks,
                                             CompanyFK = 21
                                         }).ToListAsync();
@@ -470,9 +432,9 @@ namespace KGERP.Service.Implementation
         public async Task<List<QuotationMasterModel>> GetQuotationListWithNameAndNo()
         {
             List<QuotationMasterModel> sendData = await Task.Run(() => (from t1 in _context.QuotationMasters.Where(x => x.IsActive)
-                                                                        join t2 in _context.BillRequisitionMasters on t1.BillRequisitionMasterId equals t2.BillRequisitionMasterId into t2_Join
+                                                                        join t2 in _context.QuotationFors on t1.QuotationForId equals t2.QuotationForId into t2_Join
                                                                         from t2 in t2_Join.DefaultIfEmpty()
-                                                                        join t3 in _context.Vendors on t1.SupplierId equals t3.VendorId into t3_Join
+                                                                        join t3 in _context.BillRequisitionMasters on t1.BillRequisitionMasterId equals t3.BillRequisitionMasterId into t3_Join
                                                                         from t3 in t3_Join.DefaultIfEmpty()
                                                                         join t4 in _context.Employees on t1.CreatedBy equals t4.EmployeeId into t4_Join
                                                                         from t4 in t4_Join.DefaultIfEmpty()
@@ -480,14 +442,13 @@ namespace KGERP.Service.Implementation
                                                                         {
                                                                             QuotationMasterId = t1.QuotationMasterId,
                                                                             QuotationNo = t1.QuotationNo,
-                                                                            QuotationDate = t1.QutationDate,
-                                                                            QuotationName = t1.QuotationName,
-                                                                            QuotationNameWitNo = "[" + t1.QuotationNo + "] " + t1.QuotationName,
-                                                                            SupplierId = t1.SupplierId,
-                                                                            SupplierName = "[" + t3.Code + "] " + t3.Name,
+                                                                            QuotationTypeId = (int)(EnumQuotationType)t1.QuotationTypeId,
+                                                                            QuotationForId = t1.QuotationForId,
+                                                                            QuotationForName = t2.Name,
                                                                             RequisitionId = t1.BillRequisitionMasterId,
-                                                                            RequisitionNo = t2.BillRequisitionNo,
-                                                                            QuotationFor = (int)(EnumQuotationFor)t1.QuotationForId,
+                                                                            RequisitionNo = t3.BillRequisitionNo,
+                                                                            StartDate = t1.StartDate,
+                                                                            EndDate = t1.EndDate,
                                                                             Description = t1.Description ?? "N/A",
                                                                             StatusId = (int)(EnumQuotationStatus)t1.StatusId,
                                                                             CreatedDate = t1.CreatedOn,
@@ -500,12 +461,12 @@ namespace KGERP.Service.Implementation
 
         #region  Project Type
 
-        public async Task<List<QuotationTypeModel>> GetQuotationTypeList(int companyId)
+        public async Task<List<QuotationForModel>> GetQuotationTypeList(int companyId)
         {
-            List<QuotationTypeModel> sendData = await Task.Run(() => (from t1 in _context.QuotationTypes.Where(x => x.IsActive)
-                                                                      select new QuotationTypeModel
+            List<QuotationForModel> sendData = await Task.Run(() => (from t1 in _context.QuotationFors.Where(x => x.IsActive)
+                                                                      select new QuotationForModel
                                                                       {
-                                                                          QuotationForId = t1.QuotationTypeId,
+                                                                          QuotationForId = t1.QuotationForId,
                                                                           Name = t1.Name,
                                                                           Description = t1.Description ?? "N/A",
                                                                           CreatedDate = t1.CreatedOn,
@@ -515,10 +476,10 @@ namespace KGERP.Service.Implementation
             return sendData;
         }
 
-        public async Task<bool> Add(QuotationTypeModel model)
+        public async Task<bool> Add(QuotationForModel model)
         {
             bool result = false;
-            QuotationType data = new QuotationType()
+            QuotationFor data = new QuotationFor()
             {
                 Name = model.Name,
                 Description = model.Description,
@@ -527,7 +488,7 @@ namespace KGERP.Service.Implementation
                 CreatedOn = DateTime.Now,
             };
 
-            _context.QuotationTypes.Add(data);
+            _context.QuotationFors.Add(data);
 
             if (await _context.SaveChangesAsync() > 0)
             {
@@ -537,11 +498,11 @@ namespace KGERP.Service.Implementation
             return result;
         }
 
-        public async Task<bool> Edit(QuotationTypeModel model)
+        public async Task<bool> Edit(QuotationForModel model)
         {
             bool result = false;
 
-            var findCostCenterType = _context.QuotationTypes.FirstOrDefault(c => c.QuotationTypeId == model.ID);
+            var findCostCenterType = _context.QuotationFors.FirstOrDefault(c => c.QuotationForId == model.ID);
             if (findCostCenterType != null)
             {
                 findCostCenterType.Name = model.Name;
@@ -557,11 +518,11 @@ namespace KGERP.Service.Implementation
             return result;
         }
 
-        public async Task<bool> Delete(QuotationTypeModel model)
+        public async Task<bool> Delete(QuotationForModel model)
         {
             bool result = false;
 
-            var findCostCenterType = _context.QuotationTypes.FirstOrDefault(c => c.QuotationTypeId == model.QuotationForId);
+            var findCostCenterType = _context.QuotationFors.FirstOrDefault(c => c.QuotationForId == model.QuotationForId);
             if (findCostCenterType != null)
             {
                 findCostCenterType.IsActive = false;

@@ -12,9 +12,9 @@ namespace KGERP.Data.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class QuotationType
+    public partial class QuotationFor
     {
-        public long QuotationTypeId { get; set; }
+        public long QuotationForId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string CreatedBy { get; set; }
