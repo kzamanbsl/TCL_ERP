@@ -5608,5 +5608,48 @@ namespace KGERP.Controllers
             }
             return View();
         }
+
+        [HttpGet]
+        [SessionExpire]
+        public ActionResult WorkOrderContractReport(int PurchaseOrderId)
+        {
+            NetworkCredential nwc = new NetworkCredential(_admin, _password);
+            WebClient client = new WebClient();
+            client.Credentials = nwc;
+            var ReportName = CompanyInfo.ReportPrefix + "WorkOrderContract";
+            var reportType = "PDF";
+            if (PurchaseOrderId == null)
+            {
+                PurchaseOrderId = 0;
+            }
+              
+            
+
+            string reportUrl = "";
+            try
+            {
+                reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&PurchaseOrderId={3}",
+             ReportName, reportType, CompanyInfo.CompanyId, PurchaseOrderId);
+
+            }
+            catch
+            {
+
+            }
+
+            if (reportType.Equals(ReportType.EXCEL))
+            {
+                return File(client.DownloadData(reportUrl), "application/vnd.ms-excel", "ProjectInfoList.xls");
+            }
+            if (reportType.Equals(ReportType.PDF))
+            {
+                return File(client.DownloadData(reportUrl), "application/pdf");
+            }
+            if (reportType.Equals(ReportType.WORD))
+            {
+                return File(client.DownloadData(reportUrl), "application/msword", "ProjectInfoList.doc");
+            }
+            return View();
+        }
     }
 }

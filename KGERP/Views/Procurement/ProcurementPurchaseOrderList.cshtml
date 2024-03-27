@@ -89,6 +89,7 @@
                                         <th>Status</th>
                                         <th>Action</th>
                                         <th>Change Status</th>
+                                        <th>Report</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -204,7 +205,11 @@
                                                 </a>
 
                                             </td>
-
+                                            <td>
+                                                <a class="label label-primary text-center" target="_blank" href="~/Report/WorkOrderContractReport?PurchaseOrderId=@item.PurchaseOrderId">
+                                                    <i class="fa fa-download"></i> Download
+                                                </a>
+                                            </td>
                                         </tr>
                                     }
                                 </tbody>

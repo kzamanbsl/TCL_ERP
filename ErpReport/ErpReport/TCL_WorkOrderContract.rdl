@@ -14,7 +14,7 @@
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
-    <DataSource Name="ChequeRegisterDS">
+    <DataSource Name="MaterialPurchaseDS">
       <Transaction>true</Transaction>
       <DataSourceReference>TCLErpDataSource</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
@@ -24,7 +24,7 @@
   <DataSets>
     <DataSet Name="CompanyDSet">
       <Query>
-        <DataSourceName>ChequeRegisterDS</DataSourceName>
+        <DataSourceName>MaterialPurchaseDS</DataSourceName>
         <QueryParameters>
           <QueryParameter Name="@CompanyId">
             <Value>=Parameters!CompanyId.Value</Value>
@@ -59,6 +59,102 @@ from Company Where CompanyId=@CompanyId</CommandText>
         <Field Name="CompanyEmail">
           <DataField>CompanyEmail</DataField>
           <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="SupplierInfo">
+      <Query>
+        <DataSourceName>MaterialPurchaseDS</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@PurchaseOrderId">
+            <Value>=Parameters!PurchaseOrderId.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandType>StoredProcedure</CommandType>
+        <CommandText>sp_WorkOrderSupplierInfo</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="SupplierName">
+          <DataField>SupplierName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ContactName">
+          <DataField>ContactName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="SupplierEmail">
+          <DataField>SupplierEmail</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="SupplierPhone">
+          <DataField>SupplierPhone</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="SupplierAddress">
+          <DataField>SupplierAddress</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="SupplierNID">
+          <DataField>SupplierNID</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="SupplierACName">
+          <DataField>SupplierACName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="SupplierACNo">
+          <DataField>SupplierACNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="SupplierBankName">
+          <DataField>SupplierBankName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="SupplierBranchName">
+          <DataField>SupplierBranchName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="SupplierBankRoutingNumber">
+          <DataField>SupplierBankRoutingNumber</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="TermsAndCondition">
+          <DataField>TermsAndCondition</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ProjectName">
+          <DataField>ProjectName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="PurchaseMaterialList">
+      <Query>
+        <DataSourceName>MaterialPurchaseDS</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@PurchaseOrderId">
+            <Value>=Parameters!PurchaseOrderId.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandType>StoredProcedure</CommandType>
+        <CommandText>sp_WorkOrderMaterialList</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="ProductName">
+          <DataField>ProductName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PurchaseQty">
+          <DataField>PurchaseQty</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="PurchaseRate">
+          <DataField>PurchaseRate</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="PurchaseAmount">
+          <DataField>PurchaseAmount</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
       </Fields>
     </DataSet>
@@ -136,7 +232,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox15</rd:DefaultName>
-            <Top>1.15917in</Top>
+            <Top>1.14667in</Top>
             <Left>0.51958in</Left>
             <Height>0.65625in</Height>
             <Width>7.27083in</Width>
@@ -168,17 +264,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
                 <TextRuns>
                   <TextRun>
                     <Value>
-Tanvir Constructions Ltd. (Tanvir Ahmed, Managing Director) Address: Rahmans Regnum Center 191/1 (10th Floor), Tejgaon, Link Road, Tejgaon, Dhaka-1208.
-</Value>
-                    <Style />
-                  </TextRun>
-                </TextRuns>
-                <Style />
-              </Paragraph>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>second party:</Value>
+Tanvir Constructions Ltd. (Tanvir Ahmed, Managing Director) Address: Rahmans Regnum Center 191/1 (10th Floor), Tejgaon, Link Road, Tejgaon, Dhaka-1208.</Value>
                     <Style />
                   </TextRun>
                 </TextRuns>
@@ -193,11 +279,116 @@ Tanvir Constructions Ltd. (Tanvir Ahmed, Managing Director) Address: Rahmans Reg
                 </TextRuns>
                 <Style />
               </Paragraph>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>Second Party:</Value>
+                    <Style />
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value />
+                    <Style />
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Label>SupplierName</Label>
+                    <Value>=First(Fields!SupplierName.Value, "SupplierInfo")</Value>
+                    <Style />
+                  </TextRun>
+                  <TextRun>
+                    <Value> ( </Value>
+                    <Style />
+                  </TextRun>
+                  <TextRun>
+                    <Label>ContactName</Label>
+                    <Value>=First(Fields!ContactName.Value, "SupplierInfo")</Value>
+                    <Style />
+                  </TextRun>
+                  <TextRun>
+                    <Value> ) . Address : </Value>
+                    <Style />
+                  </TextRun>
+                  <TextRun>
+                    <Label>SupplierAddress</Label>
+                    <Value>=First(Fields!SupplierAddress.Value, "SupplierInfo")</Value>
+                    <Style />
+                  </TextRun>
+                  <TextRun>
+                    <Value> . Phone : </Value>
+                    <Style />
+                  </TextRun>
+                  <TextRun>
+                    <Label>SupplierPhone</Label>
+                    <Value>=First(Fields!SupplierPhone.Value, "SupplierInfo")</Value>
+                    <Style />
+                  </TextRun>
+                  <TextRun>
+                    <Value> . 
+Bank Statement :  Account Name :  </Value>
+                    <Style />
+                  </TextRun>
+                  <TextRun>
+                    <Label>SupplierACName</Label>
+                    <Value>=First(Fields!SupplierACName.Value, "SupplierInfo")</Value>
+                    <Style />
+                  </TextRun>
+                  <TextRun>
+                    <Value> , Acc No : </Value>
+                    <Style />
+                  </TextRun>
+                  <TextRun>
+                    <Label>SupplierACNo</Label>
+                    <Value>=First(Fields!SupplierACNo.Value, "SupplierInfo")</Value>
+                    <Style />
+                  </TextRun>
+                  <TextRun>
+                    <Value> , Routing No: </Value>
+                    <Style />
+                  </TextRun>
+                  <TextRun>
+                    <Label>SupplierBankRoutingNumber</Label>
+                    <Value>=First(Fields!SupplierBankRoutingNumber.Value, "SupplierInfo")</Value>
+                    <Style />
+                  </TextRun>
+                  <TextRun>
+                    <Value>, Bank Name: </Value>
+                    <Style />
+                  </TextRun>
+                  <TextRun>
+                    <Label>SupplierBankName</Label>
+                    <Value>=First(Fields!SupplierBankName.Value, "SupplierInfo")</Value>
+                    <Style />
+                  </TextRun>
+                  <TextRun>
+                    <Value> , Branch Name: </Value>
+                    <Style />
+                  </TextRun>
+                  <TextRun>
+                    <Label>SupplierBranchName</Label>
+                    <Value>=First(Fields!SupplierBranchName.Value, "SupplierInfo")</Value>
+                    <Style />
+                  </TextRun>
+                  <TextRun>
+                    <Value> .</Value>
+                    <Style />
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox16</rd:DefaultName>
-            <Top>2.07583in</Top>
+            <Top>2.06333in</Top>
             <Left>0.51958in</Left>
-            <Height>1.2484in</Height>
+            <Height>1.64931in</Height>
             <Width>7.27083in</Width>
             <ZIndex>2</ZIndex>
             <Style>
@@ -227,7 +418,7 @@ Tanvir Constructions Ltd. (Tanvir Ahmed, Managing Director) Address: Rahmans Reg
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox18</rd:DefaultName>
-            <Top>3.75292in</Top>
+            <Top>3.91542in</Top>
             <Left>3.30083in</Left>
             <Height>0.25in</Height>
             <Width>1.21875in</Width>
@@ -439,11 +630,13 @@ Tanvir Constructions Ltd. (Tanvir Ahmed, Managing Director) Address: Rahmans Reg
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=RowNumber(nothing)</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox20</rd:DefaultName>
@@ -462,21 +655,21 @@ Tanvir Constructions Ltd. (Tanvir Ahmed, Managing Director) Address: Rahmans Reg
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox22">
+                        <Textbox Name="ProductName">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!ProductName.Value</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox22</rd:DefaultName>
+                          <rd:DefaultName>ProductName</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -492,21 +685,23 @@ Tanvir Constructions Ltd. (Tanvir Ahmed, Managing Director) Address: Rahmans Reg
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox24">
+                        <Textbox Name="PurchaseRate">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=format(Fields!PurchaseRate.Value,"#,##0.00")</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox24</rd:DefaultName>
+                          <rd:DefaultName>PurchaseRate</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -522,14 +717,14 @@ Tanvir Constructions Ltd. (Tanvir Ahmed, Managing Director) Address: Rahmans Reg
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox26">
+                        <Textbox Name="PurchaseQty">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!PurchaseQty.Value</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                   </Style>
@@ -538,7 +733,7 @@ Tanvir Constructions Ltd. (Tanvir Ahmed, Managing Director) Address: Rahmans Reg
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox26</rd:DefaultName>
+                          <rd:DefaultName>PurchaseQty</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -554,23 +749,25 @@ Tanvir Constructions Ltd. (Tanvir Ahmed, Managing Director) Address: Rahmans Reg
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox28">
+                        <Textbox Name="PurchaseAmount">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=format(Fields!PurchaseAmount.Value,"#,##0.00")</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox28</rd:DefaultName>
+                          <rd:DefaultName>PurchaseAmount</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -607,7 +804,8 @@ Tanvir Constructions Ltd. (Tanvir Ahmed, Managing Director) Address: Rahmans Reg
                 </TablixMember>
               </TablixMembers>
             </TablixRowHierarchy>
-            <Top>4.14875in</Top>
+            <DataSetName>PurchaseMaterialList</DataSetName>
+            <Top>4.32375in</Top>
             <Left>1.11333in</Left>
             <Height>0.5in</Height>
             <Width>5.91667in</Width>
@@ -637,14 +835,16 @@ Tanvir Constructions Ltd. (Tanvir Ahmed, Managing Director) Address: Rahmans Reg
                 <TextRuns>
                   <TextRun>
                     <Value>
-1. The first party mandates the second party
-2. 2nd party leaving supply/work unfinished
-3. If the 2nd party charges extra
-You can take legal action
-4. 1st party to 2nd party after completion of work
-which is payable.
-
-</Value>
+1. The first party mandates the second party.
+2. 2nd party leaving supply/work unfinished.
+3. If the 2nd party charges extra You can take legal action.
+4. 1st party to 2nd party after completion of work which is payable.
+5. </Value>
+                    <Style />
+                  </TextRun>
+                  <TextRun>
+                    <Label>TermsAndCondition</Label>
+                    <Value>=First(Fields!TermsAndCondition.Value, "SupplierInfo")</Value>
                     <Style />
                   </TextRun>
                 </TextRuns>
@@ -714,11 +914,89 @@ which is payable.
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value xml:space="preserve">
-</Value>
+                    <Value />
                     <Style>
                       <TextDecoration>Underline</TextDecoration>
                     </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value />
+                    <Style>
+                      <TextDecoration>Underline</TextDecoration>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Label>SupplierName</Label>
+                    <Value>=First(Fields!SupplierName.Value, "SupplierInfo")</Value>
+                    <Style />
+                  </TextRun>
+                  <TextRun>
+                    <Value xml:space="preserve"> </Value>
+                    <Style />
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>( </Value>
+                    <Style />
+                  </TextRun>
+                  <TextRun>
+                    <Label>ContactName</Label>
+                    <Value>=First(Fields!ContactName.Value, "SupplierInfo")</Value>
+                    <Style />
+                  </TextRun>
+                  <TextRun>
+                    <Value> ) .</Value>
+                    <Style />
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>Address : </Value>
+                    <Style />
+                  </TextRun>
+                  <TextRun>
+                    <Label>SupplierAddress</Label>
+                    <Value>=First(Fields!SupplierAddress.Value, "SupplierInfo")</Value>
+                    <Style />
+                  </TextRun>
+                  <TextRun>
+                    <Value> .</Value>
+                    <Style />
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>Phone : </Value>
+                    <Style />
+                  </TextRun>
+                  <TextRun>
+                    <Label>SupplierPhone</Label>
+                    <Value>=First(Fields!SupplierPhone.Value, "SupplierInfo")</Value>
+                    <Style />
+                  </TextRun>
+                  <TextRun>
+                    <Value> . </Value>
+                    <Style />
                   </TextRun>
                 </TextRuns>
                 <Style />
@@ -787,7 +1065,7 @@ which is payable.
                     </Style>
                   </TextRun>
                   <TextRun>
-                    <Value>Tanwar Ahmed
+                    <Value>Tanvir Ahmed
 Managing Director,
 Tanvir Constructions Ltd</Value>
                     <Style>
@@ -841,6 +1119,10 @@ Tanvir Constructions Ltd</Value>
       <DataType>String</DataType>
       <Prompt>Company Id</Prompt>
     </ReportParameter>
+    <ReportParameter Name="PurchaseOrderId">
+      <DataType>Integer</DataType>
+      <Prompt>Purchase Order Id</Prompt>
+    </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>
     <GridLayoutDefinition>
@@ -851,6 +1133,11 @@ Tanvir Constructions Ltd</Value>
           <ColumnIndex>0</ColumnIndex>
           <RowIndex>0</RowIndex>
           <ParameterName>CompanyId</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>1</ColumnIndex>
+          <RowIndex>0</RowIndex>
+          <ParameterName>PurchaseOrderId</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>
