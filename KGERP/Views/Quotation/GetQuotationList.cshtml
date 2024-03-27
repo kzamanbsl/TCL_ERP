@@ -2,7 +2,7 @@
 @using KGERP.Utility;
 
 @{
-    ViewData["Title"] = "Quotation Detail";
+    ViewData["Title"] = "Quotation List";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     KGERP.Service.ServiceModel.QuotationMasterModel searchData = TempData["QuotationModel"] as KGERP.Service.ServiceModel.QuotationMasterModel;
@@ -31,7 +31,7 @@
 <section class="content-header">
     <h1>
         <span>
-            Quotation Detail
+            Quotation List
         </span>
 
     </h1>
@@ -39,7 +39,7 @@
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
         <li class="active">
             <span>
-                Quotation Detail
+                Quotation List
             </span>
         </li>
     </ol>
@@ -51,22 +51,16 @@
             <div class="box">
                 <div class="box-danger">
                     <div class="box-body">
-                        @using (Html.BeginForm("QuotationDetailSearch", "Quotation", FormMethod.Post, new { id = "BRMasterListFormId", @class = "formValidator" }))
+                        @using (Html.BeginForm("QuotationListSearch", "Quotation", FormMethod.Post, new { id = "BRMasterListFormId", @class = "formValidator" }))
                         {
                             @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyId" })
 
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label class="form-label">Quotation Status<sup class="text-danger" title="Required">*</sup></label>
-                                        @*@Html.DropDownListFor(model => model.QuotationTypeId, Model.QuotationTypeList as SelectList, "==Quotation Type==", new { id = "ddlQuotationType", @class = "form-control ddlReset searchingDropdown", style = "width:100%", required = "required" })
-                                            @Html.ValidationMessageFor(model => model.QuotationTypeId, "", new { @class = "text-danger" })*@
-                                        <select class="form-control ddlReset searchingDropdown" id="ddlQuotationType" style="width:100%" required name="StatusId">
-                                            <option disabled selected>==Quotation Type==</option>
-                                            <option value="3">Running</option>
-                                            <option value="4">Closed</option>
-                                        </select>
-                                        @Html.ValidationMessageFor(model => model.StatusId, "", new { @class = "text-danger" })
+                                        <label class="form-label">Quotation Type<sup class="text-danger" title="Required">*</sup></label>
+                                        @Html.DropDownListFor(model => model.QuotationTypeId, Model.QuotationTypeList as SelectList, "==Quotation Type==", new { id = "ddlQuotationType", @class = "form-control ddlReset searchingDropdown", style = "width:100%", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.QuotationTypeId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                                 <div class="col-md-3">
@@ -94,23 +88,24 @@
                         }
 
                         <hr />
-                        @if (searchData != null)
-                        {
-                            <div class="table-responsive">
-                                <table id="KgErpDataTable" class="table table-striped table-dark table-responsive">
-                                    <thead>
-                                        <tr>
-                                            <th style="text-align: center;">SL</th>
-                                            <th style="text-align: left;">Quotation No</th>
-                                            <th style="text-align: left;">Quotation For</th>
-                                            <th style="text-align: left;">Requisition No</th>
-                                            <th style="text-align: center;">Status</th>
-                                            <th style="text-align: center;">Action</th>
-                                            @*<th style="text-align: center;">Report</th>*@
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var item in searchData.DataList)
+
+                        <div class="table-responsive">
+                            <table id="KgErpDataTable" class="table table-striped table-dark table-responsive">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align: center;">SL</th>
+                                        <th style="text-align: left;">Quotation No</th>
+                                        <th style="text-align: left;">Quotation For</th>
+                                        <th style="text-align: left;">Requisition No</th>
+                                        <th style="text-align: center;">Status</th>
+                                        <th style="text-align: center;">Action</th>
+                                        @*<th style="text-align: center;">Report</th>*@
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (searchData != null)
+                                    {
+                                        foreach (var item in searchData.DataList)
                                         {
                                             <tr>
                                                 <td>@(++sl)</td>
@@ -184,10 +179,88 @@
                                                     </td>*@
                                             </tr>
                                         }
-                                    </tbody>
-                                </table>
-                            </div>
-                        }
+                                    }
+                                    else
+                                    {
+                                        foreach (var item in Model.DataList)
+                                        {
+                                            <tr>
+                                                <td>@(++sl)</td>
+                                                <td>
+                                                    <a class="text-primary" target="_blank" href="~/Quotation/QuotationMasterSlave?companyId=@item.CompanyFK&quotationMasterId=@item.QuotationMasterId">
+                                                        @item.QuotationNo
+                                                    </a>
+                                                </td>
+                                                <td>@item.QuotationForName</td>
+                                                <td>
+                                                    @if (item.RequisitionNo != null)
+                                                    {
+                                                        <a class="text-primary" target="_blank" href="~/BillRequisition/BillRequisitionMasterSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.RequisitionId">
+                                                            @item.RequisitionNo
+                                                        </a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <center class="text-center text-secondary">General Quotation</center>
+                                                    }
+                                                </td>
+
+                                                <td>
+                                                    @if (item.StatusId == (int)EnumQuotationStatus.Submitted)
+                                                    {
+                                                        <span class="btn btn-xs btn-primary text-center" style="display: block; padding-left: 7px; padding-right: 7px;">@EnumQuotationStatus.Submitted</span>
+                                                    }
+                                                    else if (item.StatusId == (int)EnumQuotationStatus.Running)
+                                                    {
+                                                        <span class="btn btn-xs btn-success text-center" style="display: block; padding-left: 7px; padding-right: 7px;">@EnumQuotationStatus.Running</span>
+                                                    }
+                                                    else if (item.StatusId == (int)EnumQuotationStatus.Closed)
+                                                    {
+                                                        <span class="btn btn-xs btn-danger text-center" style="display: block; padding-left: 7px; padding-right: 7px;">@EnumQuotationStatus.Closed</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="btn btn-xs btn-warning text-center" style="display: block; padding-left: 7px; padding-right: 7px;">@EnumQuotationStatus.Draft</span>
+                                                    }
+                                                </td>
+                                                <td style="text-align: center;">
+                                                    @if (item.StatusId == (int)EnumQuotationStatus.Submitted)
+                                                    {
+                                                        <a href="~/Quotation/QuotationMasterSlave?companyId=@item.CompanyFK&quotationMasterId=@item.QuotationMasterId" class="link-primary text-warning" title="Action for Details"><i class="fa fa-external-link-square" aria-hidden="true"></i> Action</a>
+                                                        <span> | </span>
+                                                        <a id="@item.QuotationMasterId" class="link-primary text-danger linkPointer disabled" title="Disabled"><i class="fa fa-external-link-square" aria-hidden="true"></i> Delete</a>
+                                                    }
+                                                    else if (item.StatusId == (int)EnumQuotationStatus.Running)
+                                                    {
+                                                        <a href="~/Quotation/QuotationMasterSlave?companyId=@item.CompanyFK&quotationMasterId=@item.QuotationMasterId" class="link-primary text-warning" title="Action for Details"><i class="fa fa-external-link-square" aria-hidden="true"></i> Action</a>
+                                                        <span> | </span>
+                                                        <a id="@item.QuotationMasterId" class="link-primary text-danger linkPointer disabled" title="Disabled"><i class="fa fa-external-link-square" aria-hidden="true"></i> Delete</a>
+                                                    }
+                                                    else if (item.StatusId == (int)EnumQuotationStatus.Closed)
+                                                    {
+                                                        <a href="~/Quotation/QuotationMasterSlave?companyId=@item.CompanyFK&quotationMasterId=@item.QuotationMasterId" class="link-primary text-warning" title="Action for Details"><i class="fa fa-external-link-square" aria-hidden="true"></i> Action</a>
+                                                        <span> | </span>
+                                                        <a id="@item.QuotationMasterId" class="link-primary text-danger linkPointer disabled" title="Disabled"><i class="fa fa-external-link-square" aria-hidden="true"></i> Delete</a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a href="~/Quotation/QuotationMasterSlave?companyId=@item.CompanyFK&quotationMasterId=@item.QuotationMasterId" class="link-primary text-primary" title="Action for Submit"><i class="fa fa-external-link-square" aria-hidden="true"></i> Action</a>
+                                                        <span> | </span>
+                                                        <a id="@item.QuotationMasterId" onclick="MakeDeletable(@item.QuotationMasterId)" data-toggle="modal" data-target="#deleteFoodCustomerOrderModal" data-placement="top" class="link-primary text-danger linkPointer" title="Action for Delete" style="cursor: pointer !important;"><i class="fa fa-external-link-square" aria-hidden="true"></i> Delete</a>
+                                                    }
+                                                </td>
+                                                @*<td>
+                                                        <a class="label label-primary text-center" target="_blank" href="~/Report/TCLBillRequisiontReport?companyId=@item.CompanyFK&billRequisitionMasterId=@item.BillRequisitionMasterId">
+                                                            <i class="fa fa-download"></i> Download
+                                                        </a>
+                                                    </td>*@
+                                            </tr>
+                                        }
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -21,8 +21,10 @@ namespace KGERP.Service.Interface
         Task<QuotationMasterModel> GetQuotationMasterDetail(int companyId, long quotationMasterId);
         Task<long> SubmitQuotationMaster(long quotationMasterId);
         Task<QuotationMasterModel> GetQuotationList();
+        Task<QuotationMasterModel> GetQuotationListFilterByStatus();
         Task<List<QuotationMasterModel>> GetQuotationListWithNameAndNo();
         Task<QuotationMasterModel> GetQuotationListByDate(QuotationMasterModel model);
+        Task<QuotationMasterModel> GetQuotationListByDateAndStatus(QuotationMasterModel model);
         Task<bool> QuotationMasterDelete(long id);
         #endregion
 

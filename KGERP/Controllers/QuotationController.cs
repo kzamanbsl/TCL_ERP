@@ -146,7 +146,7 @@ namespace KGERP.Controllers
 
         #region Quotation List
         [HttpGet]
-        public async Task<ActionResult> GetQuotationDetail(int companyId)
+        public async Task<ActionResult> GetQuotationList(int companyId)
         {
             QuotationMasterModel viewData = new QuotationMasterModel();
             viewData = await _Service.GetQuotationList();
@@ -155,11 +155,31 @@ namespace KGERP.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> QuotationSearch(QuotationMasterModel model)
+        public async Task<ActionResult> QuotationListSearch(QuotationMasterModel model)
         {
             QuotationMasterModel viewData = new QuotationMasterModel();
             viewData.CompanyFK = model.CompanyFK;
             viewData = await _Service.GetQuotationListByDate(model);
+            TempData["QuotationModel"] = viewData;
+
+            return RedirectToAction(nameof(GetQuotationList), new { companyId = viewData.CompanyFK, fromDate = model.QuotationFromDate, ToDate = model.QuotationToDate });
+        }
+
+        [HttpGet]
+        public ActionResult GetQuotationDetail(int companyId)
+        {
+            QuotationMasterModel viewData = new QuotationMasterModel();
+            //viewData = await _Service.GetQuotationListFilterByStatus();
+            viewData.CompanyFK = companyId;
+            return View(viewData);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> QuotationDetailSearch(QuotationMasterModel model)
+        {
+            QuotationMasterModel viewData = new QuotationMasterModel();
+            viewData.CompanyFK = model.CompanyFK;
+            viewData = await _Service.GetQuotationListByDateAndStatus(model);
             TempData["QuotationModel"] = viewData;
 
             return RedirectToAction(nameof(GetQuotationDetail), new { companyId = viewData.CompanyFK, fromDate = model.QuotationFromDate, ToDate = model.QuotationToDate });
