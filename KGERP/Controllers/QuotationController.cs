@@ -184,6 +184,24 @@ namespace KGERP.Controllers
 
             return RedirectToAction(nameof(GetQuotationDetail), new { companyId = viewData.CompanyFK, fromDate = model.QuotationFromDate, ToDate = model.QuotationToDate });
         }
+
+        [HttpPost]
+        public async Task<ActionResult> QuotationOpen(QuotationMasterModel model)
+        {
+            QuotationMasterModel viewData = new QuotationMasterModel();
+            viewData.CompanyFK = model.CompanyFK;
+            var result = await _Service.OpenQuotationById(model.QuotationMasterId);
+            return RedirectToAction(nameof(GetQuotationDetail), new { companyId = viewData.CompanyFK, fromDate = model.QuotationFromDate, ToDate = model.QuotationToDate });
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> QuotationClose(QuotationMasterModel model)
+        {
+            QuotationMasterModel viewData = new QuotationMasterModel();
+            viewData.CompanyFK = model.CompanyFK;
+            var result = await _Service.CloseQuotationById(model.QuotationMasterId);
+            return RedirectToAction(nameof(GetQuotationDetail), new { companyId = viewData.CompanyFK, fromDate = model.QuotationFromDate, ToDate = model.QuotationToDate });
+        }
         #endregion
 
         #region Comparative Statement

@@ -36,7 +36,7 @@ namespace KGERP.Utility
     {
         Draft = 1,
         Submitted,
-        Running,
+        Opened,
         Closed
     }
 

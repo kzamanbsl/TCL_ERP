@@ -22,10 +22,13 @@ namespace KGERP.Service.Interface
         Task<long> SubmitQuotationMaster(long quotationMasterId);
         Task<QuotationMasterModel> GetQuotationList();
         Task<QuotationMasterModel> GetQuotationListFilterByStatus();
+        Task<QuotationMasterModel> GetQuotationListByStatusId(int id);
         Task<List<QuotationMasterModel>> GetQuotationListWithNameAndNo();
         Task<QuotationMasterModel> GetQuotationListByDate(QuotationMasterModel model);
         Task<QuotationMasterModel> GetQuotationListByDateAndStatus(QuotationMasterModel model);
         Task<bool> QuotationMasterDelete(long id);
+        Task<bool> CloseQuotationById(long id);
+        Task<bool> OpenQuotationById(long id);
         #endregion
 
         #region Quotation Detail

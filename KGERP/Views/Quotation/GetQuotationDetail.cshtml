@@ -63,7 +63,8 @@
                                             @Html.ValidationMessageFor(model => model.QuotationTypeId, "", new { @class = "text-danger" })*@
                                         <select class="form-control ddlReset searchingDropdown" id="ddlQuotationType" style="width:100%" required name="StatusId">
                                             <option disabled selected>==Quotation Type==</option>
-                                            <option value="3">Running</option>
+                                            <option value="2">Submited</option>
+                                            <option value="3">Opened</option>
                                             <option value="4">Closed</option>
                                         </select>
                                         @Html.ValidationMessageFor(model => model.StatusId, "", new { @class = "text-danger" })
@@ -138,9 +139,9 @@
                                                     {
                                                         <span class="btn btn-xs btn-primary text-center" style="display: block; padding-left: 7px; padding-right: 7px;">@EnumQuotationStatus.Submitted</span>
                                                     }
-                                                    else if (item.StatusId == (int)EnumQuotationStatus.Running)
+                                                    else if (item.StatusId == (int)EnumQuotationStatus.Opened)
                                                     {
-                                                        <span class="btn btn-xs btn-success text-center" style="display: block; padding-left: 7px; padding-right: 7px;">@EnumQuotationStatus.Running</span>
+                                                        <span class="btn btn-xs btn-success text-center" style="display: block; padding-left: 7px; padding-right: 7px;">@EnumQuotationStatus.Opened</span>
                                                     }
                                                     else if (item.StatusId == (int)EnumQuotationStatus.Closed)
                                                     {
@@ -154,27 +155,15 @@
                                                 <td style="text-align: center;">
                                                     @if (item.StatusId == (int)EnumQuotationStatus.Submitted)
                                                     {
-                                                        <a href="~/Quotation/QuotationMasterSlave?companyId=@item.CompanyFK&quotationMasterId=@item.QuotationMasterId" class="link-primary text-warning" title="Action for Details"><i class="fa fa-external-link-square" aria-hidden="true"></i> Action</a>
-                                                        <span> | </span>
-                                                        <a id="@item.QuotationMasterId" class="link-primary text-danger linkPointer disabled" title="Disabled"><i class="fa fa-external-link-square" aria-hidden="true"></i> Delete</a>
+                                                        <a id="@item.QuotationMasterId" onclick="MakeOpenable(@item.QuotationMasterId)" data-toggle="modal" data-target="#openQuotationModal" data-placement="top" class="link-primary text-primary linkPointer" title="Action for Open" style="cursor: pointer !important;"><i class="fa fa-external-link-square" aria-hidden="true"></i> Make Open</a>
                                                     }
-                                                    else if (item.StatusId == (int)EnumQuotationStatus.Running)
+                                                    else if (item.StatusId == (int)EnumQuotationStatus.Opened)
                                                     {
-                                                        <a href="~/Quotation/QuotationMasterSlave?companyId=@item.CompanyFK&quotationMasterId=@item.QuotationMasterId" class="link-primary text-warning" title="Action for Details"><i class="fa fa-external-link-square" aria-hidden="true"></i> Action</a>
-                                                        <span> | </span>
-                                                        <a id="@item.QuotationMasterId" class="link-primary text-danger linkPointer disabled" title="Disabled"><i class="fa fa-external-link-square" aria-hidden="true"></i> Delete</a>
-                                                    }
-                                                    else if (item.StatusId == (int)EnumQuotationStatus.Closed)
-                                                    {
-                                                        <a href="~/Quotation/QuotationMasterSlave?companyId=@item.CompanyFK&quotationMasterId=@item.QuotationMasterId" class="link-primary text-warning" title="Action for Details"><i class="fa fa-external-link-square" aria-hidden="true"></i> Action</a>
-                                                        <span> | </span>
-                                                        <a id="@item.QuotationMasterId" class="link-primary text-danger linkPointer disabled" title="Disabled"><i class="fa fa-external-link-square" aria-hidden="true"></i> Delete</a>
+                                                        <a id="@item.QuotationMasterId" onclick="MakeClosable(@item.QuotationMasterId)" data-toggle="modal" data-target="#closeQuotationModal" data-placement="top" class="link-primary text-danger linkPointer" title="Action for Close" style="cursor: pointer !important;"><i class="fa fa-external-link-square" aria-hidden="true"></i> Make Close</a>
                                                     }
                                                     else
                                                     {
-                                                        <a href="~/Quotation/QuotationMasterSlave?companyId=@item.CompanyFK&quotationMasterId=@item.QuotationMasterId" class="link-primary text-primary" title="Action for Submit"><i class="fa fa-external-link-square" aria-hidden="true"></i> Action</a>
-                                                        <span> | </span>
-                                                        <a id="@item.QuotationMasterId" onclick="MakeDeletable(@item.QuotationMasterId)" data-toggle="modal" data-target="#deleteFoodCustomerOrderModal" data-placement="top" class="link-primary text-danger linkPointer" title="Action for Delete" style="cursor: pointer !important;"><i class="fa fa-external-link-square" aria-hidden="true"></i> Delete</a>
+                                                        <a href="~/Quotation/QuotationMasterSlave?companyId=@item.CompanyFK&quotationMasterId=@item.QuotationMasterId" class="link-primary text-warning" title="Action for Details"><i class="fa fa-external-link-square" aria-hidden="true"></i> View Detail</a>
                                                     }
                                                 </td>
                                                 @*<td>
@@ -195,10 +184,10 @@
     </div>
 </section>
 
-@using (Html.BeginForm("DeleteQuotationMaster", "Quotation", FormMethod.Post))
+@using (Html.BeginForm("QuotationOpen", "Quotation", FormMethod.Post))
 {
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="modal fade" id="deleteFoodCustomerOrderModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
+    <div class="modal fade" id="openQuotationModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
 
@@ -206,7 +195,7 @@
                     <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
                         &times;
                     </button>
-                    <h5 class="modal-title"><b>Delete Quotation</b></h5>
+                    <h5 class="modal-title"><b>Quotation Open</b></h5>
                 </div>
 
                 <div class="modal-body">
@@ -214,12 +203,12 @@
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                    @Html.HiddenFor(model => model.QuotationMasterId, new { id = "hiddenQuotationMasterId" })
-                    @Html.HiddenFor(model => model.CompanyFK, new { id = "hiddenCompanyFK" })
-                    @Html.HiddenFor(model => model.ActionId, new { id = "deleteActionId" })
+                    @Html.HiddenFor(model => model.QuotationMasterId, new { id = "openQuotationMasterId" })
+                    @Html.HiddenFor(model => model.CompanyFK, new { id = "openCompanyFK" })
+                    @Html.HiddenFor(model => model.ActionId, new { id = "openActionId" })
 
                     <div style="text-align:center">
-                        <h3>Are you sure to Delete this item?</h3>
+                        <h3>Are you sure to Open this item?</h3>
                     </div>
                 </div>
 
@@ -228,7 +217,49 @@
                         <button type="button" onclick="resetDamageEditForm()" class="btn btn-warning fa fa-close" data-dismiss="modal">&nbsp;NO</button>
                     </div>
                     <div class="col-md-9">
-                        <button type="submit" id="btnsave" style="width:100%" class="btn btn-primary fa fa-remove">&nbsp; Delete</button>
+                        <button type="submit" id="btnsave" style="width:100%" class="btn btn-primary fa fa-check">&nbsp; Open</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+
+@using (Html.BeginForm("QuotationClose", "Quotation", FormMethod.Post))
+{
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="modal fade" id="closeQuotationModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
+                        &times;
+                    </button>
+                    <h5 class="modal-title"><b>Quotation Close</b></h5>
+                </div>
+
+                <div class="modal-body">
+
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    @Html.HiddenFor(model => model.QuotationMasterId, new { id = "closeQuotationMasterId" })
+                    @Html.HiddenFor(model => model.CompanyFK, new { id = "closeCompanyFK" })
+                    @Html.HiddenFor(model => model.ActionId, new { id = "closeActionId" })
+
+                    <div style="text-align:center">
+                        <h3>Are you sure to Close this item?</h3>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="col-md-3">
+                        <button type="button" onclick="resetDamageEditForm()" class="btn btn-warning fa fa-close" data-dismiss="modal">&nbsp;NO</button>
+                    </div>
+                    <div class="col-md-9">
+                        <button type="submit" id="btnsave" style="width:100%" class="btn btn-primary fa fa-remove">&nbsp; Close</button>
                     </div>
                 </div>
 
@@ -253,10 +284,16 @@
             yearRange: "2001:+50"
         });
 
-        function MakeDeletable(rowId) {
-            $('#hiddenQuotationMasterId').val(rowId);
-            $('#hiddenCompanyFK').val(@Model.CompanyFK);
-            $('#deleteActionId').val(3);
+        function MakeOpenable(rowId) {
+            $('#openQuotationMasterId').val(rowId);
+            $('#openCompanyFK').val(@Model.CompanyFK);
+            $('#openActionId').val(3);
+        }
+
+        function MakeClosable(rowId) {
+            $('#closeQuotationMasterId').val(rowId);
+            $('#closeCompanyFK').val(@Model.CompanyFK);
+            $('#closeActionId').val(3);
         }
     </script>
 }

@@ -336,7 +336,41 @@ namespace KGERP.Service.Implementation
                                                                   from t3 in t3_Join.DefaultIfEmpty()
                                                                   join t4 in _context.Employees on t1.CreatedBy equals t4.EmployeeId into t4_Join
                                                                   from t4 in t4_Join.DefaultIfEmpty()
-                                                                  where t1.IsActive && t1.StatusId == (int)EnumQuotationStatus.Running && t1.StatusId == (int)EnumQuotationStatus.Closed
+                                                                  where t1.IsActive && t1.StatusId == (int)EnumQuotationStatus.Opened && t1.StatusId == (int)EnumQuotationStatus.Closed
+                                                                  select new QuotationMasterModel
+                                                                  {
+                                                                      QuotationMasterId = t1.QuotationMasterId,
+                                                                      QuotationNo = t1.QuotationNo,
+                                                                      QuotationTypeId = (int)(EnumQuotationType)t1.QuotationTypeId,
+                                                                      QuotationForId = t1.QuotationForId,
+                                                                      QuotationForName = t2.Name,
+                                                                      RequisitionId = t1.BillRequisitionMasterId != null ? (long)t1.BillRequisitionMasterId : 0,
+                                                                      RequisitionNo = t3.BillRequisitionNo ?? "N/A",
+                                                                      StartDate = t1.StartDate,
+                                                                      EndDate = (DateTime)t1.EndDate,
+                                                                      Description = t1.Description ?? "N/A",
+                                                                      StatusId = (int)(EnumQuotationStatus)t1.StatusId,
+                                                                      CreatedDate = t1.CreatedOn,
+                                                                      CreatedBy = t1.CreatedBy,
+                                                                      EmployeeName = t1.CreatedBy + " - " + t4.Name,
+                                                                      CompanyFK = 21
+                                                                  }).ToListAsync());
+
+            return quotationMasterModel;
+        }
+
+        public async Task<QuotationMasterModel> GetQuotationListByStatusId(int id)
+        {
+            QuotationMasterModel quotationMasterModel = new QuotationMasterModel();
+
+            quotationMasterModel.DataList = await Task.Run(() => (from t1 in _context.QuotationMasters
+                                                                  join t2 in _context.QuotationFors on t1.QuotationForId equals t2.QuotationForId into t2_Join
+                                                                  from t2 in t2_Join.DefaultIfEmpty()
+                                                                  join t3 in _context.BillRequisitionMasters on t1.BillRequisitionMasterId equals t3.BillRequisitionMasterId into t3_Join
+                                                                  from t3 in t3_Join.DefaultIfEmpty()
+                                                                  join t4 in _context.Employees on t1.CreatedBy equals t4.EmployeeId into t4_Join
+                                                                  from t4 in t4_Join.DefaultIfEmpty()
+                                                                  where t1.IsActive && t1.StatusId == id
                                                                   select new QuotationMasterModel
                                                                   {
                                                                       QuotationMasterId = t1.QuotationMasterId,
@@ -365,6 +399,42 @@ namespace KGERP.Service.Implementation
 
             QuotationMaster quotationMaster = _context.QuotationMasters.FirstOrDefault(x => x.QuotationMasterId == id);
             quotationMaster.IsActive = false;
+            quotationMaster.ModifiedBy = HttpContext.Current.User.Identity.Name;
+            quotationMaster.ModifiedOn = DateTime.Now;
+
+            if (await _context.SaveChangesAsync() > 0)
+            {
+                result = true;
+            }
+
+            return result;
+        }
+
+        public async Task<bool> OpenQuotationById(long id)
+        {
+            bool result = false;
+
+            QuotationMaster quotationMaster = _context.QuotationMasters.FirstOrDefault(x => x.QuotationMasterId == id);
+            quotationMaster.StatusId = (int)EnumQuotationStatus.Opened;
+            quotationMaster.StartDate = DateTime.Now.Date;
+            quotationMaster.ModifiedBy = HttpContext.Current.User.Identity.Name;
+            quotationMaster.ModifiedOn = DateTime.Now;
+
+            if (await _context.SaveChangesAsync() > 0)
+            {
+                result = true;
+            }
+
+            return result;
+        }
+
+        public async Task<bool> CloseQuotationById(long id)
+        {
+            bool result = false;
+
+            QuotationMaster quotationMaster = _context.QuotationMasters.FirstOrDefault(x => x.QuotationMasterId == id);
+            quotationMaster.StatusId = (int)EnumQuotationStatus.Closed;
+            quotationMaster.EndDate = DateTime.Now.Date;
             quotationMaster.ModifiedBy = HttpContext.Current.User.Identity.Name;
             quotationMaster.ModifiedOn = DateTime.Now;
 
