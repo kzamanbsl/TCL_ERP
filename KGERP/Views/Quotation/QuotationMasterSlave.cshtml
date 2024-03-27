@@ -14,7 +14,7 @@
     }
 
     .ui-datepicker-trigger {
-        width: 37px !important;
+        width: 35px !important;
         height: 33px !important;
         margin-left: 20px !important;
     }
@@ -154,7 +154,7 @@
                                     <div class="col-md-4" id="inputQuotationFor">
                                         <div class="form-group">
                                             <label class="form-label">Qutation Type<sup class="text-danger" title="Required"><b>*</b></sup></label>
-                                            @Html.DropDownListFor(model => model.QuotationTypeId, Model.QuotationTypeList as SelectList, "==Select Quotation Type==", new { id = "ddlQuotationFor", @class = "form-control searchingDropdown", @required = "true" })
+                                            @Html.DropDownListFor(model => model.QuotationTypeId, Model.QuotationTypeList as SelectList, "==Select Quotation Type==", new { id = "ddlQuotationType", @class = "form-control searchingDropdown", @required = "true" })
                                             @Html.ValidationMessageFor(model => model.QuotationTypeId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -175,10 +175,10 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-4" id="inputDate">
+                                    <div class="col-md-4" id="inputStartDate">
                                         <label class="form-label">Submission Start Date<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                         <div class="form-group">
-                                            <input name="StartDate" asp-for="StartDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker w-100 dateCustom" autocomplete="off" id="txtQuotationDate">
+                                            <input name="StartDate" asp-for="StartDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker w-100 dateCustom" autocomplete="off" id="txtQuotationStartDate">
                                             @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -197,7 +197,7 @@
                             @if (Model.StatusId == (int)EnumQuotationStatus.Draft)
                             {
                                 <div class="row">
-                                    <div class="col-md-3 d-block" id="inputMaterialType">
+                                    <div class="col-md-4 d-block" id="inputMaterialType">
                                         <div class="form-group">
                                             <label class="form-label">Material Type<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                             @Html.DropDownListFor(model => model.DetailModel.MaterialTypeId, Model.DetailModel.MaterialTypeList as SelectList, "==Select Material Type==", new { id = "ddlMaterialTypeId", style = "width:100%", @class = "form-control searchingDropdown", @required = "true" })
@@ -205,7 +205,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-3 d-block" id="inputMaterialSubtype">
+                                    <div class="col-md-4 d-block" id="inputMaterialSubtype">
                                         <div class="form-group">
                                             <label class="form-label">Material Subtype<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                             @Html.DropDownListFor(model => model.DetailModel.MaterialSubtypeId, Model.DetailModel.MaterialSubtypeList as SelectList, "==Select Material Subtype==", new { id = "ddlMaterialSubtypeId", style = "width:100%", @class = "form-control searchingDropdown", @required = "true" })
@@ -213,7 +213,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-3" id="inputMaterial">
+                                    <div class="col-md-4" id="inputMaterial">
                                         <div class="form-group">
                                             <label class="form-label">Select Material<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                             @Html.DropDownListFor(model => model.DetailModel.MaterialId, Model.DetailModel.MaterialList as SelectList, "==Select Material==", new { id = "ddlMaterialId", onchange = "GetUnitName()", style = "width:100%", @class = "form-control searchingDropdown", @required = "true" })
@@ -221,7 +221,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-3" id="inputUnitName">
+                                    <div class="col-md-4" id="inputUnitName">
                                         <div class="form-group">
                                             <label class="form-label">Unit Name<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                             @Html.TextBoxFor(model => model.DetailModel.UnitName, new { id = "txtUnitName", style = "width:100%", @class = "form-control", placeholder = "Unit name", @required = "true", ReadOnly = "true" })
@@ -230,7 +230,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-3" id="inputQuality">
+                                    <div class="col-md-4" id="inputQuality">
                                         <div class="form-group">
                                             <label class="form-label">Material Quality<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                             @Html.DropDownListFor(model => model.DetailModel.MaterialQualityId, Model.DetailModel.MaterialQualityList as SelectList, "==Select Quality==", new { id = "ddlMaterialQualityId", @class = "form-control searchingDropdown", style = "width: 100%", @required = "true" })
@@ -238,29 +238,11 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-3" id="inputQuantity">
+                                    <div class="col-md-4" id="inputQuantity">
                                         <div class="form-group">
                                             <label class="form-label">Quantity<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                             @Html.TextBoxFor(model => model.DetailModel.Quantity, new { id = "txtQuantity", type = "number", step = "0.01", @class = "form-control", placeholder = "Quantity", @required = "true" })
                                             @Html.ValidationMessageFor(model => model.DetailModel.Quantity, "", new { @class = "text-danger" })
-                                            <span class="text-danger" id="errorQuantity"></span>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-3" id="inputUnitRate">
-                                        <div class="form-group">
-                                            <label class="form-label">Unit Price<sup class="text-danger" title="Required"><b>*</b></sup></label>
-                                            @Html.TextBoxFor(model => model.DetailModel.UnitPrice, new { id = "txtUnitPrice", type = "number", step = "0.01", @class = "form-control", placeholder = "Unit price", @required = "true" })
-                                            @Html.ValidationMessageFor(model => model.DetailModel.UnitPrice, "", new { @class = "text-danger" })
-                                            <span class="text-danger" id="errorUnit"></span>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-3" id="inputTotal">
-                                        <div class="form-group">
-                                            <label class="form-label">Total Amount<sup class="text-danger" title="Required"><b>*</b></sup></label>
-                                            @Html.TextBoxFor(model => model.DetailModel.TotalAmount, new { id = "txtTotalAmount", type = "number", step = "0.01", @class = "form-control", placeholder = "Total amount", ReadOnly = "true" })
-                                            @Html.ValidationMessageFor(model => model.DetailModel.TotalAmount, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
 
@@ -310,8 +292,6 @@
                                             <th>Quality</th>
                                             <th>Unit</th>
                                             <th>Quantity</th>
-                                            <th>Unit Price</th>
-                                            <th>Total</th>
                                             <th>Rmarks</th>
                                             @if (Model.StatusId == (int)EnumQuotationStatus.Draft)
                                             {
@@ -341,8 +321,6 @@
                                                 <td>@item.UnitName</td>
                                                 <td>@item.Quantity</td>
                                                 <td>@item.UnitPrice</td>
-                                                <td>@item.TotalAmount</td>
-                                                <td>@item.Remarks</td>
                                                 @if (Model.StatusId == (int)EnumQuotationStatus.Draft)
                                                 {
                                                     <td style="padding:5px;text-align:center;">
@@ -470,29 +448,25 @@
         $(document).ready(function () {
             "use strict"
 
-            $("#ddlQuotationFor").on('change', function (event) {
+            $("#ddlQuotationType").on('change', function (event) {
                 if ($(this).val() == @((int)EnumQuotationType.Requisition)) {
                     $("#inputRequisition").removeClass("hidden").addClass("d-block");
                     $("#inputMaterialType").removeClass("d-block").addClass("hidden");
                     $("#inputMaterialSubtype").removeClass("d-block").addClass("hidden");
 
-                    $("#inputMaterial").removeClass("col-md-3").addClass("col-md-4");
-                    $("#inputUnitName").removeClass("col-md-3").addClass("col-md-4");
-                    $("#inputQuality").removeClass("col-md-3").addClass("col-md-4");
-                    $("#inputQuantity").removeClass("col-md-3").addClass("col-md-4");
-                    $("#inputUnitRate").removeClass("col-md-3").addClass("col-md-4");
-                    $("#inputTotal").removeClass("col-md-3").addClass("col-md-4");
+                    $("#inputMaterial").removeClass("col-md-4").addClass("col-md-3");
+                    $("#inputUnitName").removeClass("col-md-4").addClass("col-md-3");
+                    $("#inputQuality").removeClass("col-md-4").addClass("col-md-3");
+                    $("#inputQuantity").removeClass("col-md-4").addClass("col-md-3");
                 } else {
                     $("#inputRequisition").removeClass("d-block").addClass("hidden");
                     $("#inputMaterialType").removeClass("hidden").addClass("d-block");
                     $("#inputMaterialSubtype").removeClass("hidden").addClass("d-block");
 
-                    $("#inputMaterial").removeClass("col-md-4").addClass("col-md-3");
-                    $("#inputUnitName").removeClass("col-md-4").addClass("col-md-3");
-                    $("#inputQuality").removeClass("col-md-4").addClass("col-md-3");
-                    $("#inputQuantity").removeClass("col-md-4").addClass("col-md-3");
-                    $("#inputUnitRate").removeClass("col-md-4").addClass("col-md-3");
-                    $("#inputTotal").removeClass("col-md-4").addClass("col-md-3");
+                    $("#inputMaterial").removeClass("col-md-3").addClass("col-md-4");
+                    $("#inputUnitName").removeClass("col-md-3").addClass("col-md-4");
+                    $("#inputQuality").removeClass("col-md-3").addClass("col-md-4");
+                    $("#inputQuantity").removeClass("col-md-3").addClass("col-md-4");
                 }
             });
         });
@@ -616,33 +590,6 @@
             });
         });
 
-        $('#txtQuantity').on('input', function (event) {
-            var quantityValue = $('#txtQuantity').val();
-            var unitValue = $('#txtUnitPrice').val();
-            var totalValue = $('#txtTotalAmount');
-            var total = 0;
-            if (isNaN(quantityValue) && isNaN(unitValue)) {
-                $('#errorQuantity').text('Please type a number!');
-            }
-            else {
-                total = parseFloat(quantityValue) * parseFloat(unitValue);
-                totalValue.val(total.toFixed(2));
-            }
-        });
-
-        $('#txtUnitPrice').on('input', function (event) {
-            var quantityValue = $('#txtQuantity').val();
-            var unitValue = $('#txtUnitPrice').val();
-            var totalValue = $('#txtTotalAmount');
-            var total = 0;
-            if (isNaN(quantityValue) && isNaN(unitValue)) {
-                $('#errorUnit').text('Please type a number!');
-            }
-            else {
-                total = parseFloat(quantityValue) * parseFloat(unitValue);
-                totalValue.val(total.toFixed(2));
-            }
-        });
 
         function GetUnitName() {
             var getMaterialId = $("#ddlMaterialId option:selected");
@@ -662,34 +609,6 @@
                 }
             });
         }
-
-        $("#txtSupplierName").autocomplete({
-            source: function (request, response) {
-                $.ajax({
-                    url:"@Url.Action("GetAutoCompleteSupplierGet", "Procurement")",
-                    data: { prefix: request.term, companyId: @Model.CompanyFK },
-                    dataType: "json",
-                    type: "get",
-                    cache: true,
-                    contentType: "application/json; charset=utf-8",
-                    success: function (data) {
-                       response($.map(data, function (item) {
-                           return item;
-                       }))
-                    }
-                });
-            },
-
-            select: function (e, i) {
-                $("#ddlCommon_SupplierFK").val(i.item.val);
-
-                },
-            minLength: 1,
-            cache: true
-
-        }).focus(function () {
-            $(this).autocomplete("search");
-        });
 
         if (@(Model.QuotationTypeId) == @((int)EnumQuotationType.Requisition)) {
 
@@ -721,9 +640,35 @@
             $("#inputUnitName").removeClass("col-md-3").addClass("col-md-4");
             $("#inputQuality").removeClass("col-md-3").addClass("col-md-4");
             $("#inputQuantity").removeClass("col-md-3").addClass("col-md-4");
-            $("#inputUnitRate").removeClass("col-md-3").addClass("col-md-4");
-            $("#inputTotal").removeClass("col-md-3").addClass("col-md-4");
         }
+
+        $("#txtSupplierName").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url:"@Url.Action("GetAutoCompleteSupplierGet", "Procurement")",
+                    data: { prefix: request.term, companyId: @Model.CompanyFK },
+                    dataType: "json",
+                    type: "get",
+                    cache: true,
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                       response($.map(data, function (item) {
+                           return item;
+                       }))
+                    }
+                });
+            },
+
+            select: function (e, i) {
+                $("#ddlCommon_SupplierFK").val(i.item.val);
+
+                },
+            minLength: 1,
+            cache: true
+
+        }).focus(function () {
+            $(this).autocomplete("search");
+        });
 
     </script>
 }
