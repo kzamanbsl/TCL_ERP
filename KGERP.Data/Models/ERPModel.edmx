@@ -4986,9 +4986,20 @@ warning 6002: The table/view 'TCLErp.Erp.FormulaHistory' does not have a primary
           <Property Name="MaterialId" Type="int" Nullable="false" />
           <Property Name="MaterialQuality" Type="int" Nullable="false" />
           <Property Name="Quantity" Type="decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="UnitPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="TotalAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="Remarks" Type="nchar" MaxLength="10" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="QuotationFor">
+          <Key>
+            <PropertyRef Name="QuotationForId" />
+          </Key>
+          <Property Name="QuotationForId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="varchar(max)" />
           <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="CreatedOn" Type="datetime" Nullable="false" />
           <Property Name="ModifiedBy" Type="varchar" MaxLength="50" />
@@ -5000,27 +5011,31 @@ warning 6002: The table/view 'TCLErp.Erp.FormulaHistory' does not have a primary
             <PropertyRef Name="QuotationMasterId" />
           </Key>
           <Property Name="QuotationMasterId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="QutationDate" Type="datetime" Nullable="false" />
+          <Property Name="QuotationDate" Type="datetime" Nullable="false" />
           <Property Name="QuotationNo" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="QuotationName" Type="varchar(max)" Nullable="false" />
-          <Property Name="QuotationForId" Type="int" Nullable="false" />
-          <Property Name="SupplierId" Type="bigint" Nullable="false" />
+          <Property Name="QuotationTypeId" Type="int" Nullable="false" />
+          <Property Name="QuotationForId" Type="bigint" Nullable="false" />
           <Property Name="BillRequisitionMasterId" Type="bigint" Nullable="false" />
-          <Property Name="StatusId" Type="int" Nullable="false" />
+          <Property Name="StartDate" Type="datetime" Nullable="false" />
+          <Property Name="EndDate" Type="datetime" />
           <Property Name="Description" Type="varchar(max)" />
+          <Property Name="StatusId" Type="int" Nullable="false" />
           <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="CreatedOn" Type="datetime" Nullable="false" />
           <Property Name="ModifiedBy" Type="varchar" MaxLength="50" />
           <Property Name="ModifiedOn" Type="datetime" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
-        <EntityType Name="QuotationType">
+        <EntityType Name="QuotationSubmit">
           <Key>
-            <PropertyRef Name="QuotationTypeId" />
+            <PropertyRef Name="QuotationSubmitId" />
           </Key>
-          <Property Name="QuotationTypeId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Description" Type="varchar(max)" />
+          <Property Name="QuotationSubmitId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="QuotationMasterId" Type="bigint" Nullable="false" />
+          <Property Name="SupplierId" Type="int" Nullable="false" />
+          <Property Name="MaterialId" Type="int" Nullable="false" />
+          <Property Name="UnitPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Remarks" Type="varchar(max)" />
           <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="CreatedOn" Type="datetime" Nullable="false" />
           <Property Name="ModifiedBy" Type="varchar" MaxLength="50" />
@@ -8309,7 +8324,7 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_QuotationDetail_QuotationMaster">
+        <Association Name="FK_QuotationDetail_QuotationMaster1">
           <End Role="QuotationMaster" Type="Self.QuotationMaster" Multiplicity="1" />
           <End Role="QuotationDetail" Type="Self.QuotationDetail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -8318,6 +8333,66 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             </Principal>
             <Dependent Role="QuotationDetail">
               <PropertyRef Name="QuotationMasterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_QuotationMaster_BillRequisitionMaster">
+          <End Role="BillRequisitionMaster" Type="Self.BillRequisitionMaster" Multiplicity="1" />
+          <End Role="QuotationMaster" Type="Self.QuotationMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BillRequisitionMaster">
+              <PropertyRef Name="BillRequisitionMasterId" />
+            </Principal>
+            <Dependent Role="QuotationMaster">
+              <PropertyRef Name="BillRequisitionMasterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_QuotationMaster_QuotationFor">
+          <End Role="QuotationFor" Type="Self.QuotationFor" Multiplicity="1" />
+          <End Role="QuotationMaster" Type="Self.QuotationMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QuotationFor">
+              <PropertyRef Name="QuotationForId" />
+            </Principal>
+            <Dependent Role="QuotationMaster">
+              <PropertyRef Name="QuotationForId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_QuotationSubmit_QuotationMaster">
+          <End Role="QuotationMaster" Type="Self.QuotationMaster" Multiplicity="1" />
+          <End Role="QuotationSubmit" Type="Self.QuotationSubmit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QuotationMaster">
+              <PropertyRef Name="QuotationMasterId" />
+            </Principal>
+            <Dependent Role="QuotationSubmit">
+              <PropertyRef Name="QuotationMasterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_QuotationSubmit_QuotationSubmit">
+          <End Role="Vendor" Type="Self.Vendor" Multiplicity="1" />
+          <End Role="QuotationSubmit" Type="Self.QuotationSubmit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="VendorId" />
+            </Principal>
+            <Dependent Role="QuotationSubmit">
+              <PropertyRef Name="SupplierId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_QuotationSubmit_QuotationSubmit1">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="QuotationSubmit" Type="Self.QuotationSubmit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="QuotationSubmit">
+              <PropertyRef Name="MaterialId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -9321,8 +9396,9 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <EntitySet Name="PurchaseReturn" EntityType="Self.PurchaseReturn" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="PurchaseReturnDetail" EntityType="Self.PurchaseReturnDetail" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="QuotationDetail" EntityType="Self.QuotationDetail" Schema="Erp" store:Type="Tables" />
+          <EntitySet Name="QuotationFor" EntityType="Self.QuotationFor" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="QuotationMaster" EntityType="Self.QuotationMaster" Schema="Erp" store:Type="Tables" />
-          <EntitySet Name="QuotationType" EntityType="Self.QuotationType" Schema="Erp" store:Type="Tables" />
+          <EntitySet Name="QuotationSubmit" EntityType="Self.QuotationSubmit" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="Region" EntityType="Self.Region" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="RentProduction" EntityType="Self.RentProduction" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="RentProductionDetail" EntityType="Self.RentProductionDetail" Schema="Erp" store:Type="Tables" />
@@ -10661,9 +10737,29 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             <End Role="Product" EntitySet="Product" />
             <End Role="QuotationDetail" EntitySet="QuotationDetail" />
           </AssociationSet>
-          <AssociationSet Name="FK_QuotationDetail_QuotationMaster" Association="Self.FK_QuotationDetail_QuotationMaster">
+          <AssociationSet Name="FK_QuotationDetail_QuotationMaster1" Association="Self.FK_QuotationDetail_QuotationMaster1">
             <End Role="QuotationMaster" EntitySet="QuotationMaster" />
             <End Role="QuotationDetail" EntitySet="QuotationDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_QuotationMaster_BillRequisitionMaster" Association="Self.FK_QuotationMaster_BillRequisitionMaster">
+            <End Role="BillRequisitionMaster" EntitySet="BillRequisitionMaster" />
+            <End Role="QuotationMaster" EntitySet="QuotationMaster" />
+          </AssociationSet>
+          <AssociationSet Name="FK_QuotationMaster_QuotationFor" Association="Self.FK_QuotationMaster_QuotationFor">
+            <End Role="QuotationFor" EntitySet="QuotationFor" />
+            <End Role="QuotationMaster" EntitySet="QuotationMaster" />
+          </AssociationSet>
+          <AssociationSet Name="FK_QuotationSubmit_QuotationMaster" Association="Self.FK_QuotationSubmit_QuotationMaster">
+            <End Role="QuotationMaster" EntitySet="QuotationMaster" />
+            <End Role="QuotationSubmit" EntitySet="QuotationSubmit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_QuotationSubmit_QuotationSubmit" Association="Self.FK_QuotationSubmit_QuotationSubmit">
+            <End Role="Vendor" EntitySet="Vendor" />
+            <End Role="QuotationSubmit" EntitySet="QuotationSubmit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_QuotationSubmit_QuotationSubmit1" Association="Self.FK_QuotationSubmit_QuotationSubmit1">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="QuotationSubmit" EntitySet="QuotationSubmit" />
           </AssociationSet>
           <AssociationSet Name="FK_Region_Company" Association="Self.FK_Region_Company">
             <End Role="Company" EntitySet="Company" />
@@ -12337,16 +12433,37 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             <End Role="BoQItemProductMap" EntitySet="BoQItemProductMaps" />
           </AssociationSet>
           <EntitySet Name="QuotationDetails" EntityType="ERPModel.QuotationDetail" />
+          <EntitySet Name="QuotationFors" EntityType="ERPModel.QuotationFor" />
           <EntitySet Name="QuotationMasters" EntityType="ERPModel.QuotationMaster" />
+          <EntitySet Name="QuotationSubmits" EntityType="ERPModel.QuotationSubmit" />
+          <AssociationSet Name="FK_QuotationMaster_BillRequisitionMaster" Association="ERPModel.FK_QuotationMaster_BillRequisitionMaster">
+            <End Role="BillRequisitionMaster" EntitySet="BillRequisitionMasters" />
+            <End Role="QuotationMaster" EntitySet="QuotationMasters" />
+          </AssociationSet>
           <AssociationSet Name="FK_QuotationDetail_Product" Association="ERPModel.FK_QuotationDetail_Product">
             <End Role="Product" EntitySet="Products" />
             <End Role="QuotationDetail" EntitySet="QuotationDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK_QuotationDetail_QuotationMaster" Association="ERPModel.FK_QuotationDetail_QuotationMaster">
+          <AssociationSet Name="FK_QuotationSubmit_QuotationSubmit1" Association="ERPModel.FK_QuotationSubmit_QuotationSubmit1">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="QuotationSubmit" EntitySet="QuotationSubmits" />
+          </AssociationSet>
+          <AssociationSet Name="FK_QuotationDetail_QuotationMaster1" Association="ERPModel.FK_QuotationDetail_QuotationMaster1">
             <End Role="QuotationMaster" EntitySet="QuotationMasters" />
             <End Role="QuotationDetail" EntitySet="QuotationDetails" />
           </AssociationSet>
-          <EntitySet Name="QuotationTypes" EntityType="ERPModel.QuotationType" />
+          <AssociationSet Name="FK_QuotationMaster_QuotationFor" Association="ERPModel.FK_QuotationMaster_QuotationFor">
+            <End Role="QuotationFor" EntitySet="QuotationFors" />
+            <End Role="QuotationMaster" EntitySet="QuotationMasters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_QuotationSubmit_QuotationMaster" Association="ERPModel.FK_QuotationSubmit_QuotationMaster">
+            <End Role="QuotationMaster" EntitySet="QuotationMasters" />
+            <End Role="QuotationSubmit" EntitySet="QuotationSubmits" />
+          </AssociationSet>
+          <AssociationSet Name="FK_QuotationSubmit_QuotationSubmit" Association="ERPModel.FK_QuotationSubmit_QuotationSubmit">
+            <End Role="Vendor" EntitySet="Vendors" />
+            <End Role="QuotationSubmit" EntitySet="QuotationSubmits" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="AdminPolicy">
           <Key>
@@ -16386,6 +16503,7 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <NavigationProperty Name="Unit" Relationship="ERPModel.FK_Product_Unit" FromRole="Product" ToRole="Unit" />
           <NavigationProperty Name="BoQItemProductMaps" Relationship="ERPModel.FK_BoQItemProductMap_Product" FromRole="Product" ToRole="BoQItemProductMap" />
           <NavigationProperty Name="QuotationDetails" Relationship="ERPModel.FK_QuotationDetail_Product" FromRole="Product" ToRole="QuotationDetail" />
+          <NavigationProperty Name="QuotationSubmits" Relationship="ERPModel.FK_QuotationSubmit_QuotationSubmit1" FromRole="Product" ToRole="QuotationSubmit" />
         </EntityType>
         <Association Name="FK_Product_FacingInfo">
           <End Type="ERPModel.FacingInfo" Role="FacingInfo" Multiplicity="0..1" />
@@ -21020,6 +21138,7 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <NavigationProperty Name="VendorOpenings" Relationship="ERPModel.FK_VendorOpening_Vendor" FromRole="Vendor" ToRole="VendorOpening" />
           <NavigationProperty Name="PurchaseOrders" Relationship="ERPModel.FK_PurchaseOrder_Vendor" FromRole="Vendor" ToRole="PurchaseOrder" />
           <NavigationProperty Name="ChequeRegisters" Relationship="ERPModel.FK_ChequeRegister_ChequeRegister" FromRole="Vendor" ToRole="ChequeRegister" />
+          <NavigationProperty Name="QuotationSubmits" Relationship="ERPModel.FK_QuotationSubmit_QuotationSubmit" FromRole="Vendor" ToRole="QuotationSubmit" />
         </EntityType>
         <Association Name="FK_MonthlyTarget_Vendor">
           <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="0..1" />
@@ -21949,6 +22068,7 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <NavigationProperty Name="ChequeRegisters" Relationship="ERPModel.FK_ChequeRegister_BillRequisitionMaster" FromRole="BillRequisitionMaster" ToRole="ChequeRegister" />
           <NavigationProperty Name="PurchaseOrders" Relationship="ERPModel.FK_PurchaseOrder_PurchaseOrder" FromRole="BillRequisitionMaster" ToRole="PurchaseOrder" />
           <NavigationProperty Name="VoucherBRMapMasters" Relationship="ERPModel.FK_VoucherBRMapMaster_BillRequisitionMaster" FromRole="BillRequisitionMaster" ToRole="VoucherBRMapMaster" />
+          <NavigationProperty Name="QuotationMasters" Relationship="ERPModel.FK_QuotationMaster_BillRequisitionMaster" FromRole="BillRequisitionMaster" ToRole="QuotationMaster" />
         </EntityType>
         <Association Name="FK_ChequeRegister_BillRequisitionMaster">
           <End Type="ERPModel.BillRequisitionMaster" Role="BillRequisitionMaster" Multiplicity="0..1" />
@@ -22126,8 +22246,6 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <Property Name="MaterialId" Type="Int32" Nullable="false" />
           <Property Name="MaterialQuality" Type="Int32" Nullable="false" />
           <Property Name="Quantity" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="UnitPrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="TotalAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="Remarks" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
@@ -22135,28 +22253,77 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
           <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Product" Relationship="ERPModel.FK_QuotationDetail_Product" FromRole="QuotationDetail" ToRole="Product" />
-          <NavigationProperty Name="QuotationMaster" Relationship="ERPModel.FK_QuotationDetail_QuotationMaster" FromRole="QuotationDetail" ToRole="QuotationMaster" />
+          <NavigationProperty Name="QuotationMaster" Relationship="ERPModel.FK_QuotationDetail_QuotationMaster1" FromRole="QuotationDetail" ToRole="QuotationMaster" />
         </EntityType>
-        <EntityType Name="QuotationMaster">
+        <EntityType Name="QuotationFor">
           <Key>
-            <PropertyRef Name="QuotationMasterId" />
+            <PropertyRef Name="QuotationForId" />
           </Key>
-          <Property Name="QuotationMasterId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="QutationDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="QuotationNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="QuotationName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="QuotationForId" Type="Int32" Nullable="false" />
-          <Property Name="SupplierId" Type="Int64" Nullable="false" />
-          <Property Name="BillRequisitionMasterId" Type="Int64" Nullable="false" />
-          <Property Name="StatusId" Type="Int32" Nullable="false" />
+          <Property Name="QuotationForId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="QuotationDetails" Relationship="ERPModel.FK_QuotationDetail_QuotationMaster" FromRole="QuotationMaster" ToRole="QuotationDetail" />
+          <NavigationProperty Name="QuotationMasters" Relationship="ERPModel.FK_QuotationMaster_QuotationFor" FromRole="QuotationFor" ToRole="QuotationMaster" />
         </EntityType>
+        <EntityType Name="QuotationMaster">
+          <Key>
+            <PropertyRef Name="QuotationMasterId" />
+          </Key>
+          <Property Name="QuotationMasterId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QuotationDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="QuotationNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="QuotationTypeId" Type="Int32" Nullable="false" />
+          <Property Name="QuotationForId" Type="Int64" Nullable="false" />
+          <Property Name="BillRequisitionMasterId" Type="Int64" Nullable="false" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Precision="3" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="StatusId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="BillRequisitionMaster" Relationship="ERPModel.FK_QuotationMaster_BillRequisitionMaster" FromRole="QuotationMaster" ToRole="BillRequisitionMaster" />
+          <NavigationProperty Name="QuotationDetails" Relationship="ERPModel.FK_QuotationDetail_QuotationMaster1" FromRole="QuotationMaster" ToRole="QuotationDetail" />
+          <NavigationProperty Name="QuotationFor" Relationship="ERPModel.FK_QuotationMaster_QuotationFor" FromRole="QuotationMaster" ToRole="QuotationFor" />
+          <NavigationProperty Name="QuotationSubmits" Relationship="ERPModel.FK_QuotationSubmit_QuotationMaster" FromRole="QuotationMaster" ToRole="QuotationSubmit" />
+        </EntityType>
+        <EntityType Name="QuotationSubmit">
+          <Key>
+            <PropertyRef Name="QuotationSubmitId" />
+          </Key>
+          <Property Name="QuotationSubmitId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QuotationMasterId" Type="Int64" Nullable="false" />
+          <Property Name="SupplierId" Type="Int32" Nullable="false" />
+          <Property Name="MaterialId" Type="Int32" Nullable="false" />
+          <Property Name="UnitPrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Product" Relationship="ERPModel.FK_QuotationSubmit_QuotationSubmit1" FromRole="QuotationSubmit" ToRole="Product" />
+          <NavigationProperty Name="QuotationMaster" Relationship="ERPModel.FK_QuotationSubmit_QuotationMaster" FromRole="QuotationSubmit" ToRole="QuotationMaster" />
+          <NavigationProperty Name="Vendor" Relationship="ERPModel.FK_QuotationSubmit_QuotationSubmit" FromRole="QuotationSubmit" ToRole="Vendor" />
+        </EntityType>
+        <Association Name="FK_QuotationMaster_BillRequisitionMaster">
+          <End Type="ERPModel.BillRequisitionMaster" Role="BillRequisitionMaster" Multiplicity="1" />
+          <End Type="ERPModel.QuotationMaster" Role="QuotationMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BillRequisitionMaster">
+              <PropertyRef Name="BillRequisitionMasterId" />
+            </Principal>
+            <Dependent Role="QuotationMaster">
+              <PropertyRef Name="BillRequisitionMasterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_QuotationDetail_Product">
           <End Type="ERPModel.Product" Role="Product" Multiplicity="1" />
           <End Type="ERPModel.QuotationDetail" Role="QuotationDetail" Multiplicity="*" />
@@ -22169,7 +22336,19 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_QuotationDetail_QuotationMaster">
+        <Association Name="FK_QuotationSubmit_QuotationSubmit1">
+          <End Type="ERPModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="ERPModel.QuotationSubmit" Role="QuotationSubmit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="QuotationSubmit">
+              <PropertyRef Name="MaterialId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_QuotationDetail_QuotationMaster1">
           <End Type="ERPModel.QuotationMaster" Role="QuotationMaster" Multiplicity="1" />
           <End Type="ERPModel.QuotationDetail" Role="QuotationDetail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -22181,19 +22360,42 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="QuotationType">
-          <Key>
-            <PropertyRef Name="QuotationTypeId" />
-          </Key>
-          <Property Name="QuotationTypeId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-        </EntityType>
+        <Association Name="FK_QuotationMaster_QuotationFor">
+          <End Type="ERPModel.QuotationFor" Role="QuotationFor" Multiplicity="1" />
+          <End Type="ERPModel.QuotationMaster" Role="QuotationMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QuotationFor">
+              <PropertyRef Name="QuotationForId" />
+            </Principal>
+            <Dependent Role="QuotationMaster">
+              <PropertyRef Name="QuotationForId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_QuotationSubmit_QuotationMaster">
+          <End Type="ERPModel.QuotationMaster" Role="QuotationMaster" Multiplicity="1" />
+          <End Type="ERPModel.QuotationSubmit" Role="QuotationSubmit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QuotationMaster">
+              <PropertyRef Name="QuotationMasterId" />
+            </Principal>
+            <Dependent Role="QuotationSubmit">
+              <PropertyRef Name="QuotationMasterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_QuotationSubmit_QuotationSubmit">
+          <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="1" />
+          <End Type="ERPModel.QuotationSubmit" Role="QuotationSubmit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="VendorId" />
+            </Principal>
+            <Dependent Role="QuotationSubmit">
+              <PropertyRef Name="SupplierId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -28268,13 +28470,25 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
                 <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="Remarks" ColumnName="Remarks" />
-                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
-                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
                 <ScalarProperty Name="Quantity" ColumnName="Quantity" />
                 <ScalarProperty Name="MaterialQuality" ColumnName="MaterialQuality" />
                 <ScalarProperty Name="MaterialId" ColumnName="MaterialId" />
                 <ScalarProperty Name="QuotationMasterId" ColumnName="QuotationMasterId" />
                 <ScalarProperty Name="QuotationDetailId" ColumnName="QuotationDetailId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QuotationFors">
+            <EntityTypeMapping TypeName="ERPModel.QuotationFor">
+              <MappingFragment StoreEntitySet="QuotationFor">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="QuotationForId" ColumnName="QuotationForId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -28286,29 +28500,33 @@ warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a prima
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
                 <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
                 <ScalarProperty Name="BillRequisitionMasterId" ColumnName="BillRequisitionMasterId" />
-                <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
                 <ScalarProperty Name="QuotationForId" ColumnName="QuotationForId" />
-                <ScalarProperty Name="QuotationName" ColumnName="QuotationName" />
+                <ScalarProperty Name="QuotationTypeId" ColumnName="QuotationTypeId" />
                 <ScalarProperty Name="QuotationNo" ColumnName="QuotationNo" />
-                <ScalarProperty Name="QutationDate" ColumnName="QutationDate" />
+                <ScalarProperty Name="QuotationDate" ColumnName="QuotationDate" />
                 <ScalarProperty Name="QuotationMasterId" ColumnName="QuotationMasterId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="QuotationTypes">
-            <EntityTypeMapping TypeName="ERPModel.QuotationType">
-              <MappingFragment StoreEntitySet="QuotationType">
+          <EntitySetMapping Name="QuotationSubmits">
+            <EntityTypeMapping TypeName="ERPModel.QuotationSubmit">
+              <MappingFragment StoreEntitySet="QuotationSubmit">
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
                 <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="QuotationTypeId" ColumnName="QuotationTypeId" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="MaterialId" ColumnName="MaterialId" />
+                <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
+                <ScalarProperty Name="QuotationMasterId" ColumnName="QuotationMasterId" />
+                <ScalarProperty Name="QuotationSubmitId" ColumnName="QuotationSubmitId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

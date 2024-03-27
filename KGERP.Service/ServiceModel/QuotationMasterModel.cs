@@ -14,22 +14,22 @@ namespace KGERP.Service.ServiceModel
     public class QuotationMasterModel : BaseVM
     {
         public long QuotationMasterId { get; set; }
-        public string QuotationNo { get; set; }
         public DateTime QuotationDate { get; set; }
-        public int QuotationFor { get; set; }
-        public string QuotationName { get; set; }
-        public string QuotationNameWitNo { get; set; }
-        public long SupplierId { get; set; }
-        public string SupplierName { get; set; }
-        public int StatusId { get; set; }
+        public string QuotationNo { get; set; }
+        public int QuotationTypeId { get; set; }
+        public long QuotationForId { get; set; }
+        public string QuotationForName { get; set; }
         public long RequisitionId { get; set; }
         public string RequisitionNo { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
         public string Description { get; set; }
+        public int StatusId { get; set; }
         public string EmployeeName { get; set; }
-        public decimal TotalAmount { get; set; }
         public DateTime QuotationFromDate { get; set; }
         public DateTime QuotationToDate { get; set; }
-        public SelectList QuotationForList { get; set; } = new SelectList(Enum.GetValues(typeof(EnumQuotationFor)).Cast<EnumQuotationFor>().Select(e => new SelectListItem { Text = e.ToString(), Value = ((int)e).ToString() }), "Value", "Text");
+        public SelectList QuotationTypeList { get; set; } = new SelectList(Enum.GetValues(typeof(EnumQuotationType)).Cast<EnumQuotationType>().Select(e => new SelectListItem { Text = e.ToString(), Value = ((int)e).ToString() }), "Value", "Text");
+        public SelectList QuotationForList { get; set; } = new SelectList(new List<object>());
         public SelectList RequisitionList { get; set; } = new SelectList(new List<object>());
         public IEnumerable<QuotationMasterModel> DataList { get; set; } = new List<QuotationMasterModel>();
         public List<QuotationDetailModel> DetailDataList { get; set; } = new List<QuotationDetailModel>();
@@ -70,11 +70,11 @@ namespace KGERP.Service.ServiceModel
         public List<QuotationMasterModel> QuotationMasterModel { get; set; } = new List<QuotationMasterModel>();
     }
 
-    public partial class QuotationTypeModel : BaseVM
+    public partial class QuotationForModel : BaseVM
     {
-        public long QuotationTypeId { get; set; }
+        public long QuotationForId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public List<QuotationTypeModel> QuotationTypeList { get; set; } = new List<QuotationTypeModel>();
+        public List<QuotationForModel> QuotationForList { get; set; } = new List<QuotationForModel>();
     }
 }

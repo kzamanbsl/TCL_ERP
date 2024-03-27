@@ -12,13 +12,13 @@ namespace KGERP.Data.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class QuotationDetail
+    public partial class QuotationSubmit
     {
-        public long QuotationDetailId { get; set; }
+        public long QuotationSubmitId { get; set; }
         public long QuotationMasterId { get; set; }
+        public int SupplierId { get; set; }
         public int MaterialId { get; set; }
-        public int MaterialQuality { get; set; }
-        public decimal Quantity { get; set; }
+        public decimal UnitPrice { get; set; }
         public string Remarks { get; set; }
         public string CreatedBy { get; set; }
         public System.DateTime CreatedOn { get; set; }
@@ -28,5 +28,6 @@ namespace KGERP.Data.Models
     
         public virtual Product Product { get; set; }
         public virtual QuotationMaster QuotationMaster { get; set; }
+        public virtual Vendor Vendor { get; set; }
     }
 }

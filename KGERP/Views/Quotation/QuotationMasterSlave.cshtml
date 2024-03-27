@@ -28,9 +28,14 @@
 </style>
 
 <section class="content-header">
-    <h1>
-        New Quotation
-    </h1>
+    @if (Model.QuotationMasterId > 0)
+    {
+        <h1>Add Quotation Detail</h1>
+    }
+    else
+    {
+        <h1>New Quotation</h1>
+    }
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
         <li class="active">New Quotation</li>
@@ -61,34 +66,44 @@
                                             <th>:</th>
                                             <td>@Model.QuotationNo</td>
 
-                                            <th style="width:17% !important">Quotation Name</th>
+                                            <th style="width:17% !important">Quotation Status</th>
                                             <th>:</th>
                                             <td>
-                                                @Model.QuotationName
-                                                <input type="hidden" value="@Model.RequisitionId" id="requisitionIdHidden" />
+                                                @Model.StatusId
+                                                @(Model.StatusId == (int)EnumQuotationStatus.Draft ? EnumQuotationStatus.Draft : EnumQuotationStatus.Submitted)
+                                                <input type="hidden" value="@Model.StatusId" id="quotationStatusHidden" />
                                             </td>
                                         </tr>
 
                                         <tr>
-                                            <th style="width:17% !important">Quotation Date</th>
-                                            <th>:</th>
-                                            <td>@Model.QuotationDate.ToShortDateString()</td>
-
                                             <th style="width:17% !important">Quotation For</th>
                                             <th>:</th>
                                             <td>
-                                                @(Model.QuotationFor == (int)EnumQuotationFor.General ? EnumQuotationFor.General : EnumQuotationFor.Requisition)
-                                                <input type="hidden" value="@Model.QuotationFor" id="quotationForHidden" />
+                                                @Model.QuotationForId
+                                                <input type="hidden" value="@Model.QuotationForId" id="quotationForHidden" />
+                                            </td>
+
+                                            <th style="width:17% !important">Quotation Type</th>
+                                            <th>:</th>
+                                            <td>
+                                                @Model.QuotationTypeId
+                                                @(Model.QuotationTypeId == (int)EnumQuotationType.General ? EnumQuotationType.General : EnumQuotationType.Requisition)
+                                                <input type="hidden" value="@Model.QuotationTypeId" id="quotationTypeHidden" />
                                             </td>
                                         </tr>
 
                                         <tr>
-                                            <th style="width:17% !important">Quotation By</th>
+                                            <th style="width:17% !important">Start Date</th>
                                             <th>:</th>
-                                            <td>@Model.SupplierName</td>
+                                            <td>@Model.StartDate.ToShortDateString()</td>
 
-                                            <th style="width:17% !important">Requisition No</th>
+                                            <th style="width:17% !important">End Date</th>
                                             <th>:</th>
+                                            <td>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
                                             <td>
                                                 @if (Model.RequisitionNo != null)
                                                 {
@@ -100,6 +115,10 @@
                                                     <span>N/A</span>
                                                 }
                                             </td>
+
+                                            <th>Created By</th>
+                                            <th>:</th>
+                                            <td>@Model.EmployeeName</td>
                                         </tr>
 
                                         <tr>
@@ -124,11 +143,10 @@
                             @if (Model.QuotationMasterId == 0)
                             {
                                 <div class="row">
-
                                     <div class="col-md-4" id="inputDate">
                                         <label class="form-label">Quotation Date<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                         <div class="form-group">
-                                            <input name="QuotationDate" asp-for="QuotationDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker w-100 dateCustom" placeholder="Quotation Date" autocomplete="off" id="txtQuotationDate">
+                                            <input name="QuotationDate" asp-for="QuotationDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker w-100 dateCustom" autocomplete="off" id="txtQuotationDate">
                                             @Html.ValidationMessageFor(model => model.QuotationDate, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -136,26 +154,16 @@
                                     <div class="col-md-4" id="inputQuotationFor">
                                         <div class="form-group">
                                             <label class="form-label">Qutation Type<sup class="text-danger" title="Required"><b>*</b></sup></label>
-                                            @Html.DropDownListFor(model => model.QuotationFor, Model.QuotationForList as SelectList, "==Select Quotation Type==", new { id = "ddlQuotationFor", @class = "form-control searchingDropdown", @required = "true" })
-                                            @Html.ValidationMessageFor(model => model.QuotationFor, "", new { @class = "text-danger" })
+                                            @Html.DropDownListFor(model => model.QuotationTypeId, Model.QuotationTypeList as SelectList, "==Select Quotation Type==", new { id = "ddlQuotationFor", @class = "form-control searchingDropdown", @required = "true" })
+                                            @Html.ValidationMessageFor(model => model.QuotationTypeId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
 
-                                    <div class="col-md-4" id="inputQuotationName">
+                                    <div class="col-md-4" id="inputQuotationFor">
                                         <div class="form-group">
-                                            <label class="form-label">Quotation Name<sup class="text-danger" title="Required"><b>*</b></sup></label>
-                                            @Html.TextBoxFor(model => model.QuotationName, new { id = "txtQuotationName", @class = "form-control", @placeholder = "Quotation Name", @required = "true" })
-                                            @Html.ValidationMessageFor(model => model.QuotationName, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-4" id="inputSupplier">
-                                        <div class="form-group">
-                                            <label class="form-label">Supplier/Party<sup class="text-danger" title="Required"><b>*</b></sup></label>
-                                            @Html.EditorFor(model => model.SupplierName, new { htmlAttributes = new { @autocomplete = "on", @class = "form-control", @name = "Supplier Name", @id = "txtSupplierName", required = "required" } })
-
-                                            @Html.HiddenFor(model => model.SupplierId, new { id = "ddlCommon_SupplierFK" })
-                                            @Html.ValidationMessageFor(model => model.SupplierId, "", new { @class = "text-danger" })
+                                            <label class="form-label">Qutation For<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                            @Html.DropDownListFor(model => model.QuotationForId, Model.QuotationForList as SelectList, "==Select Quotation For==", new { id = "ddlQuotationFor", @class = "form-control searchingDropdown", @required = "true" })
+                                            @Html.ValidationMessageFor(model => model.QuotationForId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
 
@@ -164,6 +172,14 @@
                                             <label class="form-label">Select Requisition<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                             @Html.DropDownListFor(model => model.RequisitionId, Model.RequisitionList as SelectList, "==Select Requisition==", new { id = "ddlRequisitionId", @class = "form-control searchingDropdown", style = "width:100%", @required = "true" })
                                             @Html.ValidationMessageFor(model => model.RequisitionId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4" id="inputDate">
+                                        <label class="form-label">Submission Start Date<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                        <div class="form-group">
+                                            <input name="StartDate" asp-for="StartDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker w-100 dateCustom" autocomplete="off" id="txtQuotationDate">
+                                            @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
 
@@ -281,7 +297,7 @@
                                     <thead>
                                         <tr>
                                             <th>SL</th>
-                                            @if (Model.QuotationFor == (int)EnumQuotationFor.General)
+                                            @if (Model.QuotationTypeId == (int)EnumQuotationType.General)
                                             {
                                                 <th>Material Type</th>
                                                 <th>Material Subtype</th>
@@ -309,7 +325,7 @@
                                         {
                                             <tr>
                                                 <td>@(++sl)</td>
-                                                @if (Model.QuotationFor == (int)EnumQuotationFor.General)
+                                                @if (Model.QuotationTypeId == (int)EnumQuotationType.General)
                                                 {
                                                     <td>@item.MaterialTypeName</td>
                                                     <td>@item.MaterialSubtypeName</td>
@@ -455,7 +471,7 @@
             "use strict"
 
             $("#ddlQuotationFor").on('change', function (event) {
-                if ($(this).val() == @((int)EnumQuotationFor.Requisition)) {
+                if ($(this).val() == @((int)EnumQuotationType.Requisition)) {
                     $("#inputRequisition").removeClass("hidden").addClass("d-block");
                     $("#inputMaterialType").removeClass("d-block").addClass("hidden");
                     $("#inputMaterialSubtype").removeClass("d-block").addClass("hidden");
@@ -515,7 +531,7 @@
                     $("#txtTotalAmount").val(data.TotalAmount);
                     $("#txtRemarks").val(data.Remarks == null ? "" : data.Remarks.trim());
 
-                    if (@Model.QuotationFor == @((int)EnumQuotationFor.General)) {
+                    if (@Model.QuotationTypeId == @((int)EnumQuotationType.General)) {
                         $("#ddlMaterialTypeId").val(data.MaterialTypeId).trigger('change');
                         materialSubtypeId = data.MaterialSubtypeId;
                         materialId = data.MaterialId;
@@ -675,7 +691,7 @@
             $(this).autocomplete("search");
         });
 
-        if (@(Model.QuotationFor) == @((int)EnumQuotationFor.Requisition)) {
+        if (@(Model.QuotationTypeId) == @((int)EnumQuotationType.Requisition)) {
 
             var getRequisitionId = $('#requisitionIdHidden').val();
             var showMaterialList = $("#ddlMaterialId");

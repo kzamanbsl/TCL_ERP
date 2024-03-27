@@ -39,16 +39,16 @@ namespace KGERP.Controllers
 
         #region Quotation Type
         [HttpGet]
-        public async Task<ActionResult> QuotationType(int companyId = 0)
+        public async Task<ActionResult> QuotationFor(int companyId = 0)
         {
-            QuotationTypeModel viewData = new QuotationTypeModel();
+            QuotationForModel viewData = new QuotationForModel();
             viewData.CompanyFK = companyId;
-            viewData.QuotationTypeList = await _Service.GetQuotationTypeList(companyId);
+            viewData.QuotationForList = await _Service.GetQuotationTypeList(companyId);
             return View(viewData);
         }
 
         [HttpPost]
-        public async Task<ActionResult> QuotationType(QuotationTypeModel model)
+        public async Task<ActionResult> QuotationFor(QuotationForModel model)
         {
             if (model.ActionEum == ActionEnum.Add)
             {
@@ -70,7 +70,7 @@ namespace KGERP.Controllers
                 return View("Error");
             }
 
-            return RedirectToAction(nameof(QuotationType), new { companyId = model.CompanyFK });
+            return RedirectToAction(nameof(QuotationFor), new { companyId = model.CompanyFK });
         }
         #endregion
 
@@ -84,6 +84,7 @@ namespace KGERP.Controllers
                 viewData.CompanyFK = companyId;
                 viewData.StatusId = (int)EnumQuotationStatus.Draft;
                 viewData.RequisitionList = new SelectList(_RequisitionService.ApprovedRequisitionList(companyId), "Value", "Text");
+                viewData.QuotationForList = new SelectList(await _Service.GetQuotationTypeList(companyId), "QuotationForId", "Name");
             }
             else
             {
