@@ -5550,5 +5550,63 @@ namespace KGERP.Controllers
             }
             return View();
         }
+        [HttpGet]
+        [SessionExpire]
+        public async Task<ActionResult> StockInfoReport(int companyId = 0)
+        {
+            var model = new ReportCustomModel();
+            model.ProjectTypeList = new SelectList(await _iBillRequisitionService.GetCostCenterTypeList(CompanyInfo.CompanyId), "CostCenterTypeId", "Name");
+
+
+            return View(model);
+
+        }
+
+
+        [HttpPost]
+        [SessionExpire]
+        public ActionResult StockInfoReport(ReportCustomModel reportModel)
+        {
+            NetworkCredential nwc = new NetworkCredential(_admin, _password);
+            WebClient client = new WebClient();
+            client.Credentials = nwc;
+            var ReportName = CompanyInfo.ReportPrefix + "ProjectInfoList";
+
+            if (reportModel.ReportType == null)
+            {
+                reportModel.ReportType = "PDF";
+            }
+              
+            if (reportModel.CostCenterId == null)
+            {
+                reportModel.CostCenterId = 0;
+            }
+
+            string reportUrl = "";
+            try
+            {
+                reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&CostCenterId={3}",
+             ReportName, reportModel.ReportType, CompanyInfo.CompanyId,reportModel.CostCenterId);
+
+            }
+            catch
+            {
+
+            }
+
+            if (reportModel.ReportType.Equals(ReportType.EXCEL))
+            {
+                return File(client.DownloadData(reportUrl), "application/vnd.ms-excel", "ProjectInfoList.xls");
+            }
+            if (reportModel.ReportType.Equals(ReportType.PDF))
+            {
+                return File(client.DownloadData(reportUrl), "application/pdf");
+            }
+            if (reportModel.ReportType.Equals(ReportType.WORD))
+            {
+                return File(client.DownloadData(reportUrl), "application/msword", "ProjectInfoList.doc");
+            }
+            return View();
+        }
     }
 }
