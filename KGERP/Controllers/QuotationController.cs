@@ -204,6 +204,13 @@ namespace KGERP.Controllers
         }
         #endregion
 
+        #region Quotation Submit
+        public ActionResult QuotationSubmit(int companyId)
+        {
+            return View();
+        }
+        #endregion
+
         #region Comparative Statement
         [HttpGet]
         public async Task<ActionResult> ComparativeStatement(int companyId)

@@ -59,13 +59,11 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label class="form-label">Quotation Status<sup class="text-danger" title="Required">*</sup></label>
-                                        @*@Html.DropDownListFor(model => model.QuotationTypeId, Model.QuotationTypeList as SelectList, "==Quotation Type==", new { id = "ddlQuotationType", @class = "form-control ddlReset searchingDropdown", style = "width:100%", required = "required" })
-                                            @Html.ValidationMessageFor(model => model.QuotationTypeId, "", new { @class = "text-danger" })*@
                                         <select class="form-control ddlReset searchingDropdown" id="ddlQuotationType" style="width:100%" required name="StatusId">
-                                            <option disabled selected>==Quotation Type==</option>
-                                            <option value="2">Submited</option>
-                                            <option value="3">Opened</option>
-                                            <option value="4">Closed</option>
+                                            <option disabled selected>==Quotation Status==</option>
+                                            <option value="@((int)EnumQuotationStatus.Submitted)">@EnumQuotationStatus.Submitted</option>
+                                            <option value="@((int)EnumQuotationStatus.Opened)">@EnumQuotationStatus.Opened</option>
+                                            <option value="@((int)EnumQuotationStatus.Closed)">@EnumQuotationStatus.Closed</option>
                                         </select>
                                         @Html.ValidationMessageFor(model => model.StatusId, "", new { @class = "text-danger" })
                                     </div>
@@ -163,7 +161,7 @@
                                                     }
                                                     else
                                                     {
-                                                        <a href="~/Quotation/QuotationMasterSlave?companyId=@item.CompanyFK&quotationMasterId=@item.QuotationMasterId" class="link-primary text-warning" title="Action for Details"><i class="fa fa-external-link-square" aria-hidden="true"></i> View Detail</a>
+                                                        <a href="~/Quotation/QuotationMasterSlave?companyId=@item.CompanyFK&quotationMasterId=@item.QuotationMasterId" class="link-primary text-warning" title="Action for Details"><i class="fa fa-external-link-square" aria-hidden="true"></i> Detail View</a>
                                                     }
                                                 </td>
                                                 @*<td>

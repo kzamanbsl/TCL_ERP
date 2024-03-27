@@ -45,14 +45,14 @@ namespace KGERP.Service.Implementation
                                                              QuotationForId = t1.QuotationForId,
                                                              QuotationForName = t2.Name,
                                                              RequisitionId = t1.BillRequisitionMasterId != null ? (long)t1.BillRequisitionMasterId : 0,
-                                                             RequisitionNo = t3.BillRequisitionNo ?? "N/A",
-                                                             StartDate = t1.StartDate,
-                                                             EndDate = (DateTime)t1.EndDate,
+                                                             RequisitionNo = t3 != null ? t3.BillRequisitionNo ?? "N/A" : "N/A",
+                                                             StartDate = t1.StartDate.HasValue ? t1.StartDate.Value : DateTime.MinValue,
+                                                             EndDate = t1.EndDate.HasValue ? t1.EndDate.Value : DateTime.MinValue,
                                                              Description = t1.Description ?? "N/A",
                                                              StatusId = (int)(EnumQuotationStatus)t1.StatusId,
                                                              CreatedDate = t1.CreatedOn,
                                                              CreatedBy = t1.CreatedBy,
-                                                             EmployeeName = t1.CreatedBy + " - " + t4.Name,
+                                                             EmployeeName = t1.CreatedBy + " - " + (t4 != null ? t4.Name : "N/A"),
                                                              CompanyFK = 21
                                                          }).FirstOrDefault());
 
@@ -106,7 +106,6 @@ namespace KGERP.Service.Implementation
                     QuotationNo = GetUniqueQuotationNo(),
                     QuotationTypeId = model.QuotationTypeId,
                     QuotationForId = model.QuotationForId,
-                    StartDate = model.StartDate,
                     Description = model.Description,
                     StatusId = (int)model.StatusId,
                     CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
@@ -130,7 +129,6 @@ namespace KGERP.Service.Implementation
                     QuotationTypeId = model.QuotationTypeId,
                     QuotationForId = model.QuotationForId,
                     BillRequisitionMasterId = model.RequisitionId,
-                    StartDate = model.StartDate,
                     Description = model.Description,
                     StatusId = (int)model.StatusId,
                     CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
@@ -311,14 +309,14 @@ namespace KGERP.Service.Implementation
                                                                       QuotationForId = t1.QuotationForId,
                                                                       QuotationForName = t2.Name,
                                                                       RequisitionId = t1.BillRequisitionMasterId != null ? (long)t1.BillRequisitionMasterId : 0,
-                                                                      RequisitionNo = t3.BillRequisitionNo ?? "N/A",
-                                                                      StartDate = t1.StartDate,
-                                                                      EndDate = (DateTime)t1.EndDate,
+                                                                      RequisitionNo = t3 != null ? t3.BillRequisitionNo ?? "N/A" : "N/A",
+                                                                      StartDate = t1.StartDate.HasValue ? t1.StartDate.Value : DateTime.MinValue,
+                                                                      EndDate = t1.EndDate.HasValue ? t1.EndDate.Value : DateTime.MinValue,
                                                                       Description = t1.Description ?? "N/A",
                                                                       StatusId = (int)(EnumQuotationStatus)t1.StatusId,
                                                                       CreatedDate = t1.CreatedOn,
                                                                       CreatedBy = t1.CreatedBy,
-                                                                      EmployeeName = t1.CreatedBy + " - " + t4.Name,
+                                                                      EmployeeName = t1.CreatedBy + " - " + (t4 != null ? t4.Name : "N/A"),
                                                                       CompanyFK = 21
                                                                   }).ToListAsync());
 
@@ -345,14 +343,14 @@ namespace KGERP.Service.Implementation
                                                                       QuotationForId = t1.QuotationForId,
                                                                       QuotationForName = t2.Name,
                                                                       RequisitionId = t1.BillRequisitionMasterId != null ? (long)t1.BillRequisitionMasterId : 0,
-                                                                      RequisitionNo = t3.BillRequisitionNo ?? "N/A",
-                                                                      StartDate = t1.StartDate,
-                                                                      EndDate = (DateTime)t1.EndDate,
+                                                                      RequisitionNo = t3 != null ? t3.BillRequisitionNo ?? "N/A" : "N/A",
+                                                                      StartDate = t1.StartDate.HasValue ? t1.StartDate.Value : DateTime.MinValue,
+                                                                      EndDate = t1.EndDate.HasValue ? t1.EndDate.Value : DateTime.MinValue,
                                                                       Description = t1.Description ?? "N/A",
                                                                       StatusId = (int)(EnumQuotationStatus)t1.StatusId,
                                                                       CreatedDate = t1.CreatedOn,
                                                                       CreatedBy = t1.CreatedBy,
-                                                                      EmployeeName = t1.CreatedBy + " - " + t4.Name,
+                                                                      EmployeeName = t1.CreatedBy + " - " + (t4 != null ? t4.Name : "N/A"),
                                                                       CompanyFK = 21
                                                                   }).ToListAsync());
 
@@ -379,14 +377,14 @@ namespace KGERP.Service.Implementation
                                                                       QuotationForId = t1.QuotationForId,
                                                                       QuotationForName = t2.Name,
                                                                       RequisitionId = t1.BillRequisitionMasterId != null ? (long)t1.BillRequisitionMasterId : 0,
-                                                                      RequisitionNo = t3.BillRequisitionNo ?? "N/A",
-                                                                      StartDate = t1.StartDate,
-                                                                      EndDate = (DateTime)t1.EndDate,
+                                                                      RequisitionNo = t3 != null ? t3.BillRequisitionNo ?? "N/A" : "N/A",
+                                                                      StartDate = t1.StartDate.HasValue ? t1.StartDate.Value : DateTime.MinValue,
+                                                                      EndDate = t1.EndDate.HasValue ? t1.EndDate.Value : DateTime.MinValue,
                                                                       Description = t1.Description ?? "N/A",
                                                                       StatusId = (int)(EnumQuotationStatus)t1.StatusId,
                                                                       CreatedDate = t1.CreatedOn,
                                                                       CreatedBy = t1.CreatedBy,
-                                                                      EmployeeName = t1.CreatedBy + " - " + t4.Name,
+                                                                      EmployeeName = t1.CreatedBy + " - " + (t4 != null ? t4.Name : "N/A"),
                                                                       CompanyFK = 21
                                                                   }).ToListAsync());
 
@@ -457,7 +455,7 @@ namespace KGERP.Service.Implementation
                                                                   from t3 in t3_Join.DefaultIfEmpty()
                                                                   join t4 in _context.Employees on t1.CreatedBy equals t4.EmployeeId into t4_Join
                                                                   from t4 in t4_Join.DefaultIfEmpty()
-                                                                  where t1.StartDate >= model.QuotationFromDate && t1.StartDate <= model.QuotationToDate && t1.QuotationTypeId == model.QuotationTypeId
+                                                                  where t1.QuotationDate >= model.QuotationFromDate && t1.QuotationDate <= model.QuotationToDate && t1.QuotationTypeId == model.QuotationTypeId
                                                                   select new QuotationMasterModel
                                                                   {
                                                                       QuotationMasterId = t1.QuotationMasterId,
@@ -466,14 +464,14 @@ namespace KGERP.Service.Implementation
                                                                       QuotationForId = t1.QuotationForId,
                                                                       QuotationForName = t2.Name,
                                                                       RequisitionId = t1.BillRequisitionMasterId != null ? (long)t1.BillRequisitionMasterId : 0,
-                                                                      RequisitionNo = t3.BillRequisitionNo ?? "N/A",
-                                                                      StartDate = t1.StartDate,
-                                                                      EndDate = (DateTime)t1.EndDate,
+                                                                      RequisitionNo = t3 != null ? t3.BillRequisitionNo ?? "N/A" : "N/A",
+                                                                      StartDate = t1.StartDate.HasValue ? t1.StartDate.Value : DateTime.MinValue,
+                                                                      EndDate = t1.EndDate.HasValue ? t1.EndDate.Value : DateTime.MinValue,
                                                                       Description = t1.Description ?? "N/A",
                                                                       StatusId = (int)(EnumQuotationStatus)t1.StatusId,
                                                                       CreatedDate = t1.CreatedOn,
                                                                       CreatedBy = t1.CreatedBy,
-                                                                      EmployeeName = t1.CreatedBy + " - " + t4.Name,
+                                                                      EmployeeName = t1.CreatedBy + " - " + (t4 != null ? t4.Name : "N/A"),
                                                                       CompanyFK = 21
                                                                   }).ToListAsync());
             quotationMasterModel.CompanyFK = 21;
@@ -492,7 +490,7 @@ namespace KGERP.Service.Implementation
                                                                   from t3 in t3_Join.DefaultIfEmpty()
                                                                   join t4 in _context.Employees on t1.CreatedBy equals t4.EmployeeId into t4_Join
                                                                   from t4 in t4_Join.DefaultIfEmpty()
-                                                                  where t1.StartDate >= model.QuotationFromDate && t1.StartDate <= model.QuotationToDate && t1.StatusId == model.StatusId
+                                                                  where t1.QuotationDate >= model.QuotationFromDate && t1.QuotationDate <= model.QuotationToDate && t1.StatusId == model.StatusId
                                                                   select new QuotationMasterModel
                                                                   {
                                                                       QuotationMasterId = t1.QuotationMasterId,
@@ -501,14 +499,14 @@ namespace KGERP.Service.Implementation
                                                                       QuotationForId = t1.QuotationForId,
                                                                       QuotationForName = t2.Name,
                                                                       RequisitionId = t1.BillRequisitionMasterId != null ? (long)t1.BillRequisitionMasterId : 0,
-                                                                      RequisitionNo = t3.BillRequisitionNo ?? "N/A",
-                                                                      StartDate = t1.StartDate,
-                                                                      EndDate = (DateTime)t1.EndDate,
+                                                                      RequisitionNo = t3 != null ? t3.BillRequisitionNo ?? "N/A" : "N/A",
+                                                                      StartDate = t1.StartDate.HasValue ? t1.StartDate.Value : DateTime.MinValue,
+                                                                      EndDate = t1.EndDate.HasValue ? t1.EndDate.Value : DateTime.MinValue,
                                                                       Description = t1.Description ?? "N/A",
                                                                       StatusId = (int)(EnumQuotationStatus)t1.StatusId,
                                                                       CreatedDate = t1.CreatedOn,
                                                                       CreatedBy = t1.CreatedBy,
-                                                                      EmployeeName = t1.CreatedBy + " - " + t4.Name,
+                                                                      EmployeeName = t1.CreatedBy + " - " + (t4 != null ? t4.Name : "N/A"),
                                                                       CompanyFK = 21
                                                                   }).ToListAsync());
             quotationMasterModel.CompanyFK = 21;
@@ -546,14 +544,14 @@ namespace KGERP.Service.Implementation
                                         QuotationForId = t1.QuotationForId,
                                         QuotationForName = t2.Name,
                                         RequisitionId = t1.BillRequisitionMasterId != null ? (long)t1.BillRequisitionMasterId : 0,
-                                        RequisitionNo = t3.BillRequisitionNo ?? "N/A",
-                                        StartDate = t1.StartDate,
-                                        EndDate = (DateTime)t1.EndDate,
+                                        RequisitionNo = t3 != null ? t3.BillRequisitionNo ?? "N/A" : "N/A",
+                                        StartDate = t1.StartDate.HasValue ? t1.StartDate.Value : DateTime.MinValue,
+                                        EndDate = t1.EndDate.HasValue ? t1.EndDate.Value : DateTime.MinValue,
                                         Description = t1.Description ?? "N/A",
                                         StatusId = (int)(EnumQuotationStatus)t1.StatusId,
                                         CreatedDate = t1.CreatedOn,
                                         CreatedBy = t1.CreatedBy,
-                                        EmployeeName = t1.CreatedBy + " - " + t4.Name,
+                                        EmployeeName = t1.CreatedBy + " - " + (t4 != null ? t4.Name : "N/A"),
                                         CompanyFK = 21
                                     }).FirstOrDefaultAsync();
 
@@ -610,14 +608,14 @@ namespace KGERP.Service.Implementation
                                                                             QuotationForId = t1.QuotationForId,
                                                                             QuotationForName = t2.Name,
                                                                             RequisitionId = t1.BillRequisitionMasterId != null ? (long)t1.BillRequisitionMasterId : 0,
-                                                                            RequisitionNo = t3.BillRequisitionNo ?? "N/A",
-                                                                            StartDate = t1.StartDate,
-                                                                            EndDate = (DateTime)t1.EndDate,
+                                                                            RequisitionNo = t3 != null ? t3.BillRequisitionNo ?? "N/A" : "N/A",
+                                                                            StartDate = t1.StartDate.HasValue ? t1.StartDate.Value : DateTime.MinValue,
+                                                                            EndDate = t1.EndDate.HasValue ? t1.EndDate.Value : DateTime.MinValue,
                                                                             Description = t1.Description ?? "N/A",
                                                                             StatusId = (int)(EnumQuotationStatus)t1.StatusId,
                                                                             CreatedDate = t1.CreatedOn,
                                                                             CreatedBy = t1.CreatedBy,
-                                                                            EmployeeName = t1.CreatedBy + " - " + t4.Name,
+                                                                            EmployeeName = t1.CreatedBy + " - " + (t4 != null ? t4.Name : "N/A"),
                                                                             CompanyFK = 21
                                                                         }).ToListAsync());
             return sendData;

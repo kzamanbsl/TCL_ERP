@@ -30,7 +30,16 @@
 <section class="content-header">
     @if (Model.QuotationMasterId > 0)
     {
-        <h1>Add Material</h1>
+        if (Model.StatusId == (int)EnumQuotationStatus.Draft)
+        {
+
+
+            <h1>Add Material</h1>
+        }
+        else
+        {
+            <h1>Detail View</h1>
+        }
     }
     else
     {
@@ -103,6 +112,21 @@
                                             </td>
                                         </tr>
 
+                                        @if (Model.StartDate != DateTime.MinValue)
+                                        {
+                                            <tr>
+                                                <th>
+                                                    Open Date
+                                                </th>
+                                                <th>:</th>
+                                                <td>@Model.StartDate.Value.ToString("dd/MM/yyyy")</td>
+
+                                                <th>Close Date</th>
+                                                <th>:</th>
+                                                <td>@Model.EndDate.Value.ToString("dd/MM/yyyy")</td>
+                                            </tr>
+                                        }
+
                                         <tr>
                                             <th>
                                                 Description
@@ -154,14 +178,6 @@
                                             <label class="form-label">Select Requisition<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                             @Html.DropDownListFor(model => model.RequisitionId, Model.RequisitionList as SelectList, "==Select Requisition==", new { id = "ddlRequisitionId", @class = "form-control searchingDropdown", style = "width:100%", @required = "true" })
                                             @Html.ValidationMessageFor(model => model.RequisitionId, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-4" id="inputStartDate">
-                                        <label class="form-label">Submission Start Date<sup class="text-danger" title="Required"><b>*</b></sup></label>
-                                        <div class="form-group">
-                                            <input name="StartDate" asp-for="StartDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker w-100 dateCustom" autocomplete="off" id="txtQuotationStartDate">
-                                            @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
 
