@@ -27,7 +27,7 @@ namespace KGERP.Data.Models
         public bool IsActive { get; set; }
     
         public virtual Product Product { get; set; }
-        public virtual QuotationMaster QuotationMaster { get; set; }
         public virtual Vendor Vendor { get; set; }
+        public virtual QuotationMaster QuotationMaster { get; set; }
     }
 }

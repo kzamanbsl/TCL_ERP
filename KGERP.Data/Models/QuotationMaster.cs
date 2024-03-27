@@ -26,7 +26,7 @@ namespace KGERP.Data.Models
         public string QuotationNo { get; set; }
         public int QuotationTypeId { get; set; }
         public long QuotationForId { get; set; }
-        public long BillRequisitionMasterId { get; set; }
+        public Nullable<long> BillRequisitionMasterId { get; set; }
         public System.DateTime StartDate { get; set; }
         public Nullable<System.DateTime> EndDate { get; set; }
         public string Description { get; set; }

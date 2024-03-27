@@ -44,8 +44,8 @@ namespace KGERP.Service.Implementation
                                                              QuotationTypeId = (int)(EnumQuotationType)t1.QuotationTypeId,
                                                              QuotationForId = t1.QuotationForId,
                                                              QuotationForName = t2.Name,
-                                                             RequisitionId = t1.BillRequisitionMasterId,
-                                                             RequisitionNo = t3.BillRequisitionNo,
+                                                             RequisitionId = t1.BillRequisitionMasterId != null ? (long)t1.BillRequisitionMasterId : 0,
+                                                             RequisitionNo = t3.BillRequisitionNo ?? "N/A",
                                                              StartDate = t1.StartDate,
                                                              EndDate = (DateTime)t1.EndDate,
                                                              Description = t1.Description ?? "N/A",
@@ -98,31 +98,57 @@ namespace KGERP.Service.Implementation
                 model.StatusId = (int)EnumQuotationStatus.Draft;
             }
 
-            QuotationMaster quotationMaster = new QuotationMaster
+            if (model.QuotationTypeId == (int)EnumQuotationType.General)
             {
-                QuotationDate = model.QuotationDate,
-                QuotationNo = GetUniqueQuotationNo(),
-                QuotationTypeId = model.QuotationTypeId,
-                QuotationForId = model.QuotationForId,
-                BillRequisitionMasterId = model.RequisitionId,
-                StartDate = model.StartDate,
-                EndDate = model.EndDate,
-                Description = model.Description,
-                StatusId = (int)model.StatusId,
-                CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
-                CreatedOn = DateTime.Now,
-                IsActive = true
-            };
+                QuotationMaster quotationMaster = new QuotationMaster
+                {
+                    QuotationDate = model.QuotationDate,
+                    QuotationNo = GetUniqueQuotationNo(),
+                    QuotationTypeId = model.QuotationTypeId,
+                    QuotationForId = model.QuotationForId,
+                    StartDate = model.StartDate,
+                    Description = model.Description,
+                    StatusId = (int)model.StatusId,
+                    CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                    CreatedOn = DateTime.Now,
+                    IsActive = true
+                };
 
-            _context.QuotationMasters.Add(quotationMaster);
+                _context.QuotationMasters.Add(quotationMaster);
 
-            if (await _context.SaveChangesAsync() > 0)
-            {
-                result = quotationMaster.QuotationMasterId;
+                if (await _context.SaveChangesAsync() > 0)
+                {
+                    result = quotationMaster.QuotationMasterId;
+                }
             }
+            else
+            {
+                QuotationMaster quotationMaster = new QuotationMaster
+                {
+                    QuotationDate = model.QuotationDate,
+                    QuotationNo = GetUniqueQuotationNo(),
+                    QuotationTypeId = model.QuotationTypeId,
+                    QuotationForId = model.QuotationForId,
+                    BillRequisitionMasterId = model.RequisitionId,
+                    StartDate = model.StartDate,
+                    Description = model.Description,
+                    StatusId = (int)model.StatusId,
+                    CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                    CreatedOn = DateTime.Now,
+                    IsActive = true
+                };
+
+                _context.QuotationMasters.Add(quotationMaster);
+
+                if (await _context.SaveChangesAsync() > 0)
+                {
+                    result = quotationMaster.QuotationMasterId;
+                }
+            }
+
             return result;
 
-            #region Generate Unique Requisition Number With Last Id
+            #region Generate Unique Quotation Number With Date and Last Id
 
             // Generate Unique Quotation Number
             string GetUniqueQuotationNo()
@@ -283,8 +309,8 @@ namespace KGERP.Service.Implementation
                                                                       QuotationTypeId = (int)(EnumQuotationType)t1.QuotationTypeId,
                                                                       QuotationForId = t1.QuotationForId,
                                                                       QuotationForName = t2.Name,
-                                                                      RequisitionId = t1.BillRequisitionMasterId,
-                                                                      RequisitionNo = t3.BillRequisitionNo,
+                                                                      RequisitionId = t1.BillRequisitionMasterId != null ? (long)t1.BillRequisitionMasterId : 0,
+                                                                      RequisitionNo = t3.BillRequisitionNo ?? "N/A",
                                                                       StartDate = t1.StartDate,
                                                                       EndDate = (DateTime)t1.EndDate,
                                                                       Description = t1.Description ?? "N/A",
@@ -334,8 +360,8 @@ namespace KGERP.Service.Implementation
                                                                       QuotationTypeId = (int)(EnumQuotationType)t1.QuotationTypeId,
                                                                       QuotationForId = t1.QuotationForId,
                                                                       QuotationForName = t2.Name,
-                                                                      RequisitionId = t1.BillRequisitionMasterId,
-                                                                      RequisitionNo = t3.BillRequisitionNo,
+                                                                      RequisitionId = t1.BillRequisitionMasterId != null ? (long)t1.BillRequisitionMasterId : 0,
+                                                                      RequisitionNo = t3.BillRequisitionNo ?? "N/A",
                                                                       StartDate = t1.StartDate,
                                                                       EndDate = (DateTime)t1.EndDate,
                                                                       Description = t1.Description ?? "N/A",
@@ -379,8 +405,8 @@ namespace KGERP.Service.Implementation
                                         QuotationTypeId = (int)(EnumQuotationType)t1.QuotationTypeId,
                                         QuotationForId = t1.QuotationForId,
                                         QuotationForName = t2.Name,
-                                        RequisitionId = t1.BillRequisitionMasterId,
-                                        RequisitionNo = t3.BillRequisitionNo,
+                                        RequisitionId = t1.BillRequisitionMasterId != null ? (long)t1.BillRequisitionMasterId : 0,
+                                        RequisitionNo = t3.BillRequisitionNo ?? "N/A",
                                         StartDate = t1.StartDate,
                                         EndDate = (DateTime)t1.EndDate,
                                         Description = t1.Description ?? "N/A",
@@ -443,8 +469,8 @@ namespace KGERP.Service.Implementation
                                                                             QuotationTypeId = (int)(EnumQuotationType)t1.QuotationTypeId,
                                                                             QuotationForId = t1.QuotationForId,
                                                                             QuotationForName = t2.Name,
-                                                                            RequisitionId = t1.BillRequisitionMasterId,
-                                                                            RequisitionNo = t3.BillRequisitionNo,
+                                                                            RequisitionId = t1.BillRequisitionMasterId != null ? (long)t1.BillRequisitionMasterId : 0,
+                                                                            RequisitionNo = t3.BillRequisitionNo ?? "N/A",
                                                                             StartDate = t1.StartDate,
                                                                             EndDate = (DateTime)t1.EndDate,
                                                                             Description = t1.Description ?? "N/A",

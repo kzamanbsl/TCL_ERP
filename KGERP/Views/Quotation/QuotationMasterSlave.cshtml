@@ -30,7 +30,7 @@
 <section class="content-header">
     @if (Model.QuotationMasterId > 0)
     {
-        <h1>Add Quotation Detail</h1>
+        <h1>Add Material</h1>
     }
     else
     {
@@ -62,63 +62,45 @@
                                 <div class="col-md-10">
                                     <table class="table">
                                         <tr>
-                                            <th style="width:17% !important">Quotation No</th>
+                                            <th style="width:17% !important">Quotation Date</th>
                                             <th>:</th>
-                                            <td>@Model.QuotationNo</td>
+                                            <td>@Model.QuotationDate</td>
 
                                             <th style="width:17% !important">Quotation Status</th>
                                             <th>:</th>
                                             <td>
-                                                @Model.StatusId
-                                                @(Model.StatusId == (int)EnumQuotationStatus.Draft ? EnumQuotationStatus.Draft : EnumQuotationStatus.Submitted)
+                                                @Enum.GetName(typeof(EnumQuotationStatus), Model.StatusId)
                                                 <input type="hidden" value="@Model.StatusId" id="quotationStatusHidden" />
                                             </td>
                                         </tr>
 
                                         <tr>
+                                            <th style="width:17% !important">Quotation No</th>
+                                            <th>:</th>
+                                            <td>@Model.QuotationNo</td>
+
                                             <th style="width:17% !important">Quotation For</th>
                                             <th>:</th>
                                             <td>
-                                                @Model.QuotationForId
+                                                @Model.QuotationForName
                                                 <input type="hidden" value="@Model.QuotationForId" id="quotationForHidden" />
                                             </td>
+                                        </tr>
 
+                                        <tr>
                                             <th style="width:17% !important">Quotation Type</th>
                                             <th>:</th>
                                             <td>
-                                                @Model.QuotationTypeId
-                                                @(Model.QuotationTypeId == (int)EnumQuotationType.General ? EnumQuotationType.General : EnumQuotationType.Requisition)
+                                                @Enum.GetName(typeof(EnumQuotationType), Model.QuotationTypeId)
                                                 <input type="hidden" value="@Model.QuotationTypeId" id="quotationTypeHidden" />
                                             </td>
-                                        </tr>
 
-                                        <tr>
-                                            <th style="width:17% !important">Start Date</th>
-                                            <th>:</th>
-                                            <td>@Model.StartDate.ToShortDateString()</td>
-
-                                            <th style="width:17% !important">End Date</th>
+                                            <th style="width:17% !important">Requisition No</th>
                                             <th>:</th>
                                             <td>
+                                                @Model.RequisitionNo
+                                                <input type="hidden" value="@Model.RequisitionId" id="requisitionIdHidden" />
                                             </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>
-                                                @if (Model.RequisitionNo != null)
-                                                {
-                                                    @Model.RequisitionNo
-                                                    <input type="hidden" value="@Model.RequisitionId" id="requisitionIdHidden" />
-                                                }
-                                                else
-                                                {
-                                                    <span>N/A</span>
-                                                }
-                                            </td>
-
-                                            <th>Created By</th>
-                                            <th>:</th>
-                                            <td>@Model.EmployeeName</td>
                                         </tr>
 
                                         <tr>
@@ -312,7 +294,9 @@
                                                 }
                                                 else
                                                 {
-                                                    <td>@Model.RequisitionNo</td>
+                                                    <td>
+                                                        <a href="~/BillRequisition/BillRequisitionMasterCommonSlave?companyId=@Model.CompanyFK&billRequisitionMasterId=@Model.RequisitionId">@Model.RequisitionNo</a>
+                                                    </td>
                                                 }
                                                 <td>@item.MaterialName</td>
                                                 <td>
@@ -320,7 +304,7 @@
                                                 </td>
                                                 <td>@item.UnitName</td>
                                                 <td>@item.Quantity</td>
-                                                <td>@item.UnitPrice</td>
+                                                <td>@item.Remarks</td>
                                                 @if (Model.StatusId == (int)EnumQuotationStatus.Draft)
                                                 {
                                                     <td style="padding:5px;text-align:center;">
@@ -590,7 +574,6 @@
             });
         });
 
-
         function GetUnitName() {
             var getMaterialId = $("#ddlMaterialId option:selected");
             var showName = $("#txtUnitName");
@@ -636,10 +619,10 @@
             $("#inputMaterialType").removeClass("d-block").addClass("hidden");
             $("#inputMaterialSubtype").removeClass("d-block").addClass("hidden");
 
-            $("#inputMaterial").removeClass("col-md-3").addClass("col-md-4");
-            $("#inputUnitName").removeClass("col-md-3").addClass("col-md-4");
-            $("#inputQuality").removeClass("col-md-3").addClass("col-md-4");
-            $("#inputQuantity").removeClass("col-md-3").addClass("col-md-4");
+            $("#inputMaterial").removeClass("col-md-4").addClass("col-md-3");
+            $("#inputUnitName").removeClass("col-md-4").addClass("col-md-3");
+            $("#inputQuality").removeClass("col-md-4").addClass("col-md-3");
+            $("#inputQuantity").removeClass("col-md-4").addClass("col-md-3");
         }
 
         $("#txtSupplierName").autocomplete({

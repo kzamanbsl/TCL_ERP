@@ -323,8 +323,8 @@ namespace KGERP.Data.Models
         public virtual DbSet<BoQItemProductMap> BoQItemProductMaps { get; set; }
         public virtual DbSet<QuotationDetail> QuotationDetails { get; set; }
         public virtual DbSet<QuotationFor> QuotationFors { get; set; }
-        public virtual DbSet<QuotationMaster> QuotationMasters { get; set; }
         public virtual DbSet<QuotationSubmit> QuotationSubmits { get; set; }
+        public virtual DbSet<QuotationMaster> QuotationMasters { get; set; }
     
         public virtual ObjectResult<GetEmployeeListForTeam_Result> GetEmployeeListForTeam(Nullable<int> companyId)
         {
