@@ -29,8 +29,8 @@ namespace KGERP.Service.Implementation
         {
             QuotationMasterModel quotationMasterModel = new QuotationMasterModel();
 
-
-            quotationMasterModel = await Task.Run(() => (from t1 in _context.QuotationMasters.Where(x => x.IsActive && x.QuotationMasterId == quotationMasterId)
+            quotationMasterModel = await Task.Run(() => (from t1 in _context.QuotationMasters
+                                                         where t1.IsActive && t1.QuotationMasterId == quotationMasterId
                                                          join t2 in _context.QuotationFors on t1.QuotationForId equals t2.QuotationForId into t2_Join
                                                          from t2 in t2_Join.DefaultIfEmpty()
                                                          join t3 in _context.BillRequisitionMasters on t1.BillRequisitionMasterId equals t3.BillRequisitionMasterId into t3_Join
@@ -86,8 +86,6 @@ namespace KGERP.Service.Implementation
                                                                         CompanyFK = 21
                                                                     }).OrderByDescending(x => x.QuotationDetailId).AsEnumerable());
 
-            //quotationMasterModel.TotalAmount = quotationMasterModel.DetailList.Select(x => x.TotalAmount).Sum();
-
             return quotationMasterModel;
         }
 
@@ -102,12 +100,13 @@ namespace KGERP.Service.Implementation
 
             QuotationMaster quotationMaster = new QuotationMaster
             {
-                QuotationNo = GetUniqueQuotationNo(),
                 QuotationDate = model.QuotationDate,
+                QuotationNo = GetUniqueQuotationNo(),
                 QuotationTypeId = model.QuotationTypeId,
                 QuotationForId = model.QuotationForId,
                 BillRequisitionMasterId = model.RequisitionId,
                 StartDate = model.StartDate,
+                EndDate = model.EndDate,
                 Description = model.Description,
                 StatusId = (int)model.StatusId,
                 CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
@@ -151,7 +150,6 @@ namespace KGERP.Service.Implementation
         public async Task<long> QuotationDetailAdd(QuotationMasterModel model)
         {
             long result = -1;
-            decimal totalPrice = (decimal)model.DetailModel.Quantity * (decimal)model.DetailModel.UnitPrice;
 
             QuotationDetail quotationDetail = new QuotationDetail
             {
@@ -464,15 +462,15 @@ namespace KGERP.Service.Implementation
         public async Task<List<QuotationForModel>> GetQuotationTypeList(int companyId)
         {
             List<QuotationForModel> sendData = await Task.Run(() => (from t1 in _context.QuotationFors.Where(x => x.IsActive)
-                                                                      select new QuotationForModel
-                                                                      {
-                                                                          QuotationForId = t1.QuotationForId,
-                                                                          Name = t1.Name,
-                                                                          Description = t1.Description ?? "N/A",
-                                                                          CreatedDate = t1.CreatedOn,
-                                                                          CreatedBy = t1.CreatedBy,
-                                                                          CompanyFK = 21
-                                                                      }).ToListAsync());
+                                                                     select new QuotationForModel
+                                                                     {
+                                                                         QuotationForId = t1.QuotationForId,
+                                                                         Name = t1.Name,
+                                                                         Description = t1.Description ?? "N/A",
+                                                                         CreatedDate = t1.CreatedOn,
+                                                                         CreatedBy = t1.CreatedBy,
+                                                                         CompanyFK = 21
+                                                                     }).ToListAsync());
             return sendData;
         }
 
