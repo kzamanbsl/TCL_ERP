@@ -59,6 +59,7 @@ namespace KGERP.Data.CustomModel
 
         [DisplayName("Cost Center")]
         public Nullable<int> CostCenterId { get; set; }
+        public Nullable<int> ProjectTypeId { get; set; }
         public Nullable<int> StockId { get; set; }
         public Nullable<int> ZoneId { get; set; }
 
@@ -66,6 +67,7 @@ namespace KGERP.Data.CustomModel
         public List<SelectModel> Employees { get; set; }
         public List<SelectModel> Vendors { get; set; }
         public SelectList VoucherTypesList { get; set; } = new SelectList(new List<object>());
+        public SelectList ProjectTypeList { get; set; } = new SelectList(new List<object>());
 
         public List<SelectModel> Months
         {

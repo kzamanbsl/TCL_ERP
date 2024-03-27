@@ -15,6 +15,7 @@ using KGERP.Service.Implementation.Procurement;
 using DocumentFormat.OpenXml.EMMA;
 using KGERP.Service.ServiceModel;
 using DocumentFormat.OpenXml.Bibliography;
+using System.Web.Services.Description;
 
 namespace KGERP.Controllers
 {
@@ -5420,7 +5421,7 @@ namespace KGERP.Controllers
 
         [HttpGet]
         [SessionExpire]
-        public ActionResult ChequeRegisterPrinting( long chequeRegisterId)
+        public ActionResult ChequeRegisterPrinting(long chequeRegisterId)
         {
             NetworkCredential nwc = new NetworkCredential(_admin, _password);
             WebClient client = new WebClient();
@@ -5436,8 +5437,8 @@ namespace KGERP.Controllers
                 ReportName, ReportType, chequeRegisterId);
 
 
-                return File(client.DownloadData(reportUrl), "application/pdf");
-            
+            return File(client.DownloadData(reportUrl), "application/pdf");
+
         }
         [HttpPost]
         [SessionExpire]
@@ -5447,11 +5448,11 @@ namespace KGERP.Controllers
             WebClient client = new WebClient();
             client.Credentials = nwc;
             var ReportName = CompanyInfo.ReportPrefix + "ChequeRegisterList";
-            
+
             if (chequeRegisterModel.ReportType == null)
             {
-                chequeRegisterModel.ReportType = "PDF" ;
-            }  
+                chequeRegisterModel.ReportType = "PDF";
+            }
             //if (chequeRegisterModel.ChequeDate == null)
             //{
             //    chequeRegisterModel.ChequeDate = DateTime.Now.AddYears(-10);
@@ -5459,7 +5460,7 @@ namespace KGERP.Controllers
             if (chequeRegisterModel.ProjectId == null)
             {
                 chequeRegisterModel.ProjectId = 0;
-            }   
+            }
             if (chequeRegisterModel.RequisitionId == null)
             {
                 chequeRegisterModel.RequisitionId = 0;
@@ -5467,8 +5468,8 @@ namespace KGERP.Controllers
             string reportUrl = "";
             try
             {
-                 reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&CostCenterId={3}&RequisitionId={4}",
-              ReportName, chequeRegisterModel.ReportType, CompanyInfo.CompanyId, chequeRegisterModel.ProjectId, chequeRegisterModel.RequisitionId);
+                reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&CostCenterId={3}&RequisitionId={4}",
+             ReportName, chequeRegisterModel.ReportType, CompanyInfo.CompanyId, chequeRegisterModel.ProjectId, chequeRegisterModel.RequisitionId);
 
             }
             catch
@@ -5487,6 +5488,65 @@ namespace KGERP.Controllers
             if (chequeRegisterModel.ReportType.Equals(ReportType.WORD))
             {
                 return File(client.DownloadData(reportUrl), "application/msword", "ChequeRegisterList.doc");
+            }
+            return View();
+        }
+
+        [HttpGet]
+        [SessionExpire]
+        public async Task<ActionResult> ProjectInfoReport(int companyId = 0)
+        {
+            var model = new ReportCustomModel();
+            model.ProjectTypeList = new SelectList(await _iBillRequisitionService.GetCostCenterTypeList(CompanyInfo.CompanyId), "CostCenterTypeId", "Name");
+
+
+            return View(model);
+
+        }
+
+
+        [HttpPost]
+        [SessionExpire]
+        public ActionResult ProjectInfoReport(ReportCustomModel reportModel)
+        {
+            NetworkCredential nwc = new NetworkCredential(_admin, _password);
+            WebClient client = new WebClient();
+            client.Credentials = nwc;
+            var ReportName = CompanyInfo.ReportPrefix + "ProjectInfoList";
+
+            if (reportModel.ReportType == null)
+            {
+                reportModel.ReportType = "PDF";
+            }
+              
+            if (reportModel.CostCenterId == null)
+            {
+                reportModel.CostCenterId = 0;
+            }
+
+            string reportUrl = "";
+            try
+            {
+                reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&CostCenterId={3}",
+             ReportName, reportModel.ReportType, CompanyInfo.CompanyId,reportModel.CostCenterId);
+
+            }
+            catch
+            {
+
+            }
+
+            if (reportModel.ReportType.Equals(ReportType.EXCEL))
+            {
+                return File(client.DownloadData(reportUrl), "application/vnd.ms-excel", "ProjectInfoList.xls");
+            }
+            if (reportModel.ReportType.Equals(ReportType.PDF))
+            {
+                return File(client.DownloadData(reportUrl), "application/pdf");
+            }
+            if (reportModel.ReportType.Equals(ReportType.WORD))
+            {
+                return File(client.DownloadData(reportUrl), "application/msword", "ProjectInfoList.doc");
             }
             return View();
         }

@@ -693,14 +693,14 @@ namespace KGERP.Controllers
 
             if (model.BoQDivisionId > 0)
             {
-                var data = await _service.GetBoqListByProjectId(model.ProjectId);
-                billRequisitionMaster.BoqDivisionsSelectList = new SelectList(data, "BoqDivisionId", "Name");
+                var data = new SelectList(await _service.GetBoqListByProjectId(model.ProjectId) ,"BoqDivisionId", "Name");
+                billRequisitionMaster.BoqDivisionsSelectList = data.Cast<object>().ToList();
                 billRequisitionMaster.BoQDivisionId = model.BoQDivisionId;
             }
             if (model.BoQItemId > 0)
             {
-                var boqItemList = await _service.GetBoqListByDivisionId(model.BoQDivisionId ?? 0);
-                billRequisitionMaster.BoqItemSelectList = model.BoQDivisionId > 0 ? new SelectList(boqItemList, "BoQItemId", "Name") : default;
+                var boqItemList = new SelectList(await _service.GetBoqListByDivisionId(model.BoQDivisionId ?? 0),"BoQItemId", "Name");
+                billRequisitionMaster.BoqItemSelectList = model.BoQDivisionId > 0 ? boqItemList.Cast<object>().ToList(): new List<object>();
                 billRequisitionMaster.BoQItemId = model.BoQItemId;
             }
 

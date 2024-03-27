@@ -7,9 +7,9 @@
     </am:CreatedBy>
     <am:UpdatedBy>
       <am:Name>SSDTRS</am:Name>
-      <am:Version>17.7.34009.444</am:Version>
+      <am:Version>17.9.34622.214</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2024-01-30T11:05:53.1791543Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2024-03-25T08:19:46.3574001Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
@@ -246,7 +246,8 @@ from Company Where CompanyId=@CompanyId</CommandText>
             <Value>=Parameters!BillRequisitionMasterId.Value</Value>
           </QueryParameter>
         </QueryParameters>
-        <CommandText>SELECT 
+        <CommandText>SELECT ISNULL(e.[Name],'') ApprovedBy,
+			  e.EmployeeId,
 				CASE
 				WHEN bra.AprrovalStatusId = 1 THEN 'Draft'
 				WHEN bra.AprrovalStatusId=2 THEN 'Submitted'
@@ -266,15 +267,24 @@ from Company Where CompanyId=@CompanyId</CommandText>
 				WHEN bra.SignatoryId=6 THEN 'MD'
 				END AS SignatoryName,
 
-				Reasons
+    ISNULL(Reasons,'') Reasons
 
 FROM Erp.BillRequisitionApproval bra
+LEFT JOIn dbo.Employee e on bra.EmployeeId=e.Id
 
-WHERE bra.CompanyId = @CompanyId
+WHERE bra.CompanyId =  @CompanyId
 AND IsActive =1 AND BillRequisitionMasterId=@BillRequisitionMasterId
 order By SignatoryId</CommandText>
       </Query>
       <Fields>
+        <Field Name="ApprovedBy">
+          <DataField>ApprovedBy</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="EmployeeId">
+          <DataField>EmployeeId</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="ApprovalStatusName">
           <DataField>ApprovalStatusName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -2797,6 +2807,57 @@ order By SignatoryId</CommandText>
                                   <Label>CreateDate</Label>
                                   <Value>=First(Fields!CreatedDate.Value, "BRHederData")</Value>
                                   <ToolTip>=First(Fields!CreatedDate.Value, "BRHederData")</ToolTip>
+                                  <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Approved By: </Value>
+                                  <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                                <TextRun>
+                                  <Label>Approved By</Label>
+                                  <Value>=Fields!ApprovedBy.Value</Value>
+                                  <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>(</Value>
+                                  <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                                <TextRun>
+                                  <Label>Employee Id</Label>
+                                  <Value>=Fields!EmployeeId.Value</Value>
+                                  <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                                <TextRun>
+                                  <Value>)</Value>
                                   <Style>
                                     <FontFamily>Times New Roman</FontFamily>
                                     <FontSize>8pt</FontSize>
