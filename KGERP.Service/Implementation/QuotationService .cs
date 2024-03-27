@@ -352,7 +352,7 @@ namespace KGERP.Service.Implementation
                                                                   from t3 in t3_Join.DefaultIfEmpty()
                                                                   join t4 in _context.Employees on t1.CreatedBy equals t4.EmployeeId into t4_Join
                                                                   from t4 in t4_Join.DefaultIfEmpty()
-                                                                  where t1.StartDate >= model.QuotationFromDate && t1.StartDate <= model.QuotationToDate
+                                                                  where t1.StartDate >= model.QuotationFromDate && t1.StartDate <= model.QuotationToDate && t1.QuotationTypeId == model.QuotationTypeId
                                                                   select new QuotationMasterModel
                                                                   {
                                                                       QuotationMasterId = t1.QuotationMasterId,
