@@ -776,7 +776,7 @@ namespace KGERP.Service.Implementation.Warehouse
             {
                 #region Ready To Account Integration
                 VMWarehousePOReceivingSlave accData = await SEEDPOReceivingACPushGet(vmModel.CompanyFK.Value, vmModel.MaterialReceiveId);
-                await _accountingService.AccountingPurchasePushSEED(vmModel.CompanyFK.Value, accData, (int)SeedJournalEnum.PurchaseVoucher);
+                //await _accountingService.AccountingPurchasePushSEED(vmModel.CompanyFK.Value, accData, (int)SeedJournalEnum.PurchaseVoucher);
                 #endregion
             }
             if (result > 0 && vmModel.CompanyFK == (int)CompanyNameEnum.KrishibidFeedLimited)

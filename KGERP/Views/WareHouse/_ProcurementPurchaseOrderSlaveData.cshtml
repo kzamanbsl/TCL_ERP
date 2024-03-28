@@ -13,9 +13,9 @@
                             <tr class="bg-success">
                                 <th>SL</th>
 
-                                <th>Item</th>
+                                <th>Material/ Item</th>
 
-                                <th class="center">PO Quantity</th>
+                                <th class="center">WO Quantity</th>
 
                                 <th class="center">
                                     Previous Received
@@ -29,9 +29,9 @@
                                 <th>
                                     Receive Goods
                                 </th>
-                                <th>
+                                @*<th>
                                     Damage
-                                </th>
+                                </th>*@
                                 <th>
                                     Unit
                                 </th>
@@ -47,7 +47,6 @@
                                         @Html.HiddenFor(model => model.DataListSlavePartial[i].Common_ProductFK)
                                         @Html.HiddenFor(model => model.DataListSlavePartial[i].PurchasingPrice)
 
-
                                         @(i + 1)
                                     </th>
 
@@ -58,12 +57,15 @@
                                     <td>
                                         @Html.DisplayFor(model => model.DataListSlavePartial[i].POQuantity)
                                     </td>
+
                                     <td>
                                         @Html.DisplayFor(model => model.DataListSlavePartial[i].PriviousReceivedQuantity)
                                     </td>
+
                                     <td>
                                         @Html.DisplayFor(model => model.DataListSlavePartial[i].ReturnQuantity)
                                     </td>
+
                                     <td>
                                         @Html.DisplayFor(model => model.DataListSlavePartial[i].RemainingQuantity)
                                     </td>
@@ -71,9 +73,11 @@
                                     <td>
                                         @Html.TextBoxFor(model => model.DataListSlavePartial[i].ReceivedQuantity, new { @Value = Model.DataListSlavePartial[i].RemainingQuantity, @class = "form-control" })
                                     </td>
-                                    <td>
+
+                                    @*<td>
                                         @Html.TextBoxFor(model => model.DataListSlavePartial[i].Damage, new { @class = "form-control" })
-                                    </td>
+                                    </td>*@
+
                                     <td>
                                         @Html.DisplayFor(model => model.DataListSlavePartial[i].UnitName)
                                     </td>
@@ -89,30 +93,20 @@
                     <div class="col-lg-4 col-md-4">
                         <button type="submit" id="btnsave" class="btn btn-primary btn-block"><i class='fa fa-plus'></i> Receive </button>
                     </div>
-
                 </div>
-
             }
             else
             {
                 <div class="col-md-12">
                     <div class="box box-success box-solid">
-
-                        <!-- /.box-header -->
                         <div class="box-body">
-
                             <div class="form-group" style="text-align:center;">
                                 <h3>
                                     There are no Item yet.
                                 </h3>
                             </div>
-
-
-
                         </div>
-                        <!-- /.box-body -->
                     </div>
-                    <!-- /.box -->
                 </div>
             }
         }
@@ -141,9 +135,6 @@
             }
         });
 
-
-
-
         $("#chkIsDefineBin input:checkbox").change(function () {
             //var ischecked = $(this).is(':checked');
             //if (ischecked) {
@@ -158,6 +149,5 @@
         });
 
     });
-
 
 </script>
