@@ -1,1 +1,159 @@
-﻿<center>Working on it..</center>
+﻿@model KGERP.Service.ServiceModel.QuotationSubmitModel
+@using KGERP.Utility;
+
+@{
+    ViewData["Title"] = "Quotation Submit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style type="text/css">
+    input, select, textarea {
+        max-width: 100%;
+    }
+
+    .ui-datepicker-trigger {
+        width: 37px !important;
+        height: 33px !important;
+        margin-left: 5px !important;
+    }
+
+    .dateCustom {
+        width: 82% !important;
+        border-radius: 1px !important;
+        border: 1px solid #d2d6de !important;
+        height: 33px !important;
+    }
+</style>
+
+<section class="content-header">
+    <h1>
+        <span>
+            Quotation List
+        </span>
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
+        <li class="active">
+            <span>
+                Quotation List
+            </span>
+        </li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-danger">
+                    <div class="box-body">
+                        @using (Html.BeginForm("QuotationSubmit", "Quotation", FormMethod.Post, new { id = "quotationSubmitFormId", @class = "formValidator" }))
+                        {
+                            @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyId" })
+                            <div class="row">
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="form-label">Submission Date<sup class="text-danger" title="Required">*</sup></label>
+                                        <input name="SubmissionDate" asp-for="SubmissionDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker w-100 dateCustom" autocomplete="off" id="txtFromDate">
+                                        @Html.ValidationMessageFor(model => model.SubmissionDate, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="form-label">Quotation Type<sup class="text-danger" title="Required">*</sup></label>
+                                        @Html.DropDownListFor(model => model.QuotationForId, Model.QuotationForList as SelectList, "==Quotation Type==", new { id = "ddlQuotationType", @class = "form-control ddlReset searchingDropdown", style = "width:100%", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.QuotationForId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="form-label">Quotation Type<sup class="text-danger" title="Required">*</sup></label>
+                                        @Html.DropDownListFor(model => model.QuotationMasterId, Model.QuotationList as SelectList, "==Quotation Type==", new { id = "ddlQuotationType", @class = "form-control ddlReset searchingDropdown", style = "width:100%", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.QuotationMasterId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>&nbsp;</label>
+                                        <button type="submit" id="btnSave" class="btn btn-primary btn-block">Search</button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@using (Html.BeginForm("DeleteQuotationMaster", "Quotation", FormMethod.Post))
+{
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="modal fade" id="deleteFoodCustomerOrderModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
+                        &times;
+                    </button>
+                    <h5 class="modal-title"><b>Delete Quotation</b></h5>
+                </div>
+
+                <div class="modal-body">
+
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    @Html.HiddenFor(model => model.QuotationMasterId, new { id = "hiddenQuotationMasterId" })
+                    @Html.HiddenFor(model => model.CompanyFK, new { id = "hiddenCompanyFK" })
+                    @Html.HiddenFor(model => model.ActionId, new { id = "deleteActionId" })
+
+                    <div style="text-align:center">
+                        <h3>Are you sure to Delete this item?</h3>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="col-md-3">
+                        <button type="button" onclick="resetDamageEditForm()" class="btn btn-warning fa fa-close" data-dismiss="modal">&nbsp;NO</button>
+                    </div>
+                    <div class="col-md-9">
+                        <button type="submit" id="btnsave" style="width:100%" class="btn btn-primary fa fa-remove">&nbsp; Delete</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+
+
+@Scripts.Render("~/bundles/jqueryui")
+@Styles.Render("~/Content/cssjqryUi")
+
+@section scripts {
+
+    <script type="text/javascript">
+        $('.datepicker').datepicker({
+            dateFormat: "dd/mm/yy",
+            showOn: 'both',
+            buttonText: "<i class='fa fa-calendar'></i>",
+            changeMonth: true,
+            changeYear: true,
+            yearRange: "2001:+50"
+        });
+
+        function MakeDeletable(rowId) {
+            $('#hiddenQuotationMasterId').val(rowId);
+            $('#hiddenCompanyFK').val(@Model.CompanyFK);
+            $('#deleteActionId').val(3);
+        }
+    </script>
+}
