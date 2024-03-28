@@ -574,6 +574,7 @@ namespace KGERP.Controllers
                 BillBoQItems = _service.GetBillOfQuotationList(),
                 BoQUnits = _configurationService.GetUnitForJson()
             };
+
             return View(viewData);
         }
 
@@ -584,6 +585,7 @@ namespace KGERP.Controllers
             {
                 //Add 
                 _service.Add(model);
+                TempData["CacheModel"] = model;
             }
             else if (model.ActionEum == ActionEnum.Edit)
             {

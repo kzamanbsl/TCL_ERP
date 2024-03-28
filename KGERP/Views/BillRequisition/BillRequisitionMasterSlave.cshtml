@@ -30,10 +30,8 @@
 <section class="content-header">
     @if (Model.BillRequisitionMasterId > 0)
     {
-        if (Model.StatusId == (int)EnumQuotationStatus.Draft)
+        if (Model.StatusId == EnumBillRequisitionStatus.Draft)
         {
-
-
             <h1>Add Material</h1>
         }
         else
@@ -43,7 +41,7 @@
     }
     else
     {
-        <h1>New Quotation</h1>
+        <h1>New Requisition</h1>
     }
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>

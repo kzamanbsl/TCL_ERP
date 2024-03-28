@@ -2,6 +2,8 @@
 @{
     ViewData["Title"] = "Bill of Quotation";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    KGERP.Service.ServiceModel.BillRequisitionBoqModel CacheData = TempData["CacheModel"] as KGERP.Service.ServiceModel.BillRequisitionBoqModel;
 }
 
 <style type="text/css">
@@ -104,7 +106,7 @@
 
                     </div>
 
-                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -136,7 +138,7 @@
                             </thead>
                             @{int sl = 0;}
                             <tbody>
-                                @foreach (var item in Model.BillBoQItems.OrderBy(order=>order.BoQDivisionId))
+                                @foreach (var item in Model.BillBoQItems.OrderBy(order => order.BoQDivisionId))
                                 {
                                     <tr>
                                         <td>
@@ -209,7 +211,7 @@
             $("#ddlBoQDivisionId").empty();
             $("#ddlBoQDivisionId").append("<option selected disabled>===Select Project First===</option>");
 
-            
+
         });
 
         function makeEditble(elem) {
