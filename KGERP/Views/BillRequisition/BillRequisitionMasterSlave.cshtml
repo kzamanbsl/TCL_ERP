@@ -28,20 +28,21 @@
 </style>
 
 <section class="content-header">
-    <h1>
-        @if (Model.BillRequisitionMasterId > 0)
+    @if (Model.BillRequisitionMasterId > 0)
+    {
+        if (Model.StatusId == EnumBillRequisitionStatus.Draft)
         {
-            <span>
-                Requisition Details
-            </span>
+            <h1>Add Material</h1>
         }
         else
         {
-            <span>
-                New Requisition
-            </span>
+            <h1>Detail View</h1>
         }
-    </h1>
+    }
+    else
+    {
+        <h1>New Requisition</h1>
+    }
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
         <li class="active">New Requisition</li>
