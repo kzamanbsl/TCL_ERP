@@ -2,7 +2,7 @@
 
 @{
     var message = TempData["successMessage"];
-    ViewBag.Title = "Warehouse List";
+    ViewBag.Title = "Project Location List";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -10,7 +10,7 @@
     <h1>Warehouse</h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">Warehouse</li>
+        <li class="active">Project Location</li>
     </ol>
 </section>
 
@@ -27,7 +27,7 @@
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
                         <div class="box-header">
-                            <h4>Add Warehouse</h4>
+                            <h4>Add Project Location</h4>
                         </div>
 
                         <div class="box-body">
@@ -80,7 +80,7 @@
                 <div class="box">
                     <div class="box-danger">
                         <div class="box-header">
-                            <h4>Warehouse List</h4>
+                            <h4>Project Location List</h4>
                         </div>
                         <div class="box-body">
                             <div class="table-responsive">
@@ -145,12 +145,12 @@
                     <button type="button" onclick="resetForm()" class="close pull-right" data-dismiss="modal" aria-label="Close">
                         &times;
                     </button>
-                    <h5 class="modal-title"><b>Warehouse Delete</b></h5>
+                    <h5 class="modal-title"><b>Project Location Delete</b></h5>
 
                 </div>
                 <div class="modal-body">
                     <div style="text-align:center">
-                        <h3>Are you sure to delete this Warehouse?</h3>
+                        <h3>Are you sure to delete this Project Location?</h3>
                     </div>
 
                 </div>
@@ -170,7 +170,7 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
-            $('.formValidator').bootstrapValidator();
+            
         });
 
         function makeEditble(elem) {
