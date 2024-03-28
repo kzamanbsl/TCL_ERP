@@ -7,9 +7,9 @@
     </am:CreatedBy>
     <am:UpdatedBy>
       <am:Name>SSDTRS</am:Name>
-      <am:Version>17.7.34018.315</am:Version>
+      <am:Version>17.9.34622.214</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2023-10-19T06:56:53.8153005Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2024-03-28T06:50:13.3466005Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
@@ -73,6 +73,9 @@ from Company Where CompanyId=@CompanyId</CommandText>
           </QueryParameter>
           <QueryParameter Name="@CompanyId">
             <Value>=Parameters!CompanyId.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@CostCenterId">
+            <Value>=Parameters!CostCenterId.Value</Value>
           </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
@@ -1004,6 +1007,10 @@ order By OrderBy Desc</CommandText>
       <DataType>String</DataType>
       <Prompt>Str From Date</Prompt>
     </ReportParameter>
+    <ReportParameter Name="CostCenterId">
+      <DataType>Integer</DataType>
+      <Prompt>Cost Center Id</Prompt>
+    </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>
     <GridLayoutDefinition>
@@ -1024,6 +1031,11 @@ order By OrderBy Desc</CommandText>
           <ColumnIndex>3</ColumnIndex>
           <RowIndex>0</RowIndex>
           <ParameterName>StrFromDate</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>1</RowIndex>
+          <ParameterName>CostCenterId</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>
