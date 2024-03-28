@@ -1246,7 +1246,7 @@ namespace KGERP.Controllers
         // GET: Balance Sheet Report
         [HttpGet]
         [SessionExpire]
-        public ActionResult BalanceSheet(int companyId, string balanceSheetReportName, string noteReportName)
+        public async Task<ActionResult> BalanceSheet(int companyId, string balanceSheetReportName, string noteReportName)
         {
             ReportCustomModel rcm = new ReportCustomModel()
             {
@@ -1257,6 +1257,8 @@ namespace KGERP.Controllers
                 NoteReportName = noteReportName
 
             };
+            rcm.CostCenterList = new SelectList(await _iBillRequisitionService.GetProjectList(companyId), "CostCenterId", "Name");
+
             return View(rcm);
         }
 
@@ -3212,7 +3214,7 @@ namespace KGERP.Controllers
         // GET: Balance Sheet Report
         [HttpGet]
         [SessionExpire]
-        public ActionResult TrailBalance(int companyId, string reportName)
+        public async Task<ActionResult> TrailBalance(int companyId, string reportName)
         {
             Session["CompanyId"] = companyId;
             ReportCustomModel cm = new ReportCustomModel()
@@ -3223,8 +3225,9 @@ namespace KGERP.Controllers
                 StrFromDate = DateTime.Now.ToShortDateString(),
                 StrToDate = DateTime.Now.ToShortDateString(),
                 ReportName = reportName,
-
+                
             };
+            cm.CostCenterList = new SelectList( await _iBillRequisitionService.GetProjectList(companyId), "CostCenterId", "Name");
             return View(cm);
         }
 
@@ -3236,7 +3239,14 @@ namespace KGERP.Controllers
             WebClient client = new WebClient();
             model.ReportName = CompanyInfo.ReportPrefix + model.ReportName;
             client.Credentials = nwc;
-            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&StrFromDate={3}&StrToDate={4}", model.ReportName, model.ReportType, model.CompanyId, model.StrFromDate, model.StrToDate);
+            if(model.CostCenterId == null)
+            {
+                model.CostCenterId = 0;
+            }   
+
+
+
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&StrFromDate={3}&StrToDate={4}&CostCenterId={5}", model.ReportName, model.ReportType, model.CompanyId, model.StrFromDate, model.StrToDate,model.CostCenterId);
 
             if (model.ReportType.Equals(ReportType.EXCEL))
             {
