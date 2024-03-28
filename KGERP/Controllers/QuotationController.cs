@@ -205,7 +205,14 @@ namespace KGERP.Controllers
         #endregion
 
         #region Quotation Submit
+        [HttpGet]
         public ActionResult QuotationSubmit(int companyId)
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult QuotationSubmit(QuotationSubmitModel model)
         {
             return View();
         }
