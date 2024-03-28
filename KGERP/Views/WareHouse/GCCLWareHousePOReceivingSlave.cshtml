@@ -1,8 +1,7 @@
-﻿
+﻿@model KGERP.Service.Implementation.Warehouse.VMWarehousePOReceivingSlave
 @{
-    ViewData["Title"] = "Store In";
+    ViewData["Title"] = "Material Receive";
     Layout = "~/Views/Shared/_Layout.cshtml";
-
 }
 
 <style type="text/css">
@@ -12,7 +11,6 @@
     }
 </style>
 
-@model KGERP.Service.Implementation.Warehouse.VMWarehousePOReceivingSlave
 <section class="content-header">
     <h1>
         @if (Model.MaterialReceiveId > 0)
@@ -22,26 +20,25 @@
                 <a target="_blank" href="~/Warehouse/WareHousePOReceivingSlaveReport?companyId=@Model.CompanyFK&materialReceiveId=@Model.MaterialReceiveId">@Model.ChallanCID</a>
                 @if (Model.CompanyFK == 24)
                 {
-                    <a target="_blank" href="~/Report/GCCLPurchseInvoiceReport?companyId=@Model.CompanyFK&materialReceiveId=@Model.MaterialReceiveId&reportName=GCCLPurchaseInvoiceReports">Purchase Invoice</a>
-
+                    <a target="_blank" href="~/Report/GCCLPurchseInvoiceReport?companyId=@Model.CompanyFK&materialReceiveId=@Model.MaterialReceiveId&reportName=GCCLPurchaseInvoiceReports">Work Order Invoice</a>
                 }
             </span>
         }
         else
         {
             <span>
-                Store -in Information
+                Material Receive Information
             </span>
         }
-
-
     </h1>
+
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li><a href="~/Warehouse/WareHousePOReceivingSlave">Store In</a></li>
-        <li class="active">Store in Information</li>
+        <li><a href="~/Warehouse/WareHousePOReceivingSlave">Material Receive</a></li>
+        <li class="active">Material Receive Information</li>
     </ol>
 </section>
+
 @using (Html.BeginForm("GCCLWarehousePOReceivingSlave", "Warehouse", FormMethod.Post, new { id = "wareHousePOReceivingSlaveFromID", @class = "formValidator" }))
 {
     <section class="content">
@@ -53,14 +50,11 @@
 
                 <div class="box-danger">
                     <div class="box-header">
-
                     </div>
-                    <!-- /.box-header -->
                     <div class="box-body">
                         @if (Model.MaterialReceiveId > 0)
                         {
                             @Html.HiddenFor(x => x.CompanyFK, new { id = "CompanyFK" })
-
 
                             <div class="col-md-1"> </div>
                             <div class="col-md-10">
@@ -70,11 +64,11 @@
                                         <td>:</td>
                                         <td><b>@Model.ChallanCID</b></td>
 
-                                        <td><b>Store Info</b></td>
+                                        <td><b>Project Location</b></td>
                                         <td>:</td>
                                         <td>@Model.StoreName</td>
-
                                     </tr>
+
                                     <tr>
                                         <td width="18%"><b>Supplier Challan</b></td>
                                         <td width="5%">:</td>
@@ -83,15 +77,14 @@
                                         <td width="18%"><b>Challan Date</b></td>
                                         <td width="5%">:</td>
                                         <td width="27%">@Model.ChallanDate</td>
-                                
                                     </tr>
+
                                     <tr>
-                                        <td><b>Purchase Order</b></td>
+                                        <td><b>Work Order</b></td>
                                         <td>:</td>
-                                        @*<td><a href="#" title="See All Receiving History of This PO">@Model.POCID</a> </td>*@
                                         <td><a href="~/Warehouse/WareHousePOSlaveReceivingDetailsByPO/@Model.Procurement_PurchaseOrderFk" target="_blank" title="See All Receiving History of This PO">@Model.POCID</a> </td>
 
-                                        <td><b>PO Date</b></td>
+                                        <td><b>WO Date</b></td>
                                         <td>:</td>
                                         <td>@Model.PODate.Value.ToString("dd/MM/yyyy")</td>
                                     </tr>
@@ -107,60 +100,41 @@
                                 </table>
                             </div>
                             <div class="col-md-1"> </div>
-
                         }
                         else
                         {
 
-
                             <div class="row">
-                                <!-- left column -->
                                 <div class="col-md-6">
-                                    <!-- general form elements -->
-                                    <!-- /.box-header -->
-                                    <!-- form start -->
                                     <div class="box-body">
                                         <div class="form-group">
                                             <label>Challan No</label>
-
                                             @Html.TextBoxFor(model => model.Challan, new { @class = "form-control ", @placeholder = "Challan No", @required = "required", data_bv_message = "Challan no is required.", })
                                             @Html.ValidationMessageFor(model => model.Challan, "", new { @class = "text-danger" })
                                         </div>
 
                                         <div class="form-group">
                                             <label>Challan Date</label>
-                                            @*@Html.EditorFor(model => model.ChallanDate, new {id = "txtDate", @class = "datePicker form-control ", @placeholder = "Challan Date", @required = "required", data_bv_message = "Challan date is required.", autocomplete = "off" })*@
-
                                             <input name="ChallanDate" asp-for="ChallanDate" type="text" value="@DateTime.Now.ToString("yyyy-MM-dd")" required="required" class="datePicker form-control" id="txtDate" placeholder="Challan Date" autocomplete="off">
-
                                             @Html.ValidationMessageFor(model => model.ChallanDate, "", new { @class = "text-danger" })
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="message-text" class="col-form-label"> Received By:</label>
+                                            <label for="message-text" class="col-form-label">Received By:</label>
                                             @Html.EditorFor(model => model.EmployeeName, new { htmlAttributes = new { @class = "form-control", @name = "receiverName", @id = "receiverName" } })
                                             @Html.HiddenFor(x => x.ReceivedBy, new { @id = "receivedBy", @name = "receivedBy" })
                                         </div>
-
                                     </div>
-                                    <!-- /.box-body -->
-                                    <!-- /.box -->
                                 </div>
-                                <!--/.col (left) -->
-                                <!-- left column -->
+
                                 <div class="col-md-6">
-                                    <!-- general form elements -->
-                                    <!-- /.box-header -->
-                                    <!-- form start -->
 
                                     <div class="box-body">
                                         <div class="form-group" style="padding:0px">
                                             <label>Purchase Order Number</label>
                                             @Html.EditorFor(model => model.POCID, new { htmlAttributes = new { @autocomplete = "on", @class = "form-control", @name = "Requisition CID", @id = "txtPOCID" } })
-
                                             @Html.HiddenFor(model => model.Procurement_PurchaseOrderFk, new { id = "ddlProcurementPurchaseOrderFk" })
                                             @Html.ValidationMessageFor(model => model.Procurement_PurchaseOrderFk, "", new { @class = "text-danger" })
-
                                         </div>
 
                                         <table id="poDetailsTable" class="table">
@@ -173,7 +147,7 @@
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    PO Date
+                                                    WO Date
                                                 </td>
                                                 <td><span id="txtApprovedDate"></span></td>
                                             </tr>
@@ -189,19 +163,9 @@
                                                 </td>
                                                 <td><span id="txtDeliveryDate"></span></td>
                                             </tr>
-                                            @*<tr>
-                                                <td>
-                                                   Recieve Date
-                                                </td>
-                                                <td><span id="txtRcvDate"></span></td>
-                                            </tr>*@
-
                                         </table>
                                     </div>
-
                                 </div>
-                                <!-- /.box-body -->
-
                             </div>
 
                             <br />
@@ -212,34 +176,26 @@
                                         <div id="procurementPurchaseOrderSlaveData"></div>
                                     </div>
                                 </div>
-                                <!-- /.box -->
                             </div>
                         }
-
-
-                        <!--Body Will by Start Here-->
-
-
 
                         @{
                             if (Model.MaterialReceiveId > 0)
                             {
                                 <div class="box-header" style="clear:both">
-                                    <h4><b>Received Item:</b> </h4>
+                                    <h4><b>Received Material/Item:</b> </h4>
                                 </div>
                                 <div class="table-responsive col-md-12 text-nowrap">
                                     <table id="KgErpDataTable" class="table table-striped">
                                         <thead>
                                             <tr>
                                                 <th>SL</th>
-
-                                                <th class="center">Item Name </th>
-                                                <th class="center">PO Quantity</th>
+                                                <th class="center">Material/Item Name </th>
+                                                <th class="center">WO Quantity</th>
                                                 <th class="center">Received Quantity</th>
                                                 <th class="center">Total Received</th>
                                                 <th>Return Quantity</th>
                                                 <th class="center">Remaining Quantity</th>
-
                                             </tr>
                                         </thead>
                                         @{
@@ -261,13 +217,13 @@
                                         </tbody>
                                     </table>
                                 </div>
-                            }               
+                            }
                         }
                     </div>
+
                     <div class="box-footer">
                         <div class="row">
                             <div class="col-md-2">
-
                             </div>
                             <div class="col-md-5">
                                 <a target="_blank" class="btn btn-warning btn-block" style="width:100%" href="~/Warehouse/WareHousePOReceivingSlaveReport?companyId=@Model.CompanyFK&materialReceiveId=@Model.MaterialReceiveId">Challan Report of @Model.ChallanCID</a>
@@ -276,13 +232,11 @@
                                 @if (!Model.IsSubmitted)
                                 {
                                     <a onclick="makeMaterialReceiveSubmitable(@Model.MaterialReceiveId);" class="btn btn-success btn-block" style="width:100%" data-toggle="modal" data-target="#submitProdReferenceModal" title="Submit" data-placement="top"><i class="fa fa-fingerprint" aria-hidden="true"></i>Submit</a>
-
-                                }
+                                                                }
                                 else
                                 {
                                     <button class="btn btn-success btn-block" style="width:100%" disabled="disabled">Submitted</button>
-
-                                }
+                                                                    }
 
                             </div>
                         </div>
@@ -299,19 +253,17 @@
                     <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
                         &times;
                     </button>
-                    <h5 class="modal-title"><b>Delete Challan Item</b></h5>
+                    <h5 class="modal-title"><b>Delete Challan Material/Item</b></h5>
                 </div>
                 <div class="modal-body">
                     <div style="text-align:center">
                         @Html.HiddenFor(model => model.ID, new { Value = "", id = "challanSlaveId" })
-
                         <h3>Are you sure to delete?</h3>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" id="btncloseandreset" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     <button type="submit" id="btnsave" class="btn btn-primary">&nbsp;Delete</button>&nbsp;
-
                 </div>
             </div>
         </div>
@@ -326,25 +278,28 @@
     <div class="modal fade" id="submitProdReferenceModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
+
                 <div class="modal-header">
                     <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
                         &times;
                     </button>
                     <h5 class="modal-title"><b>Submit</b></h5>
                 </div>
+
                 <div class="modal-body">
+
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
                     @Html.HiddenFor(model => model.CompanyFK, new { id = "submitCompanyFK" })
                     @Html.HiddenFor(model => model.MaterialReceiveId, new { id = "submitMaterialReceiveId" })
                     @Html.HiddenFor(model => model.ActionId, new { id = "submitActionId" })
 
-                    @Html.AntiForgeryToken()
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
                     <div style="text-align:center">
-                        <h3>Are you sure to Submit this Production?</h3>
+                        <h3>Are you sure to Submit this Material Receive?</h3>
                     </div>
                 </div>
+
                 <div class="modal-footer">
                     <div class="col-md-3">
                         <button type="button" onclick="resetProcurementPurchaseRequisitionSlaveForm()" class="btn btn-warning fa fa-close" data-dismiss="modal">&nbsp;NO</button>
@@ -361,16 +316,9 @@
 @section scripts {
 
     <script type="text/javascript">
-        function makeMaterialReceiveSubmitable(rowId) {
-            $("#submitMaterialReceiveId").val(rowId)
-            $('#submitCompanyFK').val("@Model.CompanyFK");
-            $('#submitActionId').val(10);
-        }
-
 
         $(document).ready(function () {
-            
-            //$("#poDetailsTable").hide();
+
             $("#chkIsDefineBin input:checkbox").change(function () {
                 var ischecked = $(this).is(':checked');
                 if (ischecked) {
@@ -378,18 +326,14 @@
                 }
                 else {
                     alert('uncheckd ' + $(this).val());
-
                 }
-
-
             });
 
             $("#txtPOCID").autocomplete({
                 source: function (request, response) {
 
                     $.ajax({
-                        url:"@Url.Action("AutoCompletePOGet", "Warehouse")",// '/AccountHeads/AutoComplete/',
-                        //data: "{ 'prefix': '" + request.term + "'}",
+                        url: "@Url.Action("AutoCompletePOGet", "Warehouse")",
                         data: { companyId: "@Model.CompanyFK", prefix: request.term },
                         dataType: "json",
                         type: "get",
@@ -413,39 +357,39 @@
                     $("#ddlProcurementPurchaseOrderFk").val(i.item.val);
 
                     $.ajax({
-                    type: "POST",
-                    url: "@Url.Action("ProcurementPurchaseOrderDetails", "Warehouse")",
-                    datatype: "Json",
+                        type: "POST",
+                        url: "@Url.Action("ProcurementPurchaseOrderDetails", "Warehouse")",
+                        datatype: "Json",
                         data: { id: i.item.val },
-                     success: function (data) {
-                 
-                         $("#poDetailsTable").show();
-                         $("#hiddenCommonSupplierFK").val(data.Common_SupplierFK);
-                         $("#txtSupplierNaame").text(data.SupplierName);
-                         var apprDate = DateCustom(data.PODate);
-                         $('#txtApprovedDate').text(apprDate);
-                         var RcvDate = DateCustom(data.ReceivedDate);
-                         $('#txtRcvDate').text(RcvDate);
-                         $("#txtDeliveryAddress").text(data.DeliveryAddress);
-                         var deliveryDate = DateCustom( data.DeliveryDate);
+                        success: function (data) {
 
-                         $("#txtDeliveryDate").text(deliveryDate);
+                            $("#poDetailsTable").show();
+                            $("#hiddenCommonSupplierFK").val(data.Common_SupplierFK);
+                            $("#txtSupplierNaame").text(data.SupplierName);
+                            var apprDate = DateCustom(data.PODate);
+                            $('#txtApprovedDate').text(apprDate);
+                            var RcvDate = DateCustom(data.ReceivedDate);
+                            $('#txtRcvDate').text(RcvDate);
+                            $("#txtDeliveryAddress").text(data.DeliveryAddress);
+                            var deliveryDate = DateCustom(data.DeliveryDate);
+
+                            $("#txtDeliveryDate").text(deliveryDate);
 
 
-                    }
-                });
+                        }
+                    });
 
-                 $.ajax({
-                    type: "POST",
-                    url: "@Url.Action("ProcurementPurchaseOrderSlaveData", "Warehouse")",
-                    datatype: "Json",
-                     data: { poId: i.item.val },
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("ProcurementPurchaseOrderSlaveData", "Warehouse")",
+                        datatype: "Json",
+                        data: { poId: i.item.val },
 
-                     success: function (data) {
-                 
-                         $("#procurementPurchaseOrderSlaveData").html(data);
-                    }
-                });
+                        success: function (data) {
+
+                            $("#procurementPurchaseOrderSlaveData").html(data);
+                        }
+                    });
 
                 },
                 minLength: 1,
@@ -459,7 +403,6 @@
                 source: function (request, response) {
                     $.ajax({
                         url: '/Employee/EmployeeAutoComplete/',
-                        //data: "{ 'prefix': '" + request.term + "'}",
                         data: '{"prefix":"' + request.term + '", "productType":"F"}',
                         dataType: "json",
                         type: "POST",
@@ -488,6 +431,13 @@
                 $(this).autocomplete("search");
             });
         });
+
+        function makeMaterialReceiveSubmitable(rowId) {
+             $("#submitMaterialReceiveId").val(rowId);
+             $('#submitCompanyFK').val("@Model.CompanyFK");
+             $('#submitActionId').val(10);
+        }
+
         function DateCustom(orderDate) {
             var dateString = orderDate.substr(6);
             var currentTime = new Date(parseInt(dateString));
@@ -508,6 +458,7 @@
 
             }
         }
+
         function resetForm() {
             $('#deliveryChallanSlaveFormId')[0].reset();
             $('#ActionId').val(1);

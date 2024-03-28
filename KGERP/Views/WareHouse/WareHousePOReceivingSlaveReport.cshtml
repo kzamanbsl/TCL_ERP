@@ -1,13 +1,12 @@
 ﻿@model KGERP.Service.Implementation.Warehouse.VMWarehousePOReceivingSlave
+@using KG.Core.Services;
+@using KGERP.Utility
+
 @{
     Layout = null;
     int sl = 0;
-
 }
 
-
-@using KG.Core.Services;
-@using KGERP.Utility
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,11 +14,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width" />
     <title>
-        Store In Information of @Model.Challan
+        Material Receive Information of @Model.Challan
     </title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-
     <!-- Bootstrap 3.3.7 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <!-- Font Awesome -->
@@ -143,17 +141,13 @@
                             <td style="width:20%"></td>
                             <td style="width:10%">
                                 <img height="80" width="80" id="topLogo" src="@CompanyInfo.CompanyLogoUrl" />
-
                             </td>
                             <td style="width:70%">
-
                                 <p style="text-align: left; font-size: 25px; font-weight: bold;margin-bottom: 0;">@Model.CompanyName</p>
                                 <p style="text-align: left; font-size: 16px; font-weight: bold; margin-bottom: 0;">@Model.CompanyAddress</p>
                                 <p style="text-align: left; font-size: 16px; font-weight: bold;margin-bottom: 0;">  Phone : @Model.CompanyPhone, Email : @Model.CompanyEmail</p>
-
                             </td>
                             <td style="width:20%"></td>
-
                         </tr>
                     </table>
                 </div>
@@ -176,7 +170,7 @@
                             <td style="width: 30%"></td>
                             <td style="width: 40%;text-align:center;">
                                 <h4 class="voucherHeader">
-                                    Store In Information of @Model.Challan
+                                    Material Receive Information of @Model.Challan
                                 </h4>
                             </td>
                             <td style="width: 30%; text-align: right;">
@@ -202,23 +196,21 @@
                         </tr>
                         <tr>
                             <td style="width: 10%">
-                                <strong>PO NO</strong>
+                                <strong>WO No</strong>
                             </td>
                             <td style="width: 50%; border-bottom: 1px solid #000000">
                                 &nbsp;&nbsp;&nbsp;
                                 <strong>
                                     <span>@Model.POCID</span>
-
                                 </strong>
                             </td>
                             <td style="width: 10%">
-                                <strong>PO Date</strong>
+                                <strong>WO Date</strong>
                             </td>
                             <td style="width: 30%; border-bottom: 1px solid #000000">
                                 &nbsp;&nbsp;&nbsp;
                                 <strong>
                                     <span>@Model.PODate.Value.ToString("dd-MM-yyyy")</span>
-
                                 </strong>
                             </td>
                         </tr>
@@ -230,7 +222,6 @@
                                 &nbsp;&nbsp;&nbsp;
                                 <strong>
                                     <span>@Model.Challan</span>
-
                                 </strong>
                             </td>
                             <td style="width: 10%">
@@ -240,7 +231,6 @@
                                 &nbsp;&nbsp;&nbsp;
                                 <strong>
                                     <span>@Model.ChallanDate.Value.ToString("dd-MM-yyyy")</span>
-
                                 </strong>
                             </td>
                         </tr>
@@ -249,16 +239,13 @@
             </div>
             <br />
 
-            <div style="font-weight: bold;font-size: 16px"> Item Details: </div>
-
-
+            <div style="font-weight: bold;font-size: 16px"> Material/Item Details: </div>
             <div>
                 <table style="width: 100%" cellspacing="0" rules="all" border="1">
-
                     <tr>
                         <th style="text-align: center">SL</th>
-                        <th style="text-align: left">Product</th>
-                        <th style="text-align: center">PO Quantity</th>
+                        <th style="text-align: left">Material/Item Name</th>
+                        <th style="text-align: center">WO Quantity</th>
                         <th style="text-align: center">Received Quantity</th>
                         <th style="text-align: center">Total Received Quantity</th>
                         <th style="text-align: center">Remaining Quantity</th>
@@ -268,24 +255,16 @@
                     {
                         <tr>
                             <td style="text-align: center">@(++sl)</td>
-
                             <td style="text-align: left">@item.ProductSubCategory @item.ProductName</td>
                             <td style="text-align: center">@item.POQuantity</td>
                             <td style="text-align: center">@item.ReceivedQuantity</td>
                             <td style="text-align: center">@item.PriviousReceivedQuantity</td>
                             <td style="text-align: center">@item.RemainingQuantity</td>
-
-
                         </tr>
                     }
                 </table>
             </div>
-
-
         </div>
-
-
-
 
         <div style="padding:50px 0 20px 0">
             <div>
@@ -301,6 +280,7 @@
             </div>
         </div>
     </div>
+
     <!-- /.content -->
     <!-- /.content-wrapper -->
     <!-- ./wrapper -->

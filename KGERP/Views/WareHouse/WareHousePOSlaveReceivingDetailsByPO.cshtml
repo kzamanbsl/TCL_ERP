@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewData["Title"] = "Store In";
+    ViewData["Title"] = "Material Receive";
     Layout = "~/Views/Shared/_Layout.cshtml";
     string collapsedBox = "";
 
@@ -15,8 +15,8 @@
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li><a href="~/Warehouse/WareHousePOReceivingSlave">Store In</a></li>
-        <li class="active">Store in Information</li>
+        <li><a href="~/Warehouse/WareHousePOReceivingSlave">Material Receive</a></li>
+        <li class="active">Material Receive Information</li>
     </ol>
 </section>
 
@@ -27,25 +27,22 @@
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div class="box-danger">
                 <div class="box-header">
-
                 </div>
-                <!-- /.box-header -->
                 <div class="box-body">
-
-
                     <div class="col-md-1"> </div>
                     <div class="col-md-10">
                         <table class="table">
 
                             <tr>
-                                <td><b>Purchase Order</b></td>
+                                <td><b>Work Order</b></td>
                                 <td>:</td>
                                 <td>@Model.POCID</td>
 
-                                <td><b>PO Date</b></td>
+                                <td><b>WO Date</b></td>
                                 <td>:</td>
                                 <td>@Model.PODate.Value.ToString("dd/MM/yyyy")</td>
                             </tr>
+
                             <tr>
                                 <td><b>Supplier Name</b></td>
                                 <td>:</td>
@@ -59,10 +56,6 @@
                     </div>
                     <div class="col-md-1"> </div>
 
-
-
-                    <!--Body Will by Start Here-->
-
                     <div class="table-responsive col-md-12 text-nowrap">
                         <table id="tableReceiving" style="width: 100%; font-size: 12px;" class="table table-bordered">
                             <thead>
@@ -70,16 +63,12 @@
                                     <th>Challan CID</th>
                                     <th>Supplier Challan</th>
                                     <th>Challan Date</th>
-
-
-                                    <th>Item Name </th>
-                                    <th>Item Description</th>
-                                    <th style="text-align:center;">PO Quantity</th>
+                                    <th>Material/Item Name </th>
+                                    <th style="text-align:center;">WO Quantity</th>
                                     <th style="text-align:center;">Received Quantity</th>
                                     <th style="text-align:center;">Total Received</th>
                                     <th style="text-align:center;">Return Quantity</th>
                                     <th style="text-align:center;">Remaining Quantity</th>
-
                                     <th style="text-align:center;">Loss Quantity</th>
                                 </tr>
                             </thead>
@@ -88,19 +77,14 @@
                                 @foreach (var item in Model.DataListSlave)
                                 {
                                     <tr style="border-bottom:1px solid">
-                                        <td><a title="Store In Information of @item.ChallanCID" href="~/Warehouse/WareHousePOReceivingSlave?companyId=@Model.CompanyFK&materialReceiveId=@item.MaterialReceiveId" target="_blank">@item.ChallanCID</a></td>
-                                        <td><a title="Store In Report of @item.Challan" href="~/Warehouse/WareHousePOReceivingSlaveReport?companyId=@Model.CompanyFK&materialReceiveId=@item.MaterialReceiveId" target="_blank">@item.Challan</a></td>
-
-
+                                        <td><a title="Material Receive Information of @item.ChallanCID" href="~/Warehouse/WareHousePOReceivingSlave?companyId=@Model.CompanyFK&materialReceiveId=@item.MaterialReceiveId" target="_blank">@item.ChallanCID</a></td>
+                                        <td><a title="Material Receive Report of @item.Challan" href="~/Warehouse/WareHousePOReceivingSlaveReport?companyId=@Model.CompanyFK&materialReceiveId=@item.MaterialReceiveId" target="_blank">@item.Challan</a></td>
                                         <td>@item.ChallanDate.Value.ToString("dd/MM/yyyy")</td>
-
                                         <td>@item.ProductName</td>
-                                        <td>@item.ProductDescription</td>
                                         <td style="text-align:center;">@item.POQuantity</td>
                                         <td style="text-align:center;"><b>@item.ReceivedQuantity</b></td>
                                         <td style="text-align:center;">@item.PriviousReceivedQuantity</td>
                                         <td style="text-align:center;">@item.ReturnQuantity</td>
-
                                         <td style="text-align:center;">@item.RemainingQuantity</td>
                                         <td style="text-align:center;">@item.StockLossQuantity</td>
                                     </tr>
@@ -109,6 +93,7 @@
                         </table>
                     </div>
                 </div>
+
                 <div class="box-footer">
                     @if (Model.ID > 0)
                     {
@@ -120,21 +105,19 @@
     </div>
 </section>
 
-
-
-
 @section scripts {
 
     <script>
+
         $(function () {
             $("#tableReceiving").DataTable({
-                "ordering": false
-
+                "ordering": false;
             });
             SummerizeTable('#tableReceiving', 0);
             SummerizeTable('#tableReceiving', 1);
             SummerizeTable('#tableReceiving', 2);
         });
+
         function SummerizeTable(table, indexno) {
             $(table).each(function () {
                 $(table).find('td').each(function () {
