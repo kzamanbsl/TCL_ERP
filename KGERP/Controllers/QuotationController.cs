@@ -208,7 +208,9 @@ namespace KGERP.Controllers
         [HttpGet]
         public ActionResult QuotationSubmit(int companyId)
         {
-            return View();
+            QuotationSubmitModel viewModel = new QuotationSubmitModel();
+            viewModel.CompanyFK = companyId;
+            return View(viewModel);
         }
 
         [HttpPost]
