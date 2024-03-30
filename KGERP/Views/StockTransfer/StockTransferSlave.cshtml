@@ -1,7 +1,7 @@
 ﻿@model KGERP.Service.ServiceModel.StockTransferModel
 @using KGERP.Utility;
 @{
-    ViewData["Title"] = "Stock Transfer";
+    ViewData["Title"] = "Material Transfer";
     Layout = "~/Views/Shared/_Layout.cshtml";
     int sl = 0;
     decimal totalQty = 0;
@@ -23,7 +23,7 @@
         }
         else
         {
-            <span>Stock Transfer</span>
+            <span>Material Transfer</span>
         }
     </h3>
     <ol class="breadcrumb">
@@ -37,16 +37,13 @@
     <section class="content">
         <div class="row">
             <div class="box">
+
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 @Html.HiddenFor(model => model.StockTransferId, new { id = "hidStockTransferId" })
-
                 @Html.HiddenFor(model => model.StockTransferDetailId, new { id = "hidStockTransferDetailId" })
-
-
                 @Html.HiddenFor(model => model.ActionId, new { id = "ActionId" })
                 @Html.HiddenFor(model => model.CompanyId, new { id = "CompanyFK" })
-                
 
                 <div class="box-danger">
                     <div class="box-body">
@@ -54,12 +51,13 @@
                         {
                             if (Model.TransferDate.HasValue)
                             {
-                                <input type="text" hidden id="txtTransferDate" value="@Model.TransferDate.Value.ToString("dd-MMM-yyyy")" />
+                                <input type="text" hidden id="txtTransferDate" value="@Model.TransferDate.Value.ToString("dd-MM-yyyy")" />
                             }
                             else
                             {
-                                <input type="text" hidden id="txtTransferDate" value="@DateTime.Now.ToString("dd-MMM-yyyy")" />
+                                <input type="text" hidden id="txtTransferDate" value="@DateTime.Now.ToString("dd-MM-yyyy")" />
                             }
+
                             @Html.HiddenFor(model => model.StockIdFrom, new { id = "stockIdFrom" })
 
                             <div class="col-md-1"> </div>
@@ -70,35 +68,31 @@
                                             Challan No
                                         </th>
                                         <th style="width:2%">:</th>
-                                        <td style="width:30%">
-                                            <label class="col-form-label">@Model.ChallanNo</label>
-                                        </td>
+                                        <td style="width:30%"><label class="col-form-label">@Model.ChallanNo</label></td>
+
                                         <th style="width:18%"> Issue Date</th>
                                         <th style="width:2%">:</th>
                                         <td style="width:30%">
                                             @if (Model.TransferDate != null)
                                             {
-                                                @Model.TransferDate.Value.ToString("dd-MMM-yyyy")
+                                                @Model.TransferDate.Value.ToString("dd-MM-yyyy")
                                             }
                                         </td>
                                     </tr>
                                     <tr>
                                         <th>Transfer From</th>
                                         <th>:</th>
-                                        <td>
-                                            @Model.StockFrom
-                                        </td>
+                                        <td>@Model.StockFrom</td>
 
                                         <th>Transfer To</th>
                                         <th>:</th>
-                                        <td>
-                                            @Model.StockTo
-                                        </td>
+                                        <td> @Model.StockTo</td>
                                     </tr>
                                     <tr>
                                         <th>Vehicle No</th>
                                         <th>:</th>
                                         <td>@Model.VehicleNo</td>
+
                                         <th>Truck Fare</th>
                                         <th>:</th>
                                         <td>@Model.TruckFare</td>
@@ -107,6 +101,7 @@
                                         <th>Receive Person</th>
                                         <th>:</th>
                                         <td>@Model.ReceivePerson</td>
+
                                         <th>Phone No</th>
                                         <th>:</th>
                                         <td>@Model.ReceiverPhone</td>
@@ -115,6 +110,7 @@
                                         <th>Reference No</th>
                                         <th>:</th>
                                         <td>@Model.ReferenceNo</td>
+
                                         <th></th>
                                         <th></th>
                                         <td></td>
@@ -123,6 +119,7 @@
                             </div>
                             <div class="col-md-1"> </div>
                         }
+
                         <div class="box-body">
                             @if (Model.StockTransferId == 0)
                             {
@@ -133,7 +130,6 @@
                                             <div class="">
                                                 @Html.EditorFor(model => model.TransferDate, new { htmlAttributes = new { @class = "datepicker", @id = "txtTransferDate", @autocomplete = "off" } })
                                                 @Html.ValidationMessageFor(model => model.TransferDate, "", new { @class = "text-danger" })
-
                                             </div>
                                         </div>
                                     </div>
@@ -141,9 +137,7 @@
                                         <div class="form-group">
                                             <label class="control-label">Transfer From</label>
                                             <div class="">
-                                                @Html.DropDownListFor(model => model.StockIdFrom, new SelectList(Model.StockFromList, "Value", "Text"), "---Select---",
-                                               new { @class = "dropdownsize form-control", @id = "stockIdFrom" ,disabled = "disabled" })
-                                                @Html.HiddenFor(model => model.StockIdFrom, new { id = "StockIdFrom" })
+                                                @Html.DropDownListFor(model => model.StockIdFrom, new SelectList(Model.StockFromList, "Value", "Text"), "---Select---", new { @class = "dropdownsize form-control searchingDropdown", @id = "stockIdFrom" })
                                                 @Html.ValidationMessageFor(model => model.StockIdFrom, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
@@ -152,9 +146,7 @@
                                         <div class="form-group">
                                             <label class="control-label">Transfer To</label>
                                             <div class="">
-                                                @Html.DropDownListFor(model => model.StockIdTo, new SelectList(Model.StockToList, "Value", "Text"), "---Select---",
-                                                    new { @class = "dropdownsize form-control", @id = "stockIdTo"})
-                                                @Html.HiddenFor(model => model.StockIdTo, new { id = "StockIdTo" })
+                                                @Html.DropDownListFor(model => model.StockIdTo, new SelectList(Model.StockToList, "Value", "Text"), "---Select---", new { @class = "dropdownsize form-control searchingDropdown", @id = "stockIdTo" })
                                                 @Html.ValidationMessageFor(model => model.StockIdTo, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
@@ -165,8 +157,8 @@
                                         <div class="form-group">
                                             <label for="txtVehicleNo" class="form-control-label">Vehicle No</label>
                                             <div class="">
-                                                <input name="VehicleNo" asp-for="VehicleNo" type="text"
-                                                       required="required" class="form-control" id="txtVehicleNo" autocomplete="off">
+                                                @Html.EditorFor(model => model.VehicleNo, new { htmlAttributes = new { @class = "form-control", @autocomplete = "off" } })
+                                                @Html.ValidationMessageFor(model => model.VehicleNo, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                     </div>
@@ -176,7 +168,6 @@
                                             <div class="">
                                                 @Html.EditorFor(model => model.TruckFare, new { htmlAttributes = new { @class = "form-control", @autocomplete = "off" } })
                                                 @Html.ValidationMessageFor(model => model.TruckFare, "", new { @class = "text-danger" })
-
                                             </div>
                                         </div>
                                     </div>
@@ -186,7 +177,6 @@
                                             <div class="">
                                                 @Html.EditorFor(model => model.LabourBill, new { htmlAttributes = new { @class = "form-control", @autocomplete = "off" } })
                                                 @Html.ValidationMessageFor(model => model.LabourBill, "", new { @class = "text-danger" })
-
                                             </div>
                                         </div>
                                     </div>
@@ -198,6 +188,7 @@
                                             <div class="">
                                                 @Html.EditorFor(model => model.ReceivePerson, new { htmlAttributes = new { @class = "form-control", @name = "receiverName", @id = "receiverName" } })
                                                 @Html.HiddenFor(x => x.ReceivedBy, new { @id = "receivedBy", @name = "receivedBy" })
+                                                @Html.ValidationMessageFor(model => model.ReceivedBy, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                     </div>
@@ -206,6 +197,7 @@
                                             <label class="control-label">Phone No</label>
                                             <div class="">
                                                 @Html.EditorFor(model => model.ReceiverPhone, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @id = "receiverPhone" } })
+                                                @Html.ValidationMessageFor(model => model.ReceiverPhone, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                     </div>
@@ -219,33 +211,29 @@
                                         </div>
                                     </div>
                                 </div>
-
                             }
+
                             @if (Model.IsReceived == 0 && Model.Status == (int)StockTransferStatusEnum.Draft)
                             {
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group" style="padding:0px">
-                                            <label for="message-text" class="col-form-label">Product:</label>
-                                            @Html.EditorFor(model => model.ProductName, new
-                                       {
-                                           htmlAttributes = new
-                                           { @autocomplete = "on", @class = "form-control", @name = "Product Name", @id = "txtProductName" }
-                                       })
+                                            <label for="message-text" class="col-form-label">Material/Item Name:</label>
+                                            @Html.EditorFor(model => model.ProductName, new {htmlAttributes = new{ @autocomplete = "on", @class = "form-control", @name = "Material/Item Name", @id = "txtProductName" }})
                                             @Html.HiddenFor(model => model.ProductId, new { id = "hfProductId" })
                                             @Html.ValidationMessageFor(model => model.ProductId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                     @*<div class="col-md-2">
-                                        <div class="form-group">
-                                            <label>Stock Available Quantity</label>
-                                            <div class="input-group">
-                                                <input type="text" id="stockAvailableQty" class="form-control"
-                                                       autocomplete="off" style="text-align:right" readonly />
-                                                @Html.HiddenFor(model => model.UnitPrice, new { id = "hidUnitPrice" })
+                                            <div class="form-group">
+                                                <label>Stock Available Quantity</label>
+                                                <div class="input-group">
+                                                    <input type="text" id="stockAvailableQty" class="form-control"
+                                                           autocomplete="off" style="text-align:right" readonly />
+                                                    @Html.HiddenFor(model => model.UnitPrice, new { id = "hidUnitPrice" })
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>*@
+                                        </div>*@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Quantity</label>
@@ -261,11 +249,11 @@
                                             <i class='fa fa-plus'></i>
                                             @if (Model.StockTransferId > 0)
                                             {
-                                                <span>Add Item</span>
+                                                <span> Add Item</span>
                                             }
                                             else
                                             {
-                                                <span>Create</span>
+                                                <span> Create</span>
                                             }
                                         </button>
                                     </div>
@@ -273,9 +261,7 @@
                             }
                         </div>
 
-                        <!--Body Will by Start Here-->
-                        @{
-                            if (Model.StockTransferId > 0)
+                        @if (Model.StockTransferId > 0)
                             {
                                 @Html.HiddenFor(model => model.StockTransferDetailId, new { id = "hidSlaveID" })
                                 <div class="table-responsive col-md-12  text-nowrap">
@@ -283,7 +269,7 @@
                                         <thead style="background-color:#ddd;">
                                             <tr>
                                                 <th style="padding:5px;text-align:center;">SL</th>
-                                                <th style="padding:5px;text-align:left;">Product</th>
+                                                <th style="padding:5px;text-align:left;">Material/Item Name</th>
                                                 <th style="padding:5px;text-align:left;">Unit</th>
                                                 <th style="padding:5px;text-align:center;">Quantity</th>
                                                 @if (Model.Status == (int)POStatusEnum.Draft)
@@ -317,7 +303,7 @@
                                             <tr>
                                                 <th></th>
                                                 <th colspan="2">TOTAL</th>
-                                                <th style="padding:5px;text-align:right;">@String.Format("{0:0.000}", totalQty) </th>
+                                                <th style="padding:5px;text-align:center;">@String.Format("{0:0.000}", totalQty) </th>
                                                 @if (Model.Status == (int)StockTransferStatusEnum.Draft)
                                                 {
                                                     <th></th>
@@ -327,7 +313,7 @@
                                     </table>
                                 </div>
                             }
-                        }
+                      
                     </div>
                     <div class="box-footer">
 
@@ -360,7 +346,7 @@
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
                     <div style="text-align:center">
-                        <h3>Are you sure to  this transfer ?</h3>
+                        <h3>Are you sure to submit this Transfer ?</h3>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -387,19 +373,21 @@
                     <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
                         &times;
                     </button>
-                    <h5 class="modal-title"><b>Delete Transfer Item</b></h5>
+                    <h5 class="modal-title"><b>Delete Transfer Material/Item</b></h5>
                 </div>
                 <div class="modal-body">
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     @Html.HiddenFor(model => model.StockTransferDetailId, new { id = "hidDeleteTransSlaveId" })
                     @Html.HiddenFor(model => model.StockTransferId, new { id = "hidDeleteTransferId" })
                     @Html.HiddenFor(model => model.CompanyId, new { id = "deleteCompanyFK" })
                     @Html.HiddenFor(model => model.ActionId, new { id = "deleteActionId" })
-                    @Html.AntiForgeryToken()
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
                     <div style="text-align:center">
-                        <h3>Are you sure to Delete this Issue Item?</h3>
+                        <h3>Are you sure to Delete this Transfer Material/Item?</h3>
                     </div>
                 </div>
+
                 <div class="modal-footer">
                     <div class="col-md-3">
                         <button type="button" onclick="resetIssueSlaveForm()" class="btn btn-warning fa fa-close" data-dismiss="modal">&nbsp;NO</button>
@@ -408,6 +396,7 @@
                         <button type="submit" id="btnsave" style="width:100%" class="btn btn-primary fa fa-remove">&nbsp; Delete</button>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
@@ -416,9 +405,12 @@
 
 
 @section scripts {
+
     @Scripts.Render("~/bundles/jqueryui")
     @Styles.Render("~/Content/cssjqryUi")
-    <script type="text/javascript">
+
+<script type="text/javascript">
+
         $('.datepicker').datepicker({
             dateFormat: "dd/mm/yy",
             showOn: 'both',
@@ -428,40 +420,10 @@
             yearRange: "2001:+50"
         });
 
-        function makeDeletable(rowId) {
-            $('#hidDeleteTransSlaveId').val(rowId);
-            $('#deleteActionId').val(3);
-        }
-        function resetTransSlaveForm() {
-          $('#transSlaveFormId')[0].reset();
-          $('#ActionId').val(1);
-        }
-
-        function makeEditble(rowId) {
-
-            $.ajax({
-
-                  type: "POST",
-                  url: "@Url.Action("SingleStockTransferSlave", "StockTransfer")",
-                  datatype: "Json",
-                  data: { id: rowId },
-                  success: function (data) {
-                      $('#transCreateBtn').html("<i class='fa fa-edit'></i>&nbsp;Update");
-                      $("#hidStockTransferId").val(data.StockTransferId);
-                      $('#ActionId').val(2);
-                      $("#CompanyFK").val(data.CompanyId);
-                      $("#txtProductName").val(data.ProductName);
-                      $("#hfProductId").val(data.ProductId);
-                      $("#txtQuantity").val(data.TransferQty);
-                      $("#hidStockTransferDetailId").val(data.StockTransferDetailId)
-                      window.scrollTo({ top: 0, behavior: 'smooth' });
-                  }
-                 });
-            }
-
-
         $(document).ready(function () {
-        $(function () {
+
+            $(function () {
+
             $("#txtProductName").autocomplete({
                 source: function (request, response) {
                     $.ajax({
@@ -503,7 +465,6 @@
 
         });
 
-
             function loadStockAvailableQuantity(productId) {
 
                 var stockIdForm = $('#stockIdFrom').val();
@@ -538,40 +499,37 @@
         }
         });
 
-        $(document).ready(function () {
-            
-            $(function () {
-                $("#receiverName").autocomplete({
-                    source: function (request, response) {
-                        $.ajax({
-                            url: '/Employee/EmployeeAutoComplete/',
-                            data: '{"prefix":"' + request.term+'"}',
-                            dataType: "json",
-                            type: "POST",
-                            cache: true,
-                            contentType: "application/json; charset=utf-8",
-                            success: function (data) {
-                                response($.map(data, function (item) {
-                                    return item;
-                                }))
-                            },
-                            error: function (response) {
-                            },
-                            failure: function (response) {
-                            }
-                        });
-                    },
-                    select: function (e, i) {
-                        $("#receivedBy").val(i.item.val);
-                    },
-                    minLength: 1,
-                    change: function (event, ui) {
-                        loadEmployeeInformation(ui.item.val);
-                    }
+        $(function () {
+            $("#receiverName").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: '/Employee/EmployeeAutoComplete/',
+                        data: '{"prefix":"' + request.term + '"}',
+                        dataType: "json",
+                        type: "POST",
+                        cache: true,
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return item;
+                            }))
+                        },
+                        error: function (response) {
+                        },
+                        failure: function (response) {
+                        }
+                    });
+                },
+                select: function (e, i) {
+                    $("#receivedBy").val(i.item.val);
+                },
+                minLength: 1,
+                change: function (event, ui) {
+                    loadEmployeeInformation(ui.item.val);
+                }
 
-                }).focus(function () {
-                    $(this).autocomplete("search");
-                });
+            }).focus(function () {
+                $(this).autocomplete("search");
             });
         });
 
@@ -590,6 +548,38 @@
                     alert('error');
                 }
             });
-         }
-    </script>
+        }
+
+        function makeDeletable(rowId) {
+       $('#hidDeleteTransSlaveId').val(rowId);
+       $('#deleteActionId').val(3);
+   }
+
+        function resetTransSlaveForm() {
+     $('#transSlaveFormId')[0].reset();
+     $('#ActionId').val(1);
+   }
+
+        function makeEditble(rowId) {
+
+       $.ajax({
+             type: "POST",
+             url: "@Url.Action("SingleStockTransferSlave", "StockTransfer")",
+             datatype: "Json",
+             data: { id: rowId },
+             success: function (data) {
+                 $('#transCreateBtn').html("<i class='fa fa-edit'></i>&nbsp;Update");
+                 $("#hidStockTransferId").val(data.StockTransferId);
+                 $('#ActionId').val(2);
+                 $("#CompanyFK").val(data.CompanyId);
+                 $("#txtProductName").val(data.ProductName);
+                 $("#hfProductId").val(data.ProductId);
+                 $("#txtQuantity").val(data.TransferQty);
+                 $("#hidStockTransferDetailId").val(data.StockTransferDetailId)
+                 window.scrollTo({ top: 0, behavior: 'smooth' });
+             }
+            });
+       }
+
+</script>
 }

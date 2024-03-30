@@ -209,19 +209,19 @@ from Company Where CompanyId=@CompanyId</CommandText>
                   <Width>0.29309in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.19391in</Width>
+                  <Width>1.62099in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>1in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.14805in</Width>
+                  <Width>1.31472in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1in</Width>
+                  <Width>1.07292in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.32085in</Width>
+                  <Width>1.39377in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -346,7 +346,9 @@ from Company Where CompanyId=@CompanyId</CommandText>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox22</rd:DefaultName>
@@ -380,7 +382,9 @@ from Company Where CompanyId=@CompanyId</CommandText>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox5</rd:DefaultName>
@@ -508,7 +512,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!StockItems.Value</Value>
+                                  <Value>=sum(Fields!StockItems.Value)</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -540,7 +544,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!StockValues.Value</Value>
+                                  <Value>=sum(Fields!StockValues.Value)</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -572,12 +576,12 @@ from Company Where CompanyId=@CompanyId</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!StockReturnItems.Value</Value>
+                                  <Value>=sum(Fields!StockReturnItems.Value)</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
                               <Style>
-                                <TextAlign>Right</TextAlign>
+                                <TextAlign>Center</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -604,7 +608,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!StockReturnValues.Value</Value>
+                                  <Value>=sum(Fields!StockReturnValues.Value)</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -665,7 +669,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
             <Top>1.37375in</Top>
             <Left>0.67118in</Left>
             <Height>0.47222in</Height>
-            <Width>5.9559in</Width>
+            <Width>6.69548in</Width>
             <ZIndex>2</ZIndex>
             <Style>
               <Border>

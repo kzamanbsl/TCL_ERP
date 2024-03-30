@@ -213,11 +213,11 @@ namespace KGERP.Controllers
             var stockInfoId = Session["StockInfoId"] != null ? (int)Session["StockInfoId"] : 0;
             if (stockTransferId == 0)
             {
-                model.StockIdTo = stockInfoId > 0 ? stockInfoId : (int?)null;
+                //model.StockIdTo = stockInfoId > 0 ? stockInfoId : (int?)null;
                 model.CompanyId = companyId;
                 model.Status = (int)IssueStatusEnum.Draft;
-                model.StockToList = _stockInfoService.GetStockInfoSelectModels(companyId);
                 model.StockFromList = _stockInfoService.GetStockInfoSelectModels(companyId);
+                model.StockToList = _stockInfoService.GetStockInfoSelectModels(companyId);
                 model.TransferDate = DateTime.Now;
             }
             else if (stockTransferId > 0)
