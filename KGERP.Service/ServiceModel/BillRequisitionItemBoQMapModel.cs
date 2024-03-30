@@ -21,10 +21,10 @@ namespace KGERP.Service.ServiceModel
         public int ProjectId { get; set; }
         public string ProjectTypeName { get; set; }
         public long? BoQDivisionId { get; set; }
-        public List<BillRequisitionBoqModel> BoQItems { get; set; }
-        public List<Product> BoQMaterials { get; set; }
-        public List<BoqDivisionModel> BoQDivisions { get; set; }
-        public List<Accounting_CostCenter> Projects { get; set; }
+        public List<BillRequisitionBoqModel> BoQItems { get; set; } = new List<BillRequisitionBoqModel>();
+        public List<Product> BoQMaterials { get; set; } = new List<Product>();
+        public List<BoqDivisionModel> BoQDivisions { get; set; } = new List<BoqDivisionModel>();
+        public List<Accounting_CostCenter> Projects { get; set; } = new List<Accounting_CostCenter>();
         public List<BillRequisitionItemBoQMapModel> BoQItemProductMaps { get; set; }
         public List<BillRequisitionItemBoQMapModel> BoQMapVmList { get; set; }
 
@@ -36,15 +36,14 @@ namespace KGERP.Service.ServiceModel
         public int? ApprovalStatus { get; set; }
 
         public int ProjectTypeId { get; set; }
-        public List<Accounting_CostCenterType> ProjectTypes { get; set; }
-
+        public List<Accounting_CostCenterType> ProjectTypes { get; set; } = new List<Accounting_CostCenterType>();
         public int BudgetTypeId { get; set; }
         public string MaterialTypeName { get; set; }
-        public List<ProductCategory> BudgetTypes { get; set; }
+        public List<ProductCategory> BudgetTypes { get; set; } = new List<ProductCategory>();
 
         public int BudgetSubtypeId { get; set; }
         public string MaterialSubtypeName { get; set; }
-        public List<ProductSubCategory> BudgetSubtypes { get; set; }
+        public List<ProductSubCategory> BudgetSubtypes { get; set; } = new List<ProductSubCategory>();
         public EnumBudgetAndEstimatingApprovalStatus? BNEApprovalStatus { get; set; }
         public SelectList EnumBNEStatusList { get { return new SelectList(BaseFunctionalities.GetEnumList<EnumBudgetAndEstimatingApprovalStatus>(), "Value", "Text"); } }
         public List<object> BoqDivisionsSelectList { get; set; } = new List<object>();

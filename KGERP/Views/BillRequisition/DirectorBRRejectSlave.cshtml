@@ -155,7 +155,7 @@
                         }
                     </div>
 
-                    @if (Model.BillRequisitionMasterId > 0 && Model.StatusId != EnumBillRequisitionStatus.Approved)
+                    @if (Model.BillRequisitionMasterId > 0 && Model.StatusId != EnumBillRequisitionStatus.Approved && Model.StatusId != EnumBillRequisitionStatus.Rejected)
                     {
                         <div class="box-footer">
 

@@ -2,6 +2,8 @@
 @{
     ViewData["Title"] = "BoQ Budget & Estimating";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    KGERP.Service.ServiceModel.BillRequisitionItemBoQMapModel CacheData = TempData["CacheModel"] as KGERP.Service.ServiceModel.BillRequisitionItemBoQMapModel;
 }
 
 <style type="text/css">
@@ -19,7 +21,7 @@
     </ol>
 </section>
 
-@using (Html.BeginForm("BillRequisitionItemBoQMap", "BillRequisition", FormMethod.Post, new { id = "BillRequisitionItemBoQMapFormId", @class = "formValidator", onreset = "resetDDL();" }))
+@using (Html.BeginForm("BillRequisitionItemBoQMap", "BillRequisition", FormMethod.Post, new { id = "BillRequisitionItemBoQMapFormId", @class = "formValidator" }))
 {
     <section class="content">
         <div class="row">
@@ -32,9 +34,18 @@
                         @Html.HiddenFor(model => model.ActionId, new { Value = "", id = "ActionId" })
                         @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
 
+                        @if (CacheData != null)
+                        {
+                            <input type="hidden" value="@CacheData.ProjectTypeId" id="cacheProjectTypeId" />
+                            <input type="hidden" value="@CacheData.ProjectId" id="cacheProjectId" />
+                            <input type="hidden" value="@CacheData.BoQDivisionId" id="cacheDivisionId" />
+                            <input type="hidden" value="@CacheData.BoQItemId" id="cacheBoqItemId" />
+                            <input type="hidden" value="@CacheData.BudgetSubtypeId" id="cacheBudgetTypeId" />
+                        }
+
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label>Select Project Type<sup class="text-danger" title="Required"><b>*</b></sup> :</label>
+                                <label class="form-label">Select Project Type<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                 @Html.DropDownListFor(model => model.ProjectTypeId, new SelectList(Model.ProjectTypes.OrderBy(order => order.Name), "CostCenterTypeId", "Name"), "==Select Project Type==", new { id = "projectTypeId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
                                 @Html.ValidationMessageFor(model => model.ProjectTypeId, "", new { @class = "text-danger" })
                             </div>
@@ -42,48 +53,48 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label asp-for="ProjectId" class="form-control-label">Select Project<sup class="text-danger" title="Required"><b>*</b></sup> :</label>
-                                @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.Projects.OrderBy(order => order.Name), "CostCenterId", "Name"), "==Select Project Type First==", new { id = "ddlProjectId", @class = "form-control searchingDropdown", style = "width:100%" })
+                                <label class="form-label">Select Project<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.Projects.OrderBy(order => order.Name), "CostCenterId", "Name"), "==Select Project Type First==", new { id = "ddlProjectId", @class = "form-control searchingDropdown", style = "width:100%", required = "true" })
                                 @Html.ValidationMessageFor(model => model.ProjectId, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label asp-for="BoQDivisionId" class="form-control-label">Select BoQ Division<sup class="text-danger" title="Required"><b>*</b></sup> :</label>
-                                @Html.DropDownListFor(model => model.BoQDivisionId, new SelectList(Model.BoQDivisions.OrderBy(order => order.Name), "BoQDivisionId", "Name"), "==Select Project First==", new { id = "ddlBoQDivisionId", @class = "form-control searchingDropdown", style = "width:100%" })
+                                <label class="form-label">Select BoQ Division<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                @Html.DropDownListFor(model => model.BoQDivisionId, new SelectList(Model.BoQDivisions.OrderBy(order => order.Name), "BoQDivisionId", "Name"), "==Select Project First==", new { id = "ddlBoQDivisionId", @class = "form-control searchingDropdown", style = "width:100%", required = "true" })
                                 @Html.ValidationMessageFor(model => model.BoQDivisionId, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label asp-for="BoQItemId" class="form-control-label">Select BoQ Item<sup class="text-danger" title="Required"><b>*</b></sup> :</label>
-                                @Html.DropDownListFor(model => model.BoQItemId, new SelectList(Model.BoQItems.OrderBy(order => order.Name), "BoQItemId", "Name"), "==Select BoQ Division First==", new { id = "ddlBoQItemId", @class = "form-control searchingDropdown", style = "width:100%" })
+                                <label class="form-label">Select BoQ Item<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                @Html.DropDownListFor(model => model.BoQItemId, new SelectList(Model.BoQItems.OrderBy(order => order.Name), "BoQItemId", "Name"), "==Select BoQ Division First==", new { id = "ddlBoQItemId", @class = "form-control searchingDropdown", style = "width:100%", required = "true" })
                                 @Html.ValidationMessageFor(model => model.BoQItemId, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label>Select Material Type<sup class="text-danger" title="Required"><b>*</b></sup> :</label>
-                                @Html.DropDownListFor(model => model.BudgetTypeId, new SelectList(Model.BudgetTypes.OrderBy(order => order.Name), "ProductCategoryId", "Name"), "==Select Budget Type==", new { id = "ddlBRTypeId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                <label class="form-label">Select Material Type<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                @Html.DropDownListFor(model => model.BudgetTypeId, new SelectList(Model.BudgetTypes.OrderBy(order => order.Name), "ProductCategoryId", "Name"), "==Select Material Type==", new { id = "ddlBRTypeId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
                                 @Html.ValidationMessageFor(model => model.BudgetTypeId, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label>Select Material Subtype<sup class="text-danger" title="Required"><b>*</b></sup>:</label>
-                                @Html.DropDownListFor(model => model.BudgetSubtypeId, new SelectList(Model.BudgetSubtypes.OrderBy(order => order.Name), "ProductSubCategoryId", "Name"), "==Select Budget Type First==", new { id = "ddlBRSubTypeId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                <label class="form-label">Select Material Subtype<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                @Html.DropDownListFor(model => model.BudgetSubtypeId, new SelectList(Model.BudgetSubtypes.OrderBy(order => order.Name), "ProductSubCategoryId", "Name"), "==Select Material Type First==", new { id = "ddlBRSubTypeId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
                                 @Html.ValidationMessageFor(model => model.BudgetSubtypeId, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label asp-for="MaterialItemId" class="form-control-label">Select Material<sup class="text-danger" title="Required"><b>*</b></sup> :</label>
-                                @Html.DropDownListFor(model => model.MaterialItemId, new SelectList(Model.BoQMaterials.OrderBy(order => order.ProductName), "ProductId", "ProductName"), "==Select Budget Subtype First==", new { id = "ddlMaterialItemId", @class = "form-control searchingDropdown", })
+                                <label class="form-label">Select Material<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                @Html.DropDownListFor(model => model.MaterialItemId, new SelectList(Model.BoQMaterials.OrderBy(order => order.ProductName), "ProductId", "ProductName"), "==Select Material Subtype First==", new { id = "ddlMaterialItemId", @class = "form-control searchingDropdown", required = "true" })
                                 @Html.ValidationMessageFor(model => model.MaterialItemId, "", new { @class = "text-danger" })
                                 <small class="text-danger" id="errorMessage"></small>
                             </div>
@@ -91,7 +102,7 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label asp-for="EstimatedQty" class="form-control-label">Estimated Quantity :</label>
+                                <label class="form-label">Estimated Quantity<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                 @Html.TextBoxFor(model => model.EstimatedQty, new { id = "txtEstimateQty", @class = "form-control", @placeholder = "BoQ Item Number", required = "true" })
                                 @Html.ValidationMessageFor(model => model.EstimatedQty, "", new { id = "nameExist", @class = "text-danger" })
                             </div>
@@ -99,7 +110,7 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label asp-for="UnitRate" class="form-control-label">Unit Price :</label>
+                                <label class="form-label">Unit Price<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                 @Html.TextBoxFor(model => model.UnitRate, new { id = "txtUnitRate", @class = "form-control", @placeholder = "BoQ Item Number", required = "true" })
                                 @Html.ValidationMessageFor(model => model.UnitRate, "", new { id = "nameExist", @class = "text-danger" })
                             </div>
@@ -108,7 +119,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <div class="col-md-6">
-                                    <button type="button" onclick="resetForm()" class="btn btn-secondary" data-dismiss="modal" style="width:100% !important">Reset</button>
+                                    <input type="button" onclick="resetForm()" value="Reset Form" class="btn btn-secondary" data-dismiss="modal" style="width:100% !important" />
                                 </div>
                                 <div class="col-md-6">
                                     <button type="submit" id="btnSave" class="btn btn-primary btn-block" style="width:100% !important"><i class='fa fa-edit'></i> Add</button>
@@ -236,27 +247,99 @@
 
 @section scripts {
     <script type="text/javascript">
-
         $(document).ready(function () {
-            'use strict';
-
-            $("#ddlProjectId").empty();
-            $("#ddlProjectId").append("<option selected disabled>==Select Project Type First==</option>");
-
-            $("#ddlBoQDivisionId").empty();
-            $("#ddlBoQDivisionId").append("<option selected disabled>===Select Project First===</option>");
-
-            $("#ddlBoQItemId").empty();
-            $("#ddlBoQItemId").append("<option selected disabled>==Select BoQ Division First==</option>");
-
-            $("#ddlBRSubTypeId").empty();
-            $("#ddlBRSubTypeId").append("<option selected disabled>==Select Material Type First==</option>");
-
-            $("#ddlMaterialItemId").empty();
-            $("#ddlMaterialItemId").append("<option selected disabled>==Select Material Subtype First==</option>");
-
-            
+            @if(CacheData != null)
+            {
+                @: GetDataFromCache();
+            }
         });
+
+        var SavedData = false;
+
+        function GetDataFromCache() {
+            SavedData = true;
+            var projectType = $('#cacheProjectTypeId').val();
+            var project = $('#cacheProjectId').val();
+            var division = $('#cacheDivisionId').val();
+            var boqItem = $('#cacheBoqItemId').val();
+
+            $('#projectTypeId').val(projectType.trim()).trigger('change');
+
+            if (projectType > 0 && project > 0) {
+                var showProjectList = $("#ddlProjectId");
+
+                $.ajax({
+                    type: "GET",
+                    url: "/BillRequisition/GetProjectList",
+                    dataType: "json",
+                    data: { id: projectType },
+                    success: function (data) {
+                        showProjectList.empty();
+                        showProjectList.append("<option selected disabled>==Select Project==</option>");
+
+                        $.each(data, function (index, item) {
+                            showProjectList.append($('<option>', {
+                                value: item.CostCenterId,
+                                text: item.Name
+                            }));
+                        });
+                        if (project > 0) {
+                            showProjectList.val(project.trim()).trigger('change');
+                        }
+                    }
+                });
+            }
+
+            if (project > 0 && division > 0) {
+                var showBoqDivisionList = $("#ddlBoQDivisionId");
+
+                $.ajax({
+                    type: "GET",
+                    url: "/BillRequisition/getBoqDivisionList",
+                    dataType: "json",
+                    data: { id: project },
+                    success: function (data) {
+                        showBoqDivisionList.empty();
+                        showBoqDivisionList.append("<option selected disabled>==Select BoQ Division==</option>");
+
+                        $.each(data, function (index, item) {
+                            showBoqDivisionList.append($('<option>', {
+                                value: item.BoqDivisionId,
+                                text: item.Name
+                            }));
+                        });
+                        if (division > 0) {
+                            showBoqDivisionList.val(division.trim()).trigger('change');
+                        }
+                    }
+                });
+            }
+
+            if (division > 0 && boqItem > 0) {
+                var showBoqItemList = $("#ddlBoQItemId");
+
+                $.ajax({
+                    type: "GET",
+                    url: "/BillRequisition/getBoqItemListWithBoqNumber",
+                    dataType: "json",
+                    data: { id: division },
+                    success: function (data) {
+                        showBoqItemList.empty();
+                        showBoqItemList.append("<option selected disabled>==Select BoQ Item==</option>");
+
+                        $.each(data, function (index, item) {
+                            showBoqItemList.append($('<option>', {
+                                value: item.BoQItemId,
+                                text: item.Name
+                            }));
+                        });
+                        if (boqItem > 0) {
+                            showBoqItemList.val(boqItem.trim()).trigger('change');
+                        }
+                    }
+                });
+            }
+        }
 
         function makeDeletable(id) {
             if (id !== null) {
@@ -264,11 +347,6 @@
                 $('#ActionIdDelete').val(3);
                 $("#CompanyFKDelete").val("@Model.CompanyFK");
             }
-        }
-
-        function resetForm() {
-            $('#BillRequisitionItemBoQMapFormId')[0].reset();
-            $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Add");
         }
 
         var isEditble = false;
@@ -429,7 +507,7 @@
         }
 
         $("#projectTypeId").on('change', function () {
-            if (!isEditble) {
+            if (!isEditble && !SavedData) {
                 var getProjectTypeId = $("#projectTypeId").val();
                 var showProjectList = $("#ddlProjectId");
 
@@ -454,7 +532,7 @@
         })
 
         $("#ddlProjectId").on('change', function () {
-            if (!isEditble) {
+            if (!isEditble && !SavedData) {
                 var getProjectId = $("#ddlProjectId").val();
                 var showBoqDivisionList = $("#ddlBoQDivisionId");
                 $.ajax({
@@ -478,7 +556,7 @@
         })
 
         $("#ddlBoQDivisionId").on('change', function () {
-            if (!isEditble) {
+            if (!isEditble && !SavedData) {
                 var getBoqDivisionId = $("#ddlBoQDivisionId").val();
                 var showBoqItemList = $("#ddlBoQItemId");
 
@@ -553,25 +631,54 @@
         })
 
         $("#ddlMaterialItemId").on('change', function (event) {
-            var boqItemId = $("#ddlBoQItemId").val();
-            var materialId = $("#ddlMaterialItemId").val();
-            if (boqItemId != null && materialId != null) {
-                $.ajax({
-                    type: "GET",
-                    url: "/BillRequisition/CheckBoqBudget",
-                    dataType: "json",
-                    data: { boqItemId: boqItemId, materialId: materialId },
-                    success: function (data) {
-                        if (data) {
-                            $("#errorMessage").text("This Material has been already budgeted!");
-                            $("#btnSave").prop("disabled", true);
-                        } else {
-                            $("#errorMessage").text("");
-                            $("#btnSave").prop("disabled", false);
+            if (!isEditble) {
+                var boqItemId = $("#ddlBoQItemId").val();
+                var materialId = $("#ddlMaterialItemId").val();
+                if (boqItemId != null && materialId != null) {
+                    $.ajax({
+                        type: "GET",
+                        url: "/BillRequisition/CheckBoqBudget",
+                        dataType: "json",
+                        data: { boqItemId: boqItemId, materialId: materialId },
+                        success: function (data) {
+                            if (data) {
+                                $("#errorMessage").text("This Material has been already budgeted!");
+                                $("#btnSave").prop("disabled", true);
+                            } else {
+                                $("#errorMessage").text("");
+                                $("#btnSave").prop("disabled", false);
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
         })
+
+        function resetForm() {
+            var form = $("#BillRequisitionItemBoQMapFormId");
+            $("#projectTypeId").append("<option selected disabled>==Select Project Type==</option>");
+            $("#ddlProjectId").empty().append("<option selected disabled>==Select Project==</option>");
+            $("#ddlBoQDivisionId").empty().append("<option selected disabled>==Select BoQ Division==</option>");
+            $("#ddlBoQItemId").empty().append("<option selected disabled>==Select BoQ Item==</option>");
+            $("#ddlBRTypeId").append("<option selected disabled>==Select Material Type==</option>");
+            $("#ddlBRSubTypeId").empty().append("<option selected disabled>==Select Material Subtype==</option>");
+            $("#ddlMaterialItemId").empty().append("<option selected disabled>==Select Material==</option>");
+
+            form.find(':input').each(function () {
+                switch (this.type.toLowerCase()) {
+                    case "text":
+                    case "password":
+                    case "textarea":
+                    case "hidden":
+                        $(this).val("");
+                        break;
+                    default:
+                        break;
+                }
+            });
+
+            isEditble = false;
+            SavedData = false;
+        }
     </script>
 }
