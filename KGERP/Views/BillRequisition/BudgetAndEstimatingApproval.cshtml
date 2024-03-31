@@ -106,7 +106,7 @@
                                 <div class="table-wrapper">
 
                                     <table @*id="KgErpDataTable33"*@ class="table table-responsive table-bordered table-striped table-fixed">
-                                        <thead>
+                                        <thead class="sticky-top fixed-bottom">
                                             <tr class="bg-gray">
                                                 <th>SL</th>
                                                 <th>BoQ Division</th>
@@ -144,8 +144,8 @@
                                                     <td>@item.MaterialName</td>
                                                     @if (item.ApprovalStatus == (int)EnumBudgetAndEstimatingApprovalStatus.Pending || Model.ApprovalStatus == (int)EnumBudgetAndEstimatingApprovalStatus.Revised)
                                                     {
-                                                        <td id="tdBoqEstimateQty_@item.BoQItemProductMapId"> @Html.TextBoxFor(model => model.BoQItemProductMaps[i].EstimatedQty, new { @class = "", @Value = @item.EstimatedQty })</td>
-                                                        <td id="tdBoqUnitRate_@item.BoQItemProductMapId"> @Html.TextBoxFor(model => model.BoQItemProductMaps[i].UnitRate, new { @class = "", @Value = @item.UnitRate })</td>
+                                                        <td id="tdBoqEstimateQty_@item.BoQItemProductMapId"> @Html.TextBoxFor(model => model.BoQItemProductMaps[i].EstimatedQty, new { @class = "estimatedQtyInput", @Value = @item.EstimatedQty })</td>
+                                                        <td id="tdBoqUnitRate_@item.BoQItemProductMapId"> @Html.TextBoxFor(model => model.BoQItemProductMaps[i].UnitRate, new { @class = "unitRateInput", @Value = @item.UnitRate })</td>
                                                         @Html.HiddenFor(model => model.BoQItemProductMaps[i].BoQItemProductMapId, new { @Value = @item.BoQItemProductMapId })
 
                                                     }
@@ -394,6 +394,17 @@
             });
         }
 
-
+        $(".estimatedQtyInput").keyup(function () {
+            var estimatedQty = $(this).val();
+            var unitRate = $(this).closest('tr').find('.unitRateInput').val();
+            var totalAmount = estimatedQty * unitRate;
+            $(this).closest('tr').find('.totalValue').text(totalAmount);
+        });
+        $(".unitRateInput").keyup(function () {
+            var unitRate = $(this).val();
+            var estimatedQty = $(this).closest('tr').find('.estimatedQtyInput').val();
+            var totalAmount = estimatedQty * unitRate;
+            $(this).closest('tr').find('.totalValue').text(totalAmount);
+        });
     </script>
 }

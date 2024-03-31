@@ -9,11 +9,11 @@
 </style>
 <section class="content-header">
     <h1>
-        Project Information Report <span style="color:indianred"> @Model.CompanyName</span>
+        Stock Information Report <span style="color:indianred"> @Model.CompanyName</span>
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">Project Information Report</li>
+        <li class="active">Stock Information Report</li>
     </ol>
 </section>
 <section class="content">
@@ -46,6 +46,15 @@
                                         <label class="form-label">Select Project<sup class="text-danger" title="Required">*</sup></label>
                                         @Html.DropDownListFor(model => model.CostCenterId, new SelectList(Enumerable.Empty<SelectListItem>()), "==Select Project==", new { id = "ddlCostCenterId", @class = "form-control searchingDropdown", style = "width:100%", required = "requried" })
                                         @Html.ValidationMessageFor(model => model.CostCenterId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Stock Location:</label>
+                                        <div class="">
+                                            @Html.DropDownListFor(model => model.StockInfoId, new SelectList(Model.StockInfoList, "Value", "Text"), "==Select Location==", new { @class = "form-control searchingDropdown", @id = "stockInfoId", required = "required" })
+                                            @Html.ValidationMessageFor(model => model.StockInfoId, "", new { @class = "text-danger" })
+                                        </div>
                                     </div>
                                 </div>
                             </div>

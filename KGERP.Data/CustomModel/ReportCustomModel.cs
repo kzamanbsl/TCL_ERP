@@ -93,7 +93,7 @@ namespace KGERP.Data.CustomModel
 
 
 
-        public List<SelectModel> Stocks { get; set; }
+        public List<SelectModel> Stocks { get; set; }=new List<SelectModel>();
         public List<SelectModel> Companies { get; set; }
         public int ProjectId { get; set; }
         public int? VoucherTypeId { get; set; }
