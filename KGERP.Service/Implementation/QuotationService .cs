@@ -547,17 +547,35 @@ namespace KGERP.Service.Implementation
             return QuotationList;
         }
 
-        public async Task<QuotationCompareModel> GetComparedQuotation(long quotationIdOne, long quotationIdTwo)
+        public async Task<ComparativeStatementModel> GetComparativeStatementByQuotationId(long quotationMasterId)
         {
-            QuotationCompareModel quotationCompareModel = new QuotationCompareModel();
+            ComparativeStatementModel viewData = new ComparativeStatementModel();
 
-            QuotationMasterModel masterDataOne = await GetQuotationMaster(quotationIdOne);
-            QuotationMasterModel masterDataTwo = await GetQuotationMaster(quotationIdTwo);
+            viewData.QuotationSubmitDetailModelList = await (from t1 in _context.QuotationSubmitMasters
+                                                             join t2 in _context.QuotationSubmitDetails on t1.QuotationSubmitMasterId equals t2.QuotationSubmitMasterId into t2_Join
+                                                             from t2 in t2_Join.DefaultIfEmpty()
+                                                             join t3 in _context.Products on t2.MaterrialId equals t3.ProductId into t3_Join
+                                                             from t3 in t3_Join.DefaultIfEmpty()
+                                                             join t4 in _context.Vendors on t1.SupplierId equals t4.VendorId into t4_Join
+                                                             from t4 in t4_Join.DefaultIfEmpty()
+                                                             where t1.QuotationMasterId == quotationMasterId && t1.IsActive
+                                                             select new QuotationSubmitDetailModel
+                                                             {
+                                                                 QuotationSubmitMasterId = t1.QuotationSubmitMasterId,
+                                                                 QuotationMasterId = t1.QuotationMasterId,
+                                                                 SubmissionDate = t1.SubmissionDate,
+                                                                 QuotationSubmitDetailId = t2.QuotationSubmitDetailId,
+                                                                 MaterialId = t3.ProductId,
+                                                                 MaterialName = t3.ProductName ?? "N/A",
+                                                                 SupplierId = t4.VendorId,
+                                                                 SupplierName = t4.Name ?? "N/A",
+                                                                 Quantity = t2.Quantity,
+                                                                 UnitPrice = t2.UnitPrice,
+                                                                 TotalAmount = t2.TotalAmount
+                                                             }).ToListAsync();
+            viewData.CompanyFK = 21;
 
-            quotationCompareModel.QuotationMasterModel.Add(masterDataOne);
-            quotationCompareModel.QuotationMasterModel.Add(masterDataTwo);
-
-            return quotationCompareModel;
+            return viewData;
         }
 
         private async Task<QuotationMasterModel> GetQuotationMaster(long quotationId)
@@ -636,6 +654,7 @@ namespace KGERP.Service.Implementation
                                                                         select new QuotationMasterModel
                                                                         {
                                                                             QuotationMasterId = t1.QuotationMasterId,
+                                                                            QuotationDate = t1.QuotationDate,
                                                                             QuotationNo = t1.QuotationNo,
                                                                             QuotationTypeId = (int)(EnumQuotationType)t1.QuotationTypeId,
                                                                             QuotationForId = t1.QuotationForId,

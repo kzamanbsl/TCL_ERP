@@ -247,19 +247,19 @@ namespace KGERP.Controllers
         [HttpGet]
         public async Task<ActionResult> ComparativeStatement(int companyId)
         {
-            QuotationCompareModel viewData = new QuotationCompareModel();
+            ComparativeStatementModel viewData = new ComparativeStatementModel();
             viewData.CompanyFK = companyId;
-            viewData.QuotationList = new SelectList(await _Service.GetQuotationListWithNameAndNo(), "QuotationMasterId", "QuotationNameWitNo");
+            viewData.QuotationList = new SelectList(await _Service.GetQuotationListWithNameAndNo(), "QuotationMasterId", "QuotationNo");
             return View(viewData);
         }
 
         [HttpPost]
-        public async Task<ActionResult> CompareQuotation(QuotationCompareModel model)
+        public async Task<ActionResult> ComparativeStatement(ComparativeStatementModel model)
         {
-            QuotationCompareModel viewData = new QuotationCompareModel();
-            viewData = await _Service.GetComparedQuotation(model.QuotationIdOne, model.QuotationIdTwo);
-            TempData["CompareModel"] = viewData;
-            return RedirectToAction(nameof(ComparativeStatement), new { companyId = 21, QuotationIdOne = model.QuotationIdOne, QuotationIdTwo = model.QuotationIdTwo });
+            ComparativeStatementModel sendData = new ComparativeStatementModel();
+            sendData = await _Service.GetComparativeStatementByQuotationId(model.QuotationMasterId);
+            TempData["TempModel"] = sendData;
+            return RedirectToAction(nameof(ComparativeStatement), new { companyId = model.CompanyFK });
         }
         #endregion
     }

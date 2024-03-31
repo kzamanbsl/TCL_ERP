@@ -46,7 +46,7 @@ namespace KGERP.Service.Interface
         #endregion
 
         #region Comparatative Statement
-        Task<QuotationCompareModel> GetComparedQuotation(long quotationIdOne, long quotationIdTwo);
+        Task<ComparativeStatementModel> GetComparativeStatementByQuotationId(long quotationMasterId);
         #endregion
     }
 }

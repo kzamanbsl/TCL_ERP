@@ -84,14 +84,24 @@ namespace KGERP.Service.ServiceModel
         public QuotationSubmitMasterModel QuotationSubmitMaster { get; set; }
     }
 
-    public class QuotationCompareModel : BaseVM
+    public class QuotationSubmitDetailModel : BaseVM
     {
-        public long QuotationDetailId { get; set; }
+        public long QuotationSubmitDetailId { get; set; }
+        public long QuotationSubmitMasterId { get; set; }
         public long QuotationMasterId { get; set; }
-        public long QuotationIdOne { get; set; }
-        public long QuotationIdTwo { get; set; }
-        public SelectList QuotationList { get; set; } = new SelectList(new List<object>());
-        public List<QuotationMasterModel> QuotationMasterModel { get; set; } = new List<QuotationMasterModel>();
+        public string QuotationNo { get; set; }
+        public long QuotationDetailId { get; set; }
+        public long QuotationTypeId { get; set; }
+        public long QuotationForId { get; set; }
+        public string QuotationForName { get; set; }
+        public long MaterialId { get; set; }
+        public string MaterialName { get; set; }
+        public int SupplierId { get; set; }
+        public string SupplierName { get; set; }
+        public Decimal Quantity { get; set; }
+        public Decimal UnitPrice { get; set; }
+        public Decimal TotalAmount { get; set; }
+        public DateTime SubmissionDate { get; set; }
     }
 
     public class QuotationForModel : BaseVM
@@ -101,4 +111,11 @@ namespace KGERP.Service.ServiceModel
         public string Description { get; set; }
         public List<QuotationForModel> QuotationForList { get; set; } = new List<QuotationForModel>();
     }
+    public class ComparativeStatementModel : BaseVM
+    {
+        public long QuotationMasterId { get; set; }
+        public SelectList QuotationList { get; set; } = new SelectList(new List<object>());
+        public List<QuotationSubmitDetailModel> QuotationSubmitDetailModelList { get; set; } = new List<QuotationSubmitDetailModel>();
+    }
+
 }
