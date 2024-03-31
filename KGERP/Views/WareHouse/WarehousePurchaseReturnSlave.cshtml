@@ -1,40 +1,41 @@
-﻿
+﻿@model  KGERP.Service.Implementation.Warehouse.VMWarehousePOReturnSlave
+
 @{
-    ViewData["Title"] = "Purchase Return";
+    ViewData["Title"] = "Material Return";
     Layout = "~/Views/Shared/_Layout.cshtml";
     string collapsedBox = "";
-
 }
+
 <style type="text/css">
 
     input, select, textarea {
         max-width: 100%;
     }
 </style>
-@model  KGERP.Service.Implementation.Warehouse.VMWarehousePOReturnSlave
+
 <section class="content-header">
     <h1>
         @if (Model.MaterialReceiveId > 0)
         {
             <span>
-                Purchase Return History of Challan No <a target="_blank" href="~/WareHouse/WareHousePurchaseReturnSlaveReport?companyId=@Model.CompanyFK&materialReceiveId=@Model.MaterialReceiveId"> @Model.ChallanCID</a>
+                Material Return History of Challan No <a target="_blank" href="~/WareHouse/WareHousePurchaseReturnSlaveReport?companyId=@Model.CompanyFK&materialReceiveId=@Model.MaterialReceiveId"> @Model.ChallanCID</a>
             </span>
         }
         else
         {
             <span>
-                Purchase Return Information
+                Material Return Information
             </span>
         }
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li><a href="~/WareHouse/WareHousePOSalesReturnSlave">Purchase Return</a></li>
-        <li class="active">Purchase Return Information</li>
+        <li><a href="~/WareHouse/WareHousePOSalesReturnSlave">Material Return</a></li>
+        <li class="active">Material Return Information</li>
     </ol>
 </section>
 
-@using (Html.BeginForm("WareHousePurchaseReturnSlave", "WareHouse", FormMethod.Post, new { id = "wareHousePOReceivingSlaveFromID", @class = "formValidator" }))
+@using (Html.BeginForm("WarehousePurchaseReturnSlave", "Warehouse", FormMethod.Post, new { id = "wareHousePOReceivingSlaveFromID", @class = "formValidator" }))
 {
     <section class="content">
         <div class="row">
@@ -45,10 +46,10 @@
 
                 <div class="box-danger">
                     <div class="box-header">
-
                     </div>
-                    <!-- /.box-header -->
+
                     <div class="box-body">
+
                         @if (Model.MaterialReceiveId > 0)
                         {
                             collapsedBox = "collapsed-box";
@@ -65,15 +66,17 @@
                                         <td width="5%">:</td>
                                         <td width="27%">@Model.ChallanDate</td>
                                     </tr>
+
                                     <tr>
-                                        <td><b>Purchase Order</b></td>
+                                        <td><b>Work Order</b></td>
                                         <td>:</td>
                                         <td><a href="~/Procurement/ProcurementPurchaseOrderReport/@Model.Procurement_PurchaseOrderFk" target="_blank" title="See All Receiving History of This PO">@Model.POCID</a> </td>
 
-                                        <td><b>PO Date</b></td>
+                                        <td><b>WO Date</b></td>
                                         <td>:</td>
                                         <td>@Model.PODate.Value.ToString("dd/MM/yyyy")</td>
                                     </tr>
+
                                     <tr>
                                         <td><b>Supplier Name</b></td>
                                         <td>:</td>
@@ -83,6 +86,7 @@
                                         <td>:</td>
                                         <td>@Model.DeliveryAddress</td>
                                     </tr>
+
                                     <tr>
                                         <td><b>Return Causes</b></td>
                                         <td>:</td>
@@ -102,31 +106,19 @@
 
                                     <div class="box-body">
 
-
-
-
-
                                         <div class="form-group" style="padding:0px">
                                             <label>Select Supplier:</label>
-                                            @*@Html.EditorFor(model => model.Common_SupplierFK, new { htmlAttributes = new { @autocomplete = "on", @class = "form-control", @name = "Requisition CID", @id = "txtPOCID" } })
-
-                                                @Html.HiddenFor(model => model.Common_SupplierFK, new { id = "ddlSupplierFk" })
-                                                @Html.ValidationMessageFor(model => model.Common_SupplierFK, "", new { @class = "text-danger" })*@
-
-
                                             @Html.EditorFor(model => model.POCID, new { htmlAttributes = new { @autocomplete = "on", @class = "form-control", @name = "Requisition CID", @id = "txtPOCID" } })
-
                                             @Html.HiddenFor(model => model.Common_SupplierFK, new { id = "ddlSupplierFk" })
                                             @Html.ValidationMessageFor(model => model.Common_SupplierFK, "", new { @class = "text-danger" })
-
                                         </div>
+
                                         <div class="form-group" style="padding:0px">
-
-                                            <label>Purchase Order No:</label>
-                                            @Html.DropDownListFor(model => model.Procurement_PurchaseOrderFk, Model.ExistingChallanList as SelectList, "==Select Existing Purchase Order Number==", new { id = "ddlPo", @class = "searchingDropdown form-control ddlReset", required = "required", style = "width:100%" })
+                                            <label>Work Order No:</label>
+                                            @Html.DropDownListFor(model => model.Procurement_PurchaseOrderFk, Model.ExistingChallanList as SelectList, "==Select Existing Work Order Number==", new { id = "ddlPo", @class = "searchingDropdown form-control ddlReset", required = "required", style = "width:100%" })
                                             @Html.ValidationMessageFor(model => model.Procurement_PurchaseOrderFk, "", new { @class = "text-danger" })
-
                                         </div>
+
                                         <table class="table" id="poDetailsTable">
                                             <tr>
                                                 <td>Supplier</td>
@@ -137,7 +129,7 @@
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    PO Date
+                                                    WO Date
                                                 </td>
                                                 <td><span id="txtApprovedDate"></span></td>
                                             </tr>
@@ -149,10 +141,8 @@
                                                 <td>Delivery Date</td>
                                                 <td><span id="txtDeliveryDate"></span></td>
                                             </tr>
-
                                         </table>
                                     </div>
-
                                 </div>
 
                                 <div class="col-md-6">
@@ -162,37 +152,31 @@
                                             @Html.DropDownListFor(model => model.MaterialReceiveId, Model.ExistingChallanList as SelectList, "==Select Existing Challan==", new { id = "ddlChallan", @class = "searchingDropdown form-control ddlReset", required = "required", style = "width:100%" })
                                             @Html.ValidationMessageFor(model => model.MaterialReceiveId, "", new { @class = "text-danger" })
                                         </div>
+
                                         <div class="form-group">
                                             <label>Return Date:</label>
                                             <input name="ChallanDate" asp-for="ChallanDate" type="text" value="@Model.ChallanDate.Value.ToString("yyyy-MM-dd")" required="required" class="datePicker form-control" id="txtDate" placeholder="Return Date" autocomplete="off">
                                             @Html.ValidationMessageFor(model => model.ChallanDate, "", new { @class = "text-danger" })
                                         </div>
+
                                         <div class="form-group">
                                             <label>Causes:</label>
                                             @Html.TextAreaFor(model => model.CausesOfReturn, new { @class = "form-control ", @placeholder = "Return causes" })
                                             @Html.ValidationMessageFor(model => model.CausesOfReturn, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
-
                             <br />
-
                         }
+
                         <div class="col-md-12">
                             <div class="box">
-
                                 <div class="box-footer">
-                                    <div id="procurementPurchaseOrderSlaveData"></div>
+                                    <div id="procurementPOReturnSlaveData"></div>
                                 </div>
                             </div>
-                            <!-- /.box -->
                         </div>
-
-                        <!--Body Will by Start Here-->
-
-
 
                         @{
                             if (Model.MaterialReceiveId > 0)
@@ -203,15 +187,12 @@
                                         <thead>
                                             <tr>
                                                 <th>SL</th>
-                                                <th class="center">Item Name </th>
-
+                                                <th class="center">Material/Item Name </th>
                                                 <th class="center">Return Quantity</th>
-
-                                                <th class="center"> Rate</th>
+                                                <th class="center">Rate</th>
                                                 <th class="center">Total Amount</th>
                                                 @*<th class="center">Remaining Quantity</th>*@
                                                 <th class="center" hidden="hidden">Id</th>
-
                                             </tr>
                                         </thead>
                                         @{
@@ -220,19 +201,15 @@
                                         <tbody>
                                             @foreach (var item in Model.DataListSlave)
                                             {
-
-
                                                 <tr>
                                                     <td>@(++sl)</td>
                                                     <td>@item.ProductName</td>
                                                     <td>@item.ReturnQuantity</td>
-
                                                     <td>@item.Rate</td>
                                                     <td>@item.Total</td>
                                                     @*<td>@item.RemainingQuantity</td>
                                                         <td>@item.StockLossQuantity</td>*@
                                                     <td hidden="hidden">@item.MaterialReceiveDetailId</td>
-
                                                 </tr>
                                             }
                                         </tbody>
@@ -241,31 +218,31 @@
                             }
                         }
                     </div>
-                    <div class="box-footer">
-                        <div class="row">
-                            <div class="col-md-2">
 
-                            </div>
-                            <div class="col-md-5">
-                                @*<a target="_blank" class="btn btn-warning btn-block" style="width:100%" href="~/WareHouse/WareHousePOReceivingSlaveReport?companyId=@Model.CompanyFK&materialReceiveId=@Model.MaterialReceiveId">Challan Report of @Model.ChallanCID</a>*@
+                    @if (Model.PurchaseReturnId > 0)
+                    {
+                        <div class="box-footer">
+                            <div class="row">
+                                <div class="col-md-2">
+                                </div>
+                                <div class="col-md-5">
+                                    @*<a target="_blank" class="btn btn-warning btn-block" style="width:100%" href="~/WareHouse/WareHousePOReceivingSlaveReport?companyId=@Model.CompanyFK&materialReceiveId=@Model.MaterialReceiveId">Challan Report of @Model.ChallanCID</a>*@
+                                </div>
+                                <div class="col-md-5">
+                                    @if (!Model.IsSubmitted)
+                                    {
+                                        <a onclick="makesubmitPurchaseReturnSubmitable(@Model.PurchaseReturnId);" class="btn btn-success btn-block" style="width:100%" data-toggle="modal" data-target="#submitProdReferenceModal" title="Submit" data-placement="top"><i class="fa fa-fingerprint" aria-hidden="true"></i>Confirm</a>
+                                    }
+                                    else
+                                    {
+                                        <button class="btn btn-success btn-block" style="width:100%" disabled="disabled">Confirmed</button>
+                                        <a class="btn btn-primary" href="@Url.Action("GetPurchaseReturnReport","Report",  new {CompanyId=@Model.CompanyFK,purchaseReturnId=@Model.PurchaseReturnId})" style="width:100%;margin-top:5px;">Print</a>
+                                    }
 
-                            </div>
-                            <div class="col-md-5">
-                                @if (!Model.IsSubmitted)
-                                {
-                                    <a onclick="makesubmitPurchaseReturnSubmitable(@Model.PurchaseReturnId);" class="btn btn-success btn-block" style="width:100%" data-toggle="modal" data-target="#submitProdReferenceModal" title="Submit" data-placement="top"><i class="fa fa-fingerprint" aria-hidden="true"></i>Confirm</a>
-
-                                }
-                                else
-                                {
-                                    <button class="btn btn-success btn-block" style="width:100%" disabled="disabled">Confirmed</button>
-                                    <a class="btn btn-primary" href="@Url.Action("GetPurchaseReturnReport","Report",  new {CompanyId=@Model.CompanyFK,purchaseReturnId=@Model.PurchaseReturnId})" style="width:100%;margin-top:5px;">Print</a>
-
-                                }
-
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    }
                 </div>
             </div>
         </div>
@@ -278,12 +255,11 @@
                     <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
                         &times;
                     </button>
-                    <h5 class="modal-title"><b>Delete Challan Item</b></h5>
+                    <h5 class="modal-title"><b>Delete Challan Material/Item</b></h5>
                 </div>
                 <div class="modal-body">
                     <div style="text-align:center">
                         @Html.HiddenFor(model => model.ID, new { Value = "", id = "challanSlaveId" })
-
                         <h3>Are you sure to delete?</h3>
                     </div>
                 </div>
@@ -296,7 +272,8 @@
         </div>
     </div>
 }
-@using (Html.BeginForm("WareHousePurchaseReturnSlave", "WareHouse", FormMethod.Post, new { id = "submitGCCLPOReceivingSlaveFormId", @class = "formValidator" }))
+
+@using (Html.BeginForm("WarehousePurchaseReturnSlave", "Warehouse", FormMethod.Post, new { id = "submitGCCLPOReceivingSlaveFormId", @class = "formValidator" }))
 {
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="modal fade" id="submitProdReferenceModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
@@ -309,16 +286,15 @@
                     <h5 class="modal-title"><b>Confirm</b></h5>
                 </div>
                 <div class="modal-body">
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
                     @Html.HiddenFor(model => model.CompanyFK, new { id = "submitCompanyFK" })
                     @Html.HiddenFor(model => model.PurchaseReturnId, new { id = "submitMaterialReturnId" })
                     @Html.HiddenFor(model => model.ActionId, new { id = "submitActionId" })
 
-                    @Html.AntiForgeryToken()
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
                     <div style="text-align:center">
-                        <h3>Are you sure to Confirm this sale return?</h3>
+                        <h3>Are you sure to Confirm this Materail/Item return?</h3>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -338,23 +314,21 @@
 @section scripts {
 
     <script type="text/javascript">
+
         function makesubmitPurchaseReturnSubmitable(rowId) {
             $("#submitMaterialReturnId").val(rowId)
             $('#submitCompanyFK').val("@Model.CompanyFK");
             $('#submitActionId').val(10);
         }
+
         $(document).ready(function () {
-            
+
             $("#poDetailsTable").hide();
 
             $("#txtPOCID").autocomplete({
                 source: function (request, response) {
-                    //console.log(request);
-                    //console.log(response);
-
                     $.ajax({
-                        url:"@Url.Action("GetSupplierAutoComplete", "WareHouse")",// '/AccountHeads/AutoComplete/',
-                        //data: "{ 'prefix': '" + request.term + "'}",
+                        url:"@Url.Action("GetSupplierAutoComplete", "WareHouse")",
                         data: { companyId: "@Model.CompanyFK", prefix: request.term },
                         dataType: "json",
                         type: "get",
@@ -382,42 +356,15 @@
                     datatype: "Json",
                          data: { vendorId: i.item.val},
                     success: function (data) {
-                        //debugger;
-                        //var items = "";
-
                         if (data) {
                             $("#ddlPo").empty();
-                            $("#ddlPo").append("<option value=''>==Select Existing Purchase Order Number==</option>");
+                            $("#ddlPo").append("<option value=''>==Select Existing Work Order Number==</option>");
                             $(data).each(function (index, item) {
                                 $("#ddlPo").append("<option value='" + item.Value + "'>" + item.Text + "</option>");
                             });
                         }
                     }
                 });
-
-
-                 @*$.ajax({
-                    type: "POST",
-                    url: "@Url.Action("ProcurementPurchaseOrderDetails", "WareHouse")",
-                    datatype: "Json",
-                     data: { id: i.item.val },
-                     success: function (data) {
-                         console.log(data);
-                         $("#poDetailsTable").show();
-                         $("#hiddenCommonSupplierFK").val(data.Common_SupplierFK);
-                         $("#txtSupplierNaame").text(data.SupplierName);
-                         var apprDate = DateCustom( data.PODate);
-                         $('#txtApprovedDate').text(apprDate);
-                         $("#txtDeliveryAddress").text(data.DeliveryAddress);
-                         var deliveryDate = DateCustom(data.DeliveryDate);
-
-                         $("#txtDeliveryDate").text(deliveryDate);
-
-
-                    }
-                });*@
-
-
                 },
                 minLength: 1,
                 cache: true
@@ -426,10 +373,8 @@
                 $(this).autocomplete("search");
             });
 
-
             $("#ddlPo").change(function () {
                 var id = $('#ddlPo').find(":selected").val();
-
                 $.ajax({
                     type: "POST",
                     url: "@Url.Action("ProcurementPurchaseOrderDetails", "WareHouse")",
@@ -443,14 +388,9 @@
                         $('#txtApprovedDate').text(apprDate);
                         $("#txtDeliveryAddress").text(data.DeliveryAddress);
                         var deliveryDate = DateCustom(data.DeliveryDate);
-
                         $("#txtDeliveryDate").text(deliveryDate);
-
-
                     }
                 });
-
-
 
                   $.ajax({
                     type: "GET",
@@ -458,9 +398,6 @@
                       datatype: "Json",
                       data: { id: id },
                       success: function (Response) {
-                        //debugger;
-                        //var items =
-                        console.log(Response);
 
                           if (Response) {
                               $("#ddlChallan").empty();
@@ -471,8 +408,8 @@
                         }
                     }
                 });
-
             });
+
             function DateCustom(orderDate) {
                 var dateString = orderDate.substr(6);
                 var currentTime = new Date(parseInt(dateString));
@@ -487,39 +424,33 @@
                 return date;
             }
 
-
-
             $("#ddlChallan").change(function (e) {
                 var poReceivingId = $("#ddlChallan").val();
 
-
-
                  $.ajax({
                     type: "POST",
-                    url: "@Url.Action("ProcurementPOReturnSlaveData", "WareHouse")",
+                    url: "@Url.Action("ProcurementPOReturnSlaveData", "Warehouse")",
                     datatype: "Json",
                      data: { poReceivingId: poReceivingId },
                      success: function (data) {
-                         console.log(data);
-                        $("#procurementPurchaseOrderSlaveData").html(data);
+                         $("#procurementPOReturnSlaveData").html(data);
                     }
                 });
                 return false;
              });
         });
+
         function makeDeletable(id) {
             if (id !== null) {
                 $('#challanSlaveId').val(id);
                 $('#ActionId').val(3);
-
             }
         }
+
         function resetForm() {
             $('#deliveryChallanSlaveFormId')[0].reset();
             $('#ActionId').val(1);
         }
-
-
 
     </script>
 }

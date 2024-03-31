@@ -3225,9 +3225,9 @@ namespace KGERP.Controllers
                 StrFromDate = DateTime.Now.ToShortDateString(),
                 StrToDate = DateTime.Now.ToShortDateString(),
                 ReportName = reportName,
-                
+
             };
-            cm.CostCenterList = new SelectList( await _iBillRequisitionService.GetProjectList(companyId), "CostCenterId", "Name");
+            cm.CostCenterList = new SelectList(await _iBillRequisitionService.GetProjectList(companyId), "CostCenterId", "Name");
             return View(cm);
         }
 
@@ -3239,14 +3239,14 @@ namespace KGERP.Controllers
             WebClient client = new WebClient();
             model.ReportName = CompanyInfo.ReportPrefix + model.ReportName;
             client.Credentials = nwc;
-            if(model.CostCenterId == null)
+            if (model.CostCenterId == null)
             {
                 model.CostCenterId = 0;
-            }   
+            }
 
 
 
-            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&StrFromDate={3}&StrToDate={4}&CostCenterId={5}", model.ReportName, model.ReportType, model.CompanyId, model.StrFromDate, model.StrToDate,model.CostCenterId);
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&StrFromDate={3}&StrToDate={4}&CostCenterId={5}", model.ReportName, model.ReportType, model.CompanyId, model.StrFromDate, model.StrToDate, model.CostCenterId);
 
             if (model.ReportType.Equals(ReportType.EXCEL))
             {
@@ -3604,23 +3604,15 @@ namespace KGERP.Controllers
         [SessionExpire]
         public ActionResult GetPurchaseReturnReport(int purchaseReturnId)
         {
-            try
-            {
-                string reportName = CompanyInfo.ReportPrefix + "PurchaseReturn";
-                var companyId = Convert.ToInt32(Session["CompanyId"]);
-                NetworkCredential nwc = new NetworkCredential(_admin, _password);
-                WebClient client = new WebClient();
-                client.Credentials = nwc;
-                //string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/PurchaseReturn&rs:Command=Render&rs:Format=PDF&PurchaseReturnId" + purchaseReturnId + "&ReportName=" + reportName);
-                string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&PurchaseReturnId={2}", reportName, ReportType.PDF, purchaseReturnId);
+            string reportName = CompanyInfo.ReportPrefix + "PurchaseReturn";
+            var companyId = Convert.ToInt32(Session["CompanyId"]);
+            NetworkCredential nwc = new NetworkCredential(_admin, _password);
+            WebClient client = new WebClient();
+            client.Credentials = nwc;
+            //string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/PurchaseReturn&rs:Command=Render&rs:Format=PDF&PurchaseReturnId" + purchaseReturnId + "&ReportName=" + reportName);
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&PurchaseReturnId={2}", reportName, ReportType.PDF, purchaseReturnId);
 
-                return File(client.DownloadData(reportUrl), "application/pdf");
-            }
-            catch (Exception ex)
-            {
-
-                throw;
-            }
+            return File(client.DownloadData(reportUrl), "application/pdf");
         }
 
         //GET: Account Cheque Info
@@ -5528,7 +5520,7 @@ namespace KGERP.Controllers
             {
                 reportModel.ReportType = "PDF";
             }
-              
+
             if (reportModel.CostCenterId == null)
             {
                 reportModel.CostCenterId = 0;
@@ -5538,7 +5530,7 @@ namespace KGERP.Controllers
             try
             {
                 reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&CostCenterId={3}",
-             ReportName, reportModel.ReportType, CompanyInfo.CompanyId,reportModel.CostCenterId);
+             ReportName, reportModel.ReportType, CompanyInfo.CompanyId, reportModel.CostCenterId);
 
             }
             catch
@@ -5586,7 +5578,7 @@ namespace KGERP.Controllers
             {
                 reportModel.ReportType = "PDF";
             }
-              
+
             if (reportModel.CostCenterId == null)
             {
                 reportModel.CostCenterId = 0;
@@ -5596,7 +5588,7 @@ namespace KGERP.Controllers
             try
             {
                 reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&CostCenterId={3}",
-             ReportName, reportModel.ReportType, CompanyInfo.CompanyId,reportModel.CostCenterId);
+             ReportName, reportModel.ReportType, CompanyInfo.CompanyId, reportModel.CostCenterId);
 
             }
             catch
@@ -5632,8 +5624,8 @@ namespace KGERP.Controllers
             {
                 PurchaseOrderId = 0;
             }
-              
-            
+
+
 
             string reportUrl = "";
             try
