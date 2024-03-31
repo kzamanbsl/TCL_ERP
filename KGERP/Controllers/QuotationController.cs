@@ -226,6 +226,14 @@ namespace KGERP.Controllers
             return RedirectToAction(nameof(QuotationSubmit), new { companyId = model.CompanyFK, quotationSubmitMasterId = result });
         }
 
+        [HttpPost]
+        public ActionResult QuotationSubmitDetail(QuotationSubmitMasterModel model)
+        {
+            long result = _Service.AddQuotationSubmitDetail(model);
+            model.CompanyFK = 21;
+            return RedirectToAction(nameof(QuotationSubmit), new { companyId = model.CompanyFK, quotationSubmitMasterId = result });
+        }
+
         [HttpGet]
         public JsonResult GetQuotationListFilteredByTypeAndFor(int typeId, long forId)
         {

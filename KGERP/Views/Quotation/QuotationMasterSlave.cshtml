@@ -73,7 +73,7 @@
                                         <tr>
                                             <th style="width:17% !important">Quotation Date</th>
                                             <th>:</th>
-                                            <td>@Model.QuotationDate</td>
+                                            <td>@Model.QuotationDate.ToString("dd/MM/yyyy")</td>
 
                                             <th style="width:17% !important">Quotation Status</th>
                                             <th>:</th>
@@ -123,7 +123,7 @@
 
                                                 <th>Close Date</th>
                                                 <th>:</th>
-                                                <td>@Model.EndDate.Value.ToString("dd/MM/yyyy")</td>
+                                                <td>@(Model.EndDate != DateTime.MinValue ? Model.EndDate.Value.ToString("dd/MM/yyyy") : "N/A")</td>
                                             </tr>
                                         }
 

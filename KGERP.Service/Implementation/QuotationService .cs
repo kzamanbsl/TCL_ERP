@@ -41,6 +41,7 @@ namespace KGERP.Service.Implementation
                                                          {
                                                              QuotationMasterId = t1.QuotationMasterId,
                                                              QuotationNo = t1.QuotationNo,
+                                                             QuotationDate = t1.QuotationDate,
                                                              QuotationTypeId = (int)(EnumQuotationType)t1.QuotationTypeId,
                                                              QuotationForId = t1.QuotationForId,
                                                              QuotationForName = t2.Name,
@@ -754,6 +755,36 @@ namespace KGERP.Service.Implementation
             return result;
         }
 
+        public long AddQuotationSubmitDetail(QuotationSubmitMasterModel model)
+        {
+            long result = -1;
+            var listOfData = new List<QuotationSubmitDetail>();
+
+            foreach (var index in model.QuotationDetailModelList)
+            {
+                QuotationSubmitDetail saveData = new QuotationSubmitDetail()
+                {
+                    QuotationSubmitMasterId = model.QuotationSubmitMasterId,
+                    MaterrialId = (int)index.MaterialId,
+                    Quantity = index.Quantity,
+                    UnitPrice = index.UnitPrice,
+                    TotalAmount = index.Quantity * index.UnitPrice,
+                    CreatedBy = HttpContext.Current.User.Identity.Name,
+                    CreatedOn = DateTime.Now,
+                    IsActive = true
+                };
+                listOfData.Add(saveData);
+            }
+
+            _context.QuotationSubmitDetails.AddRange(listOfData);
+
+            if (_context.SaveChanges() > 0)
+            {
+                result = model.QuotationSubmitMasterId;
+            }
+            return result;
+        }
+
         public QuotationSubmitMasterModel GetQuotationByQuotationSubmitMasterId(long id)
         {
             QuotationSubmitMasterModel sendData = new QuotationSubmitMasterModel();
@@ -795,6 +826,7 @@ namespace KGERP.Service.Implementation
                                                      QuotationDetailId = t3.QuotationDetailId,
                                                      MaterialId = t4.ProductId,
                                                      MaterialName = t4.ProductName,
+                                                     MaterialQualityId = t3.MaterialQuality,
                                                      Quantity = t3.Quantity,
                                                      CreatedDate = t1.CreatedOn,
                                                      CreatedBy = t1.CreatedBy,
