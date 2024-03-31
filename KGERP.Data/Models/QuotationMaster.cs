@@ -18,7 +18,7 @@ namespace KGERP.Data.Models
         public QuotationMaster()
         {
             this.QuotationDetails = new HashSet<QuotationDetail>();
-            this.QuotationSubmits = new HashSet<QuotationSubmit>();
+            this.QuotationSubmitMasters = new HashSet<QuotationSubmitMaster>();
         }
     
         public long QuotationMasterId { get; set; }
@@ -42,6 +42,6 @@ namespace KGERP.Data.Models
         public virtual ICollection<QuotationDetail> QuotationDetails { get; set; }
         public virtual QuotationFor QuotationFor { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<QuotationSubmit> QuotationSubmits { get; set; }
+        public virtual ICollection<QuotationSubmitMaster> QuotationSubmitMasters { get; set; }
     }
 }

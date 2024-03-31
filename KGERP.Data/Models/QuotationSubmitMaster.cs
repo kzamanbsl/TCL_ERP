@@ -12,22 +12,27 @@ namespace KGERP.Data.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class QuotationSubmit
+    public partial class QuotationSubmitMaster
     {
-        public long QuotationSubmitId { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public QuotationSubmitMaster()
+        {
+            this.QuotationSubmitDetails = new HashSet<QuotationSubmitDetail>();
+        }
+    
+        public long QuotationSubmitMasterId { get; set; }
+        public System.DateTime SubmissionDate { get; set; }
         public long QuotationMasterId { get; set; }
         public int SupplierId { get; set; }
-        public int MaterialId { get; set; }
-        public decimal UnitPrice { get; set; }
-        public string Remarks { get; set; }
         public string CreatedBy { get; set; }
         public System.DateTime CreatedOn { get; set; }
         public string ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedOn { get; set; }
         public bool IsActive { get; set; }
     
-        public virtual Product Product { get; set; }
-        public virtual Vendor Vendor { get; set; }
         public virtual QuotationMaster QuotationMaster { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<QuotationSubmitDetail> QuotationSubmitDetails { get; set; }
+        public virtual Vendor Vendor { get; set; }
     }
 }

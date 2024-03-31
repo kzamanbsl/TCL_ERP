@@ -731,6 +731,28 @@ namespace KGERP.Service.Implementation
             }
             return result;
         }
+
+        public long AddQuotationSubmitMaster(QuotationSubmitMasterModel model)
+        {
+            long result = -1;
+
+            QuotationSubmitMaster saveData = new QuotationSubmitMaster()
+            {
+                SubmissionDate = model.SubmissionDate,
+                QuotationMasterId = model.QuotationMasterId,
+                SupplierId = model.SupplierId,
+                CreatedBy = HttpContext.Current.User.Identity.Name,
+                CreatedOn = DateTime.Now,
+                IsActive = true
+            };
+            _context.QuotationSubmitMasters.Add(saveData);
+
+            if(_context.SaveChanges() > 0)
+            {
+                result = saveData.QuotationSubmitMasterId;
+            }
+            return result;
+        }
         #endregion
     }
 }

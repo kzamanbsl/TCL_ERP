@@ -1,10 +1,8 @@
 ﻿@model KGERP.Service.ServiceModel.PurchaseReturnnewViewModel
 
 @{
-
     ViewBag.Title = "Purchase Return List";
     Layout = "~/Views/Shared/_Layout.cshtml";
-
 }
 
 <style type="text/css">
@@ -39,13 +37,15 @@
         max-width: 100%;
     }
 </style>
+
 <section class="content-header" style="margin-bottom:20px">
     <h1>
         Purchase Return List
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active"><a class="btn btn-success" href="~/PurchaseReturn/PurchaseReturnProcess?companyId=@Model.CompanyId" style="color:#fff">New Purchase Return</a></li>
+        @*<li class="active"><a class="btn btn-success" href="~/PurchaseReturn/PurchaseReturnProcess?companyId=@Model.CompanyId" style="color:#fff">New Purchase Return</a></li>*@
+        <li class="active"><a class="btn btn-success" href="~/Warehouse/WareHousePurchaseReturnSlave?companyId=@Model.CompanyId" style="color:#fff">New Purchase Return</a></li>
     </ol>
 </section>
 
@@ -60,10 +60,7 @@
                             @Html.HiddenFor(model => model.CompanyId, new { id = "CompanyId" })
                             <div class="row">
                                 <div class="col-md-3">
-
-
                                 </div>
-
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         @Html.Label("From Date", htmlAttributes: new { @class = "control-label" })
@@ -71,7 +68,6 @@
                                         @Html.EditorFor(model => model.StrFromDate, new { htmlAttributes = new { @class = "datepicker", @autocomplete = "off" } })
                                         @Html.ValidationMessageFor(model => model.StrFromDate, "", new { @class = "text-danger" })
                                     </div>
-
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
@@ -97,10 +93,9 @@
                                         <th style="width:5%;">SL</th>
                                         <th style="width:15%;">Return No</th>
                                         <th style="width:10%;">Return Date</th>
-                                        <th style="width:10%;">Product Type</th>
                                         <th style="width:15%;">Supplier</th>
                                         <th style="width:15%;">Return By</th>
-                                        <th style="width:10%;">Action</th>
+                                        <th style="width:10%; text-align:center;">Action</th>
                                     </tr>
                                 </thead>
                                 @{int sl = 0;
@@ -108,40 +103,38 @@
                                 <tbody>
                                     @foreach (var item in Model.ReturnList)
                                     {
-
                                         <tr>
                                             <td>@(++sl)</td>
-                                            <td id="tdReturnNo_@item.ReturnNo"><b><a target="_blank" href="~/Report/GetPurchaseReturnReport?purchaseReturnId=@item.PurchaseReturnId">@item.ReturnNo</a></b> </td>
-                                            <td id="tdReturnDate_@item.ReturnDate">@item.ReturnDate.Value.ToString("dd-MMM-yyyy")</td>
-                                            <td id="tdProductType_@item.ProductType">@item.ProductType</td>
+                                            <td id="tdReturnNo_@item.ReturnNo"><b><a target="_blank" href="~/Report/GetPurchaseReturnReport?purchaseReturnId=@item.PurchaseReturnId">@item.ReturnNo</a></b></td>
+                                            <td id="tdReturnDate_@item.ReturnDate">@item.ReturnDate.Value.ToString("dd-MM-yyyy")</td>
                                             <td id="tdSupplierName_@item.SupplierName">@item.SupplierName</td>
                                             <td id="tdReturnBy_@item.ReturnBy">@item.ReturnByName</td>
+
                                             @if (item.IsSubmited == false)
                                             {
-                                                <td class="text-right">
-                                                    <a onclick="makeEdit(@item.PurchaseReturnId)" href="#" data-toggle="modal" data-target="#EditModal" target="_blank" class="btn btn-primary btn-xs">
-                                                        Edit
+                                                <td class="text-center">
+                                                    <a onclick="makeEdit(@item.PurchaseReturnId)" href="#" data-toggle="modal" data-target="#EditModal" target="_blank" class="btn btn-primary btn-xs" title="Edit">
+                                                        <i class="fa fa-edit"></i>
                                                     </a>
-                                                    <a href="/PurchaseReturn/purchaseReturnProcess?companyId=@item.CompanyId&&purchaseReturnId=@item.PurchaseReturnId" target="_blank" class="btn btn-warning btn-xs">
-                                                        Details
+                                                    <a href="/PurchaseReturn/purchaseReturnProcess?companyId=@item.CompanyId&&purchaseReturnId=@item.PurchaseReturnId" target="_blank" class="btn btn-success btn-xs" title="Details">
+                                                        <i class="fa fa-sticky-note"></i>
                                                     </a>
-                                                    <a onclick="makeDelete(@item.PurchaseReturnId)" data-toggle="modal" data-target="#deleteVoucherModal" href="" target="_blank" class="btn btn-danger btn-xs">
-                                                        Delete
+                                                    <a onclick="makeDelete(@item.PurchaseReturnId)" data-toggle="modal" data-target="#deleteVoucherModal" href="" target="_blank" class="btn btn-danger btn-xs" title="Delete">
+                                                        <i class="fa fa-trash"></i>
                                                     </a>
                                                 </td>
-
                                             }
                                             else
                                             {
-                                                <td class="text-right">
-                                                    <a class="btn btn-primary disabled btn-xs">
-                                                        Edit
+                                                <td class="text-center">
+                                                    <a class="btn btn-primary disabled btn-xs" title="Edit">
+                                                        <i class="fa fa-edit"></i>
                                                     </a>
-                                                    <a href="/PurchaseReturn/purchaseReturnProcess?companyId=@item.CompanyId&&purchaseReturnId=@item.PurchaseReturnId" target="_blank" class="btn btn-warning btn-xs">
-                                                        Details
+                                                    <a href="/PurchaseReturn/PurchaseReturnProcess?companyId=@item.CompanyId&&purchaseReturnId=@item.PurchaseReturnId" target="_blank" class="btn btn-success btn-xs" title="Details">
+                                                        <i class="fa fa-sticky-note"></i>
                                                     </a>
-                                                    <a class="btn btn-danger disabled btn-xs">
-                                                        Delete
+                                                    <a class="btn btn-danger disabled btn-xs" title="Delete">
+                                                        <i class="fa fa-trash"></i>
                                                     </a>
                                                 </td>
                                             }
@@ -165,7 +158,6 @@
 
 @using (Html.BeginForm("DeletePurchaseReturn", "PurchaseReturn", FormMethod.Post))
 {
-
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="modal fade" id="deleteVoucherModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
         <div class="modal-dialog">
@@ -179,8 +171,6 @@
                 <div class="modal-body">
                     @Html.HiddenFor(model => model.PurchaseReturnId, new { id = "PurchaseReturnId" })
                     @Html.HiddenFor(model => model.CompanyId, new { id = "CompanyId" })
-
-
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
@@ -222,7 +212,6 @@
                     @Html.HiddenFor(model => model.CompanyId, new { id = "CompanyId" })
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
 
                     <div class="row">
                         <div class="col-md-6 mb-2">
@@ -298,6 +287,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="row">
                         <div class="col-md-6 mb-2">
                             <div class="input-group">
@@ -309,8 +299,6 @@
                             </div>
                         </div>
 
-
-
                         <div class="col-md-6 mb-2">
                             <div class="input-group">
                                 @Html.LabelFor(model => model.ReferenceNo, htmlAttributes: new { @class = "control-label" })
@@ -319,11 +307,8 @@
                             </div>
                         </div>
                     </div>
-
-
-
-
                 </div>
+
                 <div class="modal-footer">
                     <div class="col-md-3">
                         <button type="button" class="btn btn-warning fa fa-close" data-dismiss="modal">&nbsp;NO</button>
@@ -332,6 +317,7 @@
                         <button type="submit" id="btnsave" style="width:100%" class="btn btn-primary fa fa-remove">&nbsp; Submit</button>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>

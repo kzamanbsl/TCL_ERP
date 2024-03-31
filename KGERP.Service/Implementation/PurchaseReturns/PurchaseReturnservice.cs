@@ -136,6 +136,7 @@ namespace KGERP.Service.Implementation.PurchaseReturns
                                                                ProductName = t3.ProductName,
                                                                SubCatagoryName = t4.Name,
                                                                CatagoryName = t5.Name,
+                                                               UnitName = t6.Name,
                                                                COGS = t1.COGS,
                                                                AccountingHeadId = t3.AccountingHeadId,
                                                                AccountingExpenseHeadId = t3.AccountingExpenseHeadId
@@ -231,31 +232,31 @@ namespace KGERP.Service.Implementation.PurchaseReturns
         public async Task<PurchaseReturnnewViewModel> PurchaseReturnList(int companyId, DateTime? fromDate, DateTime? toDate)
         {
             PurchaseReturnnewViewModel purchaseReturnnewViewModel = new PurchaseReturnnewViewModel();
-            purchaseReturnnewViewModel.ReturnList = await Task.Run(()=> (from t1 in context.PurchaseReturns.Where(x => x.Active == true)
-                                                     join t2 in context.Vendors on t1.SupplierId equals t2.VendorId
-                                                     join t3 in context.Companies on t1.CompanyId equals t3.CompanyId
-                                                     join t4 in context.StockInfoes on t1.StockInfoId equals t4.StockInfoId
-                                                     join t5 in context.Employees on t1.ReturnBy equals t5.Id
-                                                     where t1.CompanyId==companyId && t1.ReturnDate>= fromDate && t1.ReturnDate<= toDate
-                                                     select new PurchaseReturnnewViewModel
-                                                     {
-                                                         PurchaseReturnId = t1.PurchaseReturnId,
-                                                         CompanyId = (int)t1.CompanyId,
-                                                         SupplierId = (int)t1.SupplierId,
-                                                         SupplierName = t2.Name,
-                                                         ReturnBy = t1.ReturnBy,
-                                                         ReturnNo = t1.ReturnNo,
-                                                         ProductType = t1.ProductType,
-                                                         ReturnDate = t1.ReturnDate,
-                                                         ReturnReason = t1.ReturnReason,
-                                                         StockInfoId = (int)t1.StockInfoId,
-                                                         StockInfoName = t4.Name,
-                                                         CreatedBy = t1.CreatedBy,
-                                                         CreatedDate = t1.CreatedDate,
-                                                         ReturnByName = t5.Name + "(" + t5.EmployeeId + ")",
-                                                         ReturnById = t5.EmployeeId,
-                                                         IsSubmited = t1.IsSubmited
-                                                     }).OrderByDescending(x => x.PurchaseReturnId).AsEnumerable());
+            purchaseReturnnewViewModel.ReturnList = await Task.Run(() => (from t1 in context.PurchaseReturns.Where(x => x.Active == true)
+                                                                          join t2 in context.Vendors on t1.SupplierId equals t2.VendorId
+                                                                          join t3 in context.Companies on t1.CompanyId equals t3.CompanyId
+                                                                          join t4 in context.StockInfoes on t1.StockInfoId equals t4.StockInfoId
+                                                                          join t5 in context.Employees on t1.ReturnBy equals t5.Id
+                                                                          where t1.CompanyId == companyId && t1.ReturnDate >= fromDate && t1.ReturnDate <= toDate
+                                                                          select new PurchaseReturnnewViewModel
+                                                                          {
+                                                                              PurchaseReturnId = t1.PurchaseReturnId,
+                                                                              CompanyId = (int)t1.CompanyId,
+                                                                              SupplierId = (int)t1.SupplierId,
+                                                                              SupplierName = t2.Name,
+                                                                              ReturnBy = t1.ReturnBy,
+                                                                              ReturnNo = t1.ReturnNo,
+                                                                              ProductType = t1.ProductType,
+                                                                              ReturnDate = t1.ReturnDate,
+                                                                              ReturnReason = t1.ReturnReason,
+                                                                              StockInfoId = (int)t1.StockInfoId,
+                                                                              StockInfoName = t4.Name,
+                                                                              CreatedBy = t1.CreatedBy,
+                                                                              CreatedDate = t1.CreatedDate,
+                                                                              ReturnByName = t5.Name + "(" + t5.EmployeeId + ")",
+                                                                              ReturnById = t5.EmployeeId,
+                                                                              IsSubmited = t1.IsSubmited
+                                                                          }).OrderByDescending(x => x.PurchaseReturnId).AsEnumerable());
             return purchaseReturnnewViewModel;
         }
 

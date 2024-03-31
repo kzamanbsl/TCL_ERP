@@ -38,7 +38,8 @@ namespace KGERP.Service.Interface
         Task<long> QuotationDetailDelete(long id);
         #endregion
 
-        #region Quotation Submit
+        #region Quotation Submit Master
+        long AddQuotationSubmitMaster(QuotationSubmitMasterModel model);
         List<QuotationMasterModel> QuotationListByTypeIdAndForId(int typeId, long forId);
         #endregion
 
