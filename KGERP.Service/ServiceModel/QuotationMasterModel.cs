@@ -78,7 +78,7 @@ namespace KGERP.Service.ServiceModel
         public DateTime SubmissionDate { get; set; }
         public SelectList QuotationList { get; set; } = new SelectList(new List<object>());
         public SelectList QuotationForList { get; set; } = new SelectList(new List<object>());
-        public List<QuotationMasterModel> QuotationMasterModel { get; set; } = new List<QuotationMasterModel>();
+        public List<QuotationDetailModel> QuotationDetailModelList { get; set; } = new List<QuotationDetailModel>();
     }
 
     public class QuotationCompareModel : BaseVM

@@ -2,7 +2,7 @@
 @using KGERP.Utility;
 
 @{
-    ViewData["Title"] = "Bill Requisition Item Approval List";
+    ViewData["Title"] = "Budget & Estimating Approval";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     int sl = 0;
@@ -18,14 +18,14 @@
 <section class="content-header">
     <h1>
         <span>
-            Budget And Estimating Item Approval List
+            Budget & Estimating Approval
         </span>
 
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
         <li class="active">
-            Budget And Estimating Item Approval List
+            Budget & Estimating Approval
         </li>
     </ol>
 </section>
@@ -52,7 +52,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label asp-for="BoQDivisionId" class="form-control-label">Select BoQ Division</label>
-                                        @Html.DropDownListFor(model => model.BoQDivisionId, new SelectList (Model.BoqDivisionsSelectList, "Text", "Value")  , "==Select BoQ Division==", new { id = "ddlBoQDivisionId", @class = "form-control searchingDropdown", style = "width:100%" })
+                                        @Html.DropDownListFor(model => model.BoQDivisionId, new SelectList(Model.BoqDivisionsSelectList, "Text", "Value"), "==Select BoQ Division==", new { id = "ddlBoQDivisionId", @class = "form-control searchingDropdown", style = "width:100%" })
                                         @Html.ValidationMessageFor(model => model.BoQDivisionId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -60,7 +60,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label asp-for="BoQItemId" class="form-control-label">Select BoQ Item</label>
-                                        @Html.DropDownListFor(model => model.BoQItemId, new SelectList(Model.BoqItemSelectList, "Value", "Text" ), "==Select BoQ Item==", new { id = "ddlBoQItemId", @class = "form-control searchingDropdown", style = "width:100%" })
+                                        @Html.DropDownListFor(model => model.BoQItemId, new SelectList(Model.BoqItemSelectList, "Value", "Text"), "==Select BoQ Item==", new { id = "ddlBoQItemId", @class = "form-control searchingDropdown", style = "width:100%" })
                                         @Html.ValidationMessageFor(model => model.BoQItemId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -93,9 +93,9 @@
                         @using (Html.BeginForm("BudgetAndEstimatingApprovalProcess", "BillRequisition", FormMethod.Post, new { id = "budgetAndEstimatingApprovalListFormId", @class = "formValidator" }))
                         {
 
-                                            //@Html.HiddenFor(model => model.BoQMapVmList, new { id = "BoQMapVmList" })
-                                            if (Model.BoQItemProductMaps?.Any() ?? false)
-                                            {
+                            //@Html.HiddenFor(model => model.BoQMapVmList, new { id = "BoQMapVmList" })
+                            if (Model.BoQItemProductMaps?.Any() ?? false)
+                            {
 
 
                                 <table id="KgErpDataTable33" class="table table-bordered table-striped table-responsive">
@@ -143,7 +143,7 @@
 
                                                 }
                                                 else
-                                        {
+                                                {
                                                     <td id="tdBoqEstimateQty_@item.BoQItemProductMapId">@item.EstimatedQty</td>
                                                     <td id="tdBoqUnitRate_@item.BoQItemProductMapId">@item.UnitRate</td>
 
@@ -152,7 +152,7 @@
 
                                                 @if (Model.ApprovalStatus == (int)EnumBudgetAndEstimatingApprovalStatus.Revised)
                                                 {
-                                                    <td ><a  id="reApprovedBtn_@item.BoQItemProductMapId" onclick="revisedApproved(@item.BoQItemProductMapId)" class="btn btn-warning"> Revised </a> </td>
+                                                    <td><a id="reApprovedBtn_@item.BoQItemProductMapId" onclick="revisedApproved(@item.BoQItemProductMapId)" class="btn btn-warning"> Revised </a> </td>
                                                 }
 
 
@@ -163,7 +163,7 @@
                                     </tbody>
                                 </table>
                                 if (Model.ApprovalStatus != (int)EnumBudgetAndEstimatingApprovalStatus.Approved)
-                                        {
+                                {
                                     <div class="box-footer">
                                         <div class="row">
                                             <div class="col-md-3"></div>
@@ -352,7 +352,7 @@
             var estimatedQtyId = $("#tdBoqEstimateQty_" + boqMapId);
             var unitQty = $("#tdBoqUnitRate_" + boqMapId).find('input').val();
             var unitQtyId = $("#tdBoqUnitRate_" + boqMapId);
-            var reApprovedBtn= $("#reApprovedBtn_" + boqMapId);
+            var reApprovedBtn = $("#reApprovedBtn_" + boqMapId);
             var sendData = {
                 BoQItemProductMaps: [
                     {
@@ -374,12 +374,12 @@
 
                     estimatedQtyId.addClass('readonly');
                     unitQtyId.addClass('readonly');
-                      // Select the element by its ID and update its class
-                         reApprovedBtn.removeClass("btn-warning").addClass("btn-success");
+                    // Select the element by its ID and update its class
+                    reApprovedBtn.removeClass("btn-warning").addClass("btn-success");
 
 
 
-                   
+
                 }
             });
         }
