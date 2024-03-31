@@ -206,7 +206,7 @@ namespace KGERP.Controllers
 
         #region Quotation Submit
         [HttpGet]
-        public async Task<ActionResult> QuotationSubmit(int companyId)
+        public async Task<ActionResult> QuotationSubmit(int companyId, long quotationSubmitId = 0)
         {
             QuotationSubmitModel viewModel = new QuotationSubmitModel();
             viewModel.CompanyFK = companyId;
@@ -218,7 +218,7 @@ namespace KGERP.Controllers
         public ActionResult QuotationSubmit(QuotationSubmitModel model)
         {
             QuotationSubmitModel viewModel = new QuotationSubmitModel();
-            return RedirectToAction(nameof(QuotationSubmit), new { companyId = 21 });
+            return RedirectToAction(nameof(QuotationSubmit), new { companyId = 21, quotationSubmitId = 3 });
         }
 
         [HttpGet]

@@ -66,8 +66,8 @@ namespace KGERP.Service.ServiceModel
         public long QuotationMasterId { get; set; }
         public string QuotationNo { get; set; }
         public long QuotationDetailId { get; set; }
-        public long QuotationForId { get; set; }
         public long QuotationTypeId { get; set; }
+        public long QuotationForId { get; set; }
         public string QuotationForName { get; set; }
         public long MaterialId { get; set; }
         public string MaterialName { get; set; }

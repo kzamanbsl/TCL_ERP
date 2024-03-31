@@ -48,59 +48,97 @@
             <div class="box">
                 <div class="box-danger">
                     <div class="box-body">
-                        @using (Html.BeginForm("QuotationSubmit", "Quotation", FormMethod.Post, new { id = "quotationSubmitFormId", @class = "formValidator" }))
+                        @if (Model.QuotationSubmitId > 0)
                         {
-                            @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyId" })
-                            <div class="row">
+                            <div class="row mb-5">
+                                <div class="col-md-1"> </div>
+                                <div class="col-md-10">
+                                    <table class="table">
+                                        <tr>
+                                            <th style="width:17% !important">Submission Date</th>
+                                            <th>:</th>
+                                            <td>@Model.SubmissionDate</td>
 
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label class="form-label">Submission Date<sup class="text-danger" title="Required">*</sup></label>
-                                        <input name="SubmissionDate" asp-for="SubmissionDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker w-100 dateCustom" autocomplete="off" id="txtFromDate">
-                                        @Html.ValidationMessageFor(model => model.SubmissionDate, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
+                                            <th style="width:17% !important">Supplier/Party Name</th>
+                                            <th>:</th>
+                                            <td>
+                                                @Model.SupplierName
+                                            </td>
+                                        </tr>
 
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label class="form-label">Quotation Type<sup class="text-danger" title="Required">*</sup></label>
-                                        @Html.DropDownListFor(model => model.QuotationForId, Model.QuotationTypeList as SelectList, "==Quotation Type==", new { id = "ddlQuotationType", @class = "form-control ddlReset searchingDropdown", style = "width:100%", required = "required" })
-                                        @Html.ValidationMessageFor(model => model.QuotationForId, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
 
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label class="form-label">Quotation For<sup class="text-danger" title="Required">*</sup></label>
-                                        @Html.DropDownListFor(model => model.QuotationMasterId, Model.QuotationForList as SelectList, "==Quotation For==", new { id = "ddlQuotationFor", @class = "form-control ddlReset searchingDropdown", style = "width:100%", required = "required" })
-                                        @Html.ValidationMessageFor(model => model.QuotationMasterId, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
+                                        <tr>
+                                            <th style="width:17% !important">Quotation No</th>
+                                            <th>:</th>
+                                            <td>@Model.QuotationNo</td>
 
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label class="form-label">Select Quotation<sup class="text-danger" title="Required">*</sup></label>
-                                        @Html.DropDownListFor(model => model.QuotationMasterId, Model.QuotationList as SelectList, "==Select Quotation==", new { id = "ddlQuotationId", @class = "form-control ddlReset searchingDropdown", style = "width:100%", required = "required" })
-                                        @Html.ValidationMessageFor(model => model.QuotationMasterId, "", new { @class = "text-danger" })
-                                    </div>
+                                            <th style="width:17% !important">Quotation For</th>
+                                            <th>:</th>
+                                            <td>
+                                                @Model.QuotationForName
+                                            </td>
+                                        </tr>
+                                    </table>
                                 </div>
-
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label class="form-label">Supplier/Party<sup class="text-danger" title="Required">*</sup></label>
-                                        @Html.EditorFor(model => model.SupplierName, new { htmlAttributes = new { @autocomplete = "on", @class = "form-control", @name = "Supplier Name", @id = "txtSupplierName", required = "required" } })
-                                        @Html.HiddenFor(model => model.SupplierId, new { id = "ddlCommon_SupplierFK" })
-                                        @Html.ValidationMessageFor(model => model.SupplierId, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>&nbsp;</label>
-                                        <button type="submit" id="btnSave" class="btn btn-primary btn-block">Search</button>
-                                    </div>
-                                </div>
+                                <div class="col-md-1"> </div>
                             </div>
+                        }
+                        else
+                        {
+                            using (Html.BeginForm("QuotationSubmit", "Quotation", FormMethod.Post, new { id = "quotationSubmitFormId", @class = "formValidator" }))
+                            {
+                                @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyId" })
+                                <div class="row">
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label">Submission Date<sup class="text-danger" title="Required">*</sup></label>
+                                            <input name="SubmissionDate" asp-for="SubmissionDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker w-100 dateCustom" autocomplete="off" id="txtFromDate">
+                                            @Html.ValidationMessageFor(model => model.SubmissionDate, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label">Quotation Type<sup class="text-danger" title="Required">*</sup></label>
+                                            @Html.DropDownListFor(model => model.QuotationForId, Model.QuotationTypeList as SelectList, "==Quotation Type==", new { id = "ddlQuotationType", @class = "form-control ddlReset searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.ValidationMessageFor(model => model.QuotationForId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label">Quotation For<sup class="text-danger" title="Required">*</sup></label>
+                                            @Html.DropDownListFor(model => model.QuotationMasterId, Model.QuotationForList as SelectList, "==Quotation For==", new { id = "ddlQuotationFor", @class = "form-control ddlReset searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.ValidationMessageFor(model => model.QuotationMasterId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label">Select Quotation<sup class="text-danger" title="Required">*</sup></label>
+                                            @Html.DropDownListFor(model => model.QuotationMasterId, Model.QuotationList as SelectList, "==Select Quotation==", new { id = "ddlQuotationId", @class = "form-control ddlReset searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.ValidationMessageFor(model => model.QuotationMasterId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label">Supplier/Party<sup class="text-danger" title="Required">*</sup></label>
+                                            @Html.EditorFor(model => model.SupplierName, new { htmlAttributes = new { @autocomplete = "on", @class = "form-control", @name = "Supplier Name", @id = "txtSupplierName", required = "required" } })
+                                            @Html.HiddenFor(model => model.SupplierId, new { id = "ddlCommon_SupplierFK" })
+                                            @Html.ValidationMessageFor(model => model.SupplierId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>&nbsp;</label>
+                                            <button type="submit" id="btnSave" class="btn btn-primary btn-block">Search</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
                         }
                     </div>
                 </div>
