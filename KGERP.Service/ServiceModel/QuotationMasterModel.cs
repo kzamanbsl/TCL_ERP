@@ -81,6 +81,7 @@ namespace KGERP.Service.ServiceModel
         public SelectList QuotationForList { get; set; } = new SelectList(new List<object>());
         public SelectList QuotationList { get; set; } = new SelectList(new List<object>());
         public List<QuotationDetailModel> QuotationDetailModelList { get; set; } = new List<QuotationDetailModel>();
+        public QuotationSubmitMasterModel QuotationSubmitMaster { get; set; }
     }
 
     public class QuotationCompareModel : BaseVM

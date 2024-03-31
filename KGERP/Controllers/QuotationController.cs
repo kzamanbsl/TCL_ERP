@@ -210,9 +210,9 @@ namespace KGERP.Controllers
         {
             QuotationSubmitMasterModel viewModel = new QuotationSubmitMasterModel();
             viewModel.CompanyFK = companyId;
-            if(quotationSubmitMasterId > 0)
-            {;
-                viewModel.QuotationSubmitMasterId = quotationSubmitMasterId;
+            if (quotationSubmitMasterId > 0)
+            {
+                viewModel = _Service.GetQuotationByQuotationSubmitMasterId(quotationSubmitMasterId);
             }
             viewModel.QuotationForList = new SelectList(await _Service.GetQuotationForList(companyId), "QuotationForId", "Name");
             return View(viewModel);
@@ -222,6 +222,14 @@ namespace KGERP.Controllers
         public ActionResult QuotationSubmitMaster(QuotationSubmitMasterModel model)
         {
             long result = _Service.AddQuotationSubmitMaster(model);
+            model.CompanyFK = 21;
+            return RedirectToAction(nameof(QuotationSubmit), new { companyId = model.CompanyFK, quotationSubmitMasterId = result });
+        }
+
+        [HttpPost]
+        public ActionResult QuotationSubmitDetail(QuotationSubmitMasterModel model)
+        {
+            long result = _Service.AddQuotationSubmitDetail(model);
             model.CompanyFK = 21;
             return RedirectToAction(nameof(QuotationSubmit), new { companyId = model.CompanyFK, quotationSubmitMasterId = result });
         }
