@@ -55,26 +55,26 @@
                                 <div class="col-md-10">
                                     <table class="table">
                                         <tr>
-                                            <th style="width:17% !important">Submission Date</th>
+                                            <th>Submission Date</th>
                                             <th>:</th>
-                                            <td>@Model.SubmissionDate</td>
+                                            <td>@Model.QuotationSubmitMaster.SubmissionDate</td>
 
-                                            <th style="width:17% !important">Supplier/Party Name</th>
+                                            <th>Supplier/Party Name</th>
                                             <th>:</th>
                                             <td>
-                                                @Model.SupplierName
+                                                @Model.QuotationSubmitMaster.SupplierName
                                             </td>
                                         </tr>
 
                                         <tr>
                                             <th style="width:17% !important">Quotation No</th>
                                             <th>:</th>
-                                            <td>@Model.QuotationNo</td>
+                                            <td>@Model.QuotationSubmitMaster.QuotationNo</td>
 
                                             <th style="width:17% !important">Quotation For</th>
                                             <th>:</th>
                                             <td>
-                                                @Model.QuotationForName
+                                                @Model.QuotationSubmitMaster.QuotationForName
                                             </td>
                                         </tr>
                                     </table>

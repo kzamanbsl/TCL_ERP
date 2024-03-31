@@ -41,6 +41,7 @@ namespace KGERP.Service.Interface
         #region Quotation Submit Master
         long AddQuotationSubmitMaster(QuotationSubmitMasterModel model);
         List<QuotationMasterModel> QuotationListByTypeIdAndForId(int typeId, long forId);
+        QuotationSubmitMasterModel GetQuotationByQuotationSubmitMasterId(long id);
         #endregion
 
         #region Comparatative Statement

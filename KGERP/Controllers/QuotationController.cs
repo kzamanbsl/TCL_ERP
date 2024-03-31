@@ -210,9 +210,9 @@ namespace KGERP.Controllers
         {
             QuotationSubmitMasterModel viewModel = new QuotationSubmitMasterModel();
             viewModel.CompanyFK = companyId;
-            if(quotationSubmitMasterId > 0)
-            {;
-                viewModel.QuotationSubmitMasterId = quotationSubmitMasterId;
+            if (quotationSubmitMasterId > 0)
+            {
+                viewModel = _Service.GetQuotationByQuotationSubmitMasterId(quotationSubmitMasterId);
             }
             viewModel.QuotationForList = new SelectList(await _Service.GetQuotationForList(companyId), "QuotationForId", "Name");
             return View(viewModel);
