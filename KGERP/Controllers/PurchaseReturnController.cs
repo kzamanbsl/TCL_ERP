@@ -261,6 +261,7 @@ namespace KGERP.Controllers
             vm.CompanyId = companyId;
             return View(vm);
         }
+
         [HttpPost]
         [SessionExpire]
         public async Task<ActionResult> ReturnList(StoreModel model)

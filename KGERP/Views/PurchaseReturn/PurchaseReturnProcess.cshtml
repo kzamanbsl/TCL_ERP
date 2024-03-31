@@ -1,10 +1,12 @@
 ﻿@model KGERP.Service.ServiceModel.PurchaseReturnnewViewModel
+
 @{
     ViewBag.Title = "Purchase Return";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var productType = Request.QueryString["productType"];
     var message = TempData["message"];
 }
+
 <style>
     span.error {
         display: block;
@@ -55,8 +57,6 @@
                 PurchaseReturn
             </span>
         }
-
-
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
@@ -77,14 +77,10 @@
                 @Html.HiddenFor(x => x.PurchaseReturnDetailId, new { @id = "hfPurchaseReturnDetailId" })
 
                 <div class="box-danger">
-
-                    <!-- /.box-header -->
                     <div class="box-body">
                         <h4> @Model.message</h4>
-
                         @if (Model.PurchaseReturnId == 0)
                         {
-
                             <div class="row">
                                 <div class="col-md-3 mb-2">
                                     <div class="input-group">
@@ -171,8 +167,6 @@
                                     </div>
                                 </div>
 
-
-
                                 <div class="col-md-6 mb-2">
                                     <div class="input-group">
                                         @Html.LabelFor(model => model.ReferenceNo, htmlAttributes: new { @class = "control-label" })
@@ -187,58 +181,49 @@
 
                             <table class="table">
                                 <tr>
-                                    <th style="width:18%">
-                                        Return No
-                                    </th>
+                                    <th style="width:18%">Return No</th>
                                     <th style="width:2%">:</th>
-                                    <td style="width:30%">
-                                        <label class="col-form-label">@Model.ReturnNo</label>
-                                    </td>
+                                    <td style="width:30%"><label class="col-form-label">@Model.ReturnNo</label></td>
+
                                     <th style="width:18%"> PRF Date</th>
                                     <th style="width:2%">:</th>
-                                    <td style="width:30%">@Model.ReturnDate.Value.ToString();</td>
-                                </tr>
-                                <tr>
-
-                                    <th>Product Type</th>
-                                    <th>:</th>
-                                    <td>@Model.ProductType</td>
-                                    <th>Created By</th>
-                                    <th>:</th>
-                                    <td>@Model.CreatedBy</td>
-
+                                    <td style="width:30%">@Model.ReturnDate.Value.ToString("dd/MM/yyyy");</td>
                                 </tr>
 
                                 <tr>
-                                    <th style="width:18%">
-                                        Supplier Name
-                                    </th>
+                                    <th style="width:18%">Supplier Name</th>
                                     <th style="width:2%">:</th>
-                                    <td style="width:30%">
-                                        <label class="col-form-label">@Model.SupplierName</label>
+                                    <td style="width:30%"><label class="col-form-label">@Model.SupplierName</label></td>
 
-
-                                    </td>
                                     <th style="width:18%"> StockInfo Name </th>
                                     <th style="width:2%">:</th>
                                     <td style="width:30%">@Model.StockInfoName</td>
                                 </tr>
 
-                            </table>
+                                <tr>
+                                    <th>Created By</th>
+                                    <th>:</th>
+                                    <td>@Model.CreatedBy</td>
 
+                                    @*<th>Product Type</th>
+                                        <th>:</th>
+                                        <td>@Model.ProductType</td>*@
+                                    <th></th>
+                                    <th></th>
+                                    <td></td>
+                                </tr>
+
+
+                            </table>
                         }
 
-
-
-
                         <div class="box-body">
-
 
                             @if (Model.IsSubmited == false)
                             {
                                 <table class="table table-responsive">
                                     <tr style="background-color:#3c8dbc;color:#ffffff">
-                                        <th>Product</th>
+                                        <th>Material/Item Name</th>
                                         <th>Return Quantity</th>
                                         <th>Return Rate</th>
                                         <th>Return Amount</th>
@@ -259,7 +244,6 @@
                                             <br />
                                             @Html.ValidationMessageFor(model => model.Qty, "", new { @class = "text-danger" })
                                         </td>
-
                                         <td>
                                             @Html.EditorFor(model => model.Rate, new { htmlAttributes = new { id = "Rate", @class = "form-control", @autocomplete = "off" } })
                                             <br />
@@ -271,14 +255,9 @@
                                         </td>
                                         @if (Model.PurchaseReturnId > 0)
                                         {
-
                                             <td class="text-right">
-
                                                 <button style="margin-right:5px" type="submit" id="poCreateBtn" class="btn btn-primary"><span id="changetextId">Add</span> </button>
-
-                                                <span id="cancalId">
-                                                    <a class="btn btn-danger" onclick="makecancal()">Cancel</a>
-                                                </span>
+                                                <span id="cancalId"><a class="btn btn-danger" onclick="makecancal()">Cancel</a> </span>
                                             </td>
                                         }
 
@@ -288,14 +267,14 @@
 
                             <br />
 
-
                             @if (Model.PurchaseReturnId > 0)
                             {
 
                                 <table id="KgErpDataTable" class="table table-striped">
+
                                     <thead>
                                         <tr>
-                                            <th>Product</th>
+                                            <th>Material/Item Name</th>
                                             <th>Return Quantity</th>
                                             <th>Return Rate</th>
                                             <th>Total Amount</th>
@@ -304,6 +283,7 @@
                                                 <th>&nbsp;</th>
                                             }
                                     </thead>
+
                                     <tbody>
                                         @foreach (var item in Model.PurchaseReturnDetailItem)
                                         {
@@ -322,16 +302,15 @@
                                                 @if (Model.IsSubmited == false)
                                                 {
                                                     <td>
-
                                                         <a onclick="makeEdit(@item.PurchaseReturnDetailId)" style="color:black" class="linkPointer" title="Edit" data-placement="top"> <i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></a>
                                                         <a id="linkVoucherId_@item.PurchaseReturnDetailId" onclick="makeDeletale(@item.PurchaseReturnDetailId)" style="color:red" class="linkPointer" data-toggle="modal" data-target="#deleteVoucherModal" title="Delete" data-placement="top"> <i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>
-
                                                     </td>
                                                 }
                                             </tr>
                                         }
-                                       
+
                                     </tbody>
+
                                     <tfoot>
                                         <tr>
                                             <th></th>
@@ -348,6 +327,7 @@
 
                             }
                         </div>
+
                         <div class="box-footer">
                             <div class="row">
                                 <div class="col-md-8">
@@ -364,9 +344,8 @@
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
+
                     <div class="box-footer">
                         @if (Model.PurchaseReturnId > 0)
                         {
@@ -523,12 +502,9 @@
 
         $("#txtSupplierName").autocomplete({
                 source: function (request, response) {
-                    //console.log(request);
-                    //console.log(response);
 
                     $.ajax({
-                        url:"@Url.Action("GetAutoCompleteSupplierGet", "Procurement")",// '/AccountHeads/AutoComplete/',
-                        //data: "{ 'prefix': '" + request.term + "'}",
+                        url:"@Url.Action("GetAutoCompleteSupplierGet", "Procurement")",
                         data: { prefix: request.term, companyId: companyId },
                         dataType: "json",
                         type: "get",
@@ -552,7 +528,8 @@
                     $("#hfSupplierId").val(i.item.val);
 
                     },
-                minLength: 1,
+            minLength: 1,
+
             cache: true,
             change: function (event, ui) {
                 loadSupplierInformation(ui.item.val);
@@ -561,7 +538,6 @@
             }).focus(function () {
                 $(this).autocomplete("search");
             });
-
 
         });
 
@@ -574,7 +550,6 @@
                 cache: false,
                 success: function (data) {
                     var result = JSON.parse(data);
-                    console.log(result);
                     $('#SupplierName').val(result.ContactName);
                     $('#Address').val(result.Address);
                     $('#hfSupplierAccoutHeadId').val(result.HeadGLId);
@@ -604,7 +579,6 @@
 
                     $.ajax({
                         url:"@Url.Action("AutoCompleteProductGet", "Configuration")",
-                        //data: "{ 'prefix': '" + request.term + "'}",
                         data: { companyId: "@Model.CompanyId", prefix: request.term, productType : "R" },
                         dataType: "json",
                         type: "get",
@@ -623,8 +597,6 @@
                         }
                     });
 
-
-
                 },
                 select: function (e, i) {
                     $("#hfProductId").val(i.item.val);
@@ -640,7 +612,6 @@
                 source: function (request, response) {
                     $.ajax({
                         url: '/Employee/EmployeeAutoComplete/',
-                        //data: "{ 'prefix': '" + request.term + "'}",
                         data: '{"prefix":"' + request.term + '", "productType":"F"}',
                         dataType: "json",
                         type: "POST",
@@ -707,12 +678,9 @@
         $('#amount').val(parseFloat(qty * unitPrice).toFixed(2));
     });
 
-
-
         function makeEdit(row) {
             var data=@Html.Raw(Json.Encode(Model.PurchaseReturnDetailItem));
             var datalist = data.find(d => d.PurchaseReturnDetailId == row);
-            console.log(datalist);
 
             $('#ProductName').val(datalist.CatagoryName+"-"+datalist.SubCatagoryName+"-"+ datalist.ProductName);
             $('#hfProductId').val(datalist.ProductId);
@@ -722,6 +690,7 @@
             $('#changetextId').text("Update");
             $('#cancalId').show();
         }
+
         function makecancal() {
             $('#ProductName').val("");
             $('#hfProductId').val(0);
