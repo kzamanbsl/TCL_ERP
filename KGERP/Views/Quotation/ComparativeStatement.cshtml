@@ -78,9 +78,16 @@
                             <div class="table-responsive" style="margin: 50px 0;">
                                 @foreach (var group in temData.QuotationSubmitDetailModelList.GroupBy(q => q.SupplierId).ToList())
                                 {
-                                    <table class="table-bordered" style="width: 100%; border-bottom: 0px solid black !important;">
-                                        <caption>Vendor Name: @(group.FirstOrDefault()?.SupplierName ?? "N/A")</caption>
-                                        <tr>
+                                    <table class="table table-bordered" style="margin-bottom: 15px;">
+                                        <tr class="btn-primary">
+                                            <td colspan="2" width="50%">
+                                                <h4 class="text-white">Vendor Name: @(group.FirstOrDefault()?.SupplierName ?? "N/A")</h4>
+                                            </td>
+                                            <td colspan="2" width="50%">
+                                                <button class="btn btn-primary place-work-order" style="width: 100%; border-radius: 0; border: none;">Place Work Order</button>
+                                            </td>
+                                        </tr>
+                                        <tr class="bg-gray">
                                             <th>Material Name</th>
                                             <th>Quantity</th>
                                             <th>Unit Price</th>
@@ -97,6 +104,7 @@
                                         }
                                     </table>
                                 }
+
                             </div>
                         }
 
@@ -115,14 +123,12 @@
 @section scripts {
 
     <script type="text/javascript">
-        function PrintStatement() {
-            var divContents = document.querySelector('.table-responsive').innerHTML;
-            var printWindow = window.open('', '', 'height=400,width=800');
-            printWindow.document.write('<html><head><title>Print</title></head><body>');
-            printWindow.document.write(divContents);
-            printWindow.document.write('</body></html>');
-            printWindow.document.close();
-            printWindow.print();
-        }
+        $(document).ready(function () {
+            $(".place-work-order").click(function () {
+                var $btn = $(this);
+                $(".place-work-order").not($btn).hide();
+            });
+        });
+
     </script>
 }
