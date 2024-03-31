@@ -9,11 +9,11 @@ namespace KGERP.Service.Interface
 {
     public interface IQuotationService
     {
-        #region Quotation Type
+        #region Quotation For
         Task<bool> Add(QuotationForModel model);
         Task<bool> Edit(QuotationForModel model);
         Task<bool> Delete(QuotationForModel model);
-        Task<List<QuotationForModel>> GetQuotationTypeList(int companyId);
+        Task<List<QuotationForModel>> GetQuotationForList(int companyId);
         #endregion
 
         #region Quotation Master
@@ -36,6 +36,10 @@ namespace KGERP.Service.Interface
         long QuotationDetailEdit(QuotationMasterModel model);
         Task<QuotationDetailModel> QuotationDetailBbyId(long id);
         Task<long> QuotationDetailDelete(long id);
+        #endregion
+
+        #region Quotation Submit
+        List<QuotationMasterModel> QuotationListByTypeIdAndForId(int typeId, long forId);
         #endregion
 
         #region Comparatative Statement

@@ -640,34 +640,5 @@
             $("#inputQuality").removeClass("col-md-4").addClass("col-md-3");
             $("#inputQuantity").removeClass("col-md-4").addClass("col-md-3");
         }
-
-        $("#txtSupplierName").autocomplete({
-            source: function (request, response) {
-                $.ajax({
-                    url:"@Url.Action("GetAutoCompleteSupplierGet", "Procurement")",
-                    data: { prefix: request.term, companyId: @Model.CompanyFK },
-                    dataType: "json",
-                    type: "get",
-                    cache: true,
-                    contentType: "application/json; charset=utf-8",
-                    success: function (data) {
-                       response($.map(data, function (item) {
-                           return item;
-                       }))
-                    }
-                });
-            },
-
-            select: function (e, i) {
-                $("#ddlCommon_SupplierFK").val(i.item.val);
-
-                },
-            minLength: 1,
-            cache: true
-
-        }).focus(function () {
-            $(this).autocomplete("search");
-        });
-
     </script>
 }

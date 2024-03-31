@@ -67,6 +67,7 @@ namespace KGERP.Service.ServiceModel
         public string QuotationNo { get; set; }
         public long QuotationDetailId { get; set; }
         public long QuotationForId { get; set; }
+        public long QuotationTypeId { get; set; }
         public string QuotationForName { get; set; }
         public long MaterialId { get; set; }
         public string MaterialName { get; set; }
@@ -76,8 +77,9 @@ namespace KGERP.Service.ServiceModel
         public Decimal UnitPrice { get; set; }
         public Decimal TotalAmount { get; set; }
         public DateTime SubmissionDate { get; set; }
-        public SelectList QuotationList { get; set; } = new SelectList(new List<object>());
+        public SelectList QuotationTypeList { get; set; } = new SelectList(Enum.GetValues(typeof(EnumQuotationType)).Cast<EnumQuotationType>().Select(e => new SelectListItem { Text = e.ToString(), Value = ((int)e).ToString() }), "Value", "Text");
         public SelectList QuotationForList { get; set; } = new SelectList(new List<object>());
+        public SelectList QuotationList { get; set; } = new SelectList(new List<object>());
         public List<QuotationDetailModel> QuotationDetailModelList { get; set; } = new List<QuotationDetailModel>();
     }
 

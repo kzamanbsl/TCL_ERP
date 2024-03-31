@@ -53,7 +53,7 @@
                             @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyId" })
                             <div class="row">
 
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="form-label">Submission Date<sup class="text-danger" title="Required">*</sup></label>
                                         <input name="SubmissionDate" asp-for="SubmissionDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker w-100 dateCustom" autocomplete="off" id="txtFromDate">
@@ -61,23 +61,40 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="form-label">Quotation Type<sup class="text-danger" title="Required">*</sup></label>
-                                        @Html.DropDownListFor(model => model.QuotationForId, Model.QuotationForList as SelectList, "==Quotation Type==", new { id = "ddlQuotationType", @class = "form-control ddlReset searchingDropdown", style = "width:100%", required = "required" })
+                                        @Html.DropDownListFor(model => model.QuotationForId, Model.QuotationTypeList as SelectList, "==Quotation Type==", new { id = "ddlQuotationType", @class = "form-control ddlReset searchingDropdown", style = "width:100%", required = "required" })
                                         @Html.ValidationMessageFor(model => model.QuotationForId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
 
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <div class="form-group">
-                                        <label class="form-label">Quotation Type<sup class="text-danger" title="Required">*</sup></label>
-                                        @Html.DropDownListFor(model => model.QuotationMasterId, Model.QuotationList as SelectList, "==Quotation Type==", new { id = "ddlQuotationType", @class = "form-control ddlReset searchingDropdown", style = "width:100%", required = "required" })
+                                        <label class="form-label">Quotation For<sup class="text-danger" title="Required">*</sup></label>
+                                        @Html.DropDownListFor(model => model.QuotationMasterId, Model.QuotationForList as SelectList, "==Quotation For==", new { id = "ddlQuotationFor", @class = "form-control ddlReset searchingDropdown", style = "width:100%", required = "required" })
                                         @Html.ValidationMessageFor(model => model.QuotationMasterId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
 
-                                <div class="col-md-3">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Select Quotation<sup class="text-danger" title="Required">*</sup></label>
+                                        @Html.DropDownListFor(model => model.QuotationMasterId, Model.QuotationList as SelectList, "==Select Quotation==", new { id = "ddlQuotationId", @class = "form-control ddlReset searchingDropdown", style = "width:100%", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.QuotationMasterId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Supplier/Party<sup class="text-danger" title="Required">*</sup></label>
+                                        @Html.EditorFor(model => model.SupplierName, new { htmlAttributes = new { @autocomplete = "on", @class = "form-control", @name = "Supplier Name", @id = "txtSupplierName", required = "required" } })
+                                        @Html.HiddenFor(model => model.SupplierId, new { id = "ddlCommon_SupplierFK" })
+                                        @Html.ValidationMessageFor(model => model.SupplierId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label>&nbsp;</label>
                                         <button type="submit" id="btnSave" class="btn btn-primary btn-block">Search</button>
@@ -92,47 +109,6 @@
     </div>
 </section>
 
-@using (Html.BeginForm("DeleteQuotationMaster", "Quotation", FormMethod.Post))
-{
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="modal fade" id="deleteFoodCustomerOrderModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
-                        &times;
-                    </button>
-                    <h5 class="modal-title"><b>Delete Quotation</b></h5>
-                </div>
-
-                <div class="modal-body">
-
-                    @Html.AntiForgeryToken()
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-                    @Html.HiddenFor(model => model.QuotationMasterId, new { id = "hiddenQuotationMasterId" })
-                    @Html.HiddenFor(model => model.CompanyFK, new { id = "hiddenCompanyFK" })
-                    @Html.HiddenFor(model => model.ActionId, new { id = "deleteActionId" })
-
-                    <div style="text-align:center">
-                        <h3>Are you sure to Delete this item?</h3>
-                    </div>
-                </div>
-
-                <div class="modal-footer">
-                    <div class="col-md-3">
-                        <button type="button" onclick="resetDamageEditForm()" class="btn btn-warning fa fa-close" data-dismiss="modal">&nbsp;NO</button>
-                    </div>
-                    <div class="col-md-9">
-                        <button type="submit" id="btnsave" style="width:100%" class="btn btn-primary fa fa-remove">&nbsp; Delete</button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-}
 
 
 @Scripts.Render("~/bundles/jqueryui")
@@ -155,5 +131,82 @@
             $('#hiddenCompanyFK').val(@Model.CompanyFK);
             $('#deleteActionId').val(3);
         }
+
+        $('#ddlQuotationType').on('change', function () {
+            var typeId = $('#ddlQuotationType').val();
+            var forId = $('#ddlQuotationFor').val();
+            var quotationList = $('#ddlQuotationId');
+
+            $.ajax({
+                url: '/Quotation/GetQuotationListFilteredByTypeAndFor',
+                type: 'GET',
+                contentType: 'application/json',
+                data: { typeId: typeId, forId: forId },
+                success: function (response) {
+                    console.log(response);
+                    quotationList.empty();
+                    quotationList.append("<option selected disabled>==Select Quotation==</option>");
+                    $.each(response, function (index, item) {
+                        quotationList.append($('<option>', {
+                            value: item.QuotationMasterId,
+                            text: item.QuotationNo
+                        }));
+                    });
+                }
+            });
+        });
+
+        $('#ddlQuotationFor').on('change', function () {
+            var typeId = $('#ddlQuotationType').val();
+            var forId = $('#ddlQuotationFor').val();
+            var quotationList = $('#ddlQuotationId');
+
+            $.ajax({
+                url: '/Quotation/GetQuotationListFilteredByTypeAndFor',
+                type: 'GET',
+                contentType: 'application/json',
+                data: { typeId: typeId, forId: forId },
+                success: function (response) {
+                    console.log(response);
+                    quotationList.empty();
+                    quotationList.append("<option selected disabled>==Select Quotation==</option>");
+                    $.each(response, function (index, item) {
+                        quotationList.append($('<option>', {
+                            value: item.QuotationMasterId,
+                            text: item.QuotationNo
+                        }));
+                    });
+                }
+            });
+        });
+
+        $("#txtSupplierName").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url:"@Url.Action("GetAutoCompleteSupplierGet", "Procurement")",
+                    data: { prefix: request.term, companyId: @Model.CompanyFK },
+                    dataType: "json",
+                    type: "get",
+                    cache: true,
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                       response($.map(data, function (item) {
+                           return item;
+                       }))
+                    }
+                });
+            },
+
+            select: function (e, i) {
+                $("#ddlCommon_SupplierFK").val(i.item.val);
+
+                },
+            minLength: 1,
+            cache: true
+
+        }).focus(function () {
+            $(this).autocomplete("search");
+        });
+
     </script>
 }
