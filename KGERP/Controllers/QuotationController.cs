@@ -43,7 +43,7 @@ namespace KGERP.Controllers
         {
             QuotationForModel viewData = new QuotationForModel();
             viewData.CompanyFK = companyId;
-            viewData.QuotationForList = await _Service.GetQuotationTypeList(companyId);
+            viewData.QuotationForList = await _Service.GetQuotationForList(companyId);
             return View(viewData);
         }
 
@@ -84,7 +84,7 @@ namespace KGERP.Controllers
                 viewData.CompanyFK = companyId;
                 viewData.StatusId = (int)EnumQuotationStatus.Draft;
                 viewData.RequisitionList = new SelectList(_RequisitionService.ApprovedRequisitionList(companyId), "Value", "Text");
-                viewData.QuotationForList = new SelectList(await _Service.GetQuotationTypeList(companyId), "QuotationForId", "Name");
+                viewData.QuotationForList = new SelectList(await _Service.GetQuotationForList(companyId), "QuotationForId", "Name");
             }
             else
             {
@@ -206,17 +206,27 @@ namespace KGERP.Controllers
 
         #region Quotation Submit
         [HttpGet]
-        public ActionResult QuotationSubmit(int companyId)
+        public async Task<ActionResult> QuotationSubmit(int companyId, long quotationSubmitId = 0)
         {
             QuotationSubmitModel viewModel = new QuotationSubmitModel();
             viewModel.CompanyFK = companyId;
+            viewModel.QuotationForList = new SelectList(await _Service.GetQuotationForList(companyId), "QuotationForId", "Name");
             return View(viewModel);
         }
 
         [HttpPost]
         public ActionResult QuotationSubmit(QuotationSubmitModel model)
         {
-            return View();
+            QuotationSubmitModel viewModel = new QuotationSubmitModel();
+            return RedirectToAction(nameof(QuotationSubmit), new { companyId = 21, quotationSubmitId = 3 });
+        }
+
+        [HttpGet]
+        public JsonResult GetQuotationListFilteredByTypeAndFor(int typeId, long forId)
+        {
+            var data = _Service.QuotationListByTypeIdAndForId(typeId, forId);
+
+            return Json(data, JsonRequestBehavior.AllowGet);
         }
         #endregion
 

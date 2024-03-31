@@ -514,6 +514,38 @@ namespace KGERP.Service.Implementation
             return quotationMasterModel;
         }
 
+        public List<QuotationMasterModel> QuotationListByTypeIdAndForId(int typeId, long forId)
+        {
+            var QuotationList = (from t1 in _context.QuotationMasters.Where(x => x.IsActive)
+                                 join t2 in _context.QuotationFors on t1.QuotationForId equals t2.QuotationForId into t2_Join
+                                 from t2 in t2_Join.DefaultIfEmpty()
+                                 join t3 in _context.BillRequisitionMasters on t1.BillRequisitionMasterId equals t3.BillRequisitionMasterId into t3_Join
+                                 from t3 in t3_Join.DefaultIfEmpty()
+                                 join t4 in _context.Employees on t1.CreatedBy equals t4.EmployeeId into t4_Join
+                                 from t4 in t4_Join.DefaultIfEmpty()
+                                 where t1.QuotationTypeId == typeId && t1.QuotationForId == forId && t1.StatusId == (int)EnumQuotationStatus.Opened
+                                 select new QuotationMasterModel
+                                 {
+                                     QuotationMasterId = t1.QuotationMasterId,
+                                     QuotationNo = t1.QuotationNo,
+                                     QuotationTypeId = (int)(EnumQuotationType)t1.QuotationTypeId,
+                                     QuotationForId = t1.QuotationForId,
+                                     QuotationForName = t2.Name,
+                                     RequisitionId = t1.BillRequisitionMasterId != null ? (long)t1.BillRequisitionMasterId : 0,
+                                     RequisitionNo = t3 != null ? t3.BillRequisitionNo ?? "N/A" : "N/A",
+                                     StartDate = t1.StartDate ?? DateTime.MinValue,
+                                     EndDate = t1.EndDate ?? DateTime.MinValue,
+                                     Description = t1.Description ?? "N/A",
+                                     StatusId = (int)(EnumQuotationStatus)t1.StatusId,
+                                     CreatedDate = t1.CreatedOn,
+                                     CreatedBy = t1.CreatedBy,
+                                     EmployeeName = t1.CreatedBy + " - " + (t4 != null ? t4.Name : "N/A"),
+                                     CompanyFK = 21
+                                 }).ToList();
+
+            return QuotationList;
+        }
+
         public async Task<QuotationCompareModel> GetComparedQuotation(long quotationIdOne, long quotationIdTwo)
         {
             QuotationCompareModel quotationCompareModel = new QuotationCompareModel();
@@ -623,7 +655,7 @@ namespace KGERP.Service.Implementation
 
         #region  Project Type
 
-        public async Task<List<QuotationForModel>> GetQuotationTypeList(int companyId)
+        public async Task<List<QuotationForModel>> GetQuotationForList(int companyId)
         {
             List<QuotationForModel> sendData = await Task.Run(() => (from t1 in _context.QuotationFors.Where(x => x.IsActive)
                                                                      select new QuotationForModel
@@ -699,7 +731,6 @@ namespace KGERP.Service.Implementation
             }
             return result;
         }
-
         #endregion
     }
 }

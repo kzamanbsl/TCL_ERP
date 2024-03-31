@@ -664,15 +664,6 @@ namespace KGERP.Controllers
             return View(billRequisitionMaster);
         }
 
-        //[HttpPost]
-        //public ActionResult BudgetAndEstimatingApprovalList(BillRequisitionMasterModel model)
-        //{
-
-        //    BillRequisitionMasterModel billRequisitionMaster= new BillRequisitionMasterModel();
-
-        //    return  View(billRequisitionMaster);  
-        //}
-
         [HttpGet]
         public async Task<ActionResult> BudgetAndEstimatingApproval(int companyId = 0)
         {
@@ -717,20 +708,12 @@ namespace KGERP.Controllers
         public async Task<ActionResult> BudgetAndEstimatingApprovalProcess(BillRequisitionItemBoQMapModel masterModel)
         {
 
-            //// BillRequisitionItemBoQMapModel billRequisitionMaster= new BillRequisitionItemBoQMapModel();
-            //if (masterModel != null)
-            //{
-            //    await _service.BoqAndEstimatingItemApproved(masterModel);
-
-            //    //billRequisitionMasterModel.VoucherPaymentStatus = await _service.GetRequisitionVoucherStatusMd(billRequisitionMasterId);
-            //    //billRequisitionMaster.DetailDataList = billRequisitionMaster.DetailList.ToList();
-            //}
             if (masterModel != null)
             {
                 masterModel.BoQItemProductMapId = await _service.BoqAndEstimatingItemApproved(masterModel);
             }
 
-            return RedirectToAction(nameof(BudgetAndEstimatingApproval), new { BillRequisitionItemBoQMapModel = masterModel });
+            return RedirectToAction(nameof(BudgetAndEstimatingApproval), new { companyId = CompanyInfo.CompanyId });
         }
 
 
