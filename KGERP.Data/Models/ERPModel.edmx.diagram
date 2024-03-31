@@ -590,9 +590,9 @@
         <EntityTypeShape EntityType="ERPModel.QuotationSubmitDetail" Width="1.5" PointX="79.125" PointY="31.625" />
         <EntityTypeShape EntityType="ERPModel.QuotationSubmitMaster" Width="1.5" PointX="76.875" PointY="41" />
         <AssociationConnector Association="ERPModel.FK_QuotationSubmitDetail_Product" />
-        <AssociationConnector Association="ERPModel.FK_QuotationSubmit_QuotationMaster" />
+        <AssociationConnector Association="ERPModel.FK_QuotationSubmitMaster_QuotationMaster" />
         <AssociationConnector Association="ERPModel.FK_QuotationSubmitDetail_QuotationSubmitMaster" />
-        <AssociationConnector Association="ERPModel.FK_QuotationSubmit_QuotationSubmit" />
+        <AssociationConnector Association="ERPModel.FK_QuotationSubmitMaster_Vendor" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
