@@ -92,7 +92,7 @@ namespace KGERP.Service.Implementation.Warehouse
         public int ReceiveGoods { get; set; }
     }
 
-    
+
     public class VMWarehousePOReceivingSlave : VMWareHousePOReceiving
     {
 
@@ -182,7 +182,6 @@ namespace KGERP.Service.Implementation.Warehouse
     }
     public class VMWareHousePOReturnSlavePartial : BaseVM
     {
-
         public int Procurement_PurchaseOrderSlaveFk { get; set; }
         public decimal ReturnQuantity { get; set; } = 0;
         public decimal UnitPrice { get; set; } = 0;
@@ -196,52 +195,56 @@ namespace KGERP.Service.Implementation.Warehouse
         public long MaterialRecieveDetailId { get; set; }
         public string ProductName { get; set; }
         public string ProductDescription { get; set; }
-
-        public List<VMWareHousePOReturnSlavePartial> DataListSlavePartial { get; set; }
+        public string UnitName{ get; set; }
         public decimal PriviousReturnQuantity { get; set; }
         public string POCID { get; set; }
         public string ChallanCID { get; set; }
+
+        public List<VMWareHousePOReturnSlavePartial> DataListSlavePartial { get; set; }
         public List<SelectModel> Vendors { get; set; }
         public List<SelectModel> PurchaseOrders { get; set; }
         public List<SelectModel> StockInfos { get; set; }
         public List<SelectModel> BagWeights { get; set; }
     }
+
     public class VMWarehousePOReturnSlave : VMWareHousePOReceiving
     {
         internal DateTime? ReturnDate;
 
-    public long MaterialReceiveId { get; set; }
-    public long MaterialReceiveDetailId { get; set; }
-    public long PurchaseReturnId { get; set; }
-    public int Procurement_PurchaseOrderSlaveFk { get; set; }
-    public decimal ReturnQuantity { get; set; } = 0;
-    public decimal UnitPrice { get; set; } = 0;
-    public decimal Rate { get; set; } = 0;
-    public decimal Total { get; set; } = 0;
-    public int? AccountingHeadId { get; set; }
-    public int? AccountingIncomeHeadId { get; set; }
-    public decimal? COGS { get; set; }
-    public decimal POQuantity { get; set; } = 0;
-    public decimal PriviousReceivedQuantity { get; set; } = 0;
-    public decimal RemainingQuantity { get; set; } = 0;
-    public string CausesOfReturn { get; set; }
+        public long MaterialReceiveId { get; set; }
+        public long MaterialReceiveDetailId { get; set; }
+        public long PurchaseReturnId { get; set; }
+        public int Procurement_PurchaseOrderSlaveFk { get; set; }
+        public decimal ReturnQuantity { get; set; } = 0;
+        public decimal UnitPrice { get; set; } = 0;
+        public decimal Rate { get; set; } = 0;
+        public decimal Total { get; set; } = 0;
+        public int? AccountingHeadId { get; set; }
+        public int? AccountingIncomeHeadId { get; set; }
+        public decimal? COGS { get; set; }
+        public decimal POQuantity { get; set; } = 0;
+        public decimal PriviousReceivedQuantity { get; set; } = 0;
+        public decimal RemainingQuantity { get; set; } = 0;
+        public string CausesOfReturn { get; set; }
 
-    public decimal StockLossQuantity { get; set; } = 0;
-    public bool IsReturn { get; set; }
+        public decimal StockLossQuantity { get; set; } = 0;
+        public bool IsReturn { get; set; }
 
-    public string ProductName { get; set; }
-    public string ProductDescription { get; set; }
+        public string ProductName { get; set; }
+        public string ProductDescription { get; set; }
+        public DateTime? DeliveryDate { get; set; }
+        public string DeliveryAddress { get; set; }
 
-    public IEnumerable<VMWarehousePOReturnSlave> DataListSlave { get; set; }
+        public string CompanyAddress { get; set; }
+        public string CompanyEmail { get; set; }
+        public string CompanyPhone { get; set; }
+        public string ReturnNo { get; internal set; }
+        public string UnitName { get; internal set; }
 
-    public DateTime? DeliveryDate { get; set; }
-    public string DeliveryAddress { get; set; }
+        public IEnumerable<VMWarehousePOReturnSlave> DataListSlave { get; set; }
 
-    public string CompanyAddress { get; set; }
-    public string CompanyEmail { get; set; }
-    public string CompanyPhone { get; set; }
-    public string ReturnNo { get; internal set; }
-}
+
+    }
 
     public class VMWarehousePOReceivingSlavePartial : BaseVM
     {
@@ -532,11 +535,11 @@ namespace KGERP.Service.Implementation.Warehouse
         public SelectList ProductCategoryList { get; set; } = new SelectList(new List<object>());
         public SelectList ProductSubCategoryList { get; set; } = new SelectList(new List<object>());
         public SelectList ProductList { get; set; } = new SelectList(new List<object>());
-       
+
         public SelectList ZoneList { get; set; } = new SelectList(new List<object>());
         public int ProductSubCategoryId { get; set; }
         public int ProductCategoryId { get; set; }
-       
+
         public int ZoneFk { get; set; }
     }
     public partial class VMSaleReturnDetailPartial : VMSaleReturn

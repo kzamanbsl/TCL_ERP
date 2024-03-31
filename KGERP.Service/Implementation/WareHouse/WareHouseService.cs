@@ -468,7 +468,8 @@ namespace KGERP.Service.Implementation.Warehouse
                                                                                   ChallanCID = t2.ReceiveNo,
                                                                                   Challan = t2.ChallanNo,
                                                                                   ChallanDate = t2.ChallanDate.Value,
-                                                                                  MaterialReceiveId = t2.MaterialReceiveId
+                                                                                  MaterialReceiveId = t2.MaterialReceiveId,
+                                                                                  UnitName = t8.Name
 
                                                                               }).OrderByDescending(x => x.MaterialReceiveDetailId).AsEnumerable());
 
@@ -1189,6 +1190,7 @@ namespace KGERP.Service.Implementation.Warehouse
                             Procurement_PurchaseOrderSlaveFk = t1.PurchaseOrderDetailFk,
                             PriviousReceivedQuantity = (_db.MaterialReceiveDetails.Where(x => x.PurchaseOrderDetailFk == t1.PurchaseOrderDetailFk && x.IsActive && !x.IsReturn).Select(x => x.ReceiveQty).DefaultIfEmpty(0).Sum()),
                             ReceivedChallanQuantity = t1.ReceiveQty,
+                            UnitName = t8.Name,
                             //PriviousReturnQuantity = (from x in _db.MaterialReceiveDetails
                             //                          join y in _db.MaterialReceives on x.MaterialReceiveId equals y.MaterialReceiveId
                             //                          where
@@ -1576,7 +1578,8 @@ namespace KGERP.Service.Implementation.Warehouse
                                                                                   Common_ProductFk = t5.ProductId,
                                                                                   ProductSubCategory = t6.Name,
                                                                                   PurchasingPrice = t1.UnitPrice,
-                                                                                  MRPPrice = t5.UnitPrice.Value
+                                                                                  MRPPrice = t5.UnitPrice.Value,
+                                                                                  UnitName = t8.Name
                                                                               }).OrderByDescending(x => x.MaterialReceiveDetailId).ToList());
 
             return vmWarehousePoReceivingSlave;
@@ -1637,14 +1640,13 @@ namespace KGERP.Service.Implementation.Warehouse
                                                                                   Rate = (decimal)t1.Rate,
                                                                                   Total = ((decimal)((decimal)t1.Qty * t1.Rate)),
                                                                                   COGS = t1.COGS,
-
+                                                                                  UnitName = t8.Name,
 
                                                                               }).ToList());
 
-
-
             return vmWareHousePOReceivingSlave;
         }
+
         #endregion
 
         public async Task<VMWarehousePOReceivingSlave> GCCLPOReceivingSlaveACPushGet(int companyId, long materialReceiveId)
@@ -3574,7 +3576,7 @@ namespace KGERP.Service.Implementation.Warehouse
                 }
                 vmInventoryDetails.DataList = tempList;
 
-               
+
             }
             catch (Exception ex)
             {
@@ -3601,7 +3603,7 @@ namespace KGERP.Service.Implementation.Warehouse
             {
                 List<OrderDetail> orderDetails = _db.OrderDetails.Where(c => c.OrderMasterId == model.OrderMasterId).ToList();
                 var orderDetailIds = orderDetails.Select(c => c.OrderDetailId).ToList();
-               
+
                 List<OrderDeliverDetail> orderDeliverDetails = _db.OrderDeliverDetails.Where(c => orderDetailIds.Contains(c.OrderDetailId)).ToList();
 
                 if (orderDeliverDetails?.Count > 0 && orderDetails?.Count > 0)
@@ -3609,12 +3611,12 @@ namespace KGERP.Service.Implementation.Warehouse
                     foreach (var orderDetail in orderDetails)
                     {
                         var odDetails = orderDeliverDetails.Where(c => c.ProductId == orderDetail.ProductId).ToList();
-                        if (odDetails?.Count>0)
+                        if (odDetails?.Count > 0)
                         {
-                            orderDetail.Qty = odDetails.Sum(c=>c.DeliveredQty);
-                            orderDetail.Amount = odDetails.Sum(c=>c.DeliveredQty * c.UnitPrice);
+                            orderDetail.Qty = odDetails.Sum(c => c.DeliveredQty);
+                            orderDetail.Amount = odDetails.Sum(c => c.DeliveredQty * c.UnitPrice);
                             orderDetail.DiscountAmount = ((odDetails.FirstOrDefault().SaleCommissionRate * (decimal)orderDetail.Amount) / 100);
-                            orderDetail.PackQuantity = ((orderDetail.Qty*1000)/orderDetail.Comsumption);
+                            orderDetail.PackQuantity = ((orderDetail.Qty * 1000) / orderDetail.Comsumption);
                         }
                     }
                 }

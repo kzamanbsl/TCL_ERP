@@ -90,6 +90,7 @@ namespace KGERP.Service.ServiceModel
         public decimal? COGS { get; set; }
         public int? AccountingHeadId { get; set; }
         public int? AccountingExpenseHeadId { get; set; }
+        public string UnitName { get; set; }
 
     }
 }
