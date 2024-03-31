@@ -13,6 +13,13 @@
     input, select, textarea {
         max-width: 100%;
     }
+    .table-wrapper {
+        max-height: 600px;
+        overflow: auto;
+        display: inline-block;
+    }
+
+
 </style>
 
 <section class="content-header">
@@ -96,72 +103,73 @@
                             //@Html.HiddenFor(model => model.BoQMapVmList, new { id = "BoQMapVmList" })
                             if (Model.BoQItemProductMaps?.Any() ?? false)
                             {
+                                <div class="table-wrapper">
 
-
-                                <table id="KgErpDataTable33" class="table table-bordered table-striped table-responsive">
-                                    <thead>
-                                        <tr class="bg-gray">
-                                            <th>SL</th>
-                                            <th>BoQ Division</th>
-                                            <th>BoQ Name</th>
-                                            <th>Material Type</th>
-                                            <th>Material Subtype</th>
-                                            <th>Material </th>
-                                            <th>Estimated Qty</th>
-                                            <th>Unit Price</th>
-                                            <th>Total Amount</th>
-
-                                            @if (Model.ApprovalStatus == (int)EnumBudgetAndEstimatingApprovalStatus.Revised)
-                                            {
-                                                <th>Action</th>
-                                            }
-
-
-                                        </tr>
-                                    </thead>
-
-                                    <tbody>
-                                        @{
-                                            int i = 0;
-                                        }
-                                        @foreach (var item in Model.BoQItemProductMaps)
-                                        {
-                                            <tr>
-                                                <td>
-                                                    @(++sl)
-                                                </td>
-                                                <td>@item.DivisionName</td>
-                                                <td><small class="label label-primary">@item.BoqNumber</small> @item.BoqName</td>
-                                                <td>@item.MaterialTypeName</td>
-                                                <td>@item.MaterialSubtypeName</td>
-                                                <td>@item.MaterialName</td>
-                                                @if (item.ApprovalStatus == (int)EnumBudgetAndEstimatingApprovalStatus.Pending || Model.ApprovalStatus == (int)EnumBudgetAndEstimatingApprovalStatus.Revised)
-                                                {
-                                                    <td id="tdBoqEstimateQty_@item.BoQItemProductMapId"> @Html.TextBoxFor(model => model.BoQItemProductMaps[i].EstimatedQty, new { @class = "", @Value = @item.EstimatedQty })</td>
-                                                    <td id="tdBoqUnitRate_@item.BoQItemProductMapId"> @Html.TextBoxFor(model => model.BoQItemProductMaps[i].UnitRate, new { @class = "", @Value = @item.UnitRate })</td>
-                                                    @Html.HiddenFor(model => model.BoQItemProductMaps[i].BoQItemProductMapId, new { @Value = @item.BoQItemProductMapId })
-
-                                                }
-                                                else
-                                                {
-                                                    <td id="tdBoqEstimateQty_@item.BoQItemProductMapId">@item.EstimatedQty</td>
-                                                    <td id="tdBoqUnitRate_@item.BoQItemProductMapId">@item.UnitRate</td>
-
-                                                }
-                                                <td class="totalValue" id="tdBoqEstimateAmount_@item.BoQItemProductMapId">@item.EstimatedAmount</td>
+                                    <table @*id="KgErpDataTable33"*@ class="table table-responsive table-bordered table-striped table-fixed">
+                                        <thead>
+                                            <tr class="bg-gray">
+                                                <th>SL</th>
+                                                <th>BoQ Division</th>
+                                                <th>BoQ Name</th>
+                                                <th>Material Type</th>
+                                                <th>Material Subtype</th>
+                                                <th>Material </th>
+                                                <th>Estimated Qty</th>
+                                                <th>Unit Price</th>
+                                                <th>Total Amount</th>
 
                                                 @if (Model.ApprovalStatus == (int)EnumBudgetAndEstimatingApprovalStatus.Revised)
                                                 {
-                                                    <td><a id="reApprovedBtn_@item.BoQItemProductMapId" onclick="revisedApproved(@item.BoQItemProductMapId)" class="btn btn-warning"> Revised </a> </td>
+                                                    <th>Action</th>
                                                 }
 
 
                                             </tr>
+                                        </thead>
 
-                                            i++;
-                                        }
-                                    </tbody>
-                                </table>
+                                        <tbody>
+                                            @{
+                                                int i = 0;
+                                            }
+                                            @foreach (var item in Model.BoQItemProductMaps)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        @(++sl)
+                                                    </td>
+                                                    <td>@item.DivisionName</td>
+                                                    <td><small class="label label-primary">@item.BoqNumber</small> @item.BoqName</td>
+                                                    <td>@item.MaterialTypeName</td>
+                                                    <td>@item.MaterialSubtypeName</td>
+                                                    <td>@item.MaterialName</td>
+                                                    @if (item.ApprovalStatus == (int)EnumBudgetAndEstimatingApprovalStatus.Pending || Model.ApprovalStatus == (int)EnumBudgetAndEstimatingApprovalStatus.Revised)
+                                                    {
+                                                        <td id="tdBoqEstimateQty_@item.BoQItemProductMapId"> @Html.TextBoxFor(model => model.BoQItemProductMaps[i].EstimatedQty, new { @class = "", @Value = @item.EstimatedQty })</td>
+                                                        <td id="tdBoqUnitRate_@item.BoQItemProductMapId"> @Html.TextBoxFor(model => model.BoQItemProductMaps[i].UnitRate, new { @class = "", @Value = @item.UnitRate })</td>
+                                                        @Html.HiddenFor(model => model.BoQItemProductMaps[i].BoQItemProductMapId, new { @Value = @item.BoQItemProductMapId })
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <td id="tdBoqEstimateQty_@item.BoQItemProductMapId">@item.EstimatedQty</td>
+                                                        <td id="tdBoqUnitRate_@item.BoQItemProductMapId">@item.UnitRate</td>
+
+                                                    }
+                                                    <td class="totalValue" id="tdBoqEstimateAmount_@item.BoQItemProductMapId">@item.EstimatedAmount</td>
+
+                                                    @if (Model.ApprovalStatus == (int)EnumBudgetAndEstimatingApprovalStatus.Revised)
+                                                    {
+                                                        <td><a id="reApprovedBtn_@item.BoQItemProductMapId" onclick="revisedApproved(@item.BoQItemProductMapId)" class="btn btn-warning"> Revised </a> </td>
+                                                    }
+
+
+                                                </tr>
+
+                                                i++;
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
                                 if (Model.ApprovalStatus != (int)EnumBudgetAndEstimatingApprovalStatus.Approved)
                                 {
                                     <div class="box-footer">
@@ -348,7 +356,8 @@
 
         function revisedApproved(boqMapId) {
 
-            var estimatedQty = $("#tdBoqEstimateQty_" + boqMapId).find('input').val();
+            var estimatedQty = $("#tdBoqEstimateQty_" + boqMapId).find("input[type='text']").val();;
+           // var estimatedRate = $("#tdBoqUnitRate_" + boqMapId).find("input[type='text']").val();;
             var estimatedQtyId = $("#tdBoqEstimateQty_" + boqMapId);
             var unitQty = $("#tdBoqUnitRate_" + boqMapId).find('input').val();
             var unitQtyId = $("#tdBoqUnitRate_" + boqMapId);
@@ -376,7 +385,8 @@
                     unitQtyId.addClass('readonly');
                     // Select the element by its ID and update its class
                     reApprovedBtn.removeClass("btn-warning").addClass("btn-success");
-
+                    $("#tdBoqEstimateQty_" + boqMapId).find("input[type='text']").prop('disabled', true);
+                    $("#tdBoqUnitRate_" + boqMapId).find("input[type='text']").prop('disabled', true);
 
 
 
