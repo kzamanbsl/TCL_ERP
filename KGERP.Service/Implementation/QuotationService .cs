@@ -552,26 +552,23 @@ namespace KGERP.Service.Implementation
             ComparativeStatementModel viewData = new ComparativeStatementModel();
 
             viewData.QuotationSubmitDetailModelList = await (from t1 in _context.QuotationSubmitMasters
-                                                             join t2 in _context.QuotationSubmitDetails on t1.QuotationSubmitMasterId equals t2.QuotationSubmitMasterId into t2_Join
-                                                             from t2 in t2_Join.DefaultIfEmpty()
-                                                             join t3 in _context.Products on t2.MaterrialId equals t3.ProductId into t3_Join
-                                                             from t3 in t3_Join.DefaultIfEmpty()
-                                                             join t4 in _context.Vendors on t1.SupplierId equals t4.VendorId into t4_Join
-                                                             from t4 in t4_Join.DefaultIfEmpty()
+                                                             join t2 in _context.QuotationSubmitDetails on t1.QuotationSubmitMasterId equals t2.QuotationSubmitMasterId 
+                                                             join t3 in _context.Products on t2.MaterrialId equals t3.ProductId 
+                                                             join t4 in _context.Vendors on t1.SupplierId equals t4.VendorId 
                                                              where t1.QuotationMasterId == quotationMasterId && t1.IsActive
                                                              select new QuotationSubmitDetailModel
                                                              {
-                                                                 QuotationSubmitMasterId = t1.QuotationSubmitMasterId,
-                                                                 QuotationMasterId = t1.QuotationMasterId,
+                                                                 QuotationSubmitMasterId = t1.QuotationSubmitMasterId == null?0: t1.QuotationSubmitMasterId,
+                                                                 QuotationMasterId = t1.QuotationMasterId==null?0:t1.QuotationMasterId,
                                                                  SubmissionDate = t1.SubmissionDate,
-                                                                 QuotationSubmitDetailId = t2.QuotationSubmitDetailId,
-                                                                 MaterialId = t3.ProductId,
+                                                                 QuotationSubmitDetailId = t2.QuotationSubmitDetailId==null?0:t2.QuotationSubmitDetailId,
+                                                                 MaterialId = t3.ProductId==null?0 : t3.ProductId,
                                                                  MaterialName = t3.ProductName ?? "N/A",
-                                                                 SupplierId = t4.VendorId,
+                                                                 SupplierId = t4.VendorId==null?0:t4.VendorId,
                                                                  SupplierName = t4.Name ?? "N/A",
-                                                                 Quantity = t2.Quantity,
-                                                                 UnitPrice = t2.UnitPrice,
-                                                                 TotalAmount = t2.TotalAmount
+                                                                 Quantity = t2.Quantity==null?0 : t2.Quantity,
+                                                                 UnitPrice = t2.UnitPrice==null?0: t2.UnitPrice,
+                                                                 TotalAmount = t2.TotalAmount==null?0: t2.TotalAmount,
                                                              }).ToListAsync();
             viewData.CompanyFK = 21;
 
