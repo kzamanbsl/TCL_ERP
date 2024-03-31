@@ -149,7 +149,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Store Location :</label>
-                                        @Html.DropDownListFor(model => model.StockInfoId, Model.StockInfoList as SelectList, "==Select Store==", new { id = "ddlStoreId", onchange = "GetDivisionListByProjectId()", @class = "form-control searchingDropdown", style = "width:100%", required = "requried" })
+                                        @Html.DropDownListFor(model => model.StockInfoId, Model.StockInfoList as SelectList, "==Select Store==", new { id = "ddlStoreId", @class = "form-control searchingDropdown", style = "width:100%", required = "requried" })
                                         @Html.ValidationMessageFor(model => model.CostCenterId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -174,8 +174,8 @@
                         <div class="row">
                             <div class="col-md-3 d-block" id="MaterialType">
                                 <div class="form-group">
-                                    <label id="materialTitle"> Material Type:</label>
-                                    @Html.DropDownListFor(model => model.DetailModel.ProductId, Model.MaterialTypeList as SelectList, "==Select Material==", new { id = "ddlRequisitionItemId", onchange = "GetUnitNameByProductId()", @class = "form-control searchingDropdown", style = "width:100%", })
+                                    <label id="materialTitle"> Material :</label>
+                                    @Html.DropDownListFor(model => model.DetailModel.ProductId, Model.MaterialTypeList as SelectList, "==Select Material==", new { id = "ddlRequisitionItemId", @class = "form-control searchingDropdown", style = "width:100%", })
                                     @Html.ValidationMessageFor(model => model.DetailModel.ProductId, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -617,23 +617,27 @@
         function GetMaterialListByBoqId() {
             var getBoqItemId = $("#ddlBOQItemId").val();
             var getProjectId = $("#ddlCostCenterId").val();
-            var getStoredId = $("#ddlStoreId").val();
+            //var getStoredId = $("#ddlStoreId").val();
             var showBoqMaterialList = $("#ddlRequisitionItemId");
             $.ajax({
                 type: "GET",
                 url: "/MaterialReceive/GetMaterialReceiveListByBoqItem",
                 dataType: "json",
-                data: { companyId: @CompanyInfo.CompanyId, projectId: getProjectId, storedLocation: getStoredId, BoqItem: getBoqItemId },
+                data: { companyId: @CompanyInfo.CompanyId, projectId: getProjectId,  BoqItem: getBoqItemId },
                 success: function (data) {
                     showBoqMaterialList.empty();
                     showBoqMaterialList.append("<option selected disabled>==Select Material==</option>");
-
+                    console.log(data);
                     $.each(data, function (index, item) {
+                        console.log(item);
+
                         showBoqMaterialList.append($('<option>', {
-                            value: item.value,
-                            text: item.text
+                            value: item.Value,
+                            text: item.Text
                         }));
                     });
+                }, error: function (jqXHR, textStatus, errorThrown) {
+                    console.error("Error:", textStatus, errorThrown);
                 }
             });
         }

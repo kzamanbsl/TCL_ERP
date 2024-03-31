@@ -378,10 +378,10 @@ namespace KGERP.Controllers
             return RedirectToAction("Index", new { companyId = vm.MaterialReceive.CompanyId });
         }
         [HttpGet]
-        public async Task< JsonResult> GetMaterialReceiveListByBoqItem(int companyId, int? projectId, int? storedLocation, int? BoqItem)
+        public async Task<JsonResult> GetMaterialReceiveListByBoqItem(int companyId, int? projectId, int? BoqItem)
         {
             
-           var  result =await  _materialReceiveService.GetMaterialReceiveListByBoqItem(companyId, projectId, storedLocation, BoqItem);
+           var  result =await  _materialReceiveService.GetMaterialReceiveListByBoqItem(companyId, projectId, BoqItem);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 

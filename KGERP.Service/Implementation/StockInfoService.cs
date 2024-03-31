@@ -58,6 +58,7 @@ namespace KGERP.Service.Implementation
 
             }).ToList();
         }
+       
 
         public List<SelectModel> GetFactorySelectModels(int companyId)
         {

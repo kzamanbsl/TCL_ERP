@@ -52,8 +52,8 @@
                                     <div class="form-group">
                                         <label class="control-label">Stock Location:</label>
                                         <div class="">
-                                            @Html.DropDownListFor(model => model.StockInfoId, new SelectList(Model.StockInfoList, "Value", "Text"), "==Select Location==", new { @class = "form-control searchingDropdown", @id = "stockInfoId", required = "required" })
-                                            @Html.ValidationMessageFor(model => model.StockInfoId, "", new { @class = "text-danger" })
+                                            @Html.DropDownListFor(model => model.StockId, new SelectList(Model.Stocks, "Value", "Text"), "==Select Location==", new { @class = "form-control searchingDropdown", @id = "stockInfoId", required = "required" })
+                                            @Html.ValidationMessageFor(model => model.StockId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                 </div>
