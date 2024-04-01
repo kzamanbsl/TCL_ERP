@@ -9,7 +9,7 @@
       <am:Name>SSDTRS</am:Name>
       <am:Version>17.9.34622.214</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2024-03-27T03:46:12.6774904Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2024-04-01T04:55:53.5929292Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
@@ -105,6 +105,10 @@ from Company Where CompanyId=@CompanyId</CommandText>
         <Field Name="PurchaseAmount">
           <DataField>PurchaseAmount</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="costAmount">
+          <DataField>costAmount</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
         </Field>
       </Fields>
     </DataSet>
@@ -656,7 +660,8 @@ from Company Where CompanyId=@CompanyId</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!PurchaseAmount.Value</Value>
+                                  <Label>[costAmount]</Label>
+                                  <Value>=Fields!costAmount.Value</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                   </Style>
@@ -766,7 +771,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
         <Height>2.14805in</Height>
         <Style />
       </Body>
-      <Width>7.46584in</Width>
+      <Width>7.51792in</Width>
       <Page>
         <PageFooter>
           <Height>0.01042in</Height>

@@ -384,6 +384,13 @@ namespace KGERP.Controllers
            var  result =await  _materialReceiveService.GetMaterialReceiveListByBoqItem(companyId, projectId, BoqItem);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+        [HttpGet]
+        public async Task<JsonResult> GetMaterialReceiveLByPurchaseOrderId(int? PurchaseOrderId)
+        {
+            
+           var  result =await  _materialReceiveService.GetMaterialReceiveListByBoqItem(companyId, projectId, BoqItem);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
 
     }
 }

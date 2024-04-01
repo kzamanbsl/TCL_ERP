@@ -5572,7 +5572,7 @@ namespace KGERP.Controllers
             NetworkCredential nwc = new NetworkCredential(_admin, _password);
             WebClient client = new WebClient();
             client.Credentials = nwc;
-            var ReportName = CompanyInfo.ReportPrefix + "ProjectInfoList";
+            var ReportName = CompanyInfo.ReportPrefix + "ProjectStockInfoList";
 
             if (reportModel.ReportType == null)
             {

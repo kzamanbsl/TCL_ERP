@@ -381,6 +381,9 @@
 
             $("#ddlPurchaseOrderId").change(function () {
                 var purchaseOrderId = $('#ddlPurchaseOrderId').val();
+
+
+
                 $.ajax({
                        type: "GET",
                     url: "@Url.Action("GetPurchaseOrderPayableValue", "Procurement")",
