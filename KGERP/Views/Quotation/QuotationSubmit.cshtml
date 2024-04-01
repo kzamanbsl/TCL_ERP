@@ -90,7 +90,7 @@
                                     if (Model.QuotationDetailModelList?.Any() ?? false)
                                     {
                                         <div class="table-wrapper">
-                                            <table class="table table-responsive table-bordered table-striped table-fixed">
+                                            <table class="table table-responsive table-bordered table-striped table-fixed" id="itemTable">
                                                 <thead>
                                                     <tr class="bg-gray">
                                                         <th style="text-align: center !important">SL</th>
@@ -98,7 +98,7 @@
                                                         <th style="text-align: center !important">Quality</th>
                                                         <th style="text-align: center !important">Quantity</th>
                                                         <th style="text-align: center !important">Unit Price</th>
-                                                        <th style="text-align: center !important">Total Amount</th>
+                                                        <th style="text-align: center !important">Total</th>
                                                     </tr>
                                                 </thead>
 
@@ -121,17 +121,25 @@
                                                                 @Html.ValidationMessageFor(model => model.QuotationDetailModelList[i].Quantity, "", new { @class = "text-danger" })
                                                             </td>
                                                             <td>
-                                                                @Html.TextBoxFor(model => model.QuotationDetailModelList[i].UnitPrice, new { value = "0", @class = "form-control demandValue", required = "true" })
+                                                                @Html.TextBoxFor(model => model.QuotationDetailModelList[i].UnitPrice, new { value = "0", @class = "form-control unitValue", required = "true" })
                                                                 @Html.ValidationMessageFor(model => model.QuotationDetailModelList[i].UnitPrice, "", new { @class = "text-danger" })
                                                             </td>
-                                                            <td style="text-align: right !important">
-                                                                12.200
-                                                            </td>
+                                                            <td style="text-align: right !important" class="totalValue"></td>
                                                         </tr>
 
                                                         i++;
                                                     }
                                                 </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <td colspan="5" style="text-align: right !important">
+                                                            <b>Total Amount</b>
+                                                        </td>
+                                                        <td id="totalFooter" colspan="2" style="text-align: right !important">
+                                                            <span id="showTotalValue"></span>
+                                                        </td>
+                                                    </tr>
+                                                </tfoot>
                                             </table>
                                         </div>
                                         if (true)
@@ -142,7 +150,7 @@
                                                     <div class="col-md-3"></div>
                                                     <div class="col-md-3"></div>
                                                     <div class="col-md-3">
-                                                        <a class="btn btn-primary btn-block linkPointer" data-toggle="modal" data-target="#ApprovedModalId" data-placement="top">Proceed to Submit Quotation</a>
+                                                        <a class="btn btn-primary btn-block linkPointer" data-toggle="modal" data-target="#ApprovedModalId" data-placement="top" id="actionButton">Proceed to Submit Quotation</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -310,7 +318,7 @@
             source: function (request, response) {
                 $.ajax({
                     url:"@Url.Action("GetAutoCompleteSupplierGet", "Procurement")",
-                    data: { prefix: request.term, companyId: @Model.CompanyFK },
+                    data: { prefix: request.term, companyId: 21 },
                     dataType: "json",
                     type: "get",
                     cache: true,
@@ -334,5 +342,50 @@
             $(this).autocomplete("search");
         });
 
+
+        $(document).ready(function () {
+            $(".demandValue, .unitValue").on('input', function (event) {
+                LineCalculator();
+            });
+
+            function LineCalculator() {
+                $("#itemTable tbody tr").each(function () {
+                    var inputDemadValue = $(this).find(".demandValue").val();
+                    var inputUnitValue = $(this).find(".unitValue").val();
+                    var lineTotal = 0;
+
+                    if (!isNaN(inputDemadValue) && !isNaN(inputUnitValue)) {
+                        lineTotal = parseFloat(inputDemadValue) * parseFloat(inputUnitValue);
+                    }
+
+                    $(this).find(".totalValue").text(lineTotal.toFixed(2));
+                });
+
+                TotalCalculator();
+            }
+
+            function TotalCalculator() {
+                var total = 0;
+
+                $("#itemTable tbody tr").each(function () {
+                    var inputTotalValue = $(this).find(".totalValue");
+                    var totalValue = parseFloat(inputTotalValue.text());
+
+                    if (!isNaN(totalValue)) {
+                        total += totalValue;
+                    }
+                });
+
+                $("#showTotalValue").text(total.toFixed(2));
+            }
+
+            LineCalculator();
+            TotalCalculator();
+
+            $('#actionButton').on('click', function () {
+                $(this).hide();
+            });
+
+        });
     </script>
 }
