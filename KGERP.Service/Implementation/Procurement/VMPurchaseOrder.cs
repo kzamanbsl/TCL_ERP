@@ -105,6 +105,7 @@ namespace KGERP.Service.Implementation.Procurement
         public long RequisitionMasterId { get; set; }
         public long MaterialItemId { get; set; }
         public SelectList Requisitions { get; set; } = new SelectList(new List<object>());
+        public SelectList Quotations { get; set; } = new SelectList(new List<object>());
         public SelectList MaterialItemList { get; set; } = new SelectList(new List<Product>());
 
         public decimal ApprovedDemand { get; set; }

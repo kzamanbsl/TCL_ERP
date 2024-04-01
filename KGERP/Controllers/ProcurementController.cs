@@ -29,10 +29,11 @@ namespace KGERP.Controllers
         private readonly IProductService _productService;
         private readonly IStockInfoService _stockInfoService;
         private readonly IBillRequisitionService _billRequisitionService;
+        private readonly IQuotationService _quotationService;
         private readonly ConfigurationService _configurationService;
 
         private readonly ERPEntities _db = new ERPEntities();
-        public ProcurementController(ProcurementService procurementService, AccountingService accountingService, IOrderMasterService orderMasterService, IProductService productService, IStockInfoService stockInfoService, IBillRequisitionService billRequisitionService, ConfigurationService configurationService)
+        public ProcurementController(ProcurementService procurementService, AccountingService accountingService, IOrderMasterService orderMasterService, IProductService productService, IStockInfoService stockInfoService, IBillRequisitionService billRequisitionService, IQuotationService quotationService, ConfigurationService configurationService)
         {
             this._orderMasterService = orderMasterService;
             _accountingService = accountingService;
@@ -40,6 +41,7 @@ namespace KGERP.Controllers
             _productService = productService;
             _stockInfoService = stockInfoService;
             _billRequisitionService = billRequisitionService;
+            _quotationService = quotationService;
             _configurationService = configurationService;
         }
 
@@ -154,7 +156,7 @@ namespace KGERP.Controllers
             else if (vendorOpeningModel.ActionEum == ActionEnum.Edit)
             {
 
-              await  _service.CustomerOpeningUpdate(vendorOpeningModel);
+                await _service.CustomerOpeningUpdate(vendorOpeningModel);
             }
 
             return RedirectToAction(nameof(ProcurementCustomerOpening), new { companyId = vendorOpeningModel.CompanyFK });
@@ -163,7 +165,7 @@ namespace KGERP.Controllers
         public JsonResult SubmitCustomerOpening(int vendorOpeningId, int company = 0)
         {
             //This method is okay but commented on purpose because currently all the opening is done by creating sales and purchase order.
-           // var products = _service.ProcurementCustomerOpeningSubmit(vendorOpeningId);
+            // var products = _service.ProcurementCustomerOpeningSubmit(vendorOpeningId);
             return Json(new { success = true, companyId = company }, JsonRequestBehavior.AllowGet);
         }
 
@@ -510,6 +512,7 @@ namespace KGERP.Controllers
             vmPurchaseOrderSlave.CountryList = new SelectList(_service.CountriesDropDownList(companyId), "Value", "Text");
             vmPurchaseOrderSlave.StockInfoList = _stockInfoService.GetStockInfoSelectModels(companyId);
             vmPurchaseOrderSlave.Requisitions = new SelectList(_billRequisitionService.ApprovedRequisitionList(companyId), "Value", "Text");
+            vmPurchaseOrderSlave.Quotations = new SelectList(await _quotationService.GetQuotationListWithNameAndNo(), "QuotationMasterId", "QuotationNo");
             vmPurchaseOrderSlave.MaterialItemList = new SelectList(_billRequisitionService.ApprovedMaterialList(companyId, requisitionId), "ProductId", "ProductName");
             vmPurchaseOrderSlave.MaterialTypeList = new SelectList(_configurationService.GetAllProductCategoryList(companyId), "ProductCategoryId", "Name");
             if (companyId == (int)CompanyNameEnum.KrishibidSeedLimited)
@@ -556,7 +559,7 @@ namespace KGERP.Controllers
             }
             return RedirectToAction(nameof(ProcurementPurchaseOrderSlave), new { companyId = vmPurchaseOrderSlave.CompanyFK, purchaseOrderId = vmPurchaseOrderSlave.PurchaseOrderId });
         }
-        
+
         public JsonResult GetTermNCondition(int id)
         {
             if (id != 0)
@@ -806,10 +809,10 @@ namespace KGERP.Controllers
             }
             vmSalesOrderSlave.TermNCondition = new SelectList(_service.CommonTermsAndConditionDropDownList(companyId), "Value", "Text");
             vmSalesOrderSlave.SubZoneList = new SelectList(_service.SubZonesDropDownList(companyId), "Value", "Text");
-            vmSalesOrderSlave.StoreInfos = new SelectList(_stockInfoService.GetStockInfoSelectModels(companyId), "Value", "Text"); 
+            vmSalesOrderSlave.StoreInfos = new SelectList(_stockInfoService.GetStockInfoSelectModels(companyId), "Value", "Text");
             return View(vmSalesOrderSlave);
         }
-               
+
         [HttpPost]
         public async Task<ActionResult> ProcurementSalesOrderSlave(VMSalesOrderSlave vmSalesOrderSlave)
         {
@@ -901,7 +904,7 @@ namespace KGERP.Controllers
             if (vmSalesOrderSlave.ActionEum == ActionEnum.Add)
             {
                 var salesPersonId = Convert.ToInt64(Session["Id"]);
-                vmSalesOrderSlave.SalePersonId = salesPersonId > 0 ? salesPersonId: 0;
+                vmSalesOrderSlave.SalePersonId = salesPersonId > 0 ? salesPersonId : 0;
 
                 if (vmSalesOrderSlave.OrderMasterId == 0)
                 {
@@ -1046,7 +1049,7 @@ namespace KGERP.Controllers
             return Json(model, JsonRequestBehavior.AllowGet);
         }
         public async Task<JsonResult> GetSinglOrderMastersGet(int orderMasterId)
-        {            
+        {
             var model = await _service.GetSingleOrderMasters(orderMasterId);
             return Json(model, JsonRequestBehavior.AllowGet);
         }
