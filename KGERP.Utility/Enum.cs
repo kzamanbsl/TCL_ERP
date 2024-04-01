@@ -50,7 +50,8 @@ namespace KGERP.Utility
 
     public enum EnumQuotationSubmitStatus
     {
-        Submitted = 1,
+        Pending = 1,
+        Submitted,
         Accepted,
     }
 

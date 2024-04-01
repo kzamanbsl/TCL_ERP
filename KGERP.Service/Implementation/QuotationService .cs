@@ -758,6 +758,7 @@ namespace KGERP.Service.Implementation
                 SubmissionDate = model.SubmissionDate,
                 QuotationMasterId = model.QuotationMasterId,
                 SupplierId = model.SupplierId,
+                StatusId = (int)EnumQuotationSubmitStatus.Pending,
                 CreatedBy = HttpContext.Current.User.Identity.Name,
                 CreatedOn = DateTime.Now,
                 IsActive = true
@@ -823,6 +824,7 @@ namespace KGERP.Service.Implementation
                                                   QuotationForName = t3.Name,
                                                   SupplierId = t4.VendorId,
                                                   SupplierName = t4.Name,
+                                                  QuotationSubmitStatusId = t1.StatusId,
                                                   CreatedDate = t1.CreatedOn,
                                                   CreatedBy = t1.CreatedBy,
                                                   CompanyFK = 21

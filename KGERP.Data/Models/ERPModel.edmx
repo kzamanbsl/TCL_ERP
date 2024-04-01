@@ -5050,7 +5050,7 @@ warning 6002: The table/view 'TCLErp_Dev.Erp.FormulaHistory' does not have a pri
           <Property Name="SubmissionDate" Type="datetime" Nullable="false" />
           <Property Name="QuotationMasterId" Type="bigint" Nullable="false" />
           <Property Name="SupplierId" Type="int" Nullable="false" />
-          <Property Name="Status" Type="int" />
+          <Property Name="StatusId" Type="int" Nullable="false" />
           <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="CreatedOn" Type="datetime" Nullable="false" />
           <Property Name="ModifiedBy" Type="varchar" MaxLength="50" />
@@ -22416,7 +22416,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
           <Property Name="SubmissionDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="QuotationMasterId" Type="Int64" Nullable="false" />
           <Property Name="SupplierId" Type="Int32" Nullable="false" />
-          <Property Name="Status" Type="Int32" />
+          <Property Name="StatusId" Type="Int32" Nullable="false" />
           <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
@@ -28604,7 +28604,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
                 <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
                 <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
                 <ScalarProperty Name="QuotationMasterId" ColumnName="QuotationMasterId" />
                 <ScalarProperty Name="SubmissionDate" ColumnName="SubmissionDate" />
