@@ -5050,6 +5050,7 @@ warning 6002: The table/view 'TCLErp_Dev.Erp.FormulaHistory' does not have a pri
           <Property Name="SubmissionDate" Type="datetime" Nullable="false" />
           <Property Name="QuotationMasterId" Type="bigint" Nullable="false" />
           <Property Name="SupplierId" Type="int" Nullable="false" />
+          <Property Name="Status" Type="int" />
           <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="CreatedOn" Type="datetime" Nullable="false" />
           <Property Name="ModifiedBy" Type="varchar" MaxLength="50" />
@@ -12483,11 +12484,11 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             <End Role="QuotationMaster" EntitySet="QuotationMasters" />
           </AssociationSet>
           <EntitySet Name="QuotationSubmitDetails" EntityType="ERPModel.QuotationSubmitDetail" />
-          <EntitySet Name="QuotationSubmitMasters" EntityType="ERPModel.QuotationSubmitMaster" />
           <AssociationSet Name="FK_QuotationSubmitDetail_Product" Association="ERPModel.FK_QuotationSubmitDetail_Product">
             <End Role="Product" EntitySet="Products" />
             <End Role="QuotationSubmitDetail" EntitySet="QuotationSubmitDetails" />
           </AssociationSet>
+          <EntitySet Name="QuotationSubmitMasters" EntityType="ERPModel.QuotationSubmitMaster" />
           <AssociationSet Name="FK_QuotationSubmitMaster_QuotationMaster" Association="ERPModel.FK_QuotationSubmitMaster_QuotationMaster">
             <End Role="QuotationMaster" EntitySet="QuotationMasters" />
             <End Role="QuotationSubmitMaster" EntitySet="QuotationSubmitMasters" />
@@ -22395,23 +22396,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
           <NavigationProperty Name="Product" Relationship="ERPModel.FK_QuotationSubmitDetail_Product" FromRole="QuotationSubmitDetail" ToRole="Product" />
           <NavigationProperty Name="QuotationSubmitMaster" Relationship="ERPModel.FK_QuotationSubmitDetail_QuotationSubmitMaster" FromRole="QuotationSubmitDetail" ToRole="QuotationSubmitMaster" />
         </EntityType>
-        <EntityType Name="QuotationSubmitMaster">
-          <Key>
-            <PropertyRef Name="QuotationSubmitMasterId" />
-          </Key>
-          <Property Name="QuotationSubmitMasterId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="SubmissionDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="QuotationMasterId" Type="Int64" Nullable="false" />
-          <Property Name="SupplierId" Type="Int32" Nullable="false" />
-          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="QuotationMaster" Relationship="ERPModel.FK_QuotationSubmitMaster_QuotationMaster" FromRole="QuotationSubmitMaster" ToRole="QuotationMaster" />
-          <NavigationProperty Name="QuotationSubmitDetails" Relationship="ERPModel.FK_QuotationSubmitDetail_QuotationSubmitMaster" FromRole="QuotationSubmitMaster" ToRole="QuotationSubmitDetail" />
-          <NavigationProperty Name="Vendor" Relationship="ERPModel.FK_QuotationSubmitMaster_Vendor" FromRole="QuotationSubmitMaster" ToRole="Vendor" />
-        </EntityType>
         <Association Name="FK_QuotationSubmitDetail_Product">
           <End Type="ERPModel.Product" Role="Product" Multiplicity="1" />
           <End Type="ERPModel.QuotationSubmitDetail" Role="QuotationSubmitDetail" Multiplicity="*" />
@@ -22424,6 +22408,24 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="QuotationSubmitMaster">
+          <Key>
+            <PropertyRef Name="QuotationSubmitMasterId" />
+          </Key>
+          <Property Name="QuotationSubmitMasterId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SubmissionDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="QuotationMasterId" Type="Int64" Nullable="false" />
+          <Property Name="SupplierId" Type="Int32" Nullable="false" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="QuotationMaster" Relationship="ERPModel.FK_QuotationSubmitMaster_QuotationMaster" FromRole="QuotationSubmitMaster" ToRole="QuotationMaster" />
+          <NavigationProperty Name="QuotationSubmitDetails" Relationship="ERPModel.FK_QuotationSubmitDetail_QuotationSubmitMaster" FromRole="QuotationSubmitMaster" ToRole="QuotationSubmitDetail" />
+          <NavigationProperty Name="Vendor" Relationship="ERPModel.FK_QuotationSubmitMaster_Vendor" FromRole="QuotationSubmitMaster" ToRole="Vendor" />
+        </EntityType>
         <Association Name="FK_QuotationSubmitMaster_QuotationMaster">
           <End Type="ERPModel.QuotationMaster" Role="QuotationMaster" Multiplicity="1" />
           <End Type="ERPModel.QuotationSubmitMaster" Role="QuotationSubmitMaster" Multiplicity="*" />
@@ -28602,6 +28604,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
                 <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
                 <ScalarProperty Name="QuotationMasterId" ColumnName="QuotationMasterId" />
                 <ScalarProperty Name="SubmissionDate" ColumnName="SubmissionDate" />

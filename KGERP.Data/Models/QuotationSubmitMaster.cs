@@ -24,6 +24,7 @@ namespace KGERP.Data.Models
         public System.DateTime SubmissionDate { get; set; }
         public long QuotationMasterId { get; set; }
         public int SupplierId { get; set; }
+        public Nullable<int> Status { get; set; }
         public string CreatedBy { get; set; }
         public System.DateTime CreatedOn { get; set; }
         public string ModifiedBy { get; set; }

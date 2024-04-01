@@ -48,6 +48,12 @@ namespace KGERP.Utility
         Requisition
     }
 
+    public enum EnumQuotationSubmitStatus
+    {
+        Submitted = 1,
+        Accepted,
+    }
+
     public enum EnumQuotationType
     {
         [Display(Name = "General Quotation")]
