@@ -144,14 +144,14 @@
                                             @Html.ValidationMessageFor(model => model.SupplierPaymentMethodEnumFK, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
-                                    <div class="col-md-3 hidden" id="dPIsStockField">
+                                    @*<div class="col-md-3 hidden" id="dPIsStockField">
                                         <div class="form-group">
                                             <label class="control-label">Has Stock Location?</label>
                                             <div class="">
                                                 <input type="checkbox" id="IsStockCheckBox">
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>*@
                                     <div class="col-md-3" id="StockLocationField">
                                         <div class="form-group">
                                             <label class="control-label">Stock Location:</label>
@@ -161,14 +161,14 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-3 hidden" id="dPHasSupplierField">
+                                    @*<div class="col-md-3 hidden" id="dPHasSupplierField">
                                         <div class="form-group">
                                             <label class="control-label">Has Supplier?</label>
                                             <div class="">
                                                 <input type="checkbox" id="IsSupplierCheckBox">
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>*@
                                     <div class="col-md-3 hidden" id="dPurchaseSupplierField">
                                         <div class="form-group" style="padding:0px">
                                             <label>Supplier/Subcontractor :</label>
@@ -182,7 +182,6 @@
                                         <div class="form-group" style="padding:0px">
                                             <label>Supplier/Subcontractor :</label>
                                             @Html.EditorFor(model => model.SupplierName, new { htmlAttributes = new { @autocomplete = "on", @class = "form-control", @name = "Supplier Name", @id = "txtSupplierName", required = "required" } })
-
                                             @Html.HiddenFor(model => model.Common_SupplierFK, new { id = "ddlCommon_SupplierFK" })
                                             @Html.ValidationMessageFor(model => model.Common_SupplierFK, "", new { @class = "text-danger" })
                                         </div>
@@ -346,6 +345,14 @@
                                         <div class="form-group">
                                             <label>Select Requisition No :</label>
                                             @Html.DropDownListFor(model => model.RequisitionMasterId, Model.Requisitions as SelectList, "==Select Requisition No==", new { id = "ddlRequisitionId", onchange = "showBoQMaterial()", @class = "form-control searchingDropdown", style = "width:100%" })
+                                            @Html.ValidationMessageFor(model => model.RequisitionMasterId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 hidden" id="inputQuotations">
+                                        <div class="form-group">
+                                            <label>Select Quotation No :</label>
+                                            @Html.DropDownListFor(model => model.RequisitionMasterId, Model.Quotations as SelectList, "==Select Quotation No==", new { id = "ddlRequisitionId", onchange = "showBoQMaterial()", @class = "form-control searchingDropdown", style = "width:100%" })
                                             @Html.ValidationMessageFor(model => model.RequisitionMasterId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -957,7 +964,7 @@
 
                 if (!isNaN(remainingValue) && !isNaN(demandValue) && !isNaN(unitValue)) {
                     if ($("#ddlWorkOrderFor").val() == @((int)EnumWorkOrderFor.Requisition)
-                       || $("#ddlWorkOrderFor").val() == @((int)EnumWorkOrderFor.Direct_Purchase))
+                       || $("#ddlWorkOrderFor").val() == @((int)EnumWorkOrderFor.Quotation))
                     {
                         if (demandValue <= remainingValue || demandValue === 0) {
                             $("#demandValidate").text("");
@@ -979,13 +986,11 @@
             inputWorkableDemand.on("input", calculateTotalPrice);
             inputUnitPrice.on("input", calculateTotalPrice);
 
-
             $("#ddlWorkOrderFor").on("change", function () {
                 var selectedOption = $(this).find("option:selected");
 
                 if (selectedOption.val() == @((int)EnumWorkOrderFor.Requisition)) {
                     $("#inputRequisition").removeClass("hidden").addClass("d-block");
-                    $(".directPurchhaseHiddenField").removeClass("hidden").addClass("d-block");
                     $("#inputRequisition").removeClass("col-md-3").addClass("col-md-4");
                     $("#inputApproved").removeClass("hidden").addClass("d-block");
                     $("#StockLocationField").removeClass("hidden").addClass("d-block");
@@ -1002,27 +1007,28 @@
                     $("#inputUnit").removeClass("col-md-3").addClass("col-md-4");
                     $("#txtUnitPrice ").attr("readonly", true);
                 }
-                else if (selectedOption.val() == @((int)EnumWorkOrderFor.Direct_Purchase))
+                else if (selectedOption.val() == @((int)EnumWorkOrderFor.Quotation))
                 {
-
-                    //$("#ddlSupplierPaymentMethodEnumFK").removeClass("d-block").addClass("hidden");
-                    $("#StockLocationField").removeClass("d-block").addClass("hidden");
-                    $("#dPIsStockField").removeClass("hidden").addClass("d-block");
+                    $("#inputQuotations").removeClass("hidden").addClass("d-block");
+                    $("#inputQuotations").removeClass("col-md-3").addClass("col-md-4");
                     $("#inputApproved").removeClass("hidden").addClass("d-block");
+                    $("#StockLocationField").removeClass("hidden").addClass("d-block");
                     $("#inputReceive").removeClass("hidden").addClass("d-block");
                     $("#inputRemaining").removeClass("hidden").addClass("d-block");
-                    $("#dPHasSupplierField").removeClass("hidden").addClass("d-block");
-                    $(".directPurchhaseHiddenField").removeClass("d-block").addClass("hidden");
-                    $("#inputRequisition").removeClass("hidden").addClass("d-block");
-                    $("#inputRequisition").removeClass("col-md-3").addClass("col-md-4");
+                    $("#dPHasSupplierField").removeClass("d-block").addClass("hidden");
+
+                    $("#inputType").removeClass("d-block").addClass("hidden");
+                    $("#dPIsStockField").removeClass("d-block").addClass("hidden");
+                    $("#inputSubtype").removeClass("d-block").addClass("hidden");
+
+                    $("#inputQuotations").removeClass("col-md-3").addClass("col-md-4");
                     $("#inputMaterial").removeClass("col-md-3").addClass("col-md-4");
                     $("#inputUnit").removeClass("col-md-3").addClass("col-md-4");
-                    //$('#txtHiddenSupplierName').val("");
-                    //$('#txtHiddenSupplierName').removeAttr('required');
                     $("#txtUnitPrice ").attr("readonly", true);
                 }
                 else {
                     $("#inputRequisition").removeClass("d-block").addClass("hidden");
+                    $("#inputQuotations").removeClass("d-block").addClass("hidden");
                     $("#inputApproved").removeClass("d-block").addClass("hidden");
                     $("#inputReceive").removeClass("d-block").addClass("hidden");
                     $("#inputRemaining").removeClass("d-block").addClass("hidden");
