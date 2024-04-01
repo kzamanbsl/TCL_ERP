@@ -728,5 +728,10 @@ namespace KGERP.Service.Implementation
             var result= new SelectList(meterialReceiveList, "ProductId", "ProductName");
             return result;
         }
+
+        public async Task<object> GetMaterialReceiveByPurchaseOrderId(int? PurchaseOrderId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -9,17 +9,17 @@
 </style>
 <section class="content-header">
     <h1>
-        Stock Information Report <span style="color:indianred"> @Model.CompanyName</span>
+        Material  Stock Information Report <span style="color:indianred"> @Model.CompanyName</span>
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">Stock Information Report</li>
+        <li class="active">Material Stock Information Report</li>
     </ol>
 </section>
 <section class="content">
     <div class="row">
         <div class="col-md-12">
-            @using (Html.BeginForm("ProjectInfoReport", "Report", FormMethod.Post, new { id = "AccountingMovementformId", @class = "formValidator", @target = "_blank", @enctype = "multipart/form-data" }))
+            @using (Html.BeginForm("StockInfoReport", "Report", FormMethod.Post, new { id = "AccountingMovementformId", @class = "formValidator", @target = "_blank", @enctype = "multipart/form-data" }))
             {
                 <div class="box">
                     @Html.AntiForgeryToken()
@@ -49,13 +49,13 @@
                                     </div>
                                 </div>
                                 <div class="col-md-3">
-                                    <div class="form-group">
+                                    @*<div class="form-group">
                                         <label class="control-label">Stock Location:</label>
                                         <div class="">
                                             @Html.DropDownListFor(model => model.StockId, new SelectList(Model.Stocks, "Value", "Text"), "==Select Location==", new { @class = "form-control searchingDropdown", @id = "stockInfoId", required = "required" })
                                             @Html.ValidationMessageFor(model => model.StockId, "", new { @class = "text-danger" })
                                         </div>
-                                    </div>
+                                    </div>*@
                                 </div>
                             </div>
 
