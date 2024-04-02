@@ -117,7 +117,7 @@
                                                             </td>
                                                             <td style="text-align: center !important">@Enum.GetName(typeof(EnumMaterialQuality), item.MaterialQualityId)</td>
                                                             <td>
-                                                                @Html.TextBoxFor(model => model.QuotationDetailModelList[i].Quantity, new { value = "0", @class = "form-control demandValue", required = "true", @readonly = "true" })
+                                                                @Html.TextBoxFor(model => model.QuotationDetailModelList[i].Quantity, new { value = "0", @class = "form-control quantityValue", required = "true", @readonly = "true" })
                                                                 @Html.ValidationMessageFor(model => model.QuotationDetailModelList[i].Quantity, "", new { @class = "text-danger" })
                                                             </td>
                                                             <td>
@@ -350,14 +350,17 @@
 
             function LineCalculator() {
                 $("#itemTable tbody tr").each(function () {
-                    var inputDemadValue = $(this).find(".demandValue").val();
+                    var inputQuantityValue = $(this).find(".quantityValue").val();
                     var inputUnitValue = $(this).find(".unitValue").val();
                     var lineTotal = 0;
 
-                    if (!isNaN(inputDemadValue) && !isNaN(inputUnitValue)) {
-                        lineTotal = parseFloat(inputDemadValue) * parseFloat(inputUnitValue);
+                    if (!isNaN(inputQuantityValue) && !isNaN(inputUnitValue)) {
+                        if (inputUnitValue == "") {
+                            lineTotal = parseFloat(inputQuantityValue) * parseFloat(0);
+                        } else {
+                            lineTotal = parseFloat(inputQuantityValue) * parseFloat(inputUnitValue);
+                        }
                     }
-
                     $(this).find(".totalValue").text(lineTotal.toFixed(2));
                 });
 
