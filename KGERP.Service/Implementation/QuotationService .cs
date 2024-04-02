@@ -797,7 +797,16 @@ namespace KGERP.Service.Implementation
 
             if (_context.SaveChanges() > 0)
             {
-                result = model.QuotationSubmitMasterId;
+                var quotationSubmitMaster = _context.QuotationSubmitMasters.FirstOrDefault(x => x.QuotationSubmitMasterId == model.QuotationSubmitMasterId);
+
+                if (quotationSubmitMaster != null)
+                {
+                    quotationSubmitMaster.StatusId = (int)EnumQuotationSubmitStatus.Submitted;
+                    if (_context.SaveChanges() > 0)
+                    {
+                        result = model.QuotationSubmitMasterId;
+                    }
+                }
             }
             return result;
         }
