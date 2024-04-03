@@ -10,33 +10,33 @@
                 <div class="table-responsive">
                     <table class="table table-bordered text-nowrap">
                         <thead>
-                            <tr class="bg-success">
-                                <th>SL</th>
+                                    <tr class="bg-success">
+                                        <th>SL</th>
 
-                                <th>Material/ Item</th>
+                                        <th>Material/ Item</th>
+                                        <th>
+                                            Unit
+                                        </th>
+                                        <th class="center">WO Quantity</th>
 
-                                <th class="center">WO Quantity</th>
+                                        <th class="center">
+                                            Previous Received
+                                        </th>
+                                        <th>
+                                            Return
+                                        </th>
+                                        <th>
+                                            Remaining
+                                        </th>
+                                        <th>
+                                            Receive Goods
+                                        </th>
+                                        @*<th>
+            Damage
+        </th>*@
 
-                                <th class="center">
-                                    Previous Received
-                                </th>
-                                <th>
-                                    Return
-                                </th>
-                                <th>
-                                    Remaining
-                                </th>
-                                <th>
-                                    Receive Goods
-                                </th>
-                                @*<th>
-                                    Damage
-                                </th>*@
-                                <th>
-                                    Unit
-                                </th>
 
-                            </tr>
+                                    </tr>
                         </thead>
                         <tbody>
                             @for (int i = 0; i < Model.DataListSlavePartial.Count(); i++)
@@ -53,7 +53,9 @@
                                     <td>
                                         @Html.DisplayFor(model => model.DataListSlavePartial[i].ProductName)
                                     </td>
-                                   
+                                    <td>
+                                        @Html.DisplayFor(model => model.DataListSlavePartial[i].UnitName)
+                                    </td>
                                     <td>
                                         @Html.DisplayFor(model => model.DataListSlavePartial[i].POQuantity)
                                     </td>
@@ -78,9 +80,7 @@
                                         @Html.TextBoxFor(model => model.DataListSlavePartial[i].Damage, new { @class = "form-control" })
                                     </td>*@
 
-                                    <td>
-                                        @Html.DisplayFor(model => model.DataListSlavePartial[i].UnitName)
-                                    </td>
+                                    
                                 </tr>
                             }
                         </tbody>

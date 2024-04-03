@@ -3450,6 +3450,19 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.TempFeedVoucherDetail' does not hav
           <Property Name="BoqUnitId" Type="int" />
           <Property Name="BoQDivisionId" Type="bigint" />
         </EntityType>
+        <EntityType Name="BillingGeneratedMap">
+          <Key>
+            <PropertyRef Name="BillingMapId" />
+          </Key>
+          <Property Name="BillingMapId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BillGeneratedNo" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="MaterialReceiveId" Type="bigint" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CreatedDate" Type="date" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="ModifiedDate" Type="date" />
+          <Property Name="IsActive" Type="bit" />
+        </EntityType>
         <EntityType Name="BillReqApprovalHistory">
           <Key>
             <PropertyRef Name="BillReqApprovalHistoryId" />
@@ -6609,6 +6622,18 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_BillingGeneratedMap_MaterialReceive">
+          <End Role="MaterialReceive" Type="Self.MaterialReceive" Multiplicity="1" />
+          <End Role="BillingGeneratedMap" Type="Self.BillingGeneratedMap" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MaterialReceive">
+              <PropertyRef Name="MaterialReceiveId" />
+            </Principal>
+            <Dependent Role="BillingGeneratedMap">
+              <PropertyRef Name="MaterialReceiveId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_BillReqApprovalHistory_Company">
           <End Role="Company" Type="Self.Company" Multiplicity="1" />
           <End Role="BillReqApprovalHistory" Type="Self.BillReqApprovalHistory" Multiplicity="*" />
@@ -9350,6 +9375,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
           <EntitySet Name="BatchPaymentDetail" EntityType="Self.BatchPaymentDetail" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="BatchPaymentMaster" EntityType="Self.BatchPaymentMaster" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="BillBoQItem" EntityType="Self.BillBoQItem" Schema="Erp" store:Type="Tables" />
+          <EntitySet Name="BillingGeneratedMap" EntityType="Self.BillingGeneratedMap" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="BillReqApprovalHistory" EntityType="Self.BillReqApprovalHistory" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="BillRequisitionApproval" EntityType="Self.BillRequisitionApproval" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="BillRequisitionDetail" EntityType="Self.BillRequisitionDetail" Schema="Erp" store:Type="Tables" />
@@ -10188,6 +10214,10 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
           <AssociationSet Name="FK_BatchPaymentDetail_Vendor" Association="Self.FK_BatchPaymentDetail_Vendor">
             <End Role="Vendor" EntitySet="Vendor" />
             <End Role="BatchPaymentDetail" EntitySet="BatchPaymentDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BillingGeneratedMap_MaterialReceive" Association="Self.FK_BillingGeneratedMap_MaterialReceive">
+            <End Role="MaterialReceive" EntitySet="MaterialReceive" />
+            <End Role="BillingGeneratedMap" EntitySet="BillingGeneratedMap" />
           </AssociationSet>
           <AssociationSet Name="FK_BillReqApprovalHistory_Company" Association="Self.FK_BillReqApprovalHistory_Company">
             <End Role="Company" EntitySet="Company" />
@@ -12500,6 +12530,11 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
           <AssociationSet Name="FK_QuotationSubmitMaster_Vendor" Association="ERPModel.FK_QuotationSubmitMaster_Vendor">
             <End Role="Vendor" EntitySet="Vendors" />
             <End Role="QuotationSubmitMaster" EntitySet="QuotationSubmitMasters" />
+          </AssociationSet>
+          <EntitySet Name="BillingGeneratedMaps" EntityType="ERPModel.BillingGeneratedMap" />
+          <AssociationSet Name="FK_BillingGeneratedMap_MaterialReceive" Association="ERPModel.FK_BillingGeneratedMap_MaterialReceive">
+            <End Role="MaterialReceive" EntitySet="MaterialReceives" />
+            <End Role="BillingGeneratedMap" EntitySet="BillingGeneratedMaps" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="AdminPolicy">
@@ -20468,6 +20503,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
           <NavigationProperty Name="MaterialReceiveDetails" Relationship="ERPModel.FK_MaterialReceiveDetail_MaterialReceive" FromRole="MaterialReceive" ToRole="MaterialReceiveDetail" />
           <NavigationProperty Name="PurchaseReturns" Relationship="ERPModel.FK_PurchaseReturn_MaterialReceive" FromRole="MaterialReceive" ToRole="PurchaseReturn" />
           <NavigationProperty Name="PurchaseOrder" Relationship="ERPModel.FK_MaterialReceive_PurchaseOrder" FromRole="MaterialReceive" ToRole="PurchaseOrder" />
+          <NavigationProperty Name="BillingGeneratedMaps" Relationship="ERPModel.FK_BillingGeneratedMap_MaterialReceive" FromRole="MaterialReceive" ToRole="BillingGeneratedMap" />
         </EntityType>
         <Association Name="FK_MaterialReceive_ProductionMaster">
           <End Type="ERPModel.ProductionMaster" Role="ProductionMaster" Multiplicity="0..1" />
@@ -22459,6 +22495,32 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             </Principal>
             <Dependent Role="QuotationSubmitMaster">
               <PropertyRef Name="SupplierId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="BillingGeneratedMap">
+          <Key>
+            <PropertyRef Name="BillingMapId" />
+          </Key>
+          <Property Name="BillingMapId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BillGeneratedNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MaterialReceiveId" Type="Int64" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="0" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="0" />
+          <Property Name="IsActive" Type="Boolean" />
+          <NavigationProperty Name="MaterialReceive" Relationship="ERPModel.FK_BillingGeneratedMap_MaterialReceive" FromRole="BillingGeneratedMap" ToRole="MaterialReceive" />
+        </EntityType>
+        <Association Name="FK_BillingGeneratedMap_MaterialReceive">
+          <End Type="ERPModel.MaterialReceive" Role="MaterialReceive" Multiplicity="1" />
+          <End Type="ERPModel.BillingGeneratedMap" Role="BillingGeneratedMap" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MaterialReceive">
+              <PropertyRef Name="MaterialReceiveId" />
+            </Principal>
+            <Dependent Role="BillingGeneratedMap">
+              <PropertyRef Name="MaterialReceiveId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -28609,6 +28671,20 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
                 <ScalarProperty Name="QuotationMasterId" ColumnName="QuotationMasterId" />
                 <ScalarProperty Name="SubmissionDate" ColumnName="SubmissionDate" />
                 <ScalarProperty Name="QuotationSubmitMasterId" ColumnName="QuotationSubmitMasterId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BillingGeneratedMaps">
+            <EntityTypeMapping TypeName="ERPModel.BillingGeneratedMap">
+              <MappingFragment StoreEntitySet="BillingGeneratedMap">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="MaterialReceiveId" ColumnName="MaterialReceiveId" />
+                <ScalarProperty Name="BillGeneratedNo" ColumnName="BillGeneratedNo" />
+                <ScalarProperty Name="BillingMapId" ColumnName="BillingMapId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

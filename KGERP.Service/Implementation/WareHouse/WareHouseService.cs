@@ -83,15 +83,39 @@ namespace KGERP.Service.Implementation.Warehouse
                 TruckFare = vmWarehousePoReceivingSlave.TruckFare,
                 ReceivedBy = vmWarehousePoReceivingSlave.ReceivedBy,
                 StockInfoId = purchaseOrder?.StockInfoId,
-
+                Remarks = vmWarehousePoReceivingSlave.Remarks
 
             };
             _db.MaterialReceives.Add(wareHousePOReceiving);
-            if (await _db.SaveChangesAsync() > 0)
-            {
-                result = wareHousePOReceiving.MaterialReceiveId;
 
+            using (var scope = _db.Database.BeginTransaction())
+            {
+                try
+                {
+                    if (await _db.SaveChangesAsync() > 0)
+                    {
+                        BillingGeneratedMap mapModel = new BillingGeneratedMap
+                        {
+                            MaterialReceiveId = wareHousePOReceiving.MaterialReceiveId,
+                            BillGeneratedNo = GetUniqueBillingGeneratedNo(wareHousePOReceiving.ReceivedDate),
+                            CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                            CreatedDate = DateTime.Now,
+                            IsActive = true
+                        };
+
+                        _db.BillingGeneratedMaps.Add(mapModel);
+                        await _db.SaveChangesAsync();
+                        result = wareHousePOReceiving.MaterialReceiveId;
+                        scope.Commit();
+                    }
+                }
+                catch (Exception e)
+                {
+                    scope.Rollback();
+                    throw e;
+                }
             }
+
             return result;
         }
         #region old WarehousePOReturnAdd
@@ -3890,6 +3914,36 @@ namespace KGERP.Service.Implementation.Warehouse
                 }).Take(20).ToList();
         }
 
+
+        public string GetUniqueBillingGeneratedNo(DateTime? receiveDate)
+        {
+
+            var getLastRow = _db.BillingGeneratedMaps.OrderByDescending(x => x.BillingMapId).FirstOrDefault();
+            //var shortName = _db.Accounting_CostCenter.Where(x => x.IsActive).FirstOrDefault(x => x.CostCenterId == projectId).ShortName;
+            if (getLastRow == null)
+            {
+                getLastRow=new BillingGeneratedMap();
+                getLastRow.MaterialReceiveId = 0;
+            }
+            if(receiveDate == null)
+            {
+                receiveDate = DateTime.Now;
+            }   
+            string setZeroBeforeLastId(long lastRowId, int length)
+            {
+                string totalDigit = "";
+
+                for (int i = (length - lastRowId.ToString().Length); 0 < i; i--)
+                {
+                    totalDigit += "0";
+                }
+                return totalDigit + lastRowId.ToString();
+            }
+
+            string generatedNumber = $"BILL-{receiveDate:yyMMdd}-{setZeroBeforeLastId(++getLastRow.MaterialReceiveId, 4)}";
+            return generatedNumber;
+
+        }
 
     }
 }

@@ -19,6 +19,7 @@ namespace KGERP.Data.Models
         {
             this.MaterialReceiveDetails = new HashSet<MaterialReceiveDetail>();
             this.PurchaseReturns = new HashSet<PurchaseReturn>();
+            this.BillingGeneratedMaps = new HashSet<BillingGeneratedMap>();
         }
     
         public long MaterialReceiveId { get; set; }
@@ -57,5 +58,7 @@ namespace KGERP.Data.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PurchaseReturn> PurchaseReturns { get; set; }
         public virtual PurchaseOrder PurchaseOrder { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BillingGeneratedMap> BillingGeneratedMaps { get; set; }
     }
 }

@@ -326,6 +326,7 @@ namespace KGERP.Data.Models
         public virtual DbSet<QuotationMaster> QuotationMasters { get; set; }
         public virtual DbSet<QuotationSubmitDetail> QuotationSubmitDetails { get; set; }
         public virtual DbSet<QuotationSubmitMaster> QuotationSubmitMasters { get; set; }
+        public virtual DbSet<BillingGeneratedMap> BillingGeneratedMaps { get; set; }
     
         public virtual ObjectResult<GetEmployeeListForTeam_Result> GetEmployeeListForTeam(Nullable<int> companyId)
         {

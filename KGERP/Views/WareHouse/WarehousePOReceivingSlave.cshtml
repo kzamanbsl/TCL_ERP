@@ -192,6 +192,13 @@
                                                 @Html.EditorFor(model => model.TruckNo, new { htmlAttributes = new { @class = "form-control", @autocomplete = "off" } })
                                             </div>
                                         </div>
+                                        <div class="form-group">
+                                            <label>Description</label>
+                                            <div class="form-group">
+                                                @Html.TextAreaFor(model => model.Remarks, new { @class = "form-control", @rows = "2", @style = "width:100%" })
+                                               
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -220,12 +227,13 @@
                                             <tr>
                                                 <th>SL</th>
                                                 <th class="center">Material/Item Name </th>
+                                                <th class="center">Unit Name</th>
                                                 <th class="center">WO Quantity</th>
                                                 <th class="center">Received Quantity</th>
                                                 <th class="center">Total Received</th>
                                                 <th>Return Quantity</th>
                                                 <th class="center">Remaining Quantity</th>
-                                                <th class="center">Unit Name</th>
+
                                             </tr>
                                         </thead>
                                         @{
@@ -237,12 +245,13 @@
                                                 <tr>
                                                     <td>@(++sl)</td>
                                                     <td>@item.ProductSubCategory @item.ProductName</td>
+                                                    <td>@item.UnitName</td>
                                                     <td>@item.POQuantity</td>
                                                     <th>@item.ReceivedQuantity</th>
                                                     <td>@item.PriviousReceivedQuantity</td>
                                                     <td>@item.ReturnQuantity</td>
                                                     <td>@item.RemainingQuantity</td>
-                                                    <td>@item.UnitName</td>
+
                                                 </tr>
                                             }
                                         </tbody>
