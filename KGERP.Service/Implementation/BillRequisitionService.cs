@@ -2018,7 +2018,7 @@ namespace KGERP.Service.Implementation
 
             foreach (var master in billRequisitionMasterModel.DataList)
             {
-                var detailsForMaster = matchingDetails.Where(detail => detail.BillRequisitionMasterId == master.BillRequisitionMasterId);
+                var detailsForMaster = matchingDetails.Where(detail => detail.BillRequisitionMasterId == master.BillRequisitionMasterId && detail.IsActive);
                 decimal? total = detailsForMaster.Sum(detail => detail.UnitRate * detail.DemandQty);
                 master.TotalAmount = total;
             }
