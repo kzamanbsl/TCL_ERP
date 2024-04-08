@@ -169,7 +169,7 @@
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" id="btnClose" onclick="resetForm()" class="btn btn-outline-warning" data-dismiss="modal">Go Back</button>
-                                                            <button type="submit" id="btnDelete" class="deleteId btn btn-success">Submit</button>
+                                                            <button type="submit" id="btnDelete" class="btn btn-success">Submit</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -251,99 +251,9 @@
 @section scripts {
 
     <script type="text/javascript">
-        $('.datepicker').datepicker({
-            dateFormat: "dd/mm/yy",
-            showOn: 'both',
-            buttonText: "<i class='fa fa-calendar'></i>",
-            changeMonth: true,
-            changeYear: true,
-            yearRange: "2001:+50"
-        });
-
-        function MakeDeletable(rowId) {
-            $('#hiddenQuotationMasterId').val(rowId);
-            $('#hiddenCompanyFK').val(@Model.CompanyFK);
-            $('#deleteActionId').val(3);
-        }
-
-        $('#ddlQuotationType').on('change', function () {
-            var typeId = $('#ddlQuotationType').val();
-            var forId = $('#ddlQuotationFor').val();
-            var quotationList = $('#ddlQuotationId');
-
-            $.ajax({
-                url: '/Quotation/GetQuotationListFilteredByTypeAndFor',
-                type: 'GET',
-                contentType: 'application/json',
-                data: { typeId: typeId, forId: forId },
-                success: function (response) {
-                    console.log(response);
-                    quotationList.empty();
-                    quotationList.append("<option selected disabled>==Select Quotation==</option>");
-                    $.each(response, function (index, item) {
-                        quotationList.append($('<option>', {
-                            value: item.QuotationMasterId,
-                            text: item.QuotationNo
-                        }));
-                    });
-                }
-            });
-        });
-
-        $('#ddlQuotationFor').on('change', function () {
-            var typeId = $('#ddlQuotationType').val();
-            var forId = $('#ddlQuotationFor').val();
-            var quotationList = $('#ddlQuotationId');
-
-            $.ajax({
-                url: '/Quotation/GetQuotationListFilteredByTypeAndFor',
-                type: 'GET',
-                contentType: 'application/json',
-                data: { typeId: typeId, forId: forId },
-                success: function (response) {
-                    console.log(response);
-                    quotationList.empty();
-                    quotationList.append("<option selected disabled>==Select Quotation==</option>");
-                    $.each(response, function (index, item) {
-                        quotationList.append($('<option>', {
-                            value: item.QuotationMasterId,
-                            text: item.QuotationNo
-                        }));
-                    });
-                }
-            });
-        });
-
-        $("#txtSupplierName").autocomplete({
-            source: function (request, response) {
-                $.ajax({
-                    url:"@Url.Action("GetAutoCompleteSupplierGet", "Procurement")",
-                    data: { prefix: request.term, companyId: 21 },
-                    dataType: "json",
-                    type: "get",
-                    cache: true,
-                    contentType: "application/json; charset=utf-8",
-                    success: function (data) {
-                       response($.map(data, function (item) {
-                           return item;
-                       }))
-                    }
-                });
-            },
-
-            select: function (e, i) {
-                $("#ddlCommon_SupplierFK").val(i.item.val);
-
-                },
-            minLength: 1,
-            cache: true
-
-        }).focus(function () {
-            $(this).autocomplete("search");
-        });
-
-
         $(document).ready(function () {
+            "use strict"
+
             $(".demandValue, .unitValue").on('input', function (event) {
                 LineCalculator();
             });
@@ -384,6 +294,120 @@
 
             LineCalculator();
             TotalCalculator();
+        });
+
+        $('.datepicker').datepicker({
+            dateFormat: "dd/mm/yy",
+            showOn: 'both',
+            buttonText: "<i class='fa fa-calendar'></i>",
+            changeMonth: true,
+            changeYear: true,
+            yearRange: "2001:+50"
+        });
+
+        function MakeDeletable(rowId) {
+            $('#hiddenQuotationMasterId').val(rowId);
+            $('#hiddenCompanyFK').val(@Model.CompanyFK);
+            $('#deleteActionId').val(3);
+        }
+
+        $('#ddlQuotationType').on('change', function () {
+            var typeId = $('#ddlQuotationType').val();
+            var forId = $('#ddlQuotationFor').val();
+            var quotationList = $('#ddlQuotationId');
+
+            if (forId > 0) {
+                $.ajax({
+                    url: '/Quotation/GetQuotationListFilteredByTypeAndFor',
+                    type: 'GET',
+                    contentType: 'application/json',
+                    data: { typeId: typeId, forId: forId },
+                    success: function (response) {
+                        quotationList.empty();
+                        quotationList.append("<option selected disabled>==Select Quotation==</option>");
+                        $.each(response, function (index, item) {
+                            quotationList.append($('<option>', {
+                                value: item.QuotationMasterId,
+                                text: item.QuotationNo
+                            }));
+                        });
+                    }
+                });
+            }
+        });
+
+        $('#ddlQuotationFor').on('change', function () {
+            var typeId = $('#ddlQuotationType').val();
+            var forId = $('#ddlQuotationFor').val();
+            var quotationList = $('#ddlQuotationId');
+
+            if (typeId) {
+                $.ajax({
+                    url: '/Quotation/GetQuotationListFilteredByTypeAndFor',
+                    type: 'GET',
+                    contentType: 'application/json',
+                    data: { typeId: typeId, forId: forId },
+                    success: function (response) {
+                        quotationList.empty();
+                        quotationList.append("<option selected disabled>==Select Quotation==</option>");
+                        $.each(response, function (index, item) {
+                            quotationList.append($('<option>', {
+                                value: item.QuotationMasterId,
+                                text: item.QuotationNo
+                            }));
+                        });
+                    }
+                });
+            }
+        });
+
+        $("#txtSupplierName").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url:"@Url.Action("GetAutoCompleteSupplierGet", "Procurement")",
+                    data: { prefix: request.term, companyId: 21 },
+                    dataType: "json",
+                    type: "get",
+                    cache: true,
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                       response($.map(data, function (item) {
+                           return item;
+                       }))
+                    }
+                });
+            },
+
+            select: function (e, i) {
+                $("#ddlCommon_SupplierFK").val(i.item.val);
+
+                // check supplier already applied or not
+                if ($("#ddlCommon_SupplierFK").val() > 0) {
+                    var quotationId = $('#ddlQuotationId').val();
+                    var supplierId = $("#ddlCommon_SupplierFK").val();
+                    $.ajax({
+                        url: '/Quotation/CheckSupplierAlreadyAppliedOrNot',
+                        data: { quotationId: quotationId, supplierId: supplierId },
+                        dataType: "json",
+                        type: "get",
+                        cache: true,
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+                            if (data) {
+                                $('#message').text("Supplier already applied for this Quotation!");
+                            }
+                            else {
+                                $('#message').text("");
+                            }
+                        }   
+                    });
+                }
+            },
+            minLength: 1,
+            cache: true
+
+        }).focus(function () {
+            $(this).autocomplete("search");
         });
     </script>
 }
