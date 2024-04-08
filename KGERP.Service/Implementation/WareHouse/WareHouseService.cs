@@ -3923,7 +3923,7 @@ namespace KGERP.Service.Implementation.Warehouse
             if (getLastRow == null)
             {
                 getLastRow=new BillingGeneratedMap();
-                getLastRow.MaterialReceiveId = 0;
+                getLastRow.BillingMapId = 0;
             }
             if(receiveDate == null)
             {
@@ -3940,7 +3940,7 @@ namespace KGERP.Service.Implementation.Warehouse
                 return totalDigit + lastRowId.ToString();
             }
 
-            string generatedNumber = $"BILL-{receiveDate:yyMMdd}-{setZeroBeforeLastId(++getLastRow.MaterialReceiveId, 4)}";
+            string generatedNumber = $"BILL-{receiveDate:yyMMdd}-{setZeroBeforeLastId(++getLastRow.BillingMapId, 4)}";
             return generatedNumber;
 
         }
