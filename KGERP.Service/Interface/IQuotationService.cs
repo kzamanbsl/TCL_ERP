@@ -43,6 +43,7 @@ namespace KGERP.Service.Interface
         long AddQuotationSubmitDetail(QuotationSubmitMasterModel model);
         List<QuotationMasterModel> QuotationListByTypeIdAndForId(int typeId, long forId);
         QuotationSubmitMasterModel GetQuotationByQuotationSubmitMasterId(long id);
+        Task<bool> CheckSupplierOnQuotation(long quotationId, int supplierId);
         #endregion
 
         #region Comparatative Statement

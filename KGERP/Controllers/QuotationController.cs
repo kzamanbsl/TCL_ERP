@@ -18,6 +18,8 @@ using Ninject.Activation;
 using KGERP.Data.CustomModel;
 using KGERP.Data.Models;
 using System.Windows.Media;
+using Newtonsoft.Json.Linq;
+using System.Data;
 
 namespace KGERP.Controllers
 {
@@ -239,6 +241,13 @@ namespace KGERP.Controllers
         {
             var data = _Service.QuotationListByTypeIdAndForId(typeId, forId);
 
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public async Task<JsonResult> CheckSupplierAlreadyAppliedOrNot(long quotationId, int supplierId)
+        {
+            var data = await _Service.CheckSupplierOnQuotation(quotationId, supplierId);
             return Json(data, JsonRequestBehavior.AllowGet);
         }
         #endregion

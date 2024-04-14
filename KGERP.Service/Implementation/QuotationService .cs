@@ -861,6 +861,19 @@ namespace KGERP.Service.Implementation
                                                  }).ToList();
             return sendData;
         }
+
+        public async Task<bool> CheckSupplierOnQuotation(long quotationId, int supplierId)
+        {
+            bool response = false;
+            var isExist = await _context.QuotationSubmitMasters.FirstOrDefaultAsync(x => x.QuotationMasterId == quotationId && x.SupplierId == supplierId && x.IsActive);
+
+            if (isExist != null)
+            {
+                response = true;
+            }
+
+            return response;
+        }
         #endregion
     }
 }
