@@ -224,13 +224,14 @@
                                             @Html.EditorFor(model => model.SupplierName, new { htmlAttributes = new { @autocomplete = "on", @class = "form-control", @name = "Supplier Name", @id = "txtSupplierName", required = "required" } })
                                             @Html.HiddenFor(model => model.SupplierId, new { id = "ddlCommon_SupplierFK" })
                                             @Html.ValidationMessageFor(model => model.SupplierId, "", new { @class = "text-danger" })
+                                            <span class="text-danger" id="supplierMessage"></span>
                                         </div>
                                     </div>
 
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>&nbsp;</label>
-                                            <button type="submit" id="btnSave" class="btn btn-primary btn-block">Search</button>
+                                            <button type="submit" id="quotationMasterSubmit" class="btn btn-primary btn-block">Search Quoation</button>
                                         </div>
                                     </div>
                                 </div>
@@ -381,25 +382,23 @@
             select: function (e, i) {
                 $("#ddlCommon_SupplierFK").val(i.item.val);
 
-                // check supplier already applied or not
-                if ($("#ddlCommon_SupplierFK").val() > 0) {
-                    var quotationId = $('#ddlQuotationId').val();
-                    var supplierId = $("#ddlCommon_SupplierFK").val();
+                var quotationId = $('#ddlQuotationId').val();
+                var supplierId = $("#ddlCommon_SupplierFK").val();
+                if (quotationId > 0 && supplierId > 0) {
                     $.ajax({
                         url: '/Quotation/CheckSupplierAlreadyAppliedOrNot',
+                        type: 'GET',
+                        contentType: 'application/json',
                         data: { quotationId: quotationId, supplierId: supplierId },
-                        dataType: "json",
-                        type: "get",
-                        cache: true,
-                        contentType: "application/json; charset=utf-8",
-                        success: function (data) {
-                            if (data) {
-                                $('#message').text("Supplier already applied for this Quotation!");
+                        success: function (response) {
+                            if (response) {
+                                $('#quotationMasterSubmit').prop('disabled', true);
+                                $('#supplierMessage').text("This supplier has previously been enlisted for consideration regarding this quotation!");
+                            } else {
+                                $('#quotationMasterSubmit').prop('disabled', false);
+                                $('#supplierMessage').text("");
                             }
-                            else {
-                                $('#message').text("");
-                            }
-                        }   
+                        }
                     });
                 }
             },
