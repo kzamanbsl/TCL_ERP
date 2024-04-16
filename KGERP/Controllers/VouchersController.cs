@@ -1,5 +1,6 @@
 ﻿using KGERP.Data.Models;
 using KGERP.Service.Implementation.Accounting;
+using KGERP.Service.Implementation.Configuration;
 using KGERP.Service.Interface;
 using KGERP.Service.ServiceModel;
 using KGERP.Utility;
@@ -19,15 +20,17 @@ namespace KGERP.Controllers
         private readonly IAccountHeadService _accountHeadService;
         private readonly AccountingService _accountingService;
         private readonly IBillRequisitionService _billRequisitionService;
+        private readonly ConfigurationService _configurationService;
 
 
-        public VouchersController(ERPEntities db, IAccountHeadService accountHeadService, IVoucherTypeService voucherTypeService, IVoucherService voucherService, IBillRequisitionService billrequisitionService)
+        public VouchersController(ERPEntities db, IAccountHeadService accountHeadService, IVoucherTypeService voucherTypeService, IVoucherService voucherService, IBillRequisitionService billrequisitionService,ConfigurationService configurationService)
         {
             _voucherTypeService = voucherTypeService;
             _voucherService = voucherService;
             _accountHeadService = accountHeadService;
             _accountingService = new AccountingService(db);
             _billRequisitionService = billrequisitionService;
+            _configurationService = configurationService;
         }
 
 
@@ -371,6 +374,7 @@ namespace KGERP.Controllers
                 vmJournalSlave.MaterialItemList = new SelectList(_billRequisitionService.ApprovedMaterialList(companyId, requisitionId), "ProductId", "ProductName");
 
             }
+            vmJournalSlave.BankList = new SelectList(_configurationService.CommonBanksDropDownList(companyId), "Value", "Text");
 
             return View(vmJournalSlave);
         }

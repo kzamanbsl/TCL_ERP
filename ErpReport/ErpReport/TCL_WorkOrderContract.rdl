@@ -9,7 +9,7 @@
       <am:Name>SSDTRS</am:Name>
       <am:Version>17.9.34622.214</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2024-03-27T04:22:12.4943978Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2024-04-10T05:07:18.2668990Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
@@ -184,7 +184,7 @@ from Company Where CompanyId=@CompanyId</CommandText>
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>  Date</Value>
+                    <Value>     Date</Value>
                     <Style>
                       <TextDecoration>None</TextDecoration>
                     </Style>
@@ -204,9 +204,9 @@ from Company Where CompanyId=@CompanyId</CommandText>
             </Paragraphs>
             <rd:DefaultName>Textbox14</rd:DefaultName>
             <Top>0.46125in</Top>
-            <Left>2.86333in</Left>
+            <Left>2.97791in</Left>
             <Height>0.46875in</Height>
-            <Width>1.05208in</Width>
+            <Width>1.32291in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1082,6 +1082,59 @@ Tanvir Constructions Ltd</Value>
             <Height>1.35417in</Height>
             <Width>2.375in</Width>
             <ZIndex>7</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Image Name="Image1">
+            <Source>Embedded</Source>
+            <Value>=First(Fields!CompanyLogo.Value, "CompanyDSet")</Value>
+            <Sizing>FitProportional</Sizing>
+            <Top>0.25292in</Top>
+            <Left>0.51958in</Left>
+            <Height>0.67708in</Height>
+            <Width>1.65625in</Width>
+            <ZIndex>8</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Image>
+          <Textbox Name="Textbox1">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>TANVIR CONSTRACTION LTD.</Value>
+                    <Style>
+                      <FontWeight>Bold</FontWeight>
+                      <Color>SeaGreen</Color>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value>
+First Class Government Contractor</Value>
+                    <Style />
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox1</rd:DefaultName>
+            <Top>0.46125in</Top>
+            <Left>5.30083in</Left>
+            <Height>0.46875in</Height>
+            <Width>2.19876in</Width>
+            <ZIndex>9</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>

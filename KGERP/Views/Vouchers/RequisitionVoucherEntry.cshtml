@@ -58,6 +58,7 @@
                 @Html.HiddenFor(model => model.ActionId, new { id = "ActionId" })
                 @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
                 @Html.HiddenFor(model => model.VoucherNo, new { @id = "txtVoucherNo" })
+                @Html.HiddenFor(model => model.SupplierId, new { @id = "txtHiddenSupplierId" })
                 <input type="hidden" value="@Model.BillRequisitionId" id="hiddenReqId" />
 
                 <div class="box-danger">
@@ -115,7 +116,7 @@
                                         <th style="width:2%">:</th>
                                         <td style="width:30%">@Model.CreatedBy</td>
                                     </tr>
-                                    
+
                                 </table>
                             </div>
                             <div class="col-md-1"> </div>
@@ -130,7 +131,7 @@
                                             <label class="form-label">Vourcher For  :</label>
                                             @Html.DropDownListFor(model => model.VoucherFor, Model.VoucherForList as SelectList, "==Voucher For==", new { id = "ddlVoucherFor", @class = "form-control", required = "required" })
                                             @Html.ValidationMessageFor(model => model.VoucherFor, "", new { @class = "text-danger" })
-                                            @Html.HiddenFor(model => model.IsRequisitionVoucher, new {@value ="false", @id ="isRequisitionVoucherId"})
+                                            @Html.HiddenFor(model => model.IsRequisitionVoucher, new { @value = "false", @id = "isRequisitionVoucherId" })
                                         </div>
                                     </div>
 
@@ -177,8 +178,41 @@
                                     <div class="col-md-3 hidden" id="inputChequeName">
                                         <div class="form-group">
                                             <label class="form-label">Pay To :</label>
-                                            @Html.TextBoxFor(model => model.ChqName, new { id = "txtChqName", @class = "form-control", placeholder = "Pay To" })
+                                            @Html.TextBoxFor(model => model.ChqName, new { id = "txtSupplierName", @class = "form-control", placeholder = "Pay To" })
                                             @Html.ValidationMessageFor(model => model.ChqName, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="bankInfo col-md-3 hidden">
+                                        <div class="form-group">
+                                            <label class="form-label">Select Bank<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                            @Html.DropDownListFor(model => model.BankId, new SelectList(Model.BankList.OrderBy(order => order.Text), "Value", "Text"), "==Select Bank==", new { id = "ddlBankId", @class = "form-control searchingDropdown", style = "width:100%" })
+                                            @Html.ValidationMessageFor(model => model.BankId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="bankInfo col-md-3 hidden">
+                                        <div class="form-group">
+                                            <label class="form-label">Select Branch<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                            @Html.DropDownListFor(model => model.BankBranchId, new SelectList(Model.BankBranchList.OrderBy(order => order.Text), "Value", "Text"), "==Select Branch==", new { id = "ddlBankBranchId", @class = "form-control searchingDropdown", style = "width:100%" })
+                                            @Html.ValidationMessageFor(model => model.BankBranchId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="bankInfo col-md-3 hidden">
+                                        <div class="form-group">
+                                            <label class="form-label">Account Number<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                            @Html.DropDownListFor(model => model.BankAccountInfoId, new SelectList(Model.AccountNoList.OrderBy(order => order.Text), "Value", "Text"), "==Select Account No==", new { id = "ddlBankAccountInfoId", @class = "form-control searchingDropdown", style = "width:100%" })
+                                            @Html.ValidationMessageFor(model => model.BankAccountInfoId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="bankInfo col-md-3 hidden">
+                                        <div class="form-group">
+                                            <label class="form-label">Cheque Book<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                            @Html.DropDownListFor(model => model.ChequeBookId, Model.ChequeBookList as SelectList, "==Select Cheque Book==", new { id = "ddlCheqeBookId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                            @Html.ValidationMessageFor(model => model.ChequeBookId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
 
@@ -186,36 +220,36 @@
                                         <div class="form-group">
                                             <label class="form-label">Cheque No :</label>
                                             @Html.TextBoxFor(model => model.ChqNo, new { id = "txtChqNo", @class = "form-control", placeholder = "Cheque No" })
-                                            @Html.ValidationMessageFor(model => model.ChqNo, "", new { @class = "text-danger" })
+                                            @Html.ValidationMessageFor(model => model.ChqNo, "",new {id= "chequeNoValidationMessage" ,@class = "text-danger" })
                                         </div>
                                     </div>
+
                                 </div>
-
                                 @*<div class="row bankHead" style="display:none">
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label class="form-label">Cheque Date :</label>
-                                            <input name="ChqDate" asp-for="ChqDate" type="text" class="datePicker form-control" id="txtChqDate" placeholder="Chq Date" autocomplete="off">
-                                            @Html.ValidationMessageFor(model => model.ChqDate, "", new { @class = "text-danger" })
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="form-label">Cheque Date :</label>
+                                                <input name="ChqDate" asp-for="ChqDate" type="text" class="datePicker form-control" id="txtChqDate" placeholder="Chq Date" autocomplete="off">
+                                                @Html.ValidationMessageFor(model => model.ChqDate, "", new { @class = "text-danger" })
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label class="form-label">Cheque No :</label>
-                                            @Html.TextBoxFor(model => model.ChqNo, new { id = "txtChqNo", @class = "form-control", placeholder = "Cheque No" })
-                                            @Html.ValidationMessageFor(model => model.ChqNo, "", new { @class = "text-danger" })
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="form-label">Cheque No :</label>
+                                                @Html.TextBoxFor(model => model.ChqNo, new { id = "txtChqNo", @class = "form-control", placeholder = "Cheque No" })
+                                                @Html.ValidationMessageFor(model => model.ChqNo, "", new { @class = "text-danger" })
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label class="form-label">Cheque  :</label>
-                                            @Html.TextBoxFor(model => model.ChqName, new { id = "txtChqName", @class = "form-control", placeholder = "Cheque Name" })
-                                            @Html.ValidationMessageFor(model => model.ChqName, "", new { @class = "text-danger" })
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="form-label">Cheque  :</label>
+                                                @Html.TextBoxFor(model => model.ChqName, new { id = "txtChqName", @class = "form-control", placeholder = "Cheque Name" })
+                                                @Html.ValidationMessageFor(model => model.ChqName, "", new { @class = "text-danger" })
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>*@
+                                    </div>*@
 
                                 @*<div class="row">
                                         <div class="col-md-5">
@@ -306,7 +340,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="form-label">Debit Amount :</label>
-                                            @Html.TextBoxFor(model => model.Debit, new { id = "txtDebit", type = "number", step = "1", @class = "form-control" })
+                                            @Html.TextBoxFor(model => model.Debit, new { id = "txtDebit", @class = "form-control" })
                                             @Html.ValidationMessageFor(model => model.Debit, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -314,7 +348,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="form-label">Credit Amount :</label>
-                                            @Html.TextBoxFor(model => model.Credit, new { id = "txtCredit", type = "number", step = "1", @class = "form-control" })
+                                            @Html.TextBoxFor(model => model.Credit, new { id = "txtCredit",   @class = "form-control" })
                                             @Html.ValidationMessageFor(model => model.Credit, "", new { @class = "text-danger" })
 
                                         </div>
@@ -868,6 +902,7 @@
             var showTotal = $("#txtApprovedTotal");
             var showDrSoFar = $("#txtTotalDebitedSoFar");
             var showCrSoFar = $("#txtTotalCreditedSoFar");
+            var showAccHeadFar = $("#txtAccountingHeadName");
 
             showApprovedDemand.val(0);
             showUnitPrice.val(0);
@@ -887,6 +922,7 @@
                         showTotal.val(showApprovedDemand.val() * showUnitPrice.val());
                         showDrSoFar.val(data.TotalDebited);
                         showCrSoFar.val(data.TotalCredited);
+                        showAccHeadFar.val(data.AccountHead);
                     }
                 }
             });
@@ -921,14 +957,25 @@
         $("#ddlVoucherTypeId").on("change", function () {
             var selectedOption = $(this).find("option:selected");
 
-            if (selectedOption.val() == 17) {
+            if (selectedOption.val() == @((int)VoucherTypeIdDatabaseValue.JournalVoucher)) {
                 $("#inputChequeDate").removeClass("d-block").addClass("hidden");
                 $("#inputChequeName").removeClass("d-block").addClass("hidden");
                 $("#inputChequeNo").removeClass("d-block").addClass("hidden");
+                $(".bankInfo").removeClass("d-block").addClass("hidden");
+            }else if (selectedOption.val() ==@((int)VoucherTypeIdDatabaseValue.BankPaymentVoucher)) {
+                $(".bankInfo").removeClass("d-block").addClass("hidden");
+                $(".bankInfo").removeClass("hidden").addClass("d-block");
+                $("#inputChequeNo").removeClass("hidden").addClass("d-block");
+                $("#inputChequeDate").removeClass("hidden").addClass("d-block");
+                $("#inputChequeName").removeClass("hidden").addClass("d-block");
+
             } else {
                 $("#inputChequeDate").removeClass("hidden").addClass("d-block");
                 $("#inputChequeName").removeClass("hidden").addClass("d-block");
-                $("#inputChequeNo").removeClass("hidden").addClass("d-block");
+                /*$("#inputChequeNo").removeClass("hidden").addClass("d-block");*/
+                $("#inputChequeNo").removeClass("d-block").addClass("hidden");
+
+                $(".bankInfo").removeClass("d-block").addClass("hidden");
             }
 
         });
@@ -957,5 +1004,145 @@
         }
 
         RequisitionInputFieldShow();
+
+
+        $('#ddlBankId').on('change', function (event) {
+            var bankId = $("#ddlBankId option:selected").val();
+            var showBarnchList = $("#ddlBankBranchId");
+            $.ajax({
+                type: "GET",
+                url: "/ChequeRegister/GetBranchBybankId",
+                dataType: "json",
+                data: { bankId: bankId },
+                success: function (data) {
+                    showBarnchList.empty();
+                    showBarnchList.append("<option selected disabled>==Select Branch==</option>");
+                    $.each(data, function (index, item) {
+                        showBarnchList.append($('<option>', {
+                            value: item.BranchId,
+                            text: item.BranchName
+                        }));
+                    });
+
+                      /*  $('#ddlBankBranchId').val(bankBranchId).trigger('change');*/
+
+                }
+            });
+        });
+
+        $('#ddlBankBranchId').on('change', function (event) {
+            var bankId = $("#ddlBankId option:selected").val();
+            var bankBranchId = $("#ddlBankBranchId option:selected").val();
+            var showAccountList = $("#ddlBankAccountInfoId");
+            $.ajax({
+                type: "GET",
+                url: "/ChequeRegister/GetAccountNoByBankBranchId",
+                dataType: "json",
+                data: { bankId: bankId, bankBranchId: bankBranchId },
+                success: function (data) {
+                    showAccountList.empty();
+                    showAccountList.append("<option selected disabled>==Select Account No==</option>");
+                    $.each(data, function (index, item) {
+                        showAccountList.append($('<option>', {
+                            value: item.BankAccountInfoId,
+                            text: item.AccountNo
+                        }));
+                    });
+
+                      /*  $('#ddlBankAccountInfoId').val(bankInfoId).trigger('change');*/
+
+                }
+            });
+        });
+
+        $('#ddlBankAccountInfoId').on('change', function (event) {
+            var bankAccountInfoId = $("#ddlBankAccountInfoId option:selected").val();
+            var showChequeBookList = $("#ddlCheqeBookId");
+            $.ajax({
+                type: "GET",
+                url: "/ChequeRegister/GetChequeBookListByAccountInfo",
+                dataType: "json",
+                data: { bankAccountInfoId: bankAccountInfoId },
+                success: function (data) {
+                    showChequeBookList.empty();
+                    showChequeBookList.append("<option selected disabled>==Select Cheque Book==</option>");
+                    $.each(data, function (index, item) {
+                        showChequeBookList.append($('<option>', {
+                            value: item.ChequeBookId,
+                            text: item.ChequeBookNo
+                        }));
+                    });
+                }
+            });
+        });
+
+        $('#ddlCheqeBookId').on('change', function (event) {
+            var chequeBookId = $("#ddlCheqeBookId option:selected").val();
+            $.ajax({
+                type: "GET",
+                url: "/ChequeRegister/GetChequeBookInfoById",
+                dataType: "json",
+                data: { chequeBookId: chequeBookId },
+                success: function (data) {
+
+
+                    if (data.UsedBookPage != data.TotalBookPage || data.UsedBookPage < data.TotalBookPage) {
+                        var predictNextPage = data.UsedBookPage - 1;
+                        var nextPage = predictNextPage;
+
+                        if (nextPage <= data.BookLastPageNumber) {
+                            $('#txtChqNo').val(data.BookFirstPageNumber + nextPage);
+                        }
+
+                        $('#chequeNoValidationMessage').text("");
+                    }
+                    else {
+                        $('#txtChqNo').val(0);
+                        $('#chequeNoValidationMessage').text("No more page here, Try with another book!");
+                    }
+                }
+            });
+        });
+
+        $('#txtSupplierName').autocomplete({
+            source: function (request, response) {
+
+                $.ajax({
+                    url: "@Url.Action("GetAutoCompleteSupplierGet", "Procurement")",
+                    data: { prefix: request.term, companyId: "@Model.CompanyFK" },
+                    dataType: "json",
+                    type: "get",
+                    cache: true,
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return item;
+                        }))
+                    }
+                });
+            },
+
+            select: function (e, i) {
+                //$("#ddlCommon_SupplierFK").val(i.item.val);
+                if (i.item.val > 0) {
+                    $('#txtHiddenSupplierId').val(i.item.val);
+                    $.ajax({
+                        type: "GET",
+                        url: "/ChequeRegister/GetSupplierPayeeName",
+                        dataType: "json",
+                        data: { supplierId: i.item.val },
+                        success: function (data) {
+                            $('#txtSupplierName').val(data);
+                            
+                        }
+                    });
+                }
+            },
+            minLength: 1,
+            cache: true
+
+        }).focus(function () {
+            $(this).autocomplete("search");
+        });
     </script>
 }

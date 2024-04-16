@@ -81,6 +81,16 @@ namespace KGERP.Service.Implementation.Accounting
         public int VoucherTypeId { get; set; }
         public int? RequisitionMaterialId { get; set; }
         public string MaterialName { get; set; }
+        public int? SupplierId { get; set; }
+        public int BankId { get; set; }
+        public string BankName { get; set; }
+        public int BankBranchId { get; set; }
+        public string BankBranchName { get; set; }
+        public long BankAccountInfoId { get; set; }
+        public string AccountName { get; set; }
+        public long AccountNumber { get; set; }
+        public long ChequeBookId { get; set; }
+        public int ChequeBookNo { get; set; }
 
         public double Debit { get; set; } = 0;
         public double Credit { get; set; } = 0;
@@ -112,7 +122,10 @@ namespace KGERP.Service.Implementation.Accounting
         public SelectList BankOrCashGLList { get; set; } = new SelectList(new List<object>());
         public SelectList Requisitions { get; set; } = new SelectList(new List<object>());
         public SelectList MaterialItemList { get; set; } = new SelectList(new List<Product>());
-
+        public SelectList BankList { get; set; } = new SelectList(new List<object>());
+        public SelectList BankBranchList { get; set; } = new SelectList(new List<object>());
+        public SelectList AccountNoList { get; set; } = new SelectList(new List<object>());
+        public SelectList ChequeBookList { get; set; } = new SelectList(new List<object>());
         public int VoucherFor { get; set; }
         public SelectList VoucherForList { get; set; } =  new SelectList(Enum.GetValues(typeof(EnumVoucherFor)).Cast<EnumVoucherFor>().Select(e => new SelectListItem{Text = e.ToString(),Value = ((int) e).ToString()}), "Value", "Text");
 

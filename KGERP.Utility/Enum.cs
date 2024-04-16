@@ -76,7 +76,7 @@ namespace KGERP.Utility
         Initiator = 1,
         Checker,
         Approver
-    
+
     }
     public enum EnumBRequisitionSignatory
     {
@@ -115,7 +115,7 @@ namespace KGERP.Utility
     }
     public enum EnumBudgetAndEstimatingApprovalStatus
     {
-        Pending=1,
+        Pending = 1,
         Approved,
         Revised
         //Rejected,
@@ -518,5 +518,11 @@ namespace KGERP.Utility
         November = 11,
         December = 12
     }
-
+    public enum VoucherTypeIdDatabaseValue
+    {
+        JournalVoucher = 17,
+        BankPaymentVoucher = 158,
+        CashPaymentVoucher = 162,
+        ReceiptVoucher = 163
+    }
 }

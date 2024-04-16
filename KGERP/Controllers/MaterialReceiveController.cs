@@ -385,10 +385,10 @@ namespace KGERP.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
-        public async Task<JsonResult> GetMaterialReceiveLByPurchaseOrderId(int? PurchaseOrderId)
+        public async Task<JsonResult> GetMaterialReceiveLByProductId(int? BoqItem,int? ProductId)
         {
-            
-           var  result =await  _materialReceiveService.GetMaterialReceiveByPurchaseOrderId(PurchaseOrderId);
+
+            var result = await _materialReceiveService.GetMaterialReceiveInfoByProductIdAndBoqItemId( BoqItem,ProductId);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 

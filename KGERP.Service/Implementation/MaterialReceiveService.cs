@@ -1,4 +1,5 @@
 ﻿using KGERP.Data.Models;
+using KGERP.Service.Implementation.Warehouse;
 using KGERP.Service.Interface;
 using KGERP.Service.ServiceModel;
 using KGERP.Utility;
@@ -7,9 +8,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-using KGERP.Service.Implementation.Warehouse;
 using System.Web.Mvc;
-using System.IdentityModel.Protocols.WSTrust;
 
 namespace KGERP.Service.Implementation
 {
@@ -713,25 +712,51 @@ namespace KGERP.Service.Implementation
             return noOfRowsAfffected > 0;
         }
 
-        public async Task< SelectList> GetMaterialReceiveListByBoqItem(int companyId, int? projectId,  int? BoqItem)
+        public async Task<SelectList> GetMaterialReceiveListByBoqItem(int companyId, int? projectId, int? BoqItem)
         {
-            var meterialReceiveList= await (from t1 in _context.BoQItemProductMaps 
-                                     join t2 in _context.MaterialReceiveDetails on t1.ProductId equals t2.ProductId
-                                     join t3 in _context.MaterialReceives on t2.MaterialReceiveId equals t3.MaterialReceiveId
-                                     join t4 in _context.Products on t2.ProductId equals t4.ProductId
+            var meterialReceiveList = await (from t1 in _context.BoQItemProductMaps
+                                             join t2 in _context.MaterialReceiveDetails on t1.ProductId equals t2.ProductId
+                                             join t3 in _context.MaterialReceives on t2.MaterialReceiveId equals t3.MaterialReceiveId
+                                             join t4 in _context.Products on t2.ProductId equals t4.ProductId
 
-                                     where t1.CompanyId == companyId && t1.BoQItemId == BoqItem
-                                            select new {
-                                         ProductName= t4.ProductName,
-                                         ProductId= t4.ProductId
-                                     }).Distinct().ToListAsync();
-            var result= new SelectList(meterialReceiveList, "ProductId", "ProductName");
+                                             where t1.CompanyId == companyId && t1.BoQItemId == BoqItem
+                                             select new
+                                             {
+                                                 ProductName = t4.ProductName,
+                                                 ProductId = t4.ProductId
+                                             }).Distinct().ToListAsync();
+            var result = new SelectList(meterialReceiveList, "ProductId", "ProductName");
             return result;
         }
 
-        public async Task<object> GetMaterialReceiveByPurchaseOrderId(int? PurchaseOrderId)
+        public async Task<object> GetMaterialReceiveInfoByProductIdAndBoqItemId(int? BoqItem,int? ProductId)
         {
-            throw new NotImplementedException();
+
+            var data = await (from t1 in _context.BoQItemProductMaps.AsNoTracking().AsQueryable()
+                              join t2 in _context.MaterialReceiveDetails.AsNoTracking().AsQueryable() on t1.ProductId equals t2.ProductId
+                              join t3 in _context.MaterialReceives.AsNoTracking().AsQueryable() on t2.MaterialReceiveId equals t3.MaterialReceiveId
+                              join t4 in _context.Products.AsNoTracking().AsQueryable() on t2.ProductId equals t4.ProductId
+                              join t5 in _context.PurchaseOrderDetails.AsNoTracking().AsQueryable() on t3.PurchaseOrderId equals t5.PurchaseOrderId
+                              
+                              where (ProductId > 0 ? t1.ProductId == ProductId : true) && 
+                              (BoqItem>0?t1.BoQItemId==BoqItem:true) && t2.IsReturn == false && t2.IsActive == true
+
+                              select new
+                              {
+                                  UnitPrice = t2.UnitPrice,
+                                  ReceiveQuentity = t2.ReceiveQty,
+                                  purchaseQuentity = t5.PurchaseAmount,
+                                  TotalAmount = t2.UnitPrice* t2.ReceiveQty
+                              }).ToListAsync();
+
+            var result = new
+            {
+                UnitPrice = data.Select(c => c.UnitPrice).FirstOrDefault(),
+                StoredQty = data.Select(c => c.ReceiveQuentity).Sum(),
+                RemainQuentity = data.Select(c => c.purchaseQuentity).FirstOrDefault() - data.Select(c => c.ReceiveQuentity).Sum(),
+                TotalAmount= data.Select(c=>c.TotalAmount).Sum(),
+            };
+            return result;
         }
     }
 }

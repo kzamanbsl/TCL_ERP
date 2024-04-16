@@ -20,7 +20,7 @@ namespace KGERP.Service.Interface
         Task<long> SaveMaterialReceive(VMWarehousePOReceivingSlave vmPOReceivingSlave);
         List<MaterialReceiveModel> GetMaterialIssuePendingList(int companyId, string searchDate, string searchText);
        Task<SelectList> GetMaterialReceiveListByBoqItem(int companyId, int? projectId, int? BoqItem);
-       Task<object> GetMaterialReceiveByPurchaseOrderId(int? PurchaseOrderId);
+        Task<object> GetMaterialReceiveInfoByProductIdAndBoqItemId(int? BoqItem,int? ProductId);
         bool MaterialReceiveIssue(MaterialReceiveModel materialReceive);
         MaterialReceiveModel GetMaterialReceiveIssue(long id);
         IList<MaterialReceiveDetailModel> GetMaterialReceiveDetailIssue(long id);

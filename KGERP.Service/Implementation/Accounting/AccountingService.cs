@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using KGERP.Data.Models;
 using KGERP.Service.Implementation.Production;
 using KGERP.Service.Implementation.Warehouse;
 using KGERP.Service.ServiceModel;
 using KGERP.Service.ServiceModel.RealState;
 using KGERP.Utility;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ProgressBar;
 
 namespace KGERP.Service.Implementation.Accounting
 
@@ -564,6 +566,7 @@ namespace KGERP.Service.Implementation.Accounting
         public async Task<long> VoucherRequisitionMapAdd(VMJournalSlave vmJournalSlave)
         {
             long result = -1;
+
             //GetVoucherNo
 
             try
@@ -588,6 +591,31 @@ namespace KGERP.Service.Implementation.Accounting
                     IsStock = vmJournalSlave.IsStock
                 };
                 _db.Vouchers.Add(voucher);
+
+                ChequeRegister chequeRegister = new ChequeRegister()
+                {
+                    ChequeBookId = vmJournalSlave.ChequeBookId,
+                    ProjectId = vmJournalSlave.Accounting_CostCenterFK??0,
+                    SupplierId = vmJournalSlave.SupplierId,
+                    PayTo = vmJournalSlave.ChqName,
+                    IssueDate = (DateTime)vmJournalSlave.Date,
+                    ChequeDate = (DateTime)vmJournalSlave.ChqDate,
+                    ChequeNo = Int32.Parse( vmJournalSlave.ChqNo),
+                    Amount =(decimal) vmJournalSlave.Debit,
+                    ClearingDate = (DateTime)vmJournalSlave.ChqDate,
+                    Remarks = vmJournalSlave.Remarks??"",
+                    IsSigned = false,
+                    IsActive = true,
+                    CreatedBy = HttpContext.Current.User.Identity.Name,
+                    CreatedOn = DateTime.Now
+                };
+                if (vmJournalSlave.BillRequisitionId > 0)
+                {
+                    chequeRegister.RequisitionMasterId = vmJournalSlave.BillRequisitionId;
+
+                }
+                _db.ChequeRegisters.Add(chequeRegister);
+
 
                 using (var scope = _db.Database.BeginTransaction())
                 {

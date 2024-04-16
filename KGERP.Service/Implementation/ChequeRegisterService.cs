@@ -25,50 +25,41 @@ namespace KGERP.Service.Implementation
         {
             bool sendData = false;
 
-            if (model != null)
+            if (model is null)
             {
-                ChequeRegister data = new ChequeRegister();
-                if (model.RequisitionId > 0)
-                {
-                    data.ChequeBookId = model.ChequeBookId;
-                    data.ProjectId = model.ProjectId;
-                    data.RequisitionMasterId = model.RequisitionId;
-                    data.SupplierId = model.SupplierId;
-                    data.PayTo = model.PayTo;
-                    data.IssueDate = model.IssueDate;
-                    data.ChequeDate = model.ChequeDate;
-                    data.ChequeNo = model.ChequeNo;
-                    data.Amount = model.Amount;
-                    data.ClearingDate = model.ClearingDate;
-                    data.Remarks = model.Remarks;
-                    data.IsSigned = false;
-                    data.IsActive = true;
-                    data.CreatedBy = HttpContext.Current.User.Identity.Name;
-                    data.CreatedOn = DateTime.Now;
-                }
-                else
-                {
-                    data.ChequeBookId = model.ChequeBookId;
-                    data.ProjectId = model.ProjectId;
-                    data.SupplierId = model.SupplierId;
-                    data.PayTo = model.PayTo;
-                    data.IssueDate = model.IssueDate;
-                    data.ChequeDate = model.ChequeDate;
-                    data.ChequeNo = model.ChequeNo;
-                    data.Amount = model.Amount;
-                    data.ClearingDate = model.ClearingDate;
-                    data.Remarks = model.Remarks;
-                    data.IsSigned = false;
-                    data.IsActive = true;
-                    data.CreatedBy = HttpContext.Current.User.Identity.Name;
-                    data.CreatedOn = DateTime.Now;
-                }
+                return sendData;
+            }
 
-                _context.ChequeRegisters.Add(data);
-                if (await _context.SaveChangesAsync() > 0)
-                {
-                    sendData = true;
-                }
+            ChequeRegister data = new ChequeRegister()
+            {
+                ChequeBookId = model.ChequeBookId,
+                ProjectId = model.ProjectId,
+                SupplierId = model.SupplierId,
+                PayTo = model.PayTo,
+                IssueDate = model.IssueDate,
+                ChequeDate = model.ChequeDate,
+                ChequeNo = model.ChequeNo,
+                Amount = model.Amount,
+                ClearingDate = model.ClearingDate,
+                Remarks = model.Remarks,
+                IsSigned = false,
+                IsActive = true,
+                CreatedBy = HttpContext.Current.User.Identity.Name,
+                CreatedOn = DateTime.Now
+            };
+            if (model.RequisitionId > 0)
+            {
+                data.RequisitionMasterId = model.RequisitionId;
+
+            }
+
+
+
+
+            _context.ChequeRegisters.Add(data);
+            if (await _context.SaveChangesAsync() > 0)
+            {
+                sendData = true;
             }
 
             return sendData;
@@ -142,7 +133,7 @@ namespace KGERP.Service.Implementation
 
                     if (await _context.SaveChangesAsync() > 0)
                     {
-                        if(result.RequisitionMasterId > 0)
+                        if (result.RequisitionMasterId > 0)
                         {
                             var requisitionMaster = _context.BillRequisitionMasters.FirstOrDefault(x => x.BillRequisitionMasterId == result.RequisitionMasterId);
                             requisitionMaster.PaymentStatus = true;
@@ -151,7 +142,7 @@ namespace KGERP.Service.Implementation
                             _context.SaveChanges();
                         }
 
-                        if(result.ChequeBookId > 0)
+                        if (result.ChequeBookId > 0)
                         {
                             var chequeBook = _context.ChequeBooks.FirstOrDefault(x => x.ChequeBookId == result.ChequeBookId);
                             chequeBook.UsedBookPage = ++chequeBook.UsedBookPage;
@@ -224,7 +215,7 @@ namespace KGERP.Service.Implementation
         public async Task<string> GetPayeeNameBySupplierId(int supplierId)
         {
             var getData = await _context.Vendors.FirstOrDefaultAsync(x => x.VendorId == supplierId && x.IsActive);
-            return getData.ContactName;
+            return getData.Name;
 
         }
         public async Task<List<ChequeRegisterModel>> GetChequeRegisterList(int companyId)

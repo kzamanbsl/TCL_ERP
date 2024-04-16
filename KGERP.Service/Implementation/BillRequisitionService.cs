@@ -1103,43 +1103,43 @@ namespace KGERP.Service.Implementation
         public async Task<long> BoqAndEstimatingItemApproved(BillRequisitionItemBoQMapModel masterModel)
         {
             var result = -1;
-            if (masterModel == null|| (masterModel.BoQItemProductMaps?.Count()??0)<=0)
+            if (masterModel == null || (masterModel.BoQItemProductMaps?.Count() ?? 0) <= 0)
             {
                 return result;
             }
 
-            var boqMapIdList=masterModel.BoQItemProductMaps.Where(c => c.BoQItemProductMapId > 0).Select(c => c.BoQItemProductMapId).ToList();
+            var boqMapIdList = masterModel.BoQItemProductMaps.Where(c => c.BoQItemProductMapId > 0).Select(c => c.BoQItemProductMapId).ToList();
 
-            if (boqMapIdList.Count() <=0) return result;
-           
+            if (boqMapIdList.Count() <= 0) return result;
 
-            var boqMapObjectList= _context.BoQItemProductMaps.Where(c => boqMapIdList.Contains(c.BoQItemProductMapId)).ToList();
-            
+
+            var boqMapObjectList = _context.BoQItemProductMaps.Where(c => boqMapIdList.Contains(c.BoQItemProductMapId)).ToList();
+
             if (boqMapObjectList.Count() <= 0) return result;
-           
+
             var boqApprovalHistoryObjectList = new List<BoqBNEApprovalHistroy>();
             //var boqMapObjectList = new List<BoQItemProductMap>();
 
-            foreach(var dataModel in boqMapObjectList)
+            foreach (var dataModel in boqMapObjectList)
             {
-                var boqApprovalHistory= new BoqBNEApprovalHistroy()
+                var boqApprovalHistory = new BoqBNEApprovalHistroy()
                 {
-                    BoqBudgetId= dataModel.BoQItemProductMapId,
-                    PreEstimatedQty = dataModel.EstimatedQty??0,
-                    PreUnitPrice = dataModel.UnitRate??0,
+                    BoqBudgetId = dataModel.BoQItemProductMapId,
+                    PreEstimatedQty = dataModel.EstimatedQty ?? 0,
+                    PreUnitPrice = dataModel.UnitRate ?? 0,
                     IsActive = true,
-                    ApprovalStatusId = dataModel.ApprovalStatus??0,
+                    ApprovalStatusId = dataModel.ApprovalStatus ?? 0,
                     ApprovalRemarks = masterModel.Remarks,
                     ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name,
                     ModifiedOn = DateTime.Now,
                 };
-               
+
                 var model = masterModel.BoQItemProductMaps.FirstOrDefault(c => c.BoQItemProductMapId == dataModel.BoQItemProductMapId);
                 if (model == null) continue;
 
                 dataModel.EstimatedQty = model.EstimatedQty;
                 dataModel.UnitRate = model.UnitRate;
-                dataModel.EstimatedAmount = (model.EstimatedQty* model.UnitRate);
+                dataModel.EstimatedAmount = (model.EstimatedQty * model.UnitRate);
                 dataModel.ApprovalStatus = (int)EnumBudgetAndEstimatingApprovalStatus.Approved;
                 dataModel.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
                 dataModel.ModifiedDate = DateTime.Now;
@@ -1149,30 +1149,30 @@ namespace KGERP.Service.Implementation
 
 
 
-           // var BoQItemProductMapObject = _context.BoQItemProductMaps.FirstOrDefault(c => c.BoQItemProductMapId == masterModel.BoQItemProductMapId);
-           // var modelMapProduct = masterModel.BoQItemProductMaps.FirstOrDefault();
-           // if (BoQItemProductMapObject == null || modelMapProduct == null)
-           // {
-           //     return result;
-           // }
-           // var boqApprovalHistoryObject = new BoqBNEApprovalHistroy()
-           // {
-           //     BoqBudgetId = BoQItemProductMapObject.BoQItemProductMapId,
-           //     PreEstimatedQty = BoQItemProductMapObject.EstimatedAmount ?? 0,
-           //     PreUnitPrice = BoQItemProductMapObject.UnitRate ?? 0,
-           //     IsActive = true,
-           //     ApprovalStatusId = 1,
-           //     ApprovalRemarks = masterModel.Remarks,
-           //     ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name,
-           //     ModifiedOn = DateTime.Now,
+            // var BoQItemProductMapObject = _context.BoQItemProductMaps.FirstOrDefault(c => c.BoQItemProductMapId == masterModel.BoQItemProductMapId);
+            // var modelMapProduct = masterModel.BoQItemProductMaps.FirstOrDefault();
+            // if (BoQItemProductMapObject == null || modelMapProduct == null)
+            // {
+            //     return result;
+            // }
+            // var boqApprovalHistoryObject = new BoqBNEApprovalHistroy()
+            // {
+            //     BoqBudgetId = BoQItemProductMapObject.BoQItemProductMapId,
+            //     PreEstimatedQty = BoQItemProductMapObject.EstimatedAmount ?? 0,
+            //     PreUnitPrice = BoQItemProductMapObject.UnitRate ?? 0,
+            //     IsActive = true,
+            //     ApprovalStatusId = 1,
+            //     ApprovalRemarks = masterModel.Remarks,
+            //     ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name,
+            //     ModifiedOn = DateTime.Now,
 
-           // };
+            // };
 
-           // BoQItemProductMapObject.EstimatedAmount = modelMapProduct.EstimatedAmount;
-           // BoQItemProductMapObject.UnitRate = modelMapProduct.UnitRate;
-           //// BoQItemProductMapObject.IsApproved = true;
-           // BoQItemProductMapObject.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
-           // BoQItemProductMapObject.ModifiedDate = DateTime.Now;
+            // BoQItemProductMapObject.EstimatedAmount = modelMapProduct.EstimatedAmount;
+            // BoQItemProductMapObject.UnitRate = modelMapProduct.UnitRate;
+            //// BoQItemProductMapObject.IsApproved = true;
+            // BoQItemProductMapObject.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+            // BoQItemProductMapObject.ModifiedDate = DateTime.Now;
 
             using (var transaction = _context.Database.BeginTransaction())
             {
@@ -1191,7 +1191,7 @@ namespace KGERP.Service.Implementation
                     return result;
                 }
             }
-            return   boqMapObjectList.LastOrDefault().BoQItemProductMapId;
+            return boqMapObjectList.LastOrDefault().BoQItemProductMapId;
         }
 
         public async Task<BillRequisitionItemBoQMapModel> FilteredBudgetAndEstimatingApprovalList(int projectId = 0, long? boqDivisionId = 0, int? BoqItemId = 0, EnumBudgetAndEstimatingApprovalStatus approvalStatus = default)
@@ -1208,49 +1208,49 @@ namespace KGERP.Service.Implementation
             {
                 approvalStatusValue = (int)EnumBudgetAndEstimatingApprovalStatus.Approved;
             }
-            modelList.BoQItemProductMaps = await (from t1 in _context.BoQItemProductMaps.Where(c=> approvalStatusValue > 0 ? (c.ApprovalStatus??1) == approvalStatusValue : (c.ApprovalStatus ?? 1)>0)
-                                              join t2 in _context.Products.DefaultIfEmpty() on t1.ProductId equals t2.ProductId
-                                             join t3 in _context.BillBoQItems.DefaultIfEmpty().Where(c => c.BoQItemId == (BoqItemId > 0 ? BoqItemId ?? 0 : c.BoQItemId)) on t1.BoQItemId equals t3.BoQItemId
-                                             join t4 in _context.BoQDivisions.DefaultIfEmpty().Where(c=>c.BoQDivisionId== (boqDivisionId > 0 ? boqDivisionId??0 : c.BoQDivisionId)) on t3.BoQDivisionId equals t4.BoQDivisionId 
-                                             join t5 in _context.Accounting_CostCenter.DefaultIfEmpty() on t4.ProjectId equals t5.CostCenterId
-                                             join t6 in _context.ProductSubCategories.DefaultIfEmpty() on t2.ProductSubCategoryId equals t6.ProductSubCategoryId
-                                             join t7 in _context.ProductCategories.DefaultIfEmpty() on t6.ProductCategoryId equals t7.ProductCategoryId
-                                             join t8 in _context.Accounting_CostCenterType.DefaultIfEmpty() on t5.CostCenterTypeId equals t8.CostCenterTypeId
+            modelList.BoQItemProductMaps = await (from t1 in _context.BoQItemProductMaps.Where(c => approvalStatusValue > 0 ? (c.ApprovalStatus ?? 1) == approvalStatusValue : (c.ApprovalStatus ?? 1) > 0)
+                                                  join t2 in _context.Products.DefaultIfEmpty() on t1.ProductId equals t2.ProductId
+                                                  join t3 in _context.BillBoQItems.DefaultIfEmpty().Where(c => c.BoQItemId == (BoqItemId > 0 ? BoqItemId ?? 0 : c.BoQItemId)) on t1.BoQItemId equals t3.BoQItemId
+                                                  join t4 in _context.BoQDivisions.DefaultIfEmpty().Where(c => c.BoQDivisionId == (boqDivisionId > 0 ? boqDivisionId ?? 0 : c.BoQDivisionId)) on t3.BoQDivisionId equals t4.BoQDivisionId
+                                                  join t5 in _context.Accounting_CostCenter.DefaultIfEmpty() on t4.ProjectId equals t5.CostCenterId
+                                                  join t6 in _context.ProductSubCategories.DefaultIfEmpty() on t2.ProductSubCategoryId equals t6.ProductSubCategoryId
+                                                  join t7 in _context.ProductCategories.DefaultIfEmpty() on t6.ProductCategoryId equals t7.ProductCategoryId
+                                                  join t8 in _context.Accounting_CostCenterType.DefaultIfEmpty() on t5.CostCenterTypeId equals t8.CostCenterTypeId
 
-                                             where (projectId>0? t5.CostCenterId == projectId : t5.CostCenterId>0) && t1.IsActive==true
-                                             //&& (boqDivisionId > 0 ? t4.BoQDivisionId == boqDivisionId : true)
-                                             //&& (BoqItemId > 0 ? t3.BoQItemId == BoqItemId : t3.BoQItemId > 0 )
-                                            //&& (approvalStatusValue>0? t1.ApprovalStatus == approvalStatusValue : t1.ApprovalStatus>0)
+                                                  where (projectId > 0 ? t5.CostCenterId == projectId : t5.CostCenterId > 0) && t1.IsActive == true
+                                                  //&& (boqDivisionId > 0 ? t4.BoQDivisionId == boqDivisionId : true)
+                                                  //&& (BoqItemId > 0 ? t3.BoQItemId == BoqItemId : t3.BoQItemId > 0 )
+                                                  //&& (approvalStatusValue>0? t1.ApprovalStatus == approvalStatusValue : t1.ApprovalStatus>0)
                                                   select new BillRequisitionItemBoQMapModel
-                                             {
-                                                 BoQItemProductMapId = t1.BoQItemProductMapId,
-                                                 EstimatedAmount = t1.EstimatedAmount ?? 0M,
-                                                 EstimatedQty = t1.EstimatedQty ?? 0M,
-                                                 UnitRate = t1.UnitRate ?? 0M,
-                                                 MaterialItemId = t1.ProductId,
-                                                 MaterialName = t2.ProductName ?? "N/A",
-                                                 BoQItemId = t3.BoQItemId,
-                                                 BoqName = t3.Name ?? "N/A",
-                                                 BoqNumber = t3.BoQNumber ?? "0",
-                                                 BoQDivisionId = t4.BoQDivisionId,
-                                                 DivisionName = t4.Name ?? "N/A",
-                                                 ProjectId = t5.CostCenterId,
-                                                 ProjectName = t5.Name ?? "N/A",
-                                                 BudgetTypeId = t7.ProductCategoryId,
-                                                 MaterialTypeName = t7.Name ?? "N/A",
-                                                 ApprovalStatus = t1.ApprovalStatus??1,
-                                                 BudgetSubtypeId = t6.ProductSubCategoryId,
-                                                 MaterialSubtypeName = t6.Name ?? "N/A",
-                                                 ProjectTypeId = t8.CostCenterTypeId,
-                                                 ProjectTypeName = t8.Name ?? "N/A"
-                                             }).ToListAsync();
+                                                  {
+                                                      BoQItemProductMapId = t1.BoQItemProductMapId,
+                                                      EstimatedAmount = t1.EstimatedAmount ?? 0M,
+                                                      EstimatedQty = t1.EstimatedQty ?? 0M,
+                                                      UnitRate = t1.UnitRate ?? 0M,
+                                                      MaterialItemId = t1.ProductId,
+                                                      MaterialName = t2.ProductName ?? "N/A",
+                                                      BoQItemId = t3.BoQItemId,
+                                                      BoqName = t3.Name ?? "N/A",
+                                                      BoqNumber = t3.BoQNumber ?? "0",
+                                                      BoQDivisionId = t4.BoQDivisionId,
+                                                      DivisionName = t4.Name ?? "N/A",
+                                                      ProjectId = t5.CostCenterId,
+                                                      ProjectName = t5.Name ?? "N/A",
+                                                      BudgetTypeId = t7.ProductCategoryId,
+                                                      MaterialTypeName = t7.Name ?? "N/A",
+                                                      ApprovalStatus = t1.ApprovalStatus ?? 1,
+                                                      BudgetSubtypeId = t6.ProductSubCategoryId,
+                                                      MaterialSubtypeName = t6.Name ?? "N/A",
+                                                      ProjectTypeId = t8.CostCenterTypeId,
+                                                      ProjectTypeName = t8.Name ?? "N/A"
+                                                  }).ToListAsync();
 
 
             return modelList;
         }
 
 
-        public async  Task<long> BoqAndEstimatingRevisedItemApproved(BillRequisitionItemBoQMapModel masterModel)
+        public async Task<long> BoqAndEstimatingRevisedItemApproved(BillRequisitionItemBoQMapModel masterModel)
         {
             long result = -1;
 
@@ -1261,7 +1261,7 @@ namespace KGERP.Service.Implementation
             var boqMapId = masterModel.BoQItemProductMaps.FirstOrDefault().BoQItemProductMapId;
             var BoQItemProductMapObject = _context.BoQItemProductMaps.FirstOrDefault(c => c.BoQItemProductMapId == boqMapId);
             var modelMapProduct = masterModel.BoQItemProductMaps.FirstOrDefault();
-           
+
             if (BoQItemProductMapObject == null || modelMapProduct == null)
             {
                 return result;
@@ -1297,7 +1297,7 @@ namespace KGERP.Service.Implementation
                     //_context.BoQItemProductMaps.AddOrUpdate(boqMapObjectList);
                     _context.SaveChanges();
                     transaction.Commit();
-                    return result=BoQItemProductMapObject.BoQItemProductMapId;
+                    return result = BoQItemProductMapObject.BoQItemProductMapId;
                 }
                 catch (Exception)
                 {
@@ -1306,7 +1306,7 @@ namespace KGERP.Service.Implementation
                     return result;
                 }
             }
-            
+
 
 
 
@@ -3566,7 +3566,7 @@ namespace KGERP.Service.Implementation
         public async Task<object> ApprovedRequisitionDemand(long requisitionId, long materialId)
         {
             decimal TotalCr = 0M, TotalDr = 0M, totalReceivedSoFar = 0M;
-
+            string AccountHeadName = string.Empty;
             var getReqInfo = await _context.BillRequisitionDetails
                 .Where(a => a.BillRequisitionMasterId == requisitionId && a.ProductId == materialId && a.IsActive).ToListAsync();
 
@@ -3587,15 +3587,28 @@ namespace KGERP.Service.Implementation
 
                 var data = (from t1 in _context.VoucherBRMapDetails.Where(c => c.ProductId == materialId && c.IsActive == true)
                             join t2 in _context.VoucherBRMapMasters.Where(c => c.IsActive && c.BillRequsitionMasterId == requisitionId) on t1.VoucherBRMapMasterId equals t2.VoucherBRMapMasterId
+                            //join t3 in _context.VoucherDetails on t1.VoucherDetailId equals t3.VoucherDetailId into t3_join
+                            //from t3 in t3_join.DefaultIfEmpty()
+                            //join t4 in _context.HeadGLs on t3.AccountHeadId equals t4.Id  into t4_join
+                            //from t4 in t4_join.DefaultIfEmpty()
                             select new
                             {
                                 t1.CreditAmount,
-                                t1.DebitAmount
+                                t1.DebitAmount,
+                                t1.VoucherDetailId
                             }).ToList();
                 if (data != null)
                 {
                     TotalCr = data.Sum(x => x.CreditAmount);
                     TotalDr = data.Sum(x => x.DebitAmount);
+                    var voucherDetailId = data.FirstOrDefault().VoucherDetailId;
+                    var HeadName = (from t1 in _context.VoucherDetails.AsQueryable().AsNoTracking().Where(c => c.VoucherDetailId == voucherDetailId)
+                                      join t2 in _context.HeadGLs.AsQueryable().AsNoTracking() on t1.AccountHeadId equals t2.Id
+                                      select new
+                                      {
+                                          t2.AccName
+                                      }).ToList();
+                    AccountHeadName = HeadName.FirstOrDefault()?.AccName??"";
                 }
 
             }
@@ -3608,7 +3621,8 @@ namespace KGERP.Service.Implementation
                     UnitPrice = getReqInfo.Average(x => x.UnitRate),
                     TotalCredited = TotalCr,
                     TotalDebited = TotalDr,
-                    RecivedSoFar = totalReceivedSoFar
+                    RecivedSoFar = totalReceivedSoFar,
+                    AccountHead = AccountHeadName
                 };
             }
 
@@ -3653,7 +3667,7 @@ namespace KGERP.Service.Implementation
                                 t3.ProductId,
                                 t3.ProductName
                             })
-                            .Distinct() 
+                            .Distinct()
                             .ToList()
                             .Select(x => new Product
                             {
@@ -3682,6 +3696,6 @@ namespace KGERP.Service.Implementation
             return (decimal)totalPrice.Where(x => x.BillRequisitionMasterId == requisitionId).Select(x => x.TotalAmount).Sum();
         }
 
-       
+
     }
 }
