@@ -293,7 +293,7 @@ namespace KGERP.Service.Implementation.Configuration
         public SupplierTypeEnum SupplierType { get { return (SupplierTypeEnum)this.SupplierTypeFk; } }// = SupplierPaymentMethodEnum.Cash;
         public string CustomerTypeName { get { return BaseFunctionalities.GetEnumDescription(CustomerType); } }
         public SelectList CustomerTypeList { get { return new SelectList(BaseFunctionalities.GetEnumList<CustomerTypeEnum>(), "Value", "Text"); } }
-        public SelectList SupplierTypeList { get { return new SelectList(BaseFunctionalities.GetEnumList<SupplierTypeEnum>(), "Value", "Text"); } }
+        //public SelectList SupplierTypeList { get { return new SelectList(BaseFunctionalities.GetEnumList<SupplierTypeEnum>(), "Value", "Text"); } }
 
 
         public CustomerStatusEnum CustomerStatusEnum { get { return (CustomerStatusEnum)this.CustomerStatus; } }
@@ -315,7 +315,9 @@ namespace KGERP.Service.Implementation.Configuration
 
         public string ACName { get; set; }
         public string ACNo { get; set; }
+        public int BankId { get; set; }
         public string BankName { get; set; }
+        public int BankBranchId { get; set; }
         public string BranchName { get; set; }
         public IEnumerable<VMCommonSupplier> DataList { get; set; }
         public List<SelectModel> CList { get; set; }
@@ -330,6 +332,13 @@ namespace KGERP.Service.Implementation.Configuration
         public string SubZoneName { get; set; }
         public int TradeLicenseNumber { get; set; }
         public int BankRoutingNumber { get; set; }
+        public int BIN { get; set; }
+        public int TIN { get; set; }
+        public int SupplierTypeId { get; set; }
+        public string SupplierTypeName { get; set; }
+        public SelectList SupplierTypeList { get; set; } = new SelectList(new List<object>());
+        public SelectList BankList { get; set; } = new SelectList(new List<object>());
+        public SelectList BankBranchList { get; set; } = new SelectList(new List<object>());
     }
 
     public class VMCommonSupplierProduct : VMCommonProduct
