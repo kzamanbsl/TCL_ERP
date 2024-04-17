@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -592,17 +593,7 @@ namespace KGERP.Service.Implementation
         }
 
 
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposed)
-            {
-                if (disposing)
-                {
-                    _context.Dispose();
-                }
-            }
-            disposed = true;
-        }
+       
 
         public bool MaterialReceiveIssue(MaterialReceiveModel model)
         {
@@ -740,7 +731,6 @@ namespace KGERP.Service.Implementation
                               
                               where (ProductId > 0 ? t1.ProductId == ProductId : true) && 
                               (BoqItem>0?t1.BoQItemId==BoqItem:true) && t2.IsReturn == false && t2.IsActive == true
-
                               select new
                               {
                                   UnitPrice = t2.UnitPrice,
@@ -749,14 +739,36 @@ namespace KGERP.Service.Implementation
                                   TotalAmount = t2.UnitPrice* t2.ReceiveQty
                               }).ToListAsync();
 
+            var consumptionData = (from t6 in _context.ConsumptionDetails.AsNoTracking().AsQueryable()
+                                   join t7 in _context.ConsumptionMasters.AsNoTracking().AsQueryable() on t6.ConsumptionMasterId equals t7.ConsumptionMasterId
+                                   where (ProductId > 0 ? t6.ProductId == ProductId : true) &&
+                                (BoqItem > 0 ? t7.BoqItemId == BoqItem : true) && t6.IsActive == true
+                                   select new
+                                   {
+                                       t6.ConsumedQty
+                                   }).ToList();
             var result = new
             {
                 UnitPrice = data.Select(c => c.UnitPrice).FirstOrDefault(),
                 StoredQty = data.Select(c => c.ReceiveQuentity).Sum(),
-                RemainQuentity = data.Select(c => c.purchaseQuentity).FirstOrDefault() - data.Select(c => c.ReceiveQuentity).Sum(),
+                ConsumedQty = consumptionData.Select(c=>c.ConsumedQty).Sum(),
+                RemainQuentity = data.Select(c => c.ReceiveQuentity).Sum()- consumptionData.Select(c =>c.ConsumedQty).Sum(),
                 TotalAmount= data.Select(c=>c.TotalAmount).Sum(),
+               
             };
             return result;
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                if (disposing)
+                {
+                    _context.Dispose();
+                }
+            }
+            disposed = true;
         }
     }
 }

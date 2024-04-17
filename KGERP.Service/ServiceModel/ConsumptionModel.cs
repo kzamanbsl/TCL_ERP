@@ -48,6 +48,7 @@ namespace KGERP.Service.ServiceModel
         public int ProductSubTypeId { get; set; }
         public string ProductSubTypeName { get; set; }
         public decimal? StoredQty { get; set; }
+        public decimal? TotalProductReceived { get; set; }
         public decimal? UnitPrice { get; set; }
         public decimal? RemainingQty { get; set; }
         public decimal? TotalPrice { get; set; }
