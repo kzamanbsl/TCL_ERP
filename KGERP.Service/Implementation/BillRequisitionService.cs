@@ -641,12 +641,13 @@ namespace KGERP.Service.Implementation
                             select new BillRequisitionBoqModel()
                             {
                                 BoQItemId = t1.BoQItemId,
-                                BoQNumber = t1.BoQNumber,
                                 Name = t1.Name,
-                                BoqQuantity = (decimal)t1.BoqQuantity,
-                                BoqUnitId = (int)t1.BoqUnitId,
+                                BoQNumber = t1.BoQNumber,
+                                BoqUnitId = t1.BoqUnitId,
                                 BoqUnitName = t3.Name,
-                                BoQDivisionId = (long)t1.BoQDivisionId,
+                                BoqQuantity = t1.BoqQuantity,
+                                Amount = t1.Amount,
+                                BoQDivisionId = t1.BoQDivisionId,
                                 BoqDivisionName = t2.Name,
                                 ProjectId = t4.CostCenterId,
                                 ProjectName = t4.Name,
@@ -665,11 +666,12 @@ namespace KGERP.Service.Implementation
                 var data = new BillBoQItem()
                 {
                     BoQItemId = item.BoQItemId,
-                    BoQNumber = item.BoQNumber,
-                    Name = item.Name,
-                    BoqQuantity = item.BoqQuantity,
-                    BoqUnitId = item.BoqUnitId,
                     BoQDivisionId = item.BoQDivisionId,
+                    Name = item.Name,
+                    BoQNumber = item.BoQNumber,
+                    BoqUnitId = item.BoqUnitId,
+                    BoqQuantity = item.BoqQuantity,
+                    Amount = item.Amount,
                     Description = item.Description
                 };
                 billBoQItems.Add(data);
@@ -685,11 +687,12 @@ namespace KGERP.Service.Implementation
                 {
                     BillBoQItem data = new BillBoQItem()
                     {
+                        BoQDivisionId = model.BoQDivisionId,
                         BoQNumber = model.BoQNumber,
                         Name = model.Name,
-                        BoqQuantity = model.BoqQuantity,
                         BoqUnitId = model.BoqUnitId,
-                        BoQDivisionId = model.BoQDivisionId,
+                        BoqQuantity = model.BoqQuantity,
+                        Amount = model.Amount,
                         Description = model.Description,
                         IsActive = true,
                         CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
@@ -710,6 +713,7 @@ namespace KGERP.Service.Implementation
                             $"BoQNumber: {model.BoQNumber}, " +
                             $"BoQName: {model.Name}, " +
                             $"BoqQuantity: {model.BoqQuantity}, " +
+                            $"BoqAmont: {model.Amount}, " +
                             $"BoqUnitId: {model.BoqUnitId}, " +
                             $"BoQDivisionId: {model.BoQDivisionId}, " +
                             $"Description: {model.Description} ";
@@ -743,33 +747,38 @@ namespace KGERP.Service.Implementation
                 {
                     var findBillRequisitionBoQ = _context.BillBoQItems.FirstOrDefault(c => c.BoQItemId == model.ID);
 
-                    findBillRequisitionBoQ.BoQNumber = model.BoQNumber;
-                    findBillRequisitionBoQ.Name = model.Name;
-                    findBillRequisitionBoQ.BoqQuantity = model.BoqQuantity;
-                    findBillRequisitionBoQ.BoqUnitId = model.BoqUnitId;
-                    findBillRequisitionBoQ.BoQDivisionId = model.BoQDivisionId;
-                    findBillRequisitionBoQ.Description = model.Description;
-                    findBillRequisitionBoQ.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
-                    findBillRequisitionBoQ.ModifiedDate = DateTime.Now;
-
-                    if (_context.SaveChanges() > 0)
+                    if (findBillRequisitionBoQ != null)
                     {
-                        UserLog logData = new UserLog();
-                        logData.ActionType = model.ActionId;
-                        logData.EmployeeId = _context.Employees.FirstOrDefault(c => c.EmployeeId == System.Web.HttpContext.Current.User.Identity.Name).Id;
-                        logData.EmpUserId = System.Web.HttpContext.Current.User.Identity.Name;
-                        logData.CompanyId = (int)model.CompanyFK;
-                        logData.ActionTimeStamp = DateTime.Now;
-                        logData.Details = $"BoQItemId: {model.ID} is updated! " +
-                            $"BoQNumber: {model.BoQNumber}, " +
-                            $"BoQName: {model.Name}, " +
-                            $"BoqQuantity: {model.BoqQuantity}, " +
-                            $"BoqUnitId: {model.BoqUnitId}, " +
-                            $"BoQDivisionId: {model.BoQDivisionId}, " +
-                            $"Description: {model.Description} ";
+                        findBillRequisitionBoQ.BoQDivisionId = model.BoQDivisionId;
+                        findBillRequisitionBoQ.Name = model.Name;
+                        findBillRequisitionBoQ.BoQNumber = model.BoQNumber;
+                        findBillRequisitionBoQ.BoqUnitId = model.BoqUnitId;
+                        findBillRequisitionBoQ.BoqQuantity = model.BoqQuantity;
+                        findBillRequisitionBoQ.Amount = model.Amount;
+                        findBillRequisitionBoQ.Description = model.Description;
+                        findBillRequisitionBoQ.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                        findBillRequisitionBoQ.ModifiedDate = DateTime.Now;
 
-                        _ = _configurationService.UserActionLog(logData);
-                        return true;
+                        if (_context.SaveChanges() > 0)
+                        {
+                            UserLog logData = new UserLog();
+                            logData.ActionType = model.ActionId;
+                            logData.EmployeeId = _context.Employees.FirstOrDefault(c => c.EmployeeId == System.Web.HttpContext.Current.User.Identity.Name).Id;
+                            logData.EmpUserId = System.Web.HttpContext.Current.User.Identity.Name;
+                            logData.CompanyId = (int)model.CompanyFK;
+                            logData.ActionTimeStamp = DateTime.Now;
+                            logData.Details = $"New BoQItem is added! " +
+                                $"BoQNumber: {model.BoQNumber}, " +
+                                $"BoQName: {model.Name}, " +
+                                $"BoqQuantity: {model.BoqQuantity}, " +
+                                $"BoqAmont: {model.Amount}, " +
+                                $"BoqUnitId: {model.BoqUnitId}, " +
+                                $"BoQDivisionId: {model.BoQDivisionId}, " +
+                                $"Description: {model.Description} ";
+
+                            _ = _configurationService.UserActionLog(logData);
+                            return true;
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -1313,8 +1322,6 @@ namespace KGERP.Service.Implementation
             return result;
         }
         #endregion
-
-
 
         #region Requisition Type
 
@@ -3603,12 +3610,12 @@ namespace KGERP.Service.Implementation
                     TotalDr = data.Sum(x => x.DebitAmount);
                     var voucherDetailId = data.FirstOrDefault().VoucherDetailId;
                     var HeadName = (from t1 in _context.VoucherDetails.AsQueryable().AsNoTracking().Where(c => c.VoucherDetailId == voucherDetailId)
-                                      join t2 in _context.HeadGLs.AsQueryable().AsNoTracking() on t1.AccountHeadId equals t2.Id
-                                      select new
-                                      {
-                                          t2.AccName
-                                      }).ToList();
-                    AccountHeadName = HeadName.FirstOrDefault()?.AccName??"";
+                                    join t2 in _context.HeadGLs.AsQueryable().AsNoTracking() on t1.AccountHeadId equals t2.Id
+                                    select new
+                                    {
+                                        t2.AccName
+                                    }).ToList();
+                    AccountHeadName = HeadName.FirstOrDefault()?.AccName ?? "";
                 }
 
             }

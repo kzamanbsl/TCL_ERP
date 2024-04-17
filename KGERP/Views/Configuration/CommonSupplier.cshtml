@@ -39,126 +39,133 @@
                             @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
 
                             <div class="row">
-
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="message-text" class="col-form-label">Supplier Name :</label>
-                                        @Html.TextBoxFor(model => model.Name, new { id = "txtSupplierName", @class = "form-control", @placeholder = "Supplier name", required = "required" })
+                                        <label class="form-label">Business/Company Name<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                        @Html.TextBoxFor(model => model.Name, new { id = "txtSupplierName", @class = "form-control", @placeholder = "Type business name", required = "required" })
                                         @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="message-text" class="col-form-label">Trade Licence No :</label>
-                                        @Html.TextBoxFor(model => model.TradeLicenseNumber, new { id = "txtTradeLicenseNumber", @class = "form-control", @placeholder = "Trade licence no", required = "required" })
+                                        <label class="form-label">BIN<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                        @Html.TextBoxFor(model => model.BIN, new { id = "txtBIN", @class = "form-control", @placeholder = "Type BIN", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.BIN, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Trade Licence Number<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                        @Html.TextBoxFor(model => model.TradeLicenseNumber, new { id = "txtTradeLicenseNumber", @class = "form-control", @placeholder = "Type trade licence", required = "required" })
                                         @Html.ValidationMessageFor(model => model.TradeLicenseNumber, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="message-text" class="col-form-label">Contact Person :</label>
-                                        @Html.TextBoxFor(model => model.ContactPerson, new { id = "txtContactPerson", @class = "form-control", @placeholder = "Contact person", required = "required" })
+                                        <label class="form-label">TIN<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                        @Html.TextBoxFor(model => model.TIN, new { id = "txtTIN", @class = "form-control", @placeholder = "Type TIN", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.TIN, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Contact Name<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                        @Html.TextBoxFor(model => model.ContactPerson, new { id = "txtContactPerson", @class = "form-control", @placeholder = "Type contact name", required = "required" })
                                         @Html.ValidationMessageFor(model => model.ContactPerson, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="message-text" class="col-form-label">NID Number :</label>
-                                        @Html.TextBoxFor(model => model.NID, new { id = "txtNidNumber", @class = "form-control", @placeholder = "NID numbers", required = "required" })
+                                        <label class="form-label">NID Number<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                        @Html.TextBoxFor(model => model.NID, new { id = "txtNidNumber", @class = "form-control", @placeholder = "Type NID", required = "required" })
                                         @Html.ValidationMessageFor(model => model.NID, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="message-text" class="col-form-label">Phone Number :</label>
-                                        @Html.TextBoxFor(model => model.Phone, new { id = "txtPhone", @class = "form-control", @placeholder = "Phone number", required = "required" })
+                                        <label class="form-label">Phone Number<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                        @Html.TextBoxFor(model => model.Phone, new { id = "txtPhone", @class = "form-control", @placeholder = "Type phone number", required = "required" })
                                         @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="message-text" class="col-form-label">Email Address :</label>
-                                        @Html.TextBoxFor(model => model.Email, new { id = "txtEmail", type = "email", @class = "form-control", @placeholder = "Email address", required = "required" })
+                                        <label class="form-label">Email Address<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                        @Html.TextBoxFor(model => model.Email, new { id = "txtEmail", type = "email", @class = "form-control", @placeholder = "Type email address", required = "required" })
                                         @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="message-text" class="col-form-label">Select Country :</label>
+                                        <label class="form-label">Select Country<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                         @Html.DropDownListFor(model => model.Common_CountriesFk, Model.CountryList as SelectList, "==Select Country==", new { id = "ddlCommon_CountriesFk", @class = "searchingDropdown form-control", required = "required" })
                                         @Html.ValidationMessageFor(model => model.Common_CountriesFk, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-
-                                <div class="col-md-3">
+                                <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="message-text" class="col-form-label">Address :</label>
-                                        @Html.TextAreaFor(model => model.Address, new { id = "txtAddress", @class = "form-control", @placeholder = "Type address here", @rows = "1", required = "required" })
+                                        <label class="form-label">Business/Company Address<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                        @Html.TextAreaFor(model => model.Address, new { id = "txtAddress", @class = "form-control", @placeholder = "Type business address", required = "required" })
                                         @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="message-text" class="col-form-label">Bank Name :</label>
-                                        @Html.TextBoxFor(model => model.BankName, new { id = "txtBankName", @class = "form-control", @placeholder = "Bank name", required = "required" })
-                                        @Html.ValidationMessageFor(model => model.BankName, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="message-text" class="col-form-label">Branch Name :</label>
-                                        @Html.TextBoxFor(model => model.BranchName, new { id = "txtBranchName", @class = "form-control", @placeholder = "Branch name", required = "required" })
-                                        @Html.ValidationMessageFor(model => model.BranchName, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="message-text" class="col-form-label">A/C Name :</label>
-                                        @Html.TextBoxFor(model => model.ACName, new { id = "txtACName", @class = "form-control", @placeholder = "A/C name", required = "required" })
-                                        @Html.ValidationMessageFor(model => model.ACName, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="message-text" class="col-form-label">A/C Number :</label>
-                                        @Html.TextBoxFor(model => model.ACNo, new { id = "txtACNo", @class = "form-control", @placeholder = "A/C number", required = "required" })
-                                        @Html.ValidationMessageFor(model => model.ACNo, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="message-text" class="col-form-label">Bank Routing Number :</label>
-                                        @Html.TextBoxFor(model => model.BankRoutingNumber, new { id = "txtBankRoutingNumber", @class = "form-control", @placeholder = "Bank routing number", required = "required" })
+                                        <label class="form-label">Supplier Type<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                        @Html.DropDownListFor(model => model.SupplierTypeId, new SelectList(Model.SupplierTypeList.OrderBy(order => order.Text), "Value", "Text"), "==Select Supplier Type==", new { id = "ddlSupplierTypeId", @class = "form-control searchingDropdown", style = "width:100%" })
+                                        @Html.ValidationMessageFor(model => model.SupplierTypeId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Select Bank<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                        @Html.DropDownListFor(model => model.BankId, new SelectList(Model.BankList.OrderBy(order => order.Text), "Value", "Text"), "==Select Bank==", new { id = "ddlBankId", @class = "form-control searchingDropdown", style = "width:100%" })
+                                        @Html.ValidationMessageFor(model => model.BankId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Select Branch<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                        @Html.DropDownListFor(model => model.BankBranchId, new SelectList(Model.BankBranchList.OrderBy(order => order.Text), "Value", "Text"), "==Select Branch==", new { id = "ddlBankBranchId", @class = "form-control searchingDropdown", style = "width:100%" })
+                                        @Html.ValidationMessageFor(model => model.BankBranchId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Bank Routing Number<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                        @Html.TextBoxFor(model => model.BankRoutingNumber, new { id = "txtBankRoutingNumber", @class = "form-control", @placeholder = "Type bank routing number", required = "required" })
                                         @Html.ValidationMessageFor(model => model.BankRoutingNumber, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-
-                                <div class="col-md-8">
+                                <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="message-text" class="col-form-label">Remaks :</label>
-                                        @Html.TextAreaFor(model => model.Remarks, new { id = "txtRemarks", @class = "form-control", @placeholder = "Type remarks here", @rows = "1" })
+                                        <label class="form-label">Bank Account Name<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                        @Html.TextBoxFor(model => model.ACName, new { id = "txtACName", @class = "form-control", @placeholder = "Type account name", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.ACName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="message-text" class="f">Bank Account Number<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                        @Html.TextBoxFor(model => model.ACNo, new { id = "txtACNo", @class = "form-control", @placeholder = "Type account number", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.ACNo, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="message-text" class="col-form-label">Remarks</label>
+                                        @Html.TextAreaFor(model => model.Remarks, new { id = "txtRemarks", @class = "form-control", @placeholder = "Type remarks" })
                                         @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <div class="col-md-6">
+                                        <div class="col-md-4"></div>
+                                        <div class="col-md-4">
                                             <button type="button" onclick="resetForm()" class="btn btn-secondary btn-block w-100" data-dismiss="modal">Reset</button>
                                         </div>
-                                        <div class="col-md-6">
-                                            <button type="submit" id="btnSave" class="btn btn-primary btn-block w-100"><i class='fa fa-plus'></i> Add</button>
+                                        <div class="col-md-4">
+                                            <button type="submit" id="btnSave" class="btn btn-primary btn-block w-100"><i class='fa fa-plus'></i> Add Supplier</button>
                                         </div>
                                     </div>
                                 </div>
@@ -326,7 +333,7 @@
 
     <script type="text/javascript">
          $(document).ready(function () {
-             
+
              $("#ddlCommon_CountriesFk").val(1);
         });
 

@@ -311,7 +311,6 @@ namespace KGERP.Data.Models
         public virtual DbSet<BuildingMember> BuildingMembers { get; set; }
         public virtual DbSet<ConsumptionDetail> ConsumptionDetails { get; set; }
         public virtual DbSet<ConsumptionMaster> ConsumptionMasters { get; set; }
-        public virtual DbSet<BillBoQItem> BillBoQItems { get; set; }
         public virtual DbSet<BillRequisitionDetail> BillRequisitionDetails { get; set; }
         public virtual DbSet<Accounting_CostCenter> Accounting_CostCenter { get; set; }
         public virtual DbSet<BankAccountInfo> BankAccountInfoes { get; set; }
@@ -327,6 +326,7 @@ namespace KGERP.Data.Models
         public virtual DbSet<QuotationSubmitDetail> QuotationSubmitDetails { get; set; }
         public virtual DbSet<QuotationSubmitMaster> QuotationSubmitMasters { get; set; }
         public virtual DbSet<BillingGeneratedMap> BillingGeneratedMaps { get; set; }
+        public virtual DbSet<BillBoQItem> BillBoQItems { get; set; }
     
         public virtual ObjectResult<GetEmployeeListForTeam_Result> GetEmployeeListForTeam(Nullable<int> companyId)
         {

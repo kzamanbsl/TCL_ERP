@@ -21,17 +21,18 @@ namespace KGERP.Data.Models
         }
     
         public int BoQItemId { get; set; }
+        public long BoQDivisionId { get; set; }
         public string Name { get; set; }
+        public string BoQNumber { get; set; }
+        public int BoqUnitId { get; set; }
+        public decimal BoqQuantity { get; set; }
+        public decimal Amount { get; set; }
         public string Description { get; set; }
         public System.DateTime CreateDate { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public string ModifiedBy { get; set; }
         public bool IsActive { get; set; }
-        public string BoQNumber { get; set; }
-        public Nullable<decimal> BoqQuantity { get; set; }
-        public Nullable<int> BoqUnitId { get; set; }
-        public Nullable<long> BoQDivisionId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BoQItemProductMap> BoQItemProductMaps { get; set; }

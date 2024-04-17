@@ -552,7 +552,6 @@
         <EntityTypeShape EntityType="ERPModel.ConsumptionDetail" Width="1.5" PointX="53.625" PointY="13" />
         <EntityTypeShape EntityType="ERPModel.ConsumptionMaster" Width="1.5" PointX="51.375" PointY="13.375" />
         <AssociationConnector Association="ERPModel.FK_ConsumptionDetails_ConsumptionMaster" />
-        <EntityTypeShape EntityType="ERPModel.BillBoQItem" Width="1.5" PointX="8.375" PointY="47" />
         <EntityTypeShape EntityType="ERPModel.BillRequisitionDetail" Width="1.5" PointX="22.375" PointY="13.125" />
         <AssociationConnector Association="ERPModel.FK_PurchaseOrderDetail_BillRequisitionDetail" />
         <EntityTypeShape EntityType="ERPModel.Accounting_CostCenter" Width="1.5" PointX="3.375" PointY="28.625" />
@@ -577,7 +576,6 @@
         <EntityTypeShape EntityType="ERPModel.BoqBNEApprovalHistroy" Width="1.5" PointX="53.75" PointY="32.625" />
         <EntityTypeShape EntityType="ERPModel.BoQItemProductMap" Width="1.5" PointX="51.5" PointY="30.625" />
         <AssociationConnector Association="ERPModel.FK_BillRequisitionItemBoQMap_Company" />
-        <AssociationConnector Association="ERPModel.FK_BillRequisitionItemBoQMap_BillBoQItem" />
         <AssociationConnector Association="ERPModel.FK_BoqBNEApprovalHistroy_BoQItemProductMap" />
         <AssociationConnector Association="ERPModel.FK_BoQItemProductMap_Product" />
         <EntityTypeShape EntityType="ERPModel.QuotationDetail" Width="1.5" PointX="76.875" PointY="46" />
@@ -595,6 +593,8 @@
         <AssociationConnector Association="ERPModel.FK_QuotationSubmitMaster_Vendor" />
         <EntityTypeShape EntityType="ERPModel.BillingGeneratedMap" Width="1.5" PointX="32.75" PointY="58.5" />
         <AssociationConnector Association="ERPModel.FK_BillingGeneratedMap_MaterialReceive" />
+        <EntityTypeShape EntityType="ERPModel.BillBoQItem" Width="1.5" PointX="8.375" PointY="47" />
+        <AssociationConnector Association="ERPModel.FK_BillRequisitionItemBoQMap_BillBoQItem" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
