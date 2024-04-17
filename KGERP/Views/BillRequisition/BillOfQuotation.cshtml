@@ -73,7 +73,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label class="form-label">Select BoQ Unit<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                 @Html.DropDownListFor(model => model.BoqUnitId, new SelectList(Model.BoQUnits.Where(c => c.IsBoQUnit == true).OrderBy(order => order.Name), "UnitId", "Name"), "==Select BoQ Unit==", new { id = "ddlBoqUnitId", @class = "form-control searchingDropdown", @required = "true", style = "width:100%" })
@@ -81,11 +81,19 @@
                             </div>
                         </div>
 
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label class="form-label">Quantity<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                 @Html.TextBoxFor(model => model.BoqQuantity, new { id = "txtBoqQuantity", @class = "form-control", @placeholder = "BoQ BoqQuantity", required = "true" })
                                 @Html.ValidationMessageFor(model => model.BoqQuantity, "", new { id = "nameExist", @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label">Amount<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                @Html.TextBoxFor(model => model.Amount, new { id = "txtBoqAmount", @class = "form-control", @placeholder = "BoQ Amount", required = "true" })
+                                @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
