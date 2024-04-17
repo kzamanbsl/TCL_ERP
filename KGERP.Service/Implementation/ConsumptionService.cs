@@ -38,7 +38,7 @@ namespace KGERP.Service.Implementation
 
                 BoqItemId = consumption.BOQItemId,
                 StoreId = consumption?.StockInfoId ?? 0,
-                DivisionId = consumption.DivisionId,
+                DivisionId = consumption.BoQDivisionId,
                 IsActive=true,
                 CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
                 CreatedOn = DateTime.Now
@@ -78,7 +78,7 @@ namespace KGERP.Service.Implementation
                     ProductId = consumption.DetailModel?.ProductId ?? 0,
                     UnitPrice = consumption.DetailModel.UnitPrice,
                     ConsumedQty = consumption.DetailModel.ConsumedQty,
-                    RemainingQty = consumption.DetailModel.RemainingQty,
+                    RemainingQty = consumption.DetailModel.RemainingQty- consumption.DetailModel.ConsumedQty,
                     TotalAmount = (consumption.DetailModel.UnitPrice * consumption.DetailModel.ConsumedQty),
                     IsActive=true,
                     CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
@@ -182,44 +182,39 @@ namespace KGERP.Service.Implementation
         }
         public async Task<ConsumptionModel> GetConsumptionMasterDetail(long consumptionMasterId = 0)
         {
-            ConsumptionModel consumptionMasterModel = new ConsumptionModel();
+           ConsumptionModel consumptionMasterModel = new ConsumptionModel();
 
 
-            consumptionMasterModel = await Task.Run(() => (from t1 in _context.ConsumptionMasters.Where(x => x.ConsumptionMasterId == consumptionMasterId)
+            consumptionMasterModel  = await Task.Run(() => (from t1 in _context.ConsumptionMasters.AsNoTracking().AsQueryable().Where(x => x.ConsumptionMasterId == consumptionMasterId) 
 
-                                                           join t2 in _context.Stores on t1.StoreId > 0 ? t1.StoreId : 0 equals t2.StoreId > 0 ? t2.StoreId : 0 into t2_Join
-                                                           from t2 in t2_Join.DefaultIfEmpty()
-                                                           join t3 in _context.BoQDivisions on t1.DivisionId > 0 ? t1.DivisionId : 0 equals t3.BoQDivisionId > 0 ? t3.BoQDivisionId : 0 into t3_Join
-                                                           from t3 in t3_Join.DefaultIfEmpty()
-                                                           join t4 in _context.BillBoQItems on (int)t1.BoqItemId > 0 ? t1.BoqItemId : 0 equals t4.BoQItemId > 0 ? t4.BoQItemId : 0 into t4_Join
-                                                           from t4 in t4_Join.DefaultIfEmpty()
-                                                           join t5 in _context.Employees on t1.CreatedBy equals t5.EmployeeId into t5_Join
-                                                           from t5 in t5_Join.DefaultIfEmpty()
-                                                           join t6 in _context.Accounting_CostCenter on t3.ProjectId > 0 ? t3.ProjectId : 0 equals t6.CostCenterId > 0 ? t6.CostCenterId : 0 into t6_Join
-                                                           from t6 in t6_Join.DefaultIfEmpty()
-                                                           join t7 in _context.Accounting_CostCenterType on t6.CostCenterTypeId > 0 ? t6.CostCenterTypeId : 0 equals t7.CostCenterTypeId > 0 ? t7.CostCenterTypeId : 0 into t7_Join
-                                                           from t7 in t7_Join.DefaultIfEmpty()
+                                                           join t2 in _context.StockInfoes.AsNoTracking().AsQueryable() on t1.StoreId  equals t2.StockInfoId 
+                                                           join t3 in _context.BoQDivisions.AsNoTracking().AsQueryable() on t1.DivisionId  equals t3.BoQDivisionId 
+                                                           join t4 in _context.BillBoQItems.AsNoTracking().AsQueryable() on (int)t1.BoqItemId equals t4.BoQItemId 
+                                                           join t5 in _context.Employees.AsNoTracking().AsQueryable() on t1.CreatedBy equals t5.EmployeeId 
+                                                           join t6 in _context.Accounting_CostCenter.AsNoTracking().AsQueryable() on t3.ProjectId equals t6.CostCenterId 
+                                                           join t7 in _context.Accounting_CostCenterType.AsNoTracking().AsQueryable() on t6.CostCenterTypeId  equals  t7.CostCenterTypeId
 
                                                            select new ConsumptionModel
                                                            {
                                                                ConsumptionMasterId = t1.ConsumptionMasterId,
                                                                ProjectTypeId = t7.CostCenterTypeId > 0 ? t7.CostCenterTypeId : 0,
-                                                               ProjectTypeName = t7.Name,
+                                                               ProjectTypeName = t7.Name??"",
+                                                               ConsumptionDate=t1.CreatedOn,
                                                                CostCenterId = t6.CostCenterId > 0 ? t6.CostCenterId : 0,
-                                                               CostCenterName = t6.Name,
-                                                               StockInfoId = t2.StoreId > 0 ? t2.StoreId : 0,
+                                                               CostCenterName = t6.Name ?? "",
+                                                               StockInfoId = t2.StockInfoId > 0 ? t2.StockInfoId : 0,
+                                                               StoreName=t2.Name??"",
                                                                BoQDivisionId = t3.BoQDivisionId > 0 ? t3.BoQDivisionId : 0,
-                                                               BoQDivisionName = t3.Name,
+                                                               BoQDivisionName = t3.Name ?? "",
                                                                BOQItemId = t4.BoQItemId > 0 ? t4.BoQItemId : 0,
-                                                               BOQItemName = t4.Name,
+                                                               BOQItemName = t4.Name ?? "",
                                                                CreatedDate = t1.CreatedOn,
-                                                               CreatedBy = t5.Name
+                                                               CreatedBy = t5.Name ?? ""
 
                                                            }).FirstOrDefault());
 
             var consumptionDetailList = await Task.Run(() => (from t1 in _context.ConsumptionDetails.Where(x => x.ConsumptionMasterId == consumptionMasterId)
-                                                              join t2 in _context.ConsumptionMasters on t1.ConsumptionMasterId equals t2.ConsumptionMasterId into t2_Join
-                                                              from t2 in t2_Join.DefaultIfEmpty()
+                                                              join t2 in _context.ConsumptionMasters on t1.ConsumptionMasterId equals t2.ConsumptionMasterId 
                                                               join t3 in _context.Products on t1.ProductId equals t3.ProductId into t3_Join
                                                               from t3 in t3_Join.DefaultIfEmpty()
                                                                   //join t4 in _context.Units on t1.UnitId equals t4.UnitId into t4_Join
