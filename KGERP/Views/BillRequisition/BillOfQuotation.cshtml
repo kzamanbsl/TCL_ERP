@@ -138,15 +138,16 @@
                         <table id="KgErpDataTable" class="table table-dark table-striped table-responsive">
                             <thead>
                                 <tr>
-                                    <th width="3%">SL</th>
-                                    <th width="20%">Project Name</th>
-                                    <th width="20%">BoQ Division</th>
-                                    <th width="25%">BoQ Name</th>
-                                    <th width="25%">BoQ Number</th>
-                                    <th width="5%">BoQ Unit</th>
-                                    <th width="5%">Quantity</th>
-                                    <th width="30%">Description</th>
-                                    <th width="4%">Action</th>
+                                    <th>SL</th>
+                                    <th>Project Name</th>
+                                    <th>BoQ Division</th>
+                                    <th>BoQ Name</th>
+                                    <th>BoQ Number</th>
+                                    <th>BoQ Unit</th>
+                                    <th>Quantity</th>
+                                    <th>Amount</th>
+                                    <th>Description</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             @{int sl = 0;}
@@ -166,6 +167,7 @@
                                         <td id="tdBoqNumber_@item.BoQItemId" style="text-align: center">@item.BoQNumber</td>
                                         <td id="tdBoqUnitId_@item.BoQItemId">@item.BoqUnitName</td>
                                         <td id="tdBoqQuantity_@item.BoQItemId">@item.BoqQuantity</td>
+                                        <td id="tdBoqAmount_@item.BoQItemId">@item.Amount</td>
                                         <td id="tdBoqDescription_@item.BoQItemId">@(item.Description != null ? item.Description : "N/A")</td>
                                         <td>
                                             <a id="@item.BoQItemId" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
