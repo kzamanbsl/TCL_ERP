@@ -833,7 +833,7 @@ namespace KGERP.Service.Implementation
                                                   QuotationForName = t3.Name,
                                                   SupplierId = t4.VendorId,
                                                   SupplierName = t4.Name,
-                                                  QuotationSubmitStatusId = t1.StatusId,
+                                                  QuotationSubmitStatusId = (int)t1.StatusId,
                                                   CreatedDate = t1.CreatedOn,
                                                   CreatedBy = t1.CreatedBy,
                                                   CompanyFK = 21

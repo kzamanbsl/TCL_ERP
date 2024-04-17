@@ -35,7 +35,7 @@ namespace KGERP.Data.Models
         public bool IsActive { get; set; }
     
         public virtual Accounting_CostCenter Accounting_CostCenter { get; set; }
-        public virtual Vendor Vendor { get; set; }
         public virtual BillRequisitionMaster BillRequisitionMaster { get; set; }
+        public virtual Vendor Vendor { get; set; }
     }
 }

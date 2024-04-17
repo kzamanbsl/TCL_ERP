@@ -19,20 +19,20 @@ namespace KGERP.Data.Models
         {
             this.MonthlyTargets = new HashSet<MonthlyTarget>();
             this.BatchPaymentDetails = new HashSet<BatchPaymentDetail>();
+            this.ChequeRegisters = new HashSet<ChequeRegister>();
             this.EMIs = new HashSet<EMI>();
             this.LCInfoes = new HashSet<LCInfo>();
             this.OrderMasters = new HashSet<OrderMaster>();
             this.Payments = new HashSet<Payment>();
+            this.PurchaseOrders = new HashSet<PurchaseOrder>();
             this.PurchaseReturns = new HashSet<PurchaseReturn>();
+            this.QuotationSubmitMasters = new HashSet<QuotationSubmitMaster>();
             this.SaleReturns = new HashSet<SaleReturn>();
             this.Stores = new HashSet<Store>();
             this.VendorDeposits = new HashSet<VendorDeposit>();
             this.VendorDepositHistories = new HashSet<VendorDepositHistory>();
             this.VendorOffers = new HashSet<VendorOffer>();
             this.VendorOpenings = new HashSet<VendorOpening>();
-            this.PurchaseOrders = new HashSet<PurchaseOrder>();
-            this.ChequeRegisters = new HashSet<ChequeRegister>();
-            this.QuotationSubmitMasters = new HashSet<QuotationSubmitMaster>();
         }
     
         public int VendorId { get; set; }
@@ -109,6 +109,8 @@ namespace KGERP.Data.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BatchPaymentDetail> BatchPaymentDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ChequeRegister> ChequeRegisters { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EMI> EMIs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LCInfo> LCInfoes { get; set; }
@@ -117,7 +119,11 @@ namespace KGERP.Data.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Payment> Payments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PurchaseOrder> PurchaseOrders { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PurchaseReturn> PurchaseReturns { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<QuotationSubmitMaster> QuotationSubmitMasters { get; set; }
         public virtual Region Region { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SaleReturn> SaleReturns { get; set; }
@@ -131,11 +137,5 @@ namespace KGERP.Data.Models
         public virtual ICollection<VendorOffer> VendorOffers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<VendorOpening> VendorOpenings { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PurchaseOrder> PurchaseOrders { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ChequeRegister> ChequeRegisters { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<QuotationSubmitMaster> QuotationSubmitMasters { get; set; }
     }
 }
