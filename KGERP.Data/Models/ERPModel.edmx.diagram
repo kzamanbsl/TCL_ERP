@@ -573,10 +573,6 @@
         <EntityTypeShape EntityType="ERPModel.QuotationSubmitMaster" Width="1.5" PointX="76.875" PointY="40.875" />
         <AssociationConnector Association="ERPModel.FK_QuotationSubmitMaster_QuotationMaster" />
         <AssociationConnector Association="ERPModel.FK_QuotationSubmitDetail_QuotationSubmitMaster" />
-        <EntityTypeShape EntityType="ERPModel.BillingGeneratedMap" Width="1.5" PointX="32.75" PointY="58.5" />
-        <AssociationConnector Association="ERPModel.FK_BillingGeneratedMap_MaterialReceive" />
-        <EntityTypeShape EntityType="ERPModel.BillBoQItem" Width="1.5" PointX="8.375" PointY="47" />
-        <AssociationConnector Association="ERPModel.FK_BillRequisitionItemBoQMap_BillBoQItem" />
         <EntityTypeShape EntityType="ERPModel.Vendor" Width="1.5" PointX="56.375" PointY="20" />
         <AssociationConnector Association="ERPModel.FK_MonthlyTarget_Vendor" />
         <AssociationConnector Association="ERPModel.FK_BatchPaymentDetail_Vendor" />
@@ -595,6 +591,9 @@
         <AssociationConnector Association="ERPModel.FK_VendorDepositHistory_Vendor" />
         <AssociationConnector Association="ERPModel.FK_VendorOffer_Vendor" />
         <AssociationConnector Association="ERPModel.FK_VendorOpening_Vendor" />
+        <EntityTypeShape EntityType="ERPModel.BillingGeneratedMap" Width="1.5" PointX="41.375" PointY="2.75" />
+        <EntityTypeShape EntityType="ERPModel.BillBoQItem" Width="1.5" PointX="8.375" PointY="47" />
+        <AssociationConnector Association="ERPModel.FK_BillRequisitionItemBoQMap_BillBoQItem" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

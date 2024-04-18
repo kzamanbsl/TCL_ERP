@@ -16,13 +16,11 @@ namespace KGERP.Data.Models
     {
         public int BillingMapId { get; set; }
         public string BillGeneratedNo { get; set; }
-        public long MaterialReceiveId { get; set; }
+        public int MaterialReceiveId { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public string ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public Nullable<bool> IsActive { get; set; }
-    
-        public virtual MaterialReceive MaterialReceive { get; set; }
     }
 }

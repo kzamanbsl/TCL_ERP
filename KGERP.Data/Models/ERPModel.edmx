@@ -3438,17 +3438,18 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.TempFeedVoucherDetail' does not hav
             <PropertyRef Name="BoQItemId" />
           </Key>
           <Property Name="BoQItemId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BoQDivisionId" Type="bigint" Nullable="false" />
           <Property Name="Name" Type="varchar(max)" Nullable="false" />
+          <Property Name="BoQNumber" Type="varchar(max)" Nullable="false" />
+          <Property Name="BoqUnitId" Type="int" Nullable="false" />
+          <Property Name="BoqQuantity" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Amount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="Description" Type="varchar(max)" />
           <Property Name="CreateDate" Type="datetime" Nullable="false" />
           <Property Name="CreatedBy" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="ModifiedDate" Type="datetime" />
           <Property Name="ModifiedBy" Type="varchar" MaxLength="255" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
-          <Property Name="BoQNumber" Type="varchar(max)" />
-          <Property Name="BoqQuantity" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="BoqUnitId" Type="int" />
-          <Property Name="BoQDivisionId" Type="bigint" />
         </EntityType>
         <EntityType Name="BillingGeneratedMap">
           <Key>
@@ -12441,16 +12442,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             <End Role="QuotationSubmitMaster" EntitySet="QuotationSubmitMasters" />
             <End Role="QuotationSubmitDetail" EntitySet="QuotationSubmitDetails" />
           </AssociationSet>
-          <EntitySet Name="BillingGeneratedMaps" EntityType="ERPModel.BillingGeneratedMap" />
-          <AssociationSet Name="FK_BillingGeneratedMap_MaterialReceive" Association="ERPModel.FK_BillingGeneratedMap_MaterialReceive">
-            <End Role="MaterialReceive" EntitySet="MaterialReceives" />
-            <End Role="BillingGeneratedMap" EntitySet="BillingGeneratedMaps" />
-          </AssociationSet>
-          <EntitySet Name="BillBoQItems" EntityType="ERPModel.BillBoQItem" />
-          <AssociationSet Name="FK_BillRequisitionItemBoQMap_BillBoQItem" Association="ERPModel.FK_BillRequisitionItemBoQMap_BillBoQItem">
-            <End Role="BillBoQItem" EntitySet="BillBoQItems" />
-            <End Role="BoQItemProductMap" EntitySet="BoQItemProductMaps" />
-          </AssociationSet>
           <EntitySet Name="Vendors" EntityType="ERPModel.Vendor" />
           <AssociationSet Name="FK_MonthlyTarget_Vendor" Association="ERPModel.FK_MonthlyTarget_Vendor">
             <End Role="Vendor" EntitySet="Vendors" />
@@ -12519,6 +12510,12 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
           <AssociationSet Name="FK_VendorOpening_Vendor" Association="ERPModel.FK_VendorOpening_Vendor">
             <End Role="Vendor" EntitySet="Vendors" />
             <End Role="VendorOpening" EntitySet="VendorOpenings" />
+          </AssociationSet>
+          <EntitySet Name="BillingGeneratedMaps" EntityType="ERPModel.BillingGeneratedMap" />
+          <EntitySet Name="BillBoQItems" EntityType="ERPModel.BillBoQItem" />
+          <AssociationSet Name="FK_BillRequisitionItemBoQMap_BillBoQItem" Association="ERPModel.FK_BillRequisitionItemBoQMap_BillBoQItem">
+            <End Role="BillBoQItem" EntitySet="BillBoQItems" />
+            <End Role="BoQItemProductMap" EntitySet="BoQItemProductMaps" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="AdminPolicy">
@@ -20487,7 +20484,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
           <NavigationProperty Name="MaterialReceiveDetails" Relationship="ERPModel.FK_MaterialReceiveDetail_MaterialReceive" FromRole="MaterialReceive" ToRole="MaterialReceiveDetail" />
           <NavigationProperty Name="PurchaseReturns" Relationship="ERPModel.FK_PurchaseReturn_MaterialReceive" FromRole="MaterialReceive" ToRole="PurchaseReturn" />
           <NavigationProperty Name="PurchaseOrder" Relationship="ERPModel.FK_MaterialReceive_PurchaseOrder" FromRole="MaterialReceive" ToRole="PurchaseOrder" />
-          <NavigationProperty Name="BillingGeneratedMaps" Relationship="ERPModel.FK_BillingGeneratedMap_MaterialReceive" FromRole="MaterialReceive" ToRole="BillingGeneratedMap" />
         </EntityType>
         <Association Name="FK_MaterialReceive_ProductionMaster">
           <End Type="ERPModel.ProductionMaster" Role="ProductionMaster" Multiplicity="0..1" />
@@ -22158,63 +22154,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="BillingGeneratedMap">
-          <Key>
-            <PropertyRef Name="BillingMapId" />
-          </Key>
-          <Property Name="BillingMapId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="BillGeneratedNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="MaterialReceiveId" Type="Int64" Nullable="false" />
-          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="0" />
-          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ModifiedDate" Type="DateTime" Precision="0" />
-          <Property Name="IsActive" Type="Boolean" />
-          <NavigationProperty Name="MaterialReceive" Relationship="ERPModel.FK_BillingGeneratedMap_MaterialReceive" FromRole="BillingGeneratedMap" ToRole="MaterialReceive" />
-        </EntityType>
-        <Association Name="FK_BillingGeneratedMap_MaterialReceive">
-          <End Type="ERPModel.MaterialReceive" Role="MaterialReceive" Multiplicity="1" />
-          <End Type="ERPModel.BillingGeneratedMap" Role="BillingGeneratedMap" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MaterialReceive">
-              <PropertyRef Name="MaterialReceiveId" />
-            </Principal>
-            <Dependent Role="BillingGeneratedMap">
-              <PropertyRef Name="MaterialReceiveId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="BillBoQItem">
-          <Key>
-            <PropertyRef Name="BoQItemId" />
-          </Key>
-          <Property Name="BoQItemId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="BoQDivisionId" Type="Int64" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="BoQNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="BoqUnitId" Type="Int32" />
-          <Property Name="BoqQuantity" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Amount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
-          <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="BoQItemProductMaps" Relationship="ERPModel.FK_BillRequisitionItemBoQMap_BillBoQItem" FromRole="BillBoQItem" ToRole="BoQItemProductMap" />
-        </EntityType>
-        <Association Name="FK_BillRequisitionItemBoQMap_BillBoQItem">
-          <End Type="ERPModel.BillBoQItem" Role="BillBoQItem" Multiplicity="0..1" />
-          <End Type="ERPModel.BoQItemProductMap" Role="BoQItemProductMap" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BillBoQItem">
-              <PropertyRef Name="BoQItemId" />
-            </Principal>
-            <Dependent Role="BoQItemProductMap">
-              <PropertyRef Name="BoQItemId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Vendor">
           <Key>
             <PropertyRef Name="VendorId" />
@@ -22506,6 +22445,50 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             </Principal>
             <Dependent Role="VendorOpening">
               <PropertyRef Name="VendorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="BillingGeneratedMap">
+          <Key>
+            <PropertyRef Name="BillingMapId" />
+          </Key>
+          <Property Name="BillingMapId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BillGeneratedNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MaterialReceiveId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="0" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="0" />
+          <Property Name="IsActive" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="BillBoQItem">
+          <Key>
+            <PropertyRef Name="BoQItemId" />
+          </Key>
+          <Property Name="BoQItemId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BoQDivisionId" Type="Int64" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="BoQNumber" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="BoqUnitId" Type="Int32" Nullable="false" />
+          <Property Name="BoqQuantity" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="BoQItemProductMaps" Relationship="ERPModel.FK_BillRequisitionItemBoQMap_BillBoQItem" FromRole="BillBoQItem" ToRole="BoQItemProductMap" />
+        </EntityType>
+        <Association Name="FK_BillRequisitionItemBoQMap_BillBoQItem">
+          <End Type="ERPModel.BillBoQItem" Role="BillBoQItem" Multiplicity="0..1" />
+          <End Type="ERPModel.BoQItemProductMap" Role="BoQItemProductMap" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BillBoQItem">
+              <PropertyRef Name="BoQItemId" />
+            </Principal>
+            <Dependent Role="BoQItemProductMap">
+              <PropertyRef Name="BoQItemId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -28567,38 +28550,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="BillingGeneratedMaps">
-            <EntityTypeMapping TypeName="ERPModel.BillingGeneratedMap">
-              <MappingFragment StoreEntitySet="BillingGeneratedMap">
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="MaterialReceiveId" ColumnName="MaterialReceiveId" />
-                <ScalarProperty Name="BillGeneratedNo" ColumnName="BillGeneratedNo" />
-                <ScalarProperty Name="BillingMapId" ColumnName="BillingMapId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="BillBoQItems">
-            <EntityTypeMapping TypeName="ERPModel.BillBoQItem">
-              <MappingFragment StoreEntitySet="BillBoQItem">
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="BoqQuantity" ColumnName="BoqQuantity" />
-                <ScalarProperty Name="BoqUnitId" ColumnName="BoqUnitId" />
-                <ScalarProperty Name="BoQNumber" ColumnName="BoQNumber" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="BoQDivisionId" ColumnName="BoQDivisionId" />
-                <ScalarProperty Name="BoQItemId" ColumnName="BoQItemId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Vendors">
             <EntityTypeMapping TypeName="ERPModel.Vendor">
               <MappingFragment StoreEntitySet="Vendor">
@@ -28670,6 +28621,39 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
                 <ScalarProperty Name="DistrictId" ColumnName="DistrictId" />
                 <ScalarProperty Name="HeadGLId" ColumnName="HeadGLId" />
                 <ScalarProperty Name="VendorId" ColumnName="VendorId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BillingGeneratedMaps">
+            <EntityTypeMapping TypeName="ERPModel.BillingGeneratedMap">
+              <MappingFragment StoreEntitySet="BillingGeneratedMap">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="MaterialReceiveId" ColumnName="MaterialReceiveId" />
+                <ScalarProperty Name="BillGeneratedNo" ColumnName="BillGeneratedNo" />
+                <ScalarProperty Name="BillingMapId" ColumnName="BillingMapId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BillBoQItems">
+            <EntityTypeMapping TypeName="ERPModel.BillBoQItem">
+              <MappingFragment StoreEntitySet="BillBoQItem">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="BoqQuantity" ColumnName="BoqQuantity" />
+                <ScalarProperty Name="BoqUnitId" ColumnName="BoqUnitId" />
+                <ScalarProperty Name="BoQNumber" ColumnName="BoQNumber" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="BoQDivisionId" ColumnName="BoQDivisionId" />
+                <ScalarProperty Name="BoQItemId" ColumnName="BoQItemId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

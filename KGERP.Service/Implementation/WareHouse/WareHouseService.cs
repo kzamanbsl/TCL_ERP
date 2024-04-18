@@ -96,7 +96,7 @@ namespace KGERP.Service.Implementation.Warehouse
                     {
                         BillingGeneratedMap mapModel = new BillingGeneratedMap
                         {
-                            MaterialReceiveId = wareHousePOReceiving.MaterialReceiveId,
+                            MaterialReceiveId = (int)wareHousePOReceiving.MaterialReceiveId,
                             BillGeneratedNo = GetUniqueBillingGeneratedNo(wareHousePOReceiving.ReceivedDate),
                             CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
                             CreatedDate = DateTime.Now,
