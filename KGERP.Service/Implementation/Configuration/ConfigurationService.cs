@@ -1131,9 +1131,9 @@ namespace KGERP.Service.Implementation.Configuration
                                                                   ID = t1.VendorId,
                                                                   Code = t1.Code,
                                                                   Name = t1.Name,
-                                                                  //BIN = t1.BIN,
-                                                                  TradeLicenseNumber = (int)t1.TradeLicenseNumber,
-                                                                  //TIN = t1.TIN,
+                                                                  BIN = t1.BIN,
+                                                                  TradeLicenseNumber = t1.TradeLicenseNumber,
+                                                                  TIN = t1.TIN,
                                                                   ContactPerson = t1.ContactName,
                                                                   NID = t1.NID,
                                                                   Phone = t1.Phone,
@@ -1141,11 +1141,13 @@ namespace KGERP.Service.Implementation.Configuration
                                                                   Country = t2.CountryName,
                                                                   Address = t1.Address,
                                                                   Common_CountriesFk = t1.CountryId.Value,
-                                                                  BankName = t1.BankName,
-                                                                  BranchName = t1.BranchName,
+                                                                  BankId = (int)t1.BankId,
+                                                                  //BankName = t1.BankId,
+                                                                  BranchId = (int)t1.BranchId,
+                                                                  //BranchName = t1.BranchId,
                                                                   ACName = t1.ACName,
                                                                   ACNo = t1.ACNo,
-                                                                  BankRoutingNumber = (int)t1.BankRoutingNumber,
+                                                                  BankRoutingNumber = t1.BankRoutingNumber,
                                                                   Remarks = t1.Remarks,
                                                                   VendorTypeId = t1.VendorTypeId,
                                                                   CompanyFK = t1.CompanyId,
@@ -1217,8 +1219,8 @@ namespace KGERP.Service.Implementation.Configuration
                 CountryId = bdId,
                 Address = vmCommonSupplier.Address,
                 VendorTypeId = vmCommonSupplier.VendorTypeId,
-                BankName = vmCommonSupplier.BankName,
-                BranchName = vmCommonSupplier.BranchName,
+                BankId = vmCommonSupplier.BankId,
+                BranchId = vmCommonSupplier.BranchId,
                 ACName = vmCommonSupplier.ACName,
                 ACNo = vmCommonSupplier.ACNo,
                 BankRoutingNumber = vmCommonSupplier.BankRoutingNumber,
@@ -1330,8 +1332,8 @@ namespace KGERP.Service.Implementation.Configuration
             commonSupplier.Email = vmCommonSupplier.Email;
             commonSupplier.CountryId = bdId;
             commonSupplier.Address = vmCommonSupplier.Address;
-            commonSupplier.BankName = vmCommonSupplier.BankName;
-            commonSupplier.BranchName = vmCommonSupplier.BranchName;
+            commonSupplier.BankId = vmCommonSupplier.BankId;
+            commonSupplier.BranchId = vmCommonSupplier.BranchId;
             commonSupplier.ACName = vmCommonSupplier.ACName;
             commonSupplier.ACNo = vmCommonSupplier.ACNo;
             commonSupplier.BankRoutingNumber = vmCommonSupplier.BankRoutingNumber;
@@ -3624,19 +3626,21 @@ namespace KGERP.Service.Implementation.Configuration
                          VendorTypeId = t1.VendorTypeId,
                          Code = t1.Code,
                          Name = t1.Name,
-                         TradeLicenseNumber = (int)t1.TradeLicenseNumber,
+                         TradeLicenseNumber = t1.TradeLicenseNumber,
                          ContactPerson = t1.ContactName,
                          NID = t1.NID,
+                         BIN = t1.BIN,
+                         TIN = t1.TIN,
                          Email = t1.Email,
                          Phone = t1.Phone,
                          Country = t2.CountryName,
                          Common_CountriesFk = t1.CountryId.Value,
                          Address = t1.Address,
-                         BankName = t1.BankName,
-                         BranchName = t1.BranchName,
+                         BankId = (int)t1.BankId,
+                         BranchId = (int)t1.BranchId,
                          ACName = t1.ACName,
                          ACNo = t1.ACNo,
-                         BankRoutingNumber = (int)t1.BankRoutingNumber,
+                         BankRoutingNumber = t1.BankRoutingNumber,
                          Remarks = t1.Remarks,
                          CompanyFK = t1.CompanyId,
                          CreatedBy = t1.CreatedBy,
@@ -4150,8 +4154,10 @@ namespace KGERP.Service.Implementation.Configuration
                                                                   VendorTypeId = t1.VendorTypeId,
                                                                   ACName = t1.ACName,
                                                                   ACNo = t1.ACNo,
-                                                                  BankName = t1.BankName,
-                                                                  BranchName = t1.BranchName
+                                                                  BankId = (int)t1.BankId,
+                                                                  //BankName = t1.BankName,
+                                                                  BranchId = (int)t1.BranchId,
+                                                                  //BranchName = t1.BranchName
                                                               }).OrderByDescending(x => x.ID).AsEnumerable());
 
 
@@ -4956,12 +4962,12 @@ namespace KGERP.Service.Implementation.Configuration
                         where t1.BankId == bankId
                         select new
                         {
-                            BankId = t1.BankId>0? t1.BankId:0,
-                            BranchId = t2.BankBranchId>0? t2.BankBranchId:0,
-                            BranchName = t2.Name!=null? t2.Name:"",
+                            BankId = t1.BankId > 0 ? t1.BankId : 0,
+                            BranchId = t2.BankBranchId > 0 ? t2.BankBranchId : 0,
+                            BranchName = t2.Name != null ? t2.Name : "",
                         }).ToList();
-            return data.Where(c=>c.BranchId
-            
+            return data.Where(c => c.BranchId
+
             > 0).Cast<object>().ToList();
         }
 

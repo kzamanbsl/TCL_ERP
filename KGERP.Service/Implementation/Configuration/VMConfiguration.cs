@@ -317,7 +317,7 @@ namespace KGERP.Service.Implementation.Configuration
         public string ACNo { get; set; }
         public int BankId { get; set; }
         public string BankName { get; set; }
-        public int BankBranchId { get; set; }
+        public int BranchId { get; set; }
         public string BranchName { get; set; }
         public IEnumerable<VMCommonSupplier> DataList { get; set; }
         public List<SelectModel> CList { get; set; }
@@ -330,10 +330,10 @@ namespace KGERP.Service.Implementation.Configuration
         public string ProductName { get; set; }
         public string RegionName { get; set; }
         public string SubZoneName { get; set; }
-        public int TradeLicenseNumber { get; set; }
-        public int BankRoutingNumber { get; set; }
-        public int BIN { get; set; }
-        public int TIN { get; set; }
+        public string TradeLicenseNumber { get; set; }
+        public string BankRoutingNumber { get; set; }
+        public string BIN { get; set; }
+        public string TIN { get; set; }
         public int SupplierTypeId { get; set; }
         public string SupplierTypeName { get; set; }
         public SelectList SupplierTypeList { get; set; } = new SelectList(new List<object>());

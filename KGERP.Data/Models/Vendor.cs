@@ -78,6 +78,7 @@ namespace KGERP.Data.Models
         public string Remarks { get; set; }
         public string NID { get; set; }
         public string BIN { get; set; }
+        public string TIN { get; set; }
         public Nullable<int> CountryId { get; set; }
         public string State { get; set; }
         public Nullable<int> NoOfCheck { get; set; }
@@ -97,12 +98,12 @@ namespace KGERP.Data.Models
         public string Propietor { get; set; }
         public string ACName { get; set; }
         public string ACNo { get; set; }
-        public string BankName { get; set; }
-        public string BranchName { get; set; }
+        public Nullable<int> BankId { get; set; }
+        public Nullable<int> BranchId { get; set; }
         public int VendorReferenceId { get; set; }
         public long docid { get; set; }
-        public Nullable<int> TradeLicenseNumber { get; set; }
-        public Nullable<int> BankRoutingNumber { get; set; }
+        public string TradeLicenseNumber { get; set; }
+        public string BankRoutingNumber { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MonthlyTarget> MonthlyTargets { get; set; }

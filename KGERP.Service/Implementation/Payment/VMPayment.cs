@@ -76,6 +76,7 @@ namespace KGERP.Service.Implementation
         public string IncomeReference { get; set; }
         public System.DateTime TransactionDate { get; set; }
         public Nullable<int> BankId { get; set; }
+        public Nullable<int> BranchId { get; set; }
         public bool IsFinalized { get; set; }
         public string BranchName { get; set; }
         public string ChequeNo { get; set; }

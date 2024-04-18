@@ -425,8 +425,8 @@ namespace KGERP.Service.Implementation.Configuration
                                                   {
                                                       ACName = t1.ACName,
                                                       ACNo = t1.ACNo,
-                                                      BankName = t1.BankName,
-                                                      BranchName = t1.BranchName,
+                                                      BankId = t1.BankId,
+                                                      BranchId = t1.BranchId,
                                                       CustomerId = t1.VendorId,
                                                       CompanyId = companyId,
 

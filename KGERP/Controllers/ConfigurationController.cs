@@ -1261,7 +1261,6 @@ namespace KGERP.Controllers
         [HttpGet]
         public async Task<ActionResult> CommonSupplier(int companyId)
         {
-
             VMCommonSupplier vmCommonSupplier = new VMCommonSupplier();
             vmCommonSupplier = await Task.Run(() => _service.GetSupplier(companyId));
             vmCommonSupplier.CountryList = new SelectList(_service.CommonCountriesDropDownList(), "Value", "Text");
