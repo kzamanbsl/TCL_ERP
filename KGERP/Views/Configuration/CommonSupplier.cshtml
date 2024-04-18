@@ -187,19 +187,21 @@
                                             <thead>
                                                 <tr>
                                                     <th>SL</th>
-                                                    <th>Code</th>
-                                                    <th>Name</th>
+                                                    <th>Supplier Id</th>
+                                                    <th>Business/Company Name</th>
+                                                    <th>BIN</th>
                                                     <th>Trade Licence</th>
-                                                    <th>Contact Person</th>
+                                                    <th>TIN</th>
+                                                    <th>Contact Name</th>
                                                     <th>NID</th>
                                                     <th>Phone</th>
                                                     <th>Email</th>
                                                     <th>Address</th>
                                                     <th>Bank Name</th>
                                                     <th>Branch Name</th>
+                                                    <th>Routing Number</th>
                                                     <th>A/C Name</th>
                                                     <th>A/C No</th>
-                                                    <th>Routing Number</th>
                                                     <th>Remarks</th>
                                                     <th>Action</th>
                                                 </tr>
@@ -211,63 +213,23 @@
                                                 {
                                                     <tr>
                                                         <td>@(++sl)</td>
-
-                                                        <td>
-                                                            @item.Code
-                                                        </td>
-
-                                                        <td>
-                                                            @item.Name
-                                                        </td>
-
-                                                        <td>
-                                                            @item.TradeLicenseNumber
-                                                        </td>
-
-                                                        <td>
-                                                            @item.ContactPerson
-                                                        </td>
-
-                                                        <td>
-                                                            @item.NID
-                                                        </td>
-
-                                                        <td>
-                                                            @item.Phone
-                                                        </td>
-
-                                                        <td>
-                                                            @item.Email
-                                                        </td>
-
-                                                        <td>
-                                                            @item.Address, @item.Country
-                                                        </td>
-
-                                                        <td>
-                                                            @item.BankName
-                                                        </td>
-
-                                                        <td>
-                                                            @item.BranchName
-                                                        </td>
-
-                                                        <td>
-                                                            @item.ACName
-                                                        </td>
-
-                                                        <td>
-                                                            @item.ACNo
-                                                        </td>
-
-                                                        <td>
-                                                            @item.BankRoutingNumber
-                                                        </td>
-
-                                                        <td>
-                                                            @item.Remarks
-                                                        </td>
-
+                                                        <td>@item.SupplierTypeName</td>
+                                                        <td>@item.Code</td>
+                                                        <td>@item.Name</td>
+                                                        <td>@item.BIN</td>
+                                                        <td>@item.TradeLicenseNumber</td>
+                                                        <td>@item.TIN</td>
+                                                        <td>@item.ContactPerson</td>
+                                                        <td>@item.NID</td>
+                                                        <td>@item.Phone</td>
+                                                        <td>@item.Email</td>
+                                                        <td>@item.Address, @item.Country</td>
+                                                        <td>@item.BankName</td>
+                                                        <td>@item.BranchName</td>
+                                                        <td>@item.ACName</td>
+                                                        <td>@item.ACNo</td>
+                                                        <td>@item.BankRoutingNumber</td>
+                                                        <td>@item.Remarks</td>
                                                         <td>
                                                             <a id="@item.ID" onclick="makeEditble(@item.ID);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
                                                             <a id="@item.ID" onclick="makeDeletable(@item.ID);" class="linkPointer" data-toggle="modal" data-target="#deleteModal" title="Delete"
