@@ -3,6 +3,7 @@ using KGERP.Service.Interface;
 using KGERP.Service.ServiceModel;
 using KGERP.Utility;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace KGERP.Controllers
@@ -23,7 +24,7 @@ namespace KGERP.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(VendorTypeModel model)
+        public async Task<ActionResult> IndexAsync(VendorTypeModel model)
         {
             if (model.ActionEum == ActionEnum.Add)
             {
