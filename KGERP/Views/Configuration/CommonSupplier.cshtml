@@ -126,8 +126,8 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="form-label">Select Branch<sup class="text-danger" title="Required"><b>*</b></sup></label>
-                                        @Html.DropDownListFor(model => model.BankBranchId, new SelectList(Model.BankBranchList.OrderBy(order => order.Text), "Value", "Text"), "==Select Branch==", new { id = "ddlBankBranchId", @class = "form-control searchingDropdown", style = "width:100%" })
-                                        @Html.ValidationMessageFor(model => model.BankBranchId, "", new { @class = "text-danger" })
+                                        @Html.DropDownListFor(model => model.BranchId, new SelectList(Model.BankBranchList.OrderBy(order => order.Text), "Value", "Text"), "==Select Branch==", new { id = "ddlBankBranchId", @class = "form-control searchingDropdown", style = "width:100%" })
+                                        @Html.ValidationMessageFor(model => model.BranchId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -187,6 +187,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>SL</th>
+                                                    <th>Supplier Type</th>
                                                     <th>Supplier Id</th>
                                                     <th>Business/Company Name</th>
                                                     <th>BIN</th>
@@ -348,6 +349,30 @@
                 $('#CompanyFKDelete').val("@Model.CompanyFK");
             }
         }
+
+        $('#ddlBankId').on('change', function (event) {
+            var bankId = $("#ddlBankId option:selected").val();
+            var showBarnchList = $("#ddlBankBranchId");
+            $.ajax({
+                type: "GET",
+                url: "/ChequeRegister/GetBranchBybankId",
+                dataType: "json",
+                data: { bankId: bankId },
+                success: function (data) {
+                    showBarnchList.empty();
+                    showBarnchList.append("<option selected disabled>==Select Branch==</option>");
+                    $.each(data, function (index, item) {
+                        showBarnchList.append($('<option>', {
+                            value: item.BranchId,
+                            text: item.BranchName
+                        }));
+                    });
+                    if (isEdited) {
+                        $('#ddlBankBranchId').val(bankBranchId).trigger('change');
+                    }
+                }
+            });
+        });
 
     </script>
 

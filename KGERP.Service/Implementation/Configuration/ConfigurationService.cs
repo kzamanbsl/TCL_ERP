@@ -1124,7 +1124,9 @@ namespace KGERP.Service.Implementation.Configuration
             VMCommonSupplier vmCommonSupplier = new VMCommonSupplier();
             vmCommonSupplier.CompanyFK = companyId;
             vmCommonSupplier.DataList = await Task.Run(() => (from t1 in _db.Vendors.Where(x => x.CompanyId == companyId)
-                                                              join t2 in _db.Countries on t1.CountryId equals t2.CountryId
+                                                              join t2 in _db.Banks on t1.BankId equals t2.BankId
+                                                              join t3 in _db.BankBranches on t1.BranchId equals t3.BankBranchId
+                                                              join t4 in _db.Countries on t1.CountryId equals t4.CountryId
                                                               where t1.IsActive == true
                                                               select new VMCommonSupplier
                                                               {
@@ -1138,13 +1140,13 @@ namespace KGERP.Service.Implementation.Configuration
                                                                   NID = t1.NID,
                                                                   Phone = t1.Phone,
                                                                   Email = t1.Email,
-                                                                  Country = t2.CountryName,
+                                                                  Country = t4.CountryName,
                                                                   Address = t1.Address,
                                                                   Common_CountriesFk = t1.CountryId.Value,
                                                                   BankId = (int)t1.BankId,
-                                                                  //BankName = t1.BankId,
+                                                                  BankName = t2.Name,
                                                                   BranchId = (int)t1.BranchId,
-                                                                  //BranchName = t1.BranchId,
+                                                                  BranchName = t3.Name,
                                                                   ACName = t1.ACName,
                                                                   ACNo = t1.ACNo,
                                                                   BankRoutingNumber = t1.BankRoutingNumber,
@@ -3618,8 +3620,9 @@ namespace KGERP.Service.Implementation.Configuration
         public VMCommonSupplier GetCommonSupplierByID(int id)
         {
             var v = (from t1 in _db.Vendors.Where(x => x.VendorId == id)
-                     join t2 in _db.Countries on t1.CountryId equals t2.CountryId
-
+                     join t2 in _db.Banks on t1.BankId equals t2.BankId
+                     join t3 in _db.BankBranches on t1.BranchId equals t3.BankBranchId
+                     join t4 in _db.Countries on t1.CountryId equals t4.CountryId
                      select new VMCommonSupplier
                      {
                          ID = t1.VendorId,
@@ -3633,11 +3636,13 @@ namespace KGERP.Service.Implementation.Configuration
                          TIN = t1.TIN,
                          Email = t1.Email,
                          Phone = t1.Phone,
-                         Country = t2.CountryName,
+                         Country = t4.CountryName,
                          Common_CountriesFk = t1.CountryId.Value,
                          Address = t1.Address,
                          BankId = (int)t1.BankId,
+                         BankName = t2.Name,
                          BranchId = (int)t1.BranchId,
+                         BranchName = t3.Name,
                          ACName = t1.ACName,
                          ACNo = t1.ACNo,
                          BankRoutingNumber = t1.BankRoutingNumber,

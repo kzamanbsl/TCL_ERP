@@ -9,16 +9,22 @@ namespace KGERP.Controllers
     [SessionExpire]
     public class VendorTypeController : BaseController
     {
-        private readonly IVendorTypeService vendorTypeService;
+        private readonly IVendorTypeService _service;
         public VendorTypeController(IVendorTypeService vendorTypeService)
         {
-            this.vendorTypeService = vendorTypeService;
-        }
-        public ActionResult Index()
-        {
-            List<VendorTypeModel> vendorTypes = vendorTypeService.GetVendorTypes();
-            return View(vendorTypes);
+            _service = vendorTypeService;
         }
 
+        [HttpGet]
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Index(VendorTypeModel model)
+        {
+            return View();
+        }
     }
 }
