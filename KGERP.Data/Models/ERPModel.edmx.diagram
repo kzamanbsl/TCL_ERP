@@ -116,7 +116,6 @@
         <EntityTypeShape EntityType="ERPModel.PurchaseOrderTemplate" Width="1.5" PointX="40.75" PointY="15.75" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.UpazilaAssign" Width="1.5" PointX="5.25" PointY="75.5" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.VendorOffer" Width="1.5" PointX="9.75" PointY="90.625" IsExpanded="false" />
-        <EntityTypeShape EntityType="ERPModel.VendorType" Width="1.5" PointX="29.75" PointY="40.75" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.AttendanceType" Width="1.5" PointX="40.75" PointY="36.75" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.EmployeeLeaveDetail" Width="1.5" PointX="41.75" PointY="18.75" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.ProcessAttenendance" Width="1.5" PointX="41.75" PointY="21.75" IsExpanded="false" />
@@ -425,7 +424,6 @@
         <EntityTypeShape EntityType="ERPModel.VendorOpening" Width="1.5" PointX="61.625" PointY="50" />
         <AssociationConnector Association="ERPModel.FK_VendorOpening_Company" />
         <AssociationConnector Association="ERPModel.FK_VendorOpening_ProductCategory" />
-        <AssociationConnector Association="ERPModel.FK_VendorOpening_VendorType" />
         <EntityTypeShape EntityType="ERPModel.Area" Width="1.5" PointX="59.375" PointY="25.5" />
         <EntityTypeShape EntityType="ERPModel.SubZone" Width="1.5" PointX="61.625" PointY="25.25" />
         <AssociationConnector Association="ERPModel.FK_Area_Company" />
@@ -471,12 +469,10 @@
         <EntityTypeShape EntityType="ERPModel.SalaryInformation" Width="1.5" PointX="3.375" PointY="5.75" />
         <EntityTypeShape EntityType="ERPModel.VendorDeposit" Width="1.5" PointX="58.625" PointY="52.75" />
         <AssociationConnector Association="ERPModel.FK_VendorDeposit_Company" />
-        <AssociationConnector Association="ERPModel.FK_VendorDeposit_VendorType" />
         <EntityTypeShape EntityType="ERPModel.VendorDepositHistory" Width="1.5" PointX="68.875" PointY="42.25" />
         <AssociationConnector Association="ERPModel.FK_VendorDepositHistory_Company" />
         <AssociationConnector Association="ERPModel.FK_VendorDepositHistory_OrderMaster" />
         <AssociationConnector Association="ERPModel.FK_VendorDepositHistory_VendorDeposit" />
-        <AssociationConnector Association="ERPModel.FK_VendorDepositHistory_VendorType" />
         <EntityTypeShape EntityType="ERPModel.BatchPaymentDetail" Width="1.5" PointX="61.625" PointY="35.875" />
         <EntityTypeShape EntityType="ERPModel.BatchPaymentMaster" Width="1.5" PointX="59.375" PointY="20.375" />
         <AssociationConnector Association="ERPModel.FK_BatchPaymentDetail_Company" />
@@ -593,7 +589,14 @@
         <AssociationConnector Association="ERPModel.FK_VendorDepositHistory_Vendor" />
         <AssociationConnector Association="ERPModel.FK_VendorOffer_Vendor" />
         <AssociationConnector Association="ERPModel.FK_VendorOpening_Vendor" />
+<<<<<<< HEAD
         <EntityTypeShape EntityType="ERPModel.EmployeeOperation" Width="1.5" PointX="14.375" PointY="47.75" />
+=======
+        <EntityTypeShape EntityType="ERPModel.VendorType" Width="1.5" PointX="29.375" PointY="40" />
+        <AssociationConnector Association="ERPModel.FK_VendorDeposit_VendorType" />
+        <AssociationConnector Association="ERPModel.FK_VendorDepositHistory_VendorType" />
+        <AssociationConnector Association="ERPModel.FK_VendorOpening_VendorType" />
+>>>>>>> 8575886f0bf3d70b2b61c4c9894ad5b161a62279
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

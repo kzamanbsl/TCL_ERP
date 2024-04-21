@@ -32,8 +32,8 @@ namespace KGERP.Data.Models
     
         public virtual Company Company { get; set; }
         public virtual ProductCategory ProductCategory { get; set; }
-        public virtual VendorType VendorType { get; set; }
         public virtual Voucher Voucher { get; set; }
         public virtual Vendor Vendor { get; set; }
+        public virtual VendorType VendorType { get; set; }
     }
 }

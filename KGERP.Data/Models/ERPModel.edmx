@@ -5674,6 +5674,11 @@ warning 6002: The table/view 'TCLErp_Dev.Erp.RequisitionItemDetail' does not hav
           </Key>
           <Property Name="VendorTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="VoucherBRMapDetail">
           <Key>
@@ -11179,7 +11184,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
           <EntitySet Name="PurchaseOrderTemplates" EntityType="ERPModel.PurchaseOrderTemplate" />
           <EntitySet Name="UpazilaAssigns" EntityType="ERPModel.UpazilaAssign" />
           <EntitySet Name="VendorOffers" EntityType="ERPModel.VendorOffer" />
-          <EntitySet Name="VendorTypes" EntityType="ERPModel.VendorType" />
           <EntitySet Name="AttendanceTypes" EntityType="ERPModel.AttendanceType" />
           <EntitySet Name="EmployeeLeaveDetails" EntityType="ERPModel.EmployeeLeaveDetail" />
           <EntitySet Name="ProcessAttenendances" EntityType="ERPModel.ProcessAttenendance" />
@@ -12010,10 +12014,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             <End Role="ProductCategory" EntitySet="ProductCategories" />
             <End Role="VendorOpening" EntitySet="VendorOpenings" />
           </AssociationSet>
-          <AssociationSet Name="FK_VendorOpening_VendorType" Association="ERPModel.FK_VendorOpening_VendorType">
-            <End Role="VendorType" EntitySet="VendorTypes" />
-            <End Role="VendorOpening" EntitySet="VendorOpenings" />
-          </AssociationSet>
           <EntitySet Name="Areas" EntityType="ERPModel.Area" />
           <EntitySet Name="SubZones" EntityType="ERPModel.SubZone" />
           <AssociationSet Name="FK_Area_Company" Association="ERPModel.FK_Area_Company">
@@ -12152,10 +12152,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             <End Role="Company" EntitySet="Companies" />
             <End Role="VendorDeposit" EntitySet="VendorDeposits" />
           </AssociationSet>
-          <AssociationSet Name="FK_VendorDeposit_VendorType" Association="ERPModel.FK_VendorDeposit_VendorType">
-            <End Role="VendorType" EntitySet="VendorTypes" />
-            <End Role="VendorDeposit" EntitySet="VendorDeposits" />
-          </AssociationSet>
           <EntitySet Name="VendorDepositHistories" EntityType="ERPModel.VendorDepositHistory" />
           <AssociationSet Name="FK_VendorDepositHistory_Company" Association="ERPModel.FK_VendorDepositHistory_Company">
             <End Role="Company" EntitySet="Companies" />
@@ -12167,10 +12163,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
           </AssociationSet>
           <AssociationSet Name="FK_VendorDepositHistory_VendorDeposit" Association="ERPModel.FK_VendorDepositHistory_VendorDeposit">
             <End Role="VendorDeposit" EntitySet="VendorDeposits" />
-            <End Role="VendorDepositHistory" EntitySet="VendorDepositHistories" />
-          </AssociationSet>
-          <AssociationSet Name="FK_VendorDepositHistory_VendorType" Association="ERPModel.FK_VendorDepositHistory_VendorType">
-            <End Role="VendorType" EntitySet="VendorTypes" />
             <End Role="VendorDepositHistory" EntitySet="VendorDepositHistories" />
           </AssociationSet>
           <EntitySet Name="BatchPaymentDetails" EntityType="ERPModel.BatchPaymentDetail" />
@@ -12517,7 +12509,23 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             <End Role="Vendor" EntitySet="Vendors" />
             <End Role="VendorOpening" EntitySet="VendorOpenings" />
           </AssociationSet>
+<<<<<<< HEAD
           <EntitySet Name="EmployeeOperations" EntityType="ERPModel.EmployeeOperation" />
+=======
+          <EntitySet Name="VendorTypes" EntityType="ERPModel.VendorType" />
+          <AssociationSet Name="FK_VendorDeposit_VendorType" Association="ERPModel.FK_VendorDeposit_VendorType">
+            <End Role="VendorType" EntitySet="VendorTypes" />
+            <End Role="VendorDeposit" EntitySet="VendorDeposits" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VendorDepositHistory_VendorType" Association="ERPModel.FK_VendorDepositHistory_VendorType">
+            <End Role="VendorType" EntitySet="VendorTypes" />
+            <End Role="VendorDepositHistory" EntitySet="VendorDepositHistories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VendorOpening_VendorType" Association="ERPModel.FK_VendorOpening_VendorType">
+            <End Role="VendorType" EntitySet="VendorTypes" />
+            <End Role="VendorOpening" EntitySet="VendorOpenings" />
+          </AssociationSet>
+>>>>>>> 8575886f0bf3d70b2b61c4c9894ad5b161a62279
           </EntityContainer>
         <EntityType Name="AdminPolicy">
           <Key>
@@ -14598,16 +14606,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <Property Name="FactoryCarryingCommission" Type="Decimal" Precision="18" Scale="2" />
           <NavigationProperty Name="Vendor" Relationship="ERPModel.FK_VendorOffer_Vendor" FromRole="VendorOffer" ToRole="Vendor" />
-        </EntityType>
-        <EntityType Name="VendorType">
-          <Key>
-            <PropertyRef Name="VendorTypeId" />
-          </Key>
-          <Property Name="VendorTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="VendorOpenings" Relationship="ERPModel.FK_VendorOpening_VendorType" FromRole="VendorType" ToRole="VendorOpening" />
-          <NavigationProperty Name="VendorDeposits" Relationship="ERPModel.FK_VendorDeposit_VendorType" FromRole="VendorType" ToRole="VendorDeposit" />
-          <NavigationProperty Name="VendorDepositHistories" Relationship="ERPModel.FK_VendorDepositHistory_VendorType" FromRole="VendorType" ToRole="VendorDepositHistory" />
         </EntityType>
         <EntityType Name="AttendanceType">
           <Key>
@@ -19720,9 +19718,9 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
           <Property Name="ProductCategoryId" Type="Int32" />
           <NavigationProperty Name="Company" Relationship="ERPModel.FK_VendorOpening_Company" FromRole="VendorOpening" ToRole="Company" />
           <NavigationProperty Name="ProductCategory" Relationship="ERPModel.FK_VendorOpening_ProductCategory" FromRole="VendorOpening" ToRole="ProductCategory" />
-          <NavigationProperty Name="VendorType" Relationship="ERPModel.FK_VendorOpening_VendorType" FromRole="VendorOpening" ToRole="VendorType" />
           <NavigationProperty Name="Voucher" Relationship="ERPModel.FK_VendorOpening_Voucher" FromRole="VendorOpening" ToRole="Voucher" />
           <NavigationProperty Name="Vendor" Relationship="ERPModel.FK_VendorOpening_Vendor" FromRole="VendorOpening" ToRole="Vendor" />
+          <NavigationProperty Name="VendorType" Relationship="ERPModel.FK_VendorOpening_VendorType" FromRole="VendorOpening" ToRole="VendorType" />
         </EntityType>
         <Association Name="FK_VendorOpening_Company">
           <End Type="ERPModel.Company" Role="Company" Multiplicity="0..1" />
@@ -19745,18 +19743,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             </Principal>
             <Dependent Role="VendorOpening">
               <PropertyRef Name="ProductCategoryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_VendorOpening_VendorType">
-          <End Type="ERPModel.VendorType" Role="VendorType" Multiplicity="1" />
-          <End Type="ERPModel.VendorOpening" Role="VendorOpening" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="VendorType">
-              <PropertyRef Name="VendorTypeId" />
-            </Principal>
-            <Dependent Role="VendorOpening">
-              <PropertyRef Name="VendorTypeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -20541,11 +20527,11 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
           <Property Name="BankChargeHeadGlId" Type="Int32" />
           <Property Name="PaymentToHeadGlId" Type="Int32" />
           <NavigationProperty Name="Company" Relationship="ERPModel.FK_VendorDeposit_Company" FromRole="VendorDeposit" ToRole="Company" />
-          <NavigationProperty Name="VendorType" Relationship="ERPModel.FK_VendorDeposit_VendorType" FromRole="VendorDeposit" ToRole="VendorType" />
           <NavigationProperty Name="VendorDepositHistories" Relationship="ERPModel.FK_VendorDepositHistory_VendorDeposit" FromRole="VendorDeposit" ToRole="VendorDepositHistory" />
           <Property Name="IsAdjusted" Type="Boolean" />
           <NavigationProperty Name="Voucher" Relationship="ERPModel.FK_VendorDeposit_Voucher" FromRole="VendorDeposit" ToRole="Voucher" />
           <NavigationProperty Name="Vendor" Relationship="ERPModel.FK_VendorDeposit_Vendor" FromRole="VendorDeposit" ToRole="Vendor" />
+          <NavigationProperty Name="VendorType" Relationship="ERPModel.FK_VendorDeposit_VendorType" FromRole="VendorDeposit" ToRole="VendorType" />
         </EntityType>
         <Association Name="FK_VendorDeposit_Company">
           <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
@@ -20556,18 +20542,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             </Principal>
             <Dependent Role="VendorDeposit">
               <PropertyRef Name="CompanyId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_VendorDeposit_VendorType">
-          <End Type="ERPModel.VendorType" Role="VendorType" Multiplicity="1" />
-          <End Type="ERPModel.VendorDeposit" Role="VendorDeposit" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="VendorType">
-              <PropertyRef Name="VendorTypeId" />
-            </Principal>
-            <Dependent Role="VendorDeposit">
-              <PropertyRef Name="VendorTypeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -20593,10 +20567,10 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
           <NavigationProperty Name="Company" Relationship="ERPModel.FK_VendorDepositHistory_Company" FromRole="VendorDepositHistory" ToRole="Company" />
           <NavigationProperty Name="OrderMaster" Relationship="ERPModel.FK_VendorDepositHistory_OrderMaster" FromRole="VendorDepositHistory" ToRole="OrderMaster" />
           <NavigationProperty Name="VendorDeposit" Relationship="ERPModel.FK_VendorDepositHistory_VendorDeposit" FromRole="VendorDepositHistory" ToRole="VendorDeposit" />
-          <NavigationProperty Name="VendorType" Relationship="ERPModel.FK_VendorDepositHistory_VendorType" FromRole="VendorDepositHistory" ToRole="VendorType" />
           <Property Name="PaymentId" Type="Int32" />
           <NavigationProperty Name="PurchaseOrder" Relationship="ERPModel.FK_VendorDepositHistory_VendorDepositHistory" FromRole="VendorDepositHistory" ToRole="PurchaseOrder" />
           <NavigationProperty Name="Vendor" Relationship="ERPModel.FK_VendorDepositHistory_Vendor" FromRole="VendorDepositHistory" ToRole="Vendor" />
+          <NavigationProperty Name="VendorType" Relationship="ERPModel.FK_VendorDepositHistory_VendorType" FromRole="VendorDepositHistory" ToRole="VendorType" />
         </EntityType>
         <Association Name="FK_VendorDepositHistory_Company">
           <End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
@@ -20631,18 +20605,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             </Principal>
             <Dependent Role="VendorDepositHistory">
               <PropertyRef Name="VendorDepositId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_VendorDepositHistory_VendorType">
-          <End Type="ERPModel.VendorType" Role="VendorType" Multiplicity="1" />
-          <End Type="ERPModel.VendorDepositHistory" Role="VendorDepositHistory" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="VendorType">
-              <PropertyRef Name="VendorTypeId" />
-            </Principal>
-            <Dependent Role="VendorDepositHistory">
-              <PropertyRef Name="VendorTypeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -22476,6 +22438,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
+<<<<<<< HEAD
         <EntityType Name="EmployeeOperation">
           <Key>
             <PropertyRef Name="OperationId" />
@@ -22494,6 +22457,59 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
           <Property Name="ModifiedDate" Type="DateTime" Precision="0" />
           <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
         </EntityType>
+=======
+        <EntityType Name="VendorType">
+          <Key>
+            <PropertyRef Name="VendorTypeId" />
+          </Key>
+          <Property Name="VendorTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="VendorDeposits" Relationship="ERPModel.FK_VendorDeposit_VendorType" FromRole="VendorType" ToRole="VendorDeposit" />
+          <NavigationProperty Name="VendorDepositHistories" Relationship="ERPModel.FK_VendorDepositHistory_VendorType" FromRole="VendorType" ToRole="VendorDepositHistory" />
+          <NavigationProperty Name="VendorOpenings" Relationship="ERPModel.FK_VendorOpening_VendorType" FromRole="VendorType" ToRole="VendorOpening" />
+        </EntityType>
+        <Association Name="FK_VendorDeposit_VendorType">
+          <End Type="ERPModel.VendorType" Role="VendorType" Multiplicity="1" />
+          <End Type="ERPModel.VendorDeposit" Role="VendorDeposit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VendorType">
+              <PropertyRef Name="VendorTypeId" />
+            </Principal>
+            <Dependent Role="VendorDeposit">
+              <PropertyRef Name="VendorTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VendorDepositHistory_VendorType">
+          <End Type="ERPModel.VendorType" Role="VendorType" Multiplicity="1" />
+          <End Type="ERPModel.VendorDepositHistory" Role="VendorDepositHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VendorType">
+              <PropertyRef Name="VendorTypeId" />
+            </Principal>
+            <Dependent Role="VendorDepositHistory">
+              <PropertyRef Name="VendorTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VendorOpening_VendorType">
+          <End Type="ERPModel.VendorType" Role="VendorType" Multiplicity="1" />
+          <End Type="ERPModel.VendorOpening" Role="VendorOpening" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VendorType">
+              <PropertyRef Name="VendorTypeId" />
+            </Principal>
+            <Dependent Role="VendorOpening">
+              <PropertyRef Name="VendorTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+>>>>>>> 8575886f0bf3d70b2b61c4c9894ad5b161a62279
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -24559,14 +24575,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />
                 <ScalarProperty Name="VendorId" ColumnName="VendorId" />
                 <ScalarProperty Name="VendorOfferId" ColumnName="VendorOfferId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="VendorTypes">
-            <EntityTypeMapping TypeName="ERPModel.VendorType">
-              <MappingFragment StoreEntitySet="VendorType">
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="VendorTypeId" ColumnName="VendorTypeId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -28641,6 +28649,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+<<<<<<< HEAD
           <EntitySetMapping Name="EmployeeOperations">
             <EntityTypeMapping TypeName="ERPModel.EmployeeOperation">
               <MappingFragment StoreEntitySet="EmployeeOperation">
@@ -28657,6 +28666,18 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
                 <ScalarProperty Name="ActionDate" ColumnName="ActionDate" />
                 <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
                 <ScalarProperty Name="OperationId" ColumnName="OperationId" />
+=======
+          <EntitySetMapping Name="VendorTypes">
+            <EntityTypeMapping TypeName="ERPModel.VendorType">
+              <MappingFragment StoreEntitySet="VendorType">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="VendorTypeId" ColumnName="VendorTypeId" />
+>>>>>>> 8575886f0bf3d70b2b61c4c9894ad5b161a62279
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

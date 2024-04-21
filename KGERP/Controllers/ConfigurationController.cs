@@ -47,7 +47,7 @@ namespace KGERP.Controllers
         [HttpPost]
         public async Task<ActionResult> UserActionLog(VmUserActionLog vmUserActionLog)
         {
-            var sendData =  await _service.DateWiseSearchLog(vmUserActionLog);
+            var sendData = await _service.DateWiseSearchLog(vmUserActionLog);
             return View(sendData);
         }
 
@@ -1264,6 +1264,7 @@ namespace KGERP.Controllers
             VMCommonSupplier vmCommonSupplier = new VMCommonSupplier();
             vmCommonSupplier = await Task.Run(() => _service.GetSupplier(companyId));
             vmCommonSupplier.CountryList = new SelectList(_service.CommonCountriesDropDownList(), "Value", "Text");
+            vmCommonSupplier.BankList = new SelectList(_service.CommonBanksDropDownList(companyId), "Value", "Text");
 
             return View(vmCommonSupplier);
         }
