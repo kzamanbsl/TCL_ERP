@@ -1,4 +1,5 @@
-﻿using KGERP.Service.Interface;
+﻿using KGERP.Service.Implementation.Configuration;
+using KGERP.Service.Interface;
 using KGERP.Service.ServiceModel;
 using KGERP.Utility;
 using System.Collections.Generic;
@@ -24,7 +25,26 @@ namespace KGERP.Controllers
         [HttpPost]
         public ActionResult Index(VendorTypeModel model)
         {
-            return View();
+            if (model.ActionEum == ActionEnum.Add)
+            {
+                //Add 
+                await _service.Add(model);
+            }
+            else if (model.ActionEum == ActionEnum.Edit)
+            {
+                //Edit
+                await _service.Edit(model);
+            }
+            else if (model.ActionEum == ActionEnum.Delete)
+            {
+                //Delete
+                await _service.Delete(model.ID);
+            }
+            else
+            {
+                return View("Error");
+            }
+            return RedirectToAction(nameof(Index), new { companyId = model.CompanyFK });
         }
     }
 }
