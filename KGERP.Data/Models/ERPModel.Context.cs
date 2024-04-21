@@ -70,7 +70,6 @@ namespace KGERP.Data.Models
         public virtual DbSet<EmployeeAttendance> EmployeeAttendances { get; set; }
         public virtual DbSet<EmployeeHierarkey> EmployeeHierarkeys { get; set; }
         public virtual DbSet<EmployeeLoan> EmployeeLoans { get; set; }
-        public virtual DbSet<EmployeeOperation> EmployeeOperations { get; set; }
         public virtual DbSet<EmployeeTerritory> EmployeeTerritories { get; set; }
         public virtual DbSet<Grade> Grades { get; set; }
         public virtual DbSet<GradeDetail> GradeDetails { get; set; }
@@ -327,6 +326,7 @@ namespace KGERP.Data.Models
         public virtual DbSet<BillingGeneratedMap> BillingGeneratedMaps { get; set; }
         public virtual DbSet<BillBoQItem> BillBoQItems { get; set; }
         public virtual DbSet<Vendor> Vendors { get; set; }
+        public virtual DbSet<EmployeeOperation> EmployeeOperations { get; set; }
     
         public virtual ObjectResult<GetEmployeeListForTeam_Result> GetEmployeeListForTeam(Nullable<int> companyId)
         {

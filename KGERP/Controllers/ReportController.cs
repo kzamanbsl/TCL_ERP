@@ -5624,9 +5624,6 @@ namespace KGERP.Controllers
             {
                 PurchaseOrderId = 0;
             }
-
-
-
             string reportUrl = "";
             try
             {
@@ -5648,6 +5645,58 @@ namespace KGERP.Controllers
                 return File(client.DownloadData(reportUrl), "application/pdf");
             }
             if (reportType.Equals(ReportType.WORD))
+            {
+                return File(client.DownloadData(reportUrl), "application/msword", "ProjectInfoList.doc");
+            }
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult MaterialBillGenerate()
+        {
+            var model = new ReportCustomModel();
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult MaterialBillGenerate(ReportCustomModel model)
+        {
+            NetworkCredential nwc = new NetworkCredential(_admin, _password);
+            WebClient client = new WebClient();
+            client.Credentials = nwc;
+            var ReportName = CompanyInfo.ReportPrefix + "MaterialBillGenerateInvoice";
+
+            if (model.ReportType == null)
+            {
+                model.ReportType = "PDF";
+            }
+
+            if (model.Procurement_PurchaseOrderFk == null)
+            {
+                model.CostCenterId = 0;
+            }
+
+            string reportUrl = "";
+            try
+            {
+                reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&PurchaseOrderId={3}",
+             ReportName, model.ReportType, CompanyInfo.CompanyId, model.Procurement_PurchaseOrderFk);
+
+            }
+            catch
+            {
+
+            }
+
+            if (model.ReportType.Equals(ReportType.EXCEL))
+            {
+                return File(client.DownloadData(reportUrl), "application/vnd.ms-excel", "ProjectInfoList.xls");
+            }
+            if (model.ReportType.Equals(ReportType.PDF))
+            {
+                return File(client.DownloadData(reportUrl), "application/pdf");
+            }
+            if (model.ReportType.Equals(ReportType.WORD))
             {
                 return File(client.DownloadData(reportUrl), "application/msword", "ProjectInfoList.doc");
             }

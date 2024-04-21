@@ -11110,7 +11110,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
           <EntitySet Name="EmployeeAttendances" EntityType="ERPModel.EmployeeAttendance" />
           <EntitySet Name="EmployeeHierarkeys" EntityType="ERPModel.EmployeeHierarkey" />
           <EntitySet Name="EmployeeLoans" EntityType="ERPModel.EmployeeLoan" />
-          <EntitySet Name="EmployeeOperations" EntityType="ERPModel.EmployeeOperation" />
           <EntitySet Name="EmployeeTerritories" EntityType="ERPModel.EmployeeTerritory" />
           <EntitySet Name="Grades" EntityType="ERPModel.Grade" />
           <EntitySet Name="GradeDetails" EntityType="ERPModel.GradeDetail" />
@@ -12518,6 +12517,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             <End Role="Vendor" EntitySet="Vendors" />
             <End Role="VendorOpening" EntitySet="VendorOpenings" />
           </AssociationSet>
+          <EntitySet Name="EmployeeOperations" EntityType="ERPModel.EmployeeOperation" />
           </EntityContainer>
         <EntityType Name="AdminPolicy">
           <Key>
@@ -13317,24 +13317,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
-        </EntityType>
-        <EntityType Name="EmployeeOperation">
-          <Key>
-            <PropertyRef Name="OperationId" />
-          </Key>
-          <Property Name="OperationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="EmployeeId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ActionDate" Type="DateTime" Precision="0" />
-          <Property Name="EmployeeOperationType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Reason" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="FromDate" Type="DateTime" Precision="0" />
-          <Property Name="EndDate" Type="DateTime" Precision="0" />
-          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="ModifiedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
-          <Property Name="ModifiedDate" Type="DateTime" Precision="0" />
-          <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="EmployeeTerritory">
           <Key>
@@ -22494,6 +22476,24 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="EmployeeOperation">
+          <Key>
+            <PropertyRef Name="OperationId" />
+          </Key>
+          <Property Name="OperationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ActionDate" Type="DateTime" Precision="0" />
+          <Property Name="EmployeeOperationType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Reason" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="FromDate" Type="DateTime" Precision="0" />
+          <Property Name="EndDate" Type="DateTime" Precision="0" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="0" />
+          <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -23264,25 +23264,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
                 <ScalarProperty Name="LoanType" ColumnName="LoanType" />
                 <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
                 <ScalarProperty Name="LoanID" ColumnName="LoanID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="EmployeeOperations">
-            <EntityTypeMapping TypeName="ERPModel.EmployeeOperation">
-              <MappingFragment StoreEntitySet="EmployeeOperation">
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
-                <ScalarProperty Name="FromDate" ColumnName="FromDate" />
-                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
-                <ScalarProperty Name="Reason" ColumnName="Reason" />
-                <ScalarProperty Name="EmployeeOperationType" ColumnName="EmployeeOperationType" />
-                <ScalarProperty Name="ActionDate" ColumnName="ActionDate" />
-                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
-                <ScalarProperty Name="OperationId" ColumnName="OperationId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -28657,6 +28638,25 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
                 <ScalarProperty Name="DistrictId" ColumnName="DistrictId" />
                 <ScalarProperty Name="HeadGLId" ColumnName="HeadGLId" />
                 <ScalarProperty Name="VendorId" ColumnName="VendorId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmployeeOperations">
+            <EntityTypeMapping TypeName="ERPModel.EmployeeOperation">
+              <MappingFragment StoreEntitySet="EmployeeOperation">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="FromDate" ColumnName="FromDate" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+                <ScalarProperty Name="EmployeeOperationType" ColumnName="EmployeeOperationType" />
+                <ScalarProperty Name="ActionDate" ColumnName="ActionDate" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="OperationId" ColumnName="OperationId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

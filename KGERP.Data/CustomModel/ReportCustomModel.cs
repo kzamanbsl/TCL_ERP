@@ -160,6 +160,9 @@ namespace KGERP.Data.CustomModel
             set { }
         }
         public string SupplierName { get; set; }
+        public int Common_SupplierFK { get; set; }
+        public long Procurement_PurchaseOrderFk { get; set; }
+
         public string CustomerName { get; set; }
         public string CompanyName { get; set; }
 
