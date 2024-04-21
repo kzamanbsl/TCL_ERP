@@ -20,11 +20,13 @@ namespace KGERP.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            return View();
+            VendorTypeModel viewData = new VendorTypeModel();
+            viewData.DataList = _service.GetVendorTypes();
+            return View(viewData);
         }
 
         [HttpPost]
-        public async Task<ActionResult> IndexAsync(VendorTypeModel model)
+        public async Task<ActionResult> Index(VendorTypeModel model)
         {
             if (model.ActionEum == ActionEnum.Add)
             {

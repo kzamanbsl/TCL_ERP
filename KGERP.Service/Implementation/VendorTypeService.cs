@@ -2,9 +2,12 @@
 using KGERP.Service.Interface;
 using KGERP.Service.ServiceModel;
 using KGERP.Utility;
+using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace KGERP.Service.Implementation
 {
@@ -25,6 +28,9 @@ namespace KGERP.Service.Implementation
                 VendorType saveData = new VendorType()
                 {
                     Name = model.Name,
+                    CreatedBy = HttpContext.Current.User.Identity.Name,
+                    CreatedOn = DateTime.Now,
+                    IsActive = true
                 };
 
                 _context.VendorTypes.Add(saveData);
@@ -46,6 +52,8 @@ namespace KGERP.Service.Implementation
             if (getVendorType != null)
             {
                 getVendorType.Name = model.Name;
+                getVendorType.ModifiedBy = HttpContext.Current.User.Identity.Name;
+                getVendorType.ModifiedOn = DateTime.Now;
 
                 if (await _context.SaveChangesAsync() > 0)
                 {
@@ -56,16 +64,36 @@ namespace KGERP.Service.Implementation
             return response;
         }
 
-        public Task<bool> Delete(long id)
+        public async Task<bool> Delete(long id)
         {
-            throw new System.NotImplementedException();
+            var response = false;
+            var getVendorType = _context.VendorTypes.FirstOrDefault(x => x.VendorTypeId == id);
+
+            if (getVendorType != null)
+            {
+                getVendorType.IsActive = false;
+                getVendorType.ModifiedBy = HttpContext.Current.User.Identity.Name;
+                getVendorType.ModifiedOn = DateTime.Now;
+
+                if (await _context.SaveChangesAsync() > 0)
+                {
+                    response = true;
+                }
+            }
+
+            return response;
         }
 
         public List<VendorTypeModel> GetVendorTypes()
         {
-            IQueryable<Data.Models.VendorType> vendors = _context.VendorTypes.AsQueryable();
-            return ObjectConverter<VendorType, VendorTypeModel>.ConvertList(vendors.ToList()).ToList();
-
+            var response = (from t1 in _context.VendorTypes
+                            where t1.IsActive
+                            select new VendorTypeModel
+                            {
+                                VendorTypeId = t1.VendorTypeId,
+                                Name = t1.Name
+                            }).ToList();
+            return response;
         }
 
         public List<SelectModel> GetVendorTypeSelectModels()
