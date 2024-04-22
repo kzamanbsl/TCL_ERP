@@ -30,36 +30,66 @@ namespace KGERP.Service.Implementation
                 return sendData;
             }
 
-            ChequeRegister data = new ChequeRegister()
+            if (model.SupplierId > 0)
             {
-                ChequeBookId = model.ChequeBookId,
-                ProjectId = model.ProjectId,
-                SupplierId = model.SupplierId,
-                PayTo = model.PayTo,
-                IssueDate = model.IssueDate,
-                ChequeDate = model.ChequeDate,
-                ChequeNo = model.ChequeNo,
-                Amount = model.Amount,
-                ClearingDate = model.ClearingDate,
-                Remarks = model.Remarks,
-                IsSigned = false,
-                IsActive = true,
-                CreatedBy = HttpContext.Current.User.Identity.Name,
-                CreatedOn = DateTime.Now
-            };
-            if (model.RequisitionId > 0)
-            {
-                data.RequisitionMasterId = model.RequisitionId;
+                ChequeRegister data = new ChequeRegister()
+                {
+                    ChequeBookId = model.ChequeBookId,
+                    ProjectId = model.ProjectId,
+                    SupplierId = model.SupplierId,
+                    PayTo = model.PayTo,
+                    IssueDate = model.IssueDate,
+                    ChequeDate = model.ChequeDate,
+                    ChequeNo = model.ChequeNo,
+                    Amount = model.Amount,
+                    ClearingDate = model.ClearingDate,
+                    Remarks = model.Remarks,
+                    IsSigned = false,
+                    IsActive = true,
+                    CreatedBy = HttpContext.Current.User.Identity.Name,
+                    CreatedOn = DateTime.Now
+                };
+                if (model.RequisitionId > 0)
+                {
+                    data.RequisitionMasterId = model.RequisitionId;
 
+                }
+
+                _context.ChequeRegisters.Add(data);
+                if (await _context.SaveChangesAsync() > 0)
+                {
+                    sendData = true;
+                }
             }
-
-
-
-
-            _context.ChequeRegisters.Add(data);
-            if (await _context.SaveChangesAsync() > 0)
+            else
             {
-                sendData = true;
+                ChequeRegister data = new ChequeRegister()
+                {
+                    ChequeBookId = model.ChequeBookId,
+                    ProjectId = model.ProjectId,
+                    PayTo = model.PayTo,
+                    IssueDate = model.IssueDate,
+                    ChequeDate = model.ChequeDate,
+                    ChequeNo = model.ChequeNo,
+                    Amount = model.Amount,
+                    ClearingDate = model.ClearingDate,
+                    Remarks = model.Remarks,
+                    IsSigned = false,
+                    IsActive = true,
+                    CreatedBy = HttpContext.Current.User.Identity.Name,
+                    CreatedOn = DateTime.Now
+                };
+                if (model.RequisitionId > 0)
+                {
+                    data.RequisitionMasterId = model.RequisitionId;
+
+                }
+
+                _context.ChequeRegisters.Add(data);
+                if (await _context.SaveChangesAsync() > 0)
+                {
+                    sendData = true;
+                }
             }
 
             return sendData;
@@ -236,8 +266,8 @@ namespace KGERP.Service.Implementation
                                                             RequisitionNo = t2.BillRequisitionNo,
                                                             ProjectId = t1.ProjectId,
                                                             ProjectName = t4.Name,
-                                                            SupplierId = (int)t1.SupplierId,
-                                                            SupplierName = t3.Name,
+                                                            SupplierId = t1.SupplierId == null ? 0 : (int)t1.SupplierId,
+                                                            SupplierName = t3.Name ?? "N/A",
                                                             SupplierCode = t3.Code,
                                                             PayTo = t1.PayTo,
                                                             IssueDate = t1.IssueDate,
@@ -275,8 +305,8 @@ namespace KGERP.Service.Implementation
                                                             RequisitionNo = t2.BillRequisitionNo,
                                                             ProjectId = t1.ProjectId,
                                                             ProjectName = t4.Name,
-                                                            SupplierId = (int)t1.SupplierId,
-                                                            SupplierName = t3.Name,
+                                                            SupplierId = t1.SupplierId == null ? 0 : (int)t1.SupplierId,
+                                                            SupplierName = t3.Name ?? "N/A",
                                                             SupplierCode = t3.Code,
                                                             PayTo = t1.PayTo,
                                                             IssueDate = t1.IssueDate,

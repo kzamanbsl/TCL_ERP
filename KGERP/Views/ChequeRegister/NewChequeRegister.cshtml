@@ -41,146 +41,156 @@
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="box-danger">
-                    <div class="box-body row">
+                    <div class="box-body">
                         @Html.HiddenFor(model => model.ID, new { Value = "", id = "chequeResgisterItemId" })
                         @Html.HiddenFor(model => model.ActionId, new { Value = "", id = "ActionId" })
                         @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
 
-                        <div class="col-md-4" id="inputRegisterFor">
-                            <div class="form-group">
-                                <label class="form-label">Register For<sup class="text-danger" title="Required"><b>*</b></sup></label>
-                                @Html.DropDownListFor(model => model.RegisterFor, Model.RegisterForList as SelectList, "==Register For==", new { id = "ddlRegisterFor", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
-                                @Html.ValidationMessageFor(model => model.RegisterFor, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="col-md-4" id="inputProject">
-                            <div class="form-group">
-                                <label class="form-label">Select Project<sup class="text-danger" title="Required"><b>*</b></sup></label>
-                                @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.ProjectList.OrderBy(order => order.Text), "Value", "Text"), "==Select Project==", new { id = "ddlProjectId", @class = "form-control searchingDropdown", style = "width:100%" })
-                                @Html.ValidationMessageFor(model => model.ProjectId, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="col-md-3 hidden" id="inputRequisition">
-                            <div class="form-group">
-                                <label class="form-label">Select Requisition<sup class="text-danger" title="Required"><b>*</b></sup></label>
-                                @Html.DropDownListFor(model => model.RequisitionId, new SelectList(Model.RequisitionList.OrderBy(order => order.Text), "Value", "Text"), "==Select Requisition==", new { id = "ddlRequisitionId", @class = "form-control searchingDropdown", style = "width:100%" })
-                                @Html.ValidationMessageFor(model => model.RequisitionId, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="col-md-4" id="inputSupplier">
-                            <div class="form-group">
-                                <label>Supplier/Party<sup class="text-danger" title="Required">*</sup></label>
-                                @Html.EditorFor(model => model.SupplierName, new { htmlAttributes = new { @autocomplete = "on", @class = "form-control", @name = "Supplier Name", @id = "txtSupplierName", required = "required" } })
-                                @Html.HiddenFor(model => model.SupplierId, new { id = "ddlCommon_SupplierFK" })
-                                @Html.ValidationMessageFor(model => model.SupplierId, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label class="form-label">Select Bank<sup class="text-danger" title="Required"><b>*</b></sup></label>
-                                @Html.DropDownListFor(model => model.BankId, new SelectList(Model.BankList.OrderBy(order => order.Text), "Value", "Text"), "==Select Bank==", new { id = "ddlBankId", @class = "form-control searchingDropdown", style = "width:100%" })
-                                @Html.ValidationMessageFor(model => model.BankId, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label class="form-label">Select Branch<sup class="text-danger" title="Required"><b>*</b></sup></label>
-                                @Html.DropDownListFor(model => model.BankBranchId, new SelectList(Model.BankBranchList.OrderBy(order => order.Text), "Value", "Text"), "==Select Branch==", new { id = "ddlBankBranchId", @class = "form-control searchingDropdown", style = "width:100%" })
-                                @Html.ValidationMessageFor(model => model.BankBranchId, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label class="form-label">Account Number<sup class="text-danger" title="Required"><b>*</b></sup></label>
-                                @Html.DropDownListFor(model => model.BankAccountInfoId, new SelectList(Model.AccountNoList.OrderBy(order => order.Text), "Value", "Text"), "==Select Account No==", new { id = "ddlBankAccountInfoId", @class = "form-control searchingDropdown", style = "width:100%" })
-                                @Html.ValidationMessageFor(model => model.BankAccountInfoId, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label class="form-label">Cheque Book<sup class="text-danger" title="Required"><b>*</b></sup></label>
-                                @Html.DropDownListFor(model => model.ChequeBookId, Model.ChequeBookList as SelectList, "==Select Cheque Book==", new { id = "ddlCheqeBookId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
-                                @Html.ValidationMessageFor(model => model.ChequeBookId, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-4" id="inputRegisterFor">
                                 <div class="form-group">
-                                    <label class="form-label">Issue Date<sup class="text-danger" title="Required">*</sup></label>
-                                    <input name="IssueDate" asp-for="IssueDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker w-100 dateCustom" autocomplete="off" id="txtIssueDate">
-                                    @Html.ValidationMessageFor(model => model.IssueDate, "", new { @class = "text-danger" })
+                                    <label class="form-label">Register For<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                    @Html.DropDownListFor(model => model.RegisterFor, Model.RegisterForList as SelectList, "==Register For==", new { id = "ddlRegisterFor", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                    @Html.ValidationMessageFor(model => model.RegisterFor, "", new { @class = "text-danger" })
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="col-md-4">
-                            <div class="form-group">
+                            <div class="col-md-4" id="inputProject">
                                 <div class="form-group">
-                                    <label class="form-label">Cheque Date<sup class="text-danger" title="Required">*</sup></label>
-                                    <input name="ChequeDate" asp-for="ChequeDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker w-100 dateCustom" autocomplete="off" id="txtChequeDate">
-                                    @Html.ValidationMessageFor(model => model.ChequeDate, "", new { @class = "text-danger" })
+                                    <label class="form-label">Select Project<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                    @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.ProjectList.OrderBy(order => order.Text), "Value", "Text"), "==Select Project==", new { id = "ddlProjectId", @class = "form-control searchingDropdown", style = "width:100%" })
+                                    @Html.ValidationMessageFor(model => model.ProjectId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 hidden" id="inputRequisition">
+                                <div class="form-group">
+                                    <label class="form-label">Select Requisition<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                    @Html.DropDownListFor(model => model.RequisitionId, new SelectList(Model.RequisitionList.OrderBy(order => order.Text), "Value", "Text"), "==Select Requisition==", new { id = "ddlRequisitionId", @class = "form-control searchingDropdown", style = "width:100%" })
+                                    @Html.ValidationMessageFor(model => model.RequisitionId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-4" id="inputSupplier">
+                                <div class="form-group">
+                                    <div id="needSupplier" class="hidden">
+                                        <label>Supplier/Party<sup class="text-danger" title="Required">*</sup></label>
+                                        @Html.EditorFor(model => model.SupplierName, new { htmlAttributes = new { @autocomplete = "on", @class = "form-control", @name = "Supplier Name", @id = "txtSupplierName", required = "required" } })
+                                        @Html.HiddenFor(model => model.SupplierId, new { id = "ddlCommon_SupplierFK" })
+                                        @Html.ValidationMessageFor(model => model.SupplierId, "", new { @class = "text-danger" })
+                                    </div>
+
+                                    <div id="notNeedSupplier" class="d-block">
+                                        <p style="margin-top: 30px; cursor: pointer !important;">Cheque issue for supplier?</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="form-label">Clearing Date<sup class="text-danger" title="Required">*</sup></label>
-                                <input name="ClearingDate" asp-for="ClearingDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker w-100 dateCustom" autocomplete="off" id="txtClearingDate">
-                                @Html.ValidationMessageFor(model => model.ClearingDate, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="form-label">Cheque No<sup class="text-danger" title="Required">*</sup></label>
-                                @Html.TextBoxFor(model => model.ChequeNo, new { id = "txtChequeNo", @class = "form-control", @placeholder = "Cheque no", required = "true", @readonly = "true" })
-                                @Html.ValidationMessageFor(model => model.ChequeNo, "", new { id = "nameExist", @class = "text-danger" })
-                                <small class="text-danger" id="message"></small>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="form-label">Amount<sup class="text-danger" title="Required">*</sup></label>
-                                @Html.TextBoxFor(model => model.Amount, new { id = "txtAmount", @class = "form-control", @placeholder = "Amount", required = "true", @readonly = "true" })
-                                @Html.ValidationMessageFor(model => model.Amount, "", new { id = "nameExist", @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="form-label">Pay To<sup class="text-danger" title="Required"><b>*</b></sup></label>
-                                @Html.TextBoxFor(model => model.PayTo, new { id = "txtPayTo", @class = "form-control", @placeholder = "Pay to", required = "true", @readonly = "true" })
-                                @Html.ValidationMessageFor(model => model.PayTo, "", new { id = "nameExist", @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label class="form-label">Remarks/Purpose</label>
-                                @Html.TextAreaFor(model => model.Remarks, new { id = "txtRemarks", @class = "form-control", @placeholder = "Type remarks/purpose here" })
-                                @Html.ValidationMessageFor(model => model.Remarks, "", new { id = "nameExist", @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="col-md-6"></div>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <div class="col-md-6">
-                                    <button type="button" onclick="resetForm()" class="btn btn-secondary" data-dismiss="modal" style="width:100% !important">Reset</button>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="form-label">Select Bank<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                    @Html.DropDownListFor(model => model.BankId, new SelectList(Model.BankList.OrderBy(order => order.Text), "Value", "Text"), "==Select Bank==", new { id = "ddlBankId", @class = "form-control searchingDropdown", style = "width:100%" })
+                                    @Html.ValidationMessageFor(model => model.BankId, "", new { @class = "text-danger" })
                                 </div>
-                                <div class="col-md-6">
-                                    <button type="submit" id="btnSave" class="btn btn-primary btn-block" style="width:100% !important"><i class='fa fa-edit'></i> Add</button>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="form-label">Select Branch<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                    @Html.DropDownListFor(model => model.BankBranchId, new SelectList(Model.BankBranchList.OrderBy(order => order.Text), "Value", "Text"), "==Select Branch==", new { id = "ddlBankBranchId", @class = "form-control searchingDropdown", style = "width:100%" })
+                                    @Html.ValidationMessageFor(model => model.BankBranchId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="form-label">Account Number<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                    @Html.DropDownListFor(model => model.BankAccountInfoId, new SelectList(Model.AccountNoList.OrderBy(order => order.Text), "Value", "Text"), "==Select Account No==", new { id = "ddlBankAccountInfoId", @class = "form-control searchingDropdown", style = "width:100%" })
+                                    @Html.ValidationMessageFor(model => model.BankAccountInfoId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="form-label">Cheque Book<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                    @Html.DropDownListFor(model => model.ChequeBookId, Model.ChequeBookList as SelectList, "==Select Cheque Book==", new { id = "ddlCheqeBookId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                    @Html.ValidationMessageFor(model => model.ChequeBookId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <label class="form-label">Issue Date<sup class="text-danger" title="Required">*</sup></label>
+                                        <input name="IssueDate" asp-for="IssueDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker w-100 dateCustom" autocomplete="off" id="txtIssueDate">
+                                        @Html.ValidationMessageFor(model => model.IssueDate, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <label class="form-label">Cheque Date<sup class="text-danger" title="Required">*</sup></label>
+                                        <input name="ChequeDate" asp-for="ChequeDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker w-100 dateCustom" autocomplete="off" id="txtChequeDate">
+                                        @Html.ValidationMessageFor(model => model.ChequeDate, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="form-label">Clearing Date<sup class="text-danger" title="Required">*</sup></label>
+                                    <input name="ClearingDate" asp-for="ClearingDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker w-100 dateCustom" autocomplete="off" id="txtClearingDate">
+                                    @Html.ValidationMessageFor(model => model.ClearingDate, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="form-label">Cheque No<sup class="text-danger" title="Required">*</sup></label>
+                                    @Html.TextBoxFor(model => model.ChequeNo, new { id = "txtChequeNo", @class = "form-control", @placeholder = "Cheque no", required = "true", @readonly = "true" })
+                                    @Html.ValidationMessageFor(model => model.ChequeNo, "", new { id = "nameExist", @class = "text-danger" })
+                                    <small class="text-danger" id="message"></small>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="form-label">Amount<sup class="text-danger" title="Required">*</sup></label>
+                                    @Html.TextBoxFor(model => model.Amount, new { id = "txtAmount", @class = "form-control", @placeholder = "Amount", required = "true", @readonly = "true" })
+                                    @Html.ValidationMessageFor(model => model.Amount, "", new { id = "nameExist", @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="form-label">Pay To<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                    @Html.TextBoxFor(model => model.PayTo, new { id = "txtPayTo", @class = "form-control", @placeholder = "Pay to", required = "true", @readonly = "false" })
+                                    @Html.ValidationMessageFor(model => model.PayTo, "", new { id = "nameExist", @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">Remarks/Purpose</label>
+                                    @Html.TextAreaFor(model => model.Remarks, new { id = "txtRemarks", @class = "form-control", @placeholder = "Type remarks/purpose here" })
+                                    @Html.ValidationMessageFor(model => model.Remarks, "", new { id = "nameExist", @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-6"></div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <button type="button" onclick="resetForm()" class="btn btn-secondary" data-dismiss="modal" style="width:100% !important">Reset</button>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button type="submit" id="btnSave" class="btn btn-primary btn-block" style="width:100% !important"><i class='fa fa-edit'></i> Add</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -236,7 +246,16 @@
                                         <td>@item.ChequeDate.ToString("dd-MM-yyyy")</td>
                                         <td>@item.ClearingDate.ToString("dd-MM-yyyy")</td>
                                         <td>@item.ProjectName</td>
-                                        <td>[@item.SupplierCode] - @item.SupplierName</td>
+                                        <td>
+                                            @if (item.SupplierId > 0)
+                                            {
+                                                <span>[@item.SupplierCode] - @item.SupplierName</span>
+                                            }
+                                            else
+                                            {
+                                                <span>N/A</span>
+                                            }
+                                        </td>
                                         <td>
                                             @if (item.RequisitionId > 0)
                                             {
@@ -447,11 +466,17 @@
                 $('#inputRegisterFor').removeClass('col-md-4').addClass('col-md-3');
                 $('#inputProject').removeClass('col-md-4').addClass('col-md-3');
                 $('#inputSupplier').removeClass('col-md-4').addClass('col-md-3');
+                $('#needSupplier').removeClass('hidden').addClass('d-block');
+                $('#notNeedSupplier').removeClass('d-block').addClass('hidden');
+                $('#txtPayTo').prop('readonly', true);
             } else {
                 $('#inputRequisition').removeClass('d-block').addClass('hidden');
                 $('#inputRegisterFor').removeClass('col-md-3').addClass('col-md-4');
                 $('#inputProject').removeClass('col-md-3').addClass('col-md-4');
                 $('#inputSupplier').removeClass('col-md-3').addClass('col-md-4');
+                $('#notNeedSupplier').removeClass('hidden').addClass('d-block');
+                $('#needSupplier').removeClass('d-block').addClass('hidden');
+                $('#txtPayTo').prop('readonly', false);
             }
         });
 
@@ -574,6 +599,12 @@
             else {
                 $('#txtAmount').prop('readonly', false);
             }
+        });
+
+        $('#notNeedSupplier p').on('click', function (event) {
+            $('#needSupplier').removeClass('hidden').addClass('d-block');
+            $('#notNeedSupplier').removeClass('d-block').addClass('hidden');
+            $('#txtPayTo').prop('readonly', true);
         });
 
     </script>
