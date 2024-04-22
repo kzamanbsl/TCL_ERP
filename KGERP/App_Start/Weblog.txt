@@ -1759,3 +1759,129 @@ ERROR 2024-04-21 12:42:03,747 126045ms UserController         Login             
    at System.Data.Entity.Core.Objects.ObjectContext.<>c__DisplayClass59.<ExecuteStoreCommand>b__57()
    at System.Data.Entity.SqlServer.DefaultSqlExecutionStrategy.Execute[TResult](Func`1 operation)
    at KGERP.Controllers.UserController.Login(UserLogin userLogin, String returnUrl) in D:\RunningWork\TCL_ERP\KGERP\Controllers\UserController.cs:line 144
+ERROR 2024-04-22 12:49:22,414 60479ms UserController         Login              - System.Data.Entity.Core.MetadataException: Schema specified is not valid. Errors: 
+Models.ERPModel.csdl(11435,17) : error 0005: The element 'Schema' in namespace 'http://schemas.microsoft.com/ado/2009/11/edm' cannot contain text. List of possible elements expected: 'Using, Association, ComplexType, EntityType, EnumType, ValueTerm, Function, Annotations, EntityContainer' in namespace 'http://schemas.microsoft.com/ado/2009/11/edm' as well as any element in namespace '##other'.
+Models.ERPModel.csdl(11435,17) : error 0011: The current schema element does not support text (
+				>>>>>>> 8575886f0bf3d70b2b61c4c9894ad5b161a62279
+			).
+   at System.Data.Entity.Core.Metadata.Edm.EdmItemCollection.LoadItems(IEnumerable`1 xmlReaders, IEnumerable`1 sourceFilePaths, SchemaDataModelOption dataModelOption, DbProviderManifest providerManifest, ItemCollection itemCollection, Boolean throwOnError)
+   at System.Data.Entity.Core.Metadata.Edm.EdmItemCollection.Init(IEnumerable`1 xmlReaders, IEnumerable`1 filePaths, Boolean throwOnError)
+   at System.Data.Entity.Core.Metadata.Edm.MetadataCache.LoadEdmItemCollection(MetadataArtifactLoader loader)
+   at System.Data.Entity.Core.Metadata.Edm.MetadataCache.<>c__DisplayClass5.<GetMetadataWorkspace>b__0(String k)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.GetOrAdd(TKey key, Func`2 valueFactory)
+   at System.Data.Entity.Core.Metadata.Edm.MetadataCache.GetMetadataWorkspace(DbConnectionOptions effectiveConnectionOptions)
+   at System.Data.Entity.Core.EntityClient.EntityConnection.GetMetadataWorkspace()
+   at System.Data.Entity.Core.Objects.ObjectContext..ctor(EntityConnection connection, Boolean isConnectionConstructor, ObjectQueryExecutionPlanFactory objectQueryExecutionPlanFactory, Translator translator, ColumnMapFactory columnMapFactory)
+   at System.Data.Entity.Internal.InternalConnection.CreateObjectContextFromConnectionModel()
+   at System.Data.Entity.Internal.LazyInternalContext.InitializeContext()
+   at System.Data.Entity.Internal.InternalContext.GetEntitySetAndBaseTypeForType(Type entityType)
+   at System.Data.Entity.Internal.Linq.InternalSet`1.Initialize()
+   at System.Data.Entity.Internal.Linq.InternalSet`1.get_InternalContext()
+   at System.Data.Entity.Infrastructure.DbQuery`1.System.Linq.IQueryable.get_Provider()
+   at System.Linq.Queryable.Where[TSource](IQueryable`1 source, Expression`1 predicate)
+   at KGERP.Controllers.UserController.Login(UserLogin userLogin, String returnUrl) in D:\TCL_ERP\KGERP\Controllers\UserController.cs:line 127
+ERROR 2024-04-22 12:49:38,242 76306ms UserController         Login              - System.Data.Entity.Core.MetadataException: Schema specified is not valid. Errors: 
+Models.ERPModel.csdl(11435,17) : error 0005: The element 'Schema' in namespace 'http://schemas.microsoft.com/ado/2009/11/edm' cannot contain text. List of possible elements expected: 'Using, Association, ComplexType, EntityType, EnumType, ValueTerm, Function, Annotations, EntityContainer' in namespace 'http://schemas.microsoft.com/ado/2009/11/edm' as well as any element in namespace '##other'.
+Models.ERPModel.csdl(11435,17) : error 0011: The current schema element does not support text (
+				>>>>>>> 8575886f0bf3d70b2b61c4c9894ad5b161a62279
+			).
+   at System.Data.Entity.Core.Metadata.Edm.EdmItemCollection.LoadItems(IEnumerable`1 xmlReaders, IEnumerable`1 sourceFilePaths, SchemaDataModelOption dataModelOption, DbProviderManifest providerManifest, ItemCollection itemCollection, Boolean throwOnError)
+   at System.Data.Entity.Core.Metadata.Edm.EdmItemCollection.Init(IEnumerable`1 xmlReaders, IEnumerable`1 filePaths, Boolean throwOnError)
+   at System.Data.Entity.Core.Metadata.Edm.MetadataCache.LoadEdmItemCollection(MetadataArtifactLoader loader)
+   at System.Data.Entity.Core.Metadata.Edm.MetadataCache.<>c__DisplayClass5.<GetMetadataWorkspace>b__0(String k)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.GetOrAdd(TKey key, Func`2 valueFactory)
+   at System.Data.Entity.Core.Metadata.Edm.MetadataCache.GetMetadataWorkspace(DbConnectionOptions effectiveConnectionOptions)
+   at System.Data.Entity.Core.EntityClient.EntityConnection.GetMetadataWorkspace()
+   at System.Data.Entity.Core.Objects.ObjectContext..ctor(EntityConnection connection, Boolean isConnectionConstructor, ObjectQueryExecutionPlanFactory objectQueryExecutionPlanFactory, Translator translator, ColumnMapFactory columnMapFactory)
+   at System.Data.Entity.Internal.InternalConnection.CreateObjectContextFromConnectionModel()
+   at System.Data.Entity.Internal.LazyInternalContext.InitializeContext()
+   at System.Data.Entity.Internal.InternalContext.GetEntitySetAndBaseTypeForType(Type entityType)
+   at System.Data.Entity.Internal.Linq.InternalSet`1.Initialize()
+   at System.Data.Entity.Internal.Linq.InternalSet`1.get_InternalContext()
+   at System.Data.Entity.Infrastructure.DbQuery`1.System.Linq.IQueryable.get_Provider()
+   at System.Linq.Queryable.Where[TSource](IQueryable`1 source, Expression`1 predicate)
+   at KGERP.Controllers.UserController.Login(UserLogin userLogin, String returnUrl) in D:\TCL_ERP\KGERP\Controllers\UserController.cs:line 127
+ERROR 2024-04-22 12:49:56,816 94880ms UserController         Login              - System.Data.Entity.Core.MetadataException: Schema specified is not valid. Errors: 
+Models.ERPModel.csdl(11435,17) : error 0005: The element 'Schema' in namespace 'http://schemas.microsoft.com/ado/2009/11/edm' cannot contain text. List of possible elements expected: 'Using, Association, ComplexType, EntityType, EnumType, ValueTerm, Function, Annotations, EntityContainer' in namespace 'http://schemas.microsoft.com/ado/2009/11/edm' as well as any element in namespace '##other'.
+Models.ERPModel.csdl(11435,17) : error 0011: The current schema element does not support text (
+				>>>>>>> 8575886f0bf3d70b2b61c4c9894ad5b161a62279
+			).
+   at System.Data.Entity.Core.Metadata.Edm.EdmItemCollection.LoadItems(IEnumerable`1 xmlReaders, IEnumerable`1 sourceFilePaths, SchemaDataModelOption dataModelOption, DbProviderManifest providerManifest, ItemCollection itemCollection, Boolean throwOnError)
+   at System.Data.Entity.Core.Metadata.Edm.EdmItemCollection.Init(IEnumerable`1 xmlReaders, IEnumerable`1 filePaths, Boolean throwOnError)
+   at System.Data.Entity.Core.Metadata.Edm.MetadataCache.LoadEdmItemCollection(MetadataArtifactLoader loader)
+   at System.Data.Entity.Core.Metadata.Edm.MetadataCache.<>c__DisplayClass5.<GetMetadataWorkspace>b__0(String k)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.GetOrAdd(TKey key, Func`2 valueFactory)
+   at System.Data.Entity.Core.Metadata.Edm.MetadataCache.GetMetadataWorkspace(DbConnectionOptions effectiveConnectionOptions)
+   at System.Data.Entity.Core.EntityClient.EntityConnection.GetMetadataWorkspace()
+   at System.Data.Entity.Core.Objects.ObjectContext..ctor(EntityConnection connection, Boolean isConnectionConstructor, ObjectQueryExecutionPlanFactory objectQueryExecutionPlanFactory, Translator translator, ColumnMapFactory columnMapFactory)
+   at System.Data.Entity.Internal.InternalConnection.CreateObjectContextFromConnectionModel()
+   at System.Data.Entity.Internal.LazyInternalContext.InitializeContext()
+   at System.Data.Entity.Internal.InternalContext.GetEntitySetAndBaseTypeForType(Type entityType)
+   at System.Data.Entity.Internal.Linq.InternalSet`1.Initialize()
+   at System.Data.Entity.Internal.Linq.InternalSet`1.get_InternalContext()
+   at System.Data.Entity.Infrastructure.DbQuery`1.System.Linq.IQueryable.get_Provider()
+   at System.Linq.Queryable.Where[TSource](IQueryable`1 source, Expression`1 predicate)
+   at KGERP.Controllers.UserController.Login(UserLogin userLogin, String returnUrl) in D:\TCL_ERP\KGERP\Controllers\UserController.cs:line 127
+ERROR 2024-04-22 12:50:39,135 137199ms UserController         Login              - System.Data.Entity.Core.MetadataException: Schema specified is not valid. Errors: 
+Models.ERPModel.csdl(11435,17) : error 0005: The element 'Schema' in namespace 'http://schemas.microsoft.com/ado/2009/11/edm' cannot contain text. List of possible elements expected: 'Using, Association, ComplexType, EntityType, EnumType, ValueTerm, Function, Annotations, EntityContainer' in namespace 'http://schemas.microsoft.com/ado/2009/11/edm' as well as any element in namespace '##other'.
+Models.ERPModel.csdl(11435,17) : error 0011: The current schema element does not support text (
+				>>>>>>> 8575886f0bf3d70b2b61c4c9894ad5b161a62279
+			).
+   at System.Data.Entity.Core.Metadata.Edm.EdmItemCollection.LoadItems(IEnumerable`1 xmlReaders, IEnumerable`1 sourceFilePaths, SchemaDataModelOption dataModelOption, DbProviderManifest providerManifest, ItemCollection itemCollection, Boolean throwOnError)
+   at System.Data.Entity.Core.Metadata.Edm.EdmItemCollection.Init(IEnumerable`1 xmlReaders, IEnumerable`1 filePaths, Boolean throwOnError)
+   at System.Data.Entity.Core.Metadata.Edm.MetadataCache.LoadEdmItemCollection(MetadataArtifactLoader loader)
+   at System.Data.Entity.Core.Metadata.Edm.MetadataCache.<>c__DisplayClass5.<GetMetadataWorkspace>b__0(String k)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.GetOrAdd(TKey key, Func`2 valueFactory)
+   at System.Data.Entity.Core.Metadata.Edm.MetadataCache.GetMetadataWorkspace(DbConnectionOptions effectiveConnectionOptions)
+   at System.Data.Entity.Core.EntityClient.EntityConnection.GetMetadataWorkspace()
+   at System.Data.Entity.Core.Objects.ObjectContext..ctor(EntityConnection connection, Boolean isConnectionConstructor, ObjectQueryExecutionPlanFactory objectQueryExecutionPlanFactory, Translator translator, ColumnMapFactory columnMapFactory)
+   at System.Data.Entity.Internal.InternalConnection.CreateObjectContextFromConnectionModel()
+   at System.Data.Entity.Internal.LazyInternalContext.InitializeContext()
+   at System.Data.Entity.Internal.InternalContext.GetEntitySetAndBaseTypeForType(Type entityType)
+   at System.Data.Entity.Internal.Linq.InternalSet`1.Initialize()
+   at System.Data.Entity.Internal.Linq.InternalSet`1.get_InternalContext()
+   at System.Data.Entity.Infrastructure.DbQuery`1.System.Linq.IQueryable.get_Provider()
+   at System.Linq.Queryable.Where[TSource](IQueryable`1 source, Expression`1 predicate)
+   at KGERP.Controllers.UserController.Login(UserLogin userLogin, String returnUrl) in D:\TCL_ERP\KGERP\Controllers\UserController.cs:line 127
+ERROR 2024-04-22 12:51:22,242 180306ms UserController         Login              - System.Data.Entity.Core.MetadataException: Schema specified is not valid. Errors: 
+Models.ERPModel.csdl(11435,17) : error 0005: The element 'Schema' in namespace 'http://schemas.microsoft.com/ado/2009/11/edm' cannot contain text. List of possible elements expected: 'Using, Association, ComplexType, EntityType, EnumType, ValueTerm, Function, Annotations, EntityContainer' in namespace 'http://schemas.microsoft.com/ado/2009/11/edm' as well as any element in namespace '##other'.
+Models.ERPModel.csdl(11435,17) : error 0011: The current schema element does not support text (
+				>>>>>>> 8575886f0bf3d70b2b61c4c9894ad5b161a62279
+			).
+   at System.Data.Entity.Core.Metadata.Edm.EdmItemCollection.LoadItems(IEnumerable`1 xmlReaders, IEnumerable`1 sourceFilePaths, SchemaDataModelOption dataModelOption, DbProviderManifest providerManifest, ItemCollection itemCollection, Boolean throwOnError)
+   at System.Data.Entity.Core.Metadata.Edm.EdmItemCollection.Init(IEnumerable`1 xmlReaders, IEnumerable`1 filePaths, Boolean throwOnError)
+   at System.Data.Entity.Core.Metadata.Edm.MetadataCache.LoadEdmItemCollection(MetadataArtifactLoader loader)
+   at System.Data.Entity.Core.Metadata.Edm.MetadataCache.<>c__DisplayClass5.<GetMetadataWorkspace>b__0(String k)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.GetOrAdd(TKey key, Func`2 valueFactory)
+   at System.Data.Entity.Core.Metadata.Edm.MetadataCache.GetMetadataWorkspace(DbConnectionOptions effectiveConnectionOptions)
+   at System.Data.Entity.Core.EntityClient.EntityConnection.GetMetadataWorkspace()
+   at System.Data.Entity.Core.Objects.ObjectContext..ctor(EntityConnection connection, Boolean isConnectionConstructor, ObjectQueryExecutionPlanFactory objectQueryExecutionPlanFactory, Translator translator, ColumnMapFactory columnMapFactory)
+   at System.Data.Entity.Internal.InternalConnection.CreateObjectContextFromConnectionModel()
+   at System.Data.Entity.Internal.LazyInternalContext.InitializeContext()
+   at System.Data.Entity.Internal.InternalContext.GetEntitySetAndBaseTypeForType(Type entityType)
+   at System.Data.Entity.Internal.Linq.InternalSet`1.Initialize()
+   at System.Data.Entity.Internal.Linq.InternalSet`1.get_InternalContext()
+   at System.Data.Entity.Infrastructure.DbQuery`1.System.Linq.IQueryable.get_Provider()
+   at System.Linq.Queryable.Where[TSource](IQueryable`1 source, Expression`1 predicate)
+   at KGERP.Controllers.UserController.Login(UserLogin userLogin, String returnUrl) in D:\TCL_ERP\KGERP\Controllers\UserController.cs:line 127
+ERROR 2024-04-22 12:52:33,641 251705ms UserController         Login              - System.Data.Entity.Core.MetadataException: Schema specified is not valid. Errors: 
+Models.ERPModel.csdl(11435,17) : error 0005: The element 'Schema' in namespace 'http://schemas.microsoft.com/ado/2009/11/edm' cannot contain text. List of possible elements expected: 'Using, Association, ComplexType, EntityType, EnumType, ValueTerm, Function, Annotations, EntityContainer' in namespace 'http://schemas.microsoft.com/ado/2009/11/edm' as well as any element in namespace '##other'.
+Models.ERPModel.csdl(11435,17) : error 0011: The current schema element does not support text (
+				>>>>>>> 8575886f0bf3d70b2b61c4c9894ad5b161a62279
+			).
+   at System.Data.Entity.Core.Metadata.Edm.EdmItemCollection.LoadItems(IEnumerable`1 xmlReaders, IEnumerable`1 sourceFilePaths, SchemaDataModelOption dataModelOption, DbProviderManifest providerManifest, ItemCollection itemCollection, Boolean throwOnError)
+   at System.Data.Entity.Core.Metadata.Edm.EdmItemCollection.Init(IEnumerable`1 xmlReaders, IEnumerable`1 filePaths, Boolean throwOnError)
+   at System.Data.Entity.Core.Metadata.Edm.MetadataCache.LoadEdmItemCollection(MetadataArtifactLoader loader)
+   at System.Data.Entity.Core.Metadata.Edm.MetadataCache.<>c__DisplayClass5.<GetMetadataWorkspace>b__0(String k)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.GetOrAdd(TKey key, Func`2 valueFactory)
+   at System.Data.Entity.Core.Metadata.Edm.MetadataCache.GetMetadataWorkspace(DbConnectionOptions effectiveConnectionOptions)
+   at System.Data.Entity.Core.EntityClient.EntityConnection.GetMetadataWorkspace()
+   at System.Data.Entity.Core.Objects.ObjectContext..ctor(EntityConnection connection, Boolean isConnectionConstructor, ObjectQueryExecutionPlanFactory objectQueryExecutionPlanFactory, Translator translator, ColumnMapFactory columnMapFactory)
+   at System.Data.Entity.Internal.InternalConnection.CreateObjectContextFromConnectionModel()
+   at System.Data.Entity.Internal.LazyInternalContext.InitializeContext()
+   at System.Data.Entity.Internal.InternalContext.GetEntitySetAndBaseTypeForType(Type entityType)
+   at System.Data.Entity.Internal.Linq.InternalSet`1.Initialize()
+   at System.Data.Entity.Internal.Linq.InternalSet`1.get_InternalContext()
+   at System.Data.Entity.Infrastructure.DbQuery`1.System.Linq.IQueryable.get_Provider()
+   at System.Linq.Queryable.Where[TSource](IQueryable`1 source, Expression`1 predicate)
+   at KGERP.Controllers.UserController.Login(UserLogin userLogin, String returnUrl) in D:\TCL_ERP\KGERP\Controllers\UserController.cs:line 127
