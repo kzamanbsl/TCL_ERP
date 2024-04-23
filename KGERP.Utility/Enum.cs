@@ -525,4 +525,15 @@ namespace KGERP.Utility
         CashPaymentVoucher = 162,
         ReceiptVoucher = 163
     }
+    public enum EmployeeNoticeEnum
+    {
+        [Display(Name = "Appointment Letter")]
+        AppointmentLetter = 1,
+        [Display(Name = "Agreement Letter")]
+        AgreementLetter,
+        [Display(Name = "Warning Letter")]
+        WarningLetter,
+        [Display(Name = "Punishment Letter")]
+        PunishmentLetter,
+    }
 }

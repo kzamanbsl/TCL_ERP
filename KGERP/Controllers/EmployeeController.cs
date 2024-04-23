@@ -400,7 +400,7 @@ namespace KGERP.Controllers
         }
 
 
-        [HttpPost] 
+        [HttpGet] 
         public JsonResult EmployeeAutoComplete(string prefix)
         {
             var employee = _employeeService.GetEmployeeAutoComplete(prefix);

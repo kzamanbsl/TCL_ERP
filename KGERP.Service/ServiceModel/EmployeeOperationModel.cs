@@ -21,6 +21,9 @@ namespace KGERP.Service.ServiceModel
         [DisplayName("Employee Id")]
 
         public string EmployeeId { get; set; }
+        public int? NoticeId { get; set; }
+        public string Discription { get; set; }
+
         [Required]
         public string Name { get; set; }
 

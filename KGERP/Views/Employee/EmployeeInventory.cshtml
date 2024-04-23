@@ -1,5 +1,5 @@
 ﻿@model KGERP.Service.ServiceModel.EmployeeOperationModel
-
+@using KGERP.Utility;
 @{
     ViewBag.Title = "Employee Search";
 }
@@ -9,108 +9,142 @@
     </div>
 </section>
 
-<section class="content">
-    <div class="box-body">
-        <div class="row">
-            <div class=" col-md-4">
-                <div class="form-group">
-                    <label class="form-label">Notice</label>
-                    <select class="form-control">
-                        <option>Select Notice</option>
-                    </select>
+@using (Html.BeginForm("EmployeeInventory", "Employee", FormMethod.Post, new { Id = "EmployeeInventoryFormId", @class = "formValidator" }))
+{
+    <section class="content">
+        <div class="box-body">
+            <div class="row">
+                <div class=" col-md-4">
+                    <div class="form-group">
+                        <label class="form-label">Notice</label>
+                        @Html.DropDownListFor(model => model.NoticeId, new SelectList(Enum.GetValues(typeof(EmployeeNoticeEnum))
+                           .Cast<EmployeeNoticeEnum>().Select(c => new SelectListItem { Text = c.ToString(), Value = ((int)c).ToString() }), "Value", "Text"), "==Select Project First==", new
+                            {
+                                id = "ddlNoticeId",
+                           @class = "form-control searchingDropdown",
+                                style = "width:100%",
+                                required = "true"
+                            })
+
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label class="form-label">Employee</label>
-                    <select class="form-control">
-                        <option>Select Employee</option>
-                    </select>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="form-label">Employee </label>
+                        @Html.DropDownListFor(model => model.EmployeeId, new SelectList(Enumerable.Empty<SelectListItem>()), "-- select Employee", new { @id = "ddlEmployeeId", @class = "form-control searchingDropdown" })
+                    </div>
+
                 </div>
 
-            </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label class="form-label"></label>
-                    @Html.TextBoxFor(model => model.EmployeeId, new { id = "txtEstimateQty", @class = "form-control", @placeholder = "BoQ Item Number", required = "true" })
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="form-label">
+                        </label>
+                        <label>
+                            Title
+                        </label>
+                        @Html.TextBoxFor(model => model.EmployeeId, new { id = "txtEstimateQty", @class = "form-control", @placeholder = "BoQ Item Number", required = "true" })
 
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group w-100">
+                        <label class="form-label">
+                            Discription <sup class="text-danger" title="Required"><b> *</b></sup>
+                        </label>
+                        @Html.TextAreaFor(model => model.Discription, new { id = "txtUnitRate", @class = "form-control", @placeholder = "BoQ Item Number" })
+                        @Html.ValidationMessageFor(model => model.Discription, "", new { id = "nameExist", @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            @*<input type="button" onclick="resetForm()" value="Reset Form" class="btn btn-secondary" data-dismiss="modal" style="width:100% !important" />*@
+                        </div>
+                        <div class="col-md-6">
+                            <button type="submit" id="btnSave" class="btn btn-primary btn-block" style="width:100% !important"><i class='fa fa-edit'></i> Add </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
 
-@*<link href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet" />*@
-<link href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+    @*<link href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet" />*@
+    <link href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
 
-@section scripts{
-    @Scripts.Render("~/bundles/jqueryui")
-    @Styles.Render("~/Content/cssjqryUi")
-
-
-    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
-
-    <script>
-        //$(document).ready(function () {
-        //    $("#employeeSearch").DataTable({
-        //        "ajax": {
-        //            "url": "/Employee/EmployeeSearch",
-        //            "type": "POST",
-        //            "datatype": "json"
-        //        },
-        //        "columns": [
-        //            { "data": "EmployeeId", "name": "EmployeeId" },
-        //            { "data": "Name", "name": "Name" },
-        //            { "data": "DepartmentName", "name": "DepartmentName" },
-        //            { "data": "DesignationName", "name": "DesignationName" },
-        //            { 'data': 'StrJoiningDate', "name": "StrJoiningDate" },
-        //            { 'data': 'OfficeEmail', "name": "OfficeEmail" },
-        //            { 'data': 'PABX', "name": "PABX" },
-        //            { 'data': 'MobileNo', "name": "MobileNo" },
-        //            { 'data': 'BloodGroupName', "name": "BloodGroupName" },
-        //            { 'data': 'Remarks', "name": "Remarks" }
-        //        ],
-
-        //        "serverSide": "true",
-        //        "order": [0, "asc"],
-        //        "processing": "true",
-        //        "language": {
-        //            "processing": "processing... please wait"
-        //        }
+    @section scripts{
+        @Scripts.Render("~/bundles/jqueryui")
+        @Styles.Render("~/Content/cssjqryUi")
 
 
+        <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
 
-        //    });
-        //});
+        <script>
 
-    </script>
+
+            $("#ddlEmployeeId").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: "@Url.Action("EmployeeAutoComplete", "Employee")",
+                        data: { prefix: request.term },
+                        dataType: "json",
+                        type: "get",
+                        cache: true,
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return { label: item.Name, value: item.Id }; // Adjust according to actual data properties
+                            }));
+                        },
+                        error: function (xhr) {
+                            console.error("Error: " + xhr.responseText);
+                        }
+                    });
+                },
+                select: function (e, i) {
+                    $("#ddlEmployeeId").val(i.item.value);
+                },
+                minLength: 1,
+                change: function (event, ui) {
+                    if (ui.item) {
+                        loadOpenedPurchaseOrderDropDown(ui.item.value);
+                    }
+                }
+            }).focus(function () {
+                $(this).autocomplete("search");
+            });
+
+        </script>
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
