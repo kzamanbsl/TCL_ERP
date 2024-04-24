@@ -128,7 +128,7 @@
                                 <div class="row">
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label class="form-label">Vourcher For  :</label>
+                                            <label class="form-label">Vourcher For<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                             @Html.DropDownListFor(model => model.VoucherFor, Model.VoucherForList as SelectList, "==Voucher For==", new { id = "ddlVoucherFor", @class = "form-control", required = "required" })
                                             @Html.ValidationMessageFor(model => model.VoucherFor, "", new { @class = "text-danger" })
                                             @Html.HiddenFor(model => model.IsRequisitionVoucher, new { @value = "false", @id = "isRequisitionVoucherId" })
@@ -137,7 +137,7 @@
 
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label class="form-label">Voucher Create Date :</label>
+                                            <label class="form-label">Voucher Create Date<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                             <input name="Date" asp-for="Date" type="text" value="@DateTime.Today.ToString("yyyy-MM-dd")" required="required" onchange="generateVoucherNoByDate()" class="datePicker form-control" id="txtDate" placeholder="Date" autocomplete="off">
                                             @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
                                         </div>
@@ -145,7 +145,7 @@
 
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label class="form-label">Voucher Type :</label>
+                                            <label class="form-label">Voucher Type<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                             @Html.DropDownListFor(model => model.VoucherTypeId, Model.VoucherTypesList as SelectList, "==Voucher Type==", new { id = "ddlVoucherTypeId", @class = "form-control", @onchange = "generateVoucherNo()", required = "required" })
                                             @Html.ValidationMessageFor(model => model.VoucherTypeId, "", new { @class = "text-danger" })
                                         </div>
@@ -153,7 +153,7 @@
 
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label class="form-label">CostCenter/Project :</label>
+                                            <label class="form-label">CostCenter/Project<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                             @Html.DropDownListFor(model => model.Accounting_CostCenterFK, Model.CostCenterList as SelectList, "==Select Project==", new { id = "ddlAccounting_CostCenterFK", @class = "form-control searchingDropdown", required = "required" })
                                             @Html.ValidationMessageFor(model => model.Accounting_CostCenterFK, "", new { @class = "text-danger" })
                                         </div>
@@ -161,7 +161,7 @@
 
                                     <div class="col-md-3 w-100 hidden" id="inputRequisition">
                                         <div class="form-group w-100">
-                                            <label class="form-label">Requisition No :</label>
+                                            <label class="form-label">Requisition No<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                             @Html.DropDownListFor(model => model.BillRequisitionId, Model.Requisitions as SelectList, "==Requisition No==", new { id = "billRequisitionId", onchange = "showBoQMaterial()", @class = "form-control searchingDropdown w-100" })
                                             @Html.ValidationMessageFor(model => model.BillRequisitionId, "", new { @class = "text-danger" })
                                         </div>
@@ -169,7 +169,7 @@
 
                                     <div class="col-md-3 hidden" id="inputChequeDate">
                                         <div class="form-group">
-                                            <label class="form-label">Payment Date :</label>
+                                            <label class="form-label">Payment Date<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                             <input name="ChqDate" asp-for="ChqDate" type="text" class="datePicker form-control" id="txtChqDate" placeholder="Payment Date" autocomplete="off">
                                             @Html.ValidationMessageFor(model => model.ChqDate, "", new { @class = "text-danger" })
                                         </div>
@@ -177,7 +177,7 @@
 
                                     <div class="col-md-3 hidden" id="inputChequeName">
                                         <div class="form-group">
-                                            <label class="form-label">Pay To :</label>
+                                            <label class="form-label">Pay To<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                             @Html.TextBoxFor(model => model.ChqName, new { id = "txtSupplierName", @class = "form-control", placeholder = "Pay To" })
                                             @Html.ValidationMessageFor(model => model.ChqName, "", new { @class = "text-danger" })
                                         </div>
@@ -190,8 +190,7 @@
                                             @Html.ValidationMessageFor(model => model.BankId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
+
                                     <div class="bankInfo col-md-3 hidden">
                                         <div class="form-group">
                                             <label class="form-label">Select Branch<sup class="text-danger" title="Required"><b>*</b></sup></label>
@@ -218,9 +217,9 @@
 
                                     <div class="col-md-3 hidden" id="inputChequeNo">
                                         <div class="form-group">
-                                            <label class="form-label">Cheque No :</label>
-                                            @Html.TextBoxFor(model => model.ChqNo, new { id = "txtChqNo", @class = "form-control", placeholder = "Cheque No" })
-                                            @Html.ValidationMessageFor(model => model.ChqNo, "",new {id= "chequeNoValidationMessage" ,@class = "text-danger" })
+                                            <label class="form-label">Cheque No<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                            @Html.TextBoxFor(model => model.ChqNo, new { id = "txtChqNo", @class = "form-control", placeholder = "Cheque No", @readonly = "true" })
+                                            @Html.ValidationMessageFor(model => model.ChqNo, "", new { id = "chequeNoValidationMessage", @class = "text-danger" })
                                         </div>
                                     </div>
 
@@ -273,7 +272,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label class="form-label">Narration :</label>
+                                            <label class="form-label">Narration</label>
                                             @Html.TextAreaFor(model => model.Narration, new { id = "txtNarration", placeholder = "Type narration here", @class = "form-control", rows = 2 })
                                             @Html.ValidationMessageFor(model => model.Narration, "", new { @class = "text-danger" })
                                         </div>
@@ -287,7 +286,7 @@
                                 <div class="row">
                                     <div class="col-md-4 hidden" id="inputMaterial">
                                         <div class="form-group">
-                                            <label class="form-label">Requisition Material :</label>
+                                            <label class="form-label">Requisition Material<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                             @Html.DropDownListFor(model => model.RequisitionMaterialId, Model.MaterialItemList as SelectList, "==Select Requisition Material==", new { id = "materialItemId", onchange = "getRequisitionsInfo()", @class = "form-control searchingDropdown", required = "required" })
                                             @Html.ValidationMessageFor(model => model.RequisitionMaterialId, "", new { @class = "text-danger" })
                                         </div>
@@ -295,42 +294,42 @@
 
                                     <div class="col-md-4 hidden" id="inputQuantity">
                                         <div class="form-group">
-                                            <label class="form-label">Requisition Quantity :</label>
+                                            <label class="form-label">Requisition Quantity<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                             @Html.TextBoxFor(model => model.ApprovedQty, new { id = "txtApprovedDemand", value = "0", type = "number", step = "1", @readonly = true, @class = "form-control" })
                                         </div>
                                     </div>
 
                                     <div class="col-md-4 hidden" id="inputUnit">
                                         <div class="form-group">
-                                            <label class="form-label">Unit Rate :</label>
+                                            <label class="form-label">Unit Rate<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                             @Html.TextBoxFor(model => model.UnitRate, new { id = "txtUnitPrice", value = "0", type = "number", step = "1", @readonly = true, @class = "form-control" })
                                         </div>
                                     </div>
 
                                     <div class="col-md-4 hidden" id="inputAmount">
                                         <div class="form-check">
-                                            <label class="form-label">Total Amount :</label>
+                                            <label class="form-label">Total Amount<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                             @Html.TextBoxFor(model => model.TotalAmount, new { id = "txtApprovedTotal", value = "0", type = "number", step = "1", @readonly = true, @class = "form-control" })
                                         </div>
                                     </div>
 
                                     <div class="col-md-4 hidden" id="inputDebitSoFar">
                                         <div class="form-group">
-                                            <label class="form-label">Debited So Far:</label>
+                                            <label class="form-label">Debited So Far<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                             @Html.TextBoxFor(model => model.TotalDebited, new { id = "txtTotalDebitedSoFar", value = "0", type = "number", step = "1", @readonly = true, @class = "form-control" })
                                         </div>
                                     </div>
 
                                     <div class="col-md-4 hidden" id="inputCreditSoFar">
                                         <div class="form-group">
-                                            <label class="form-label">Credited So Far:</label>
+                                            <label class="form-label">Credited So Far<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                             @Html.TextBoxFor(model => model.TotalCredited, new { id = "txtTotalCreditedSoFar", value = "0", type = "number", step = "1", @readonly = true, @class = "form-control" })
                                         </div>
                                     </div>
 
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label class="form-label">Accounting Head :</label>
+                                            <label class="form-label">Accounting Head<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                             @Html.EditorFor(model => model.AccountingHeadName, new { htmlAttributes = new { @autocomplete = "on", @class = "form-control", @id = "txtAccountingHeadName", placeholder = "Select Acounting Head", required = "required" } })
                                             @Html.HiddenFor(model => model.Accounting_HeadFK, new { id = "ddlAccounting_HeadFK" })
                                             @Html.ValidationMessageFor(model => model.Accounting_HeadFK, "", new { @class = "text-danger" })
@@ -339,7 +338,7 @@
 
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label class="form-label">Debit Amount :</label>
+                                            <label class="form-label">Debit Amount<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                             @Html.TextBoxFor(model => model.Debit, new { id = "txtDebit", @class = "form-control" })
                                             @Html.ValidationMessageFor(model => model.Debit, "", new { @class = "text-danger" })
                                         </div>
@@ -347,8 +346,8 @@
 
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label class="form-label">Credit Amount :</label>
-                                            @Html.TextBoxFor(model => model.Credit, new { id = "txtCredit",   @class = "form-control" })
+                                            <label class="form-label">Credit Amount<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                            @Html.TextBoxFor(model => model.Credit, new { id = "txtCredit", @class = "form-control" })
                                             @Html.ValidationMessageFor(model => model.Credit, "", new { @class = "text-danger" })
 
                                         </div>
@@ -356,7 +355,7 @@
 
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label class="form-label">Particular :</label>
+                                            <label class="form-label">Particular</label>
                                             @Html.TextAreaFor(model => model.Particular, new { id = "txtParticular", placeholder = "Type particular here", @class = "form-control", rows = 2 })
                                             @Html.ValidationMessageFor(model => model.Particular, "", new { @class = "text-danger" })
                                         </div>
@@ -380,7 +379,6 @@
                         @{
                             if (Model.VoucherId > 0)
                             {
-
                                 <div class="table-responsive col-md-12">
                                     <table id="KgErpDataTable" class="table table-striped">
                                         <thead style="background-color:#ddd;">
@@ -396,7 +394,6 @@
                                                 {
                                                     <th style="padding:5px;text-align:center;">Action</th>
                                                 }
-
                                             </tr>
                                         </thead>
                                         @{ int sl = 0; }
@@ -425,13 +422,11 @@
                                                             </a>
                                                         </td>
                                                     }
-
                                                 </tr>
                                             }
                                         </tbody>
 
                                         <tfoot style="background-color:#eee;">
-
                                             <tr>
                                                 <th style="padding:5px;text-align:center;"></th>
                                                 <th colspan="4" style="padding:5px;text-align:left;">Total</th>
@@ -461,14 +456,10 @@
                                             Print
                                         </a>
                                     }
-
-
                                 </div>
 
                                 @if (!Model.IsSubmit)
                                 {
-
-
                                     <div class="col-md-3">
 
                                         @*@if (btnProperty == "")
@@ -488,7 +479,6 @@
                                         {
                                             <span class="label label-danger text-center" style="display: inline-block !important; margin-top: 10px !important">Ensure that the total debits equal the total credits!</span>
                                         }
-
                                     </div>
 
                                     <div class="col-md-5">
@@ -506,7 +496,6 @@
                                         <span style="width:100%" class="btn btn-default btn-outline-dark">@Model.VoucherNo has been submitted <span class="fa fa-check"></span></span>
                                     </div>
                                 }
-
                             </div>
                         }
                     </div>
@@ -514,7 +503,6 @@
             </div>
         </div>
     </section>
-
 }
 
 <!--Modal-->
@@ -561,14 +549,12 @@
                         &times;
                     </button>
                     <h5 class="modal-title"><b>Delete</b></h5>
-
                 </div>
                 <div class="modal-body">
                     <div style="text-align:center">
                         <h3>Are you sure to delete this data?</h3>
                     </div>
                 </div>
-
                 <div class="modal-footer" style="color:red;">
                     <button type="button" id="btnClose" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="submit" id="btnDelete" class="deleteId btn btn-primary"><i class="glyphicon glyphicon-check"></i>Confirm</button>
@@ -1133,7 +1119,7 @@
                         data: { supplierId: i.item.val },
                         success: function (data) {
                             $('#txtSupplierName').val(data);
-                            
+
                         }
                     });
                 }

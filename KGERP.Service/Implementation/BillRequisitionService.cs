@@ -3604,7 +3604,7 @@ namespace KGERP.Service.Implementation
                                 t1.DebitAmount,
                                 t1.VoucherDetailId
                             }).ToList();
-                if (data != null)
+                if (data.Any())
                 {
                     TotalCr = data.Sum(x => x.CreditAmount);
                     TotalDr = data.Sum(x => x.DebitAmount);

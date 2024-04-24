@@ -105,7 +105,7 @@
                                             </td>
                                             <td>@item.BRTypeName</td>
                                             <td>@item.CostCenterName</td>
-                                            <td>@item.TotalAmount</td>
+                                            <td style="text-align: right !important">@String.Format("{0:0.00}", item.TotalAmount)</td>
                                             <td>
 
                                                 @if (@item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.QS).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending && @item.ApprovalModelList.First(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
