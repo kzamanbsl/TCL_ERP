@@ -592,6 +592,13 @@ namespace KGERP.Service.Implementation.Accounting
                 };
                 _db.Vouchers.Add(voucher);
 
+                if (voucher.VoucherTypeId != (int)VoucherTypeIdDatabaseValue.BankPaymentVoucher)
+                {
+                     result= SaveTransition();
+                    return result;
+                }
+
+
                 ChequeRegister chequeRegister = new ChequeRegister()
                 {
                     ChequeBookId = vmJournalSlave.ChequeBookId,
@@ -615,36 +622,39 @@ namespace KGERP.Service.Implementation.Accounting
 
                 }
                 _db.ChequeRegisters.Add(chequeRegister);
+                SaveTransition();
 
-
-                using (var scope = _db.Database.BeginTransaction())
+               long SaveTransition()
                 {
-                    await _db.SaveChangesAsync();
-                    VoucherBRMapMaster voucherBRMapMaster = new VoucherBRMapMaster();
-                    if (vmJournalSlave.IsRequisitionVoucher)
+                    using (var scope = _db.Database.BeginTransaction())
                     {
-                        voucherBRMapMaster.BillRequsitionMasterId = vmJournalSlave.BillRequisitionId;
-                    }
-                    voucherBRMapMaster.VoucherId = voucher.VoucherId;
-                    voucherBRMapMaster.ApprovalStatusId = (int)EnumBillRequisitionStatus.Draft;
-                    voucherBRMapMaster.CostCenterId = vmJournalSlave.Accounting_CostCenterFK;
-                    voucherBRMapMaster.StatusId = (int)EnumBillRequisitionStatus.Draft;
-                    voucherBRMapMaster.IsRequisitionVoucher = vmJournalSlave.IsRequisitionVoucher;
-                    voucherBRMapMaster.CompanyId = voucher.CompanyId;
-                    voucherBRMapMaster.CreateDate = DateTime.Now;
-                    voucherBRMapMaster.CreatedBy = System.Web.HttpContext.Current.User.Identity.Name;
-                    voucherBRMapMaster.IsActive = true;
-                    _db.VoucherBRMapMasters.Add(voucherBRMapMaster);
+                         _db.SaveChanges();
+                        VoucherBRMapMaster voucherBRMapMaster = new VoucherBRMapMaster();
+                        if (vmJournalSlave.IsRequisitionVoucher)
+                        {
+                            voucherBRMapMaster.BillRequsitionMasterId = vmJournalSlave.BillRequisitionId;
+                        }
+                        voucherBRMapMaster.VoucherId = voucher.VoucherId;
+                        voucherBRMapMaster.ApprovalStatusId = (int)EnumBillRequisitionStatus.Draft;
+                        voucherBRMapMaster.CostCenterId = vmJournalSlave.Accounting_CostCenterFK;
+                        voucherBRMapMaster.StatusId = (int)EnumBillRequisitionStatus.Draft;
+                        voucherBRMapMaster.IsRequisitionVoucher = vmJournalSlave.IsRequisitionVoucher;
+                        voucherBRMapMaster.CompanyId = voucher.CompanyId;
+                        voucherBRMapMaster.CreateDate = DateTime.Now;
+                        voucherBRMapMaster.CreatedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                        voucherBRMapMaster.IsActive = true;
+                        _db.VoucherBRMapMasters.Add(voucherBRMapMaster);
 
-                    _db.SaveChanges();
-                    result = voucher.VoucherId;
-                    scope.Commit();
+                        _db.SaveChanges();
+                        result = voucher.VoucherId;
+                        scope.Commit();
+                        return  result;
+                    }
                 }
             }
             catch (Exception ex)
             {
-
-                throw;
+                var msg = ex.Message.ToString();
             }
 
             return result;
