@@ -50,7 +50,7 @@ namespace KGERP.Service.Implementation
                     EmployeeOperation.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
                     EmployeeOperation.EmployeeId = model.EmployeeId;
                     EmployeeOperation.ActionDate = model.ActionDate;
-                    EmployeeOperation.EmployeeOperationType = model.EmployeeOperationType;
+                    EmployeeOperation.EmployeeOperationType = Enum.GetName(typeof(EmployeeNoticeEnum),model.NoticeId);
                     EmployeeOperation.Remarks = model.Remarks;
                     EmployeeOperation.Name = model.Name;
                     EmployeeOperation.Reason = model.Reason;
@@ -72,10 +72,10 @@ namespace KGERP.Service.Implementation
                     ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name,
                     EmployeeId = model.EmployeeId,
                     ActionDate = model.ActionDate,
-                    EmployeeOperationType = model.EmployeeOperationType,
+                    EmployeeOperationType = Enum.GetName(typeof(EmployeeNoticeEnum), model.NoticeId),
                     Remarks = model.Remarks,
                     Reason = model.Reason,
-                    Name = name,
+                    Name = name?[0].ToString()??model.Name,
                     FromDate = model.FromDate,
                     EndDate = model.EndDate
                 };
