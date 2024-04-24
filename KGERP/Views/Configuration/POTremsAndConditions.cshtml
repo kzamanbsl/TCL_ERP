@@ -79,8 +79,7 @@
                             <h4>Trems & Conditions List</h4>
                         </div>
                         <!-- /.box-header -->
-                        <div class="box-body">
-
+                        <div class="box-body row">
                             <div class="table-responsive col-md-12">
                                 <table id="KgErpDataTable" class="table table-striped">
                                     <thead>
@@ -88,48 +87,37 @@
                                             <th>SL</th>
                                             <th>Key</th>
                                             <th>Value</th>
-
                                             <th>Action</th>
                                         </tr>
                                     </thead>
-                                    @{int sl = 0;
-                                    }
+                                    @{int sl = 0;}
                                     <tbody>
                                         @foreach (var item in Model.DataList)
                                         {
-
                                             <tr>
                                                 <td>@(++sl)</td>
                                                 <td id="tdKey_@item.ID">@item.Key</td>
                                                 <td id="tdValue_@item.ID">@item.Value</td>
-
                                                 <td>
-
                                                     <a id="@item.ID" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
 
                                                     <a id="@item.ID" onclick="makeDeletable(@item.ID);" class="linkPointer" data-toggle="modal" data-target="#productCategoryDeleteModal" title="Delete"
                                                        data-placement="top">
                                                         <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
                                                     </a>
-
-
                                                 </td>
                                             </tr>
                                         }
                                     </tbody>
                                 </table>
                             </div>
-
                         </div>
-                        <div class="box-footer">
-                        </div>
+                        <div class="box-footer"></div>
                     </div>
                 </div>
             </div>
-
         </div>
     </section>
-
 
 }
 

@@ -23,7 +23,7 @@ namespace KGERP.Controllers
         private readonly ConfigurationService _configurationService;
 
 
-        public VouchersController(ERPEntities db, IAccountHeadService accountHeadService, IVoucherTypeService voucherTypeService, IVoucherService voucherService, IBillRequisitionService billrequisitionService,ConfigurationService configurationService)
+        public VouchersController(ERPEntities db, IAccountHeadService accountHeadService, IVoucherTypeService voucherTypeService, IVoucherService voucherService, IBillRequisitionService billrequisitionService, ConfigurationService configurationService)
         {
             _voucherTypeService = voucherTypeService;
             _voucherService = voucherService;
@@ -369,8 +369,8 @@ namespace KGERP.Controllers
             {
                 long requisitionId = 0;
                 vmJournalSlave.BankOrCashParantList = new SelectList(_accountingService.SeedCashAndBankDropDownList(companyId), "Value", "Text");
-                //vmJournalSlave.Requisitions = new SelectList(_billRequisitionService.ApprovedRequisitionList(companyId), "Value", "Text");
-                //vmJournalSlave.MaterialItemList = new SelectList(_billRequisitionService.ApprovedMaterialList(companyId, requisitionId), "ProductId", "ProductName");
+                vmJournalSlave.Requisitions = new SelectList(_billRequisitionService.ApprovedRequisitionList(companyId), "Value", "Text");
+                vmJournalSlave.MaterialItemList = new SelectList(_billRequisitionService.ApprovedMaterialList(companyId, requisitionId), "ProductId", "ProductName");
 
             }
             vmJournalSlave.BankList = new SelectList(_configurationService.CommonBanksDropDownList(companyId), "Value", "Text");

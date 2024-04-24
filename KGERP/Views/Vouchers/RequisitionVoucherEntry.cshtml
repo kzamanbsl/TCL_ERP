@@ -273,7 +273,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label class="form-label">Narration</label>
-                                            @Html.TextAreaFor(model => model.Narration, new { id = "txtNarration", placeholder = "Type narration here", @class = "form-control", rows = 2 })
+                                            @Html.TextAreaFor(model => model.Narration, new { id = "txtNarration", placeholder = "Type narration here", @class = "form-control", @Readonly = "true", rows = 2 })
                                             @Html.ValidationMessageFor(model => model.Narration, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -356,7 +356,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label class="form-label">Particular</label>
-                                            @Html.TextAreaFor(model => model.Particular, new { id = "txtParticular", placeholder = "Type particular here", @class = "form-control", rows = 2 })
+                                            @Html.TextAreaFor(model => model.Particular, new { id = "txtParticular", placeholder = "Type particular here", @class = "form-control", @Readonly = "true", rows = 2 })
                                             @Html.ValidationMessageFor(model => model.Particular, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -1129,6 +1129,16 @@
 
         }).focus(function () {
             $(this).autocomplete("search");
+        });
+
+        var clicks = 0;
+        $('#txtNarration, #txtParticular').on('dblclick', function (event) {
+            clicks++;
+            if (clicks % 2 === 1) {
+                $(this).prop("readonly", false);
+            } else {
+                $(this).prop("readonly", true);
+            }
         });
     </script>
 }
