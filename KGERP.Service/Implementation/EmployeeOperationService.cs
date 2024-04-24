@@ -57,25 +57,30 @@ namespace KGERP.Service.Implementation
                     EmployeeOperation.FromDate = model.FromDate;
                     EmployeeOperation.EndDate = model.EndDate;
                     updateresult = true;
+                    context.Entry(EmployeeOperation).State = EmployeeOperation.OperationId == 0 ? EntityState.Added : EntityState.Modified;
+
                 }
             }
             else
             {
-                EmployeeOperation.CreatedBy = System.Web.HttpContext.Current.User.Identity.Name;
-                EmployeeOperation.CreatedDate = DateTime.Now;
-                EmployeeOperation.ModifiedDate = DateTime.Now;
-                EmployeeOperation.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
-                EmployeeOperation.EmployeeId = model.EmployeeId;
-                EmployeeOperation.ActionDate = model.ActionDate;
-                EmployeeOperation.EmployeeOperationType = model.EmployeeOperationType;
-                EmployeeOperation.Remarks = model.Remarks;
-                EmployeeOperation.Reason = model.Reason;
-                EmployeeOperation.Name = model.Name;
-                EmployeeOperation.FromDate = model.FromDate;
-                EmployeeOperation.EndDate = model.EndDate;
-                updateresult = true;
+                var name = model.Name.Split('[');
+                var EmployeeOperationObject = new EmployeeOperation()
+                {
+                    CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                    CreatedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now,
+                    ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                    EmployeeId = model.EmployeeId,
+                    ActionDate = model.ActionDate,
+                    EmployeeOperationType = model.EmployeeOperationType,
+                    Remarks = model.Remarks,
+                    Reason = model.Reason,
+                    Name = name,
+                    FromDate = model.FromDate,
+                    EndDate = model.EndDate
+                };
+                context.EmployeeOperations.Add(EmployeeOperationObject);
             }
-            context.Entry(EmployeeOperation).State = EmployeeOperation.OperationId == 0 ? EntityState.Added : EntityState.Modified;
             if (context.SaveChanges() > 0)
             {
                 if (EmployeeOperation.EmployeeOperationType == "Special Leave Without Pay")

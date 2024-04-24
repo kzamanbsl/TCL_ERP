@@ -176,9 +176,9 @@ namespace KGERP.Controllers
             string redirectPage = string.Empty;
             if (model.OperationId <= 0)
             {
-                EmployeeOperation _EmployeeOperationExist = db.EmployeeOperations.Where(x => x.EmployeeId.Equals(model.EmployeeId)).FirstOrDefault();
-
-                if (_EmployeeOperationExist != null)
+                EmployeeOperation _EmployeeOperationExist = db.EmployeeOperations?.FirstOrDefault(x => x.EmployeeId == model.EmployeeId) ?? null;
+               
+                if (_EmployeeOperationExist !=null)
                 {
                     if (_EmployeeOperationExist.EmployeeId != null)
                     {
@@ -188,10 +188,10 @@ namespace KGERP.Controllers
                 }
                 else
                 {
-                    if (!string.IsNullOrEmpty(Session["EmployeeId"].ToString()))
-                    {
-                        model.EmployeeId = Session["EmployeeId"].ToString();
-                    }
+                    //if (!string.IsNullOrEmpty(Session["EmployeeId"].ToString()))
+                    //{
+                    //    model.EmployeeId = Session["EmployeeId"].ToString();
+                    //}
                     employeeOperationService.SaveEmployeeOperation(0, model);
                     //Session["FullName"] = string.Empty;
                     //Session["EmployeeId"] = string.Empty;

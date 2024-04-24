@@ -392,10 +392,20 @@ namespace KGERP.Controllers
 
             return RedirectToAction("Index");
         }
-
+        [HttpGet]
         public async  Task<ActionResult> EmployeeInventory()
         {
             var model = new EmployeeOperationModel();
+            return View(model);
+        }
+
+         [HttpPost]
+        public async  Task<ActionResult> EmployeeInventory(EmployeeOperationModel model)
+        {
+
+
+
+
             return View(model);
         }
 
@@ -404,7 +414,7 @@ namespace KGERP.Controllers
         public JsonResult EmployeeAutoComplete(string prefix)
         {
             var employee = _employeeService.GetEmployeeAutoComplete(prefix);
-            return Json(employee);
+            return Json(employee, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]

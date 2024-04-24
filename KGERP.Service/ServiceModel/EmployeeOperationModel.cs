@@ -21,6 +21,7 @@ namespace KGERP.Service.ServiceModel
         [DisplayName("Employee Id")]
 
         public string EmployeeId { get; set; }
+        public int EmployeeDbId { get; set; }
         public int? NoticeId { get; set; }
         public string Discription { get; set; }
 
@@ -47,6 +48,8 @@ namespace KGERP.Service.ServiceModel
         public Nullable<System.DateTime> EndDate { get; set; }
         public string CreatedBy { get; set; }
         public System.DateTime CreatedDate { get; set; }
+        [DisplayName("Joining Date")]
+        public System.DateTime JoiningDate { get; set; }
         public string ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public List<SelectModel> EmployeeOperationTypes { get; set; }

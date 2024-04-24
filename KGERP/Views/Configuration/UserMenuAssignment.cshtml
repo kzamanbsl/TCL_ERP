@@ -207,7 +207,7 @@
         $("#txtEmployeeKGId").autocomplete({
                 source: function (request, response) {
                     $.ajax({
-                       url:"@Url.Action("getallEmployeeforMenu", "Configuration")",
+                       url:"@Url.Action("getallEmployeeforMenu", "getallEmployeeforMenu")",
                         //data: "{ 'prefix': '" + request.term + "'}",
                         data: { prefix: request.term },
                         dataType: "json",

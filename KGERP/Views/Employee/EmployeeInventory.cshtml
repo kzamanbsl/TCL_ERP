@@ -3,21 +3,43 @@
 @{
     ViewBag.Title = "Employee Search";
 }
+
+<style type="text/css">
+    input, select, textarea {
+        max-width: 100%;
+    }
+
+    .ui-datepicker-trigger {
+        width: 36px !important;
+        height: 33px !important;
+        margin-left: 5px !important;
+    }
+
+    .dateCustom {
+        width: 87% !important;
+        border-radius: 1px !important;
+        border: 1px solid #d2d6de !important;
+        height: 33px !important;
+    }
+</style>
+
 <section class="content-header">
     <div>
         <span style="font-size:20px;font-weight:bold">Employee Inventory</span>
     </div>
 </section>
-
-@using (Html.BeginForm("EmployeeInventory", "Employee", FormMethod.Post, new { Id = "EmployeeInventoryFormId", @class = "formValidator" }))
+<hr />
+@using (Html.BeginForm("CreateOrEdit", "EmployeeOperation", FormMethod.Post, new { Id = "EmployeeInventoryFormId", @class = "formValidator" }))
 {
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.OperationId)
     <section class="content">
         <div class="box-body">
             <div class="row">
-                <div class=" col-md-4">
+                <div class="col-md-4">
                     <div class="form-group">
                         <label class="form-label">Notice</label>
-                        @Html.DropDownListFor(model => model.NoticeId, new SelectList(Enum.GetValues(typeof(EmployeeNoticeEnum))
+                        @Html.DropDownListFor(model => model.EmployeeOperationType, new SelectList(Enum.GetValues(typeof(EmployeeNoticeEnum))
                            .Cast<EmployeeNoticeEnum>().Select(c => new SelectListItem { Text = c.ToString(), Value = ((int)c).ToString() }), "Value", "Text"), "==Select Project First==", new
                             {
                                 id = "ddlNoticeId",
@@ -28,34 +50,61 @@
 
                     </div>
                 </div>
+
+                <div class="col-md-4" id="JoiningDateDev">
+                    <label class="form-label">Joining Date<sup class="text-danger" title="Required">*</sup></label>
+
+                    <div class="form-group">
+                        <input name="JoiningDate" asp-for="JoiningDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker w-100 dateCustom" placeholder="Operation Date" autocomplete="off" id="txtJoiningDate">
+                        @Html.ValidationMessageFor(model => model.JoiningDate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="col-md-4" id="FromDateDev">
+                    <label class="form-label">From Date<sup class="text-danger" title="Required">*</sup></label>
+
+                    <div class="form-group">
+                        <input name="FromDate" asp-for="FromDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker w-100 dateCustom" placeholder="Operation Date" autocomplete="off" id="txtFromDate">
+                        @Html.ValidationMessageFor(model => model.FromDate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4" id="EndDateDev">
+                    <label class="form-label">End Date<sup class="text-danger" title="Required">*</sup></label>
+
+                    <div class="form-group">
+                        <input name="EndDate" asp-for="EndDate" type="datetime" value="@DateTime.Now.ToString("dd/MM/yyyy")" required="required" class="datepicker w-100 dateCustom" placeholder="Operation Date" autocomplete="off" id="txtEndDate">
+                        @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
                 <div class="col-md-4">
                     <div class="form-group">
                         <label class="form-label">Employee </label>
-                        @Html.DropDownListFor(model => model.EmployeeId, new SelectList(Enumerable.Empty<SelectListItem>()), "-- select Employee", new { @id = "ddlEmployeeId", @class = "form-control searchingDropdown" })
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @name = "Name", @id = "ddlEmployeeName", @autocomplete = "on" } })
+                        @Html.HiddenFor(model => model.EmployeeId, new { id = "ddlEmployeeIdFK" })
                     </div>
+
 
                 </div>
 
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label class="form-label">
-                        </label>
-                        <label>
-                            Title
-                        </label>
-                        @Html.TextBoxFor(model => model.EmployeeId, new { id = "txtEstimateQty", @class = "form-control", @placeholder = "BoQ Item Number", required = "true" })
+                        <label class="form-label">Reason</label>
+                        @Html.TextBoxFor(model => model.Reason, new { id = "txtEstimateQty", @class = "form-control", @placeholder = "Message Title", required = "true", style = "width:100!Important" })
 
                     </div>
                 </div>
+
                 <div class="col-md-12">
-                    <div class="form-group w-100">
-                        <label class="form-label">
-                            Discription <sup class="text-danger" title="Required"><b> *</b></sup>
-                        </label>
-                        @Html.TextAreaFor(model => model.Discription, new { id = "txtUnitRate", @class = "form-control", @placeholder = "BoQ Item Number" })
-                        @Html.ValidationMessageFor(model => model.Discription, "", new { id = "nameExist", @class = "text-danger" })
+                    <div class="form-group">
+                        <label for="txtDescription" class="form-label">Remarks/Particular</label>
+                        @Html.TextAreaFor(model => model.Remarks, new { id = "txtitemDescription", placeholder = "Type remarks here", @class = "form-control", rows = 2 })
+                        @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
                     </div>
                 </div>
+
                 <div class="col-md-12">
                     <div class="form-group">
                         <div class="col-md-6">
@@ -66,6 +115,7 @@
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </section>
@@ -83,38 +133,60 @@
         <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
 
         <script>
+            let name = '';
+            $("#ddlEmployeeName").autocomplete({
+                
+                    source: function (request, response) {
+                        $.ajax({
+                            url: "@Url.Action("EmployeeAutoComplete", "Employee")",
+                            data: { prefix: request.term },
+                            dataType: "json",
+                            type: "get",
+                            cache: true,
+                            contentType: "application/json; charset=utf-8",
+                            success: function (data) {
+                                response($.map(data, function (item) {
+                                   // console.log(item);
+                                    return item;
+                                }))
+                            },
+                            error: function (response) {
+                                //alert(response.responseText);
+                            },
+                            failure: function (response) {
+                                //alert(response.responseText);
+                            }
+                        });
+                    },
+                    
+                    select: function (e, i) {
+                        let str = i.item.label;
+                        let result = str.split('[')[1].split(']')[0];
+                        name = str.split('[')[0];
 
-
-            $("#ddlEmployeeId").autocomplete({
-                source: function (request, response) {
-                    $.ajax({
-                        url: "@Url.Action("EmployeeAutoComplete", "Employee")",
-                        data: { prefix: request.term },
-                        dataType: "json",
-                        type: "get",
-                        cache: true,
-                        success: function (data) {
-                            response($.map(data, function (item) {
-                                return { label: item.Name, value: item.Id }; // Adjust according to actual data properties
-                            }));
-                        },
-                        error: function (xhr) {
-                            console.error("Error: " + xhr.responseText);
-                        }
-                    });
-                },
-                select: function (e, i) {
-                    $("#ddlEmployeeId").val(i.item.value);
-                },
-                minLength: 1,
-                change: function (event, ui) {
-                    if (ui.item) {
-                        loadOpenedPurchaseOrderDropDown(ui.item.value);
-                    }
-                }
+                        /*$("#ddlEmployeeName").focus();*/
+                        $("#ddlEmployeeIdFK").val(result);
+                        
+                    },
+                    minLength: 1,
             }).focus(function () {
-                $(this).autocomplete("search");
+               
+                    $(this).autocomplete("search");
+                    
+                });
+
+            function employeeNameFilter(nameData) {
+                $("#ddlEmployeeName").empty();
+                $("#ddlEmployeeName").val(nameData);
+            }
+
+            $("#ddlNoticeId").on('change', function () {
+
             });
+
+
+
+
 
         </script>
     }
