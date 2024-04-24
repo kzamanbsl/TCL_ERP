@@ -340,7 +340,6 @@ namespace KGERP.Controllers
             return RedirectToAction(nameof(RequisitionVoucherList), new { companyId = voucherModel.CompanyId });
         }
 
-
         //RequisitionVoucherEntry Master Details
 
         [HttpGet]
