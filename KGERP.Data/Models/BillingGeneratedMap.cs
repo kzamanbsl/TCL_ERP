@@ -14,7 +14,7 @@ namespace KGERP.Data.Models
     
     public partial class BillingGeneratedMap
     {
-        public int BillingMapId { get; set; }
+        public long BillingMapId { get; set; }
         public string BillGeneratedNo { get; set; }
         public int MaterialReceiveId { get; set; }
         public string CreatedBy { get; set; }

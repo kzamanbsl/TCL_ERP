@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Threading.Tasks;
 using KGERP.Data.Models;
 using KGERP.Service.Implementation.Accounting;
@@ -12,13 +13,16 @@ using KGERP.Service.Implementation.Procurement;
 using KGERP.Service.Implementation.Production;
 using KGERP.Service.ServiceModel;
 using KGERP.Utility;
+using static Humanizer.On;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace KGERP.Service.Implementation.Warehouse
 {
-    public class WarehouseService
+    public class WarehouseService : IDisposable
     {
         private readonly ERPEntities _db;
         private readonly AccountingService _accountingService;
+        private bool disposed = false;
 
 
         public WarehouseService(ERPEntities db)
@@ -26,7 +30,7 @@ namespace KGERP.Service.Implementation.Warehouse
             _db = db;
             _accountingService = new AccountingService(db);
         }
-
+        
         public async Task<long> WarehousePOReceivingAdd(VMWarehousePOReceivingSlave vmWarehousePoReceivingSlave)
         {
 
@@ -35,12 +39,12 @@ namespace KGERP.Service.Implementation.Warehouse
             string poReceivingCID = "";
             if (vmWarehousePoReceivingSlave.CompanyFK == (int)CompanyNameEnum.KrishibidFeedLimited)
             {
-                int feedGPO = _db.MaterialReceives.Count(x => x.CompanyId == vmWarehousePoReceivingSlave.CompanyFK && x.MaterialReceiveStatus == "GPO");
+                int feedGPO = _db.MaterialReceives.AsNoTracking().AsQueryable().Count(x => x.CompanyId == vmWarehousePoReceivingSlave.CompanyFK && x.MaterialReceiveStatus == "GPO");
                 poReceivingCID = "GPO-" + feedGPO.ToString().PadLeft(6, '0');
             }
             else
             {
-                int poReceivingCount = _db.MaterialReceives.Count(x => x.CompanyId == vmWarehousePoReceivingSlave.CompanyFK);
+                int poReceivingCount = _db.MaterialReceives.AsNoTracking().AsQueryable().Count(x => x.CompanyId == vmWarehousePoReceivingSlave.CompanyFK);
 
                 if (poReceivingCount == 0)
                 {
@@ -55,7 +59,7 @@ namespace KGERP.Service.Implementation.Warehouse
 
             #endregion
 
-            var purchaseOrder = _db.PurchaseOrders.FirstOrDefault(c =>
+            var purchaseOrder = _db.PurchaseOrders.AsNoTracking().AsQueryable().FirstOrDefault(c =>
                 c.CompanyId == vmWarehousePoReceivingSlave.CompanyFK &&
                 c.PurchaseOrderId == vmWarehousePoReceivingSlave.Procurement_PurchaseOrderFk);
 
@@ -86,34 +90,39 @@ namespace KGERP.Service.Implementation.Warehouse
                 Remarks = vmWarehousePoReceivingSlave.Remarks
 
             };
-            _db.MaterialReceives.Add(wareHousePOReceiving);
+
 
             using (var scope = _db.Database.BeginTransaction())
             {
-                try
-                {
-                    if (await _db.SaveChangesAsync() > 0)
-                    {
-                        BillingGeneratedMap mapModel = new BillingGeneratedMap
-                        {
-                            MaterialReceiveId = (int)wareHousePOReceiving.MaterialReceiveId,
-                            BillGeneratedNo = GetUniqueBillingGeneratedNo(wareHousePOReceiving.ReceivedDate),
-                            CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
-                            CreatedDate = DateTime.Now,
-                            IsActive = true
-                        };
 
-                        _db.BillingGeneratedMaps.Add(mapModel);
-                        await _db.SaveChangesAsync();
-                        result = wareHousePOReceiving.MaterialReceiveId;
-                        scope.Commit();
-                    }
-                }
-                catch (Exception e)
+                _db.MaterialReceives.Add(wareHousePOReceiving);
+                await _db.SaveChangesAsync();
+
+                var billNo = GetUniqueBillingGeneratedNo(wareHousePOReceiving.ReceivedDate);
+                BillingGeneratedMap mapModel = new BillingGeneratedMap()
                 {
-                    scope.Rollback();
-                    throw e;
-                }
+                    MaterialReceiveId = (int)wareHousePOReceiving.MaterialReceiveId,
+                    BillGeneratedNo = billNo,
+                    CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                    CreatedDate = DateTime.Now,
+                    IsActive = true
+                };
+
+
+                //If you encounter similar issues, remember to detach the object using  after calling SaveChanges()
+
+                //_db.Entry(mapModel).State = EntityState.Modified;
+
+                
+
+                //_db.Entry(mapModel).State = EntityState.Detached;
+                _db.BillingGeneratedMaps.Add(mapModel);
+                await _db.SaveChangesAsync();
+
+                result = wareHousePOReceiving.MaterialReceiveId;
+                scope.Commit();
+
+
             }
 
             return result;
@@ -3922,13 +3931,13 @@ namespace KGERP.Service.Implementation.Warehouse
             //var shortName = _db.Accounting_CostCenter.Where(x => x.IsActive).FirstOrDefault(x => x.CostCenterId == projectId).ShortName;
             if (getLastRow == null)
             {
-                getLastRow=new BillingGeneratedMap();
+                getLastRow = new BillingGeneratedMap();
                 getLastRow.BillingMapId = 0;
             }
-            if(receiveDate == null)
+            if (receiveDate == null)
             {
                 receiveDate = DateTime.Now;
-            }   
+            }
             string setZeroBeforeLastId(long lastRowId, int length)
             {
                 string totalDigit = "";
@@ -3943,6 +3952,23 @@ namespace KGERP.Service.Implementation.Warehouse
             string generatedNumber = $"BILL-{receiveDate:yyMMdd}-{setZeroBeforeLastId(++getLastRow.BillingMapId, 4)}";
             return generatedNumber;
 
+        }
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                if (disposing)
+                {
+                    _db.Dispose();
+                }
+            }
+            disposed = true;
         }
 
     }

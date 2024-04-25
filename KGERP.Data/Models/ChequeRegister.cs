@@ -33,6 +33,7 @@ namespace KGERP.Data.Models
         public Nullable<System.DateTime> ModifiedOn { get; set; }
         public string ModifiedBy { get; set; }
         public bool IsActive { get; set; }
+        public Nullable<int> PrintCount { get; set; }
     
         public virtual Accounting_CostCenter Accounting_CostCenter { get; set; }
         public virtual BillRequisitionMaster BillRequisitionMaster { get; set; }

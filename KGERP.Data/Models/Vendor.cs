@@ -19,7 +19,6 @@ namespace KGERP.Data.Models
         {
             this.MonthlyTargets = new HashSet<MonthlyTarget>();
             this.BatchPaymentDetails = new HashSet<BatchPaymentDetail>();
-            this.ChequeRegisters = new HashSet<ChequeRegister>();
             this.EMIs = new HashSet<EMI>();
             this.LCInfoes = new HashSet<LCInfo>();
             this.OrderMasters = new HashSet<OrderMaster>();
@@ -33,6 +32,7 @@ namespace KGERP.Data.Models
             this.VendorDepositHistories = new HashSet<VendorDepositHistory>();
             this.VendorOffers = new HashSet<VendorOffer>();
             this.VendorOpenings = new HashSet<VendorOpening>();
+            this.ChequeRegisters = new HashSet<ChequeRegister>();
         }
     
         public int VendorId { get; set; }
@@ -110,8 +110,6 @@ namespace KGERP.Data.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BatchPaymentDetail> BatchPaymentDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ChequeRegister> ChequeRegisters { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EMI> EMIs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LCInfo> LCInfoes { get; set; }
@@ -138,5 +136,7 @@ namespace KGERP.Data.Models
         public virtual ICollection<VendorOffer> VendorOffers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<VendorOpening> VendorOpenings { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ChequeRegister> ChequeRegisters { get; set; }
     }
 }

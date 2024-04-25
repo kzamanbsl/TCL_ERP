@@ -74,40 +74,40 @@
 
         @foreach (var item in Model.Select((x, i) => new { Data = x, Index = i }))
         {
-        <tr>
-            <td>
-                @((item.Index + 1) + (Model.PageNumber - 1) * Model.PageSize)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Data.EmployeeId)
-            </td>
-            <td nowrap>
-                @Html.DisplayFor(modelItem => item.Data.Name)
-            </td>
-            <td nowrap>
-                @Html.DisplayFor(modelItem => item.Data.EmployeeOperationType)
-            </td>
-            <td  nowrap>
-                @Html.DisplayFor(modelItem => item.Data.ActionDate)
-            </td>
-            <td  nowrap>
-                @Html.DisplayFor(modelItem => item.Data.FromDate)
-            </td>
-            <td  nowrap>
-                @Html.DisplayFor(modelItem => item.Data.EndDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Data.Reason)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Data.Remarks)
-            </td>
-            <td>
-                <a href="@Url.Action("CreateOrEdit", new {employeeId=item.Data.EmployeeId, id = item.Data.OperationId,SearchText=item.Data.EmployeeId })" title="Edit Action" class="btn btn-success btn-xs">
-                    <i class="fa fa-pencil" style="font-size:15px;" aria-hidden="true"></i> Edit
-                </a>
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    @((item.Index + 1) + (Model.PageNumber - 1) * Model.PageSize)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Data.EmployeeId)
+                </td>
+                <td nowrap>
+                    @Html.DisplayFor(modelItem => item.Data.Name)
+                </td>
+                <td nowrap>
+                    @Html.DisplayFor(modelItem => item.Data.EmployeeOperationType)
+                </td>
+                <td nowrap>
+                    @Html.DisplayFor(modelItem => item.Data.ActionDate)
+                </td>
+                <td nowrap>
+                    @Html.DisplayFor(modelItem => item.Data.FromDate)
+                </td>
+                <td nowrap>
+                    @Html.DisplayFor(modelItem => item.Data.EndDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Data.Reason)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Data.Remarks)
+                </td>
+                <td>
+                    <a href="@Url.Action("CreateOrEdit", new { employeeId = item.Data.EmployeeId, id = item.Data.OperationId, SearchText = item.Data.EmployeeId })" title="Edit Action" class="btn btn-success btn-xs">
+                        <i class="fa fa-pencil" style="font-size:15px;" aria-hidden="true"></i> Edit
+                    </a>
+                </td>
+            </tr>
         }
 
     </table>
@@ -120,8 +120,12 @@
         <span class="checkbox">
             @Html.PagedListPager(Model, Page_No =>
                 Url.Action("Index", "EmployeeOperation",
-                new { Page_No, Sorting_Order = Request.QueryString["Search"],
-                SearchText = Request.QueryString["searchText"] }))
+                new
+                     {
+                         Page_No,
+                         Sorting_Order = Request.QueryString["Search"],
+                SearchText = Request.QueryString["searchText"]
+                     }))
         </span>
     }
 </div>

@@ -542,10 +542,7 @@
         <AssociationConnector Association="ERPModel.FK_BankAccountInfo_BankBranch" />
         <EntityTypeShape EntityType="ERPModel.ChequeBook" Width="1.5" PointX="72.375" PointY="57.125" />
         <AssociationConnector Association="ERPModel.FK_ChequeBook_BankAccountInfo" />
-        <EntityTypeShape EntityType="ERPModel.ChequeRegister" Width="1.5" PointX="74.625" PointY="41.25" />
-        <AssociationConnector Association="ERPModel.FK_ChequeRegister_Accounting_CostCenter" />
         <EntityTypeShape EntityType="ERPModel.BillRequisitionMaster" Width="1.5" PointX="69.375" PointY="62.25" />
-        <AssociationConnector Association="ERPModel.FK_ChequeRegister_BillRequisitionMaster" />
         <AssociationConnector Association="ERPModel.FK_PurchaseOrder_PurchaseOrder" />
         <AssociationConnector Association="ERPModel.FK_VoucherBRMapMaster_BillRequisitionMaster" />
         <EntityTypeShape EntityType="ERPModel.BillRequisitionApproval" Width="1.5" PointX="54.125" PointY="43.5" />
@@ -568,13 +565,11 @@
         <EntityTypeShape EntityType="ERPModel.QuotationSubmitMaster" Width="1.5" PointX="76.875" PointY="40.875" />
         <AssociationConnector Association="ERPModel.FK_QuotationSubmitMaster_QuotationMaster" />
         <AssociationConnector Association="ERPModel.FK_QuotationSubmitDetail_QuotationSubmitMaster" />
-        <EntityTypeShape EntityType="ERPModel.BillingGeneratedMap" Width="1.5" PointX="41.375" PointY="2.75" />
         <EntityTypeShape EntityType="ERPModel.BillBoQItem" Width="1.5" PointX="8.375" PointY="47" />
         <AssociationConnector Association="ERPModel.FK_BillRequisitionItemBoQMap_BillBoQItem" />
         <EntityTypeShape EntityType="ERPModel.Vendor" Width="1.5" PointX="56.375" PointY="20" />
         <AssociationConnector Association="ERPModel.FK_MonthlyTarget_Vendor" />
         <AssociationConnector Association="ERPModel.FK_BatchPaymentDetail_Vendor" />
-        <AssociationConnector Association="ERPModel.FK_ChequeRegister_ChequeRegister" />
         <AssociationConnector Association="ERPModel.FK_EMI_Vendor" />
         <AssociationConnector Association="ERPModel.FK_LCInfo_Vendor" />
         <AssociationConnector Association="ERPModel.FK_OrderMaster_Supplier" />
@@ -590,6 +585,15 @@
         <AssociationConnector Association="ERPModel.FK_VendorOffer_Vendor" />
         <AssociationConnector Association="ERPModel.FK_VendorOpening_Vendor" />
         <EntityTypeShape EntityType="ERPModel.EmployeeOperation" Width="1.5" PointX="14.375" PointY="47.75" />
+        <EntityTypeShape EntityType="ERPModel.VendorType" Width="1.5" PointX="49.375" PointY="1" />
+        <AssociationConnector Association="ERPModel.FK_VendorDeposit_VendorType" />
+        <AssociationConnector Association="ERPModel.FK_VendorDepositHistory_VendorType" />
+        <AssociationConnector Association="ERPModel.FK_VendorOpening_VendorType" />
+        <EntityTypeShape EntityType="ERPModel.BillingGeneratedMap" Width="1.5" PointX="29.375" PointY="39.75" />
+        <EntityTypeShape EntityType="ERPModel.ChequeRegister" Width="1.5" PointX="74.625" PointY="40.875" />
+        <AssociationConnector Association="ERPModel.FK_ChequeRegister_Accounting_CostCenter" />
+        <AssociationConnector Association="ERPModel.FK_ChequeRegister_BillRequisitionMaster" />
+        <AssociationConnector Association="ERPModel.FK_ChequeRegister_ChequeRegister" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
