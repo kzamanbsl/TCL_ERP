@@ -99,15 +99,15 @@
                                         <th>Cheque No</th>
                                         <th>Pay To</th>
                                         <th>Amount</th>
-                                        <th>Status</th>
-                                        <th>Print</th>
+                                        <th>Print Count</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @{
                                         if (searchData != null)
                                         {
-                                            foreach (var item in searchData.ChequeRegisterList)
+                                            foreach (var item in searchData.ChequeRegisterList.OrderByDescending(x => x.ChequeRegisterId))
                                             {
                                                 <tr>
                                                     <th>@(++sl)</th>
@@ -130,13 +130,14 @@
                                                     <td>@item.ChequeNo</td>
                                                     <td><p style="text-align:left !important;">@item.PayTo</p></td>
                                                     <td><p style="text-align:right !important;">@item.Amount</p></td>
+                                                    <td><p style="text-align:center !important;">3 time(s)</p></td>
                                                     <td>
                                                         @if (!item.IsSigned)
                                                         {
-                                                            <center class="btn btn-xs btn-warning text-center d-block" title="Click to signing" style="padding-left: 7px; padding-right: 7px;" id="showToHide" onclick="ChequeSign(@item.ChequeRegisterId)">
-                                                                Unsigned
+                                                            <center class="btn btn-xs btn-warning text-center d-block" style="padding-left: 7px; padding-right: 7px;" id="showToHide_@item.ChequeRegisterId" onclick="ChequeSign('@item.ChequeRegisterId')">
+                                                                Unsign
                                                             </center>
-                                                            <center class="btn btn-xs btn-success text-center hidden" style="padding-left: 7px; padding-right: 7px;" id="hideToShow">
+                                                            <center class="btn btn-xs btn-success text-center hidden" style="padding-left: 7px; padding-right: 7px;" id="hideToShow_@item.ChequeRegisterId">
                                                                 Signed
                                                             </center>
                                                         }
@@ -145,21 +146,6 @@
                                                             <center class="btn btn-xs btn-success text-center" style="padding-left: 7px; padding-right: 7px;">
                                                                 Signed
                                                             </center>
-                                                        }
-                                                    </td>
-                                                    <td class="text-center">
-                                                        @if (item.IsSigned)
-                                                        {
-                                                            <a class="btn btn-xs btn-primary text-center" target="_blank" href="~/Report/ChequeRegisterPrinting?chequeRegisterId=@item.ChequeRegisterId">
-                                                                <i class="fa fa-print"></i> Print Here
-                                                            </a>
-                                                        }
-                                                        else
-                                                        {
-                                                            <a class="btn btn-xs btn-primary text-center hidden" id="hideToShowPrint" target="_blank" href="~/Report/ChequeRegisterPrinting?chequeRegisterId=@item.ChequeRegisterId">
-                                                                <i class="fa fa-print"></i> Print Here
-                                                            </a>
-                                                            <small class="text-center text-gray d-block" id="showToHidePrint">Unavailable</small>
                                                         }
                                                     </td>
                                                 </tr>
@@ -167,7 +153,7 @@
                                         }
                                         else
                                         {
-                                            foreach (var item in Model.ChequeRegisterList)
+                                            foreach (var item in Model.ChequeRegisterList.OrderByDescending(x => x.ChequeRegisterId))
                                             {
                                                 <tr>
                                                     <th>@(++sl)</th>
@@ -190,13 +176,14 @@
                                                     <td>@item.ChequeNo</td>
                                                     <td><p style="text-align:left !important;">@item.PayTo</p></td>
                                                     <td><p style="text-align:right !important;">@item.Amount</p></td>
+                                                    <td><p style="text-align:center !important;">3 time(s)</p></td>
                                                     <td>
                                                         @if (!item.IsSigned)
                                                         {
-                                                            <center class="btn btn-xs btn-warning text-center d-block" title="Click to signing" style="padding-left: 7px; padding-right: 7px;" id="showToHide" onclick="ChequeSign(@item.ChequeRegisterId)">
-                                                                Unsigned
+                                                            <center class="btn btn-xs btn-warning text-center d-block" style="padding-left: 7px; padding-right: 7px;" id="showToHide_@item.ChequeRegisterId" onclick="ChequeSign('@item.ChequeRegisterId')">
+                                                                Unsign
                                                             </center>
-                                                            <center class="btn btn-xs btn-success text-center hidden" style="padding-left: 7px; padding-right: 7px;" id="hideToShow">
+                                                            <center class="btn btn-xs btn-success text-center hidden" style="padding-left: 7px; padding-right: 7px;" id="hideToShow_@item.ChequeRegisterId">
                                                                 Signed
                                                             </center>
                                                         }
@@ -205,21 +192,6 @@
                                                             <center class="btn btn-xs btn-success text-center" style="padding-left: 7px; padding-right: 7px;">
                                                                 Signed
                                                             </center>
-                                                        }
-                                                    </td>
-                                                    <td class="text-center">
-                                                        @if (item.IsSigned)
-                                                        {
-                                                            <a class="btn btn-xs btn-primary text-center" target="_blank" href="~/Report/ChequeRegisterPrinting?chequeRegisterId=@item.ChequeRegisterId">
-                                                                <i class="fa fa-print"></i> Print Here
-                                                            </a>
-                                                        }
-                                                        else
-                                                        {
-                                                            <a class="btn btn-xs btn-primary text-center hidden" id="hideToShowPrint" target="_blank" href="~/Report/ChequeRegisterPrinting?chequeRegisterId=@item.ChequeRegisterId">
-                                                                <i class="fa fa-print"></i> Print Here
-                                                            </a>
-                                                            <small class="text-center text-gray d-block" id="showToHidePrint">Unavailable</small>
                                                         }
                                                     </td>
                                                 </tr>
@@ -235,6 +207,24 @@
         </div>
     </div>
 </section>
+
+<div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="padding: 0 20px;">
+                <h3 id="confirmationModalLabel">Confirmation</h3>
+            </div>
+            <div class="modal-body" style="padding: 30px 20px;">
+                <h4>Are you sure you want to sign?</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirmSignButton">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 @Scripts.Render("~/bundles/jqueryui")
 @Styles.Render("~/Content/cssjqryUi")
@@ -252,31 +242,28 @@
             yearRange: "2001:+50"
         });
 
-        $(document).ready(function () {
-            "use strict"
-
-            
-
-        });
-
         function ChequeSign(chequeRegisterId) {
-            console.log("Ok");
-            $.ajax({
-                type: "GET",
-                url: "/ChequeRegister/MakeSignToCheque",
-                dataType: "json",
-                data: { chequeRegisterId: chequeRegisterId },
-                success: function (data) {
-                    if (data) {
-                        $("#showToHide").removeClass("d-block").addClass("hidden");
-                        $("#hideToShow").removeClass("hidden").addClass("d-block");
+            $('#confirmationModal').modal('show');
 
-                        $("#hideToShowPrint").removeClass("hidden").addClass("d-block");
-                        $("#showToHidePrint").removeClass("d-block").addClass("hidden");
+            $('#confirmSignButton').click(function () {
+                $.ajax({
+                    type: "GET",
+                    url: "/ChequeRegister/MakeSignToCheque",
+                    dataType: "json",
+                    data: { chequeRegisterId: chequeRegisterId },
+                    success: function (data) {
+                        if (data) {
+                            $("#showToHide_" + chequeRegisterId).removeClass("d-block").addClass("hidden");
+                            $("#hideToShow_" + chequeRegisterId).removeClass("hidden").addClass("d-block");
+
+                            $("#showToHidePrint_" + chequeRegisterId).removeClass("d-block").addClass("hidden");
+                            $("#hideToShowPrint_" + chequeRegisterId).removeClass("hidden").addClass("d-block");
+                        }
                     }
-                }
-            });
+                });
 
+                $('#confirmationModal').modal('hide');
+            });
         }
     </script>
 }

@@ -106,7 +106,7 @@
                                     @{
                                         if (searchData != null)
                                         {
-                                            foreach (var item in searchData.ChequeRegisterList)
+                                            foreach (var item in searchData.ChequeRegisterList.OrderByDescending(x => x.ChequeRegisterId))
                                             {
                                                 <tr>
                                                     <th>@(++sl)</th>
@@ -139,7 +139,7 @@
                                         }
                                         else
                                         {
-                                            foreach (var item in Model.ChequeRegisterList)
+                                            foreach (var item in Model.ChequeRegisterList.OrderByDescending(x => x.ChequeRegisterId))
                                             {
                                                 <tr>
                                                     <th>@(++sl)</th>
@@ -200,7 +200,7 @@
         $(document).ready(function () {
             "use strict"
 
-            
+
 
         });
 
