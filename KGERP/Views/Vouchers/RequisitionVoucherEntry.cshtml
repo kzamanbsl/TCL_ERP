@@ -922,6 +922,11 @@
                         showDrSoFar.val(data.TotalDebited);
                         showCrSoFar.val(data.TotalCredited);
                         showAccHeadFar.val(data.AccountHead);
+                        $('#txtParticular').text(
+                            "Approved Demand: " + data.ApprovedDemand
+                            + ", Unit Price: " + data.UnitPrice
+                            + ", Total Amount: " + showApprovedDemand.val() * showUnitPrice.val() 
+                        );
                     }
                 }
             });
@@ -1004,6 +1009,27 @@
 
         RequisitionInputFieldShow();
 
+
+        $('#ddlAccounting_CostCenterFK').on('change', function (event) {
+            var projectId = $(this).val();
+            var showRequisitionList = $("#billRequisitionId");
+            $.ajax({
+                type: "GET",
+                url: "/Vouchers/GetRequisitionListByProject",
+                dataType: "json",
+                data: { projectId: projectId },
+                success: function (data) {
+                    showRequisitionList.empty();
+                    showRequisitionList.append("<option selected disabled>==Select Requisition==</option>");
+                    $.each(data, function (index, item) {
+                        showRequisitionList.append($('<option>', {
+                            value: item.Value,
+                            text: item.Text
+                        }));
+                    });
+                }
+            });
+        });
 
         $('#ddlBankId').on('change', function (event) {
             var bankId = $("#ddlBankId option:selected").val();
