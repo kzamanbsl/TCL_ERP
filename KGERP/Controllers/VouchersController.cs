@@ -369,7 +369,7 @@ namespace KGERP.Controllers
             {
                 long requisitionId = 0;
                 vmJournalSlave.BankOrCashParantList = new SelectList(_accountingService.SeedCashAndBankDropDownList(companyId), "Value", "Text");
-                //vmJournalSlave.Requisitions = new SelectList(_billRequisitionService.ApprovedRequisitionList(companyId), "Value", "Text");
+                vmJournalSlave.Requisitions = new SelectList(_billRequisitionService.ApprovedRequisitionList(companyId), "Value", "Text");
                 vmJournalSlave.MaterialItemList = new SelectList(_billRequisitionService.ApprovedMaterialList(companyId, requisitionId), "ProductId", "ProductName");
 
             }
