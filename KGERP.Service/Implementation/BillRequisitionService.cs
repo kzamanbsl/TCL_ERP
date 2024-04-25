@@ -3574,12 +3574,13 @@ namespace KGERP.Service.Implementation
         {
             decimal TotalCr = 0M, TotalDr = 0M, totalReceivedSoFar = 0M;
             string AccountHeadName = string.Empty;
+            var allProduct = -1;
             var getReqInfo = await _context.BillRequisitionDetails
-                .Where(a => a.BillRequisitionMasterId == requisitionId && a.ProductId == materialId && a.IsActive).ToListAsync();
+                .Where(a => a.BillRequisitionMasterId == requisitionId && (materialId== allProduct ? true: a.ProductId == materialId) && a.IsActive).ToListAsync();
 
             var getReceivedSoFar = await _context.PurchaseOrders
                             .Where(t1 => t1.BillRequisitionMasterId == requisitionId && t1.IsActive)
-                            .Join(_context.PurchaseOrderDetails.Where(c => c.ProductId == materialId), t1 => t1.PurchaseOrderId, t2 => t2.PurchaseOrderId, (t1, t2) => new
+                            .Join(_context.PurchaseOrderDetails.Where(c => (materialId == allProduct ? true : c.ProductId == materialId)), t1 => t1.PurchaseOrderId, t2 => t2.PurchaseOrderId, (t1, t2) => new
                             {
                                 RecivedSoFar = t2.PurchaseQty,
                             }).ToListAsync();
@@ -3589,10 +3590,10 @@ namespace KGERP.Service.Implementation
                 totalReceivedSoFar = getReceivedSoFar.Sum(x => x.RecivedSoFar);
             }
 
-            if (requisitionId > 0 && materialId > 0)
+            if ((requisitionId > 0 && materialId > 0)||(requisitionId > 0 && materialId== allProduct))
             {
 
-                var data = (from t1 in _context.VoucherBRMapDetails.Where(c => c.ProductId == materialId && c.IsActive == true)
+                var data = (from t1 in _context.VoucherBRMapDetails.Where(c => (materialId == allProduct?true:c.ProductId == materialId) && c.IsActive == true)
                             join t2 in _context.VoucherBRMapMasters.Where(c => c.IsActive && c.BillRequsitionMasterId == requisitionId) on t1.VoucherBRMapMasterId equals t2.VoucherBRMapMasterId
                             //join t3 in _context.VoucherDetails on t1.VoucherDetailId equals t3.VoucherDetailId into t3_join
                             //from t3 in t3_join.DefaultIfEmpty()
@@ -3608,14 +3609,17 @@ namespace KGERP.Service.Implementation
                 {
                     TotalCr = data.Sum(x => x.CreditAmount);
                     TotalDr = data.Sum(x => x.DebitAmount);
-                    var voucherDetailId = data.FirstOrDefault().VoucherDetailId;
-                    var HeadName = (from t1 in _context.VoucherDetails.AsQueryable().AsNoTracking().Where(c => c.VoucherDetailId == voucherDetailId)
-                                    join t2 in _context.HeadGLs.AsQueryable().AsNoTracking() on t1.AccountHeadId equals t2.Id
-                                    select new
-                                    {
-                                        t2.AccName
-                                    }).ToList();
-                    AccountHeadName = HeadName.FirstOrDefault()?.AccName ?? "";
+                    if (materialId != allProduct)
+                    {
+                        var voucherDetailId = data.FirstOrDefault().VoucherDetailId;
+                        var HeadName = (from t1 in _context.VoucherDetails.AsQueryable().AsNoTracking().Where(c => c.VoucherDetailId == voucherDetailId)
+                                        join t2 in _context.HeadGLs.AsQueryable().AsNoTracking() on t1.AccountHeadId equals t2.Id
+                                        select new
+                                        {
+                                            t2.AccName
+                                        }).ToList();
+                        AccountHeadName = HeadName.FirstOrDefault()?.AccName ?? "";
+                    }
                 }
 
             }
@@ -3626,11 +3630,13 @@ namespace KGERP.Service.Implementation
                 {
                     ApprovedDemand = getReqInfo.Sum(x => x.DemandQty),
                     UnitPrice = getReqInfo.Average(x => x.UnitRate),
+                    TotalAmount= getReqInfo.Select(c=> new {totalAmount=c.DemandQty*c.UnitRate}).Sum(c=>c.totalAmount),
                     TotalCredited = TotalCr,
                     TotalDebited = TotalDr,
                     RecivedSoFar = totalReceivedSoFar,
                     AccountHead = AccountHeadName
                 };
+                
             }
 
             return null;

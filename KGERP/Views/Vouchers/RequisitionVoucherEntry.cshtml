@@ -860,7 +860,10 @@
                 data: { companyId: 21, requisitionId: passingValue },
                 success: function (data) {
                     showBoqMaterialList.empty().append("<option selected disabled>==Select Material==</option>");
-
+                    var objLength = Object.keys(data).length;
+                    if (objLength > 1) {
+                        showBoqMaterialList.append("<option value='-1'>Select All</option>");
+                    }
                     $.each(data, function (index, item) {
                         showBoqMaterialList.append($('<option>', {
                             value: item.ProductId,
@@ -883,19 +886,20 @@
             }
 
             var materialId = $("#materialItemId").val();
+            console.log(materialId);
             var showApprovedDemand = $("#txtApprovedDemand");
             var showUnitPrice = $("#txtUnitPrice");
             var showTotal = $("#txtApprovedTotal");
             var showDrSoFar = $("#txtTotalDebitedSoFar");
             var showCrSoFar = $("#txtTotalCreditedSoFar");
             var showAccHeadFar = $("#txtAccountingHeadName");
-
+            var allProduct = "-1";
             showApprovedDemand.val(0);
             showUnitPrice.val(0);
             showTotal.val(0);
             showDrSoFar.val(0);
             showCrSoFar.val(0);
-
+          
             $.ajax({
                 type: "GET",
                 url: "/BillRequisition/GetMaterialInfo",
@@ -903,9 +907,18 @@
                 data: { requisitionId: passingValue, productId: materialId },
                 success: function (data) {
                     if (data) {
-                        showApprovedDemand.val(data.ApprovedDemand);
-                        showUnitPrice.val(data.UnitPrice);
-                        showTotal.val(showApprovedDemand.val() * showUnitPrice.val());
+
+                        if (materialId === allProduct) {
+                            $("#inputQuantity").removeClass("d-block").addClass("hidden");
+                            $("#inputUnit").removeClass("d-block").addClass("hidden");
+                        } else { 
+                            $("#inputQuantity").removeClass("hidden").addClass("d-block");
+                            $("#inputUnit").removeClass("hidden").addClass("d-block");
+                            showApprovedDemand.val(data.ApprovedDemand);
+                            showUnitPrice.val(data.UnitPrice);
+                        }
+                        
+                        showTotal.val(data.TotalAmount);
                         showDrSoFar.val(data.TotalDebited);
                         showCrSoFar.val(data.TotalCredited);
                         showAccHeadFar.val(data.AccountHead);
