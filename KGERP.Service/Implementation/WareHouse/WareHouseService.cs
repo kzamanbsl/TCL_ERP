@@ -20,7 +20,7 @@ namespace KGERP.Service.Implementation.Warehouse
 {
     public class WarehouseService : IDisposable
     {
-        private readonly ERPEntities _db;
+        private  ERPEntities _db;
         private readonly AccountingService _accountingService;
         private bool disposed = false;
 
@@ -30,7 +30,7 @@ namespace KGERP.Service.Implementation.Warehouse
             _db = db;
             _accountingService = new AccountingService(db);
         }
-        
+
         public async Task<long> WarehousePOReceivingAdd(VMWarehousePOReceivingSlave vmWarehousePoReceivingSlave)
         {
 
@@ -90,41 +90,47 @@ namespace KGERP.Service.Implementation.Warehouse
                 Remarks = vmWarehousePoReceivingSlave.Remarks
 
             };
-
-
-            using (var scope = _db.Database.BeginTransaction())
+            using (var context = new ERPEntities())
             {
 
-                _db.MaterialReceives.Add(wareHousePOReceiving);
-                await _db.SaveChangesAsync();
-
-                var billNo = GetUniqueBillingGeneratedNo(wareHousePOReceiving.ReceivedDate);
-                BillingGeneratedMap mapModel = new BillingGeneratedMap()
+                using (var scope = context.Database.BeginTransaction())
                 {
-                    MaterialReceiveId = (int)wareHousePOReceiving.MaterialReceiveId,
-                    BillGeneratedNo = billNo,
-                    CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
-                    CreatedDate = DateTime.Now,
-                    IsActive = true
-                };
 
 
-                //If you encounter similar issues, remember to detach the object using  after calling SaveChanges()
 
-                //_db.Entry(mapModel).State = EntityState.Modified;
+                    context.MaterialReceives.Add(wareHousePOReceiving);
+                    await context.SaveChangesAsync();
 
-                
+                    var billNo = GetUniqueBillingGeneratedNo(wareHousePOReceiving.ReceivedDate);
+                    BillingGeneratedMap mapModel = new BillingGeneratedMap()
+                    {
+                        MaterialReceiveId = (int)wareHousePOReceiving.MaterialReceiveId,
+                        BillGeneratedNo = billNo,
+                        CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                        CreatedDate = DateTime.Now,
+                        IsActive = true
+                    };
 
-                //_db.Entry(mapModel).State = EntityState.Detached;
-                _db.BillingGeneratedMaps.Add(mapModel);
-                await _db.SaveChangesAsync();
 
-                result = wareHousePOReceiving.MaterialReceiveId;
-                scope.Commit();
+                    //If you encounter similar issues, remember to detach the object using  after calling SaveChanges()
 
+                    //_db.Entry(mapModel).State = EntityState.Modified;
+
+
+
+                    //
+                    context.BillingGeneratedMaps.Add(mapModel);
+                    await context.SaveChangesAsync();
+
+                    result = wareHousePOReceiving.MaterialReceiveId;
+                    scope.Commit();
+                    Dispose(true);
+                    _db = new ERPEntities();
+
+                }
 
             }
-
+            //Dispose(true);
             return result;
         }
         #region old WarehousePOReturnAdd
