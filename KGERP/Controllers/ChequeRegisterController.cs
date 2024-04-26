@@ -197,13 +197,13 @@ namespace KGERP.Controllers
         #endregion
 
         #region Cheque Sing
-        
+
         [HttpGet]
         public async Task<ActionResult> ChequeSigning(int companyId = 0)
         {
             ChequeRegisterModel viewData = new ChequeRegisterModel();
             viewData.CompanyFK = companyId;
-            viewData.ChequeRegisterList = await _Service.GetChequeRegisterList(companyId);
+            viewData.ChequeRegisterList = await _Service.GetGeneratedChequeList(companyId);
             return View(viewData);
         }
 
@@ -259,7 +259,7 @@ namespace KGERP.Controllers
             bool response = false;
             if (chequeRegisterId > 0)
             {
-                response = await _Service.ChequeSign(chequeRegisterId);
+                response = await _Service.MakePdf(chequeRegisterId);
             }
             return Json(response, JsonRequestBehavior.AllowGet);
         }
@@ -273,7 +273,7 @@ namespace KGERP.Controllers
         {
             ChequeRegisterModel viewData = new ChequeRegisterModel();
             viewData.CompanyFK = companyId;
-            viewData.ChequeRegisterList = await _Service.GetSignedChequeList(companyId);
+            viewData.ChequeRegisterList = await _Service.GetGeneratedChequeList(companyId);
             return View(viewData);
         }
 
@@ -286,6 +286,17 @@ namespace KGERP.Controllers
             TempData["ChequeRegisterModel"] = viewData;
 
             return RedirectToAction(nameof(ChequePrinting), new { companyId = model.CompanyFK, fromDate = model.StrFromDate, ToDate = model.StrToDate });
+        }
+
+        [HttpGet]
+        public async Task<JsonResult> ChequePrintCount(long chequeRegisterId)
+        {
+            bool response = false;
+            if (chequeRegisterId > 0)
+            {
+                response = await _Service.PrintCount(chequeRegisterId);
+            }
+            return Json(response, JsonRequestBehavior.AllowGet);
         }
 
         #endregion

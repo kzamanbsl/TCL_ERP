@@ -189,6 +189,51 @@ namespace KGERP.Service.Implementation
             return sendData;
         }
 
+        public async Task<bool> MakePdf(long chequeRegisterId)
+        {
+            bool sendData = false;
+            if (chequeRegisterId > 0)
+            {
+                var result = _context.ChequeRegisters.FirstOrDefault(x => x.ChequeRegisterId == chequeRegisterId);
+                if (result != null)
+                {
+                    result.IsPrinted = true;
+                    result.ModifiedBy = HttpContext.Current.User.Identity.Name;
+                    result.ModifiedOn = DateTime.Now;
+
+                    if (await _context.SaveChangesAsync() > 0)
+                    {
+                        sendData = true;
+                    }
+                }
+            }
+
+            return sendData;
+        }
+
+        public async Task<bool> PrintCount(long chequeRegisterId)
+        {
+            bool sendData = false;
+            if (chequeRegisterId > 0)
+            {
+                var result = _context.ChequeRegisters.FirstOrDefault(x => x.ChequeRegisterId == chequeRegisterId);
+                int printCount = result.PrintCount ?? 0;
+                if (result != null)
+                {
+                    result.PrintCount = ++printCount;
+                    result.ModifiedBy = HttpContext.Current.User.Identity.Name;
+                    result.ModifiedOn = DateTime.Now;
+
+                    if (await _context.SaveChangesAsync() > 0)
+                    {
+                        sendData = true;
+                    }
+                }
+            }
+
+            return sendData;
+        }
+
         public async Task<ChequeRegisterModel> GetChequeRegisterById(long chequeRegisterId)
         {
             ChequeRegisterModel sendData = await (from t1 in _context.ChequeRegisters
@@ -218,6 +263,8 @@ namespace KGERP.Service.Implementation
                                                       ClearingDate = t1.ClearingDate,
                                                       Remarks = t1.Remarks,
                                                       IsSigned = t1.IsSigned,
+                                                      IsPrinted = t1.IsPrinted,
+                                                      PrintCount = t1.PrintCount ?? 0,
                                                       CreatedBy = t1.CreatedBy,
                                                       CreatedDate = t1.CreatedOn,
                                                       ModifiedBy = t1.ModifiedBy,
@@ -318,6 +365,8 @@ namespace KGERP.Service.Implementation
                                                             ClearingDate = t1.ClearingDate,
                                                             Remarks = t1.Remarks,
                                                             IsSigned = t1.IsSigned,
+                                                            IsPrinted = t1.IsPrinted,
+                                                            PrintCount = t1.PrintCount ?? 0,
                                                             CreatedBy = t1.CreatedBy,
                                                             CreatedDate = t1.CreatedOn,
                                                             ModifiedBy = t1.ModifiedBy,
@@ -327,6 +376,48 @@ namespace KGERP.Service.Implementation
                                                         }).ToListAsync();
             return sendData;
         }
+
+        public async Task<List<ChequeRegisterModel>> GetGeneratedChequeList(int companyId)
+        {
+            List<ChequeRegisterModel> sendData = await (from t1 in _context.ChequeRegisters
+                                                        join t2 in _context.BillRequisitionMasters on t1.RequisitionMasterId equals t2.BillRequisitionMasterId into t2_Join
+                                                        from t2 in t2_Join.DefaultIfEmpty()
+                                                        join t3 in _context.Vendors on t1.SupplierId equals t3.VendorId into t3_Join
+                                                        from t3 in t3_Join.DefaultIfEmpty()
+                                                        join t4 in _context.Accounting_CostCenter on t1.ProjectId equals t4.CostCenterId into t4_Join
+                                                        from t4 in t4_Join.DefaultIfEmpty()
+                                                        where t1.IsActive && t1.IsPrinted
+                                                        select new ChequeRegisterModel
+                                                        {
+                                                            ChequeRegisterId = t1.ChequeRegisterId,
+                                                            RegisterFor = t1.RequisitionMasterId == null ? (int)EnumChequeRegisterFor.General : (int)EnumChequeRegisterFor.Requisition,
+                                                            RequisitionId = (int)(t1.RequisitionMasterId == null ? 0 : t1.RequisitionMasterId),
+                                                            RequisitionNo = t2.BillRequisitionNo,
+                                                            ProjectId = t1.ProjectId,
+                                                            ProjectName = t4.Name,
+                                                            SupplierId = t1.SupplierId == null ? 0 : (int)t1.SupplierId,
+                                                            SupplierName = t3.Name ?? "N/A",
+                                                            SupplierCode = t3.Code,
+                                                            PayTo = t1.PayTo,
+                                                            IssueDate = t1.IssueDate,
+                                                            ChequeDate = t1.ChequeDate,
+                                                            ChequeNo = t1.ChequeNo,
+                                                            Amount = t1.Amount,
+                                                            ClearingDate = t1.ClearingDate,
+                                                            Remarks = t1.Remarks,
+                                                            IsSigned = t1.IsSigned,
+                                                            IsPrinted = t1.IsPrinted,
+                                                            PrintCount = t1.PrintCount ?? 0,
+                                                            CreatedBy = t1.CreatedBy,
+                                                            CreatedDate = t1.CreatedOn,
+                                                            ModifiedBy = t1.ModifiedBy,
+                                                            ModifiedDate = t1.ModifiedOn,
+                                                            IsActive = t1.IsActive,
+                                                            CompanyFK = 21,
+                                                        }).ToListAsync();
+            return sendData;
+        }
+
         public async Task<List<ChequeRegisterModel>> GetChequeRegisterListByDate(ChequeRegisterModel model)
         {
             List<ChequeRegisterModel> sendData = await (from t1 in _context.ChequeRegisters
