@@ -199,7 +199,7 @@
         function ChequePrintCount(chequeRegisterId) {
             $.ajax({
                 type: "GET",
-                url: "/ChequeRegister/ChequeSign",
+                url: "/ChequeRegister/ChequePrintCount",
                 dataType: "json",
                 data: { chequeRegisterId: chequeRegisterId },
                 success: function (data) {
