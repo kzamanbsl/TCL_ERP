@@ -3590,40 +3590,40 @@ namespace KGERP.Service.Implementation
                 totalReceivedSoFar = getReceivedSoFar.Sum(x => x.RecivedSoFar);
             }
 
-            if ((requisitionId > 0 && materialId > 0)||(requisitionId > 0 && materialId== allProduct))
-            {
+            //if ((requisitionId > 0 && materialId > 0)||(requisitionId > 0 && materialId== allProduct))
+            //{
 
-                var data = (from t1 in _context.VoucherBRMapDetails.Where(c =>  c.IsActive == true && (materialId > allProduct?c.ProductId == materialId:c.ProductId> 0 ))
-                            join t2 in _context.VoucherBRMapMasters.Where(c => c.IsActive && c.BillRequsitionMasterId == requisitionId) on t1.VoucherBRMapMasterId equals t2.VoucherBRMapMasterId
-                            //join t3 in _context.VoucherDetails on t1.VoucherDetailId equals t3.VoucherDetailId into t3_join
-                            //from t3 in t3_join.DefaultIfEmpty()
-                            //join t4 in _context.HeadGLs on t3.AccountHeadId equals t4.Id  into t4_join
-                            //from t4 in t4_join.DefaultIfEmpty()
+            //    var data = (from t1 in _context.VoucherBRMapDetails.Where(c =>  c.IsActive == true && (materialId > allProduct?c.ProductId == materialId:c.ProductId> 0 ))
+            //                join t2 in _context.VoucherBRMapMasters.Where(c => c.IsActive && c.BillRequsitionMasterId == requisitionId) on t1.VoucherBRMapMasterId equals t2.VoucherBRMapMasterId
+            //                //join t3 in _context.VoucherDetails on t1.VoucherDetailId equals t3.VoucherDetailId into t3_join
+            //                //from t3 in t3_join.DefaultIfEmpty()
+            //                //join t4 in _context.HeadGLs on t3.AccountHeadId equals t4.Id  into t4_join
+            //                //from t4 in t4_join.DefaultIfEmpty()
                            
-                            select new
-                            {
-                                t1.CreditAmount,
-                                t1.DebitAmount,
-                                t1.VoucherDetailId
-                            }).ToList();
-                if (data.Any())
-                {
-                    TotalCr = data.Sum(x => x.CreditAmount);
-                    TotalDr = data.Sum(x => x.DebitAmount);
-                    if (materialId != allProduct)
-                    {
-                        var voucherDetailId = data.FirstOrDefault().VoucherDetailId;
-                        var HeadName = (from t1 in _context.VoucherDetails.AsQueryable().AsNoTracking().Where(c => c.VoucherDetailId == voucherDetailId)
-                                        join t2 in _context.HeadGLs.AsQueryable().AsNoTracking() on t1.AccountHeadId equals t2.Id
-                                        select new
-                                        {
-                                            t2.AccName
-                                        }).ToList();
-                        AccountHeadName = HeadName.FirstOrDefault()?.AccName ?? "";
-                    }
-                }
+            //                select new
+            //                {
+            //                    t1.CreditAmount,
+            //                    t1.DebitAmount,
+            //                    t1.VoucherDetailId
+            //                }).ToList();
+            //    if (data.Any())
+            //    {
+            //        TotalCr = data.Sum(x => x.CreditAmount);
+            //        TotalDr = data.Sum(x => x.DebitAmount);
+            //        if (materialId != allProduct)
+            //        {
+            //            var voucherDetailId = data.FirstOrDefault().VoucherDetailId;
+            //            var HeadName = (from t1 in _context.VoucherDetails.AsQueryable().AsNoTracking().Where(c => c.VoucherDetailId == voucherDetailId)
+            //                            join t2 in _context.HeadGLs.AsQueryable().AsNoTracking() on t1.AccountHeadId equals t2.Id
+            //                            select new
+            //                            {
+            //                                t2.AccName
+            //                            }).ToList();
+            //            AccountHeadName = HeadName.FirstOrDefault()?.AccName ?? "";
+            //        }
+            //    }
 
-            }
+            //}
 
             if (getReqInfo != null)
             {
