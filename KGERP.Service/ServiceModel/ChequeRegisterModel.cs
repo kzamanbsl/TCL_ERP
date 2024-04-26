@@ -77,6 +77,7 @@ namespace KGERP.Service.ServiceModel
         public string PayTo { get; set; }
         public bool IsSigned { get; set; }
         public bool IsPrinted { get; set; }
+        public int PrintCount { get; set; }
         public DateTime StrFromDate { get; set; }
         public DateTime StrToDate { get; set; }
         public string ReportType { get; set; }

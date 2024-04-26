@@ -277,6 +277,8 @@ namespace KGERP.Service.Implementation
                                                             ClearingDate = t1.ClearingDate,
                                                             Remarks = t1.Remarks,
                                                             IsSigned = t1.IsSigned,
+                                                            IsPrinted = t1.IsPrinted,
+                                                            PrintCount = t1.PrintCount ?? 0,
                                                             CreatedBy = t1.CreatedBy,
                                                             CreatedDate = t1.CreatedOn,
                                                             ModifiedBy = t1.ModifiedBy,

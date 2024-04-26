@@ -50,7 +50,7 @@
             <div class="box">
                 <div class="box-danger">
                     <div class="box-body">
-                        @using (Html.BeginForm("ChequeRegisterSearch", "ChequeRegister", FormMethod.Post, new { id = "ChequeRegisterFormId", @class = "formValidator" }))
+                        @using (Html.BeginForm("ChequeRegisterSearchForSign", "ChequeRegister", FormMethod.Post, new { id = "ChequeRegisterFormId", @class = "formValidator" }))
                         {
                             @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyId" })
 
@@ -176,7 +176,7 @@
                                                     <td>@item.ChequeNo</td>
                                                     <td><p style="text-align:left !important;">@item.PayTo</p></td>
                                                     <td><p style="text-align:right !important;">@item.Amount</p></td>
-                                                    <td><p style="text-align:center !important;">3 time(s)</p></td>
+                                                    <td><p style="text-align:center !important;">@item.PrintCount time(s)</p></td>
                                                     <td>
                                                         @if (!item.IsSigned)
                                                         {
@@ -248,16 +248,13 @@
             $('#confirmSignButton').click(function () {
                 $.ajax({
                     type: "GET",
-                    url: "/ChequeRegister/MakeSignToCheque",
+                    url: "/ChequeRegister/ChequeSign",
                     dataType: "json",
                     data: { chequeRegisterId: chequeRegisterId },
                     success: function (data) {
                         if (data) {
                             $("#showToHide_" + chequeRegisterId).removeClass("d-block").addClass("hidden");
                             $("#hideToShow_" + chequeRegisterId).removeClass("hidden").addClass("d-block");
-
-                            $("#showToHidePrint_" + chequeRegisterId).removeClass("d-block").addClass("hidden");
-                            $("#hideToShowPrint_" + chequeRegisterId).removeClass("hidden").addClass("d-block");
                         }
                     }
                 });

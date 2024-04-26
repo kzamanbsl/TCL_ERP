@@ -1,8 +1,8 @@
-﻿@model KGERP.Service.ServiceModel.ChequeRegisterModel
+﻿﻿@model KGERP.Service.ServiceModel.ChequeRegisterModel
 @using KGERP.Utility;
 
 @{
-    ViewData["Title"] = "Cheque Print";
+    ViewData["Title"] = "Cheque Genearte";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     KGERP.Service.ServiceModel.ChequeRegisterModel searchData = TempData["ChequeRegisterModel"] as KGERP.Service.ServiceModel.ChequeRegisterModel;
@@ -31,14 +31,14 @@
 <section class="content-header">
     <h1>
         <span>
-            Cheque Print
+            Cheque Signning
         </span>
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
         <li class="active">
             <span>
-                Cheque Print
+                Cheque Genearte
             </span>
         </li>
     </ol>
@@ -50,7 +50,7 @@
             <div class="box">
                 <div class="box-danger">
                     <div class="box-body">
-                        @using (Html.BeginForm("ChequeRegisterSearchForPrint", "ChequeRegister", FormMethod.Post, new { id = "ChequeRegisterFormId", @class = "formValidator" }))
+                        @using (Html.BeginForm("ChequeRegisterSearchForGenearte", "ChequeRegister", FormMethod.Post, new { id = "ChequeRegisterFormId", @class = "formValidator" }))
                         {
                             @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyId" })
 
@@ -99,6 +99,7 @@
                                         <th>Cheque No</th>
                                         <th>Pay To</th>
                                         <th>Amount</th>
+                                        <th>Status</th>
                                         <th>Print</th>
                                     </tr>
                                 </thead>
@@ -106,7 +107,7 @@
                                     @{
                                         if (searchData != null)
                                         {
-                                            foreach (var item in searchData.ChequeRegisterList.OrderByDescending(x => x.ChequeRegisterId))
+                                            foreach (var item in searchData.ChequeRegisterList)
                                             {
                                                 <tr>
                                                     <th>@(++sl)</th>
@@ -117,7 +118,7 @@
                                                         @if (item.RequisitionId > 0)
                                                         {
                                                             <p style="text-align:left !important;">
-                                                                <a href="~/BillRequisition/BillRequisitionMasterCommonSlave?companyId=@Model.CompanyFK&billRequisitionMasterId=@item.RequisitionId" class="link-primary text-primary" target="_blank" title="See Requisition Detail" style="text-align:left !important;">@item.RequisitionNo</a>
+                                                                <a href="~/BillRequisition/MDBRApproveSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.RequisitionId" class="link-primary text-primary" target="_blank" title="See Requisition Detail" style="text-align:left !important;">@item.RequisitionNo</a>
                                                             </p>
                                                         }
                                                         else
@@ -129,17 +130,44 @@
                                                     <td>@item.ChequeNo</td>
                                                     <td><p style="text-align:left !important;">@item.PayTo</p></td>
                                                     <td><p style="text-align:right !important;">@item.Amount</p></td>
+                                                    <td>
+                                                        @if (!item.IsSigned)
+                                                        {
+                                                            <center class="btn btn-xs btn-warning text-center d-block" title="Click to signing" style="padding-left: 7px; padding-right: 7px;" id="showToHide" onclick="ChequeGenerate(@item.ChequeRegisterId)">
+                                                                Unsigned
+                                                            </center>
+                                                            <center class="btn btn-xs btn-success text-center hidden" style="padding-left: 7px; padding-right: 7px;" id="hideToShow">
+                                                                Signed
+                                                            </center>
+                                                        }
+                                                        else
+                                                        {
+                                                            <center class="btn btn-xs btn-success text-center" style="padding-left: 7px; padding-right: 7px;">
+                                                                Signed
+                                                            </center>
+                                                        }
+                                                    </td>
                                                     <td class="text-center">
-                                                        <a class="btn btn-xs btn-primary text-center" target="_blank" href="~/Report/ChequeRegisterPrinting?chequeRegisterId=@item.ChequeRegisterId">
-                                                            <i class="fa fa-print"></i> Print Here
-                                                        </a>
+                                                        @if (item.IsSigned)
+                                                        {
+                                                            <a class="btn btn-xs btn-primary text-center" target="_blank" href="~/Report/ChequeRegisterPrinting?chequeRegisterId=@item.ChequeRegisterId">
+                                                                <i class="fa fa-print"></i> Print Here
+                                                            </a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <a class="btn btn-xs btn-primary text-center hidden" id="hideToShowPrint" target="_blank" href="~/Report/ChequeRegisterPrinting?chequeRegisterId=@item.ChequeRegisterId">
+                                                                <i class="fa fa-print"></i> Print Here
+                                                            </a>
+                                                            <small class="text-center text-gray d-block" id="showToHidePrint">Unavailable</small>
+                                                        }
                                                     </td>
                                                 </tr>
                                             }
                                         }
                                         else
                                         {
-                                            foreach (var item in Model.ChequeRegisterList.OrderByDescending(x => x.ChequeRegisterId))
+                                            foreach (var item in Model.ChequeRegisterList)
                                             {
                                                 <tr>
                                                     <th>@(++sl)</th>
@@ -150,7 +178,7 @@
                                                         @if (item.RequisitionId > 0)
                                                         {
                                                             <p style="text-align:left !important;">
-                                                                <a href="~/BillRequisition/BillRequisitionMasterCommonSlave?companyId=@Model.CompanyFK&billRequisitionMasterId=@item.RequisitionId" class="link-primary text-primary" target="_blank" title="See Requisition Detail" style="text-align:left !important;">@item.RequisitionNo</a>
+                                                                <a href="~/BillRequisition/MDBRApproveSlave?companyId=@item.CompanyFK&billRequisitionMasterId=@item.RequisitionId" class="link-primary text-primary" target="_blank" title="See Requisition Detail" style="text-align:left !important;">@item.RequisitionNo</a>
                                                             </p>
                                                         }
                                                         else
@@ -162,10 +190,37 @@
                                                     <td>@item.ChequeNo</td>
                                                     <td><p style="text-align:left !important;">@item.PayTo</p></td>
                                                     <td><p style="text-align:right !important;">@item.Amount</p></td>
+                                                    <td>
+                                                        @if (!item.IsSigned)
+                                                        {
+                                                            <center class="btn btn-xs btn-warning text-center d-block" title="Click to signing" style="padding-left: 7px; padding-right: 7px;" id="showToHide" onclick="ChequeGenerate(@item.ChequeRegisterId)">
+                                                                Unsigned
+                                                            </center>
+                                                            <center class="btn btn-xs btn-success text-center hidden" style="padding-left: 7px; padding-right: 7px;" id="hideToShow">
+                                                                Signed
+                                                            </center>
+                                                        }
+                                                        else
+                                                        {
+                                                            <center class="btn btn-xs btn-success text-center" style="padding-left: 7px; padding-right: 7px;">
+                                                                Signed
+                                                            </center>
+                                                        }
+                                                    </td>
                                                     <td class="text-center">
-                                                        <a class="btn btn-xs btn-primary text-center" target="_blank" href="~/Report/ChequeRegisterPrinting?chequeRegisterId=@item.ChequeRegisterId">
-                                                            <i class="fa fa-print"></i> Print Here
-                                                        </a>
+                                                        @if (item.IsSigned)
+                                                        {
+                                                            <a class="btn btn-xs btn-primary text-center" target="_blank" href="~/Report/ChequeRegisterPrinting?chequeRegisterId=@item.ChequeRegisterId">
+                                                                <i class="fa fa-print"></i> Print Here
+                                                            </a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <a class="btn btn-xs btn-primary text-center hidden" id="hideToShowPrint" target="_blank" href="~/Report/ChequeRegisterPrinting?chequeRegisterId=@item.ChequeRegisterId">
+                                                                <i class="fa fa-print"></i> Print Here
+                                                            </a>
+                                                            <small class="text-center text-gray d-block" id="showToHidePrint">Unavailable</small>
+                                                        }
                                                     </td>
                                                 </tr>
                                             }
@@ -196,6 +251,24 @@
             changeYear: true,
             yearRange: "2001:+50"
         });
+
+        function ChequeGenerate(chequeRegisterId) {
+            $.ajax({
+                type: "GET",
+                url: "/ChequeRegister/ChequePdfGenerate",
+                dataType: "json",
+                data: { chequeRegisterId: chequeRegisterId },
+                success: function (data) {
+                    if (data) {
+                        $("#showToHide").removeClass("d-block").addClass("hidden");
+                        $("#hideToShow").removeClass("hidden").addClass("d-block");
+
+                        $("#hideToShowPrint").removeClass("hidden").addClass("d-block");
+                        $("#showToHidePrint").removeClass("d-block").addClass("hidden");
+                    }
+                }
+            });
+
+        }
     </script>
 }
-

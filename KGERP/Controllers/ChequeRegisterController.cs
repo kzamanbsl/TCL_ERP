@@ -185,17 +185,6 @@ namespace KGERP.Controllers
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpPost]
-        public async Task<ActionResult> ChequeRegisterSearch(ChequeRegisterModel model)
-        {
-            ChequeRegisterModel viewData = new ChequeRegisterModel();
-            viewData.CompanyFK = model.CompanyFK;
-            viewData.ChequeRegisterList = await _Service.GetChequeRegisterListByDate(model);
-            TempData["ChequeRegisterModel"] = viewData;
-
-            return RedirectToAction(nameof(ChequePrinting), new { companyId = model.CompanyFK, fromDate = model.StrFromDate, ToDate = model.StrToDate });
-        }
-
         [HttpGet]
         public async Task<ActionResult> ChequeRegisterReport(int companyId = 0)
         {
@@ -205,8 +194,32 @@ namespace KGERP.Controllers
             return View(viewData);
         }
 
+        #endregion
+
+        #region Cheque Sing
+        
         [HttpGet]
-        public async Task<JsonResult> MakeSignToCheque(long chequeRegisterId)
+        public async Task<ActionResult> ChequeSigning(int companyId = 0)
+        {
+            ChequeRegisterModel viewData = new ChequeRegisterModel();
+            viewData.CompanyFK = companyId;
+            viewData.ChequeRegisterList = await _Service.GetChequeRegisterList(companyId);
+            return View(viewData);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ChequeRegisterSearchForSign(ChequeRegisterModel model)
+        {
+            ChequeRegisterModel viewData = new ChequeRegisterModel();
+            viewData.CompanyFK = model.CompanyFK;
+            viewData.ChequeRegisterList = await _Service.GetChequeRegisterListByDate(model);
+            TempData["ChequeRegisterModel"] = viewData;
+
+            return RedirectToAction(nameof(ChequeSigning), new { companyId = model.CompanyFK, fromDate = model.StrFromDate, ToDate = model.StrToDate });
+        }
+
+        [HttpGet]
+        public async Task<JsonResult> ChequeSign(long chequeRegisterId)
         {
             bool response = false;
             if (chequeRegisterId > 0)
@@ -216,14 +229,44 @@ namespace KGERP.Controllers
             return Json(response, JsonRequestBehavior.AllowGet);
         }
 
+        #endregion
+
+        #region Cheque Genearte
+
         [HttpGet]
-        public async Task<ActionResult> ChequeSigning(int companyId = 0)
+        public async Task<ActionResult> ChequeGenerate(int companyId = 0)
         {
             ChequeRegisterModel viewData = new ChequeRegisterModel();
             viewData.CompanyFK = companyId;
             viewData.ChequeRegisterList = await _Service.GetChequeRegisterList(companyId);
             return View(viewData);
         }
+
+        [HttpPost]
+        public async Task<ActionResult> ChequeRegisterSearchForGenearte(ChequeRegisterModel model)
+        {
+            ChequeRegisterModel viewData = new ChequeRegisterModel();
+            viewData.CompanyFK = model.CompanyFK;
+            viewData.ChequeRegisterList = await _Service.GetChequeRegisterListByDate(model);
+            TempData["ChequeRegisterModel"] = viewData;
+
+            return RedirectToAction(nameof(ChequeGenerate), new { companyId = model.CompanyFK, fromDate = model.StrFromDate, ToDate = model.StrToDate });
+        }
+
+        [HttpGet]
+        public async Task<JsonResult> ChequePdfGenerate(long chequeRegisterId)
+        {
+            bool response = false;
+            if (chequeRegisterId > 0)
+            {
+                response = await _Service.ChequeSign(chequeRegisterId);
+            }
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion
+
+        #region Cheque Printing
 
         [HttpGet]
         public async Task<ActionResult> ChequePrinting(int companyId = 0)
@@ -234,7 +277,20 @@ namespace KGERP.Controllers
             return View(viewData);
         }
 
+        [HttpPost]
+        public async Task<ActionResult> ChequeRegisterSearchForPrint(ChequeRegisterModel model)
+        {
+            ChequeRegisterModel viewData = new ChequeRegisterModel();
+            viewData.CompanyFK = model.CompanyFK;
+            viewData.ChequeRegisterList = await _Service.GetChequeRegisterListByDate(model);
+            TempData["ChequeRegisterModel"] = viewData;
+
+            return RedirectToAction(nameof(ChequePrinting), new { companyId = model.CompanyFK, fromDate = model.StrFromDate, ToDate = model.StrToDate });
+        }
+
         #endregion
+
+        #region Other Json
 
         [HttpGet]
         public JsonResult RequisitionListWithFilter(int projectId)
@@ -256,5 +312,7 @@ namespace KGERP.Controllers
             var data = await _Service.GetPayeeNameBySupplierId(supplierId);
             return Json(data, JsonRequestBehavior.AllowGet);
         }
+
+        #endregion
     }
 }
