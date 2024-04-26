@@ -150,13 +150,13 @@
                                                     <td class="text-center">
                                                         @if (item.IsPrinted)
                                                         {
-                                                            <a class="btn btn-xs btn-primary text-center" id="hideToShowPrint_@item.ChequeRegisterId" target="_blank" href="~/Report/ChequeRegisterPrinting?chequeRegisterId=@item.ChequeRegisterId">
+                                                            <a class="btn btn-xs btn-primary text-center" id="hideToShowPrint_@item.ChequeRegisterId" target="_blank" href="~/Report/ChequeRegisterPrinting?chequeRegisterId=@item.ChequeRegisterId" onclick="ChequePrintCount('@item.ChequeRegisterId')">
                                                                 <i class="fa fa-print"></i> Print Here
                                                             </a>
                                                         }
                                                         else
                                                         {
-                                                            <a class="btn btn-xs btn-primary text-center hidden" id="hideToShowPrint_@item.ChequeRegisterId" target="_blank" href="~/Report/ChequeRegisterPrinting?chequeRegisterId=@item.ChequeRegisterId">
+                                                            <a class="btn btn-xs btn-primary text-center hidden" id="hideToShowPrint_@item.ChequeRegisterId" target="_blank" href="~/Report/ChequeRegisterPrinting?chequeRegisterId=@item.ChequeRegisterId" onclick="ChequePrintCount('@item.ChequeRegisterId')">
                                                                 <i class="fa fa-print"></i> Print Here
                                                             </a>
                                                             <small class="text-center text-gray d-block hidden" id="showToHidePrint_@item.ChequeRegisterId">Unavailable</small>
@@ -211,14 +211,14 @@
                                                     <td class="text-center">
                                                         @if (item.IsPrinted)
                                                         {
-                                                            <a class="btn btn-xs btn-primary text-center" id="hideToShowPrint_@item.ChequeRegisterId" target="_blank" href="~/Report/ChequeRegisterPrinting?chequeRegisterId=@item.ChequeRegisterId">
-                                                                <i class="fa fa-print"></i> Print Here
+                                                            <a class="btn btn-xs btn-primary text-center" id="hideToShowPrint_@item.ChequeRegisterId" target="_blank" href="~/Report/ChequeRegisterPrinting?chequeRegisterId=@item.ChequeRegisterId" onclick="ChequePrintCount('@item.ChequeRegisterId')">
+                                                                <i class="fa fa-print"></i> Print
                                                             </a>
                                                         }
                                                         else
                                                         {
-                                                            <a class="btn btn-xs btn-primary text-center hidden" id="hideToShowPrint_@item.ChequeRegisterId" target="_blank" href="~/Report/ChequeRegisterPrinting?chequeRegisterId=@item.ChequeRegisterId">
-                                                                <i class="fa fa-print"></i> Print Here
+                                                            <a class="btn btn-xs btn-primary text-center hidden" id="hideToShowPrint_@item.ChequeRegisterId" target="_blank" href="~/Report/ChequeRegisterPrinting?chequeRegisterId=@item.ChequeRegisterId" onclick="ChequePrintCount('@item.ChequeRegisterId')">
+                                                                <i class="fa fa-print"></i> Print
                                                             </a>
                                                             <small class="text-center text-gray d-block hidden" id="showToHidePrint_@item.ChequeRegisterId">Unavailable</small>
                                                         }
@@ -260,7 +260,6 @@
 @section scripts {
 
     <script type="text/javascript">
-
         $('.datepicker').datepicker({
             dateFormat: "dd/mm/yy",
             showOn: 'both',
@@ -294,5 +293,16 @@
             });
         }
 
+        function ChequePrintCount(chequeRegisterId) {
+            $.ajax({
+                type: "GET",
+                url: "/ChequeRegister/ChequeSign",
+                dataType: "json",
+                data: { chequeRegisterId: chequeRegisterId },
+                success: function (data) {
+                    //
+                }
+            });
+        }
     </script>
 }

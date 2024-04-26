@@ -130,7 +130,7 @@
                                                     <td><p style="text-align:left !important;">@item.PayTo</p></td>
                                                     <td><p style="text-align:right !important;">@item.Amount</p></td>
                                                     <td class="text-center">
-                                                        <a class="btn btn-xs btn-primary text-center" target="_blank" href="~/Report/ChequeRegisterPrinting?chequeRegisterId=@item.ChequeRegisterId">
+                                                        <a class="btn btn-xs btn-primary text-center" target="_blank" href="~/Report/ChequeRegisterPrinting?chequeRegisterId=@item.ChequeRegisterId" onclick="ChequePrintCount('@item.ChequeRegisterId')">
                                                             <i class="fa fa-print"></i> Print Here
                                                         </a>
                                                     </td>
@@ -163,7 +163,7 @@
                                                     <td><p style="text-align:left !important;">@item.PayTo</p></td>
                                                     <td><p style="text-align:right !important;">@item.Amount</p></td>
                                                     <td class="text-center">
-                                                        <a class="btn btn-xs btn-primary text-center" target="_blank" href="~/Report/ChequeRegisterPrinting?chequeRegisterId=@item.ChequeRegisterId">
+                                                        <a class="btn btn-xs btn-primary text-center" target="_blank" href="~/Report/ChequeRegisterPrinting?chequeRegisterId=@item.ChequeRegisterId" onclick="ChequePrintCount('@item.ChequeRegisterId')">
                                                             <i class="fa fa-print"></i> Print Here
                                                         </a>
                                                     </td>
@@ -187,7 +187,6 @@
 @section scripts {
 
     <script type="text/javascript">
-
         $('.datepicker').datepicker({
             dateFormat: "dd/mm/yy",
             showOn: 'both',
@@ -196,6 +195,18 @@
             changeYear: true,
             yearRange: "2001:+50"
         });
+
+        function ChequePrintCount(chequeRegisterId) {
+            $.ajax({
+                type: "GET",
+                url: "/ChequeRegister/ChequeSign",
+                dataType: "json",
+                data: { chequeRegisterId: chequeRegisterId },
+                success: function (data) {
+                    //
+                }
+            });
+        }
     </script>
 }
 

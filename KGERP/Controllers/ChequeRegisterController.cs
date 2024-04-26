@@ -196,41 +196,6 @@ namespace KGERP.Controllers
 
         #endregion
 
-        #region Cheque Sing
-
-        [HttpGet]
-        public async Task<ActionResult> ChequeSigning(int companyId = 0)
-        {
-            ChequeRegisterModel viewData = new ChequeRegisterModel();
-            viewData.CompanyFK = companyId;
-            viewData.ChequeRegisterList = await _Service.GetGeneratedChequeList(companyId);
-            return View(viewData);
-        }
-
-        [HttpPost]
-        public async Task<ActionResult> ChequeRegisterSearchForSign(ChequeRegisterModel model)
-        {
-            ChequeRegisterModel viewData = new ChequeRegisterModel();
-            viewData.CompanyFK = model.CompanyFK;
-            viewData.ChequeRegisterList = await _Service.GetChequeRegisterListByDate(model);
-            TempData["ChequeRegisterModel"] = viewData;
-
-            return RedirectToAction(nameof(ChequeSigning), new { companyId = model.CompanyFK, fromDate = model.StrFromDate, ToDate = model.StrToDate });
-        }
-
-        [HttpGet]
-        public async Task<JsonResult> ChequeSign(long chequeRegisterId)
-        {
-            bool response = false;
-            if (chequeRegisterId > 0)
-            {
-                response = await _Service.ChequeSign(chequeRegisterId);
-            }
-            return Json(response, JsonRequestBehavior.AllowGet);
-        }
-
-        #endregion
-
         #region Cheque Genearte
 
         [HttpGet]
@@ -295,6 +260,41 @@ namespace KGERP.Controllers
             if (chequeRegisterId > 0)
             {
                 response = await _Service.PrintCount(chequeRegisterId);
+            }
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion
+
+        #region Cheque Sing
+
+        [HttpGet]
+        public async Task<ActionResult> ChequeSigning(int companyId = 0)
+        {
+            ChequeRegisterModel viewData = new ChequeRegisterModel();
+            viewData.CompanyFK = companyId;
+            viewData.ChequeRegisterList = await _Service.GetGeneratedChequeList(companyId);
+            return View(viewData);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ChequeRegisterSearchForSign(ChequeRegisterModel model)
+        {
+            ChequeRegisterModel viewData = new ChequeRegisterModel();
+            viewData.CompanyFK = model.CompanyFK;
+            viewData.ChequeRegisterList = await _Service.GetChequeRegisterListByDate(model);
+            TempData["ChequeRegisterModel"] = viewData;
+
+            return RedirectToAction(nameof(ChequeSigning), new { companyId = model.CompanyFK, fromDate = model.StrFromDate, ToDate = model.StrToDate });
+        }
+
+        [HttpGet]
+        public async Task<JsonResult> ChequeSign(long chequeRegisterId)
+        {
+            bool response = false;
+            if (chequeRegisterId > 0)
+            {
+                response = await _Service.ChequeSign(chequeRegisterId);
             }
             return Json(response, JsonRequestBehavior.AllowGet);
         }
