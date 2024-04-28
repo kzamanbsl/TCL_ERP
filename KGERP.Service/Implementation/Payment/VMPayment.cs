@@ -9,7 +9,7 @@ using KGERP.Service.Implementation.Configuration;
 
 namespace KGERP.Service.Implementation
 {
-    public partial class VMPayment: VMPaymentMaster
+    public partial class VMPayment : VMPaymentMaster
     {
 
         public string ACName { get; set; }
@@ -47,7 +47,7 @@ namespace KGERP.Service.Implementation
 
         public int? Accounting_BankOrCashParantId { get; set; }
         public int? Accounting_BankOrCashId { get; set; }
-       public IEnumerable<VMPayment> DataList { get; set; }
+        public IEnumerable<VMPayment> DataList { get; set; }
         public IEnumerable<VMPayment> DataListExpenses { get; set; }
         public IEnumerable<VMPayment> DataListIncome { get; set; }
 
@@ -63,7 +63,7 @@ namespace KGERP.Service.Implementation
 
     }
 
-    public partial class VMPaymentMaster: BaseVM
+    public partial class VMPaymentMaster : BaseVM
     {
         public int PaymentMasterId { get; set; }
         public int CompanyId { get; set; }
@@ -83,11 +83,12 @@ namespace KGERP.Service.Implementation
         public string MoneyReceiptName { get; set; }
         public string BankChargeHeadGLName { get; set; }
         public string PaymentToHeadGLName { get; set; }
+        public int BankAccountInfoId { get; set; }
 
         public long? CGId { get; set; }
         public string GroupName { get; set; }
         public string MoneyReceiptNo { get; set; }
-        public string ReceiveLocation { get; set; }       
+        public string ReceiveLocation { get; set; }
         public string PaymentNo { get; set; }
         public Nullable<int> PaymentFromHeadGLId { get; set; }
         public Nullable<int> PaymentToHeadGLId { get; set; }
@@ -101,6 +102,11 @@ namespace KGERP.Service.Implementation
         public DateTime ToDate { get; set; }
         public string StrFromDate { get; set; }
         public string StrToDate { get; set; }
+        public long ChequeBookId { get; set; }
         public IEnumerable<VMPaymentMaster> DataList { get; set; }
+        public SelectList BankList { get; set; } = new SelectList(new List<object>());
+        public SelectList BranchList { get; set; } = new SelectList(new List<object>());
+        public SelectList AccountNoList { get; set; } = new SelectList(new List<object>());
+        public SelectList ChequeBookList { get; set; } = new SelectList(new List<object>());
     }
 }

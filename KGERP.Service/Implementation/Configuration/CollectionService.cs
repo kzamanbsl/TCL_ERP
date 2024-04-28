@@ -369,10 +369,10 @@ namespace KGERP.Service.Implementation.Configuration
             if (paymentMasterId > 0)
             {
                 paymentVm = await Task.Run(() => (from t2 in _db.PaymentMasters.Where(x => x.IsActive == true && x.PaymentMasterId == paymentMasterId)
-                                                  //join t1 in _db.Vendors.Where(x => x.VendorId == supplierId && x.IsActive && x.CompanyId == companyId)
-                                                  //    on t2.VendorId equals t1.VendorId
-                                                  //join t3 in _db.HeadGLs on t2.PaymentFromHeadGLId equals t3.Id
-                                                  //join t4 in _db.HeadGLs on t2.PaymentToHeadGLId equals t4.Id
+                                                      //join t1 in _db.Vendors.Where(x => x.VendorId == supplierId && x.IsActive && x.CompanyId == companyId)
+                                                      //    on t2.VendorId equals t1.VendorId
+                                                      //join t3 in _db.HeadGLs on t2.PaymentFromHeadGLId equals t3.Id
+                                                      //join t4 in _db.HeadGLs on t2.PaymentToHeadGLId equals t4.Id
 
 
                                                   select new VMPayment
@@ -421,12 +421,16 @@ namespace KGERP.Service.Implementation.Configuration
             else
             {
                 paymentVm = await Task.Run(() => (from t1 in _db.Vendors.Where(x => x.VendorId == supplierId && x.IsActive == true && x.CompanyId == companyId)
+                                                  join t2 in _db.Banks on t1.BankId equals t2.BankId
+                                                  join t3 in _db.BankBranches on t2.BankId equals t3.BankId
                                                   select new VMPayment
                                                   {
                                                       ACName = t1.ACName,
                                                       ACNo = t1.ACNo,
                                                       BankId = t1.BankId,
+                                                      BankName = t2.Name,
                                                       BranchId = t1.BranchId,
+                                                      BranchName = t3.Name,
                                                       CustomerId = t1.VendorId,
                                                       CompanyId = companyId,
 
@@ -462,14 +466,14 @@ namespace KGERP.Service.Implementation.Configuration
 
                                                        select new VMPayment
                                                        {
-                                                           CreatedBy = t1.CreatedBy??"",
-                                                           TransactionDate = t1.TransactionDate ,
+                                                           CreatedBy = t1.CreatedBy ?? "",
+                                                           TransactionDate = t1.TransactionDate,
                                                            OrderNo = t3.PurchaseOrderNo ?? "",
                                                            OrderDate = t3.PurchaseDate.Value,
-                                                           CompanyFK = t1.CompanyId ,
-                                                           CompanyId = t1.CompanyId ,
-                                                           OutAmount = t1.OutAmount ,
-                                                           PaymentId = t1.PaymentId ,
+                                                           CompanyFK = t1.CompanyId,
+                                                           CompanyId = t1.CompanyId,
+                                                           OutAmount = t1.OutAmount,
+                                                           PaymentId = t1.PaymentId,
                                                            PaymentToHeadGLId = t1.PaymentFromHeadGLId ?? 0
                                                        }).OrderByDescending(x => x.PaymentId).AsEnumerable());
 
@@ -673,12 +677,12 @@ namespace KGERP.Service.Implementation.Configuration
             if (result > 0 && model.IsFinalized == true)
             {
                 var paymentDetails = await _db.Payments.Where(x => x.PaymentMasterId == model.PaymentMasterId).ToListAsync();
-                var vendorDeposits = await _db.VendorDeposits.Where(x => x.VendorId == model.VendorId && (x.DepositAmount-x.AdjustedAmount) > 0).OrderBy(o=>o.VendorDepositId).ToListAsync();
-                
+                var vendorDeposits = await _db.VendorDeposits.Where(x => x.VendorId == model.VendorId && (x.DepositAmount - x.AdjustedAmount) > 0).OrderBy(o => o.VendorDepositId).ToListAsync();
+
                 decimal adjustableAmount = 0;
                 if (vendorDeposits != null)
                 {
-                     adjustableAmount = vendorDeposits.Select(x => x.DepositAmount).Sum() - vendorDeposits.Select(x => x.AdjustedAmount).Sum();
+                    adjustableAmount = vendorDeposits.Select(x => x.DepositAmount).Sum() - vendorDeposits.Select(x => x.AdjustedAmount).Sum();
                 }
                 if (paymentDetails != null && adjustableAmount > 0)
                 {
@@ -688,20 +692,21 @@ namespace KGERP.Service.Implementation.Configuration
                         {
                             break;
                         }
-                        
+
                         VendorDepositHistory vendorDepositHistory = new VendorDepositHistory();
                         vendorDepositHistory.VendorId = model.VendorId;
                         vendorDepositHistory.VendorTypeId = model.VendorTypeId;
-                       // vendorDepositHistory.OrderMasterId = payment.OrderMasterId;
+                        // vendorDepositHistory.OrderMasterId = payment.OrderMasterId;
                         vendorDepositHistory.PurchaseOrderId = payment.PurchaseOrderId;
-                        if(adjustableAmount >= payment.InAmount)
+                        if (adjustableAmount >= payment.InAmount)
                         {
                             vendorDepositHistory.OpeningDepositAmount = 0;
                             vendorDepositHistory.VendorDepositId = 0;
 
                             vendorDepositHistory.PaymentAmount = payment.InAmount;
                             adjustableAmount = adjustableAmount - payment.InAmount;
-                        }else
+                        }
+                        else
                         {
                             vendorDepositHistory.OpeningDepositAmount = 0;
                             vendorDepositHistory.VendorDepositId = 0;
@@ -820,7 +825,7 @@ namespace KGERP.Service.Implementation.Configuration
             var countForId = previousBalanceTable.Count();
 
             var previousBalance = (previousBalanceTable).DefaultIfEmpty(0).Sum();
-            
+
 
             var sortedV = (from t in dataList
                            where t.Date >= vmTransaction.FromDate && t.Date <= vmTransaction.ToDate
@@ -843,8 +848,8 @@ namespace KGERP.Service.Implementation.Configuration
 
             #region Vendor Opening from VendorOpening Table
 
-           // var openingBalance = _db.VendorOpenings.Where(c =>
-           //c.VendorId == vmTransaction.VendorFK && c.IsActive == true && c.IsSubmit == true).ToList();
+            // var openingBalance = _db.VendorOpenings.Where(c =>
+            //c.VendorId == vmTransaction.VendorFK && c.IsActive == true && c.IsSubmit == true).ToList();
 
             VmTransaction vmTransition = new VmTransaction();
             vmTransition.Date = vmTransaction.FromDate;
@@ -881,20 +886,20 @@ namespace KGERP.Service.Implementation.Configuration
             List<VmTransaction> tempList = new List<VmTransaction>();
 
             var vendorOpenings = (from t1 in _db.OrderMasters
-                             join t2 in _db.Vendors on t1.CustomerId equals t2.VendorId
+                                  join t2 in _db.Vendors on t1.CustomerId equals t2.VendorId
 
-                             where t1.CustomerId == vmTransaction.VendorFK && t1.IsActive == true && t1.Status == (int)POStatusEnum.Submitted && t1.IsOpening
-                             select new VmTransaction
-                             {
-                                 OrderMasterId = t1.OrderMasterId,
-                                 Date = t1.OrderDate,
-                                 Description = "Opening Order No : " + t1.OrderNo,
-                                 Credit = 0,
-                                 Debit = 0,
-                                 Balance = 0,
-                                 CourierCharge = t1.CourierCharge,
-                                 FirstCreateDate = t1.CreateDate
-                             }).Distinct().ToList();
+                                  where t1.CustomerId == vmTransaction.VendorFK && t1.IsActive == true && t1.Status == (int)POStatusEnum.Submitted && t1.IsOpening
+                                  select new VmTransaction
+                                  {
+                                      OrderMasterId = t1.OrderMasterId,
+                                      Date = t1.OrderDate,
+                                      Description = "Opening Order No : " + t1.OrderNo,
+                                      Credit = 0,
+                                      Debit = 0,
+                                      Balance = 0,
+                                      CourierCharge = t1.CourierCharge,
+                                      FirstCreateDate = t1.CreateDate
+                                  }).Distinct().ToList();
             foreach (var data in vendorOpenings)
             {
                 data.Credit = GetOrderValue(data.OrderMasterId) + Convert.ToDecimal(data.CourierCharge);
@@ -958,7 +963,7 @@ namespace KGERP.Service.Implementation.Configuration
             }
 
             var dataList4 = (from t1 in _db.VendorDeposits
-                             where t1.VendorId == vmTransaction.VendorFK && t1.IsActive == true && t1.IsSubmit==true
+                             where t1.VendorId == vmTransaction.VendorFK && t1.IsActive == true && t1.IsSubmit == true
                              select new VmTransaction
                              {
                                  VendorDepositId = t1.VendorDepositId,
@@ -968,13 +973,13 @@ namespace KGERP.Service.Implementation.Configuration
                                  Debit = 0,
                                  Balance = 0,
                                  FirstCreateDate = t1.CreateDate,
-                                 VendorDepositAmount=t1.DepositAmount,
-                                 VendorAdjustedAmount=t1.AdjustedAmount
+                                 VendorDepositAmount = t1.DepositAmount,
+                                 VendorAdjustedAmount = t1.AdjustedAmount
                              }).Distinct().ToList();
 
             foreach (var data in dataList4)
             {
-                data.Debit = ((decimal)data.VendorDepositAmount-(decimal)data.VendorAdjustedAmount); // Sales Return Id
+                data.Debit = ((decimal)data.VendorDepositAmount - (decimal)data.VendorAdjustedAmount); // Sales Return Id
             }
 
             var dataList = vendorOpenings.Union(dataList1).Union(dataList2).Union(dataList3).Union(dataList4).OrderBy(x => x.Date).ToList();

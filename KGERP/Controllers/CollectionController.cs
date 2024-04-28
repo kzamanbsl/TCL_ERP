@@ -25,10 +25,11 @@ namespace KGERP.Controllers
         private readonly CompanyService _comService;
         private readonly IVendorService _vendorService;
         private readonly ProcurementService _procurementService;
+        private readonly ConfigurationService _configurationService;
         private const string Password = "Gocorona!9";
         private const string Admin = "Administrator";
 
-        public CollectionController(CompanyService companyService, CollectionService collectionService, AccountingService accountingService, ConfigurationService dropService, IVendorService vendorService, ProcurementService procurementService)
+        public CollectionController(CompanyService companyService, CollectionService collectionService, AccountingService accountingService, ConfigurationService dropService, IVendorService vendorService, ProcurementService procurementService, ConfigurationService configurationService)
         {
             _comService = companyService;
             _service = collectionService;
@@ -36,6 +37,7 @@ namespace KGERP.Controllers
             _dropService = dropService;
             _vendorService = vendorService;
             _procurementService = procurementService;
+            _configurationService = configurationService;
         }
 
         #region Common Supplier
@@ -229,6 +231,7 @@ namespace KGERP.Controllers
             vmPayment = await Task.Run(() => _service.ProcurementPurchaseOrdersGetByID(companyId, supplierId, paymentMasterId));
 
             vmPayment.OrderMusterList = new SelectList(_service.PurchaseOrdersDropDownList(companyId, supplierId), "Value", "Text");
+            vmPayment.BankList =  new SelectList(_configurationService.CommonBanksDropDownList(companyId), "Value", "Text");
 
             if (companyId == (int)CompanyNameEnum.GloriousCropCareLimited)
             {
