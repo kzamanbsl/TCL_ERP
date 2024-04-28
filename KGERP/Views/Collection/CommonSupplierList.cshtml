@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Queue for Payment";
+    ViewData["Title"] = "Vendor Payment List";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
 }
@@ -12,11 +12,11 @@
 </style>
 <section class="content-header">
     <h1>
-        Queue for Payment
+        Vendor Payment List
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">Queue for Payment</li>
+        <li class="active">Vendor Payment List</li>
     </ol>
 </section>
 <section class="content">
@@ -41,38 +41,15 @@
                                             <thead>
                                                 <tr>
                                                     <th>SL</th>
-
-                                                    <th style="width: 90px !important">Code</th>
-
-                                                    <th>
-                                                        Name
-                                                    </th>
-
-                                                    <th>
-                                                        Phone
-                                                    </th>
-
-                                                    <th>
-                                                        Email
-                                                    </th>
-
-                                                    <th>
-                                                        Contact Person
-                                                    </th>
-
-                                                    <th>
-                                                        Address
-                                                    </th>
-
-                                                    <th>Payment For</th>
-
-                                                    <th style="width:200px !important;">
-                                                        Payment Action
-                                                    </th>
-
-                                                    @*<th style="width:100px">
-                                                            Ledger
-                                                        </th>*@
+                                                    <th width="80px">Vendor Id</th>
+                                                    <th>Vendor Category</th>
+                                                    <th>Vendor Name</th>
+                                                    <th>Contact Person</th>
+                                                    <th>Phone</th>
+                                                    <th>Email</th>
+                                                    <th>Address</th>
+                                                    <th>Action</th>
+                                                    <th>Ledger</th>
                                                 </tr>
                                             </thead>
                                             @{int sl = 0;
@@ -82,51 +59,37 @@
                                                 {
                                                     <tr>
                                                         <td>@(++sl)</td>
+                                                        <td>@item.Code</td>
                                                         <td>
-                                                            @item.Code
-                                                        </td>
-                                                        <td>
-                                                            @item.Name
-                                                        </td>
-                                                        <td>
-                                                            @item.Phone
-                                                        </td>
-                                                        <td>
-                                                            @item.Email
-                                                        </td>
-                                                        <td>
-                                                            @item.ContactPerson
-                                                        </td>
-                                                        <td>
-                                                            @item.Address, @item.Country
-                                                        </td>
-                                                        <td>
-                                                            @if (item.VendorTypeId == (int)KGERP.Utility.ProviderEnum.Subcontractor)
+                                                            @if (item.VendorTypeId == (int)KGERP.Utility.EnumVendorTye.Subcontractor)
                                                             {
-                                                                <span class="label label-primary">Subcontractor</span>
+                                                                <span>Subcontractor</span>
                                                             }
                                                             else
                                                             {
-                                                                <span class="label label-primary">Supplier</span>
-
+                                                                <span>Supplier</span>
                                                             }
                                                         </td>
+                                                        <td>@item.Name</td>
+                                                        <td>@item.ContactPerson</td>
+                                                        <td>@item.Phone</td>
+                                                        <td>@item.Email</td>
+                                                        <td>@item.Address, @item.Country</td>
                                                         <td>
-
-                                                            @Html.ActionLink("Payment", "PurchaseOrdersByID", new { companyId = item.CompanyFK, supplierId = item.ID }, new { @class = "label label-info d-inline", @target = "_blank" })
-
-                                                            @Html.ActionLink("Work Order", "PurchaseOrderBySupplier", new { companyId = item.CompanyFK, supplierId = item.ID }, new { @class = "label label-info d-inline", @target = "_blank" })
-
+                                                            @Html.ActionLink("Payment", "PurchaseOrdersByID", new { companyId = item.CompanyFK, supplierId = item.ID }, new { @class = "label label-primary d-inline", @target = "_blank" })
+                                                            @*@Html.ActionLink("Work Order", "PurchaseOrderBySupplier", new { companyId = item.CompanyFK, supplierId = item.ID }, new { @class = "label label-info d-inline", @target = "_blank" })*@
+                                                        </td>
+                                                        <td>
                                                             @Html.ActionLink("Ledger", "POWiseSupplierLedgerOpening", new { companyId = item.CompanyFK, supplierId = item.ID }, new { @class = "label label-info d-inline", @target = "_blank" })
-
-                                                            @*<td style="width:180px;">
-                                                                    @Html.ActionLink("L/C Opening Ledger", "VmLedger1LCallocation", new { companyId = item.CompanyFK }, new { @class = "InlineBtn", @target = "_blank" }) &nbsp;
-                                                                    <br />
-                                                                    @Html.ActionLink("PO Wise Supplier Liabilities", "VmLedgerSupplierLiabilities", new { companyId = item.CompanyFK }, new { @class = "InlineBtn", @target = "_blank" }) &nbsp;
-                                                                    <br />
-                                                                    @Html.ActionLink("Payment Ledger", "VmLedger2SupplierPayment", new { companyId = item.CompanyFK }, new { @class = "InlineBtn", @target = "_blank" })
-                                                                    <br />
-                                                                </td>*@
+                                                        </td>
+                                                        @*<td style="width:180px;">
+                                                                   @Html.ActionLink("L/C Opening Ledger", "VmLedger1LCallocation", new { companyId = item.CompanyFK }, new { @class = "InlineBtn", @target = "_blank" }) &nbsp;
+                                                                   <br />
+                                                                   @Html.ActionLink("PO Wise Supplier Liabilities", "VmLedgerSupplierLiabilities", new { companyId = item.CompanyFK }, new { @class = "InlineBtn", @target = "_blank" }) &nbsp;
+                                                                   <br />
+                                                                   @Html.ActionLink("Payment Ledger", "VmLedger2SupplierPayment", new { companyId = item.CompanyFK }, new { @class = "InlineBtn", @target = "_blank" })
+                                                                   <br />
+                                                            </td>*@
                                                     </tr>
                                                 }
                                             </tbody>
@@ -193,7 +156,7 @@
 
 
          $(document).ready(function () {
-             
+
              $("#ddlCommon_CountriesFk").val(1);
         });
 
