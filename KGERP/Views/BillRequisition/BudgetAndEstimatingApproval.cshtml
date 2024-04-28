@@ -168,6 +168,29 @@
                                                 i++;
                                             }
                                         </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th></th>
+                                                <th colspan="5" style="text-align:right!important">
+                                                    Total Project Value :
+                                                </th>
+                                                <th> @(Model.ProjectTotalValue)</th>
+                                                <th  style="text-align:right!important">Total Amount : </th>
+                                                <th>
+                                                    @(Model.TotalAmountBudget
+    )
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th></th>
+                                                <th colspan="7" style="text-align:right!important">Total Gross Margin :
+                                                <br /> <span>Total Gross Margin % :  </span>  </th>
+                                                <th style="text-align:right!important">
+                                                    @(Model.TotalGrossMargin) <br />@(Model.TotalGrossMarginPercentage.ToString("#.##")) %
+                                                </th>
+                                            </tr>
+                                            
+                                        </tfoot>
                                     </table>
                                 </div>
                                 if (Model.ApprovalStatus != (int)EnumBudgetAndEstimatingApprovalStatus.Approved)

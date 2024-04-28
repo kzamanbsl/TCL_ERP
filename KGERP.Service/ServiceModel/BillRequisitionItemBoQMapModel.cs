@@ -20,6 +20,10 @@ namespace KGERP.Service.ServiceModel
         public List<decimal?> UnitRateList { get; set; }= new List<decimal?>();
         public int ProjectId { get; set; }
         public string ProjectTypeName { get; set; }
+        public decimal ProjectTotalValue { get; set; }
+        public decimal TotalAmountBudget { get; set; }
+        public decimal TotalGrossMargin { get; set; }
+        public decimal TotalGrossMarginPercentage { get; set; }
         public long? BoQDivisionId { get; set; }
         public List<BillRequisitionBoqModel> BoQItems { get; set; } = new List<BillRequisitionBoqModel>();
         public List<Product> BoQMaterials { get; set; } = new List<Product>();

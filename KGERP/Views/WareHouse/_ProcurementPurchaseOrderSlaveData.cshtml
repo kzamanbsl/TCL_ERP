@@ -68,12 +68,12 @@
                                         @Html.DisplayFor(model => model.DataListSlavePartial[i].ReturnQuantity)
                                     </td>
 
-                                    <td>
+                                    <td id="tdRemainingQuantity">
                                         @Html.DisplayFor(model => model.DataListSlavePartial[i].RemainingQuantity)
                                     </td>
 
                                     <td>
-                                        @Html.TextBoxFor(model => model.DataListSlavePartial[i].ReceivedQuantity, new { @Value = Model.DataListSlavePartial[i].RemainingQuantity, @class = "form-control" })
+                                        @Html.TextBoxFor(model => model.DataListSlavePartial[i].ReceivedQuantity, new { @Value = Model.DataListSlavePartial[i].RemainingQuantity, @class = "form-control",@id= "txtReceivedQuantity" })
                                     </td>
 
                                     @*<td>

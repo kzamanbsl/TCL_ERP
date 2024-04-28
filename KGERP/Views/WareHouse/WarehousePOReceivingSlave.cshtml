@@ -196,7 +196,7 @@
                                             <label>Description</label>
                                             <div class="form-group">
                                                 @Html.TextAreaFor(model => model.Remarks, new { @class = "form-control", @rows = "2", @style = "width:100%" })
-                                               
+
                                             </div>
                                         </div>
                                     </div>
@@ -374,6 +374,18 @@
                 }
             });
 
+            $("#txtReceivedQuantity").on('keyup', function () {
+                var receivedInput = parseFloat($(this).val());
+                var remailQty = parseFloat($("#tdRemainingQuantity").text().trim());
+                if (receivedInput > remailQty) {
+                    $("#btnsave").prop("disabled", true);
+                } else {
+                    $("#btnsave").prop("disabled", false);
+                }
+
+            });
+
+
             $("#supplier").autocomplete({
                 source: function (request, response) {
 
@@ -438,6 +450,21 @@
 
         $("#ddlPurchaseOrderNo").change(function () {
             var b = $('#ddlPurchaseOrderNo').val();
+            var purchaseOrderData=[];
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("ProcurementPurchaseOrderSlaveData2", "Warehouse")",
+                datatype: "Json",
+                data: { poId: b },
+                success: function (data) {
+                    purchaseOrderData = data;
+                    for (var i = 0; i < data.length; i++) {
+                        var txtdate = DateCustom(data[i].PODate);
+                        $("#txtDate").val(txtdate)
+                        $("#sbmtbtn").css("display", "block")
+                    }
+                }
+            });
             $.ajax({
                 type: "POST",
                 url: "@Url.Action("ProcurementPurchaseOrderSlaveData", "Warehouse")",
@@ -446,19 +473,13 @@
                 success: function (data) {
                     $("#procurementPurchaseOrderSlaveData").html(data);
 
-                    $.ajax({
-                        type: "POST",
-                        url: "@Url.Action("ProcurementPurchaseOrderSlaveData2", "Warehouse")",
-                        datatype: "Json",
-                        data: { poId: b },
-                        success: function (data) {
-                            for (var i = 0; i < data.length; i++) {
-                                var txtdate = DateCustom(data[i].PODate);
+                   for (var i = 0; i < purchaseOrderData.length; i++) {
+                       var txtdate = DateCustom(purchaseOrderData[i].PODate);
                                 $("#txtDate").val(txtdate)
                                 $("#sbmtbtn").css("display", "block")
-                            }
-                        }
-                    });
+                   }
+
+
                 }
             });
         });
