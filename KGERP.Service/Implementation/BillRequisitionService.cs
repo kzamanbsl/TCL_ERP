@@ -1245,6 +1245,7 @@ namespace KGERP.Service.Implementation
                                                       DivisionName = t4.Name ?? "N/A",
                                                       ProjectId = t5.CostCenterId,
                                                       ProjectName = t5.Name ?? "N/A",
+                                                      ProjectTotalValue=t5.Amount??0,
                                                       BudgetTypeId = t7.ProductCategoryId,
                                                       MaterialTypeName = t7.Name ?? "N/A",
                                                       ApprovalStatus = t1.ApprovalStatus ?? 1,
@@ -1254,7 +1255,10 @@ namespace KGERP.Service.Implementation
                                                       ProjectTypeName = t8.Name ?? "N/A"
                                                   }).ToListAsync();
 
-
+            modelList.TotalAmountBudget = modelList.BoQItemProductMaps.Select(c => c.EstimatedAmount).Sum();
+            modelList.ProjectTotalValue = modelList.BoQItemProductMaps.FirstOrDefault()?.ProjectTotalValue??0;
+            modelList.TotalGrossMargin = modelList.ProjectTotalValue - modelList.TotalAmountBudget;
+            modelList.TotalGrossMarginPercentage = (modelList.TotalGrossMargin / (modelList.ProjectTotalValue>0? modelList.ProjectTotalValue:1)) * 100;
             return modelList;
         }
 

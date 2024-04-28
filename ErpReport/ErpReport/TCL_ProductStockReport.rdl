@@ -3,13 +3,13 @@
   <am:AuthoringMetadata>
     <am:CreatedBy>
       <am:Name>SSDTRS</am:Name>
-      <am:Version>17.5.33627.172</am:Version>
+      <am:Version>17.9.34622.214</am:Version>
     </am:CreatedBy>
     <am:UpdatedBy>
       <am:Name>SSDTRS</am:Name>
       <am:Version>17.9.34622.214</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2024-04-28T08:47:51.4794598Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2024-04-28T09:19:39.1947527Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
@@ -237,70 +237,6 @@
         </Field>
       </Fields>
     </DataSet>
-    <DataSet Name="CompanyDSet">
-      <Query>
-        <DataSourceName>RawMaterialStockReportDS</DataSourceName>
-        <QueryParameters>
-          <QueryParameter Name="@CompanyId">
-            <Value>=Parameters!CompanyId.Value</Value>
-          </QueryParameter>
-        </QueryParameters>
-        <CommandText>SELECT Name,
-       (select Url from UrlInfo where UrlType = 1) + 'Images/Logo/' + CompanyLogo AS CompanyLogo,
-       Address,
-	   Phone 
-FROM  Company 
-WHERE CompanyId = @CompanyId </CommandText>
-      </Query>
-      <Fields>
-        <Field Name="Name">
-          <DataField>Name</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="CompanyLogo">
-          <DataField>CompanyLogo</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Address">
-          <DataField>Address</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Phone">
-          <DataField>Phone</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-      </Fields>
-    </DataSet>
-    <DataSet Name="SignatoryDataSet">
-      <Query>
-        <DataSourceName>RawMaterialStockReportDS</DataSourceName>
-        <QueryParameters>
-          <QueryParameter Name="@CompanyId">
-            <Value>=Parameters!CompanyId.Value</Value>
-          </QueryParameter>
-        </QueryParameters>
-        <CommandText>SELECT SignatoryId, SignatoryName,SignatoryType 
-FROM [dbo].[Accounting_Signatory]
-
-WHERE [dbo].[Accounting_Signatory].CompanyId = @CompanyId
-AND IsActive =1
-order By OrderBy Desc</CommandText>
-      </Query>
-      <Fields>
-        <Field Name="SignatoryId">
-          <DataField>SignatoryId</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="SignatoryName">
-          <DataField>SignatoryName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="SignatoryType">
-          <DataField>SignatoryType</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-      </Fields>
-    </DataSet>
   </DataSets>
   <ReportSections>
     <ReportSection>
@@ -313,7 +249,7 @@ order By OrderBy Desc</CommandText>
                   <Width>1.77083in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.80208in</Width>
+                  <Width>1.01041in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>0.775in</Width>
@@ -581,6 +517,7 @@ order By OrderBy Desc</CommandText>
                             <PaddingBottom>1pt</PaddingBottom>
                           </Style>
                         </Textbox>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -1282,6 +1219,7 @@ order By OrderBy Desc</CommandText>
                             <PaddingBottom>1pt</PaddingBottom>
                           </Style>
                         </Textbox>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -1986,6 +1924,7 @@ order By OrderBy Desc</CommandText>
                             <PaddingBottom>1pt</PaddingBottom>
                           </Style>
                         </Textbox>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -2144,7 +2083,6 @@ order By OrderBy Desc</CommandText>
                             <PaddingBottom>1pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -2698,6 +2636,7 @@ order By OrderBy Desc</CommandText>
                             <PaddingBottom>1pt</PaddingBottom>
                           </Style>
                         </Textbox>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -3731,150 +3670,7 @@ order By OrderBy Desc</CommandText>
             <DataSetName>RawMaterialStockReportDSet</DataSetName>
             <Left>0.01335in</Left>
             <Height>2.225in</Height>
-            <Width>13.99584in</Width>
-            <Style>
-              <Border>
-                <Style>None</Style>
-              </Border>
-            </Style>
-          </Tablix>
-          <Rectangle Name="Rectangle1">
-            <KeepTogether>true</KeepTogether>
-            <Top>2.98354in</Top>
-            <Left>0.97529in</Left>
-            <Height>0.46in</Height>
-            <Width>11.5443in</Width>
-            <ZIndex>1</ZIndex>
-            <Style>
-              <Border>
-                <Style>None</Style>
-              </Border>
-            </Style>
-          </Rectangle>
-          <Tablix Name="Tablix14">
-            <TablixBody>
-              <TablixColumns>
-                <TablixColumn>
-                  <Width>2.0068in</Width>
-                </TablixColumn>
-              </TablixColumns>
-              <TablixRows>
-                <TablixRow>
-                  <Height>0.21in</Height>
-                  <TablixCells>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="SignatoryType">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!SignatoryType.Value</Value>
-                                  <Style>
-                                    <FontFamily>Times New Roman</FontFamily>
-                                    <FontSize>11pt</FontSize>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>SignatoryType</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                  </TablixCells>
-                </TablixRow>
-              </TablixRows>
-            </TablixBody>
-            <TablixColumnHierarchy>
-              <TablixMembers>
-                <TablixMember>
-                  <Group Name="SignatoryName">
-                    <GroupExpressions>
-                      <GroupExpression>=Fields!SignatoryName.Value</GroupExpression>
-                    </GroupExpressions>
-                  </Group>
-                  <TablixHeader>
-                    <Size>0.25in</Size>
-                    <CellContents>
-                      <Textbox Name="SignatoryName">
-                        <CanGrow>true</CanGrow>
-                        <KeepTogether>true</KeepTogether>
-                        <Paragraphs>
-                          <Paragraph>
-                            <TextRuns>
-                              <TextRun>
-                                <Value>  ....................................</Value>
-                                <Style>
-                                  <FontFamily>Times New Roman</FontFamily>
-                                  <FontSize>8pt</FontSize>
-                                  <FontWeight>Normal</FontWeight>
-                                  <TextDecoration>None</TextDecoration>
-                                </Style>
-                              </TextRun>
-                            </TextRuns>
-                            <Style>
-                              <TextAlign>Right</TextAlign>
-                            </Style>
-                          </Paragraph>
-                          <Paragraph>
-                            <TextRuns>
-                              <TextRun>
-                                <Value>=Fields!SignatoryName.Value</Value>
-                                <Style>
-                                  <FontFamily>Times New Roman</FontFamily>
-                                  <FontSize>11pt</FontSize>
-                                  <FontWeight>Bold</FontWeight>
-                                  <TextDecoration>None</TextDecoration>
-                                </Style>
-                              </TextRun>
-                            </TextRuns>
-                            <Style>
-                              <TextAlign>Right</TextAlign>
-                            </Style>
-                          </Paragraph>
-                        </Paragraphs>
-                        <rd:DefaultName>SignatoryName</rd:DefaultName>
-                        <Style>
-                          <Border>
-                            <Style>None</Style>
-                          </Border>
-                          <PaddingLeft>2pt</PaddingLeft>
-                          <PaddingRight>2pt</PaddingRight>
-                          <PaddingTop>2pt</PaddingTop>
-                          <PaddingBottom>2pt</PaddingBottom>
-                        </Style>
-                      </Textbox>
-                    </CellContents>
-                  </TablixHeader>
-                </TablixMember>
-              </TablixMembers>
-            </TablixColumnHierarchy>
-            <TablixRowHierarchy>
-              <TablixMembers>
-                <TablixMember />
-              </TablixMembers>
-            </TablixRowHierarchy>
-            <DataSetName>SignatoryDataSet</DataSetName>
-            <Top>2.98354in</Top>
-            <Left>1.43571in</Left>
-            <Height>0.46in</Height>
-            <Width>2.0068in</Width>
-            <ZIndex>2</ZIndex>
+            <Width>14.20417in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -3882,13 +3678,13 @@ order By OrderBy Desc</CommandText>
             </Style>
           </Tablix>
         </ReportItems>
-        <Height>3.61459in</Height>
+        <Height>2.29167in</Height>
         <Style />
       </Body>
-      <Width>14.04462in</Width>
+      <Width>14.21752in</Width>
       <Page>
         <PageHeader>
-          <Height>0.91564in</Height>
+          <Height>0.8in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -3900,26 +3696,11 @@ order By OrderBy Desc</CommandText>
                   <TextRuns>
                     <TextRun>
                       <Label>Company</Label>
-                      <Value>=First(Fields!Name.Value, "CompanyDSet")</Value>
+                      <Value>=First(Fields!CompanyName.Value, "RawMaterialStockReportDSet")</Value>
                       <Style>
-                        <FontFamily>Times New Roman</FontFamily>
-                        <FontSize>16pt</FontSize>
-                        <FontWeight>Bold</FontWeight>
-                      </Style>
-                    </TextRun>
-                  </TextRuns>
-                  <Style>
-                    <TextAlign>Center</TextAlign>
-                  </Style>
-                </Paragraph>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Label>Address</Label>
-                      <Value>=First(Fields!Address.Value, "CompanyDSet")</Value>
-                      <Style>
-                        <FontFamily>Times New Roman</FontFamily>
+                        <FontFamily>times New Roman</FontFamily>
                         <FontSize>14pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
                       </Style>
                     </TextRun>
                   </TextRuns>
@@ -3985,68 +3766,9 @@ order By OrderBy Desc</CommandText>
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox37</rd:DefaultName>
-              <Top>0.03855in</Top>
-              <Left>1.10903in</Left>
+              <Left>0.82778in</Left>
               <Height>0.8in</Height>
-              <Width>11.3578in</Width>
-              <Style>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-                <PaddingLeft>2pt</PaddingLeft>
-                <PaddingRight>2pt</PaddingRight>
-                <PaddingTop>2pt</PaddingTop>
-                <PaddingBottom>2pt</PaddingBottom>
-              </Style>
-            </Textbox>
-            <Image Name="Image1">
-              <Source>External</Source>
-              <Value>=First(Fields!CompanyLogo.Value, "CompanyDSet")</Value>
-              <Sizing>FitProportional</Sizing>
-              <Top>0.03855in</Top>
-              <Left>0.07153in</Left>
-              <Height>0.82153in</Height>
-              <Width>0.96041in</Width>
-              <ZIndex>1</ZIndex>
-              <Style>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-              </Style>
-            </Image>
-            <Textbox Name="Textbox83">
-              <CanGrow>true</CanGrow>
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>Print Date : </Value>
-                      <Style>
-                        <FontFamily>Times New Roman</FontFamily>
-                        <FontSize>9pt</FontSize>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Label>PrintDate</Label>
-                      <Value>=Format(Now(), "dd-MMM-yyyy")</Value>
-                      <Style>
-                        <FontFamily>Times New Roman</FontFamily>
-                        <FontSize>9pt</FontSize>
-                      </Style>
-                    </TextRun>
-                  </TextRuns>
-                  <Style>
-                    <TextAlign>Right</TextAlign>
-                  </Style>
-                </Paragraph>
-              </Paragraphs>
-              <rd:DefaultName>Textbox83</rd:DefaultName>
-              <Top>0.03855in</Top>
-              <Left>12.53627in</Left>
-              <Height>0.22917in</Height>
-              <Width>1.47292in</Width>
-              <ZIndex>2</ZIndex>
+              <Width>13.18141in</Width>
               <Style>
                 <Border>
                   <Style>None</Style>
