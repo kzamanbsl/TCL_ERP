@@ -264,6 +264,7 @@ namespace KGERP.Service.Implementation.Configuration
         public int CustomerTypeFk { get; set; }
         public int SupplierTypeFk { get; set; }
         public int VendorTypeId { get; set; }
+        public string VendorTypeName { get; set; }
         public bool BiltoBilCreditPeriod { get; set; }
         public int CreditPeriod { get; set; }
         public decimal SecurityAmount { get; set; }

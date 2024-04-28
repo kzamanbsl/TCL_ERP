@@ -2,6 +2,11 @@
 
 namespace KGERP.Utility
 {
+    public enum EnumVendorTye
+    {
+        Supplier = 1,
+        Subcontractor
+    }
     public enum EnumBankAccountType
     {
         [Display(Name = "Saving Account")]

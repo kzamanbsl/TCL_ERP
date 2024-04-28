@@ -1,7 +1,7 @@
 ﻿@model KGERP.Service.ServiceModel.VendorTypeModel
 @{
 
-    ViewData["Title"] = "Vendor Type";
+    ViewData["Title"] = "Vendor Category";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -15,7 +15,7 @@
     <h1>Vendor Type</h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">Vendor Type</li>
+        <li class="active">Vendor Category</li>
     </ol>
 </section>
 
@@ -37,7 +37,7 @@
                             @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
 
                             <div class="form-group">
-                                <label>Vendor Type<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                <label>Vendor Category<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                 @Html.TextBoxFor(model => model.Name, new { id = "textVendorType", @class = "form-control", @placeholder = "Vendor type name", required = "true", })
                                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                             </div>
@@ -67,7 +67,7 @@
                                     <thead>
                                         <tr>
                                             <th>SL</th>
-                                            <th>Vendor Type</th>
+                                            <th>Vendor Category</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -76,7 +76,6 @@
                                     <tbody>
                                         @foreach (var item in Model.DataList.OrderBy(order => order.Name))
                                         {
-
                                             <tr>
                                                 <td>@(++sl)</td>
                                                 <td id="tdUnitName_@item.ID">@item.Name</td>

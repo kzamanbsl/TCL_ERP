@@ -1127,6 +1127,7 @@ namespace KGERP.Service.Implementation.Configuration
                                                               join t2 in _db.Banks on t1.BankId equals t2.BankId
                                                               join t3 in _db.BankBranches on t1.BranchId equals t3.BankBranchId
                                                               join t4 in _db.Countries on t1.CountryId equals t4.CountryId
+                                                              join t5 in _db.VendorTypes on t1.VendorTypeId equals t5.VendorTypeId
                                                               where t1.IsActive == true
                                                               select new VMCommonSupplier
                                                               {
@@ -1152,9 +1153,9 @@ namespace KGERP.Service.Implementation.Configuration
                                                                   BankRoutingNumber = t1.BankRoutingNumber,
                                                                   Remarks = t1.Remarks,
                                                                   VendorTypeId = t1.VendorTypeId,
+                                                                  VendorTypeName = t5.Name ?? "N/A",
                                                                   CompanyFK = t1.CompanyId,
-                                                                  CreatedBy = t1.CreatedBy,
-
+                                                                  CreatedBy = t1.CreatedBy
                                                               }).OrderByDescending(x => x.ID).AsEnumerable());
 
 

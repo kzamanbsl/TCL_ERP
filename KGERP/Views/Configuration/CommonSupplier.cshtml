@@ -111,9 +111,9 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label class="form-label">Supplier Type<sup class="text-danger" title="Required"><b>*</b></sup></label>
-                                        @Html.DropDownListFor(model => model.SupplierTypeId, new SelectList(Model.SupplierTypeList.OrderBy(order => order.Text), "Value", "Text"), "==Select Supplier Type==", new { id = "ddlSupplierTypeId", @class = "form-control searchingDropdown", style = "width:100%" })
-                                        @Html.ValidationMessageFor(model => model.SupplierTypeId, "", new { @class = "text-danger" })
+                                        <label class="form-label">Supplier Category<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                        @Html.DropDownListFor(model => model.VendorTypeId, new SelectList(Model.SupplierTypeList.OrderBy(order => order.Text), "Value", "Text"), "==Select Supplier Category==", new { id = "ddlSupplierTypeId", @class = "form-control searchingDropdown", style = "width:100%" })
+                                        @Html.ValidationMessageFor(model => model.VendorTypeId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -187,7 +187,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>SL</th>
-                                                    <th>Supplier Type</th>
+                                                    <th>Supplier Category</th>
                                                     <th>Supplier Id</th>
                                                     <th>Business/Company Name</th>
                                                     <th>BIN</th>
@@ -210,11 +210,11 @@
                                             @{int sl = 0;
                                             }
                                             <tbody>
-                                                @foreach (var item in Model.DataList.Where(c => c.VendorTypeId == (int)KGERP.Utility.ProviderEnum.Supplier))
+                                                @foreach (var item in Model.DataList.Where(c => c.VendorTypeId == (int)KGERP.Utility.EnumVendorTye.Supplier))
                                                 {
                                                     <tr>
                                                         <td>@(++sl)</td>
-                                                        <td>@item.SupplierTypeName</td>
+                                                        <td>@item.VendorTypeName</td>
                                                         <td>@item.Code</td>
                                                         <td>@item.Name</td>
                                                         <td>@item.BIN</td>
@@ -295,9 +295,8 @@
 @section scripts {
 
     <script type="text/javascript">
-         $(document).ready(function () {
-
-             $("#ddlCommon_CountriesFk").val(1);
+        $(document).ready(function () {
+            $("#ddlCommon_CountriesFk").val(19).trigger('change');
         });
 
         function makeEditble(id) {
@@ -374,6 +373,7 @@
             });
         });
 
-    </script>
 
+
+    </script>
 }

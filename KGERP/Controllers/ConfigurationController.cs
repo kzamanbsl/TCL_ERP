@@ -24,13 +24,15 @@ namespace KGERP.Controllers
 
         private HttpContext httpContext;
         private readonly ConfigurationService _service;
+        private readonly IVendorTypeService _vendorTypeService;
         private readonly ICompanyService _companyService;
         private readonly IFTPService _ftpService;
-        public ConfigurationController(IFTPService ftpService, ICompanyService companyService, ConfigurationService configurationService)
+        public ConfigurationController(IFTPService ftpService, ICompanyService companyService, ConfigurationService configurationService, IVendorTypeService vendorTypeService)
         {
             _service = configurationService;
             _companyService = companyService;
-            this._ftpService = ftpService;
+            _ftpService = ftpService;
+            _vendorTypeService = vendorTypeService;
         }
 
         #region User Action Log
@@ -1217,6 +1219,8 @@ namespace KGERP.Controllers
             VMCommonSupplier vmCommonSupplier = new VMCommonSupplier();
             vmCommonSupplier = await Task.Run(() => _service.GetSupplier(companyId));
             vmCommonSupplier.CountryList = new SelectList(_service.CommonCountriesDropDownList(), "Value", "Text");
+            vmCommonSupplier.BankList = new SelectList(_service.CommonBanksDropDownList(companyId), "Value", "Text");
+            vmCommonSupplier.SupplierTypeList = new SelectList(_vendorTypeService.GetVendorTypeSelectModels(), "Value", "Text");
 
             return View(vmCommonSupplier);
         }
@@ -1228,7 +1232,6 @@ namespace KGERP.Controllers
             if (vmCommonSupplier.ActionEum == ActionEnum.Add)
             {
                 //Add
-                vmCommonSupplier.VendorTypeId = (int)ProviderEnum.Subcontractor;
                 await _service.SupplierAdd(vmCommonSupplier);
             }
             else if (vmCommonSupplier.ActionEum == ActionEnum.Edit)
@@ -1265,6 +1268,7 @@ namespace KGERP.Controllers
             vmCommonSupplier = await Task.Run(() => _service.GetSupplier(companyId));
             vmCommonSupplier.CountryList = new SelectList(_service.CommonCountriesDropDownList(), "Value", "Text");
             vmCommonSupplier.BankList = new SelectList(_service.CommonBanksDropDownList(companyId), "Value", "Text");
+            vmCommonSupplier.SupplierTypeList = new SelectList(_vendorTypeService.GetVendorTypeSelectModels(), "Value", "Text");
 
             return View(vmCommonSupplier);
         }
@@ -1276,7 +1280,6 @@ namespace KGERP.Controllers
             if (vmCommonSupplier.ActionEum == ActionEnum.Add)
             {
                 //Add
-                vmCommonSupplier.VendorTypeId = (int)ProviderEnum.Supplier;
                 await _service.SupplierAdd(vmCommonSupplier);
             }
             else if (vmCommonSupplier.ActionEum == ActionEnum.Edit)
