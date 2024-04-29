@@ -58,6 +58,14 @@ namespace KGERP.Service.Implementation
                 _context.ChequeRegisters.Add(data);
                 if (await _context.SaveChangesAsync() > 0)
                 {
+                    if (model.ChequeBookId > 0)
+                    {
+                        var chequeBook = _context.ChequeBooks.FirstOrDefault(x => x.ChequeBookId == model.ChequeBookId);
+                        chequeBook.UsedBookPage = ++chequeBook.UsedBookPage;
+                        chequeBook.ModifiedBy = data.CreatedBy;
+                        chequeBook.ModifiedOn = DateTime.Now;
+                        _context.SaveChanges();
+                    }
                     sendData = true;
                 }
             }
@@ -82,12 +90,19 @@ namespace KGERP.Service.Implementation
                 if (model.RequisitionId > 0)
                 {
                     data.RequisitionMasterId = model.RequisitionId;
-
                 }
 
                 _context.ChequeRegisters.Add(data);
                 if (await _context.SaveChangesAsync() > 0)
                 {
+                    if (model.ChequeBookId > 0)
+                    {
+                        var chequeBook = _context.ChequeBooks.FirstOrDefault(x => x.ChequeBookId == model.ChequeBookId);
+                        chequeBook.UsedBookPage = ++chequeBook.UsedBookPage;
+                        chequeBook.ModifiedBy = data.CreatedBy;
+                        chequeBook.ModifiedOn = DateTime.Now;
+                        _context.SaveChanges();
+                    }
                     sendData = true;
                 }
             }
@@ -171,16 +186,6 @@ namespace KGERP.Service.Implementation
                             requisitionMaster.ModifiedDate = DateTime.Now;
                             _context.SaveChanges();
                         }
-
-                        if (result.ChequeBookId > 0)
-                        {
-                            var chequeBook = _context.ChequeBooks.FirstOrDefault(x => x.ChequeBookId == result.ChequeBookId);
-                            chequeBook.UsedBookPage = ++chequeBook.UsedBookPage;
-                            chequeBook.ModifiedBy = HttpContext.Current.User.Identity.Name;
-                            chequeBook.ModifiedOn = DateTime.Now;
-                            _context.SaveChanges();
-                        }
-
                         sendData = true;
                     }
                 }

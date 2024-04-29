@@ -125,7 +125,7 @@
                             </thead>
                             @{int sl = 0;}
                             <tbody>
-                                @foreach (var item in Model.BankAccountInfoList)
+                                @foreach (var item in Model.BankAccountInfoList.OrderByDescending(x => x.BankAccountInfoId))
                                 {
                                     <tr>
                                         <td>

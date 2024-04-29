@@ -231,7 +231,7 @@
                             </thead>
                             @{int sl = 0;}
                             <tbody>
-                                @foreach (var item in Model.ChequeRegisterList)
+                                @foreach (var item in Model.ChequeRegisterList.OrderByDescending(x => x.ChequeRegisterId))
                                 {
                                     <tr>
                                         <td>
@@ -559,16 +559,17 @@
                 data: { chequeBookId: chequeBookId },
                 success: function (data) {
 
-
                     if (data.UsedBookPage != data.TotalBookPage || data.UsedBookPage < data.TotalBookPage) {
-                        var predictNextPage = data.UsedBookPage - 1;
-                        var nextPage = predictNextPage;
 
-                        if (nextPage <= data.BookLastPageNumber) {
-                            $('#txtChequeNo').val(data.BookFirstPageNumber + nextPage);
+                        if (data.UsedBookPage == 0) {
+                            $('#txtChequeNo').val(data.BookFirstPageNumber);
+                            $('#message').text("");
                         }
+                        else {
+                            $('#txtChequeNo').val(data.BookFirstPageNumber + data.UsedBookPage);
 
-                        $('#message').text("");
+                            $('#message').text("");
+                        }
                     }
                     else {
                         $('#txtChequeNo').val(0);
