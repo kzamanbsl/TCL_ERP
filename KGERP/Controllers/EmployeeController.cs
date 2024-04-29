@@ -402,10 +402,7 @@ namespace KGERP.Controllers
          [HttpPost]
         public async  Task<ActionResult> EmployeeInventory(EmployeeOperationModel model)
         {
-
-
-
-
+            
             return View(model);
         }
 

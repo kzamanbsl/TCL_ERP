@@ -360,7 +360,18 @@
             $('#submitCompanyFK').val("@Model.CompanyFK");
             $('#submitActionId').val(10);
         }
+        //$("#txtReceivedQuantity").on("keyup", function () {
+        //    var receivedInput = parseFloat($(this).val());
 
+        //    console.log(receivedInput);
+        //    var remailQty = parseFloat($("#tdRemainingQuantity").text().trim());
+        //    if (receivedInput > remailQty) {
+        //        $("#btnsave").prop("disabled", true);
+        //    } else {
+        //        $("#btnsave").prop("disabled", false);
+        //    }
+
+        //});
         $(document).ready(function () {
 
             //$("#poDetailsTable").hide();
@@ -374,16 +385,7 @@
                 }
             });
 
-            $("#txtReceivedQuantity").on('keyup', function () {
-                var receivedInput = parseFloat($(this).val());
-                var remailQty = parseFloat($("#tdRemainingQuantity").text().trim());
-                if (receivedInput > remailQty) {
-                    $("#btnsave").prop("disabled", true);
-                } else {
-                    $("#btnsave").prop("disabled", false);
-                }
-
-            });
+           
 
 
             $("#supplier").autocomplete({
@@ -449,8 +451,12 @@
         }
 
         $("#ddlPurchaseOrderNo").change(function () {
+
+
             var b = $('#ddlPurchaseOrderNo').val();
-            var purchaseOrderData=[];
+            var purchaseOrderData = [];
+
+
             $.ajax({
                 type: "POST",
                 url: "@Url.Action("ProcurementPurchaseOrderSlaveData2", "Warehouse")",
@@ -465,6 +471,7 @@
                     }
                 }
             });
+
             $.ajax({
                 type: "POST",
                 url: "@Url.Action("ProcurementPurchaseOrderSlaveData", "Warehouse")",
@@ -482,6 +489,8 @@
 
                 }
             });
+
+
         });
 
         $('#rbtnYes').click(function () {

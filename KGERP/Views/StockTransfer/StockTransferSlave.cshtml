@@ -471,31 +471,31 @@
                 var companyId = $('#CompanyFK').val();
                 var date = $('#txtTransferDate').val();
 
-            $.ajax({
-                url: "/StockTransfer/GetStockAvailableQuantity/",
-                dataType: "json",
-                data: {
-                    companyId: companyId, productId: productId, stockFrom: stockIdForm,  selectedDate:date
+                $.ajax({
+                    url: "/StockTransfer/GetStockAvailableQuantity/",
+                    dataType: "json",
+                    data: {
+                        companyId: companyId, productId: productId, stockFrom: stockIdForm, selectedDate: date
 
                     },
-                type: "GET",
-                async: true,
-                success: function (data) {
-                    $('#stockAvailableQty').val(data.OpeningQty);
-                    $('#hidUnitPrice').val(data.OpeningRate);
+                    type: "GET",
+                    async: true,
+                    success: function (data) {
+                        $('#stockAvailableQty').val(data.OpeningQty);
+                        $('#hidUnitPrice').val(data.OpeningRate);
 
-                    if (result < 0) {
-                        $("#stockAvailableQty").css('color', 'red');
-                        $("#stockAvailableQty").css('font-weight', 'bold');
+                        if (result < 0) {
+                            $("#stockAvailableQty").css('color', 'red');
+                            $("#stockAvailableQty").css('font-weight', 'bold');
+                        }
+                        else {
+                            $("#stockAvailableQty").css('color', 'green');
+                            $("#stockAvailableQty").css('font-weight', 'bold');
+                        }
+                    },
+                    error: function (xhr) {
                     }
-                    else {
-                        $("#stockAvailableQty").css('color', 'green');
-                        $("#stockAvailableQty").css('font-weight', 'bold');
-                    }
-                },
-                error: function (xhr) {
-                }
-            });
+                });
         }
         });
 
@@ -503,14 +503,17 @@
             $("#receiverName").autocomplete({
                 source: function (request, response) {
                     $.ajax({
+                        type: "GET",
                         url: '/Employee/EmployeeAutoComplete/',
-                        data: '{"prefix":"' + request.term + '"}',
+                        data: { prefix:request.term },
                         dataType: "json",
-                        type: "POST",
                         cache: true,
                         contentType: "application/json; charset=utf-8",
                         success: function (data) {
+                            console.log(data);
                             response($.map(data, function (item) {
+                                console.log(item);
+
                                 return item;
                             }))
                         },
@@ -562,22 +565,22 @@
 
         function makeEditble(rowId) {
 
-       $.ajax({
-             type: "POST",
-             url: "@Url.Action("SingleStockTransferSlave", "StockTransfer")",
-             datatype: "Json",
-             data: { id: rowId },
-             success: function (data) {
-                 $('#transCreateBtn').html("<i class='fa fa-edit'></i>&nbsp;Update");
-                 $("#hidStockTransferId").val(data.StockTransferId);
-                 $('#ActionId').val(2);
-                 $("#CompanyFK").val(data.CompanyId);
-                 $("#txtProductName").val(data.ProductName);
-                 $("#hfProductId").val(data.ProductId);
-                 $("#txtQuantity").val(data.TransferQty);
-                 $("#hidStockTransferDetailId").val(data.StockTransferDetailId)
-                 window.scrollTo({ top: 0, behavior: 'smooth' });
-             }
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("SingleStockTransferSlave", "StockTransfer")",
+                datatype: "Json",
+                data: { id: rowId },
+                success: function (data) {
+                    $('#transCreateBtn').html("<i class='fa fa-edit'></i>&nbsp;Update");
+                    $("#hidStockTransferId").val(data.StockTransferId);
+                    $('#ActionId').val(2);
+                    $("#CompanyFK").val(data.CompanyId);
+                    $("#txtProductName").val(data.ProductName);
+                    $("#hfProductId").val(data.ProductId);
+                    $("#txtQuantity").val(data.TransferQty);
+                    $("#hidStockTransferDetailId").val(data.StockTransferDetailId)
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
             });
        }
 
