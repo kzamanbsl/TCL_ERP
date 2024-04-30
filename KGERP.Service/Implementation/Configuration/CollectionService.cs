@@ -369,18 +369,18 @@ namespace KGERP.Service.Implementation.Configuration
             if (paymentMasterId > 0)
             {
                 paymentVm = await Task.Run(() => (from t2 in _db.PaymentMasters.Where(x => x.IsActive == true && x.PaymentMasterId == paymentMasterId)
-                                                      //join t1 in _db.Vendors.Where(x => x.VendorId == supplierId && x.IsActive && x.CompanyId == companyId)
-                                                      //    on t2.VendorId equals t1.VendorId
-                                                      //join t3 in _db.HeadGLs on t2.PaymentFromHeadGLId equals t3.Id
-                                                      //join t4 in _db.HeadGLs on t2.PaymentToHeadGLId equals t4.Id
+                                                  join t1 in _db.Vendors.Where(x => x.VendorId == supplierId && x.IsActive && x.CompanyId == companyId)
+                                                      on t2.VendorId equals t1.VendorId
+                                                  join t3 in _db.HeadGLs on t2.BankChargeHeadGLId equals t3.Id
+                                                  join t4 in _db.HeadGLs on t2.PaymentToHeadGLId equals t4.Id
 
 
                                                   select new VMPayment
                                                   {
-                                                      //ACName = t1.ACName,
-                                                      //ACNo = t1.ACNo,
-                                                      //BankName = t1.BankName,
-                                                      //BranchName = t1.BankName,
+                                                      ACName = t1.ACName,
+                                                      ACNo = t1.ACNo,
+                                                      BankName = t1.BankId.ToString(),
+                                                      BranchName = t1.BranchId.ToString(),
 
                                                       PaymentFromHeadGLId = t2.PaymentToHeadGLId,
                                                       BankCharge = t2.BankCharge,
@@ -388,34 +388,32 @@ namespace KGERP.Service.Implementation.Configuration
                                                       IsFinalized = t2.IsFinalized,
                                                       PaymentMasterId = t2.PaymentMasterId,
                                                       PaymentNo = t2.PaymentNo,
-                                                      // CustomerId = t1.VendorId,
+                                                      CustomerId = t1.VendorId,
                                                       CompanyId = companyId,
                                                       CompanyFK = t2.CompanyId,
                                                       MoneyReceiptNo = t2.MoneyReceiptNo,
                                                       TransactionDate = t2.TransactionDate,
                                                       ReferenceNo = t2.ReferenceNo,
-                                                      //CommonCustomerName = t1.Name,
-                                                      //CommonCustomerCode = t1.Code,
-                                                      //CompanyFK = t1.CompanyId,
-                                                      //PaymentFromHeadGLId = t2.PaymentFromHeadGLId,
-                                                      //PaymentToHeadGLId = t2.PaymentToHeadGLId,
-                                                      //PaymentToHeadGLName = t4.AccCode + " - " + t4.AccName,
-                                                      //PaymentFromHeadGLName = t3.AccCode + " - " + t3.AccName,
+                                                      CommonCustomerName = t1.Name,
+                                                      CommonCustomerCode = t1.Code,
+                                                      PaymentToHeadGLId = t2.PaymentToHeadGLId,
+                                                      PaymentToHeadGLName = t4.AccCode + " - " + t4.AccName,
+                                                      PaymentFromHeadGLName = t3.AccCode + " - " + t3.AccName,
 
 
-                                                      //PayableAmountDecimal = (from ts1 in _db.MaterialReceiveDetails
-                                                      //                        join ts2 in _db.MaterialReceives on ts1.MaterialReceiveId equals ts2.MaterialReceiveId
-                                                      //                        join ts3 in _db.PurchaseOrders on ts2.PurchaseOrderId equals ts3.PurchaseOrderId
+                                                      PayableAmountDecimal = (from ts1 in _db.MaterialReceiveDetails
+                                                                              join ts2 in _db.MaterialReceives on ts1.MaterialReceiveId equals ts2.MaterialReceiveId
+                                                                              join ts3 in _db.PurchaseOrders on ts2.PurchaseOrderId equals ts3.PurchaseOrderId
 
-                                                      //                        where ts3.SupplierId == supplierId && ts2.IsActive && ts1.IsActive && !ts1.IsReturn
-                                                      //                        select ts1.ReceiveQty * ts1.UnitPrice).DefaultIfEmpty(0).Sum(),
-                                                      //ReturnAmount = (from ts1 in _db.PurchaseReturnDetails
-                                                      //                join ts2 in _db.PurchaseReturns.Where(x => x.SupplierId == t1.VendorId && x.CompanyId == t1.CompanyId) on ts1.PurchaseReturnId equals ts2.PurchaseReturnId
-                                                      //                //where ts1.IsActive && ts2.IsActive
-                                                      //                select ts1.Qty.Value * ts1.Rate.Value).DefaultIfEmpty(0).Sum(),
+                                                                              where ts3.SupplierId == supplierId && ts2.IsActive && ts1.IsActive && !ts1.IsReturn
+                                                                              select ts1.ReceiveQty * ts1.UnitPrice).DefaultIfEmpty(0).Sum(),
+                                                      ReturnAmount = (from ts1 in _db.PurchaseReturnDetails
+                                                                      join ts2 in _db.PurchaseReturns.Where(x => x.SupplierId == t1.VendorId && x.CompanyId == t1.CompanyId) on ts1.PurchaseReturnId equals ts2.PurchaseReturnId
+                                                                      where ts1.IsActive && ts2.Active
+                                                                      select ts1.Qty.Value * ts1.Rate.Value).DefaultIfEmpty(0).Sum(),
 
-                                                      //InAmount = _db.Payments.Where(x => x.VendorId == supplierId)
-                                                      //                 .Select(x => x.InAmount).DefaultIfEmpty(0).Sum()
+                                                      InAmount = _db.Payments.Where(x => x.VendorId == supplierId)
+                                                                       .Select(x => x.InAmount).DefaultIfEmpty(0).Sum()
                                                   }).FirstOrDefault());
             }
             else
@@ -427,9 +425,9 @@ namespace KGERP.Service.Implementation.Configuration
                                                   {
                                                       ACName = t1.ACName,
                                                       ACNo = t1.ACNo,
-                                                      BankId = t1.BankId,
+                                                      //BankId = t1.BankId,
                                                       BankName = t2.Name,
-                                                      BranchId = t1.BranchId,
+                                                      //BranchId = t1.BranchId,
                                                       BranchName = t3.Name,
                                                       CustomerId = t1.VendorId,
                                                       CompanyId = companyId,
@@ -520,7 +518,8 @@ namespace KGERP.Service.Implementation.Configuration
                 BankCharge = vmPayment.BankCharge,
                 CompanyId = vmPayment.CompanyFK.Value,
                 CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
-                PaymentToHeadGLId = vmPayment.Accounting_BankOrCashId,
+                //PaymentToHeadGLId = vmPayment.Accounting_BankOrCashId,
+                PaymentToHeadGLId = 1234,
                 CreatedDate = DateTime.Now,
                 IsActive = true
             };
