@@ -2152,6 +2152,22 @@ namespace KGERP.Service.Implementation.Warehouse
                   x.IsActive && (x.Status == (int)POStatusEnum.Submitted)).ToList();
             return list.Select(x => new SelectModel { Text = x.PurchaseOrderNo, Value = x.PurchaseOrderId }).ToList();
         }
+        public object GetMaterialReceivedPO(int vendorId)
+        {
+            var list = (from t1 in _db.MaterialReceives.Where(c=>c.IsSubmitted==true && c.IsActive==true)
+                        join t2 in _db.BillingGeneratedMaps on t1.MaterialReceiveId equals t2.MaterialReceiveId
+                        join t3 in _db.PurchaseOrders.
+                       Where(x => x.SupplierId == vendorId &&
+                         x.IsActive && (x.Status == (int)POStatusEnum.Submitted))
+                       on t1.PurchaseOrderId equals t3.PurchaseOrderId
+                       select new
+                       {
+                           t3.PurchaseOrderId,
+                           t3.PurchaseOrderNo
+                       }).ToList().Distinct();
+
+            return list.Select(x => new SelectModel { Text = x.PurchaseOrderNo, Value = x.PurchaseOrderId }).ToList();
+        }
 
 
 

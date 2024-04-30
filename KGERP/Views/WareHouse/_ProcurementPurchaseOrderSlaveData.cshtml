@@ -118,6 +118,19 @@
 <script>
     $(document).ready(function () {
 
+        $("#txtReceivedQuantity").on("keyup", function () {
+            var receivedInput = parseFloat($(this).val());
+
+            /*console.log(receivedInput);*/
+            var remailQty = parseFloat($("#tdRemainingQuantity").text().trim());
+            if (receivedInput > remailQty) {
+                $("#btnsave").prop("disabled", true);
+            } else {
+                $("#btnsave").prop("disabled", false);
+            }
+
+        });
+
 
         $("#select_all").change(function () {  //"select all" change
             $(".checkToInstruction").prop('checked', $(this).prop("checked")); //change all ".checkbox" checked status

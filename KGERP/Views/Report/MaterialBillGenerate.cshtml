@@ -183,7 +183,7 @@
         function loadOpenedPurchaseaOrderDropDown(vendorId) {
             $.ajax({
                 type: "post",
-                url: "/Warehouse/GetPO",
+                url: "/Warehouse/GetMaterialReceivedPO",
                 data: { vendorId },
                 datatype: "json",
                 traditional: true,

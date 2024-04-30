@@ -89,6 +89,7 @@ namespace KGERP.Service.ServiceModel
         public decimal OpeningRate { get; set; }
         public decimal OpeningQty { get; set; }
         public decimal Quantity { get; set; }
+        public decimal ReceiveQty { get; set; }
         public decimal UnitPrice { get; set; }
         public decimal OpeningValue { get; set; }
     }

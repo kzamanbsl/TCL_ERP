@@ -154,7 +154,7 @@
                             </thead>
                             @{int sl = 0;}
                             <tbody>
-                                @foreach (var item in Model.ChequeBookList)
+                                @foreach (var item in Model.ChequeBookList.OrderByDescending(x => x.ChequeBookId))
                                 {
                                     <tr>
                                         <td>

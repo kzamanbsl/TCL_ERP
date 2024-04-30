@@ -420,6 +420,11 @@ namespace KGERP.Controllers
         {
             var products = _service.GetPO(vendorId);
             return Json(products, JsonRequestBehavior.AllowGet);
+        } 
+        public JsonResult GetMaterialReceivedPO(int vendorId)
+        {
+            var products = _service.GetMaterialReceivedPO(vendorId);
+            return Json(products, JsonRequestBehavior.AllowGet);
         }
 
 
