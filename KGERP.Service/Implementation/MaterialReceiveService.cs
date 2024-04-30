@@ -770,5 +770,25 @@ namespace KGERP.Service.Implementation
             }
             disposed = true;
         }
+
+        public async Task<object> GetReceivedWorkOrderNo(string Prefix)
+        {
+
+            var workorderNo = await _context.MaterialReceives.Where(c => c.IsActive == true && c.IsSubmitted == true).AsNoTracking().AsQueryable()
+                   .Join(_context.PurchaseOrders.AsNoTracking().AsQueryable().Where(c=>c.PurchaseOrderNo.Contains(Prefix)),
+                   t1 => t1.PurchaseOrderId,
+                   t2 => t2.PurchaseOrderId,
+                   (t2,t1) => new
+                   {
+                       val=t1.PurchaseOrderId,
+                       label = t1.PurchaseOrderNo
+                   }
+                   ).OrderBy(c=>c.label).Take(20).ToListAsync();
+
+
+            return workorderNo.Cast<object>();
+
+            
+        }
     }
 }

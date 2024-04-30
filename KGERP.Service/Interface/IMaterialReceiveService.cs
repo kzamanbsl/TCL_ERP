@@ -21,6 +21,7 @@ namespace KGERP.Service.Interface
         List<MaterialReceiveModel> GetMaterialIssuePendingList(int companyId, string searchDate, string searchText);
        Task<SelectList> GetMaterialReceiveListByBoqItem(int companyId, int? projectId, int? BoqItem);
         Task<object> GetMaterialReceiveInfoByProductIdAndBoqItemId(int? BoqItem,int? ProductId);
+        Task<object> GetReceivedWorkOrderNo(string Prefix);
         bool MaterialReceiveIssue(MaterialReceiveModel materialReceive);
         MaterialReceiveModel GetMaterialReceiveIssue(long id);
         IList<MaterialReceiveDetailModel> GetMaterialReceiveDetailIssue(long id);

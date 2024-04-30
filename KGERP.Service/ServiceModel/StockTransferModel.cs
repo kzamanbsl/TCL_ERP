@@ -39,6 +39,7 @@ namespace KGERP.Service.ServiceModel
         [DisplayName("Reference No")]
         public string ReferenceNo { get; set; }
         public int IsReceived { get; set; }
+        public decimal ReceivedQty { get; set; }
         public long ReceivedBy { get; set; }
 
         [DisplayName("Phone")]
@@ -74,6 +75,8 @@ namespace KGERP.Service.ServiceModel
         public IEnumerable<StockTransferModel> DataList { get; set; }
         public int StockTransferDetailId { get; set; }
         public int ProductId { get; set; }
+        public long PurchaseOrderId { get; set; }
+        public string WorkOrderNo { get; set; }
         public string ProductName { get; set; }
         public string UnitName { get; set; }
         public decimal UnitPrice { get; set; }

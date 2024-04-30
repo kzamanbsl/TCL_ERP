@@ -392,5 +392,14 @@ namespace KGERP.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+
+        [HttpGet]
+        public async Task<JsonResult> WorkOrderNoReceivedAutoComplete(string prefix)
+        {
+
+            var result = await _materialReceiveService.GetReceivedWorkOrderNo( prefix);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }
