@@ -190,69 +190,117 @@
                                 </div>
                                 <!-- /.box-header -->
                                 <div class="box-body">
-                                    <div class="table-responsive text-nowrap">
+                                    <div>
                                         <table id="KgErpDataTable" style="background-color:#ddd;" class="table table-striped">
                                             <thead>
                                                 <tr>
                                                     <th>SL</th>
-                                                    <th>Supplier Category</th>
                                                     <th>Supplier Id</th>
-                                                    <th>Business/Company Name</th>
-                                                    <th>BIN</th>
-                                                    <th>Trade Licence</th>
-                                                    <th>TIN</th>
+                                                    <th>Business / Company Name</th>
                                                     <th>Contact Name</th>
-                                                    <th>NID</th>
                                                     <th>Phone</th>
-                                                    <th>Email</th>
                                                     <th>Address</th>
-                                                    <th>Bank Name</th>
-                                                    <th>Branch Name</th>
-                                                    <th>Routing Number</th>
-                                                    <th>A/C Name</th>
-                                                    <th>A/C No</th>
                                                     <th>Remarks</th>
                                                     <th>Action</th>
+                                                    <th>Details</th>
                                                 </tr>
                                             </thead>
-                                            @{int sl = 0;
-                                            }
                                             <tbody>
+                                                @{int sl = 0;}
                                                 @foreach (var item in Model.DataList)
                                                 {
                                                     <tr>
                                                         <td>@(++sl)</td>
-                                                        <td>@item.VendorTypeName</td>
                                                         <td>@item.Code</td>
                                                         <td>@item.Name</td>
-                                                        <td>@(item.BIN == null ? "N/A" :  item.BIN)</td>
-                                                        <td>@(item.TradeLicenseNumber == null ? "N/A" :  item.TradeLicenseNumber)</td>
-                                                        <td>@(item.TIN == null ? "N/A" :  item.TIN)</td>
                                                         <td>@item.ContactPerson</td>
-                                                        <td>@(item.NID == null ? "N/A" :  item.NID)</td>
                                                         <td>@item.Phone</td>
-                                                        <td>@(item.Email == null ? "N/A" :  item.Email)</td>
                                                         <td>@item.Address, @item.Country</td>
-                                                        <td>@(item.BankName == null ? "N/A" :  item.BankName)</td>
-                                                        <td>@(item.BranchName == null ? "N/A" :  item.BranchName)</td>
-                                                        <td>@(item.ACName == null ? "N/A" :  item.ACName)</td>
-                                                        <td>@(item.ACNo == null ? "N/A" :  item.ACNo)</td>
-                                                        <td>@(item.BankRoutingNumber == null ? "N/A" :  item.BankRoutingNumber)</td>
-                                                        <td>@item.Remarks</td>
+                                                        <td>@(item.Remarks == null ? "N/A" :  item.Remarks)</td>
                                                         <td>
                                                             <a id="@item.ID" onclick="makeEditble(@item.ID);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
                                                             <a id="@item.ID" onclick="makeDeletable(@item.ID);" class="linkPointer" data-toggle="modal" data-target="#deleteModal" title="Delete"
                                                                data-placement="top">
                                                                 <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
                                                             </a>
-                                                            @*<a href="/SupplierProduct/SupplierProductBOM?vendorId=@item.ID&&companyId=@item.CompanyFK" class="linkPointer" title="Supplier Product"><i class="fa fa-plus-square-o"></i></a>*@
+                                                        </td>
+                                                        <td>
+                                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#detailModal_@item.ID">View Details</button>
                                                         </td>
                                                     </tr>
                                                 }
                                             </tbody>
                                         </table>
-                                    </div>
 
+                                        @foreach (var item in Model.DataList)
+                                        {
+                                            <div class="modal fade" id="detailModal_@item.ID" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel@item.ID" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h3 class="modal-title text-primary" id="detailModalLabel_@item.ID">Details of @item.Name</h3>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <p><strong>Category: </strong> @item.VendorTypeName</p>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <p><strong>Code: </strong> @item.Code</p>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <p><strong>Contact: </strong> @item.ContactPerson</p>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <p><strong>Phone: </strong> @item.Phone</p>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <p><strong>Email: </strong> @(item.Email == null ? "N/A" :  item.Email)</p>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <p><strong>NID: </strong> @(item.NID == null ? "N/A" :  item.NID)</p>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <p><strong>BIN: </strong> @(item.BIN == null ? "N/A" :  item.BIN)</p>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <p><strong>TIN: </strong> @(item.TIN == null ? "N/A" :  item.TIN)</p>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <p><strong>License: </strong> @(item.TradeLicenseNumber == null ? "N/A" :  item.TradeLicenseNumber)</p>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <p><strong>Bank: </strong> @(item.BankName == null ? "N/A" :  item.BankName)</p>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <p><strong>Branch: </strong> @(item.BranchName == null ? "N/A" :  item.BranchName)</p>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <p><strong>A/C Name: </strong> @(item.ACName == null ? "N/A" :  item.ACName)</p>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <p><strong>A/C No: </strong> @(item.ACNo == null ? "N/A" :  item.ACNo)</p>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <p><strong>Bank Routing: </strong> @(item.BankRoutingNumber == null ? "N/A" :  item.BankRoutingNumber)</p>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <p><strong>Address: </strong> @item.Address, @item.Country</p>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <p><strong>Remarks: </strong> @(item.Remarks == null ? "N/A" :  item.Remarks)</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+
+                                    </div>
                                 </div>
                                 <div class="box-footer">
                                 </div>

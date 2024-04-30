@@ -1188,20 +1188,20 @@ namespace KGERP.Service.Implementation.Configuration
                 {
                     totalVendor++;
                 }
-                newString = prefix.ToUpper() + totalVendor.ToString().PadLeft(4, '0');
+                newString = prefix.ToUpper() + "-" + totalVendor.ToString().PadLeft(4, '0');
             }
 
             #endregion
 
             int bdId = _db.Countries.FirstOrDefault(x => x.CountryName == "Bangladesh").CountryId;
             vmCommonSupplier.IsForeign = false;
-            //if (vmCommonSupplier.Common_CountriesFk > 0)
-            //{
-            //    if (vmCommonSupplier.Common_CountriesFk != bdId)
-            //    {
-            //        vmCommonSupplier.IsForeign = true;
-            //    }
-            //}
+            if (vmCommonSupplier.Common_CountriesFk > 0)
+            {
+                if (vmCommonSupplier.Common_CountriesFk != bdId)
+                {
+                    vmCommonSupplier.IsForeign = true;
+                }
+            }
 
             Vendor commonSupplier = new Vendor
             {
@@ -1212,7 +1212,7 @@ namespace KGERP.Service.Implementation.Configuration
                 NID = vmCommonSupplier.NID,
                 Phone = vmCommonSupplier.Phone,
                 Email = vmCommonSupplier.Email,
-                CountryId = bdId,
+                CountryId = vmCommonSupplier.Common_CountriesFk,
                 Address = vmCommonSupplier.Address,
                 VendorTypeId = vmCommonSupplier.VendorTypeId,
                 BankId = vmCommonSupplier.BankId,
