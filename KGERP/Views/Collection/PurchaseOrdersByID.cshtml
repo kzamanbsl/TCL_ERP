@@ -1,13 +1,11 @@
-﻿
-@{
-    ViewData["Title"] = "Payment History";
+﻿@{
+    ViewData["Title"] = "Vendor Payment";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
 }
 @model KGERP.Service.Implementation.VMPayment
 
 <style type="text/css">
-
     input, select, textarea {
         max-width: 100%;
     }
@@ -15,11 +13,11 @@
 
 <section class="content-header">
     <h1>
-        Payment History of <span class="label label-warning">@Model.CommonCustomerCode-@Model.CommonCustomerName</span>
+        Vendor Payment of @Model.CommonCustomerCode-@Model.CommonCustomerName
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">Payment History</li>
+        <li class="active">Vendor Payment</li>
     </ol>
 </section>
 <section class="content">
@@ -187,8 +185,8 @@
                                                 <label for="checkboxAdjust" class="form-check-label">Adjust From Deposit?</label>
                                             </div>
                                         </div>*@
-                                @*</div>*@
-                            }
+                                    @*</div>*@
+                                }
 
 
                                 <div class="row">
@@ -311,7 +309,6 @@
                                                 <button class="btn btn-success btn-block" style="width:100%" disabled="disabled">Submitted</button>
 
                                             }
-
                                         </div>
                                     </div>
                                 </div>
@@ -364,12 +361,12 @@
 
         </div>
 
-        </div>
-    </section>
+    </div>
+</section>
 
-    @section scripts {
+@section scripts {
 
-        <script type="text/javascript">
+    <script type="text/javascript">
 
         function makeProdReferenceSubmitable(rowId) {
             $("#submitPaymentMasterId").val(rowId)
@@ -501,17 +498,17 @@
                 dataType: "json",
                 data: { chequeBookId: chequeBookId },
                 success: function (data) {
-
-
+                    console.log(data);
                     if (data.UsedBookPage != data.TotalBookPage || data.UsedBookPage < data.TotalBookPage) {
-                        var predictNextPage = data.UsedBookPage - 1;
-                        var nextPage = predictNextPage;
 
-                        if (nextPage <= data.BookLastPageNumber) {
-                            $('#txtChqNo').val(data.BookFirstPageNumber + nextPage);
+                        if (data.UsedBookPage == 0) {
+                            $('#txtChqNo').val(data.BookFirstPageNumber);
+                            $('#chequeNoValidationMessage').text("");
                         }
-
-                        $('#chequeNoValidationMessage').text("");
+                        else {
+                            $('#txtChqNo').val(data.BookFirstPageNumber + data.UsedBookPage);
+                            $('#meschequeNoValidationMessagesage').text("");
+                        }
                     }
                     else {
                         $('#txtChqNo').val(0);
@@ -521,7 +518,7 @@
             });
         });
 
-        </script>
-    }
+    </script>
+}
 
 

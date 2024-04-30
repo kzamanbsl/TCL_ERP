@@ -1107,21 +1107,20 @@
                 dataType: "json",
                 data: { chequeBookId: chequeBookId },
                 success: function (data) {
-
-
                     if (data.UsedBookPage != data.TotalBookPage || data.UsedBookPage < data.TotalBookPage) {
-                        var predictNextPage = data.UsedBookPage - 1;
-                        var nextPage = predictNextPage;
 
-                        if (nextPage <= data.BookLastPageNumber) {
-                            $('#txtChqNo').val(data.BookFirstPageNumber + nextPage);
+                        if (data.UsedBookPage == 0) {
+                            $('#txtChqNo').val(data.BookFirstPageNumber);
+                            $('#chequeNoValidationMessage').text("");
                         }
-
-                        $('#chequeNoValidationMessage').text("");
+                        else {
+                            $('#txtChqNo').val(data.BookFirstPageNumber + data.UsedBookPage);
+                            $('#chequeNoValidationMessage').text("");
+                        }
                     }
                     else {
                         $('#txtChqNo').val(0);
-                        $('#chequeNoValidationMessage').text("No more page here, Try with another book!");
+                        $('#chequeNoValidationMessage   ').text("No more page here, Try with another book!");
                     }
                 }
             });

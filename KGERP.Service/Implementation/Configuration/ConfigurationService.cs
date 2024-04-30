@@ -1124,10 +1124,14 @@ namespace KGERP.Service.Implementation.Configuration
             VMCommonSupplier vmCommonSupplier = new VMCommonSupplier();
             vmCommonSupplier.CompanyFK = companyId;
             vmCommonSupplier.DataList = await Task.Run(() => (from t1 in _db.Vendors.Where(x => x.CompanyId == companyId)
-                                                              join t2 in _db.Banks on t1.BankId equals t2.BankId
-                                                              join t3 in _db.BankBranches on t1.BranchId equals t3.BankBranchId
-                                                              join t4 in _db.Countries on t1.CountryId equals t4.CountryId
-                                                              join t5 in _db.VendorTypes on t1.VendorTypeId equals t5.VendorTypeId
+                                                              join t2 in _db.Banks on t1.BankId equals t2.BankId into t2_Join
+                                                              from t2 in t2_Join.DefaultIfEmpty()
+                                                              join t3 in _db.BankBranches on t1.BranchId equals t3.BankBranchId into t3_Join
+                                                              from t3 in t3_Join.DefaultIfEmpty()
+                                                              join t4 in _db.Countries on t1.CountryId equals t4.CountryId into t4_Join
+                                                              from t4 in t4_Join.DefaultIfEmpty()
+                                                              join t5 in _db.VendorTypes on t1.VendorTypeId equals t5.VendorTypeId into t5_Join
+                                                              from t5 in t5_Join.DefaultIfEmpty()
                                                               where t1.IsActive == true
                                                               select new VMCommonSupplier
                                                               {
@@ -1169,33 +1173,22 @@ namespace KGERP.Service.Implementation.Configuration
 
             var newString = "";
 
-            if (vmCommonSupplier.VendorTypeId == (int)ProviderEnum.Subcontractor)
+            if (vmCommonSupplier.VendorTypeId > 0)
             {
-                int totalSupplier = _db.Vendors.Count(x => x.VendorTypeId == (int)ProviderEnum.Subcontractor && x.CompanyId == vmCommonSupplier.CompanyFK);
+                int totalVendor = _db.Vendors.Count(x => x.VendorTypeId == vmCommonSupplier.VendorTypeId && x.CompanyId == vmCommonSupplier.CompanyFK);
+                var vendorType = _db.VendorTypes.FirstOrDefault(x => x.VendorTypeId == vmCommonSupplier.VendorTypeId);
 
-                if (totalSupplier == 0)
+                string prefix = vendorType.Name.Substring(0, 3);
+
+                if (totalVendor == 0)
                 {
-                    totalSupplier = 1;
+                    totalVendor = 1;
                 }
                 else
                 {
-                    totalSupplier++;
+                    totalVendor++;
                 }
-                newString = "SUB-" + totalSupplier.ToString().PadLeft(4, '0');
-            }
-            else
-            {
-                int totalSupplier = _db.Vendors.Count(x => x.VendorTypeId == (int)ProviderEnum.Supplier && x.CompanyId == vmCommonSupplier.CompanyFK);
-
-                if (totalSupplier == 0)
-                {
-                    totalSupplier = 1;
-                }
-                else
-                {
-                    totalSupplier++;
-                }
-                newString = "SUP-" + totalSupplier.ToString().PadLeft(4, '0');
+                newString = prefix.ToUpper() + totalVendor.ToString().PadLeft(4, '0');
             }
 
             #endregion
@@ -5276,16 +5269,16 @@ namespace KGERP.Service.Implementation.Configuration
             int result = -1;
             var categoryId = _db.ProductSubCategories.FirstOrDefault(x => x.ProductSubCategoryId == id).ProductCategoryId;
             int head5ParentId = 0;
-            if(categoryId > 0)
+            if (categoryId > 0)
             {
                 var head4Id = _db.ProductCategories.FirstOrDefault(x => x.ProductCategoryId == categoryId).AccountingHeadId;
-                if(head4Id > 0)
+                if (head4Id > 0)
                 {
                     head5ParentId = (int)(head4Id == null ? 0 : head4Id);
                 }
             }
 
-            if(head5ParentId > 0)
+            if (head5ParentId > 0)
             {
                 Head5 head5_1 = new Head5
                 {

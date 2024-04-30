@@ -100,12 +100,12 @@ namespace KGERP.Controllers
                 VendorModel vendor = _vendorService.GetVendor(customerId ?? 0);
                 vmPayment.CustomerId = vendor.VendorId;
                 vmPayment.SubZoneFk = vendor.SubZoneId;
-              
+
                 var commonCustomers = await Task.Run(() => _procurementService.CustomerLisBySubZoneGet(vendor.SubZoneId ?? 0));
                 var customerSelectList = commonCustomers.Select(x => new { Value = x.ID, Text = x.Name }).ToList();
-                vmPayment.CustomerList= new SelectList(customerSelectList, "Value", "Text");
+                vmPayment.CustomerList = new SelectList(customerSelectList, "Value", "Text");
 
-                var salesOrders = await Task.Run(() => _procurementService.SalesOrderLisByCustomerIdGet(customerId??0));
+                var salesOrders = await Task.Run(() => _procurementService.SalesOrderLisByCustomerIdGet(customerId ?? 0));
                 var salesOrderList = salesOrders.Select(x => new { Value = x.OrderMasterId, Text = x.OrderNo }).ToList();
                 vmPayment.OrderMusterList = new SelectList(salesOrderList, "Value", "Text");
             }
@@ -201,7 +201,7 @@ namespace KGERP.Controllers
             model.ToDate = Convert.ToDateTime(model.StrToDate);
             return RedirectToAction(nameof(CommonPaymentMastersList), new { companyId = model.CompanyId, fromDate = model.FromDate, toDate = model.ToDate });
         }
-        
+
 
         public async Task<ActionResult> PaymentMasterList(int companyId, int customerId)
         {
@@ -231,20 +231,10 @@ namespace KGERP.Controllers
             vmPayment = await Task.Run(() => _service.ProcurementPurchaseOrdersGetByID(companyId, supplierId, paymentMasterId));
 
             vmPayment.OrderMusterList = new SelectList(_service.PurchaseOrdersDropDownList(companyId, supplierId), "Value", "Text");
-            vmPayment.BankList =  new SelectList(_configurationService.CommonBanksDropDownList(companyId), "Value", "Text");
-
-            if (companyId == (int)CompanyNameEnum.GloriousCropCareLimited)
-            {
-                vmPayment.BankOrCashParantList = new SelectList(_accountingService.GCCLCashAndBankDropDownList(companyId), "Value", "Text");
-
-            }
-            if (companyId == (int)CompanyNameEnum.KrishibidSeedLimited)
-            {
-                vmPayment.BankOrCashParantList = new SelectList(_accountingService.SeedCashAndBankDropDownList(companyId), "Value", "Text");
-
-            }
-
+            vmPayment.BankList = new SelectList(_configurationService.CommonBanksDropDownList(companyId), "Value", "Text");
+            vmPayment.BankOrCashParantList = new SelectList(_accountingService.SeedCashAndBankDropDownList(companyId), "Value", "Text");
             vmPayment.CustomerId = supplierId;
+
             return View(vmPayment);
         }
 
@@ -288,7 +278,7 @@ namespace KGERP.Controllers
         public async Task<ActionResult> BillRequisitionPayment(int companyId)
         {
             VMPayment vmPayment = new VMPayment();
-            
+
             if (companyId == (int)CompanyNameEnum.KrishibidSeedLimited)
             {
                 vmPayment.BankOrCashParantList = new SelectList(_accountingService.SeedCashAndBankDropDownList(companyId), "Value", "Text");
@@ -324,7 +314,7 @@ namespace KGERP.Controllers
                 return View("Error");
             }
 
-            return RedirectToAction(nameof(BillRequisitionPayment), new { companyId = vmPayment.CompanyFK});
+            return RedirectToAction(nameof(BillRequisitionPayment), new { companyId = vmPayment.CompanyFK });
         }
 
         #endregion

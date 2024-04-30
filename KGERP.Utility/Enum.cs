@@ -386,6 +386,7 @@ namespace KGERP.Utility
     public enum VendorsPaymentMethodEnum
     {
         Cash = 1,
+        Bank
         //Credit,
         //LC
     }

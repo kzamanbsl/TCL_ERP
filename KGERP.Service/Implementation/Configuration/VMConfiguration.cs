@@ -316,9 +316,9 @@ namespace KGERP.Service.Implementation.Configuration
 
         public string ACName { get; set; }
         public string ACNo { get; set; }
-        public int BankId { get; set; }
+        public int? BankId { get; set; }
         public string BankName { get; set; }
-        public int BranchId { get; set; }
+        public int? BranchId { get; set; }
         public string BranchName { get; set; }
         public IEnumerable<VMCommonSupplier> DataList { get; set; }
         public List<SelectModel> CList { get; set; }
