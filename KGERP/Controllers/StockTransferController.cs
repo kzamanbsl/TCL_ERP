@@ -292,6 +292,13 @@ namespace KGERP.Controllers
             // string  date = selectedDate.ToString("dd/MM/yyyy");
             ProductCurrentStockModel stockAvailableQuantity = _stockTransferService.GetStockAvailableQuantity(companyId, productId, stockFrom, selectedDate);
             return Json(stockAvailableQuantity, JsonRequestBehavior.AllowGet);
+        } 
+        [HttpGet]
+        public JsonResult GetStockAvailableQuantityByStockProduct( int productId, int stockFrom)
+        {
+            // string  date = selectedDate.ToString("dd/MM/yyyy");
+            ProductCurrentStockModel stockAvailableQuantity = _stockTransferService.GetStockAvailableQuantityByStockProduct( productId, stockFrom);
+            return Json(stockAvailableQuantity, JsonRequestBehavior.AllowGet);
         }
 
         [SessionExpire]

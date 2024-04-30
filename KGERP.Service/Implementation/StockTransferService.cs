@@ -400,12 +400,15 @@ namespace KGERP.Service.Implementation
             var result = (from t1 in _context.Products
                           join t2 in _context.ProductSubCategories on t1.ProductSubCategoryId equals t2.ProductSubCategoryId
                           join t3 in _context.ProductCategories on t2.ProductCategoryId equals t3.ProductCategoryId
+                          join t4 in _context.Units on t1.UnitId equals t4.UnitId into t4_join
+                          from t4 in t4_join.DefaultIfEmpty()
                           where t3.CompanyId == companyId && t1.IsActive && t3.ProductType == productType
                           && (t1.ProductName.ToLower().Contains(prefix) || t2.Name.ToLower().Contains(prefix) || t3.Name.ToLower().Contains(prefix))
                           select new
                           {
                               label = t3.Name + " - " + t2.Name + " - " + t1.ProductName,
-                              val = t1.ProductId
+                              val = t1.ProductId,
+                              unit=t4.Name
                           }).Take(20).ToList();
             return result;
         }
@@ -414,6 +417,13 @@ namespace KGERP.Service.Implementation
         {
 
             var sql = $"exec sp_FinishGoodStockByProductDepoWise '{selectedDate}',{companyId},{stockFrom},{productId}";
+            ProductCurrentStockModel data = _context.Database.SqlQuery<ProductCurrentStockModel>(sql).FirstOrDefault();
+            return data;
+        }
+        public ProductCurrentStockModel GetStockAvailableQuantityByStockProduct( int productId, int stockFrom)
+        {
+
+            var sql = $"exec sp_MaterialStockByProductStockWise '',{stockFrom},{productId}";
             ProductCurrentStockModel data = _context.Database.SqlQuery<ProductCurrentStockModel>(sql).FirstOrDefault();
             return data;
         }

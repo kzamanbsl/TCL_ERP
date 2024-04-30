@@ -216,24 +216,56 @@
                             @if (Model.IsReceived == 0 && Model.Status == (int)StockTransferStatusEnum.Draft)
                             {
                                 <div class="row">
-                                    <div class="col-md-4">
+                                    @*<div class="col-md-4">
+            <div class="form-group" style="padding:0px">
+                <label for="message-text" class="col-form-label">Work Order No:</label>
+                @Html.EditorFor(model => model.WorkOrderNo, new {htmlAttributes = new{ @autocomplete = "on", @class = "form-control", @name = "Work Order No", @id = "txtWorkOrderNo" }})
+                @Html.HiddenFor(model => model.PurchaseOrderId, new { id = "hfPurchaseOrderId" })
+                @Html.ValidationMessageFor(model => model.ProductId, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+                                    <div class="col-md-6">
                                         <div class="form-group" style="padding:0px">
-                                            <label for="message-text" class="col-form-label">Material/Item Name:</label>
-                                            @Html.EditorFor(model => model.ProductName, new {htmlAttributes = new{ @autocomplete = "on", @class = "form-control", @name = "Material/Item Name", @id = "txtProductName" }})
-                                            @Html.HiddenFor(model => model.ProductId, new { id = "hfProductId" })
-                                            @Html.ValidationMessageFor(model => model.ProductId, "", new { @class = "text-danger" })
+                                            <div class="col-md-9">
+                                                <label for="message-text" class="col-form-label">Material/Item Name:</label>
+                                                @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @autocomplete = "on", @class = "form-control", @name = "Material/Item Name", @id = "txtProductName" } })
+                                                @Html.HiddenFor(model => model.ProductId, new { id = "hfProductId" })
+                                                @Html.ValidationMessageFor(model => model.ProductId, "", new { @class = "text-danger" })
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label for="message-text" class="col-form-label">Unit:</label>
+
+                                                @Html.TextBoxFor(model => model.UnitName, new { id = "txtUnitName", @class = "form-control", @style = "width:100% !Important;border:1px black solid", placeholder = "Unit", disabled = true })
+
+                                            </div>
                                         </div>
                                     </div>
                                     @*<div class="col-md-2">
-                                            <div class="form-group">
-                                                <label>Stock Available Quantity</label>
-                                                <div class="input-group">
-                                                    <input type="text" id="stockAvailableQty" class="form-control"
-                                                           autocomplete="off" style="text-align:right" readonly />
-                                                    @Html.HiddenFor(model => model.UnitPrice, new { id = "hidUnitPrice" })
-                                                </div>
+            <div class="form-group">
+                <label>Stock Available Quantity</label>
+                <div class="input-group">
+                    <input type="text" id="stockAvailableQty" class="form-control"
+                           autocomplete="off" style="text-align:right" readonly />
+                    @Html.HiddenFor(model => model.UnitPrice, new { id = "hidUnitPrice" })
+                </div>
+            </div>
+        </div>*@
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Received Quantity</label>
+                                            <div class="input-group">
+
+                                                @Html.TextBoxFor(model => model.ReceivedQty, new { id = "txtReceivedQuantity", @class = "form-control", @style = "width:100%;border:1px black solid", placeholder = "Quantity", disabled = true })
+                                                @Html.ValidationMessageFor(model => model.ReceivedQty, "", new { @class = "text-danger" })
+
+
+
+
                                             </div>
-                                        </div>*@
+
+                                        </div>
+                                    </div>
+
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Quantity</label>
@@ -243,77 +275,97 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <label>&nbsp;</label>
-                                        <button type="submit" id="transCreateBtn" class="btn btn-primary btn-block">
-                                            <i class='fa fa-plus'></i>
-                                            @if (Model.StockTransferId > 0)
-                                            {
-                                                <span> Add Item</span>
-                                            }
-                                            else
-                                            {
-                                                <span> Create</span>
-                                            }
-                                        </button>
+                                    <div class="col-md-8">
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <label>&nbsp;</label>
+                                            <button type="submit" id="transCreateBtn" class="btn btn-primary btn-block">
+                                                <i class='fa fa-plus'></i>
+                                                @if (Model.StockTransferId > 0)
+                                                {
+                                                    <span> Add Item</span>
+                                                }
+                                                else
+                                                {
+                                                    <span> Create</span>
+                                                }
+                                            </button>
+                                        </div>
                                     </div>
+                                    }
                                 </div>
-                            }
-                        </div>
 
                         @if (Model.StockTransferId > 0)
-                            {
-                                @Html.HiddenFor(model => model.StockTransferDetailId, new { id = "hidSlaveID" })
-                                <div class="table-responsive col-md-12  text-nowrap">
-                                    <table id="KgErpDataTable" class="table table-striped">
-                                        <thead style="background-color:#ddd;">
-                                            <tr>
-                                                <th style="padding:5px;text-align:center;">SL</th>
-                                                <th style="padding:5px;text-align:left;">Material/Item Name</th>
-                                                <th style="padding:5px;text-align:left;">Unit</th>
-                                                <th style="padding:5px;text-align:center;">Quantity</th>
-                                                @if (Model.Status == (int)POStatusEnum.Draft)
-                                                {
-                                                    <th style="padding:5px;text-align:center;">Action</th>
-                                                }
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach (var item in Model.Items)
+                        {
+                            @Html.HiddenFor(model => model.StockTransferDetailId, new { id = "hidSlaveID" })
+                            <div class="table-responsive col-md-12  text-nowrap">
+                                <table id="KgErpDataTable" class="table table-striped">
+                                    <thead style="background-color:#ddd;">
+                                        <tr>
+                                            <th style="padding:5px;text-align:center;">SL</th>
+                                            <th style="padding:5px;text-align:left;">Material/Item Name</th>
+                                            <th style="padding:5px;text-align:left;">Unit</th>
+                                            <th style="padding:5px;text-align:center;">Quantity</th>
+                                            @if (Model.Status == (int)POStatusEnum.Draft)
                                             {
-                                                totalQty += @item.TransferQty ?? 0;
-                                                <tr>
-                                                    <td style="padding:5px">@(++sl)</td>
-                                                    <td style="padding:5px;text-align:left;">@item.ProductName</td>
-                                                    <td style="padding:5px;text-align:left;">@item.UnitName</td>
-                                                    <td style="padding:5px;text-align:center;">@String.Format("{0:0.000}", item.TransferQty)</td>
-                                                    @{ if (Model.Status == (int)StockTransferStatusEnum.Draft)
-                                                        {
-                                                            <td style="padding:5px;text-align:center;">
-                                                                <a id="@item.StockTransferDetailId" onclick=" makeEditble(@item.StockTransferDetailId);" class="linkPointer" title="Edit"><i class="fa fa-edit" aria-hidden="true"></i></a>
-
-                                                                <a id="@item.StockTransferDetailId" onclick="makeDeletable(@item.StockTransferDetailId)" class="linkPointer" data-toggle="modal" data-target="#deleteTransferSlaveModal" title="Delete" data-placement="top"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>
-                                                            </td>
-                                                        }
-                                                    }
-                                                </tr>
+                                                <th style="padding:5px;text-align:center;">Action</th>
                                             }
-                                        </tbody>
-                                        <tfoot style="background-color:#eee;">
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.Items)
+                                        {
+                                            totalQty += @item.TransferQty ?? 0;
                                             <tr>
-                                                <th></th>
-                                                <th colspan="2">TOTAL</th>
-                                                <th style="padding:5px;text-align:center;">@String.Format("{0:0.000}", totalQty) </th>
-                                                @if (Model.Status == (int)StockTransferStatusEnum.Draft)
-                                                {
-                                                    <th></th>
+                                                <td style="padding:5px">@(++sl)</td>
+                                                <td style="padding:5px;text-align:left;">@item.ProductName</td>
+                                                <td style="padding:5px;text-align:left;">@item.UnitName</td>
+                                                <td style="padding:5px;text-align:center;">@String.Format("{0:0.000}", item.TransferQty)</td>
+                                                @{ if (Model.Status == (int)StockTransferStatusEnum.Draft)
+                                                    {
+                                                        <td style="padding:5px;text-align:center;">
+                                                            <a id="@item.StockTransferDetailId" onclick=" makeEditble(@item.StockTransferDetailId);" class="linkPointer" title="Edit"><i class="fa fa-edit" aria-hidden="true"></i></a>
+
+                                                            <a id="@item.StockTransferDetailId" onclick="makeDeletable(@item.StockTransferDetailId)" class="linkPointer" data-toggle="modal" data-target="#deleteTransferSlaveModal" title="Delete" data-placement="top"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>
+                                                        </td>
+                                                    }
                                                 }
                                             </tr>
-                                        </tfoot>
-                                    </table>
-                                </div>
-                            }
-                      
+                                        }
+                                    </tbody>
+                                    <tfoot style="background-color:#eee;">
+                                        <tr>
+                                            <th></th>
+                                            <th colspan="2">TOTAL</th>
+                                            <th style="padding:5px;text-align:center;">@String.Format("{0:0.000}", totalQty) </th>
+                                            @if (Model.Status == (int)StockTransferStatusEnum.Draft)
+                                            {
+                                                <th></th>
+                                            }
+                                        </tr>
+                                    </tfoot>
+                                </table>
+
+                                @if (Model?.Status == (int)StockTransferStatusEnum.Draft)
+                                {
+                                    <div class="box-footer">
+                                        <div class="row">
+                                            <div class="col-md-6"></div>
+                                            <div class="col-md-6">
+                                                <a class="linkPointer btn btn-success" data-toggle="modal" style="width:100%" data-target="#submitIssueModal" data-placement="top">
+
+                                                    <i>Submit</i>
+
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+
+                        }
+
                     </div>
                     <div class="box-footer">
 
@@ -409,7 +461,7 @@
     @Scripts.Render("~/bundles/jqueryui")
     @Styles.Render("~/Content/cssjqryUi")
 
-<script type="text/javascript">
+    <script type="text/javascript">
 
         $('.datepicker').datepicker({
             dateFormat: "dd/mm/yy",
@@ -419,15 +471,67 @@
             changeYear: true,
             yearRange: "2001:+50"
         });
+        $("#txtQuantity").keyup(function () {
+            var qty = parseFloat($(this).val());
+            var receivedQty = parseFloat($("#txtReceivedQuantity").val());
 
+            if (qty > receivedQty) {
+                $("#transCreateBtn").prop("disabled", true);
+            } else {
+                $("#transCreateBtn").prop("disabled", false);
+
+            }
+        });
         $(document).ready(function () {
 
             $(function () {
 
-            $("#txtProductName").autocomplete({
+                $("#txtProductName").autocomplete({
+                    source: function (request, response) {
+                        $.ajax({
+                            url: "/StockTransfer/AutoCompleteProduct/",
+                            dataType: "json",
+                            data: {
+                                companyId: @Model.CompanyId,
+                                prefix: request.term,
+                                productType: "R"
+                            },
+                            type: "GET",
+                            cache: true,
+                            contentType: "application/json; charset=utf-8",
+                            success: function (data) {
+                               
+                                response($.map(data, function (item) {
+                                    return item;
+                                }))
+                            },
+                            error: function (response) {
+                                alert(response.responseText);
+                            },
+                            failure: function (response) {
+                                alert(response.responseText);
+                            }
+                        });
+                    },
+                    select: function (e, i) {
+                       
+                        $("#hfProductId").val(i.item.val);
+                        $("#txtProductName").val(i.item.val);
+                        $("#txtUnitName").val(i.item.unit);
+
+                        loadStockAvailableQuantity(i.item.val);
+                    },
+                    minLength: 1,
+
+                }).focus(function () {
+                    $(this).autocomplete("search");
+                });
+
+            });
+            $("#txtWorkOrderNo").autocomplete({
                 source: function (request, response) {
                     $.ajax({
-                        url: "/StockTransfer/AutoCompleteProduct/",
+                        url: "/MaterialReceive/WorkOrderNoReceivedAutoComplete/",
                         dataType: "json",
                         data: {
                             companyId: @Model.CompanyId,
@@ -451,52 +555,55 @@
                     });
                 },
                 select: function (e, i) {
-                    $("#hfProductId").val(i.item.val);
-                    $("#txtProductName").val(i.item.val);
+                    console.log(i.item);
+                    $("#hfPurchaseOrderId").val(i.item.val);
+                    
+                    //    $("#txtProductName").val(i.item.val);
                 },
                 minLength: 1,
-                change: function (event, ui) {
+                //change: function (event, ui) {
 
-                    loadStockAvailableQuantity(ui.item.val);
-                }
+                //    loadStockAvailableQuantity(ui.item.val);
+                //}
             }).focus(function () {
                 $(this).autocomplete("search");
             });
 
-        });
+
 
             function loadStockAvailableQuantity(productId) {
 
                 var stockIdForm = $('#stockIdFrom').val();
-                var companyId = $('#CompanyFK').val();
+                //var companyId = $('#CompanyFK').val();
                 var date = $('#txtTransferDate').val();
 
                 $.ajax({
-                    url: "/StockTransfer/GetStockAvailableQuantity/",
+                    url: "/StockTransfer/GetStockAvailableQuantityByStockProduct/",
                     dataType: "json",
                     data: {
-                        companyId: companyId, productId: productId, stockFrom: stockIdForm, selectedDate: date
+                        productId: productId, stockFrom: stockIdForm
 
                     },
                     type: "GET",
                     async: true,
                     success: function (data) {
-                        $('#stockAvailableQty').val(data.OpeningQty);
-                        $('#hidUnitPrice').val(data.OpeningRate);
+                        $('#txtQuantity').val(data.ReceiveQty);
+                        $("#txtReceivedQuantity").val(data.ReceiveQty);
+                        //$('#hidUnitPrice').val(data.OpeningRate);
 
-                        if (result < 0) {
-                            $("#stockAvailableQty").css('color', 'red');
-                            $("#stockAvailableQty").css('font-weight', 'bold');
-                        }
-                        else {
-                            $("#stockAvailableQty").css('color', 'green');
-                            $("#stockAvailableQty").css('font-weight', 'bold');
-                        }
+                        //if (result < 0) {
+                        //    $("#stockAvailableQty").css('color', 'red');
+                        //    $("#stockAvailableQty").css('font-weight', 'bold');
+                        //}
+                        //else {
+                        //    $("#stockAvailableQty").css('color', 'green');
+                        //    $("#stockAvailableQty").css('font-weight', 'bold');
+                        //}
                     },
                     error: function (xhr) {
                     }
                 });
-        }
+            }
         });
 
         $(function () {
@@ -554,14 +661,14 @@
         }
 
         function makeDeletable(rowId) {
-       $('#hidDeleteTransSlaveId').val(rowId);
-       $('#deleteActionId').val(3);
-   }
+            $('#hidDeleteTransSlaveId').val(rowId);
+            $('#deleteActionId').val(3);
+        }
 
         function resetTransSlaveForm() {
-     $('#transSlaveFormId')[0].reset();
-     $('#ActionId').val(1);
-   }
+            $('#transSlaveFormId')[0].reset();
+            $('#ActionId').val(1);
+        }
 
         function makeEditble(rowId) {
 
@@ -582,7 +689,9 @@
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 }
             });
-       }
+        }
 
-</script>
+       
+
+    </script>
 }

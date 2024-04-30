@@ -22,6 +22,7 @@ namespace KGERP.Service.Interface
         Task<StockTransferModel> GetGcclRmTransfer(int companyId, DateTime? fromDate, DateTime? toDate);
         object GetProductAutoComplete(int companyId, string prefix, string productType);
         ProductCurrentStockModel GetStockAvailableQuantity(int companyId, int productId, int stockFrom, string selectedDate);
+        ProductCurrentStockModel GetStockAvailableQuantityByStockProduct(int productId, int stockFrom);
 
         List<StockTransferModel> GetStockTransferInfo(int companyId, DateTime? searchDate, string searchText);
         List<StockTransferDetailModel> GetStockTransferDetail(int companyId);

@@ -680,7 +680,7 @@ namespace KGERP.Service.Implementation.Procurement
             //PurchaseOrder procurementPurchaseOrder = new PurchaseOrder
             //{
             //    IsOpening = true,
-            //    PurchaseOrderNo = poCid,
+            //    PurchaseOrderId = poCid,
             //    PurchaseDate = vmPurchaseOrderSlave.OrderDate,
             //    SupplierId = vmPurchaseOrderSlave.Common_SupplierFK,
             //    DeliveryDate = DateTime.Now,
