@@ -164,7 +164,7 @@ namespace KGERP.Service.Implementation
             return sendData;
         }
 
-        public async Task<bool> ChequeSign(long chequeRegisterId)
+        public async Task<bool> ChequeSignRequest(long chequeRegisterId)
         {
             bool sendData = false;
             if (chequeRegisterId > 0)
@@ -186,6 +186,28 @@ namespace KGERP.Service.Implementation
                             requisitionMaster.ModifiedDate = DateTime.Now;
                             _context.SaveChanges();
                         }
+                        sendData = true;
+                    }
+                }
+            }
+
+            return sendData;
+        }
+
+        public async Task<bool> ChequeCancelRequest(long chequeRegisterId)
+        {
+            bool sendData = false;
+            if (chequeRegisterId > 0)
+            {
+                var result = _context.ChequeRegisters.FirstOrDefault(x => x.ChequeRegisterId == chequeRegisterId);
+                if (result != null)
+                {
+                    //result.IsCancel = true;
+                    result.ModifiedBy = HttpContext.Current.User.Identity.Name;
+                    result.ModifiedOn = DateTime.Now;
+
+                    if (await _context.SaveChangesAsync() > 0)
+                    {
                         sendData = true;
                     }
                 }

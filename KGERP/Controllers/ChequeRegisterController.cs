@@ -294,7 +294,18 @@ namespace KGERP.Controllers
             bool response = false;
             if (chequeRegisterId > 0)
             {
-                response = await _Service.ChequeSign(chequeRegisterId);
+                response = await _Service.ChequeSignRequest(chequeRegisterId);
+            }
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public async Task<JsonResult> ChequeCancel(long chequeRegisterId)
+        {
+            bool response = false;
+            if (chequeRegisterId > 0)
+            {
+                response = await _Service.ChequeCancelRequest(chequeRegisterId);
             }
             return Json(response, JsonRequestBehavior.AllowGet);
         }
