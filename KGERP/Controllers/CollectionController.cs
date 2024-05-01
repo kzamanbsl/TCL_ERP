@@ -229,12 +229,12 @@ namespace KGERP.Controllers
         {
             VMPayment vmPayment = new VMPayment();
             vmPayment = await Task.Run(() => _service.ProcurementPurchaseOrdersGetByID(companyId, supplierId, paymentMasterId));
-
-            vmPayment.OrderMusterList = new SelectList(_service.PurchaseOrdersDropDownList(companyId, supplierId), "Value", "Text");
+            //vmPayment.OrderMusterList = new SelectList(_service.PurchaseOrdersDropDownList(companyId, supplierId), "Value", "Text");
+            vmPayment.OrderMusterList = new SelectList(_service.MaterialReceivedDropDownList(companyId, supplierId), "Value", "Text");
             vmPayment.BankList = new SelectList(_configurationService.CommonBanksDropDownList(companyId), "Value", "Text");
             vmPayment.BankOrCashParantList = new SelectList(_accountingService.SeedCashAndBankDropDownList(companyId), "Value", "Text");
             vmPayment.CustomerId = supplierId;
-
+            vmPayment.PaymentMasterId = paymentMasterId;
             return View(vmPayment);
         }
 
@@ -248,18 +248,14 @@ namespace KGERP.Controllers
                 if (vmPayment.PaymentMasterId == 0)
                 {
                     vmPayment.PaymentMasterId = await _service.PaymentMasterAdd(vmPayment);
-
                 }
                 await _service.PaymentAdd(vmPayment);
-
             }
             else if (vmPayment.ActionEum == ActionEnum.Finalize)
             {
 
                 await _service.SubmitPaymentMasters(vmPayment);
-
             }
-
             else
             {
                 return View("Error");
