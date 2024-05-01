@@ -45,6 +45,9 @@ namespace KGERP.Service.Implementation
                     ClearingDate = model.ClearingDate,
                     Remarks = model.Remarks,
                     IsSigned = false,
+                    IsCanceled = false,
+                    IsPrinted = false,
+                    PrintCount = 0,
                     IsActive = true,
                     CreatedBy = HttpContext.Current.User.Identity.Name,
                     CreatedOn = DateTime.Now
@@ -83,6 +86,9 @@ namespace KGERP.Service.Implementation
                     ClearingDate = model.ClearingDate,
                     Remarks = model.Remarks,
                     IsSigned = false,
+                    IsCanceled = false,
+                    IsPrinted = false,
+                    PrintCount = 0,
                     IsActive = true,
                     CreatedBy = HttpContext.Current.User.Identity.Name,
                     CreatedOn = DateTime.Now
@@ -202,7 +208,7 @@ namespace KGERP.Service.Implementation
                 var result = _context.ChequeRegisters.FirstOrDefault(x => x.ChequeRegisterId == chequeRegisterId);
                 if (result != null)
                 {
-                    //result.IsCancel = true;
+                    result.IsCanceled = true;
                     result.ModifiedBy = HttpContext.Current.User.Identity.Name;
                     result.ModifiedOn = DateTime.Now;
 

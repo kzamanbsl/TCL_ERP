@@ -3780,6 +3780,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.TempFeedVoucherDetail' does not hav
           <Property Name="ModifiedBy" Type="varchar" MaxLength="50" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="PrintCount" Type="int" />
+          <Property Name="IsCanceled" Type="bit" />
         </EntityType>
         <EntityType Name="ConsumptionDetails">
           <Key>
@@ -12524,7 +12525,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             <End Role="Vendor" EntitySet="Vendors" />
             <End Role="ChequeRegister" EntitySet="ChequeRegisters" />
           </AssociationSet>
-				</EntityContainer>
+          </EntityContainer>
 				<EntityType Name="AdminPolicy">
 					<Key>
 						<PropertyRef Name="company_id" />
@@ -22466,6 +22467,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
           <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <Property Name="PrintCount" Type="Int32" />
+          <Property Name="IsCanceled" Type="Boolean" />
           <NavigationProperty Name="Accounting_CostCenter" Relationship="ERPModel.FK_ChequeRegister_Accounting_CostCenter" FromRole="ChequeRegister" ToRole="Accounting_CostCenter" />
           <NavigationProperty Name="BillRequisitionMaster" Relationship="ERPModel.FK_ChequeRegister_BillRequisitionMaster" FromRole="ChequeRegister" ToRole="BillRequisitionMaster" />
           <NavigationProperty Name="Vendor" Relationship="ERPModel.FK_ChequeRegister_ChequeRegister" FromRole="ChequeRegister" ToRole="Vendor" />
@@ -22506,7 +22508,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-			</Schema>
+        </Schema>
 		</edmx:ConceptualModels>
 		<!-- C-S mapping content -->
 		<edmx:Mappings>
@@ -28655,6 +28657,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
           <EntitySetMapping Name="ChequeRegisters">
             <EntityTypeMapping TypeName="ERPModel.ChequeRegister">
               <MappingFragment StoreEntitySet="ChequeRegister">
+                <ScalarProperty Name="IsCanceled" ColumnName="IsCanceled" />
                 <ScalarProperty Name="PrintCount" ColumnName="PrintCount" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
