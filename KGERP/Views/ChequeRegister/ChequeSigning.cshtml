@@ -100,7 +100,8 @@
                                         <th>Pay To</th>
                                         <th>Amount</th>
                                         <th>Print Count</th>
-                                        <th>Action</th>
+                                        <th>Make Sign</th>
+                                        <th>Make Cancel</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -145,6 +146,23 @@
                                                         {
                                                             <center class="btn btn-xs btn-success text-center" style="padding-left: 7px; padding-right: 7px;">
                                                                 Signed
+                                                            </center>
+                                                        }
+                                                    </td>
+                                                    <td>
+                                                        @if (!item.IsCanceled)
+                                                        {
+                                                            <center class="btn btn-xs btn-danger text-center d-block" style="padding-left: 7px; padding-right: 7px;" id="showToHide_@item.ChequeRegisterId" onclick="ChequeCancel('@item.ChequeRegisterId')">
+                                                                Cancel
+                                                            </center>
+                                                            <center class="btn btn-xs btn-danger disabled text-center hidden" style="padding-left: 7px; padding-right: 7px;" id="hideToShow_@item.ChequeRegisterId">
+                                                                Canceled
+                                                            </center>
+                                                        }
+                                                        else
+                                                        {
+                                                            <center class="btn btn-xs btn-danger disabled text-center" style="padding-left: 7px; padding-right: 7px;">
+                                                                Canceled
                                                             </center>
                                                         }
                                                     </td>
@@ -194,6 +212,23 @@
                                                             </center>
                                                         }
                                                     </td>
+                                                    <td>
+                                                        @if (!item.IsCanceled)
+                                                        {
+                                                            <center class="btn btn-xs btn-danger text-center d-block" style="padding-left: 7px; padding-right: 7px;" id="showToHide_@item.ChequeRegisterId" onclick="ChequeCancel('@item.ChequeRegisterId')">
+                                                                Cancel
+                                                            </center>
+                                                            <center class="btn btn-xs btn-danger disabled text-center hidden" style="padding-left: 7px; padding-right: 7px;" id="hideToShow_@item.ChequeRegisterId">
+                                                                Canceled
+                                                            </center>
+                                                        }
+                                                        else
+                                                        {
+                                                            <center class="btn btn-xs btn-danger disabled text-center" style="padding-left: 7px; padding-right: 7px;">
+                                                                Canceled
+                                                            </center>
+                                                        }
+                                                    </td>
                                                 </tr>
                                             }
                                         }
@@ -220,6 +255,23 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                 <button type="button" class="btn btn-primary" id="confirmSignButton">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="confirmationModalCancel" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="padding: 0 20px;">
+                <h3 class="text-primary" id="confirmationModalLabel">Confirmation</h3>
+            </div>
+            <div class="modal-body" style="padding: 30px 20px;">
+                <h4>Are you sure you want to reject?</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirmCancelButton">Yes</button>
             </div>
         </div>
     </div>
@@ -260,6 +312,27 @@
                 });
 
                 $('#confirmationModal').modal('hide');
+            });
+        }
+
+        function ChequeCancel(chequeRegisterId) {
+            $('#confirmationModalCancel').modal('show');
+
+            $('#confirmCancelButton').click(function () {
+                $.ajax({
+                    type: "GET",
+                    url: "/ChequeRegister/ChequeCancel",
+                    dataType: "json",
+                    data: { chequeRegisterId: chequeRegisterId },
+                    success: function (data) {
+                        if (data) {
+                            $("#showToHideCancel_" + chequeRegisterId).removeClass("d-block").addClass("hidden");
+                            $("#hideToShowCancel_" + chequeRegisterId).removeClass("hidden").addClass("d-block");
+                        }
+                    }
+                });
+
+                $('#confirmationModalCancel').modal('hide');
             });
         }
     </script>
