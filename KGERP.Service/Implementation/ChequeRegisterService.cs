@@ -178,21 +178,24 @@ namespace KGERP.Service.Implementation
                 var result = _context.ChequeRegisters.FirstOrDefault(x => x.ChequeRegisterId == chequeRegisterId);
                 if (result != null)
                 {
-                    result.IsSigned = true;
-                    result.ModifiedBy = HttpContext.Current.User.Identity.Name;
-                    result.ModifiedOn = DateTime.Now;
-
-                    if (await _context.SaveChangesAsync() > 0)
+                    if (!(bool)result.IsCanceled)
                     {
-                        if (result.RequisitionMasterId > 0)
+                        result.IsSigned = true;
+                        result.ModifiedBy = HttpContext.Current.User.Identity.Name;
+                        result.ModifiedOn = DateTime.Now;
+
+                        if (await _context.SaveChangesAsync() > 0)
                         {
-                            var requisitionMaster = _context.BillRequisitionMasters.FirstOrDefault(x => x.BillRequisitionMasterId == result.RequisitionMasterId);
-                            requisitionMaster.PaymentStatus = true;
-                            requisitionMaster.ModifiedBy = HttpContext.Current.User.Identity.Name;
-                            requisitionMaster.ModifiedDate = DateTime.Now;
-                            _context.SaveChanges();
+                            if (result.RequisitionMasterId > 0)
+                            {
+                                var requisitionMaster = _context.BillRequisitionMasters.FirstOrDefault(x => x.BillRequisitionMasterId == result.RequisitionMasterId);
+                                requisitionMaster.PaymentStatus = true;
+                                requisitionMaster.ModifiedBy = HttpContext.Current.User.Identity.Name;
+                                requisitionMaster.ModifiedDate = DateTime.Now;
+                                _context.SaveChanges();
+                            }
+                            sendData = true;
                         }
-                        sendData = true;
                     }
                 }
             }
@@ -208,13 +211,16 @@ namespace KGERP.Service.Implementation
                 var result = _context.ChequeRegisters.FirstOrDefault(x => x.ChequeRegisterId == chequeRegisterId);
                 if (result != null)
                 {
-                    result.IsCanceled = true;
-                    result.ModifiedBy = HttpContext.Current.User.Identity.Name;
-                    result.ModifiedOn = DateTime.Now;
-
-                    if (await _context.SaveChangesAsync() > 0)
+                    if (!result.IsSigned)
                     {
-                        sendData = true;
+                        result.IsCanceled = true;
+                        result.ModifiedBy = HttpContext.Current.User.Identity.Name;
+                        result.ModifiedOn = DateTime.Now;
+
+                        if (await _context.SaveChangesAsync() > 0)
+                        {
+                            sendData = true;
+                        }
                     }
                 }
             }
