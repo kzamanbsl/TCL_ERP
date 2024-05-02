@@ -312,6 +312,22 @@ namespace KGERP.Controllers
 
         #endregion
 
+        #region Cheque Cancel Request
+
+        [HttpGet]
+        public async Task<ActionResult> ChequeCancelRequest(int companyId = 0)
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ChequeCancelRequest(ChequeRegisterModel model)
+        {
+            return View();
+        }
+
+        #endregion
+
         #region Other Json
 
         [HttpGet]
