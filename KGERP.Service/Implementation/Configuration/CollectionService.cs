@@ -509,32 +509,31 @@ namespace KGERP.Service.Implementation.Configuration
 
             if (paymentMasterId > 0)
             {
-                paymentVm = await Task.Run(() =>
-                    (from t2 in _db.PaymentMasters.Where(x => x.IsActive && x.PaymentMasterId == paymentMasterId)
-                     join t1 in _db.Vendors.Where(x => x.VendorId == supplierId && x.IsActive && x.CompanyId == companyId)
-                         on t2.VendorId equals t1.VendorId
-                     join t3 in _db.HeadGLs on t2.BankChargeHeadGLId equals t3.Id
-                     join t4 in _db.HeadGLs on t2.PaymentToHeadGLId equals t4.Id
+               paymentVm = await Task.Run(() =>
+                    (from t1 in _db.PaymentMasters.Where(x => x.IsActive && x.PaymentMasterId == paymentMasterId && x.VendorId == supplierId && x.CompanyId == companyId)
+                     join t2 in _db.Vendors on t1.VendorId equals t2.VendorId
+                     //join t3 in _db.HeadGLs on t1.BankChargeHeadGLId equals t3.Id
+                     //join t4 in _db.HeadGLs on t1.PaymentToHeadGLId equals t4.Id
                      select new VMPayment
                      {
-                         ACName = t1.ACName,
-                         ACNo = t1.ACNo,
-                         BankName = t1.BankId.ToString(),
-                         BranchName = t1.BranchId.ToString(),
-                         PaymentFromHeadGLId = t2.PaymentToHeadGLId,
-                         BankCharge = t2.BankCharge,
-                         BankChargeHeadGLId = t2.BankChargeHeadGLId,
-                         IsFinalized = t2.IsFinalized,
-                         PaymentMasterId = t2.PaymentMasterId,
-                         PaymentNo = t2.PaymentNo,
-                         CustomerId = t1.VendorId,
+                         ACName = t2.ACName,
+                         ACNo = t2.ACNo,
+                         BankName = t2.BankId.ToString(),
+                         BranchName = t2.BranchId.ToString(),
+                         PaymentFromHeadGLId = t1.PaymentToHeadGLId,
+                         BankCharge = t1.BankCharge,
+                         BankChargeHeadGLId = t1.BankChargeHeadGLId,
+                         IsFinalized = t1.IsFinalized,
+                         PaymentMasterId = t1.PaymentMasterId,
+                         PaymentNo = t1.PaymentNo,
+                         CustomerId = t2.VendorId,
                          CompanyId = companyId,
-                         CompanyFK = t2.CompanyId,
-                         MoneyReceiptNo = t2.MoneyReceiptNo ?? "N/A",
-                         TransactionDate = t2.TransactionDate,
-                         ReferenceNo = t2.ReferenceNo,
-                         CommonCustomerName = t1.Name,
-                         CommonCustomerCode = t1.Code,
+                         CompanyFK = t1.CompanyId,
+                         MoneyReceiptNo = t1.MoneyReceiptNo ?? "N/A",
+                         TransactionDate = t1.TransactionDate,
+                         ReferenceNo = t1.ReferenceNo,
+                         CommonCustomerName = t2.Name,
+                         CommonCustomerCode = t2.Code,
                          //PaymentToHeadGLId = t2.PaymentToHeadGLId,
                          //PaymentToHeadGLName = $"{t4.AccCode} - {t4.AccName}",
                          //PaymentFromHeadGLName = $"{t3.AccCode} - {t3.AccName}",
@@ -543,13 +542,13 @@ namespace KGERP.Service.Implementation.Configuration
                                                  join ts3 in _db.PurchaseOrders on ts2.PurchaseOrderId equals ts3.PurchaseOrderId
                                                  where ts3.SupplierId == supplierId && ts2.IsActive && ts1.IsActive && !ts1.IsReturn
                                                  select ts1.ReceiveQty * ts1.UnitPrice).DefaultIfEmpty(0).Sum(),
+
                          ReturnAmount = (from ts1 in _db.PurchaseReturnDetails
-                                         join ts2 in _db.PurchaseReturns
-                                             .Where(x => x.SupplierId == t1.VendorId && x.CompanyId == t1.CompanyId) on ts1.PurchaseReturnId equals ts2.PurchaseReturnId
-                                         where ts1.IsActive && ts2.Active
+                                         join ts2 in _db.PurchaseReturns on ts1.PurchaseReturnId equals ts2.PurchaseReturnId
+                                         where ts1.IsActive && ts2.Active && ts2.SupplierId == t2.VendorId && ts2.CompanyId == t2.CompanyId
                                          select ts1.Qty.Value * ts1.Rate.Value).DefaultIfEmpty(0).Sum(),
-                         InAmount = _db.Payments.Where(x => x.VendorId == supplierId)
-                                                 .Select(x => x.InAmount).DefaultIfEmpty(0).Sum()
+
+                         InAmount = _db.Payments.Where(x => x.VendorId == supplierId).Select(x => x.InAmount).DefaultIfEmpty(0).Sum()
                      }).FirstOrDefault());
             }
             else
@@ -574,20 +573,16 @@ namespace KGERP.Service.Implementation.Configuration
                                                  join ts3 in _db.PurchaseOrders on ts2.PurchaseOrderId equals ts3.PurchaseOrderId
                                                  where ts3.SupplierId == supplierId && ts2.IsActive && ts1.IsActive && !ts1.IsReturn
                                                  select ts1.ReceiveQty * ts1.UnitPrice).DefaultIfEmpty(0).Sum(),
-                         ReturnAmount = (from ts1 in _db.PurchaseReturnDetails
-                                         join ts2 in _db.PurchaseReturns
-                                             .Where(x => x.SupplierId == t1.VendorId && x.CompanyId == t1.CompanyId) on ts1.PurchaseReturnId equals ts2.PurchaseReturnId
-                                         select ts1.Qty.Value * ts1.Rate.Value).DefaultIfEmpty(0).Sum(),
-                         InAmount = _db.Payments.Where(x => x.VendorId == supplierId)
-                                                 .Select(x => x.InAmount).DefaultIfEmpty(0).Sum(),
-                         OutAmount = _db.Payments.Where(x => x.VendorId == supplierId)
-                                                 .Select(x => x.OutAmount).DefaultIfEmpty(0).Sum()
-                     }).FirstOrDefault());
-            }
 
-            if (paymentVm == null)
-            {
-                paymentVm = new VMPayment();
+                         ReturnAmount = (from ts1 in _db.PurchaseReturnDetails
+                                         join ts2 in _db.PurchaseReturns on ts1.PurchaseReturnId equals ts2.PurchaseReturnId
+                                         where ts2.SupplierId == t1.VendorId && ts2.CompanyId == t1.CompanyId
+                                         select ts1.Qty.Value * ts1.Rate.Value).DefaultIfEmpty(0).Sum(),
+
+                         InAmount = _db.Payments.Where(x => x.VendorId == supplierId).Select(x => x.InAmount).DefaultIfEmpty(0).Sum(),
+
+                         OutAmount = _db.Payments.Where(x => x.VendorId == supplierId).Select(x => x.OutAmount).DefaultIfEmpty(0).Sum()
+                     }).FirstOrDefault());
             }
 
             paymentVm.DataList = await Task.Run(() =>
@@ -611,7 +606,8 @@ namespace KGERP.Service.Implementation.Configuration
                  PaymentId = t1.PaymentId,
                  PaymentToHeadGLId = t1.PaymentFromHeadGLId ?? 0
              }).OrderByDescending(x => x.PaymentId).ToList());
-            paymentVm.CompanyFK = 21;
+            paymentVm.CompanyFK = companyId;
+
             return paymentVm;
         }
 
