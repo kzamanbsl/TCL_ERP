@@ -38,8 +38,9 @@
 
                             <div class="form-group">
                                 <label>Vendor Category<sup class="text-danger" title="Required"><b>*</b></sup></label>
-                                @Html.TextBoxFor(model => model.Name, new { id = "textVendorType", @class = "form-control", @placeholder = "Vendor type name", required = "true", })
+                                @Html.TextBoxFor(model => model.Name, new { id = "textVendorType", @class = "form-control", @placeholder = "Vendor category name", required = "true", })
                                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                <span class="text-danger" id="errorMessage"></span>
                             </div>
                             <div class="form-group">
                                 <div class="col-md-5">
@@ -169,6 +170,19 @@
             $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Add");
 
         }
+
+        $('#textVendorType').on('input', function (event) {
+            var totalCharacter = $(this).val();
+
+            if (totalCharacter.length >= 3) {
+                $('#btnSave').prop('disabled', false);
+                $('#errorMessage').text("");
+            } else {
+                $('#btnSave').prop('disabled', true);
+                $('#errorMessage').text("Minimum 3 characters needs!");
+            }
+        });
+
 
     </script>
 }

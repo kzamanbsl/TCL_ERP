@@ -385,7 +385,7 @@
                 }
             });
 
-           
+
 
 
             $("#supplier").autocomplete({
@@ -393,22 +393,16 @@
 
                     var companyId = $("#CompanyFK").val();
                     $.ajax({
-                       url:"@Url.Action("GetSupplierAutoComplete", "Warehouse")",
-                        data: { companyId: companyId, prefix: request.term },
+                        url:"@Url.Action("GetAutoCompleteSupplierGet", "Procurement")",
+                        data: { prefix: request.term, companyId: "@Model.CompanyFK" },
                         dataType: "json",
                         type: "get",
                         cache: true,
                         contentType: "application/json; charset=utf-8",
                         success: function (data) {
-                            response($.map(data, function (item) {
-                                return item;
-                            }))
-                        },
-                        error: function (response) {
-                            //alert(response.responseText);
-                        },
-                        failure: function (response) {
-                            //alert(response.responseText);
+                           response($.map(data, function (item) {
+                               return item;
+                           }))
                         }
                     });
                 },

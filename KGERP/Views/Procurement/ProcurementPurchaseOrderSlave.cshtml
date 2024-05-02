@@ -87,7 +87,7 @@
                                         </th>
                                         <th style="width:2%">:</th>
                                         <td style="width:30%">
-                                           @(Model.WorkOrderFor == (int)EnumWorkOrderFor.Requisition ? "Requisition" : "General")
+                                            @(Model.WorkOrderFor == (int)EnumWorkOrderFor.Requisition ? "Requisition" : "General")
                                         </td>
                                     </tr>
 
@@ -145,13 +145,13 @@
                                         </div>
                                     </div>
                                     @*<div class="col-md-3 hidden" id="dPIsStockField">
-                                        <div class="form-group">
-                                            <label class="control-label">Has Stock Location?</label>
-                                            <div class="">
-                                                <input type="checkbox" id="IsStockCheckBox">
+                                            <div class="form-group">
+                                                <label class="control-label">Has Stock Location?</label>
+                                                <div class="">
+                                                    <input type="checkbox" id="IsStockCheckBox">
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>*@
+                                        </div>*@
                                     <div class="col-md-3" id="StockLocationField">
                                         <div class="form-group">
                                             <label class="control-label">Stock Location:</label>
@@ -162,13 +162,13 @@
                                         </div>
                                     </div>
                                     @*<div class="col-md-3 hidden" id="dPHasSupplierField">
-                                        <div class="form-group">
-                                            <label class="control-label">Has Supplier?</label>
-                                            <div class="">
-                                                <input type="checkbox" id="IsSupplierCheckBox">
+                                            <div class="form-group">
+                                                <label class="control-label">Has Supplier?</label>
+                                                <div class="">
+                                                    <input type="checkbox" id="IsSupplierCheckBox">
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>*@
+                                        </div>*@
                                     <div class="col-md-3 hidden" id="dPurchaseSupplierField">
                                         <div class="form-group" style="padding:0px">
                                             <label>Supplier/Subcontractor :</label>
@@ -670,7 +670,7 @@
         }
 
         $(document).ready(function () {
-            
+
 
             $("#ddlMaterialItemId").empty();
             $("#ddlMaterialItemId").append("<option selected disabled>==Select Material==</option>");
@@ -1056,7 +1056,27 @@
                 $("#inputRequisition").removeClass("col-md-3").addClass("col-md-4");
                 $("#inputMaterial").removeClass("col-md-3").addClass("col-md-4");
                 $("#inputUnit").removeClass("col-md-3").addClass("col-md-4");
-            } else {
+                $("#txtUnitPrice ").attr("readonly", true);
+            }
+            else if (@(Model.WorkOrderFor) == @((int)EnumWorkOrderFor.Quotation)){
+                $("#inputQuotations").removeClass("hidden").addClass("d-block");
+                $("#inputQuotations").removeClass("col-md-3").addClass("col-md-4");
+                $("#inputApproved").removeClass("hidden").addClass("d-block");
+                $("#StockLocationField").removeClass("hidden").addClass("d-block");
+                $("#inputReceive").removeClass("hidden").addClass("d-block");
+                $("#inputRemaining").removeClass("hidden").addClass("d-block");
+                $("#dPHasSupplierField").removeClass("d-block").addClass("hidden");
+
+                $("#inputType").removeClass("d-block").addClass("hidden");
+                $("#dPIsStockField").removeClass("d-block").addClass("hidden");
+                $("#inputSubtype").removeClass("d-block").addClass("hidden");
+
+                $("#inputQuotations").removeClass("col-md-3").addClass("col-md-4");
+                $("#inputMaterial").removeClass("col-md-3").addClass("col-md-4");
+                $("#inputUnit").removeClass("col-md-3").addClass("col-md-4");
+                $("#txtUnitPrice ").attr("readonly", true);
+            }
+            else {
                 $("#inputRequisition").removeClass("d-block").addClass("hidden");
                 $("#inputApproved").removeClass("d-block").addClass("hidden");
                 $("#inputReceive").removeClass("d-block").addClass("hidden");
@@ -1068,6 +1088,7 @@
                 $("#inputRequisition").removeClass("col-md-4").addClass("col-md-3");
                 $("#inputMaterial").removeClass("col-md-4").addClass("col-md-3");
                 $("#inputUnit").removeClass("col-md-4").addClass("col-md-3");
+                $("#txtUnitPrice ").attr("readonly", false);
             }
 
         });
