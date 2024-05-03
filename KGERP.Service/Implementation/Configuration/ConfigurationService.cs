@@ -2666,19 +2666,42 @@ namespace KGERP.Service.Implementation.Configuration
             if (await _db.SaveChangesAsync() > 0)
             {
                 var subCatetegory = await _db.ProductSubCategories.FindAsync(commonProductSubCategory.ProductSubCategoryId);
+
+                var categoryId = _db.ProductSubCategories.FirstOrDefault(x => x.ProductSubCategoryId == commonProductSubCategory.ProductSubCategoryId).ProductCategoryId;
+                int head5ParentId = 0;
+                if (categoryId > 0)
+                {
+                    var head4Id = _db.ProductCategories.FirstOrDefault(x => x.ProductCategoryId == categoryId).AccountingHeadId;
+                    if (head4Id > 0)
+                    {
+                        head5ParentId = (int)(head4Id == null ? 0 : head4Id);
+                    }
+                }
+
                 VMHeadIntegration integration = new VMHeadIntegration
                 {
                     AccName = subCatetegory.Name,
                     LayerNo = 5,
                     Remarks = "5th Layer",
                     IsIncomeHead = true,
+                    ParentId = head5ParentId,
                     CompanyFK = commonProductSubCategory.CompanyId,
                     CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
                     CreatedDate = DateTime.Now,
                 };
-                int head5Id = AccHead5Push(integration, commonProductSubCategory.ProductSubCategoryId);
 
-                result = commonProductSubCategory.ProductSubCategoryId;
+                int head5Id = AccHead5Push(integration);
+
+                if (head5Id > 0)
+                {
+                    var subCategoryForAssets = _db.ProductSubCategories.SingleOrDefault(x => x.ProductSubCategoryId == commonProductSubCategory.ProductSubCategoryId);
+                    subCategoryForAssets.AccountingHeadId = head5Id;
+                    subCategoryForAssets.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                    subCategoryForAssets.ModifiedDate = DateTime.Now;
+
+                    _db.SaveChanges();
+                    result = commonProductSubCategory.ProductSubCategoryId;
+                }
             }
 
             return result;
@@ -4767,6 +4790,37 @@ namespace KGERP.Service.Implementation.Configuration
             _db.Banks.Add(bank);
             if (await _db.SaveChangesAsync() > 0)
             {
+                var getBank = await _db.Banks.FindAsync(bank.BankId);
+                int[] parentId = new int[5] { 29326, 29334, 29335, 29340, 29342 };
+                string[] ACType = new string[5] { "CurrentAccountingHeadId", "SavingAccountingHeadId", "CurrentJVAccountingHeadId", "SNDAccountingHeadId", "FDRAccountingHeadId" };
+                for (int i = 0; i < parentId.Length; i++)
+                {
+                    VMHeadIntegration integration = new VMHeadIntegration
+                    {
+                        AccName = getBank.Name,
+                        LayerNo = 5,
+                        Remarks = "5th Layer",
+                        ParentId = parentId[i],
+                        IsIncomeHead = true,
+                        CompanyFK = getBank.CompanyId,
+                        CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                        CreatedDate = DateTime.Now,
+                    };
+
+                    int head5Id = AccHead5Push(integration);
+
+                    if (head5Id > 0)
+                    {
+                        var bankForAssets = _db.Banks.SingleOrDefault(x => x.BankId == bank.BankId);
+                        var property = typeof(Bank).GetProperty(ACType[i]);
+
+                        property.SetValue(bankForAssets, head5Id);
+                        bankForAssets.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                        bankForAssets.ModifiedDate = DateTime.Now;
+
+                        _db.SaveChanges();
+                    }
+                }
                 result = bank.BankId;
             }
             return result;
@@ -5264,28 +5318,18 @@ namespace KGERP.Service.Implementation.Configuration
             return result;
         }
 
-        private int AccHead5Push(VMHeadIntegration vmModel, int id)
+        private int AccHead5Push(VMHeadIntegration vmModel)
         {
             int result = -1;
-            var categoryId = _db.ProductSubCategories.FirstOrDefault(x => x.ProductSubCategoryId == id).ProductCategoryId;
-            int head5ParentId = 0;
-            if (categoryId > 0)
-            {
-                var head4Id = _db.ProductCategories.FirstOrDefault(x => x.ProductCategoryId == categoryId).AccountingHeadId;
-                if (head4Id > 0)
-                {
-                    head5ParentId = (int)(head4Id == null ? 0 : head4Id);
-                }
-            }
 
-            if (head5ParentId > 0)
+            if (vmModel != null)
             {
-                Head5 head5_1 = new Head5
+                Head5 head5 = new Head5
                 {
                     Id = _db.Database.SqlQuery<int>("spGetNewId").FirstOrDefault(),
-                    AccCode = GenerateHead5AccCode(head5ParentId),
+                    AccCode = GenerateHead5AccCode(vmModel.ParentId),
                     AccName = vmModel.AccName,
-                    ParentId = head5ParentId,
+                    ParentId = vmModel.ParentId,
                     LayerNo = vmModel.LayerNo,
                     OrderNo = 0,
                     Remarks = vmModel.Remarks,
@@ -5295,12 +5339,11 @@ namespace KGERP.Service.Implementation.Configuration
                     IsActive = true,
                 };
 
-                _db.Head5.Add(head5_1);
-                var subCategoryForAssets = _db.ProductSubCategories.SingleOrDefault(x => x.ProductSubCategoryId == id);
-                subCategoryForAssets.AccountingHeadId = head5_1.Id;
-                subCategoryForAssets.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
-                subCategoryForAssets.ModifiedDate = DateTime.Now;
-                _db.SaveChanges();
+                _db.Head5.Add(head5);
+                if (_db.SaveChanges() > 0)
+                {
+                    result = head5.Id;
+                }
             }
 
             return result;

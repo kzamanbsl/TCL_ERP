@@ -966,7 +966,7 @@ namespace KGERP.Service.Implementation
                     if (getCheque.IsCancelRequest == true)
                     {
                         employeeName = _context.Employees.FirstOrDefault(x => x.EmployeeId == getCheque.RequestedBy).Name;
-                        string requestedOnString = getCheque.RequestedOn.HasValue ? getCheque.RequestedOn.Value.ToLocalTime().ToString("yyyy-MM-ddTHH:mm:ss") : "";
+                        string requestedOnString = getCheque.RequestedOn.HasValue ? getCheque.RequestedOn.Value.ToString("yyyy-MM-ddTHH:mm:ss") : "";
                         sendData = new
                         {
                             IsSigned = getCheque.IsSigned,
@@ -976,7 +976,7 @@ namespace KGERP.Service.Implementation
                             PrintCount = getCheque.PrintCount ?? 0,
                             CompanyFK = 21,
                             CancelReason = getCheque.CancelReason ?? "N/A",
-                            RequestedBy = getCheque.RequestedBy + " - " + employeeName ?? "N/A",
+                            RequestedBy = getCheque.RequestedBy + " - " + employeeName,
                             RequestedOn = requestedOnString,
                         };
                     }

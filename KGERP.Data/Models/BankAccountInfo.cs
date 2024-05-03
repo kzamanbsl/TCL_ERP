@@ -33,6 +33,9 @@ namespace KGERP.Data.Models
         public string ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedOn { get; set; }
         public bool IsActive { get; set; }
+        public Nullable<int> AccountingHeadId { get; set; }
+        public Nullable<int> AccountingIncomeHeadId { get; set; }
+        public Nullable<int> AccountingExpenseHeadId { get; set; }
     
         public virtual Bank Bank { get; set; }
         public virtual BankBranch BankBranch { get; set; }

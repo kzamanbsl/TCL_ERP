@@ -17,9 +17,9 @@ namespace KGERP.Data.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Bank()
         {
+            this.BankAccountInfoes = new HashSet<BankAccountInfo>();
             this.BankBranches = new HashSet<BankBranch>();
             this.Employees = new HashSet<Employee>();
-            this.BankAccountInfoes = new HashSet<BankAccountInfo>();
         }
     
         public Nullable<int> CompanyId { get; set; }
@@ -30,12 +30,15 @@ namespace KGERP.Data.Models
         public string ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public bool IsActive { get; set; }
+        public Nullable<int> AccountingHeadId { get; set; }
+        public Nullable<int> AccountingIncomeHeadId { get; set; }
+        public Nullable<int> AccountingExpenseHeadId { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BankAccountInfo> BankAccountInfoes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BankBranch> BankBranches { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Employee> Employees { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BankAccountInfo> BankAccountInfoes { get; set; }
     }
 }

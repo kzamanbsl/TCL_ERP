@@ -172,9 +172,7 @@
         <EntityTypeShape EntityType="ERPModel.VoucherType" Width="1.5" PointX="8.75" PointY="6.75" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.Bank3" Width="1.5" PointX="44.375" PointY="31.125" />
         <AssociationConnector Association="ERPModel.FK_Employee_Bank3" />
-        <EntityTypeShape EntityType="ERPModel.Bank" Width="1.5" PointX="44.375" PointY="28.125" IsExpanded="false" />
         <EntityTypeShape EntityType="ERPModel.BankBranch" Width="1.5" PointX="46.625" PointY="28" IsExpanded="false" />
-        <AssociationConnector Association="ERPModel.FK_BankBranch_Bank" />
         <EntityTypeShape EntityType="ERPModel.Accounting_ChequeInfo" Width="1.5" PointX="48.875" PointY="17.125" IsExpanded="false" />
         <AssociationConnector Association="ERPModel.FK_Accounting_ChequeInfo_BankBranch" />
         <EntityTypeShape EntityType="ERPModel.Income" Width="1.5" PointX="45.375" PointY="6.75" IsExpanded="false" />
@@ -331,7 +329,6 @@
         <AssociationConnector Association="ERPModel.FK_OfficerAssign_Zone" />
         <EntityTypeShape EntityType="ERPModel.Employee" Width="1.5" PointX="48.875" PointY="30.125" />
         <AssociationConnector Association="ERPModel.FK_AssetAssign_Employee" />
-        <AssociationConnector Association="ERPModel.FK_Employee_Bank" />
         <AssociationConnector Association="ERPModel.FK_Employee_Employee" />
         <AssociationConnector Association="ERPModel.FK_Employee_Company" />
         <AssociationConnector Association="ERPModel.FK_Employee_Department" />
@@ -537,11 +534,7 @@
         <AssociationConnector Association="ERPModel.FK_Accounting_CostCenter_Accounting_CostCenterType" />
         <AssociationConnector Association="ERPModel.FK_BoQDivision_Accounting_CostCenter" />
         <AssociationConnector Association="ERPModel.FK_CostCenterManagerMap_Accounting_CostCenter" />
-        <EntityTypeShape EntityType="ERPModel.BankAccountInfo" Width="1.5" PointX="70.125" PointY="56.875" />
-        <AssociationConnector Association="ERPModel.FK_BankAccountInfo_Bank" />
-        <AssociationConnector Association="ERPModel.FK_BankAccountInfo_BankBranch" />
         <EntityTypeShape EntityType="ERPModel.ChequeBook" Width="1.5" PointX="72.375" PointY="57.125" />
-        <AssociationConnector Association="ERPModel.FK_ChequeBook_BankAccountInfo" />
         <EntityTypeShape EntityType="ERPModel.BillRequisitionMaster" Width="1.5" PointX="69.375" PointY="62.25" />
         <AssociationConnector Association="ERPModel.FK_PurchaseOrder_PurchaseOrder" />
         <AssociationConnector Association="ERPModel.FK_VoucherBRMapMaster_BillRequisitionMaster" />
@@ -594,6 +587,13 @@
         <AssociationConnector Association="ERPModel.FK_ChequeRegister_Accounting_CostCenter" />
         <AssociationConnector Association="ERPModel.FK_ChequeRegister_BillRequisitionMaster" />
         <AssociationConnector Association="ERPModel.FK_ChequeRegister_ChequeRegister" />
+        <EntityTypeShape EntityType="ERPModel.Bank" Width="1.5" PointX="42.375" PointY="50.625" />
+        <EntityTypeShape EntityType="ERPModel.BankAccountInfo" Width="1.5" PointX="51.875" PointY="48.875" />
+        <AssociationConnector Association="ERPModel.FK_BankAccountInfo_Bank" />
+        <AssociationConnector Association="ERPModel.FK_BankBranch_Bank" />
+        <AssociationConnector Association="ERPModel.FK_Employee_Bank" />
+        <AssociationConnector Association="ERPModel.FK_BankAccountInfo_BankBranch" />
+        <AssociationConnector Association="ERPModel.FK_ChequeBook_BankAccountInfo" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
