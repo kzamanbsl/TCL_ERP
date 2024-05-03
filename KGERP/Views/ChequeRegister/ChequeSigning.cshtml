@@ -100,6 +100,7 @@
                                         <th>Pay To</th>
                                         <th>Amount</th>
                                         <th>Print Count</th>
+                                        <th>Cancel Request</th>
                                         <th>Make Sign</th>
                                         <th>Make Cancel</th>
                                     </tr>
@@ -131,7 +132,17 @@
                                                     <td>@item.ChequeNo</td>
                                                     <td><p style="text-align:left !important;">@item.PayTo</p></td>
                                                     <td><p style="text-align:right !important;">@item.Amount</p></td>
-                                                    <td><p style="text-align:center !important;">3 time(s)</p></td>
+                                                    <td><p style="text-align:center !important;">@item.PrintCount time(s)</p></td>
+                                                    <td>
+                                                        @if (item.IsCancelRequest == true)
+                                                        {
+                                                            <center>Requested</center>
+                                                        }
+                                                        else
+                                                        {
+                                                            <center>-</center>
+                                                        }
+                                                    </td>
                                                     <td>
                                                         @if (!item.IsCanceled)
                                                         {
@@ -213,6 +224,16 @@
                                                     <td><p style="text-align:left !important;">@item.PayTo</p></td>
                                                     <td><p style="text-align:right !important;">@item.Amount</p></td>
                                                     <td><p style="text-align:center !important;">@item.PrintCount time(s)</p></td>
+                                                    <td>
+                                                        @if (item.IsCancelRequest == true)
+                                                        {
+                                                            <center>Requested</center>
+                                                        }
+                                                        else
+                                                        {
+                                                            <center>-</center>
+                                                        }
+                                                    </td>
                                                     <td>
                                                         @if (!item.IsCanceled)
                                                         {
@@ -303,7 +324,18 @@
                 <h3 class="text-primary" id="confirmationModalLabel">Confirmation</h3>
             </div>
             <div class="modal-body" style="padding: 30px 20px;">
-                <h4>Are you sure you want to cancel?</h4>
+                <div class="row hidden" id="cancelationInfo">
+                    <div class="col-md-6">
+                        <p><b>Requested By: </b><span id="requestedBy"></span></p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><b>Requested At: </b><span id="requestedOn"></span></p>
+                    </div>
+                    <div class="col-md-12">
+                        <p><b>Reason: </b><span id="cancelReason"></span></p>
+                    </div>
+                </div>
+                <h4 class="text-center">Are you sure you want to cancel?</h4>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -328,7 +360,6 @@
         </div>
     </div>
 </div>
-
 
 @Scripts.Render("~/bundles/jqueryui")
 @Styles.Render("~/Content/cssjqryUi")
@@ -375,7 +406,30 @@
 
         // Cheue sign cancel
         function ChequeCancel(chequeRegisterId) {
-            $('#confirmationModalCancel').modal('show');
+
+            $.ajax({
+                type: "GET",
+                url: "/ChequeRegister/CancelationInfo",
+                dataType: "json",
+                data: { chequeRegisterId: chequeRegisterId },
+                success: function (data) {
+                    console.log(data.RequestedOn);
+                    if (data.IsCancelRequest) {
+                        var requestedDateTime = new Date(data.RequestedOn);
+                        var formattedDateTime = requestedDateTime.toLocaleString();
+
+                        $("#cancelationInfo").removeClass("hidden").addClass("d-block");
+                        $("#requestedBy").text(data.RequestedBy);
+                        $("#requestedOn").text(formattedDateTime);
+                        $("#cancelReason").text(data.CancelReason);
+                    } else {
+                        $("#cancelationInfo").removeClass("d-block").addClass("hidden");
+                    }
+
+                    $('#confirmationModalCancel').modal('show');
+                },
+            });
+
 
             $('#confirmCancelButton').click(function () {
                 $.ajax({

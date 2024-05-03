@@ -400,6 +400,54 @@ namespace KGERP.Service.Implementation
             return sendData;
         }
 
+        public List<ChequeRegisterModel> CanceledChequeRegisterList()
+        {
+            List<ChequeRegisterModel> sendData = (from t1 in _context.ChequeRegisters
+                                                  join t2 in _context.BillRequisitionMasters on t1.RequisitionMasterId equals t2.BillRequisitionMasterId into t2_Join
+                                                  from t2 in t2_Join.DefaultIfEmpty()
+                                                  join t3 in _context.Vendors on t1.SupplierId equals t3.VendorId into t3_Join
+                                                  from t3 in t3_Join.DefaultIfEmpty()
+                                                  join t4 in _context.Accounting_CostCenter on t1.ProjectId equals t4.CostCenterId into t4_Join
+                                                  from t4 in t4_Join.DefaultIfEmpty()
+                                                  join t5 in _context.Employees on t1.RequestedBy equals t5.EmployeeId into t5_Join
+                                                  from t5 in t5_Join.DefaultIfEmpty()
+                                                  where t1.IsActive && t1.IsCancelRequest == true
+                                                  select new ChequeRegisterModel
+                                                  {
+                                                      ChequeRegisterId = t1.ChequeRegisterId,
+                                                      RegisterFor = t1.RequisitionMasterId == null ? (int)EnumChequeRegisterFor.General : (int)EnumChequeRegisterFor.Requisition,
+                                                      RequisitionId = (int)(t1.RequisitionMasterId == null ? 0 : t1.RequisitionMasterId),
+                                                      RequisitionNo = t2.BillRequisitionNo,
+                                                      ProjectId = t1.ProjectId,
+                                                      ProjectName = t4.Name,
+                                                      SupplierId = t1.SupplierId == null ? 0 : (int)t1.SupplierId,
+                                                      SupplierName = t3.Name ?? "N/A",
+                                                      SupplierCode = t3.Code,
+                                                      PayTo = t1.PayTo,
+                                                      IssueDate = t1.IssueDate,
+                                                      ChequeDate = t1.ChequeDate,
+                                                      ChequeNo = t1.ChequeNo,
+                                                      Amount = t1.Amount,
+                                                      ClearingDate = t1.ClearingDate,
+                                                      Remarks = t1.Remarks,
+                                                      IsSigned = t1.IsSigned,
+                                                      HasPDF = t1.HasPDF,
+                                                      IsCancelRequest = (bool)(t1.IsCancelRequest == null ? false : t1.IsCancelRequest),
+                                                      IsCanceled = (bool)(t1.IsCanceled == null ? false : t1.IsCanceled),
+                                                      PrintCount = t1.PrintCount ?? 0,
+                                                      CreatedBy = t1.CreatedBy,
+                                                      CreatedDate = t1.CreatedOn,
+                                                      ModifiedBy = t1.ModifiedBy,
+                                                      ModifiedDate = t1.ModifiedOn,
+                                                      IsActive = t1.IsActive,
+                                                      CompanyFK = 21,
+                                                      CancelReason = t1.CancelReason ?? "N/A",
+                                                      RequestedBy = t1.RequestedBy + " - " + t5.Name ?? "N/A",
+                                                      RequestedOn = (DateTime)t1.RequestedOn
+                                                  }).ToList();
+            return sendData;
+        }
+
         public async Task<List<ChequeRegisterModel>> GetSignedChequeList(int companyId)
         {
             List<ChequeRegisterModel> sendData = await (from t1 in _context.ChequeRegisters
@@ -863,6 +911,78 @@ namespace KGERP.Service.Implementation
                                          TotalBookPage = t1.TotalBookPage,
                                          UsedBookPage = t1.UsedBookPage,
                                      }).FirstOrDefaultAsync();
+            return sendData;
+        }
+
+        public async Task<bool> SendRequest(ChequeRegisterModel model)
+        {
+            bool sendData = false;
+
+            if (model != null)
+            {
+                var getCheque = _context.ChequeRegisters.FirstOrDefault(x => x.ChequeRegisterId == model.ChequeRegisterId);
+                if (getCheque != null)
+                {
+                    getCheque.IsCancelRequest = true;
+                    getCheque.CancelReason = model.CancelReason;
+                    getCheque.RequestedBy = HttpContext.Current.User.Identity.Name;
+                    getCheque.RequestedOn = DateTime.Now;
+
+                    if (await _context.SaveChangesAsync() > 0)
+                    {
+                        sendData = true;
+                    }
+                }
+            }
+
+            return sendData;
+        }
+
+        public bool CheckIsSignOrNot(long chequeRegisterId)
+        {
+            bool sendData = false;
+
+            if (chequeRegisterId > 0)
+            {
+                var getCheque = _context.ChequeRegisters.FirstOrDefault(x => x.ChequeRegisterId == chequeRegisterId);
+                if (getCheque.IsSigned)
+                {
+                    sendData = true;
+                }
+            }
+
+            return sendData;
+        }
+
+        public object ChequeCancelationInfo(long chequeRegisterId)
+        {
+            object sendData = new { IsCancelRequest = false };
+            if (chequeRegisterId > 0)
+            {
+                var getCheque = _context.ChequeRegisters.FirstOrDefault(x => x.ChequeRegisterId == chequeRegisterId && x.IsActive);
+                if (getCheque != null)
+                {
+                    var employeeName = "";
+                    if (getCheque.IsCancelRequest == true)
+                    {
+                        employeeName = _context.Employees.FirstOrDefault(x => x.EmployeeId == getCheque.RequestedBy).Name;
+                        string requestedOnString = getCheque.RequestedOn.HasValue ? getCheque.RequestedOn.Value.ToLocalTime().ToString("yyyy-MM-ddTHH:mm:ss") : "";
+                        sendData = new
+                        {
+                            IsSigned = getCheque.IsSigned,
+                            HasPDF = getCheque.HasPDF,
+                            IsCancelRequest = (bool)(getCheque.IsCancelRequest == null ? false : getCheque.IsCancelRequest),
+                            IsCanceled = (bool)(getCheque.IsCanceled == null ? false : getCheque.IsCanceled),
+                            PrintCount = getCheque.PrintCount ?? 0,
+                            CompanyFK = 21,
+                            CancelReason = getCheque.CancelReason ?? "N/A",
+                            RequestedBy = getCheque.RequestedBy + " - " + employeeName ?? "N/A",
+                            RequestedOn = requestedOnString,
+                        };
+                    }
+                }
+            }
+
             return sendData;
         }
     }
