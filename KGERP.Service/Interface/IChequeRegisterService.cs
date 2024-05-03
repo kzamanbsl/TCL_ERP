@@ -12,7 +12,7 @@ namespace KGERP.Service.Interface
     {
         #region Bank Account Info
 
-        Task<bool> Add(BankAccountInfoModel model);
+        bool Add(BankAccountInfoModel model);
         Task<bool> Edit(BankAccountInfoModel model);
         Task<bool> Delete(BankAccountInfoModel model);
         Task<BankAccountInfoModel> GetBankAccountInfoById(long bankAccountInfoId);

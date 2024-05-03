@@ -1,4 +1,6 @@
 ﻿using KGERP.Data.Models;
+using KGERP.Service.Implementation.Accounting;
+using KGERP.Service.Implementation.Configuration;
 using KGERP.Service.Interface;
 using KGERP.Service.ServiceModel;
 using KGERP.Utility;
@@ -10,15 +12,18 @@ using System.Linq.Dynamic;
 using System.Net.Configuration;
 using System.Threading.Tasks;
 using System.Web;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
 
 namespace KGERP.Service.Implementation
 {
     public class ChequeRegisterService : IChequeRegisterService
     {
         private readonly ERPEntities _context;
-        public ChequeRegisterService(ERPEntities context)
+        private readonly ConfigurationService _configurationService;
+        public ChequeRegisterService(ERPEntities context, ConfigurationService configurationService)
         {
             _context = context;
+            _configurationService = configurationService;
         }
 
         public async Task<bool> Add(ChequeRegisterModel model)
@@ -726,7 +731,7 @@ namespace KGERP.Service.Implementation
             return sendData;
         }
 
-        public async Task<bool> Add(BankAccountInfoModel model)
+        public bool Add(BankAccountInfoModel model)
         {
             bool sendData = false;
 
@@ -744,10 +749,66 @@ namespace KGERP.Service.Implementation
                 data.CreatedBy = HttpContext.Current.User.Identity.Name;
                 data.CreatedOn = DateTime.Now;
                 data.IsActive = true;
+
                 _context.BankAccountInfoes.Add(data);
-                if (await _context.SaveChangesAsync() > 0)
+
+                if (_context.SaveChanges() > 0)
                 {
-                    sendData = true;
+                    int headGlParentId = 0;
+                    if (data.BankId > 0)
+                    {
+                        int head5Id = 0;
+
+                        switch (data.AccountTypeId)
+                        {
+                            case (int)EnumBankAccountType.Current:
+                                head5Id = _context.Banks.FirstOrDefault(x => x.BankId == data.BankId)?.CurrentAccountingHeadId ?? 0;
+                                break;
+                            case (int)EnumBankAccountType.Saving:
+                                head5Id = _context.Banks.FirstOrDefault(x => x.BankId == data.BankId)?.SavingAccountingHeadId ?? 0;
+                                break;
+                            case (int)EnumBankAccountType.Current_JV:
+                                head5Id = _context.Banks.FirstOrDefault(x => x.BankId == data.BankId)?.CurrentJVAccountingHeadId ?? 0;
+                                break;
+                            case (int)EnumBankAccountType.SND:
+                                head5Id = _context.Banks.FirstOrDefault(x => x.BankId == data.BankId)?.SNDAccountingHeadId ?? 0;
+                                break;
+                            case (int)EnumBankAccountType.FDR:
+                                head5Id = _context.Banks.FirstOrDefault(x => x.BankId == data.BankId)?.FDRAccountingHeadId ?? 0;
+                                break;
+                            default:
+                                break;
+                        }
+
+                        if (head5Id > 0)
+                        {
+                            headGlParentId = head5Id;
+                        }
+                    }
+
+                    VMHeadIntegration integration = new VMHeadIntegration
+                    {
+                        AccName = data.AccountName + "(" + data.AccountNumber + ")",
+                        ParentId = headGlParentId,
+                        LayerNo = 6,
+                        Remarks = "GL Layer",
+                        IsIncomeHead = true,
+                        CompanyFK = data.CompanyId,
+                        CreatedBy = data.CreatedBy,
+                        CreatedDate = DateTime.Now
+                    };
+
+                    int headGl = _configurationService.AccHeadGlPush(integration);
+
+                    if (headGl > 0)
+                    {
+                        var productForAssets = _context.BankAccountInfoes.SingleOrDefault(x => x.BankAccountInfoId == data.BankAccountInfoId);
+                        productForAssets.AccountingHeadId = headGl;
+                        productForAssets.ModifiedBy = data.CreatedBy;
+                        productForAssets.ModifiedOn = DateTime.Now;
+                        _context.SaveChanges();
+;                        sendData = true;
+                    }
                 }
             }
 

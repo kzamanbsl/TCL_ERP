@@ -2684,7 +2684,7 @@ namespace KGERP.Service.Implementation.Configuration
                     IsIncomeHead = true,
                     ParentId = head5ParentId,
                     CompanyFK = commonProductSubCategory.CompanyId,
-                    CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                    CreatedBy = commonProductSubCategory.CreatedBy,
                     CreatedDate = DateTime.Now,
                 };
 
@@ -2694,7 +2694,7 @@ namespace KGERP.Service.Implementation.Configuration
                 {
                     var subCategoryForAssets = _db.ProductSubCategories.SingleOrDefault(x => x.ProductSubCategoryId == commonProductSubCategory.ProductSubCategoryId);
                     subCategoryForAssets.AccountingHeadId = head5Id;
-                    subCategoryForAssets.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                    subCategoryForAssets.ModifiedBy = commonProductSubCategory.CreatedBy;
                     subCategoryForAssets.ModifiedDate = DateTime.Now;
 
                     _db.SaveChanges();
@@ -3319,11 +3319,11 @@ namespace KGERP.Service.Implementation.Configuration
                         AccName = commonProduct.ProductName,
                         ParentId = headGlParentId,
                         LayerNo = 6,
-                        Remarks = "6 Layer",
+                        Remarks = "GL Layer",
                         IsIncomeHead = false,
                         ProductType = commonProduct.ProductType,
                         CompanyFK = commonProduct.CompanyId,
-                        CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                        CreatedBy = commonProduct.CreatedBy,
                         CreatedDate = DateTime.Now
                     };
 
@@ -3333,7 +3333,7 @@ namespace KGERP.Service.Implementation.Configuration
                     {
                         var productForAssets = _db.Products.SingleOrDefault(x => x.ProductId == commonProduct.ProductId);
                         productForAssets.AccountingHeadId = headGl;
-                        productForAssets.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                        productForAssets.ModifiedBy = commonProduct.CreatedBy;
                         productForAssets.ModifiedDate = DateTime.Now;
                         result = commonProduct.ProductId;
                     }
@@ -4804,7 +4804,7 @@ namespace KGERP.Service.Implementation.Configuration
                         ParentId = parentId[i],
                         IsIncomeHead = true,
                         CompanyFK = getBank.CompanyId,
-                        CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                        CreatedBy = bank.CreatedBy,
                         CreatedDate = DateTime.Now,
                     };
 
@@ -4816,7 +4816,7 @@ namespace KGERP.Service.Implementation.Configuration
                         var property = typeof(Bank).GetProperty(ACType[i]);
 
                         property.SetValue(bankForAssets, head5Id);
-                        bankForAssets.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                        bankForAssets.ModifiedBy = bank.CreatedBy;
                         bankForAssets.ModifiedDate = DateTime.Now;
 
                         _db.SaveChanges();
@@ -5294,7 +5294,7 @@ namespace KGERP.Service.Implementation.Configuration
             int result = -1;
             var head4ParentId = 29383;
 
-            Head4 head4_1 = new Head4
+            Head4 head4 = new Head4
             {
                 Id = _db.Database.SqlQuery<int>("spGetNewId").FirstOrDefault(),
                 AccCode = GenerateHead4AccCode(head4ParentId),
@@ -5304,15 +5304,15 @@ namespace KGERP.Service.Implementation.Configuration
                 OrderNo = 0,
                 Remarks = vmModel.Remarks,
                 CompanyId = vmModel.CompanyFK,
-                CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                CreatedBy = vmModel.CreatedBy,
                 CreateDate = DateTime.Now,
                 IsActive = true,
             };
 
-            _db.Head4.Add(head4_1);
+            _db.Head4.Add(head4);
             var categoryForAssets = _db.ProductCategories.SingleOrDefault(x => x.ProductCategoryId == id);
-            categoryForAssets.AccountingHeadId = head4_1.Id;
-            categoryForAssets.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+            categoryForAssets.AccountingHeadId = head4.Id;
+            categoryForAssets.ModifiedBy = vmModel.CreatedBy;
             categoryForAssets.ModifiedDate = DateTime.Now;
             _db.SaveChanges();
 
@@ -5335,8 +5335,8 @@ namespace KGERP.Service.Implementation.Configuration
                     OrderNo = 0,
                     Remarks = vmModel.Remarks,
                     CompanyId = vmModel.CompanyFK,
-                    CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
-                    CreateDate = DateTime.Now,
+                    CreatedBy = vmModel.CreatedBy,
+                    CreateDate = vmModel.CreatedDate,
                     IsActive = true,
                 };
 
@@ -5350,7 +5350,7 @@ namespace KGERP.Service.Implementation.Configuration
             return result;
         }
 
-        private int AccHeadGlPush(VMHeadIntegration vmModel)
+        public int AccHeadGlPush(VMHeadIntegration vmModel)
         {
             int result = -1;
             HeadGL headGl = new HeadGL
@@ -5359,14 +5359,14 @@ namespace KGERP.Service.Implementation.Configuration
                 AccCode = GenerateHeadGlAccCode(vmModel.ParentId),
                 AccName = vmModel.AccName,
                 ParentId = vmModel.ParentId,
-                LayerNo = 6,
-                IsActive = true,
+                LayerNo = vmModel.LayerNo,
                 OrderNo = 0,
-                Remarks = "GL Layer",
+                Remarks = vmModel.Remarks,
                 IsIncomeHead = vmModel.IsIncomeHead,
                 CompanyId = vmModel.CompanyFK,
-                CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
-                CreateDate = DateTime.Now,
+                CreatedBy = vmModel.CreatedBy,
+                CreateDate = vmModel.CreatedDate,
+                IsActive = true
             };
 
             _db.HeadGLs.Add(headGl);
