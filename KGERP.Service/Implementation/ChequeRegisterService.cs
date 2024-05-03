@@ -46,7 +46,8 @@ namespace KGERP.Service.Implementation
                     Remarks = model.Remarks,
                     IsSigned = false,
                     IsCanceled = false,
-                    IsPrinted = false,
+                    HasPDF = false,
+                    IsCancelRequest = false,
                     PrintCount = 0,
                     IsActive = true,
                     CreatedBy = HttpContext.Current.User.Identity.Name,
@@ -87,7 +88,8 @@ namespace KGERP.Service.Implementation
                     Remarks = model.Remarks,
                     IsSigned = false,
                     IsCanceled = false,
-                    IsPrinted = false,
+                    HasPDF = false,
+                    IsCancelRequest = false,
                     PrintCount = 0,
                     IsActive = true,
                     CreatedBy = HttpContext.Current.User.Identity.Name,
@@ -236,7 +238,7 @@ namespace KGERP.Service.Implementation
                 var result = _context.ChequeRegisters.FirstOrDefault(x => x.ChequeRegisterId == chequeRegisterId);
                 if (result != null)
                 {
-                    result.IsPrinted = true;
+                    result.HasPDF = true;
                     result.ModifiedBy = HttpContext.Current.User.Identity.Name;
                     result.ModifiedOn = DateTime.Now;
 
@@ -302,7 +304,8 @@ namespace KGERP.Service.Implementation
                                                       ClearingDate = t1.ClearingDate,
                                                       Remarks = t1.Remarks,
                                                       IsSigned = t1.IsSigned,
-                                                      IsPrinted = t1.IsPrinted,
+                                                      HasPDF = t1.HasPDF,
+                                                      IsCancelRequest = (bool)(t1.IsCancelRequest == null ? false : t1.IsCancelRequest),
                                                       IsCanceled = (bool)(t1.IsCanceled == null ? false : t1.IsCanceled),
                                                       PrintCount = t1.PrintCount ?? 0,
                                                       CreatedBy = t1.CreatedBy,
@@ -383,7 +386,8 @@ namespace KGERP.Service.Implementation
                                                             ClearingDate = t1.ClearingDate,
                                                             Remarks = t1.Remarks,
                                                             IsSigned = t1.IsSigned,
-                                                            IsPrinted = t1.IsPrinted,
+                                                            HasPDF = t1.HasPDF,
+                                                            IsCancelRequest = (bool)(t1.IsCancelRequest == null ? false : t1.IsCancelRequest),
                                                             IsCanceled = (bool)(t1.IsCanceled == null ? false : t1.IsCanceled),
                                                             PrintCount = t1.PrintCount ?? 0,
                                                             CreatedBy = t1.CreatedBy,
@@ -425,7 +429,8 @@ namespace KGERP.Service.Implementation
                                                             ClearingDate = t1.ClearingDate,
                                                             Remarks = t1.Remarks,
                                                             IsSigned = t1.IsSigned,
-                                                            IsPrinted = t1.IsPrinted,
+                                                            HasPDF = t1.HasPDF,
+                                                            IsCancelRequest = (bool)(t1.IsCancelRequest == null ? false : t1.IsCancelRequest),
                                                             IsCanceled = (bool)(t1.IsCanceled == null ? false : t1.IsCanceled),
                                                             PrintCount = t1.PrintCount ?? 0,
                                                             CreatedBy = t1.CreatedBy,
@@ -447,7 +452,7 @@ namespace KGERP.Service.Implementation
                                                         from t3 in t3_Join.DefaultIfEmpty()
                                                         join t4 in _context.Accounting_CostCenter on t1.ProjectId equals t4.CostCenterId into t4_Join
                                                         from t4 in t4_Join.DefaultIfEmpty()
-                                                        where t1.IsActive && t1.IsPrinted
+                                                        where t1.IsActive && t1.HasPDF
                                                         select new ChequeRegisterModel
                                                         {
                                                             ChequeRegisterId = t1.ChequeRegisterId,
@@ -467,7 +472,8 @@ namespace KGERP.Service.Implementation
                                                             ClearingDate = t1.ClearingDate,
                                                             Remarks = t1.Remarks,
                                                             IsSigned = t1.IsSigned,
-                                                            IsPrinted = t1.IsPrinted,
+                                                            HasPDF = t1.HasPDF,
+                                                            IsCancelRequest = (bool)(t1.IsCancelRequest == null ? false : t1.IsCancelRequest),
                                                             IsCanceled = (bool)(t1.IsCanceled == null ? false : t1.IsCanceled),
                                                             PrintCount = t1.PrintCount ?? 0,
                                                             CreatedBy = t1.CreatedBy,
@@ -509,7 +515,8 @@ namespace KGERP.Service.Implementation
                                                             ClearingDate = t1.ClearingDate,
                                                             Remarks = t1.Remarks,
                                                             IsSigned = t1.IsSigned,
-                                                            IsPrinted = t1.IsPrinted,
+                                                            HasPDF = t1.HasPDF,
+                                                            IsCancelRequest = (bool)(t1.IsCancelRequest == null ? false : t1.IsCancelRequest),
                                                             IsCanceled = (bool)(t1.IsCanceled == null ? false : t1.IsCanceled),
                                                             PrintCount = t1.PrintCount ?? 0,
                                                             CreatedBy = t1.CreatedBy,

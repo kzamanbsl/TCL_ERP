@@ -76,13 +76,16 @@ namespace KGERP.Service.ServiceModel
         public DateTime ClearingDate { get; set; }
         public string PayTo { get; set; }
         public bool IsSigned { get; set; }
-        public bool IsPrinted { get; set; }
+        public bool HasPDF { get; set; }
         public bool IsCanceled { get; set; }
+        public bool IsCancelRequest { get; set; }
         public int PrintCount { get; set; }
         public DateTime StrFromDate { get; set; }
         public DateTime StrToDate { get; set; }
         public string ReportType { get; set; }
         public string CancelReason { get; set; }
+        public string RequestedBy { get; set; }
+        public DateTime RequestedOn { get; set; }
         public SelectList RegisterForList { get { return new SelectList(BaseFunctionalities.GetEnumList<EnumChequeRegisterFor>(), "Value", "Text"); } }
         public SelectList RequisitionList { get; set; } = new SelectList(new List<object>());
         public SelectList ProjectList { get; set; } = new SelectList(new List<object>());
@@ -93,6 +96,6 @@ namespace KGERP.Service.ServiceModel
         public SelectList ChequeBookList { get; set; } = new SelectList(new List<object>());
         public SelectList ChequeNumberList { get; set; } = new SelectList(new List<object>());
         public IEnumerable<ChequeRegisterModel> ChequeRegisterList { get; set; } = new List<ChequeRegisterModel>();
-       
+
     }
 }
