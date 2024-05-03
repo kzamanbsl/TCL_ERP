@@ -2665,8 +2665,6 @@ namespace KGERP.Service.Implementation.Configuration
             //return result;
             if (await _db.SaveChangesAsync() > 0)
             {
-                var subCatetegory = await _db.ProductSubCategories.FindAsync(commonProductSubCategory.ProductSubCategoryId);
-
                 var categoryId = _db.ProductSubCategories.FirstOrDefault(x => x.ProductSubCategoryId == commonProductSubCategory.ProductSubCategoryId).ProductCategoryId;
                 int head5ParentId = 0;
                 if (categoryId > 0)
@@ -2680,7 +2678,7 @@ namespace KGERP.Service.Implementation.Configuration
 
                 VMHeadIntegration integration = new VMHeadIntegration
                 {
-                    AccName = subCatetegory.Name,
+                    AccName = commonProductSubCategory.Name,
                     LayerNo = 5,
                     Remarks = "5th Layer",
                     IsIncomeHead = true,
@@ -3255,13 +3253,11 @@ namespace KGERP.Service.Implementation.Configuration
         }
         #endregion RealState Product Services
 
-
         public async Task<int> ProductAdd(VMCommonProduct vmCommonProduct)
         {
             var result = -1;
             try
             {
-
                 #region Genarate Product No
                 int lsatProduct = _db.Products.Select(x => x.ProductId).OrderByDescending(ID => ID).FirstOrDefault();
                 if (lsatProduct == 0)
@@ -3303,40 +3299,44 @@ namespace KGERP.Service.Implementation.Configuration
                     OrderNo = 0
 
                 };
+
                 _db.Products.Add(commonProduct);
+
                 if (await _db.SaveChangesAsync() > 0)
                 {
-
-
-                    if (commonProduct.CompanyId == (int)CompanyNameEnum.KrishibidFeedLimited)
+                    int headGlParentId = 0;
+                    if (commonProduct.ProductSubCategoryId > 0)
                     {
-                        result = commonProduct.ProductId;
-
-                        Product product = await _db.Products.FindAsync(commonProduct.ProductId);
-
-                        VMHeadIntegration integration = new VMHeadIntegration
+                        var head5Id = _db.ProductSubCategories.FirstOrDefault(x => x.ProductSubCategoryId == commonProduct.ProductSubCategoryId).AccountingHeadId;
+                        if (head5Id > 0)
                         {
-                            AccName = product.ProductName,
-                            LayerNo = 6,
-                            Remarks = "6 Layer",
-                            IsIncomeHead = false,
-                            ProductType = product.ProductType,
-                            CompanyFK = commonProduct.CompanyId,
-                            CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
-                            CreatedDate = DateTime.Now
-                        };
-
-
-                        int headGl = ProductHeadGlPush(integration, commonProduct);
-
-                        //if (headGlId != null)
-                        //{
-                        //    await GLDLBlockCodeAndHeadGLIdEdit(commonProductSubCategory.ProductSubCategoryId, headGlId, head5Id);
-                        //}
+                            headGlParentId = (int)(head5Id == null ? 0 : head5Id);
+                        }
                     }
 
+                    VMHeadIntegration integration = new VMHeadIntegration
+                    {
+                        AccName = commonProduct.ProductName,
+                        ParentId = headGlParentId,
+                        LayerNo = 6,
+                        Remarks = "6 Layer",
+                        IsIncomeHead = false,
+                        ProductType = commonProduct.ProductType,
+                        CompanyFK = commonProduct.CompanyId,
+                        CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+                        CreatedDate = DateTime.Now
+                    };
 
-                    result = commonProduct.ProductId;
+                    int headGl = AccHeadGlPush(integration);
+
+                    if (headGl > 0)
+                    {
+                        var productForAssets = _db.Products.SingleOrDefault(x => x.ProductId == commonProduct.ProductId);
+                        productForAssets.AccountingHeadId = headGl;
+                        productForAssets.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                        productForAssets.ModifiedDate = DateTime.Now;
+                        result = commonProduct.ProductId;
+                    }
                 }
                 return result;
             }
@@ -3345,6 +3345,7 @@ namespace KGERP.Service.Implementation.Configuration
                 return result;
             }
         }
+
         public async Task<int> ProductEdit(VMCommonProduct vmCommonProduct)
         {
             var result = -1;
@@ -5349,86 +5350,114 @@ namespace KGERP.Service.Implementation.Configuration
             return result;
         }
 
-        private int AccHeadGlPush(VMHeadIntegration vmModel, ProductSubCategory productSubCategory)
+        private int AccHeadGlPush(VMHeadIntegration vmModel)
         {
             int result = -1;
-            ProductCategory productCategory = _db.ProductCategories.Find(productSubCategory.ProductCategoryId);
-            //List<Head5> head5s = new List<Head5>();
-            HeadGL headGl_1 = new HeadGL
+            HeadGL headGl = new HeadGL
             {
                 Id = _db.Database.SqlQuery<int>("spGetNewId").FirstOrDefault(),
-                AccCode = GenerateHeadGlAccCode(productCategory.AccountingHeadId.Value),
-
+                AccCode = GenerateHeadGlAccCode(vmModel.ParentId),
                 AccName = vmModel.AccName,
-                ParentId = productCategory.AccountingHeadId.Value, // Properties Accounts Receivable Head4 Id
-                CompanyId = vmModel.CompanyFK,
-                CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
-                CreateDate = DateTime.Now,
+                ParentId = vmModel.ParentId,
                 LayerNo = 6,
                 IsActive = true,
                 OrderNo = 0,
-                Remarks = "GL Layer"
-            };
-
-
-            _db.HeadGLs.Add(headGl_1);
-            var categoryForAssets = _db.ProductSubCategories.SingleOrDefault(x => x.ProductSubCategoryId == productSubCategory.ProductSubCategoryId);
-            categoryForAssets.AccountingHeadId = headGl_1.Id;
-            categoryForAssets.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
-            categoryForAssets.ModifiedDate = DateTime.Now;
-            _db.SaveChanges();
-
-            HeadGL headGl_2 = new HeadGL
-            {
-                Id = _db.Database.SqlQuery<int>("spGetNewId").FirstOrDefault(),
-                AccCode = GenerateHeadGlAccCode(productCategory.AccountingIncomeHeadId.Value),
-                AccName = vmModel.AccName,
-                ParentId = productCategory.AccountingIncomeHeadId.Value, // Properties Accounts Receivable Head4 Id
+                Remarks = "GL Layer",
+                IsIncomeHead = vmModel.IsIncomeHead,
                 CompanyId = vmModel.CompanyFK,
                 CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
                 CreateDate = DateTime.Now,
-                LayerNo = 6,
-                IsActive = true,
-                OrderNo = 0,
-                Remarks = "GL Layer"
             };
 
+            _db.HeadGLs.Add(headGl);
 
-            _db.HeadGLs.Add(headGl_2);
-            var categoryForIncome = _db.ProductSubCategories.SingleOrDefault(x => x.ProductSubCategoryId == productSubCategory.ProductSubCategoryId);
-            categoryForIncome.AccountingIncomeHeadId = headGl_2.Id;
-            categoryForIncome.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
-            categoryForIncome.ModifiedDate = DateTime.Now;
-            _db.SaveChanges();
-
-
-            HeadGL headGl_3 = new HeadGL
+            if (_db.SaveChanges() > 0)
             {
-                Id = _db.Database.SqlQuery<int>("spGetNewId").FirstOrDefault(),
-                AccCode = GenerateHeadGlAccCode(productCategory.AccountingExpenseHeadId.Value),
-                AccName = vmModel.AccName,
-                ParentId = productCategory.AccountingExpenseHeadId.Value, // Properties Accounts Receivable Head4 Id
-                CompanyId = vmModel.CompanyFK,
-                CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
-                CreateDate = DateTime.Now,
-                LayerNo = 6,
-                IsActive = true,
-                OrderNo = 0,
-                Remarks = "GL Layer"
-            };
-
-
-            _db.HeadGLs.Add(headGl_3);
-            var categoryForExpanse = _db.ProductSubCategories.SingleOrDefault(x => x.ProductSubCategoryId == productSubCategory.ProductSubCategoryId);
-            categoryForExpanse.AccountingExpenseHeadId = headGl_3.Id;
-            categoryForExpanse.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
-            categoryForExpanse.ModifiedDate = DateTime.Now;
-            _db.SaveChanges();
+                result = headGl.Id;
+            }
 
             return result;
-
         }
 
+        //private int AccHeadGlPush(VMHeadIntegration vmModel, ProductSubCategory productSubCategory)
+        //{
+        //    int result = -1;
+        //    ProductCategory productCategory = _db.ProductCategories.Find(productSubCategory.ProductCategoryId);
+        //    //List<Head5> head5s = new List<Head5>();
+        //    HeadGL headGl_1 = new HeadGL
+        //    {
+        //        Id = _db.Database.SqlQuery<int>("spGetNewId").FirstOrDefault(),
+        //        AccCode = GenerateHeadGlAccCode(productCategory.AccountingHeadId.Value),
+
+        //        AccName = vmModel.AccName,
+        //        ParentId = productCategory.AccountingHeadId.Value, // Properties Accounts Receivable Head4 Id
+        //        CompanyId = vmModel.CompanyFK,
+        //        CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+        //        CreateDate = DateTime.Now,
+        //        LayerNo = 6,
+        //        IsActive = true,
+        //        OrderNo = 0,
+        //        Remarks = "GL Layer"
+        //    };
+
+
+        //    _db.HeadGLs.Add(headGl_1);
+        //    var categoryForAssets = _db.ProductSubCategories.SingleOrDefault(x => x.ProductSubCategoryId == productSubCategory.ProductSubCategoryId);
+        //    categoryForAssets.AccountingHeadId = headGl_1.Id;
+        //    categoryForAssets.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+        //    categoryForAssets.ModifiedDate = DateTime.Now;
+        //    _db.SaveChanges();
+
+        //    HeadGL headGl_2 = new HeadGL
+        //    {
+        //        Id = _db.Database.SqlQuery<int>("spGetNewId").FirstOrDefault(),
+        //        AccCode = GenerateHeadGlAccCode(productCategory.AccountingIncomeHeadId.Value),
+        //        AccName = vmModel.AccName,
+        //        ParentId = productCategory.AccountingIncomeHeadId.Value, // Properties Accounts Receivable Head4 Id
+        //        CompanyId = vmModel.CompanyFK,
+        //        CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+        //        CreateDate = DateTime.Now,
+        //        LayerNo = 6,
+        //        IsActive = true,
+        //        OrderNo = 0,
+        //        Remarks = "GL Layer"
+        //    };
+
+
+        //    _db.HeadGLs.Add(headGl_2);
+        //    var categoryForIncome = _db.ProductSubCategories.SingleOrDefault(x => x.ProductSubCategoryId == productSubCategory.ProductSubCategoryId);
+        //    categoryForIncome.AccountingIncomeHeadId = headGl_2.Id;
+        //    categoryForIncome.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+        //    categoryForIncome.ModifiedDate = DateTime.Now;
+        //    _db.SaveChanges();
+
+
+        //    HeadGL headGl_3 = new HeadGL
+        //    {
+        //        Id = _db.Database.SqlQuery<int>("spGetNewId").FirstOrDefault(),
+        //        AccCode = GenerateHeadGlAccCode(productCategory.AccountingExpenseHeadId.Value),
+        //        AccName = vmModel.AccName,
+        //        ParentId = productCategory.AccountingExpenseHeadId.Value, // Properties Accounts Receivable Head4 Id
+        //        CompanyId = vmModel.CompanyFK,
+        //        CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
+        //        CreateDate = DateTime.Now,
+        //        LayerNo = 6,
+        //        IsActive = true,
+        //        OrderNo = 0,
+        //        Remarks = "GL Layer"
+        //    };
+
+
+        //    _db.HeadGLs.Add(headGl_3);
+        //    var categoryForExpanse = _db.ProductSubCategories.SingleOrDefault(x => x.ProductSubCategoryId == productSubCategory.ProductSubCategoryId);
+        //    categoryForExpanse.AccountingExpenseHeadId = headGl_3.Id;
+        //    categoryForExpanse.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+        //    categoryForExpanse.ModifiedDate = DateTime.Now;
+        //    _db.SaveChanges();
+
+        //    return result;
+
+        //}
 
         private int SeedAccHeadGlPush(VMHeadIntegration vmModel)
         {
@@ -5621,7 +5650,7 @@ namespace KGERP.Service.Implementation.Configuration
 
             if (head5DataList.Count() > 0)
             {
-                string lastAccCode = head5DataList.OrderByDescending(x => x.AccCode).FirstOrDefault()?.AccCode;
+                string lastAccCode = head5DataList.OrderByDescending(x => x.AccCode).FirstOrDefault().AccCode;
                 string parentPart = lastAccCode.Substring(0, 7);
                 string childPart = lastAccCode.Substring(7, 3);
                 newAccountCode = parentPart + (Convert.ToInt32(childPart) + 1).ToString().PadLeft(3, '0');
@@ -5632,26 +5661,23 @@ namespace KGERP.Service.Implementation.Configuration
             }
             return newAccountCode;
         }
+
         private string GenerateHeadGlAccCode(int head5Id)
         {
             var head5 = _db.Head5.FirstOrDefault(x => x.Id == head5Id);
-
-
-            var headGlDataList = _db.HeadGLs.Where(x => x.ParentId == head5Id).AsEnumerable();
-
+            var headGlDataList = _db.HeadGLs.Where(x => x.ParentId == head5Id).AsQueryable();
             string newAccountCode = "";
-            if (headGlDataList.Any())
+
+            if (headGlDataList.Count() > 0)
             {
                 string lastAccCode = headGlDataList.OrderByDescending(x => x.AccCode).FirstOrDefault().AccCode;
                 string parentPart = lastAccCode.Substring(0, 10);
                 string childPart = lastAccCode.Substring(10, 3);
                 newAccountCode = parentPart + (Convert.ToInt32(childPart) + 1).ToString().PadLeft(3, '0');
-
             }
             else
             {
                 newAccountCode = head5.AccCode + "001";
-
             }
             return newAccountCode;
         }
