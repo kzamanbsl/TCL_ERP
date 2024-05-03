@@ -315,15 +315,33 @@ namespace KGERP.Controllers
         #region Cheque Cancel Request
 
         [HttpGet]
-        public async Task<ActionResult> ChequeCancelRequest(int companyId = 0)
+        public ActionResult ChequeCancelRequest(int companyId = 0)
         {
-            return View();
+            ChequeRegisterModel viewData = new ChequeRegisterModel();
+            viewData.CompanyFK = companyId;
+            viewData.ChequeNumberList = new SelectList(_Service.ChequePageNo(), "Value", "Text");
+            return View(viewData);
         }
 
         [HttpPost]
-        public async Task<ActionResult> ChequeCancelRequest(ChequeRegisterModel model)
+        public ActionResult ChequeCancelRequest(ChequeRegisterModel model)
         {
-            return View();
+            if (model.ActionEum == ActionEnum.Add)
+            {
+                //Add 
+                //_Service.Add(model);
+            }
+            else
+            {
+                return View("Error");
+            }
+            return RedirectToAction(nameof(ChequeCancelRequest), new { companyId = model.CompanyFK });
+        }
+
+        [HttpGet]
+        public JsonResult IsSignOrNot(long chequeRegisterId)
+        {
+            return Json(true, JsonRequestBehavior.AllowGet);
         }
 
         #endregion

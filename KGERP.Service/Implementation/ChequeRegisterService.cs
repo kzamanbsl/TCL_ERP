@@ -329,6 +329,25 @@ namespace KGERP.Service.Implementation
             return getData.Cast<object>().ToList();
 
         }
+
+        public List<object> ChequePageNo()
+        {
+            var getData = (from t1 in _context.ChequeRegisters
+                           where t1.IsCanceled == false && t1.IsActive
+                           select new
+                           {
+                               ChequeNo = t1.ChequeNo,
+                               IssueDate = t1.IssueDate,
+                               ChequeRegisterId = t1.ChequeRegisterId
+                           }).AsEnumerable()
+                           .Select(t1 => new
+                           {
+                               Text = t1.ChequeNo + " => Issue Date: " + t1.IssueDate.ToString("yyyy-MM-dd"),
+                               Value = t1.ChequeRegisterId
+                           }).ToList();
+            return getData.Cast<object>().ToList();
+        }
+
         public async Task<string> GetPayeeNameBySupplierId(int supplierId)
         {
             var getData = await _context.Vendors.FirstOrDefaultAsync(x => x.VendorId == supplierId && x.IsActive);

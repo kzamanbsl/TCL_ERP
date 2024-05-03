@@ -47,7 +47,7 @@ namespace KGERP.Service.Interface
         Task<List<ChequeRegisterModel>> GetSignedChequeList(int companyId);
         Task<List<ChequeRegisterModel>> GetGeneratedChequeList(int companyId);
         List<object> RegisteredRequisitionList(int projectId);
-
+        List<object> ChequePageNo();
         #endregion
 
         Task<string> GetPayeeNameBySupplierId(int supplierId);
