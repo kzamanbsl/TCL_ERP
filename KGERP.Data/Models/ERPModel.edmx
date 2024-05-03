@@ -602,9 +602,21 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.AttendenceApproveApplication_Shadow
           <Property Name="ModifiedBy" Type="varchar" MaxLength="200" />
           <Property Name="ModifiedDate" Type="datetime" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
-          <Property Name="AccountingHeadId" Type="int" />
-          <Property Name="AccountingIncomeHeadId" Type="int" />
-          <Property Name="AccountingExpenseHeadId" Type="int" />
+          <Property Name="CurrentAccountingHeadId" Type="int" />
+          <Property Name="CurrentAccountingIncomeHeadId" Type="int" />
+          <Property Name="CurrentAccountingExpenseHeadId" Type="int" />
+          <Property Name="CurrentJVAccountingHeadId" Type="int" />
+          <Property Name="CurrentJVAccountingIncomeHeadId" Type="int" />
+          <Property Name="CurrentJVAccountingExpenseHeadId" Type="int" />
+          <Property Name="SavingAccountingHeadId" Type="int" />
+          <Property Name="SavingAccountingIncomeHeadId" Type="int" />
+          <Property Name="SavingAccountingExpenseHeadId" Type="int" />
+          <Property Name="SNDAccountingHeadId" Type="int" />
+          <Property Name="SNDAccountingIncomeHeadId" Type="int" />
+          <Property Name="SNDAccountingExpenseHeadId" Type="int" />
+          <Property Name="FDRAccountingHeadId" Type="int" />
+          <Property Name="FDRAccountingIncomeHeadId" Type="int" />
+          <Property Name="FDRAccountingExpenseHeadId" Type="int" />
         </EntityType>
         <EntityType Name="BankAccountInfo">
           <Key>
@@ -12513,8 +12525,16 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             <End Role="Vendor" EntitySet="Vendors" />
             <End Role="ChequeRegister" EntitySet="ChequeRegisters" />
           </AssociationSet>
-          <EntitySet Name="Banks" EntityType="ERPModel.Bank" />
           <EntitySet Name="BankAccountInfoes" EntityType="ERPModel.BankAccountInfo" />
+          <AssociationSet Name="FK_BankAccountInfo_BankBranch" Association="ERPModel.FK_BankAccountInfo_BankBranch">
+            <End Role="BankBranch" EntitySet="BankBranches" />
+            <End Role="BankAccountInfo" EntitySet="BankAccountInfoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ChequeBook_BankAccountInfo" Association="ERPModel.FK_ChequeBook_BankAccountInfo">
+            <End Role="BankAccountInfo" EntitySet="BankAccountInfoes" />
+            <End Role="ChequeBook" EntitySet="ChequeBooks" />
+          </AssociationSet>
+          <EntitySet Name="Banks" EntityType="ERPModel.Bank" />
           <AssociationSet Name="FK_BankAccountInfo_Bank" Association="ERPModel.FK_BankAccountInfo_Bank">
             <End Role="Bank" EntitySet="Banks" />
             <End Role="BankAccountInfo" EntitySet="BankAccountInfoes" />
@@ -12526,14 +12546,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
           <AssociationSet Name="FK_Employee_Bank" Association="ERPModel.FK_Employee_Bank">
             <End Role="Bank" EntitySet="Banks" />
             <End Role="Employee" EntitySet="Employees" />
-          </AssociationSet>
-          <AssociationSet Name="FK_BankAccountInfo_BankBranch" Association="ERPModel.FK_BankAccountInfo_BankBranch">
-            <End Role="BankBranch" EntitySet="BankBranches" />
-            <End Role="BankAccountInfo" EntitySet="BankAccountInfoes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ChequeBook_BankAccountInfo" Association="ERPModel.FK_ChequeBook_BankAccountInfo">
-            <End Role="BankAccountInfo" EntitySet="BankAccountInfoes" />
-            <End Role="ChequeBook" EntitySet="ChequeBooks" />
           </AssociationSet>
           </EntityContainer>
 				<EntityType Name="AdminPolicy">
@@ -15401,8 +15413,8 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 					<Property Name="IsActive" Type="Boolean" Nullable="false" />
 					<NavigationProperty Name="Accounting_ChequeInfo" Relationship="ERPModel.FK_Accounting_ChequeInfo_BankBranch" FromRole="BankBranch" ToRole="Accounting_ChequeInfo" />
 					<NavigationProperty Name="Employees" Relationship="ERPModel.FK_Employee_Employee" FromRole="BankBranch" ToRole="Employee" />
-          <NavigationProperty Name="Bank" Relationship="ERPModel.FK_BankBranch_Bank" FromRole="BankBranch" ToRole="Bank" />
           <NavigationProperty Name="BankAccountInfoes" Relationship="ERPModel.FK_BankAccountInfo_BankBranch" FromRole="BankBranch" ToRole="BankAccountInfo" />
+          <NavigationProperty Name="Bank" Relationship="ERPModel.FK_BankBranch_Bank" FromRole="BankBranch" ToRole="Bank" />
 				</EntityType>
 				<EntityType Name="Accounting_ChequeInfo">
 					<Key>
@@ -22425,25 +22437,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Bank">
-          <Key>
-            <PropertyRef Name="BankId" />
-          </Key>
-          <Property Name="CompanyId" Type="Int32" />
-          <Property Name="BankId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CreatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-          <Property Name="ModifiedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <Property Name="AccountingHeadId" Type="Int32" />
-          <Property Name="AccountingIncomeHeadId" Type="Int32" />
-          <Property Name="AccountingExpenseHeadId" Type="Int32" />
-          <NavigationProperty Name="BankAccountInfoes" Relationship="ERPModel.FK_BankAccountInfo_Bank" FromRole="Bank" ToRole="BankAccountInfo" />
-          <NavigationProperty Name="BankBranches" Relationship="ERPModel.FK_BankBranch_Bank" FromRole="Bank" ToRole="BankBranch" />
-          <NavigationProperty Name="Employees" Relationship="ERPModel.FK_Employee_Bank" FromRole="Bank" ToRole="Employee" />
-        </EntityType>
         <EntityType Name="BankAccountInfo">
           <Key>
             <PropertyRef Name="BankAccountInfoId" />
@@ -22464,9 +22457,64 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
           <Property Name="AccountingHeadId" Type="Int32" />
           <Property Name="AccountingIncomeHeadId" Type="Int32" />
           <Property Name="AccountingExpenseHeadId" Type="Int32" />
-          <NavigationProperty Name="Bank" Relationship="ERPModel.FK_BankAccountInfo_Bank" FromRole="BankAccountInfo" ToRole="Bank" />
           <NavigationProperty Name="BankBranch" Relationship="ERPModel.FK_BankAccountInfo_BankBranch" FromRole="BankAccountInfo" ToRole="BankBranch" />
           <NavigationProperty Name="ChequeBooks" Relationship="ERPModel.FK_ChequeBook_BankAccountInfo" FromRole="BankAccountInfo" ToRole="ChequeBook" />
+          <NavigationProperty Name="Bank" Relationship="ERPModel.FK_BankAccountInfo_Bank" FromRole="BankAccountInfo" ToRole="Bank" />
+        </EntityType>
+        <Association Name="FK_BankAccountInfo_BankBranch">
+          <End Type="ERPModel.BankBranch" Role="BankBranch" Multiplicity="1" />
+          <End Type="ERPModel.BankAccountInfo" Role="BankAccountInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BankBranch">
+              <PropertyRef Name="BankBranchId" />
+            </Principal>
+            <Dependent Role="BankAccountInfo">
+              <PropertyRef Name="BranchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ChequeBook_BankAccountInfo">
+          <End Type="ERPModel.BankAccountInfo" Role="BankAccountInfo" Multiplicity="1" />
+          <End Type="ERPModel.ChequeBook" Role="ChequeBook" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BankAccountInfo">
+              <PropertyRef Name="BankAccountInfoId" />
+            </Principal>
+            <Dependent Role="ChequeBook">
+              <PropertyRef Name="BankAccountInfoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Bank">
+          <Key>
+            <PropertyRef Name="BankId" />
+          </Key>
+          <Property Name="CompanyId" Type="Int32" />
+          <Property Name="BankId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CurrentAccountingHeadId" Type="Int32" />
+          <Property Name="CurrentAccountingIncomeHeadId" Type="Int32" />
+          <Property Name="CurrentAccountingExpenseHeadId" Type="Int32" />
+          <Property Name="CurrentJVAccountingHeadId" Type="Int32" />
+          <Property Name="CurrentJVAccountingIncomeHeadId" Type="Int32" />
+          <Property Name="CurrentJVAccountingExpenseHeadId" Type="Int32" />
+          <Property Name="SavingAccountingHeadId" Type="Int32" />
+          <Property Name="SavingAccountingIncomeHeadId" Type="Int32" />
+          <Property Name="SavingAccountingExpenseHeadId" Type="Int32" />
+          <Property Name="SNDAccountingHeadId" Type="Int32" />
+          <Property Name="SNDAccountingIncomeHeadId" Type="Int32" />
+          <Property Name="SNDAccountingExpenseHeadId" Type="Int32" />
+          <Property Name="FDRAccountingHeadId" Type="Int32" />
+          <Property Name="FDRAccountingIncomeHeadId" Type="Int32" />
+          <Property Name="FDRAccountingExpenseHeadId" Type="Int32" />
+          <NavigationProperty Name="BankAccountInfoes" Relationship="ERPModel.FK_BankAccountInfo_Bank" FromRole="Bank" ToRole="BankAccountInfo" />
+          <NavigationProperty Name="BankBranches" Relationship="ERPModel.FK_BankBranch_Bank" FromRole="Bank" ToRole="BankBranch" />
+          <NavigationProperty Name="Employees" Relationship="ERPModel.FK_Employee_Bank" FromRole="Bank" ToRole="Employee" />
         </EntityType>
         <Association Name="FK_BankAccountInfo_Bank">
           <End Type="ERPModel.Bank" Role="Bank" Multiplicity="1" />
@@ -22501,30 +22549,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             </Principal>
             <Dependent Role="Employee">
               <PropertyRef Name="BankId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_BankAccountInfo_BankBranch">
-          <End Type="ERPModel.BankBranch" Role="BankBranch" Multiplicity="1" />
-          <End Type="ERPModel.BankAccountInfo" Role="BankAccountInfo" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BankBranch">
-              <PropertyRef Name="BankBranchId" />
-            </Principal>
-            <Dependent Role="BankAccountInfo">
-              <PropertyRef Name="BranchId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ChequeBook_BankAccountInfo">
-          <End Type="ERPModel.BankAccountInfo" Role="BankAccountInfo" Multiplicity="1" />
-          <End Type="ERPModel.ChequeBook" Role="ChequeBook" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BankAccountInfo">
-              <PropertyRef Name="BankAccountInfoId" />
-            </Principal>
-            <Dependent Role="ChequeBook">
-              <PropertyRef Name="BankAccountInfoId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -28672,23 +28696,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Banks">
-            <EntityTypeMapping TypeName="ERPModel.Bank">
-              <MappingFragment StoreEntitySet="Bank">
-                <ScalarProperty Name="AccountingExpenseHeadId" ColumnName="AccountingExpenseHeadId" />
-                <ScalarProperty Name="AccountingIncomeHeadId" ColumnName="AccountingIncomeHeadId" />
-                <ScalarProperty Name="AccountingHeadId" ColumnName="AccountingHeadId" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="BankId" ColumnName="BankId" />
-                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="BankAccountInfoes">
             <EntityTypeMapping TypeName="ERPModel.BankAccountInfo">
               <MappingFragment StoreEntitySet="BankAccountInfo">
@@ -28708,6 +28715,35 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
                 <ScalarProperty Name="BranchId" ColumnName="BranchId" />
                 <ScalarProperty Name="BankId" ColumnName="BankId" />
                 <ScalarProperty Name="BankAccountInfoId" ColumnName="BankAccountInfoId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Banks">
+            <EntityTypeMapping TypeName="ERPModel.Bank">
+              <MappingFragment StoreEntitySet="Bank">
+                <ScalarProperty Name="FDRAccountingExpenseHeadId" ColumnName="FDRAccountingExpenseHeadId" />
+                <ScalarProperty Name="FDRAccountingIncomeHeadId" ColumnName="FDRAccountingIncomeHeadId" />
+                <ScalarProperty Name="FDRAccountingHeadId" ColumnName="FDRAccountingHeadId" />
+                <ScalarProperty Name="SNDAccountingExpenseHeadId" ColumnName="SNDAccountingExpenseHeadId" />
+                <ScalarProperty Name="SNDAccountingIncomeHeadId" ColumnName="SNDAccountingIncomeHeadId" />
+                <ScalarProperty Name="SNDAccountingHeadId" ColumnName="SNDAccountingHeadId" />
+                <ScalarProperty Name="SavingAccountingExpenseHeadId" ColumnName="SavingAccountingExpenseHeadId" />
+                <ScalarProperty Name="SavingAccountingIncomeHeadId" ColumnName="SavingAccountingIncomeHeadId" />
+                <ScalarProperty Name="SavingAccountingHeadId" ColumnName="SavingAccountingHeadId" />
+                <ScalarProperty Name="CurrentJVAccountingExpenseHeadId" ColumnName="CurrentJVAccountingExpenseHeadId" />
+                <ScalarProperty Name="CurrentJVAccountingIncomeHeadId" ColumnName="CurrentJVAccountingIncomeHeadId" />
+                <ScalarProperty Name="CurrentJVAccountingHeadId" ColumnName="CurrentJVAccountingHeadId" />
+                <ScalarProperty Name="CurrentAccountingExpenseHeadId" ColumnName="CurrentAccountingExpenseHeadId" />
+                <ScalarProperty Name="CurrentAccountingIncomeHeadId" ColumnName="CurrentAccountingIncomeHeadId" />
+                <ScalarProperty Name="CurrentAccountingHeadId" ColumnName="CurrentAccountingHeadId" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="BankId" ColumnName="BankId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

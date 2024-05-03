@@ -325,8 +325,8 @@ namespace KGERP.Data.Models
         public virtual DbSet<VendorType> VendorTypes { get; set; }
         public virtual DbSet<BillingGeneratedMap> BillingGeneratedMaps { get; set; }
         public virtual DbSet<ChequeRegister> ChequeRegisters { get; set; }
-        public virtual DbSet<Bank> Banks { get; set; }
         public virtual DbSet<BankAccountInfo> BankAccountInfoes { get; set; }
+        public virtual DbSet<Bank> Banks { get; set; }
     
         public virtual ObjectResult<GetEmployeeListForTeam_Result> GetEmployeeListForTeam(Nullable<int> companyId)
         {

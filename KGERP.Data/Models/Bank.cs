@@ -30,9 +30,21 @@ namespace KGERP.Data.Models
         public string ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public bool IsActive { get; set; }
-        public Nullable<int> AccountingHeadId { get; set; }
-        public Nullable<int> AccountingIncomeHeadId { get; set; }
-        public Nullable<int> AccountingExpenseHeadId { get; set; }
+        public Nullable<int> CurrentAccountingHeadId { get; set; }
+        public Nullable<int> CurrentAccountingIncomeHeadId { get; set; }
+        public Nullable<int> CurrentAccountingExpenseHeadId { get; set; }
+        public Nullable<int> CurrentJVAccountingHeadId { get; set; }
+        public Nullable<int> CurrentJVAccountingIncomeHeadId { get; set; }
+        public Nullable<int> CurrentJVAccountingExpenseHeadId { get; set; }
+        public Nullable<int> SavingAccountingHeadId { get; set; }
+        public Nullable<int> SavingAccountingIncomeHeadId { get; set; }
+        public Nullable<int> SavingAccountingExpenseHeadId { get; set; }
+        public Nullable<int> SNDAccountingHeadId { get; set; }
+        public Nullable<int> SNDAccountingIncomeHeadId { get; set; }
+        public Nullable<int> SNDAccountingExpenseHeadId { get; set; }
+        public Nullable<int> FDRAccountingHeadId { get; set; }
+        public Nullable<int> FDRAccountingIncomeHeadId { get; set; }
+        public Nullable<int> FDRAccountingExpenseHeadId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BankAccountInfo> BankAccountInfoes { get; set; }

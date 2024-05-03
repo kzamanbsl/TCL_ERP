@@ -587,13 +587,13 @@
         <AssociationConnector Association="ERPModel.FK_ChequeRegister_Accounting_CostCenter" />
         <AssociationConnector Association="ERPModel.FK_ChequeRegister_BillRequisitionMaster" />
         <AssociationConnector Association="ERPModel.FK_ChequeRegister_ChequeRegister" />
-        <EntityTypeShape EntityType="ERPModel.Bank" Width="1.5" PointX="42.375" PointY="50.625" />
         <EntityTypeShape EntityType="ERPModel.BankAccountInfo" Width="1.5" PointX="51.875" PointY="48.875" />
+        <AssociationConnector Association="ERPModel.FK_BankAccountInfo_BankBranch" />
+        <AssociationConnector Association="ERPModel.FK_ChequeBook_BankAccountInfo" />
+        <EntityTypeShape EntityType="ERPModel.Bank" Width="1.5" PointX="44.375" PointY="50.75" />
         <AssociationConnector Association="ERPModel.FK_BankAccountInfo_Bank" />
         <AssociationConnector Association="ERPModel.FK_BankBranch_Bank" />
         <AssociationConnector Association="ERPModel.FK_Employee_Bank" />
-        <AssociationConnector Association="ERPModel.FK_BankAccountInfo_BankBranch" />
-        <AssociationConnector Association="ERPModel.FK_ChequeBook_BankAccountInfo" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
