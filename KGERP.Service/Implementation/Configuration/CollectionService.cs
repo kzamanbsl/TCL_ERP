@@ -509,47 +509,47 @@ namespace KGERP.Service.Implementation.Configuration
 
             if (paymentMasterId > 0)
             {
-               paymentVm = await Task.Run(() =>
-                    (from t1 in _db.PaymentMasters.Where(x => x.IsActive && x.PaymentMasterId == paymentMasterId && x.VendorId == supplierId && x.CompanyId == companyId)
-                     join t2 in _db.Vendors on t1.VendorId equals t2.VendorId
-                     //join t3 in _db.HeadGLs on t1.BankChargeHeadGLId equals t3.Id
-                     //join t4 in _db.HeadGLs on t1.PaymentToHeadGLId equals t4.Id
-                     select new VMPayment
-                     {
-                         ACName = t2.ACName,
-                         ACNo = t2.ACNo,
-                         BankName = t2.BankId.ToString(),
-                         BranchName = t2.BranchId.ToString(),
-                         PaymentFromHeadGLId = t1.PaymentToHeadGLId,
-                         BankCharge = t1.BankCharge,
-                         BankChargeHeadGLId = t1.BankChargeHeadGLId,
-                         IsFinalized = t1.IsFinalized,
-                         PaymentMasterId = t1.PaymentMasterId,
-                         PaymentNo = t1.PaymentNo,
-                         CustomerId = t2.VendorId,
-                         CompanyId = companyId,
-                         CompanyFK = t1.CompanyId,
-                         MoneyReceiptNo = t1.MoneyReceiptNo ?? "N/A",
-                         TransactionDate = t1.TransactionDate,
-                         ReferenceNo = t1.ReferenceNo,
-                         CommonCustomerName = t2.Name,
-                         CommonCustomerCode = t2.Code,
-                         //PaymentToHeadGLId = t2.PaymentToHeadGLId,
-                         //PaymentToHeadGLName = $"{t4.AccCode} - {t4.AccName}",
-                         //PaymentFromHeadGLName = $"{t3.AccCode} - {t3.AccName}",
-                         PayableAmountDecimal = (from ts1 in _db.MaterialReceiveDetails
-                                                 join ts2 in _db.MaterialReceives on ts1.MaterialReceiveId equals ts2.MaterialReceiveId
-                                                 join ts3 in _db.PurchaseOrders on ts2.PurchaseOrderId equals ts3.PurchaseOrderId
-                                                 where ts3.SupplierId == supplierId && ts2.IsActive && ts1.IsActive && !ts1.IsReturn
-                                                 select ts1.ReceiveQty * ts1.UnitPrice).DefaultIfEmpty(0).Sum(),
+                paymentVm = await Task.Run(() =>
+                     (from t1 in _db.PaymentMasters.Where(x => x.IsActive && x.PaymentMasterId == paymentMasterId && x.VendorId == supplierId && x.CompanyId == companyId)
+                      join t2 in _db.Vendors on t1.VendorId equals t2.VendorId
+                      join t3 in _db.HeadGLs on t1.BankChargeHeadGLId equals t3.Id
+                      join t4 in _db.HeadGLs on t1.PaymentToHeadGLId equals t4.Id
+                      select new VMPayment
+                      {
+                          ACName = t2.ACName,
+                          ACNo = t2.ACNo,
+                          BankName = t2.BankId.ToString(),
+                          BranchName = t2.BranchId.ToString(),
+                          PaymentFromHeadGLId = t1.PaymentToHeadGLId,
+                          BankCharge = t1.BankCharge,
+                          BankChargeHeadGLId = t1.BankChargeHeadGLId,
+                          IsFinalized = t1.IsFinalized,
+                          PaymentMasterId = t1.PaymentMasterId,
+                          PaymentNo = t1.PaymentNo,
+                          CustomerId = t2.VendorId,
+                          CompanyId = companyId,
+                          CompanyFK = t1.CompanyId,
+                          MoneyReceiptNo = t1.MoneyReceiptNo ?? "N/A",
+                          TransactionDate = t1.TransactionDate,
+                          ReferenceNo = t1.ReferenceNo,
+                          CommonCustomerName = t2.Name,
+                          CommonCustomerCode = t2.Code,
+                          PaymentToHeadGLId = t1.PaymentToHeadGLId,
+                          PaymentToHeadGLName = t4.AccCode + " - " + t4.AccName,
+                          PaymentFromHeadGLName = t3.AccCode + " - " + t3.AccName,
+                          PayableAmountDecimal = (from ts1 in _db.MaterialReceiveDetails
+                                                  join ts2 in _db.MaterialReceives on ts1.MaterialReceiveId equals ts2.MaterialReceiveId
+                                                  join ts3 in _db.PurchaseOrders on ts2.PurchaseOrderId equals ts3.PurchaseOrderId
+                                                  where ts3.SupplierId == supplierId && ts2.IsActive && ts1.IsActive && !ts1.IsReturn
+                                                  select ts1.ReceiveQty * ts1.UnitPrice).DefaultIfEmpty(0).Sum(),
 
-                         ReturnAmount = (from ts1 in _db.PurchaseReturnDetails
-                                         join ts2 in _db.PurchaseReturns on ts1.PurchaseReturnId equals ts2.PurchaseReturnId
-                                         where ts1.IsActive && ts2.Active && ts2.SupplierId == t2.VendorId && ts2.CompanyId == t2.CompanyId
-                                         select ts1.Qty.Value * ts1.Rate.Value).DefaultIfEmpty(0).Sum(),
+                          ReturnAmount = (from ts1 in _db.PurchaseReturnDetails
+                                          join ts2 in _db.PurchaseReturns on ts1.PurchaseReturnId equals ts2.PurchaseReturnId
+                                          where ts1.IsActive && ts2.Active && ts2.SupplierId == t2.VendorId && ts2.CompanyId == t2.CompanyId
+                                          select ts1.Qty.Value * ts1.Rate.Value).DefaultIfEmpty(0).Sum(),
 
-                         InAmount = _db.Payments.Where(x => x.VendorId == supplierId).Select(x => x.InAmount).DefaultIfEmpty(0).Sum()
-                     }).FirstOrDefault());
+                          InAmount = _db.Payments.Where(x => x.VendorId == supplierId).Select(x => x.InAmount).DefaultIfEmpty(0).Sum()
+                      }).FirstOrDefault());
             }
             else
             {
@@ -611,15 +611,11 @@ namespace KGERP.Service.Implementation.Configuration
             return paymentVm;
         }
 
-
         public async Task<int> PaymentMasterAdd(VMPayment vmPayment)
         {
-            if (vmPayment.CompanyFK == (int)CompanyNameEnum.GloriousCropCareLimited)
-            {
-                vmPayment.BankChargeHeadGLId = 39432; // GCCL Bank Charge Head Id
-            }
             int result = -1;
-            var vendors = await _db.Vendors.FindAsync(vmPayment.CustomerId);
+            var vendors = _db.Vendors.FirstOrDefault(x => x.VendorId == vmPayment.CustomerId);
+            var bankInfo = _db.BankAccountInfoes.FirstOrDefault(x => x.BankAccountInfoId == vmPayment.BankAccountInfoId && x.BankId == vmPayment.BankId);
 
             #region PaymentNo
             int paymentMastersCount = _db.PaymentMasters.Count(x => x.CompanyId == vmPayment.CompanyFK && x.VendorId == vmPayment.CustomerId);
@@ -644,14 +640,11 @@ namespace KGERP.Service.Implementation.Configuration
                 ReferenceNo = vmPayment.ReferenceNo,
                 IsAdjust = vmPayment.IsAdjust,
                 VendorTypeId = vendors.VendorTypeId,
-
-                BankChargeHeadGLId = vmPayment.BankChargeHeadGLId ?? 50613604, //BankCharge HeadGL Id
-
+                BankChargeHeadGLId = bankInfo.AccountingHeadId,
                 BankCharge = vmPayment.BankCharge,
                 CompanyId = vmPayment.CompanyFK.Value,
                 CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
-                //PaymentToHeadGLId = vmPayment.Accounting_BankOrCashId,
-                PaymentToHeadGLId = 1234,
+                PaymentToHeadGLId = 29833,
                 CreatedDate = DateTime.Now,
                 IsActive = true
             };
@@ -666,7 +659,8 @@ namespace KGERP.Service.Implementation.Configuration
         public async Task<long> PaymentAdd(VMPayment vmPayment)
         {
             long result = -1;
-            var vendor = await _db.Vendors.FindAsync(vmPayment.CustomerId);
+            var vendor = _db.Vendors.FirstOrDefault(x => x.VendorId == vmPayment.CustomerId);
+            var bankInfo = _db.BankAccountInfoes.FirstOrDefault(x => x.BankAccountInfoId == vmPayment.BankAccountInfoId && x.BankId == vmPayment.BankId);
 
             Payment payment = new Payment
             {
@@ -681,21 +675,22 @@ namespace KGERP.Service.Implementation.Configuration
                 OrderMasterId = vmPayment.OrderMasterId,
                 PurchaseOrderId = vmPayment.PurchaseOrderId,
                 CompanyId = vmPayment.CompanyFK.Value,
-                PaymentFromHeadGLId = vendor.HeadGLId,
+                PaymentFromHeadGLId = bankInfo.AccountingHeadId,
                 CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
                 CreatedDate = DateTime.Now,
                 IsActive = true,
-
             };
+
             _db.Payments.Add(payment);
+
             if (await _db.SaveChangesAsync() > 0)
             {
                 result = payment.PaymentId;
             }
 
-
             return result;
         }
+
         public async Task<long> ExpensesAdd(VMPayment vmPayment)
         {
             long result = -1;
