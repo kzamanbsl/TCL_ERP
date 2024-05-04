@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 using KGERP.Data.Models;
 using KGERP.Service.Implementation.Accounting;
 using KGERP.Service.Implementation.Procurement;
+using KGERP.Service.Interface;
+using KGERP.Service.ServiceModel;
 using KGERP.Utility;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ProgressBar;
 
 namespace KGERP.Service.Implementation.Configuration
 
@@ -16,9 +19,11 @@ namespace KGERP.Service.Implementation.Configuration
         private readonly ERPEntities _db;
         public List<VmTransaction> Transaction { get; set; }
         private readonly AccountingService _accountingService;
-        public CollectionService(ERPEntities db)
+        private readonly IVoucherService _voucherService;
+        public CollectionService(ERPEntities db, IVoucherService voucherService)
         {
             _db = db;
+            _voucherService = voucherService;
             _accountingService = new AccountingService(db);
         }
 
@@ -650,7 +655,9 @@ namespace KGERP.Service.Implementation.Configuration
                 CreatedDate = DateTime.Now,
                 IsActive = true
             };
+
             _db.PaymentMasters.Add(paymentMaster);
+
             if (await _db.SaveChangesAsync() > 0)
             {
                 result = paymentMaster.PaymentMasterId;
@@ -847,7 +854,6 @@ namespace KGERP.Service.Implementation.Configuration
                         vendorDepositHistory.CreateDate = DateTime.Now;
                         vendorDepositHistory.CreatedBy = System.Web.HttpContext.Current.User.Identity.Name;
                         vendorDepositHistory.IsActive = true;
-
                     }
                 }
             }

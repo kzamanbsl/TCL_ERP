@@ -391,8 +391,8 @@ namespace KGERP.Controllers
                     var voucherNo = _voucherService.GetVoucherNo(vmJournalSlave.VoucherTypeId, vmJournalSlave.CompanyFK.Value, vmJournalSlave.Date.Value);
                     vmJournalSlave.VoucherNo = voucherNo;
                     vmJournalSlave.VoucherId = await _accountingService.VoucherRequisitionMapAdd(vmJournalSlave);
-
                 }
+
                 await _accountingService.VoucherDetailRequisitionMapAdd(vmJournalSlave);
             }
             else if (vmJournalSlave.ActionEum == ActionEnum.Edit)
