@@ -595,9 +595,9 @@ namespace KGERP.Service.Implementation.Configuration
             (from t1 in _db.Payments
              join t2 in _db.PaymentMasters on t1.PaymentMasterId equals t2.PaymentMasterId into t2_Join
              from t2 in t2_Join.DefaultIfEmpty()
-             join t3 in _db.MaterialReceives.Where(x => x.IsActive) on t1.PurchaseOrderId equals t3.PurchaseOrderId into t3_Join
+             join t3 in _db.MaterialReceives on t1.PurchaseOrderId equals t3.MaterialReceiveId into t3_Join
              from t3 in t3_Join.DefaultIfEmpty()
-             join t4 in _db.PurchaseOrders.Where(x => x.IsActive) on t3.PurchaseOrderId equals t4.PurchaseOrderId into t4_Join
+             join t4 in _db.PurchaseOrders on t3.PurchaseOrderId equals t4.PurchaseOrderId into t4_Join
              from t4 in t4_Join.DefaultIfEmpty()
              where t1.VendorId == supplierId && t1.IsActive && t1.CompanyId == companyId && t1.PaymentMasterId == paymentMasterId
              select new VMPayment
@@ -612,6 +612,7 @@ namespace KGERP.Service.Implementation.Configuration
                  PaymentId = t1.PaymentId,
                  PaymentToHeadGLId = t1.PaymentFromHeadGLId ?? 0
              }).OrderByDescending(x => x.PaymentId).ToList());
+
             paymentVm.CompanyFK = companyId;
 
             return paymentVm;
