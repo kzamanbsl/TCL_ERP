@@ -475,12 +475,9 @@
         <AssociationConnector Association="ERPModel.FK_BatchPaymentDetail_Company" />
         <AssociationConnector Association="ERPModel.FK_Table_1_Table_1" />
         <AssociationConnector Association="ERPModel.FK_BatchPaymentDetail_BatchPaymentMaster" />
-        <EntityTypeShape EntityType="ERPModel.PaymentMaster" Width="1.5" PointX="63.875" PointY="42.625" />
-        <AssociationConnector Association="ERPModel.FK_PaymentMaster_BatchPaymentDetail" />
         <EntityTypeShape EntityType="ERPModel.Payment" Width="1.5" PointX="68.875" PointY="48.375" />
         <AssociationConnector Association="ERPModel.FK_Payment_PaymentMode" />
         <AssociationConnector Association="ERPModel.FK_Payment_OrderMaster" />
-        <AssociationConnector Association="ERPModel.FK_Payment_PaymentMaster" />
         <EntityTypeShape EntityType="ERPModel.BillRequisitionType" Width="1.5" PointX="5.375" PointY="5.75" />
         <EntityTypeShape EntityType="ERPModel.CostCenterManagerMap" Width="1.5" PointX="54.125" PointY="21.875" />
         <AssociationConnector Association="ERPModel.FK_CostCenterManagerMap_Employee" />
@@ -594,6 +591,9 @@
         <AssociationConnector Association="ERPModel.FK_BankAccountInfo_Bank" />
         <AssociationConnector Association="ERPModel.FK_BankBranch_Bank" />
         <AssociationConnector Association="ERPModel.FK_Employee_Bank" />
+        <EntityTypeShape EntityType="ERPModel.PaymentMaster" Width="1.5" PointX="63.875" PointY="43.375" />
+        <AssociationConnector Association="ERPModel.FK_PaymentMaster_BatchPaymentDetail" />
+        <AssociationConnector Association="ERPModel.FK_Payment_PaymentMaster" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

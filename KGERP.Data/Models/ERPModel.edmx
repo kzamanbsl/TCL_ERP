@@ -4612,6 +4612,7 @@ warning 6002: The table/view 'TCLErp_Dev.Erp.FormulaHistory' does not have a pri
           <Property Name="CGID" Type="bigint" />
           <Property Name="BatchPaymentDetailId" Type="int" />
           <Property Name="IsAdjust" Type="bit" Nullable="false" />
+          <Property Name="BankAccountInfoId" Type="int" />
         </EntityType>
         <EntityType Name="PFormulaDetail">
           <Key>
@@ -12194,11 +12195,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 						<End Role="BatchPaymentMaster" EntitySet="BatchPaymentMasters" />
 						<End Role="BatchPaymentDetail" EntitySet="BatchPaymentDetails" />
 					</AssociationSet>
-					<EntitySet Name="PaymentMasters" EntityType="ERPModel.PaymentMaster" />
-					<AssociationSet Name="FK_PaymentMaster_BatchPaymentDetail" Association="ERPModel.FK_PaymentMaster_BatchPaymentDetail">
-						<End Role="BatchPaymentDetail" EntitySet="BatchPaymentDetails" />
-						<End Role="PaymentMaster" EntitySet="PaymentMasters" />
-					</AssociationSet>
 					<EntitySet Name="Payments" EntityType="ERPModel.Payment" />
 					<AssociationSet Name="FK_Payment_PaymentMode" Association="ERPModel.FK_Payment_PaymentMode">
 						<End Role="PaymentMode" EntitySet="PaymentModes" />
@@ -12206,10 +12202,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 					</AssociationSet>
 					<AssociationSet Name="FK_Payment_OrderMaster" Association="ERPModel.FK_Payment_OrderMaster">
 						<End Role="OrderMaster" EntitySet="OrderMasters" />
-						<End Role="Payment" EntitySet="Payments" />
-					</AssociationSet>
-					<AssociationSet Name="FK_Payment_PaymentMaster" Association="ERPModel.FK_Payment_PaymentMaster">
-						<End Role="PaymentMaster" EntitySet="PaymentMasters" />
 						<End Role="Payment" EntitySet="Payments" />
 					</AssociationSet>
 					<EntitySet Name="BillRequisitionTypes" EntityType="ERPModel.BillRequisitionType" />
@@ -12546,6 +12538,15 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
           <AssociationSet Name="FK_Employee_Bank" Association="ERPModel.FK_Employee_Bank">
             <End Role="Bank" EntitySet="Banks" />
             <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
+          <EntitySet Name="PaymentMasters" EntityType="ERPModel.PaymentMaster" />
+          <AssociationSet Name="FK_PaymentMaster_BatchPaymentDetail" Association="ERPModel.FK_PaymentMaster_BatchPaymentDetail">
+            <End Role="BatchPaymentDetail" EntitySet="BatchPaymentDetails" />
+            <End Role="PaymentMaster" EntitySet="PaymentMasters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payment_PaymentMaster" Association="ERPModel.FK_Payment_PaymentMaster">
+            <End Role="PaymentMaster" EntitySet="PaymentMasters" />
+            <End Role="Payment" EntitySet="Payments" />
           </AssociationSet>
           </EntityContainer>
 				<EntityType Name="AdminPolicy">
@@ -20610,8 +20611,8 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 					<Property Name="IsActive" Type="Boolean" Nullable="false" />
 					<NavigationProperty Name="Company" Relationship="ERPModel.FK_BatchPaymentDetail_Company" FromRole="BatchPaymentDetail" ToRole="Company" />
 					<NavigationProperty Name="BatchPaymentMaster" Relationship="ERPModel.FK_BatchPaymentDetail_BatchPaymentMaster" FromRole="BatchPaymentDetail" ToRole="BatchPaymentMaster" />
-					<NavigationProperty Name="PaymentMasters" Relationship="ERPModel.FK_PaymentMaster_BatchPaymentDetail" FromRole="BatchPaymentDetail" ToRole="PaymentMaster" />
 					<NavigationProperty Name="Vendor" Relationship="ERPModel.FK_BatchPaymentDetail_Vendor" FromRole="BatchPaymentDetail" ToRole="Vendor" />
+          <NavigationProperty Name="PaymentMasters" Relationship="ERPModel.FK_PaymentMaster_BatchPaymentDetail" FromRole="BatchPaymentDetail" ToRole="PaymentMaster" />
 				</EntityType>
 				<EntityType Name="BatchPaymentMaster">
 					<Key>
@@ -20669,46 +20670,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 						</Dependent>
 					</ReferentialConstraint>
 				</Association>
-				<EntityType Name="PaymentMaster">
-					<Key>
-						<PropertyRef Name="PaymentMasterId" />
-					</Key>
-					<Property Name="PaymentMasterId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-					<Property Name="CompanyId" Type="Int32" Nullable="false" />
-					<Property Name="VendorId" Type="Int32" Nullable="false" />
-					<Property Name="ReferenceNo" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
-					<Property Name="TransactionDate" Type="DateTime" Nullable="false" Precision="0" />
-					<Property Name="MoneyReceiptNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-					<Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-					<Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
-					<Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-					<Property Name="ModifiedDate" Type="DateTime" Precision="3" />
-					<Property Name="IsActive" Type="Boolean" Nullable="false" />
-					<Property Name="IsFinalized" Type="Boolean" Nullable="false" />
-					<Property Name="PaymentNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-					<Property Name="MoneyReceiptDate" Type="DateTime" Precision="3" />
-					<Property Name="BankChargeHeadGLId" Type="Int32" />
-					<Property Name="BankCharge" Type="Decimal" Nullable="false" Precision="18" Scale="3" />
-					<Property Name="PaymentToHeadGLId" Type="Int32" />
-					<Property Name="VendorTypeId" Type="Int32" Nullable="false" />
-					<Property Name="CGID" Type="Int64" />
-					<Property Name="BatchPaymentDetailId" Type="Int32" />
-					<Property Name="IsAdjust" Type="Boolean" Nullable="false" />
-					<NavigationProperty Name="BatchPaymentDetail" Relationship="ERPModel.FK_PaymentMaster_BatchPaymentDetail" FromRole="PaymentMaster" ToRole="BatchPaymentDetail" />
-					<NavigationProperty Name="Payments" Relationship="ERPModel.FK_Payment_PaymentMaster" FromRole="PaymentMaster" ToRole="Payment" />
-				</EntityType>
-				<Association Name="FK_PaymentMaster_BatchPaymentDetail">
-					<End Type="ERPModel.BatchPaymentDetail" Role="BatchPaymentDetail" Multiplicity="0..1" />
-					<End Type="ERPModel.PaymentMaster" Role="PaymentMaster" Multiplicity="*" />
-					<ReferentialConstraint>
-						<Principal Role="BatchPaymentDetail">
-							<PropertyRef Name="BatchPaymentDetailId" />
-						</Principal>
-						<Dependent Role="PaymentMaster">
-							<PropertyRef Name="BatchPaymentDetailId" />
-						</Dependent>
-					</ReferentialConstraint>
-				</Association>
 				<EntityType Name="Payment">
 					<Key>
 						<PropertyRef Name="PaymentId" />
@@ -20741,8 +20702,8 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 					<Property Name="InstallmentId" Type="Int64" />
 					<NavigationProperty Name="PaymentMode" Relationship="ERPModel.FK_Payment_PaymentMode" FromRole="Payment" ToRole="PaymentMode" />
 					<NavigationProperty Name="OrderMaster" Relationship="ERPModel.FK_Payment_OrderMaster" FromRole="Payment" ToRole="OrderMaster" />
-					<NavigationProperty Name="PaymentMaster" Relationship="ERPModel.FK_Payment_PaymentMaster" FromRole="Payment" ToRole="PaymentMaster" />
 					<NavigationProperty Name="Vendor" Relationship="ERPModel.FK_Payment_Vendor" FromRole="Payment" ToRole="Vendor" />
+          <NavigationProperty Name="PaymentMaster" Relationship="ERPModel.FK_Payment_PaymentMaster" FromRole="Payment" ToRole="PaymentMaster" />
 				</EntityType>
 				<Association Name="FK_Payment_PaymentMode">
 					<End Type="ERPModel.PaymentMode" Role="PaymentMode" Multiplicity="0..1" />
@@ -20765,18 +20726,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 						</Principal>
 						<Dependent Role="Payment">
 							<PropertyRef Name="OrderMasterId" />
-						</Dependent>
-					</ReferentialConstraint>
-				</Association>
-				<Association Name="FK_Payment_PaymentMaster">
-					<End Type="ERPModel.PaymentMaster" Role="PaymentMaster" Multiplicity="0..1" />
-					<End Type="ERPModel.Payment" Role="Payment" Multiplicity="*" />
-					<ReferentialConstraint>
-						<Principal Role="PaymentMaster">
-							<PropertyRef Name="PaymentMasterId" />
-						</Principal>
-						<Dependent Role="Payment">
-							<PropertyRef Name="PaymentMasterId" />
 						</Dependent>
 					</ReferentialConstraint>
 				</Association>
@@ -22549,6 +22498,59 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             </Principal>
             <Dependent Role="Employee">
               <PropertyRef Name="BankId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="PaymentMaster">
+          <Key>
+            <PropertyRef Name="PaymentMasterId" />
+          </Key>
+          <Property Name="PaymentMasterId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="VendorId" Type="Int32" Nullable="false" />
+          <Property Name="ReferenceNo" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <Property Name="TransactionDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="MoneyReceiptNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="IsFinalized" Type="Boolean" Nullable="false" />
+          <Property Name="PaymentNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MoneyReceiptDate" Type="DateTime" Precision="3" />
+          <Property Name="BankChargeHeadGLId" Type="Int32" />
+          <Property Name="BankCharge" Type="Decimal" Nullable="false" Precision="18" Scale="3" />
+          <Property Name="PaymentToHeadGLId" Type="Int32" />
+          <Property Name="VendorTypeId" Type="Int32" Nullable="false" />
+          <Property Name="CGID" Type="Int64" />
+          <Property Name="BatchPaymentDetailId" Type="Int32" />
+          <Property Name="IsAdjust" Type="Boolean" Nullable="false" />
+          <Property Name="BankAccountInfoId" Type="Int32" />
+          <NavigationProperty Name="BatchPaymentDetail" Relationship="ERPModel.FK_PaymentMaster_BatchPaymentDetail" FromRole="PaymentMaster" ToRole="BatchPaymentDetail" />
+          <NavigationProperty Name="Payments" Relationship="ERPModel.FK_Payment_PaymentMaster" FromRole="PaymentMaster" ToRole="Payment" />
+        </EntityType>
+        <Association Name="FK_PaymentMaster_BatchPaymentDetail">
+          <End Type="ERPModel.BatchPaymentDetail" Role="BatchPaymentDetail" Multiplicity="0..1" />
+          <End Type="ERPModel.PaymentMaster" Role="PaymentMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BatchPaymentDetail">
+              <PropertyRef Name="BatchPaymentDetailId" />
+            </Principal>
+            <Dependent Role="PaymentMaster">
+              <PropertyRef Name="BatchPaymentDetailId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payment_PaymentMaster">
+          <End Type="ERPModel.PaymentMaster" Role="PaymentMaster" Multiplicity="0..1" />
+          <End Type="ERPModel.Payment" Role="Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentMaster">
+              <PropertyRef Name="PaymentMasterId" />
+            </Principal>
+            <Dependent Role="Payment">
+              <PropertyRef Name="PaymentMasterId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -27866,33 +27868,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 							</MappingFragment>
 						</EntityTypeMapping>
 					</EntitySetMapping>
-					<EntitySetMapping Name="PaymentMasters">
-						<EntityTypeMapping TypeName="ERPModel.PaymentMaster">
-							<MappingFragment StoreEntitySet="PaymentMaster">
-								<ScalarProperty Name="IsAdjust" ColumnName="IsAdjust" />
-								<ScalarProperty Name="BatchPaymentDetailId" ColumnName="BatchPaymentDetailId" />
-								<ScalarProperty Name="CGID" ColumnName="CGID" />
-								<ScalarProperty Name="VendorTypeId" ColumnName="VendorTypeId" />
-								<ScalarProperty Name="PaymentToHeadGLId" ColumnName="PaymentToHeadGLId" />
-								<ScalarProperty Name="BankCharge" ColumnName="BankCharge" />
-								<ScalarProperty Name="BankChargeHeadGLId" ColumnName="BankChargeHeadGLId" />
-								<ScalarProperty Name="MoneyReceiptDate" ColumnName="MoneyReceiptDate" />
-								<ScalarProperty Name="PaymentNo" ColumnName="PaymentNo" />
-								<ScalarProperty Name="IsFinalized" ColumnName="IsFinalized" />
-								<ScalarProperty Name="IsActive" ColumnName="IsActive" />
-								<ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-								<ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-								<ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-								<ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-								<ScalarProperty Name="MoneyReceiptNo" ColumnName="MoneyReceiptNo" />
-								<ScalarProperty Name="TransactionDate" ColumnName="TransactionDate" />
-								<ScalarProperty Name="ReferenceNo" ColumnName="ReferenceNo" />
-								<ScalarProperty Name="VendorId" ColumnName="VendorId" />
-								<ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
-								<ScalarProperty Name="PaymentMasterId" ColumnName="PaymentMasterId" />
-							</MappingFragment>
-						</EntityTypeMapping>
-					</EntitySetMapping>
 					<EntitySetMapping Name="Payments">
 						<EntityTypeMapping TypeName="ERPModel.Payment">
 							<MappingFragment StoreEntitySet="Payment">
@@ -28744,6 +28719,34 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="BankId" ColumnName="BankId" />
                 <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaymentMasters">
+            <EntityTypeMapping TypeName="ERPModel.PaymentMaster">
+              <MappingFragment StoreEntitySet="PaymentMaster">
+                <ScalarProperty Name="BankAccountInfoId" ColumnName="BankAccountInfoId" />
+                <ScalarProperty Name="IsAdjust" ColumnName="IsAdjust" />
+                <ScalarProperty Name="BatchPaymentDetailId" ColumnName="BatchPaymentDetailId" />
+                <ScalarProperty Name="CGID" ColumnName="CGID" />
+                <ScalarProperty Name="VendorTypeId" ColumnName="VendorTypeId" />
+                <ScalarProperty Name="PaymentToHeadGLId" ColumnName="PaymentToHeadGLId" />
+                <ScalarProperty Name="BankCharge" ColumnName="BankCharge" />
+                <ScalarProperty Name="BankChargeHeadGLId" ColumnName="BankChargeHeadGLId" />
+                <ScalarProperty Name="MoneyReceiptDate" ColumnName="MoneyReceiptDate" />
+                <ScalarProperty Name="PaymentNo" ColumnName="PaymentNo" />
+                <ScalarProperty Name="IsFinalized" ColumnName="IsFinalized" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="MoneyReceiptNo" ColumnName="MoneyReceiptNo" />
+                <ScalarProperty Name="TransactionDate" ColumnName="TransactionDate" />
+                <ScalarProperty Name="ReferenceNo" ColumnName="ReferenceNo" />
+                <ScalarProperty Name="VendorId" ColumnName="VendorId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="PaymentMasterId" ColumnName="PaymentMasterId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

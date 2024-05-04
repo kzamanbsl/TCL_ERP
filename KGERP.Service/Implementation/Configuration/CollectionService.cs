@@ -523,6 +523,7 @@ namespace KGERP.Service.Implementation.Configuration
                           PaymentFromHeadGLId = t1.PaymentToHeadGLId,
                           BankCharge = t1.BankCharge,
                           BankChargeHeadGLId = t1.BankChargeHeadGLId,
+                          BankAccountInfoId = t1.BankAccountInfoId ?? 0,
                           IsFinalized = t1.IsFinalized,
                           PaymentMasterId = t1.PaymentMasterId,
                           PaymentNo = t1.PaymentNo,
@@ -615,7 +616,7 @@ namespace KGERP.Service.Implementation.Configuration
         {
             int result = -1;
             var vendors = _db.Vendors.FirstOrDefault(x => x.VendorId == vmPayment.CustomerId);
-            var bankInfo = _db.BankAccountInfoes.FirstOrDefault(x => x.BankAccountInfoId == vmPayment.BankAccountInfoId && x.BankId == vmPayment.BankId);
+            var bankInfo = _db.BankAccountInfoes.FirstOrDefault(x => x.BankAccountInfoId == vmPayment.BankAccountInfoId);
 
             #region PaymentNo
             int paymentMastersCount = _db.PaymentMasters.Count(x => x.CompanyId == vmPayment.CompanyFK && x.VendorId == vmPayment.CustomerId);
@@ -642,6 +643,7 @@ namespace KGERP.Service.Implementation.Configuration
                 VendorTypeId = vendors.VendorTypeId,
                 BankChargeHeadGLId = bankInfo.AccountingHeadId,
                 BankCharge = vmPayment.BankCharge,
+                BankAccountInfoId = vmPayment.BankAccountInfoId,
                 CompanyId = vmPayment.CompanyFK.Value,
                 CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
                 PaymentToHeadGLId = 29833,
@@ -660,7 +662,7 @@ namespace KGERP.Service.Implementation.Configuration
         {
             long result = -1;
             var vendor = _db.Vendors.FirstOrDefault(x => x.VendorId == vmPayment.CustomerId);
-            var bankInfo = _db.BankAccountInfoes.FirstOrDefault(x => x.BankAccountInfoId == vmPayment.BankAccountInfoId && x.BankId == vmPayment.BankId);
+            var bankInfo = _db.BankAccountInfoes.FirstOrDefault(x => x.BankAccountInfoId == vmPayment.BankAccountInfoId);
 
             Payment payment = new Payment
             {

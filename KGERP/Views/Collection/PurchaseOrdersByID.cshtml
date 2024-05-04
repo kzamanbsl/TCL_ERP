@@ -34,7 +34,6 @@
                     @Html.HiddenFor(model => model.CustomerId, new { id = "hidCustomerId" })
                     @Html.HiddenFor(model => model.PaymentMasterId, new { id = "hidPaymentMasterId" })
 
-
                     <div class="box-danger">
                         <div style="margin: 10px 0;">
 
@@ -59,6 +58,7 @@
                             <div class="box-body">
                                 @if (Model.PaymentMasterId > 0)
                                 {
+                                    @Html.HiddenFor(model => model.BankAccountInfoId, new { id = "hidBankAccountInfo", value = Model.BankAccountInfoId })
                                     <div class="col-md-1"> </div>
                                     <div class="col-md-10">
                                         <table class="table">

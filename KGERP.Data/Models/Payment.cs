@@ -43,7 +43,7 @@ namespace KGERP.Data.Models
     
         public virtual PaymentMode PaymentMode { get; set; }
         public virtual OrderMaster OrderMaster { get; set; }
-        public virtual PaymentMaster PaymentMaster { get; set; }
         public virtual Vendor Vendor { get; set; }
+        public virtual PaymentMaster PaymentMaster { get; set; }
     }
 }

@@ -38,8 +38,8 @@ namespace KGERP.Data.Models
     
         public virtual Company Company { get; set; }
         public virtual BatchPaymentMaster BatchPaymentMaster { get; set; }
+        public virtual Vendor Vendor { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PaymentMaster> PaymentMasters { get; set; }
-        public virtual Vendor Vendor { get; set; }
     }
 }
