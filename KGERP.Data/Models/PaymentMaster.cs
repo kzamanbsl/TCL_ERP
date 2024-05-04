@@ -41,6 +41,7 @@ namespace KGERP.Data.Models
         public Nullable<long> CGID { get; set; }
         public Nullable<int> BatchPaymentDetailId { get; set; }
         public bool IsAdjust { get; set; }
+        public Nullable<int> BankAccountInfoId { get; set; }
     
         public virtual BatchPaymentDetail BatchPaymentDetail { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

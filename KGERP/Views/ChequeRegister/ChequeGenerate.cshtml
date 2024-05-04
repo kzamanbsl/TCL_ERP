@@ -131,7 +131,7 @@
                                                     <td><p style="text-align:left !important;">@item.PayTo</p></td>
                                                     <td><p style="text-align:right !important;">@item.Amount</p></td>
                                                     <td>
-                                                        @if (!item.IsPrinted)
+                                                        @if (!item.HasPDF)
                                                         {
                                                             <center class="btn btn-xs btn-warning text-center d-block" style="padding-left: 7px; padding-right: 7px;" id="showToHide_@item.ChequeRegisterId" onclick="ChequeGenerate('@item.ChequeRegisterId')">
                                                                 Ungenerated
@@ -148,7 +148,7 @@
                                                         }
                                                     </td>
                                                     <td class="text-center">
-                                                        @if (item.IsPrinted)
+                                                        @if (item.HasPDF)
                                                         {
                                                             <a class="btn btn-xs btn-primary text-center" id="hideToShowPrint_@item.ChequeRegisterId" target="_blank" href="~/Report/ChequeRegisterPrinting?chequeRegisterId=@item.ChequeRegisterId" onclick="ChequePrintCount('@item.ChequeRegisterId')">
                                                                 <i class="fa fa-print"></i> Print Here
@@ -192,7 +192,7 @@
                                                     <td><p style="text-align:left !important;">@item.PayTo</p></td>
                                                     <td><p style="text-align:right !important;">@item.Amount</p></td>
                                                     <td>
-                                                        @if (!item.IsPrinted)
+                                                        @if (!item.HasPDF)
                                                         {
                                                             <center class="btn btn-xs btn-warning text-center d-block" style="padding-left: 7px; padding-right: 7px;" id="showToHide_@item.ChequeRegisterId" onclick="ChequeGenerate('@item.ChequeRegisterId')">
                                                                 Ungenerated
@@ -209,7 +209,7 @@
                                                         }
                                                     </td>
                                                     <td class="text-center">
-                                                        @if (item.IsPrinted)
+                                                        @if (item.HasPDF)
                                                         {
                                                             <a class="btn btn-xs btn-primary text-center" id="hideToShowPrint_@item.ChequeRegisterId" target="_blank" href="~/Report/ChequeRegisterPrinting?chequeRegisterId=@item.ChequeRegisterId" onclick="ChequePrintCount('@item.ChequeRegisterId')">
                                                                 <i class="fa fa-print"></i> Print

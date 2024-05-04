@@ -253,7 +253,6 @@ namespace KGERP.Controllers
             }
             else if (vmPayment.ActionEum == ActionEnum.Finalize)
             {
-
                 await _service.SubmitPaymentMasters(vmPayment);
             }
             else

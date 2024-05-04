@@ -33,12 +33,12 @@ namespace KGERP.Data.Models
         public string ModifiedBy { get; set; }
         public bool IsActive { get; set; }
     
-        public virtual Bank Bank { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Accounting_ChequeInfo> Accounting_ChequeInfo { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Employee> Employees { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BankAccountInfo> BankAccountInfoes { get; set; }
+        public virtual Bank Bank { get; set; }
     }
 }

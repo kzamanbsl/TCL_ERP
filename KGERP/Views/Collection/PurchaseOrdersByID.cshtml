@@ -34,7 +34,6 @@
                     @Html.HiddenFor(model => model.CustomerId, new { id = "hidCustomerId" })
                     @Html.HiddenFor(model => model.PaymentMasterId, new { id = "hidPaymentMasterId" })
 
-
                     <div class="box-danger">
                         <div style="margin: 10px 0;">
 
@@ -59,6 +58,7 @@
                             <div class="box-body">
                                 @if (Model.PaymentMasterId > 0)
                                 {
+                                    @Html.HiddenFor(model => model.BankAccountInfoId, new { id = "hidBankAccountInfo", value = Model.BankAccountInfoId })
                                     <div class="col-md-1"> </div>
                                     <div class="col-md-10">
                                         <table class="table">
@@ -70,24 +70,24 @@
                                                 <td style="width:30%">
                                                     <label class="col-form-label">@Model.PaymentNo</label>
                                                 </td>
-                                                <th style="width:18%">Collection Date</th>
+                                                <th style="width:18%">Payment Date</th>
                                                 <th style="width:2%">:</th>
                                                 <td style="width:30%">@Model.TransactionDate.ToString("dd-MM-yyyy")</td>
                                             </tr>
                                             <tr>
                                                 <th style="width:18%">
-                                                    Collection From
+                                                    Payment From
                                                 </th>
                                                 <th style="width:2%">:</th>
                                                 <td style="width:30%">
                                                     @Model.PaymentFromHeadGLName
 
                                                 </td>
-                                                <th style="width:18%">Collection To</th>
+                                                <th style="width:18%">Payment To</th>
                                                 <th style="width:2%">:</th>
                                                 <td style="width:30%">@Model.PaymentToHeadGLName</td>
                                             </tr>
-                                            <tr>
+                                            @*<tr>
                                                 <th style="width:18%">
                                                     Reference
                                                 </th>
@@ -98,7 +98,7 @@
                                                 <th style="width:18%">Bank Charge</th>
                                                 <th style="width:2%">:</th>
                                                 <th style="width:30%">@Model.BankCharge</th>
-                                            </tr>
+                                            </tr>*@
                                         </table>
                                     </div>
                                     <div class="col-md-1"> </div>
@@ -246,7 +246,6 @@
                                                         <th>
                                                             WO Date
                                                         </th>
-
                                                         <th style="text-align:right;">
                                                             Payment Amount
                                                         </th>
@@ -271,8 +270,6 @@
                                                             <td style="text-align:right;">
                                                                 @item.OutAmount
                                                             </td>
-
-
                                                         </tr>
                                                     }
                                                 </tbody>

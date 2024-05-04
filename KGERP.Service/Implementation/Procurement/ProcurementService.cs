@@ -34,9 +34,9 @@ namespace KGERP.Service.Implementation.Procurement
 
         }
 
-    
 
-   
+
+
 
         public List<object> CountriesDropDownList(int companyId)
         {
@@ -1255,7 +1255,7 @@ namespace KGERP.Service.Implementation.Procurement
 
             try
             {
-                if((int)EnumWorkOrderFor.Requisition == vmPurchaseOrderSlave.WorkOrderFor)
+                if ((int)EnumWorkOrderFor.Requisition == vmPurchaseOrderSlave.WorkOrderFor)
                 {
                     PurchaseOrder procurementPurchaseOrder = new PurchaseOrder
                     {
@@ -1886,9 +1886,10 @@ namespace KGERP.Service.Implementation.Procurement
         }
         public decimal PurchaseOrderPayableValueGet(int companyId, int purchaseOrderId)
         {
-            var purchaseValue = (from t1 in _db.PurchaseOrderDetails.Where(a => a.IsActive == true && a.PurchaseOrderId == purchaseOrderId)
-                                 join t2 in _db.PurchaseOrders.Where(x => x.IsActive == true && x.CompanyId == companyId) on t1.PurchaseOrderId equals t2.PurchaseOrderId
-                                 select t1.PurchaseQty * t1.PurchaseRate).DefaultIfEmpty(0).Sum();
+            var purchaseValue = (from t1 in _db.MaterialReceives.Where(x => x.IsActive && x.MaterialReceiveId == purchaseOrderId)
+                                 join t2 in _db.PurchaseOrderDetails on t1.PurchaseOrderId equals t2.PurchaseOrderId
+                                 join t3 in _db.PurchaseOrders on t2.PurchaseOrderId equals t3.PurchaseOrderId
+                                 select t2.PurchaseQty * t2.PurchaseRate).DefaultIfEmpty(0).Sum();
             var returnValue = (from t1 in _db.PurchaseReturnDetails
                                join t2 in _db.PurchaseReturns.Where(x => x.CompanyId == companyId) on t1.PurchaseReturnId equals t2.PurchaseReturnId
                                //join t3 in _db.MaterialReceives.Where(x => x.IsActive == true && x.CompanyId == companyId && x.PurchaseOrderId == purchaseOrderId) on t2.id equals t3.OrderDeliverId
@@ -2102,7 +2103,7 @@ namespace KGERP.Service.Implementation.Procurement
 
                 return result;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return result;
             }

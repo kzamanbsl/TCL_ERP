@@ -312,6 +312,49 @@ namespace KGERP.Controllers
 
         #endregion
 
+        #region Cheque Cancel Request
+
+        [HttpGet]
+        public ActionResult ChequeCancelRequest(int companyId = 0)
+        {
+            ChequeRegisterModel viewData = new ChequeRegisterModel();
+            viewData.CompanyFK = companyId;
+            viewData.ChequeNumberList = new SelectList(_Service.ChequePageNo(), "Value", "Text");
+            viewData.ChequeRegisterList = _Service.CanceledChequeRegisterList();
+            return View(viewData);
+        }
+
+        [HttpPost]
+        public ActionResult ChequeCancelRequest(ChequeRegisterModel model)
+        {
+            if (model.ActionEum == ActionEnum.Add)
+            {
+                //Add 
+                var data = _Service.SendRequest(model);
+            }
+            else
+            {
+                return View("Error");
+            }
+            return RedirectToAction(nameof(ChequeCancelRequest), new { companyId = model.CompanyFK });
+        }
+
+        [HttpGet]
+        public JsonResult IsSignOrNot(long chequeRegisterId)
+        {
+            var response = _Service.CheckIsSignOrNot(chequeRegisterId);
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult CancelationInfo(long chequeRegisterId)
+        {
+            var response = _Service.ChequeCancelationInfo(chequeRegisterId);
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion
+
         #region Other Json
 
         [HttpGet]

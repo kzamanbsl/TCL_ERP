@@ -156,7 +156,6 @@ namespace KGERP.Data.Models
         public virtual DbSet<Prod_ReferenceSlaveConsumption> Prod_ReferenceSlaveConsumption { get; set; }
         public virtual DbSet<Prod_Reference> Prod_Reference { get; set; }
         public virtual DbSet<VoucherType> VoucherTypes { get; set; }
-        public virtual DbSet<Bank> Banks { get; set; }
         public virtual DbSet<BankBranch> BankBranches { get; set; }
         public virtual DbSet<Accounting_ChequeInfo> Accounting_ChequeInfo { get; set; }
         public virtual DbSet<Income> Incomes { get; set; }
@@ -287,7 +286,6 @@ namespace KGERP.Data.Models
         public virtual DbSet<VendorDepositHistory> VendorDepositHistories { get; set; }
         public virtual DbSet<BatchPaymentDetail> BatchPaymentDetails { get; set; }
         public virtual DbSet<BatchPaymentMaster> BatchPaymentMasters { get; set; }
-        public virtual DbSet<PaymentMaster> PaymentMasters { get; set; }
         public virtual DbSet<Payment> Payments { get; set; }
         public virtual DbSet<BillRequisitionType> BillRequisitionTypes { get; set; }
         public virtual DbSet<CostCenterManagerMap> CostCenterManagerMaps { get; set; }
@@ -310,7 +308,6 @@ namespace KGERP.Data.Models
         public virtual DbSet<ConsumptionMaster> ConsumptionMasters { get; set; }
         public virtual DbSet<BillRequisitionDetail> BillRequisitionDetails { get; set; }
         public virtual DbSet<Accounting_CostCenter> Accounting_CostCenter { get; set; }
-        public virtual DbSet<BankAccountInfo> BankAccountInfoes { get; set; }
         public virtual DbSet<ChequeBook> ChequeBooks { get; set; }
         public virtual DbSet<BillRequisitionMaster> BillRequisitionMasters { get; set; }
         public virtual DbSet<BillRequisitionApproval> BillRequisitionApprovals { get; set; }
@@ -327,6 +324,9 @@ namespace KGERP.Data.Models
         public virtual DbSet<VendorType> VendorTypes { get; set; }
         public virtual DbSet<BillingGeneratedMap> BillingGeneratedMaps { get; set; }
         public virtual DbSet<ChequeRegister> ChequeRegisters { get; set; }
+        public virtual DbSet<BankAccountInfo> BankAccountInfoes { get; set; }
+        public virtual DbSet<Bank> Banks { get; set; }
+        public virtual DbSet<PaymentMaster> PaymentMasters { get; set; }
     
         public virtual ObjectResult<GetEmployeeListForTeam_Result> GetEmployeeListForTeam(Nullable<int> companyId)
         {
