@@ -25,7 +25,7 @@ namespace KGERP.Service.ServiceModel
         public int BOQItemId { get; set; }
         public string BOQItemName { get; set; }
         public long DivisionId { get; set; }
-        public int StatusId { get; set; }
+        public int? StatusId { get; set; }
         public decimal? TotalAmount { get; set; }
         public ConsumptionDetailModel DetailModel { get; set; } = new ConsumptionDetailModel();
         public List<ConsumptionDetailModel> DetailList { get; set; } = new List<ConsumptionDetailModel>();

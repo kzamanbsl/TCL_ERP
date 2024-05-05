@@ -720,7 +720,7 @@ namespace KGERP.Service.Implementation
             return result;
         }
 
-        public async Task<object> GetMaterialReceiveInfoByProductIdAndBoqItemId(int? BoqItem,int? ProductId)
+        public async Task<object> GetMaterialReceiveInfoByBoqItemStoreIdAndProductId(int? BoqItem, int? storeId, int? ProductId)
         {
 
             var data = await (from t1 in _context.BoQItemProductMaps.AsNoTracking().AsQueryable()
@@ -729,8 +729,8 @@ namespace KGERP.Service.Implementation
                               join t4 in _context.Products.AsNoTracking().AsQueryable() on t2.ProductId equals t4.ProductId
                               join t5 in _context.PurchaseOrderDetails.AsNoTracking().AsQueryable() on t3.PurchaseOrderId equals t5.PurchaseOrderId
                               
-                              where (ProductId > 0 ? t1.ProductId == ProductId : true) && 
-                              (BoqItem>0?t1.BoQItemId==BoqItem:true) && t2.IsReturn == false && t2.IsActive == true
+                              where (ProductId > 0 ? t1.ProductId == ProductId : true) && (storeId > 0 ? t3.StockInfoId == storeId : true) &&
+                              (BoqItem>0?t1.BoQItemId==BoqItem:true) && t2.IsReturn == false && t2.IsActive == true && t3.IsActive == true && t3.IsSubmitted==true
                               select new
                               {
                                   UnitPrice = t2.UnitPrice,
@@ -741,7 +741,7 @@ namespace KGERP.Service.Implementation
 
             var consumptionData = (from t6 in _context.ConsumptionDetails.AsNoTracking().AsQueryable()
                                    join t7 in _context.ConsumptionMasters.AsNoTracking().AsQueryable() on t6.ConsumptionMasterId equals t7.ConsumptionMasterId
-                                   where (ProductId > 0 ? t6.ProductId == ProductId : true) &&
+                                   where (ProductId > 0 ? t6.ProductId == ProductId : true) && (storeId > 0 ? t7.StoreId == storeId : true) &&
                                 (BoqItem > 0 ? t7.BoqItemId == BoqItem : true) && t6.IsActive == true
                                    select new
                                    {

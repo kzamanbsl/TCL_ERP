@@ -232,6 +232,11 @@ namespace KGERP.Utility
         Reveived,
         Closed
     }
+    public enum ConsumptionStatusEnum
+    {
+        Draft,
+        Submitted
+    }
     public enum SmSStatusEnum
     {
 

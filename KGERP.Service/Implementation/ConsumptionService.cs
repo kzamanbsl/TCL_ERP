@@ -157,7 +157,7 @@ namespace KGERP.Service.Implementation
             try
             {
 
-                //detail.ProductSubtypeId = consumption.DetailModel?.ProductSubtypeId ?? 0;
+                //masterObject.ProductSubtypeId = consumption.DetailModel?.ProductSubtypeId ?? 0;
                 detail.ProductId = consumption.DetailModel?.ProductId ?? 0;
                 detail.UnitPrice = consumption.DetailModel.UnitPrice;
                 detail.ConsumedQty = consumption.DetailModel.ConsumedQty;
@@ -166,6 +166,40 @@ namespace KGERP.Service.Implementation
                 detail.TotalAmount = consumption.DetailModel?.TotalPrice;
                 detail.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
                 detail.ModifiedOn = DateTime.Now;
+                var count = _context.SaveChanges();
+                if (count > 0)
+                {
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
+
+
+            return false;
+        }
+        public async Task<bool> SubmiteConsumption(ConsumptionModel consumption)
+        {
+            if (consumption is null || consumption.ConsumptionMasterId <= 0)
+            {
+                return await Task.Run(() => false);
+            }
+            var masterObject = _context.ConsumptionMasters.FirstOrDefault(c => c.ConsumptionMasterId == consumption.ConsumptionMasterId );
+            if (masterObject is null)
+            {
+                return await Task.Run(() => false);
+            }
+
+
+            try
+            {
+
+                //masterObject.ProductSubtypeId = consumption.DetailModel?.ProductSubtypeId ?? 0;
+                masterObject.StatusId = (int)ConsumptionStatusEnum.Submitted;
+                masterObject.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                masterObject.ModifiedOn = DateTime.Now;
                 var count = _context.SaveChanges();
                 if (count > 0)
                 {
@@ -200,6 +234,7 @@ namespace KGERP.Service.Implementation
                                                                ProjectTypeId = t7.CostCenterTypeId > 0 ? t7.CostCenterTypeId : 0,
                                                                ProjectTypeName = t7.Name??"",
                                                                ConsumptionDate=t1.CreatedOn,
+                                                               StatusId=t1.StatusId??0,
                                                                CostCenterId = t6.CostCenterId > 0 ? t6.CostCenterId : 0,
                                                                CostCenterName = t6.Name ?? "",
                                                                StockInfoId = t2.StockInfoId > 0 ? t2.StockInfoId : 0,
