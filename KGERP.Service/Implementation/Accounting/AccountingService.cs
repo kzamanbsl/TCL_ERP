@@ -140,7 +140,9 @@ namespace KGERP.Service.Implementation.Accounting
                 IsActive = true,
                 IsSubmit = vmJournalSlave.IsSubmit,
                 IsIntegrated = true,
-                ApprovalStatusId = vmJournalSlave.AprrovalStatusId
+                ApprovalStatusId = (int)EnumVoucherApprovalStatus.Pending,
+                CheckerApprovalStatusId = (int)EnumVoucherApprovalStatus.Pending,
+                ApproverApprovalStatusId = (int)EnumVoucherApprovalStatus.Pending,
             };
 
             using (var scope = _db.Database.BeginTransaction())
@@ -4091,7 +4093,6 @@ namespace KGERP.Service.Implementation.Accounting
                 CompanyFK = companyFk,
                 Date = vmPayment.TransactionDate,
                 IsSubmit = true,
-                AprrovalStatusId = (int)EnumVoucherApprovalStatus.Pending,
             };
 
             vMJournalSlave.DataListSlave = new List<VMJournalSlave>();

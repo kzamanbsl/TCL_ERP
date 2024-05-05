@@ -315,7 +315,6 @@ namespace KGERP.Controllers
             voucherModel.FromDate = Convert.ToDateTime(voucherModel.StrFromDate);
             voucherModel.ToDate = Convert.ToDateTime(voucherModel.StrToDate);
 
-
             return RedirectToAction(nameof(RequisitionVoucherList), new { companyId = voucherModel.CompanyId, fromDate = voucherModel.FromDate, toDate = voucherModel.ToDate, vStatus = voucherModel.IsSubmit, voucherTypeId = voucherModel.VmVoucherTypeId ?? 0 });
         }
 
