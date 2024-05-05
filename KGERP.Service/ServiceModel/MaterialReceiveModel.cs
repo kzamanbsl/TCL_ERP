@@ -87,6 +87,8 @@ namespace KGERP.Service.ServiceModel
         public DateTime ToDate { get; set; }
         public string StrFromDate { get; set; }
         public string StrToDate { get; set; }
+        public long? Procurement_PurchaseOrderFk { get; set; }
+
     }
     public class GCCLMaterialRecieveVm
     {

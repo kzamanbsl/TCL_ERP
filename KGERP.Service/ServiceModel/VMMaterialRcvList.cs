@@ -20,5 +20,6 @@ namespace KGERP.Service.ServiceModel
         public string SupplierName { get; set; }
         public string PurchaseOrderNo { get; set; }
         public string Remarks { get; set; }
+
     }
 }
