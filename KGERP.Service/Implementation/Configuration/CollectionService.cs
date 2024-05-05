@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using KGERP.Data.Models;
 using KGERP.Service.Implementation.Accounting;
 using KGERP.Service.Implementation.Procurement;
+using KGERP.Service.Implementation.Warehouse;
 using KGERP.Service.Interface;
 using KGERP.Service.ServiceModel;
 using KGERP.Utility;
@@ -593,12 +594,9 @@ namespace KGERP.Service.Implementation.Configuration
 
             paymentVm.DataList = await Task.Run(() =>
             (from t1 in _db.Payments
-             join t2 in _db.PaymentMasters on t1.PaymentMasterId equals t2.PaymentMasterId into t2_Join
-             from t2 in t2_Join.DefaultIfEmpty()
-             join t3 in _db.MaterialReceives on t1.PurchaseOrderId equals t3.MaterialReceiveId into t3_Join
-             from t3 in t3_Join.DefaultIfEmpty()
-             join t4 in _db.PurchaseOrders on t3.PurchaseOrderId equals t4.PurchaseOrderId into t4_Join
-             from t4 in t4_Join.DefaultIfEmpty()
+             join t2 in _db.PaymentMasters on t1.PaymentMasterId equals t2.PaymentMasterId 
+             join t3 in _db.MaterialReceives on t1.PurchaseOrderId equals t3.MaterialReceiveId 
+             join t4 in _db.PurchaseOrders on t3.PurchaseOrderId equals t4.PurchaseOrderId 
              where t1.VendorId == supplierId && t1.IsActive && t1.CompanyId == companyId && t1.PaymentMasterId == paymentMasterId
              select new VMPayment
              {
@@ -895,8 +893,9 @@ namespace KGERP.Service.Implementation.Configuration
             List<VmTransaction> tempList = new List<VmTransaction>();
             var vendorOpenings = (from t1 in _db.PurchaseOrders
                                   join t2 in _db.Vendors on t1.SupplierId equals t2.VendorId
-
+                                  join t3 in _db.MaterialReceives on t1.PurchaseOrderId equals  t3.PurchaseOrderId
                                   where t1.SupplierId == vmTransaction.VendorFK && t1.IsActive == true && t1.Status == (int)POStatusEnum.Submitted && t1.IsOpening
+                                 && t3.IsActive==true && t3.IsActive==true
                                   select new VmTransaction
                                   {
                                       PurchaseOrdersId = t1.PurchaseOrderId,
@@ -913,8 +912,10 @@ namespace KGERP.Service.Implementation.Configuration
 
             var dataList1 = (from t1 in _db.PurchaseOrders
                              join t2 in _db.Vendors on t1.SupplierId equals t2.VendorId
+                             join t3 in _db.MaterialReceives on t1.PurchaseOrderId equals t3.PurchaseOrderId
 
                              where t1.SupplierId == vmTransaction.VendorFK && t1.IsActive == true && t1.Status == (int)POStatusEnum.Submitted && !t1.IsOpening
+                             && t3.IsActive == true && t3.IsActive == true
                              select new VmTransaction
                              {
                                  PurchaseOrdersId = t1.PurchaseOrderId,
@@ -931,8 +932,10 @@ namespace KGERP.Service.Implementation.Configuration
 
 
             var dataList2 = (from t1 in _db.Payments
-                             join t2 in _db.PaymentMasters on t1.PaymentMasterId equals t2.PaymentMasterId into t2_join
-                             from t2 in t2_join.DefaultIfEmpty()
+                             join t2 in _db.PaymentMasters on t1.PaymentMasterId equals t2.PaymentMasterId
+                             join t3 in _db.MaterialReceives on t1.PurchaseOrderId equals t3.MaterialReceiveId
+                             join t4 in _db.PurchaseOrders on t3.PurchaseOrderId equals t4.PurchaseOrderId
+                            
                              where t1.VendorId == vmTransaction.VendorFK && t1.IsActive == true
                              select new VmTransaction
                              {

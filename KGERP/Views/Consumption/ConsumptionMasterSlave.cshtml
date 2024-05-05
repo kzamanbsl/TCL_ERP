@@ -805,7 +805,7 @@
 
             $.ajax({
                 type: "GET",
-                url: "/MaterialReceive/GetMaterialReceiveLByBoqItemStoreIdAndProductId",
+                url: "/MaterialReceive/MaterialStoreDetailByBoqItemStoreIdAndProductId",
                 dataType: "json",
                 data: { BoqItem: getBoqItemId, storeId:storeId,ProductId: productId },
                 success: function (data) {

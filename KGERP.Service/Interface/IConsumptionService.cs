@@ -13,7 +13,7 @@ namespace KGERP.Service.Interface
          Task<long> CreateConsumptionMaster(ConsumptionModel consumption);
          Task<bool> CreateConsumptionDetail(ConsumptionModel consumption);
          Task<bool> UpdateConsumptionDetail(ConsumptionModel consumption);
-         Task<bool> SubmiteConsumption(ConsumptionModel consumption);
+         Task<bool> ConsumptionSubmitted(ConsumptionModel consumption);
          Task<bool> DeleteConsumption(ConsumptionModel consumption);
         Task<ConsumptionModel> GetConsumptionMasterDetail(long consumptionMasterId = 0);
 

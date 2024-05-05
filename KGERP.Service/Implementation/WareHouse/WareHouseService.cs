@@ -471,10 +471,13 @@ namespace KGERP.Service.Implementation.Warehouse
                                                                               join t2 in _db.MaterialReceives on t1.MaterialReceiveId equals t2.MaterialReceiveId
                                                                               join t3 in _db.PurchaseOrderDetails on t1.PurchaseOrderDetailFk equals t3.PurchaseOrderDetailId
                                                                               join t5 in _db.Products on t3.ProductId equals t5.ProductId
-                                                                              join t6 in _db.ProductSubCategories on t5.ProductSubCategoryId equals t6.ProductSubCategoryId
-                                                                              join t7 in _db.ProductCategories on t6.ProductCategoryId equals t7.ProductCategoryId
-                                                                              join t8 in _db.Units on t5.UnitId equals t8.UnitId
-                                                                              where t1.IsActive && t2.IsActive && t3.IsActive && t5.IsActive && t6.IsActive && t7.IsActive && t8.IsActive
+                                                                              join t6 in _db.ProductSubCategories on t5.ProductSubCategoryId equals t6.ProductSubCategoryId into t6_join
+                                                                              from t6 in t6_join.DefaultIfEmpty()
+                                                                              join t7 in _db.ProductCategories on t6.ProductCategoryId equals t7.ProductCategoryId into t7_join
+                                                                              from t7 in t7_join.DefaultIfEmpty()
+                                                                              join t8 in _db.Units on t5.UnitId equals t8.UnitId into t8_join
+                                                                              from t8 in t8_join.DefaultIfEmpty()
+                                                                              where t1.IsActive && t2.IsActive && t3.IsActive && t5.IsActive 
                                                                               && t3.PurchaseOrderId == id && !t1.IsReturn
 
                                                                               // orderby t1.Time
