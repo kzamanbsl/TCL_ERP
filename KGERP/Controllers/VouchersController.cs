@@ -428,9 +428,6 @@ namespace KGERP.Controllers
 
         #region Requisition Voucher Approval 
 
-
-
-
         #region Checker requisition voucher Approval and rejection
 
         [HttpGet]
@@ -529,7 +526,6 @@ namespace KGERP.Controllers
         #endregion
 
 
-
         #region Approver requisition voucher Approval and rejection
 
         [HttpGet]
@@ -591,7 +587,8 @@ namespace KGERP.Controllers
             }
             else if (voucherId > 0)
             {
-                vmJournalSlave = await Task.Run(() => _voucherService.GetVoucherRequisitionMapDetailsWithApproval(companyId, voucherId));
+                //vmJournalSlave = await Task.Run(() => _voucherService.GetVoucherRequisitionMapDetailsWithApproval(companyId, voucherId));
+                vmJournalSlave = await Task.Run(() => _voucherService.VoucherRequisitionMapDetailsWithApproval(companyId, voucherId));
             }
             vmJournalSlave.CostCenterList = new SelectList(_accountingService.CostCenterDropDownList(companyId), "Value", "Text");
             vmJournalSlave.VoucherTypesList = new SelectList(_accountingService.VoucherTypesDownList(companyId), "Value", "Text");
@@ -617,7 +614,8 @@ namespace KGERP.Controllers
         [HttpPost]
         public async Task<ActionResult> ApproverRequisitionVoucherApproval(VMJournalSlave vmJournalSlave)
         {
-            await _voucherService.ApproverVoucherRequisitionApproval(vmJournalSlave);
+            //await _voucherService.ApproverVoucherRequisitionApproval(vmJournalSlave);
+            await _voucherService.VoucherApproverApproval(vmJournalSlave);
 
             return RedirectToAction(nameof(ApproverRequisitionVoucherApproval), new { companyId = vmJournalSlave.CompanyFK, voucherId = vmJournalSlave.VoucherId });
         }

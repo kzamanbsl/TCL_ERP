@@ -8,7 +8,6 @@
 }
 
 <style type="text/css">
-
     input, select, textarea {
         max-width: 100%;
     }
@@ -29,7 +28,6 @@
             </span>
             <b> @Model.CompanyName</b>
         }
-
 
     </h1>
     <ol class="breadcrumb">
@@ -53,17 +51,13 @@
                 @Html.HiddenFor(model => model.VoucherNo, new { @id = "txtVoucherNo" })
 
 
-
-
                 <div class="box-danger">
 
                     <!-- /.box-header -->
                     <div class="box-body">
                         @if (Model.VoucherId > 0)
                         {
-
                             <div class="row">
-
 
                                 <div class="col-md-1"> </div>
                                 <div class="col-md-10">
@@ -166,7 +160,6 @@
                                                         <td style="padding:5px;text-align:left;">@item.Code</td>
                                                         <td style="padding:5px;text-align:left;">@item.AccountingHeadName</td>
                                                         <td style="padding:5px;text-align:left;">@item.Particular</td>
-
                                                         <td style="padding:5px;text-align:right;">@String.Format("{0:0.00}", item.Debit)</td>
                                                         <td style="padding:5px;text-align:right;">@String.Format("{0:0.00}", item.Credit)</td>
                                                     </tr>

@@ -1021,12 +1021,12 @@ namespace KGERP.Service.Implementation
 
             if (vmJournalSlave.ActionId == (int)ActionEnum.UnApprove)
             {
-                voucherModel.CheckerApprovalStatusId = (int)EnumBillRequisitionStatus.Rejected;
+                voucherModel.CheckerApprovalStatusId = (int)EnumVoucherApprovalStatus.Rejected;
                 //voucherModel.CheckerRemarks = vmJournalSlave.Reason;
             }
             else
             {
-                voucherModel.CheckerApprovalStatusId = (int)EnumBillRequisitionStatus.Approved;
+                voucherModel.CheckerApprovalStatusId = (int)EnumVoucherApprovalStatus.Approved;
             }
 
             voucherModel.CheckerApprovedBy = System.Web.HttpContext.Current.User.Identity.Name;
@@ -1039,7 +1039,6 @@ namespace KGERP.Service.Implementation
 
             return result;
         }
-
 
         public async Task<long> ApproverVoucherRequisitionApproval(VMJournalSlave vmJournalSlave)
         {
@@ -1071,9 +1070,6 @@ namespace KGERP.Service.Implementation
             model.ApprovalStatusId = (int)EnumVoucherApprovalStatus.Approved;
             model.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
 
-
-
-
             if (await _context.SaveChangesAsync() > 0)
             {
 
@@ -1083,8 +1079,39 @@ namespace KGERP.Service.Implementation
             return result;
         }
 
-        #endregion
+        public async Task<long> VoucherApproverApproval(VMJournalSlave vmJournalSlave)
+        {
+            long result = -1;
+            Voucher voucherModel = _context.Vouchers.Find(vmJournalSlave.VoucherId);
 
+            if (vmJournalSlave.ActionId == (int)ActionEnum.UnApprove)
+            {
+                voucherModel.ApproverApprovalStatusId = (int)EnumVoucherApprovalStatus.Rejected;
+                voucherModel.ApprovalStatusId = (int)EnumVoucherApprovalStatus.Rejected;
+                //voucherModel.ApproverRemarks = vmJournalSlave.Reason;
+            }
+            else
+            {
+                voucherModel.ApproverApprovalStatusId = (int)EnumVoucherApprovalStatus.Approved;
+                voucherModel.ApprovalStatusId = (int)EnumVoucherApprovalStatus.Approved;
+            }
+
+            voucherModel.ApproverApprovedBy = System.Web.HttpContext.Current.User.Identity.Name;
+            voucherModel.ApproverApprovedOn = DateTime.Now;
+
+            voucherModel.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+            voucherModel.ModifiedDate = DateTime.Now;
+
+
+            if (await _context.SaveChangesAsync() > 0)
+            {
+                result = voucherModel.VoucherId;
+            }
+
+            return result;
+        }
+
+        #endregion
 
     }
 }
