@@ -3208,6 +3208,12 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.TempFeedVoucherDetail' does not hav
           <Property Name="IsIntegrated" Type="bit" Nullable="false" />
           <Property Name="ApprovalStatusId" Type="int" />
           <Property Name="BillRequisitionMasterId" Type="bigint" />
+          <Property Name="CheckerApprovalStatusId" Type="int" />
+          <Property Name="CheckerApprovedBy" Type="varchar" MaxLength="50" />
+          <Property Name="CheckerApprovedOn" Type="datetime" />
+          <Property Name="ApproverApprovalStatusId" Type="int" />
+          <Property Name="ApproverApprovedBy" Type="varchar" MaxLength="50" />
+          <Property Name="ApproverApprovedOn" Type="datetime" />
         </EntityType>
         <EntityType Name="VoucherDetail">
           <Key>
@@ -22464,6 +22470,12 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
           <Property Name="IsIntegrated" Type="Boolean" Nullable="false" />
           <Property Name="ApprovalStatusId" Type="Int32" />
           <Property Name="BillRequisitionMasterId" Type="Int64" />
+          <Property Name="CheckerApprovalStatusId" Type="Int32" />
+          <Property Name="CheckerApprovedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CheckerApprovedOn" Type="DateTime" Precision="3" />
+          <Property Name="ApproverApprovalStatusId" Type="Int32" />
+          <Property Name="ApproverApprovedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ApproverApprovedOn" Type="DateTime" Precision="3" />
           <NavigationProperty Name="BillRequisitionVoucherMaps" Relationship="ERPModel.FK_BillRequisitionVoucherMap_Voucher" FromRole="Voucher" ToRole="BillRequisitionVoucherMap" />
           <NavigationProperty Name="VendorDeposits" Relationship="ERPModel.FK_VendorDeposit_Voucher" FromRole="Voucher" ToRole="VendorDeposit" />
           <NavigationProperty Name="VendorOpenings" Relationship="ERPModel.FK_VendorOpening_Voucher" FromRole="Voucher" ToRole="VendorOpening" />
@@ -28728,6 +28740,12 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
           <EntitySetMapping Name="Vouchers">
             <EntityTypeMapping TypeName="ERPModel.Voucher">
               <MappingFragment StoreEntitySet="Voucher">
+                <ScalarProperty Name="ApproverApprovedOn" ColumnName="ApproverApprovedOn" />
+                <ScalarProperty Name="ApproverApprovedBy" ColumnName="ApproverApprovedBy" />
+                <ScalarProperty Name="ApproverApprovalStatusId" ColumnName="ApproverApprovalStatusId" />
+                <ScalarProperty Name="CheckerApprovedOn" ColumnName="CheckerApprovedOn" />
+                <ScalarProperty Name="CheckerApprovedBy" ColumnName="CheckerApprovedBy" />
+                <ScalarProperty Name="CheckerApprovalStatusId" ColumnName="CheckerApprovalStatusId" />
                 <ScalarProperty Name="BillRequisitionMasterId" ColumnName="BillRequisitionMasterId" />
                 <ScalarProperty Name="ApprovalStatusId" ColumnName="ApprovalStatusId" />
                 <ScalarProperty Name="IsIntegrated" ColumnName="IsIntegrated" />

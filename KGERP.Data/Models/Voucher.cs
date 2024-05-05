@@ -47,6 +47,12 @@ namespace KGERP.Data.Models
         public bool IsIntegrated { get; set; }
         public Nullable<int> ApprovalStatusId { get; set; }
         public Nullable<long> BillRequisitionMasterId { get; set; }
+        public Nullable<int> CheckerApprovalStatusId { get; set; }
+        public string CheckerApprovedBy { get; set; }
+        public Nullable<System.DateTime> CheckerApprovedOn { get; set; }
+        public Nullable<int> ApproverApprovalStatusId { get; set; }
+        public string ApproverApprovedBy { get; set; }
+        public Nullable<System.DateTime> ApproverApprovedOn { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BillRequisitionVoucherMap> BillRequisitionVoucherMaps { get; set; }
