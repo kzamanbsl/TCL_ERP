@@ -580,15 +580,17 @@ namespace KGERP.Service.Implementation.Accounting
                     ChqDate = vmJournalSlave.ChqDate,
                     VirtualHeadId = vmJournalSlave.Accounting_BankOrCashId,
                     ChqNo = vmJournalSlave.ChqNo,
-
+                    IsStock = vmJournalSlave.IsStock,
                     Accounting_CostCenterFk = vmJournalSlave.Accounting_CostCenterFK,
                     ChqName = vmJournalSlave.ChqName,
                     VoucherDate = vmJournalSlave.Date,
                     CompanyId = vmJournalSlave.CompanyFK,
+                    BillRequisitionMasterId = vmJournalSlave.RequisitionMaterialId,
+                    CheckerApprovalStatusId = (int)EnumVoucherApprovalStatus.Pending,
+                    ApproverApprovalStatusId = (int)EnumVoucherApprovalStatus.Pending,
                     CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
                     CreateDate = DateTime.Now,
                     IsActive = true,
-                    IsStock = vmJournalSlave.IsStock
                 };
                 _db.Vouchers.Add(voucher);
 
