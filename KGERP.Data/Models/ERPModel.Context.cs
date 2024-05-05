@@ -295,7 +295,6 @@ namespace KGERP.Data.Models
         public virtual DbSet<BillRequisitionVoucherMap> BillRequisitionVoucherMaps { get; set; }
         public virtual DbSet<BillReqApprovalHistory> BillReqApprovalHistories { get; set; }
         public virtual DbSet<BoQDivision> BoQDivisions { get; set; }
-        public virtual DbSet<Voucher> Vouchers { get; set; }
         public virtual DbSet<VoucherDetail> VoucherDetails { get; set; }
         public virtual DbSet<VoucherBRMapDetail> VoucherBRMapDetails { get; set; }
         public virtual DbSet<VoucherBRMapMaster> VoucherBRMapMasters { get; set; }
@@ -327,6 +326,7 @@ namespace KGERP.Data.Models
         public virtual DbSet<BankAccountInfo> BankAccountInfoes { get; set; }
         public virtual DbSet<Bank> Banks { get; set; }
         public virtual DbSet<PaymentMaster> PaymentMasters { get; set; }
+        public virtual DbSet<Voucher> Vouchers { get; set; }
     
         public virtual ObjectResult<GetEmployeeListForTeam_Result> GetEmployeeListForTeam(Nullable<int> companyId)
         {

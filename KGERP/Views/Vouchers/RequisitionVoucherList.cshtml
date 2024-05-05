@@ -192,6 +192,29 @@
 
                                                         }
                                                     </td>
+                                                    @*<td>
+                                                            @if (item.ApproverAprrovalStatusId == (int)KGERP.Utility.EnumVoucherApprovalStatus.Submitted)
+                                                            {
+                                                                <span class="btn btn-info btn-sm" style="display: block">@item.ApproverAprrovalStatusName</span>
+                                                            }
+                                                            else if (item.ApproverAprrovalStatusId == (int)KGERP.Utility.EnumVoucherApprovalStatus.Pending)
+                                                            {
+                                                                <span class="btn btn-warning btn-sm" style="display: block">@item.ApproverAprrovalStatusName</span>
+                                                            }
+                                                            else if (item.ApproverAprrovalStatusId == (int)KGERP.Utility.EnumVoucherApprovalStatus.Approved)
+                                                            {
+                                                                <span class="btn btn-success btn-sm" style="display: block">@item.ApproverAprrovalStatusName</span>
+                                                            }
+                                                            else if (item.ApproverAprrovalStatusId == (int)KGERP.Utility.EnumVoucherApprovalStatus.Rejected)
+                                                            {
+                                                                <span class="btn btn-danger btn-sm" style="display: block">@item.ApproverAprrovalStatusName</span>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span class="btn btn-info btn-sm" style="display: block">@item.ApproverAprrovalStatusName</span>
+                                                            }
+
+                                                        </td>*@
                                                     <td>
                                                         @if (item.IsStock)
                                                         {
@@ -438,7 +461,7 @@
         }
 
         $(document).ready(function () {
-            
+
         });
 
         var message = '@message';

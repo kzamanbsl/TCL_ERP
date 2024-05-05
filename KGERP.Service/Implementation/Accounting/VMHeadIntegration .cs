@@ -129,7 +129,8 @@ namespace KGERP.Service.Implementation.Accounting
         public int VoucherFor { get; set; }
         public SelectList VoucherForList { get; set; } =  new SelectList(Enum.GetValues(typeof(EnumVoucherFor)).Cast<EnumVoucherFor>().Select(e => new SelectListItem{Text = e.ToString(),Value = ((int) e).ToString()}), "Value", "Text");
 
-
+        public int AprrovalStatusId { get; set; }
+        public string AprrovalStatusName { get { return BaseFunctionalities.GetEnumDescription((EnumBillRequisitionStatus)AprrovalStatusId); } }
 
     }
     public partial class BRVoucherApprovalModel

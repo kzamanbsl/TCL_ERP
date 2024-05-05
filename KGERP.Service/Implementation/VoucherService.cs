@@ -492,7 +492,7 @@ namespace KGERP.Service.Implementation
                                                           join t8 in _context.VoucherBRMapMasterApprovals.Where(x => x.SignatoryId == (int)EnumVoucherRequisitionSignatory.Approver && x.IsActive) on t4.VoucherBRMapMasterId equals t8.VoucherBRMapMasterId into t8_Join
                                                           from t8 in t8_Join.DefaultIfEmpty()
 
-                                                          join t9 in _context.Employees on t6.EmployeeId equals t9.Id  into t9_Join
+                                                          join t9 in _context.Employees on t6.EmployeeId equals t9.Id into t9_Join
                                                           from t9 in t9_Join.DefaultIfEmpty()
 
                                                           join t5 in _context.BillRequisitionMasters on t4.BillRequsitionMasterId equals t5.BillRequisitionMasterId into t5_Join
@@ -537,6 +537,51 @@ namespace KGERP.Service.Implementation
             return voucherModel;
         }
 
+        public async Task<VoucherModel> RequisitionVouchersApprovalList(int companyId, DateTime? fromDate, DateTime? toDate, /*bool? vStatus,*/ int? voucherTypeId)
+        {
+            VoucherModel voucherModel = new VoucherModel();
+            var empId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
+
+            voucherModel.CompanyId = companyId;
+            voucherModel.VoucherTypeId = voucherTypeId;
+
+            voucherModel.DataList = await Task.Run(() => (from t1 in _context.Vouchers
+                                                          join t2 in _context.VoucherTypes on t1.VoucherTypeId equals t2.VoucherTypeId
+                                                          join t3 in _context.Accounting_CostCenter on t1.Accounting_CostCenterFk equals t3.CostCenterId
+                                                          join t4 in _context.BillRequisitionMasters on t1.BillRequisitionMasterId equals t4.BillRequisitionMasterId into t5_Join
+                                                          from t4 in t5_Join.DefaultIfEmpty()
+                                                          where t1.CompanyId == companyId && t1.IsActive
+                                                          && (voucherTypeId > 0 ? t1.VoucherTypeId == voucherTypeId : t1.VoucherTypeId > 0)
+                                                          && t1.VoucherDate >= fromDate && t1.VoucherDate <= toDate
+                                                          && t1.IsSubmit == true
+                                                          select new VoucherModel
+                                                          {
+                                                              VoucherId = t1.VoucherId,
+                                                              VoucherDate = t1.VoucherDate,
+                                                              Narration = t1.Narration,
+                                                              VoucherNo = t1.VoucherNo,
+                                                              VoucherTypeId = t1.VoucherTypeId,
+                                                              VoucherTypeName = t2.Name,
+                                                              CompanyId = t1.CompanyId,
+                                                              CreateDate = t1.CreateDate,
+                                                              ChqNo = t1.ChqNo,
+                                                              ChqDate = t1.ChqDate,
+                                                              ChqName = t1.ChqName,
+                                                              IsStock = t1.IsStock,
+                                                              IsSubmit = t1.IsSubmit,
+                                                              IsIntegrated = t1.IsIntegrated,
+                                                              CostCenterName = t3.Name,
+                                                              ApproverAprrovalStatusId = (int)(t1.ApprovalStatusId == null ? (int)EnumBillRequisitionStatus.Submitted : t1.ApprovalStatusId),
+                                                              RequisitionId = t1.BillRequisitionMasterId ?? 0,
+                                                              IsRequisitionVoucher = t1.BillRequisitionMasterId == null ? false : true,
+                                                              RequisitionNo = t4.BillRequisitionNo ?? "N/A",
+                                                              EmpId = empId,
+
+                                                          }).OrderByDescending(x => x.VoucherId).AsEnumerable());
+
+            return voucherModel;
+        }
+
         public async Task<VoucherModel> CheckerGetRequisitionVouchersApprovalList(int companyId, DateTime? fromDate, DateTime? toDate, /*bool? vStatus,*/ int? voucherTypeId)
         {
             VoucherModel voucherModel = new VoucherModel();
@@ -547,9 +592,9 @@ namespace KGERP.Service.Implementation
                                                           join t3 in _context.Accounting_CostCenter on t1.Accounting_CostCenterFk equals t3.CostCenterId
                                                           join t4 in _context.VoucherBRMapMasters on t1.VoucherId equals t4.VoucherId into t4_Join
                                                           from t4 in t4_Join.DefaultIfEmpty()
-                                                    
 
-                                                          join t6 in _context.VoucherBRMapMasterApprovals.Where(x=>x.SignatoryId == (int)EnumVoucherRequisitionSignatory.Initiator && x.IsActive) on t4.VoucherBRMapMasterId equals t6.VoucherBRMapMasterId into t6_Join
+
+                                                          join t6 in _context.VoucherBRMapMasterApprovals.Where(x => x.SignatoryId == (int)EnumVoucherRequisitionSignatory.Initiator && x.IsActive) on t4.VoucherBRMapMasterId equals t6.VoucherBRMapMasterId into t6_Join
                                                           from t6 in t6_Join.DefaultIfEmpty()
 
                                                           join t7 in _context.VoucherBRMapMasterApprovals.Where(x => x.SignatoryId == (int)EnumVoucherRequisitionSignatory.Checker && x.IsActive) on t4.VoucherBRMapMasterId equals t7.VoucherBRMapMasterId into t7_Join
@@ -608,7 +653,7 @@ namespace KGERP.Service.Implementation
                                                           join t3 in _context.Accounting_CostCenter on t1.Accounting_CostCenterFk equals t3.CostCenterId
                                                           join t4 in _context.VoucherBRMapMasters on t1.VoucherId equals t4.VoucherId into t4_Join
                                                           from t4 in t4_Join.DefaultIfEmpty()
-                                                         
+
                                                           join t6 in _context.VoucherBRMapMasterApprovals.Where(x => x.SignatoryId == (int)EnumVoucherRequisitionSignatory.Initiator && x.IsActive) on t4.VoucherBRMapMasterId equals t6.VoucherBRMapMasterId into t6_Join
                                                           from t6 in t6_Join.DefaultIfEmpty()
 
@@ -664,7 +709,7 @@ namespace KGERP.Service.Implementation
         {
             VMJournalSlave vmJournalSlave = new VMJournalSlave();
             var reqVoucherMaster = _context.VoucherBRMapMasters.First(x => x.VoucherId == voucherId);
-            if(reqVoucherMaster != null && reqVoucherMaster.IsRequisitionVoucher)
+            if (reqVoucherMaster != null && reqVoucherMaster.IsRequisitionVoucher)
             {
                 vmJournalSlave = await Task.Run(() => (from t1 in _context.Vouchers.Where(x => x.IsActive && x.VoucherId == voucherId && x.CompanyId == companyId)
                                                        join t4 in _context.VoucherTypes on t1.VoucherTypeId equals t4.VoucherTypeId
@@ -747,8 +792,8 @@ namespace KGERP.Service.Implementation
                                                            Accounting_CostCenterFK = t1.Accounting_CostCenterFk,
                                                            Accounting_BankOrCashId = t1.VirtualHeadId,
                                                            //BankOrCashNane = "[" + t5.AccCode + "] " + t5.AccName,
-                                                            CreatedBy = t1.CreatedBy,
-                                                           
+                                                           CreatedBy = t1.CreatedBy,
+
                                                            CompanyName = t2.Name,
                                                            IsSubmit = t1.IsSubmit,
 
@@ -779,23 +824,23 @@ namespace KGERP.Service.Implementation
                     vmJournalSlave.Particular = vmJournalSlave.DataListDetails.OrderByDescending(x => x.VoucherDetailId).Select(x => x.Particular).FirstOrDefault();
                 }
             }
-           
+
 
             vmJournalSlave.ApprovalList = await Task.Run(() => (from t1 in _context.VoucherBRMapMasterApprovals.Where(x => x.IsActive && x.VoucherBRMapMasterId == reqVoucherMaster.VoucherBRMapMasterId)
-                                                                                 
-                                                                                 join t3 in _context.Employees on t1.EmployeeId equals t3.Id into t3_Join
-                                                                                 from t3 in t3_Join.DefaultIfEmpty()
-                                                                                 select new BRVoucherApprovalModel
-                                                                                 {
-                                                                                     VoucherBRMapMasterApprovalId = t1.VoucherBRMapMasterApprovalId,
-                                                                                     VoucherBRMapMasterId = t1.VoucherBRMapMasterId,
-                                                                                     VoucherId = t1.VoucherId,
-                                                                                     SignatoryId = t1.SignatoryId,
-                                                                                     AprrovalStatusId = t1.AprrovalStatusId,
-                                                                                     IsSupremeApproved = t1.IsSupremeApproved,
-                                                                                     EmployeeId = t1.EmployeeId,
-                                                                                     EmployeeName = t3.EmployeeId + "-" +t3.Name,
-                                                                                 }).OrderBy(x => x.VoucherBRMapMasterApprovalId).ToList());
+
+                                                                join t3 in _context.Employees on t1.EmployeeId equals t3.Id into t3_Join
+                                                                from t3 in t3_Join.DefaultIfEmpty()
+                                                                select new BRVoucherApprovalModel
+                                                                {
+                                                                    VoucherBRMapMasterApprovalId = t1.VoucherBRMapMasterApprovalId,
+                                                                    VoucherBRMapMasterId = t1.VoucherBRMapMasterId,
+                                                                    VoucherId = t1.VoucherId,
+                                                                    SignatoryId = t1.SignatoryId,
+                                                                    AprrovalStatusId = t1.AprrovalStatusId,
+                                                                    IsSupremeApproved = t1.IsSupremeApproved,
+                                                                    EmployeeId = t1.EmployeeId,
+                                                                    EmployeeName = t3.EmployeeId + "-" + t3.Name,
+                                                                }).OrderBy(x => x.VoucherBRMapMasterApprovalId).ToList());
             return vmJournalSlave;
         }
 
@@ -803,10 +848,10 @@ namespace KGERP.Service.Implementation
         {
             long result = -1;
             var empId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
-            Voucher model =  _context.Vouchers.Find(vmJournalSlave.VoucherId);
+            Voucher model = _context.Vouchers.Find(vmJournalSlave.VoucherId);
 
-            var voucherRequisitionMapMaster =  _context.VoucherBRMapMasters.FirstOrDefault(s => s.VoucherId == model.VoucherId);
-            var VRApproval =  _context.VoucherBRMapMasterApprovals.FirstOrDefault(s => s.VoucherBRMapMasterId == voucherRequisitionMapMaster.VoucherBRMapMasterId && s.SignatoryId == (int)EnumVoucherRequisitionSignatory.Checker);
+            var voucherRequisitionMapMaster = _context.VoucherBRMapMasters.FirstOrDefault(s => s.VoucherId == model.VoucherId);
+            var VRApproval = _context.VoucherBRMapMasterApprovals.FirstOrDefault(s => s.VoucherBRMapMasterId == voucherRequisitionMapMaster.VoucherBRMapMasterId && s.SignatoryId == (int)EnumVoucherRequisitionSignatory.Checker);
             VRApproval.VoucherId = model.VoucherId;
             VRApproval.EmployeeId = empId;
             if (vmJournalSlave.ActionId == (int)ActionEnum.UnApprove)
@@ -834,9 +879,9 @@ namespace KGERP.Service.Implementation
         {
             long result = -1;
             var empId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
-            Voucher model =  _context.Vouchers.Find(vmJournalSlave.VoucherId);
+            Voucher model = _context.Vouchers.Find(vmJournalSlave.VoucherId);
 
-            var voucherRequisitionMapMaster =  _context.VoucherBRMapMasters.FirstOrDefault(s => s.VoucherId == model.VoucherId);
+            var voucherRequisitionMapMaster = _context.VoucherBRMapMasters.FirstOrDefault(s => s.VoucherId == model.VoucherId);
             var VRApproval = _context.VoucherBRMapMasterApprovals.FirstOrDefault(s => s.VoucherBRMapMasterId == voucherRequisitionMapMaster.VoucherBRMapMasterId && s.SignatoryId == (int)EnumVoucherRequisitionSignatory.Approver);
             VRApproval.VoucherId = model.VoucherId;
             VRApproval.EmployeeId = empId;
@@ -853,7 +898,7 @@ namespace KGERP.Service.Implementation
                 VRApproval.IsSupremeApproved = true;
                 voucherRequisitionMapMaster.ApprovalStatusId = (int)EnumBillRequisitionStatus.Approved;
             }
-           
+
             VRApproval.ModifiedDate = DateTime.Now;
             VRApproval.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
 

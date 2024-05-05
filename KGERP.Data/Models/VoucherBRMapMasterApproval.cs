@@ -33,7 +33,7 @@ namespace KGERP.Data.Models
     
         public virtual Company Company { get; set; }
         public virtual Employee Employee { get; set; }
-        public virtual Voucher Voucher { get; set; }
         public virtual VoucherBRMapMaster VoucherBRMapMaster { get; set; }
+        public virtual Voucher Voucher { get; set; }
     }
 }

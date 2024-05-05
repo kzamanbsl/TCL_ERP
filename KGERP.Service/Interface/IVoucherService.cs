@@ -15,6 +15,7 @@ namespace KGERP.Service.Interface
         Task<VoucherModel> GetRequisitionVouchersList(int companyId, DateTime? fromDate, DateTime? toDate, bool? vStatus, int? voucherTypeId);
         Task<VoucherModel> GetRequisitionVouchersApprovalList(int companyId, DateTime? fromDate, DateTime? toDate,/* bool? vStatus,*/ int? voucherTypeId);
         Task<VoucherModel> InitiatorGetRequisitionVouchersApprovalList(int companyId, DateTime? fromDate, DateTime? toDate,/* bool? vStatus,*/ int? voucherTypeId);
+        Task<VoucherModel> RequisitionVouchersApprovalList(int companyId, DateTime? fromDate, DateTime? toDate,/* bool? vStatus,*/ int? voucherTypeId);
         Task<VoucherModel> CheckerGetRequisitionVouchersApprovalList(int companyId, DateTime? fromDate, DateTime? toDate,/* bool? vStatus,*/ int? voucherTypeId);
         Task<VoucherModel> ApproverGetRequisitionVouchersApprovalList(int companyId, DateTime? fromDate, DateTime? toDate,/* bool? vStatus,*/ int? voucherTypeId);
 
