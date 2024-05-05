@@ -180,7 +180,7 @@ namespace KGERP.Service.Implementation
 
             return false;
         }
-        public async Task<bool> SubmiteConsumption(ConsumptionModel consumption)
+        public async Task<bool> ConsumptionSubmitted(ConsumptionModel consumption)
         {
             if (consumption is null || consumption.ConsumptionMasterId <= 0)
             {

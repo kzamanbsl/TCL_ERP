@@ -5673,7 +5673,7 @@ namespace KGERP.Controllers
 
             if (model.Procurement_PurchaseOrderFk == null)
             {
-                model.CostCenterId = 0;
+                model.Procurement_PurchaseOrderFk = 0;
             }
 
             string reportUrl = "";

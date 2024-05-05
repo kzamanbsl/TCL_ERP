@@ -727,7 +727,7 @@ namespace KGERP.Service.Implementation
                               join t2 in _context.MaterialReceiveDetails.AsNoTracking().AsQueryable() on t1.ProductId equals t2.ProductId
                               join t3 in _context.MaterialReceives.AsNoTracking().AsQueryable() on t2.MaterialReceiveId equals t3.MaterialReceiveId
                               join t4 in _context.Products.AsNoTracking().AsQueryable() on t2.ProductId equals t4.ProductId
-                              join t5 in _context.PurchaseOrderDetails.AsNoTracking().AsQueryable() on t3.PurchaseOrderId equals t5.PurchaseOrderId
+                              //join t5 in _context.PurchaseOrderDetails.AsNoTracking().AsQueryable() on t3.PurchaseOrderId equals t5.PurchaseOrderId
                               
                               where (ProductId > 0 ? t1.ProductId == ProductId : true) && (storeId > 0 ? t3.StockInfoId == storeId : true) &&
                               (BoqItem>0?t1.BoQItemId==BoqItem:true) && t2.IsReturn == false && t2.IsActive == true && t3.IsActive == true && t3.IsSubmitted==true
@@ -735,7 +735,7 @@ namespace KGERP.Service.Implementation
                               {
                                   UnitPrice = t2.UnitPrice,
                                   ReceiveQuentity = t2.ReceiveQty,
-                                  purchaseQuentity = t5.PurchaseAmount,
+                                  //purchaseQuentity = t5.PurchaseAmount,
                                   TotalAmount = t2.UnitPrice* t2.ReceiveQty
                               }).ToListAsync();
 

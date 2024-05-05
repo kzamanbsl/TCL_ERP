@@ -74,7 +74,7 @@ namespace KGERP.Controllers
             }else if (consumptionModel.ActionId == (int)ActionEnum.Finalize)
             {
 
-                await _service.SubmiteConsumption(consumptionModel);
+                await _service.ConsumptionSubmitted(consumptionModel);
             }
 
             return RedirectToAction(nameof(ConsumptionMasterSlave), new { companyId = CompanyInfo.CompanyId, consumptionMasterId = consumptionModel.ConsumptionMasterId });
