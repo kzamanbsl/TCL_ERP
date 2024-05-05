@@ -575,7 +575,7 @@ namespace KGERP.Service.Implementation
                                                               AprrovalStatusId = (int)(t1.ApprovalStatusId == null ? (int)EnumVoucherApprovalStatus.Pending : t1.ApprovalStatusId),
                                                               CheckerAprrovalStatusId = (int)(t1.CheckerApprovalStatusId == null ? (int)EnumVoucherApprovalStatus.Pending : t1.CheckerApprovalStatusId),
                                                               ApproverAprrovalStatusId = (int)(t1.ApproverApprovalStatusId == null ? (int)EnumVoucherApprovalStatus.Pending : t1.ApproverApprovalStatusId)
-                                                          }).OrderByDescending(x => x.VoucherId).AsEnumerable()); ; ;
+                                                          }).OrderByDescending(x => x.VoucherId).AsEnumerable());
 
             return voucherModel;
         }
@@ -641,6 +641,49 @@ namespace KGERP.Service.Implementation
 
             return voucherModel;
         }
+
+        public async Task<VoucherModel> CheckerRequisitionVouchersApprovalList(int companyId, DateTime? fromDate, DateTime? toDate, /*bool? vStatus,*/ int? voucherTypeId)
+        {
+            VoucherModel voucherModel = new VoucherModel();
+            voucherModel.CompanyId = companyId;
+            voucherModel.VoucherTypeId = voucherTypeId;
+            voucherModel.DataList = await Task.Run(() => (from t1 in _context.Vouchers
+                                                          join t2 in _context.VoucherTypes on t1.VoucherTypeId equals t2.VoucherTypeId
+                                                          join t3 in _context.Accounting_CostCenter on t1.Accounting_CostCenterFk equals t3.CostCenterId
+                                                          join t4 in _context.BillRequisitionMasters on t1.BillRequisitionMasterId equals t4.BillRequisitionMasterId into t5_Join
+                                                          from t4 in t5_Join.DefaultIfEmpty()
+                                                          where t1.CompanyId == companyId && t1.IsActive
+                                                          && (voucherTypeId > 0 ? t1.VoucherTypeId == voucherTypeId : t1.VoucherTypeId > 0)
+                                                          && t1.VoucherDate >= fromDate && t1.VoucherDate <= toDate
+                                                          && t1.IsSubmit == true
+                                                          select new VoucherModel
+                                                          {
+                                                              VoucherId = t1.VoucherId,
+                                                              VoucherDate = t1.VoucherDate,
+                                                              Narration = t1.Narration,
+                                                              VoucherNo = t1.VoucherNo,
+                                                              VoucherTypeId = t1.VoucherTypeId,
+                                                              VoucherTypeName = t2.Name,
+                                                              CompanyId = t1.CompanyId,
+                                                              CreateDate = t1.CreateDate,
+                                                              ChqNo = t1.ChqNo,
+                                                              ChqDate = t1.ChqDate,
+                                                              ChqName = t1.ChqName,
+                                                              IsStock = t1.IsStock,
+                                                              IsSubmit = t1.IsSubmit,
+                                                              IsIntegrated = t1.IsIntegrated,
+                                                              CostCenterName = t3.Name,
+                                                              RequisitionId = t1.BillRequisitionMasterId ?? 0,
+                                                              IsRequisitionVoucher = t1.BillRequisitionMasterId == null ? false : true,
+                                                              RequisitionNo = t4.BillRequisitionNo ?? "N/A",
+                                                              AprrovalStatusId = (int)(t1.ApprovalStatusId == null ? (int)EnumVoucherApprovalStatus.Pending : t1.ApprovalStatusId),
+                                                              CheckerAprrovalStatusId = (int)(t1.CheckerApprovalStatusId == null ? (int)EnumVoucherApprovalStatus.Pending : t1.CheckerApprovalStatusId),
+                                                              ApproverAprrovalStatusId = (int)(t1.ApproverApprovalStatusId == null ? (int)EnumVoucherApprovalStatus.Pending : t1.ApproverApprovalStatusId)
+                                                          }).OrderByDescending(x => x.VoucherId).AsEnumerable());
+
+            return voucherModel;
+        }
+
         public async Task<VoucherModel> ApproverGetRequisitionVouchersApprovalList(int companyId, DateTime? fromDate, DateTime? toDate, /*bool? vStatus,*/ int? voucherTypeId)
         {
             VoucherModel voucherModel = new VoucherModel();
@@ -698,6 +741,49 @@ namespace KGERP.Service.Implementation
                                                               CheckerAprrovalStatusId = t7.AprrovalStatusId,
                                                               ApproverAprrovalStatusId = t8.AprrovalStatusId
 
+                                                          }).OrderByDescending(x => x.VoucherId).AsEnumerable());
+
+            return voucherModel;
+        }
+
+        public async Task<VoucherModel> ApproverRequisitionVouchersApprovalList(int companyId, DateTime? fromDate, DateTime? toDate, /*bool? vStatus,*/ int? voucherTypeId)
+        {
+            VoucherModel voucherModel = new VoucherModel();
+            voucherModel.CompanyId = companyId;
+            voucherModel.VoucherTypeId = voucherTypeId;
+            voucherModel.DataList = await Task.Run(() => (from t1 in _context.Vouchers
+                                                          join t2 in _context.VoucherTypes on t1.VoucherTypeId equals t2.VoucherTypeId
+                                                          join t3 in _context.Accounting_CostCenter on t1.Accounting_CostCenterFk equals t3.CostCenterId
+                                                          join t4 in _context.BillRequisitionMasters on t1.BillRequisitionMasterId equals t4.BillRequisitionMasterId into t5_Join
+                                                          from t4 in t5_Join.DefaultIfEmpty()
+                                                          where t1.CompanyId == companyId && t1.IsActive
+                                                          && (voucherTypeId > 0 ? t1.VoucherTypeId == voucherTypeId : t1.VoucherTypeId > 0)
+                                                          && t1.VoucherDate >= fromDate && t1.VoucherDate <= toDate
+                                                          && t1.IsSubmit == true
+                                                          && t1.CheckerApprovalStatusId == (int)EnumVoucherApprovalStatus.Approved
+                                                          select new VoucherModel
+                                                          {
+                                                              VoucherId = t1.VoucherId,
+                                                              VoucherDate = t1.VoucherDate,
+                                                              Narration = t1.Narration,
+                                                              VoucherNo = t1.VoucherNo,
+                                                              VoucherTypeId = t1.VoucherTypeId,
+                                                              VoucherTypeName = t2.Name,
+                                                              CompanyId = t1.CompanyId,
+                                                              CreateDate = t1.CreateDate,
+                                                              ChqNo = t1.ChqNo,
+                                                              ChqDate = t1.ChqDate,
+                                                              ChqName = t1.ChqName,
+                                                              IsStock = t1.IsStock,
+                                                              IsSubmit = t1.IsSubmit,
+                                                              IsIntegrated = t1.IsIntegrated,
+                                                              CostCenterName = t3.Name,
+                                                              RequisitionId = t1.BillRequisitionMasterId ?? 0,
+                                                              IsRequisitionVoucher = t1.BillRequisitionMasterId == null ? false : true,
+                                                              RequisitionNo = t4.BillRequisitionNo ?? "N/A",
+                                                              AprrovalStatusId = (int)(t1.ApprovalStatusId == null ? (int)EnumVoucherApprovalStatus.Pending : t1.ApprovalStatusId),
+                                                              CheckerAprrovalStatusId = (int)(t1.CheckerApprovalStatusId == null ? (int)EnumVoucherApprovalStatus.Pending : t1.CheckerApprovalStatusId),
+                                                              ApproverAprrovalStatusId = (int)(t1.ApproverApprovalStatusId == null ? (int)EnumVoucherApprovalStatus.Pending : t1.ApproverApprovalStatusId)
                                                           }).OrderByDescending(x => x.VoucherId).AsEnumerable());
 
             return voucherModel;

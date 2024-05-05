@@ -324,7 +324,6 @@ namespace KGERP.Controllers
             if (voucherModel.VoucherId > 0)
             {
                 await _accountingService.RequisitionVoucherDelete(voucherModel);
-
             }
 
             return RedirectToAction(nameof(RequisitionVoucherList), new { companyId = voucherModel.CompanyId });
@@ -456,7 +455,8 @@ namespace KGERP.Controllers
             }
 
             VoucherModel voucherModel = new VoucherModel();
-            voucherModel = await _voucherService.CheckerGetRequisitionVouchersApprovalList(companyId, fromDate, toDate, /*vStatus,*/ voucherTypeId);
+            //voucherModel = await _voucherService.CheckerGetRequisitionVouchersApprovalList(companyId, fromDate, toDate, /*vStatus,*/ voucherTypeId);
+            voucherModel = await _voucherService.CheckerRequisitionVouchersApprovalList(companyId, fromDate, toDate, /*vStatus,*/ voucherTypeId);
             voucherModel.VoucherTypesList = new SelectList(_accountingService.VoucherTypesDownList(companyId), "Value", "Text");
             voucherModel.StrFromDate = fromDate.Value.ToString("yyyy-MM-dd");
             voucherModel.StrToDate = toDate.Value.ToString("yyyy-MM-dd");
@@ -552,7 +552,8 @@ namespace KGERP.Controllers
             }
 
             VoucherModel voucherModel = new VoucherModel();
-            voucherModel = await _voucherService.ApproverGetRequisitionVouchersApprovalList(companyId, fromDate, toDate, /*vStatus,*/ voucherTypeId);
+            //voucherModel = await _voucherService.ApproverGetRequisitionVouchersApprovalList(companyId, fromDate, toDate, /*vStatus,*/ voucherTypeId);
+            voucherModel = await _voucherService.ApproverRequisitionVouchersApprovalList(companyId, fromDate, toDate, /*vStatus,*/ voucherTypeId);
             voucherModel.VoucherTypesList = new SelectList(_accountingService.VoucherTypesDownList(companyId), "Value", "Text");
             voucherModel.StrFromDate = fromDate.Value.ToString("yyyy-MM-dd");
             voucherModel.StrToDate = toDate.Value.ToString("yyyy-MM-dd");
