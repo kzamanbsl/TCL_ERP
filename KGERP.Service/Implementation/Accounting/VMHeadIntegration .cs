@@ -36,6 +36,7 @@ namespace KGERP.Service.Implementation.Accounting
         public long? BillRequisitionId { get; set; }
         public bool IsRequisitionVoucher { get; set; } = false;
 
+        public long RequisitionId { get; set; }
         public string RequisitionNo { get; set; }
         public string RequisitionInitiator { get; set; }
         public int Accounting_BankOrCashParantId { get; set; }
@@ -97,7 +98,7 @@ namespace KGERP.Service.Implementation.Accounting
         public decimal TotalDebit { get; set; } = 0;
         public decimal TotalCredit { get; set; } = 0;
         public IEnumerable<VMJournalSlave> DataListDetails { get; set; }
-    
+
         public List<VMJournalSlave> DataListSlave { get; set; }
 
         public List<BRVoucherApprovalModel> ApprovalList { get; set; } = new List<BRVoucherApprovalModel>();
@@ -127,10 +128,16 @@ namespace KGERP.Service.Implementation.Accounting
         public SelectList AccountNoList { get; set; } = new SelectList(new List<object>());
         public SelectList ChequeBookList { get; set; } = new SelectList(new List<object>());
         public int VoucherFor { get; set; }
-        public SelectList VoucherForList { get; set; } =  new SelectList(Enum.GetValues(typeof(EnumVoucherFor)).Cast<EnumVoucherFor>().Select(e => new SelectListItem{Text = e.ToString(),Value = ((int) e).ToString()}), "Value", "Text");
+        public SelectList VoucherForList { get; set; } = new SelectList(Enum.GetValues(typeof(EnumVoucherFor)).Cast<EnumVoucherFor>().Select(e => new SelectListItem { Text = e.ToString(), Value = ((int)e).ToString() }), "Value", "Text");
 
         public int AprrovalStatusId { get; set; }
         public string AprrovalStatusName { get { return BaseFunctionalities.GetEnumDescription((EnumBillRequisitionStatus)AprrovalStatusId); } }
+
+        public int CheckerAprrovalStatusId { get; set; }
+        public string CheckerAprrovalStatusName { get { return BaseFunctionalities.GetEnumDescription((EnumBillRequisitionStatus)CheckerAprrovalStatusId); } }
+        public int ApproverAprrovalStatusId { get; set; }
+        public string ApproverAprrovalStatusName { get { return BaseFunctionalities.GetEnumDescription((EnumBillRequisitionStatus)ApproverAprrovalStatusId); } }
+
 
     }
     public partial class BRVoucherApprovalModel

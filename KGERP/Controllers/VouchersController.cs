@@ -492,7 +492,8 @@ namespace KGERP.Controllers
             }
             else if (voucherId > 0)
             {
-                vmJournalSlave = await Task.Run(() => _voucherService.GetVoucherRequisitionMapDetailsWithApproval(companyId, voucherId));
+                //vmJournalSlave = await Task.Run(() => _voucherService.GetVoucherRequisitionMapDetailsWithApproval(companyId, voucherId));
+                vmJournalSlave = await Task.Run(() => _voucherService.VoucherRequisitionMapDetailsWithApproval(companyId, voucherId));
             }
             vmJournalSlave.CostCenterList = new SelectList(_accountingService.CostCenterDropDownList(companyId), "Value", "Text");
             vmJournalSlave.VoucherTypesList = new SelectList(_accountingService.VoucherTypesDownList(companyId), "Value", "Text");
@@ -519,7 +520,8 @@ namespace KGERP.Controllers
         public async Task<ActionResult> RequisitionVoucherApproval(VMJournalSlave vmJournalSlave)
         {
 
-            await _voucherService.CheckerVoucherRequisitionApproval(vmJournalSlave);
+            //await _voucherService.CheckerVoucherRequisitionApproval(vmJournalSlave);
+            await _voucherService.VoucherCheckerApproval(vmJournalSlave);
 
             return RedirectToAction(nameof(RequisitionVoucherApproval), new { companyId = vmJournalSlave.CompanyFK, voucherId = vmJournalSlave.VoucherId });
         }

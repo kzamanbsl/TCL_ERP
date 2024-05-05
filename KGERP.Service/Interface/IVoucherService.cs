@@ -22,11 +22,12 @@ namespace KGERP.Service.Interface
         Task<VoucherModel> ApproverRequisitionVouchersApprovalList(int companyId, DateTime? fromDate, DateTime? toDate,/* bool? vStatus,*/ int? voucherTypeId); // New
 
         Task<VMJournalSlave> GetVoucherRequisitionMapDetailsWithApproval(int companyId, int voucherId);
+        Task<VMJournalSlave> VoucherRequisitionMapDetailsWithApproval(int companyId, int voucherId);
         Task<VoucherModel> GetStockVouchersList(int companyId);
 
         Task<VoucherModel> GetVouchersList(VoucherModel voucherModel);
 
-        Task<List<VoucherModel>> GetAllVouchersList(int companyId,int? voucherId, DateTime? fromDate, DateTime? toDate);
+        Task<List<VoucherModel>> GetAllVouchersList(int companyId, int? voucherId, DateTime? fromDate, DateTime? toDate);
 
         VoucherModel GetVoucher(int companyId, long id);
         //VoucherModel CreateTempVoucher(VoucherModel voucher);
@@ -37,6 +38,7 @@ namespace KGERP.Service.Interface
         //int UpdateAccGLSheet
 
         Task<long> CheckerVoucherRequisitionApproval(VMJournalSlave vmJournalSlave);
+        Task<long> VoucherCheckerApproval(VMJournalSlave vmJournalSlave); // New
         Task<long> ApproverVoucherRequisitionApproval(VMJournalSlave vmJournalSlave);
     }
 }

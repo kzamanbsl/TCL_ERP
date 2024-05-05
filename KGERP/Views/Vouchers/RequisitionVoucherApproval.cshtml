@@ -1,7 +1,7 @@
 ﻿@model KGERP.Service.Implementation.Accounting.VMJournalSlave
 @using KGERP.Utility;
 @{
-    ViewData["Title"] = "Voucher Entry";
+    ViewData["Title"] = "Voucher Checker Approval";
     Layout = "~/Views/Shared/_Layout.cshtml";
     double? totalDebitAmount = 0;
     double? totalCreditAmount = 0;
@@ -34,7 +34,7 @@
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active"><a href="~/Vouchers/RequisitionVoucherEntry?companyId=@Request.QueryString["companyId"]" class="btn btn-primary"><b>New Voucher</b></a></li>
+        <li class="active"><a href="#">Voucher Checker Approval</a></li>
     </ol>
 </section>
 
@@ -142,23 +142,16 @@
                             {
                                 <div class="row">
 
-
                                     <div class="table-responsive col-md-12">
                                         <table id="KgErpDataTable" class="table table-striped">
                                             <thead style="background-color:#ddd;">
                                                 <tr>
                                                     <th style="padding:5px;text-align:center;">SL</th>
-                                                    <th style="padding:5px;text-align:left;">Material</th>
                                                     <th style="padding:5px;text-align:left;">Code</th>
                                                     <th style="padding:5px;text-align:left;">Accounting Head</th>
                                                     <th style="padding:5px;text-align:left;">Particular</th>
                                                     <th style="padding:5px;text-align:right;">Debit</th>
                                                     <th style="padding:5px;text-align:right;">Credit</th>
-                                                    @if (Model.IsSubmit == false)
-                                                    {
-                                                        <th style="padding:5px;text-align:center;">Action</th>
-                                                    }
-
                                                 </tr>
                                             </thead>
                                             @{ int sl = 0; }
@@ -170,24 +163,12 @@
 
                                                     <tr>
                                                         <td style="padding:5px">@(++sl)</td>
-                                                        <td style="padding:5px;text-align:left;">@item.MaterialName</td>
                                                         <td style="padding:5px;text-align:left;">@item.Code</td>
                                                         <td style="padding:5px;text-align:left;">@item.AccountingHeadName</td>
                                                         <td style="padding:5px;text-align:left;">@item.Particular</td>
 
                                                         <td style="padding:5px;text-align:right;">@String.Format("{0:0.00}", item.Debit)</td>
                                                         <td style="padding:5px;text-align:right;">@String.Format("{0:0.00}", item.Credit)</td>
-                                                        @if (Model.IsSubmit == false)
-                                                        {
-                                                            <td style="padding:5px;text-align:center;">
-                                                                @*<a id="@item.VoucherDetailId-Edit" onclick="makeEditble(@item.VoucherDetailId);" class="linkPointer" title="Edit"><i class="fa fa-edit" aria-hidden="true"></i></a>*@
-                                                                <a id="@item.VoucherDetailId-Delete" onclick="makeDeletable(@item.VoucherDetailId);" class="linkPointer" data-toggle="modal" data-target="#deleteModal" title="Delete"
-                                                                   data-placement="top">
-                                                                    <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
-                                                                </a>
-                                                            </td>
-                                                        }
-
                                                     </tr>
                                                 }
                                             </tbody>
@@ -196,70 +177,66 @@
 
                                                 <tr>
                                                     <th style="padding:5px;text-align:center;"></th>
-                                                    <th colspan="4" style="padding:5px;text-align:left;">Total</th>
-
+                                                    <th colspan="3" style="text-align: right">Total</th>
                                                     <th style="padding:5px;text-align:right;">@String.Format("{0:0.00}", totalDebitAmount)</th>
                                                     <th style="padding:5px;text-align:right;">@String.Format("{0:0.00}", totalCreditAmount)</th>
                                                     <th style="padding:5px;text-align:center;"></th>
                                                 </tr>
                                             </tfoot>
                                         </table>
-
                                     </div>
                                 </div>
 
-                                <strong>
+                                <strong style="margin: 20px 0 10px; display: inline-block;">
                                     <span>
-                                        Requisition Voucher Approval Status:
+                                        Requisition Voucher Approval Status
                                     </span>
                                 </strong>
                                 <div class="row">
                                     <table class="table table-bordered">
                                         <tr class="bg-gray">
-                                            @foreach (var item in Model.ApprovalList)
-                                            {
-                                                <th style="padding:5px;text-align:center;">
-                                                    @item.SignatoryName
-                                                </th>
-                                            }
+                                            <th style="padding:5px;text-align:center;">
+                                                Initiator
+                                            </th>
+                                            <th style="padding:5px;text-align:center;">
+                                                Checker
+                                            </th>
+                                            <th style="padding:5px;text-align:center;">
+                                                Approver
+                                            </th>
                                         </tr>
                                         <tr>
-                                            @foreach (var item in Model.ApprovalList)
-                                            {
-                                                if (item.AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
+                                            <td style="text-align:center">
+                                                <span class="btn btn-success btn-xs">Prepared</span>
+                                            </td>
+                                            <td style="text-align:center">
+                                                @if (Model.CheckerAprrovalStatusId == (int)EnumVoucherApprovalStatus.Approved)
                                                 {
-                                                    <td style="text-align:center">
-                                                        <span class="btn btn-warning btn-xs"> @item.AprrovalStatusName</span>
-                                                    </td>
+                                                    <span class="btn btn-success btn-xs">Recommanded</span>
                                                 }
-                                                else if (item.AprrovalStatusId == (int)EnumBillRequisitionStatus.Rejected)
+                                                else if (Model.CheckerAprrovalStatusId == (int)EnumVoucherApprovalStatus.Rejected)
                                                 {
-                                                    <td style="text-align:center">
-                                                        <span class="btn btn-danger btn-xs"> @item.AprrovalStatusName</span>
-                                                    </td>
-                                                }
-                                                else if (item.AprrovalStatusId == (int)EnumBillRequisitionStatus.Approved)
-                                                {
-                                                    <td style="text-align:center">
-                                                        @if (item.SignatoryId == (int)EnumVoucherRequisitionSignatory.Initiator)
-                                                        {
-                                                            <span class="btn btn-success btn-xs"> Prepared</span>
-                                                        }
-                                                        else if (item.SignatoryId == (int)EnumVoucherRequisitionSignatory.Checker)
-                                                        {
-                                                            <span class="btn btn-success btn-xs"> Recommended</span>
-                                                        }
-                                                        else if (item.SignatoryId == (int)EnumVoucherRequisitionSignatory.Approver)
-                                                        {
-                                                            <span class="btn btn-success btn-xs"> Approved</span>
-                                                        }
-                                                    </td>
+                                                    <span class="btn btn-danger btn-xs">Rejected</span>
                                                 }
                                                 else
                                                 {
-                                                    <td style="padding:5px; text-align:center;">@item.AprrovalStatusName</td>
+                                                    <span class="btn btn-warning btn-xs">Pending</span>
                                                 }
-                                            }
+                                            </td>
+                                            <td style="text-align:center">
+                                                @if (Model.ApproverAprrovalStatusId == (int)EnumVoucherApprovalStatus.Approved)
+                                                {
+                                                    <span class="btn btn-success btn-xs">Approved</span>
+                                                }
+                                                else if (Model.ApproverAprrovalStatusId == (int)EnumVoucherApprovalStatus.Rejected)
+                                                {
+                                                    <span class="btn btn-danger btn-xs">Rejected</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="btn btn-warning btn-xs">Pending</span>
+                                                }
+                                            </td>
                                         </tr>
                                     </table>
                                 </div>
@@ -274,7 +251,7 @@
                             string btnProperty = Math.Round(totalDebitAmount ?? 0, 2) == Math.Round(totalCreditAmount ?? 0, 2) ? "disabled" : "";
                             string btnSubmitProperty = Math.Round(totalDebitAmount ?? 0, 2) == Math.Round(totalCreditAmount ?? 0, 2) ? "" : "disabled";
                             <div class="row">
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     @if (Model.IsSubmit == true)
                                     {
                                         <a href="@Url.Action("GetVoucherReport","Report", new {companyId=Model.CompanyFK,voucherId=Model.VoucherId,reportName="VoucherReport"})" style="width:100%" target="_blank" class="btn btn-warning btn-block">
@@ -283,34 +260,24 @@
                                         </a>
                                     }
                                 </div>
-                                <div class="col-md-3">
-                                    @if (Model.ApprovalList.First(x => x.SignatoryId == (int)EnumVoucherRequisitionSignatory.Checker).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
+                                <div class="col-md-4">
+                                    @if (Model.CheckerAprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
                                     {
-
-
                                         <button id="rejectBtn" style="width:100%;" type="button" class=" btn btn-danger" data-toggle="modal" data-target="#rejectVoucherModal" title="Reject" data-placement="top">Reject</button>
-
-
                                     }
                                     else
                                     {
                                         <button id="rejectBtn" style="width:100%;" type="button" disabled class=" btn btn-danger" data-toggle="modal" data-target="#rejectVoucherModal" title="Reject" data-placement="top">Reject</button>
-
                                     }
                                 </div>
-                                <div class="col-md-6">
-                                    @if (Model.ApprovalList.First(x => x.SignatoryId == (int)EnumVoucherRequisitionSignatory.Checker).AprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
+                                <div class="col-md-4">
+                                    @if (Model.CheckerAprrovalStatusId == (int)EnumBillRequisitionStatus.Pending)
                                     {
-
-
                                         <button id="approveBtn" style="width:100%;" type="submit" class=" btn btn-primary">Approve</button>
-
-
                                     }
                                     else
                                     {
                                         <button id="approveBtn" style="width:100%;" disabled type="submit" class=" btn btn-primary">Approve</button>
-
                                     }
                                 </div>
 
@@ -380,7 +347,7 @@
 @section scripts {
 
     <script type="text/javascript">
-        var CompanyId =@Html.Raw(Json.Encode(Model.CompanyFK))
+        var CompanyId =@Html.Raw(Json.Encode(Model.CompanyFK));
         var previousBank = '';
         $(document).ready(function () {
 
