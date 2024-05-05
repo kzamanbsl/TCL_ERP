@@ -1,14 +1,13 @@
 ﻿@model KGERP.Service.Implementation.Accounting.VMJournalSlave
 @using KGERP.Utility;
 @{
-    ViewData["Title"] = "Voucher Entry";
+    ViewData["Title"] = "New Voucher";
     Layout = "~/Views/Shared/_Layout.cshtml";
     double? totalDebitAmount = 0;
     double? totalCreditAmount = 0;
 }
 
 <style type="text/css">
-
     input, select, textarea {
         max-width: 100%;
     }
@@ -41,7 +40,7 @@
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active"><a href="~/Vouchers/RequisitionVoucherEntry?companyId=@Request.QueryString["companyId"]" class="btn btn-primary mx-4 btn-sm" style="color: #ffffff !important"><b>New Voucher</b></a></li>
+        <li class="active"><a href="#">New Voucher</a></li>
     </ol>
 </section>
 

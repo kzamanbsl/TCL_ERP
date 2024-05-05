@@ -1,14 +1,11 @@
 ﻿@model KGERP.Service.ServiceModel.VoucherModel
 @{
-    ViewBag.Title = "Voucher List";
+    ViewBag.Title = "Voucher Status";
     var message = TempData["message"];
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-
 <style type="text/css">
-
     input, select, textarea {
         max-width: 100%;
     }
@@ -16,20 +13,29 @@
     .linkPointe {
         cursor: pointer;
     }
+
+    .ui-datepicker-trigger {
+        width: 37px !important;
+        height: 33px !important;
+        margin-left: 5px !important;
+    }
+
+    .dateCustom {
+        width: 82% !important;
+        border-radius: 1px !important;
+        border: 1px solid #d2d6de !important;
+        height: 33px !important;
+    }
 </style>
 
 <section class="content-header">
     <h1>
-        Requisition Voucher List
+        Voucher Status
     </h1>
-
 
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-
-        <li>
-            <a href="~/Vouchers/ManageBankOrCash?companyId=@Request.QueryString["companyId"]" class="btn btn-primary">New Voucher</a>
-        </li>
+        <li class="active"><a href="#">Voucher Status</a></li>
     </ol>
 </section>
 
@@ -50,45 +56,34 @@
                                     @Html.HiddenFor(model => model.CompanyId, new { id = "CompanyId" })
 
                                     <div class="row">
-                                        @*<div class="col-md-2">
-
-                                                <div class="form-group">
-                                                    @Html.RadioButtonFor(m => m.IsSubmit, true) Submitted
-                                                    <br />
-                                                    @Html.RadioButtonFor(m => m.IsSubmit, false) Draft
-                                                </div>
-                                            </div>*@
-
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <div class="form-group">
-                                                <label>Voucher Type</label>
+                                                <label class="form-label">Voucher Type</label>
                                                 @Html.DropDownListFor(model => model.VmVoucherTypeId, Model.VoucherTypesList as SelectList, "==Voucher Type==", new { id = "ddlVoucherTypeId", @class = "form-control", @onchange = "generateVoucherNo()", style = "width:100%" })
                                                 @Html.ValidationMessageFor(model => model.VmVoucherTypeId, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
 
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <div class="form-group">
-                                                @Html.Label("From Date", htmlAttributes: new { @class = "control-label" })
-                                                <br />
-                                                @Html.EditorFor(model => model.StrFromDate, new { htmlAttributes = new { @class = "datepicker", @autocomplete = "off" } })
+                                                <label class="form-label">From Date</label>
+                                                @Html.EditorFor(model => model.StrFromDate, new { htmlAttributes = new { @class = "datepicker w-100l dateCustom", @autocomplete = "off" } })
                                                 @Html.ValidationMessageFor(model => model.StrFromDate, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
 
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                @Html.Label("To Date", htmlAttributes: new { @class = "control-label" })
-                                                <br />
-                                                @Html.EditorFor(model => model.StrToDate, new { htmlAttributes = new { @class = "datepicker", @autocomplete = "off" } })
+                                                <label class="form-label">To Date</label>
+                                                @Html.EditorFor(model => model.StrToDate, new { htmlAttributes = new { @class = "datepicker w-100 dateCustom", @autocomplete = "off" } })
                                                 @Html.ValidationMessageFor(model => model.StrToDate, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
 
-                                        <div class="col-md-1" style="padding: 0px 2px 0px 8px;">
+                                        <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>&nbsp;</label>
-                                                <button type="submit" id="btnSave" class="btn btn-primary btn-block">Show</button>
+                                                <button type="submit" id="btnSave" class="btn btn-primary btn-block">Search</button>
                                             </div>
                                         </div>
                                     </div>
@@ -99,29 +94,15 @@
                                 <div class="table-responsive">
                                     <table id="KgErpDataTable" class="table table-striped">
                                         <thead>
-                                            <tr style="background-color:#32527B;color:#FFFFFF">
-                                                <th>
-                                                    SL
-                                                </th>
-                                                <th>
-                                                    Requisition No
-                                                </th>
-                                                <th>
-                                                    Voucher No
-                                                </th>
-                                                <th>
-                                                    Voucher Date
-                                                </th>
-                                                <th>
-                                                    Posting Date
-                                                </th>
-                                                <th>
-                                                    Narration
-                                                </th>
-                                                <th style="text-align:center;">
-                                                    Approval Status
-                                                </th>
-                                                <th style="width:70px;">Action</th>
+                                            <tr>
+                                                <th style="width: 35px; text-align: center">SL</th>
+                                                <th style="width: 200px; text-align: center">Requisition No</th>
+                                                <th style="width: 115px; text-align: center">Voucher No</th>
+                                                <th style="width: 115px; text-align: center">Voucher Date</th>
+                                                <th style="width: 115px; text-align: center">Posting Date</th>
+                                                <th style="text-align: center">Narration</th>
+                                                <th style="text-align: center">Approval Status</th>
+                                                <th style="width: 70px; text-align: center">Action</th>
                                             </tr>
                                         </thead>
                                         @{int sl = 0;
@@ -130,7 +111,7 @@
                                             @foreach (var item in Model.DataList)
                                             {
                                                 <tr>
-                                                    <td>
+                                                    <td style="text-align: center">
                                                         @(++sl)
                                                     </td>
                                                     <td>
@@ -159,62 +140,68 @@
                                                         @Html.Raw(item.Narration)
 
                                                     </td>
-                                                    <td style="text-align:center;">
-                                                        @{
+                                                    @*<td style="text-align:center;">
+                                                            @{
 
-                                                            if (item.ApproverAprrovalStatusId == (int)KGERP.Utility.EnumBillRequisitionStatus.Approved)
-                                                            {
-
-
-                                                                <span class="btn btn-success btn-xs">Approved</span>
-                                                            }
-                                                            else if (item.ApproverAprrovalStatusId == (int)KGERP.Utility.EnumBillRequisitionStatus.Rejected)
-                                                            {
-                                                                <span class="btn btn-danger btn-xs"> @item.ApproverAprrovalStatusName</span>
-                                                            }
-                                                            else
-                                                            {
-                                                                if (item.CheckerAprrovalStatusId == (int)KGERP.Utility.EnumBillRequisitionStatus.Pending)
+                                                                if (item.ApproverAprrovalStatusId == (int)KGERP.Utility.EnumBillRequisitionStatus.Approved)
                                                                 {
-                                                                    <span class="btn btn-warning btn-xs"> @item.CheckerAprrovalStatusName at  Checker</span>
 
+
+                                                                    <span class="btn btn-success btn-xs">Approved</span>
                                                                 }
-                                                                else if (item.CheckerAprrovalStatusId == (int)KGERP.Utility.EnumBillRequisitionStatus.Rejected)
+                                                                else if (item.ApproverAprrovalStatusId == (int)KGERP.Utility.EnumBillRequisitionStatus.Rejected)
                                                                 {
-                                                                    <span class="btn btn-danger btn-xs"> @item.CheckerAprrovalStatusName at  Checker</span>
+                                                                    <span class="btn btn-danger btn-xs"> @item.ApproverAprrovalStatusName</span>
                                                                 }
                                                                 else
                                                                 {
-                                                                    <span class="btn btn-primary btn-xs">@item.InitiatorAprrovalStatusName </span>
+                                                                    if (item.CheckerAprrovalStatusId == (int)KGERP.Utility.EnumBillRequisitionStatus.Pending)
+                                                                    {
+                                                                        <span class="btn btn-warning btn-xs"> @item.CheckerAprrovalStatusName at  Checker</span>
+
+                                                                    }
+                                                                    else if (item.CheckerAprrovalStatusId == (int)KGERP.Utility.EnumBillRequisitionStatus.Rejected)
+                                                                    {
+                                                                        <span class="btn btn-danger btn-xs"> @item.CheckerAprrovalStatusName at  Checker</span>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <span class="btn btn-primary btn-xs">@item.InitiatorAprrovalStatusName </span>
+                                                                    }
+
                                                                 }
 
                                                             }
+                                                        </td>*@
+                                                    <td>
 
+                                                        @if (item.AprrovalStatusId == (int)KGERP.Utility.EnumVoucherApprovalStatus.Approved)
+                                                        {
+                                                            <span class="btn btn-success btn-sm" style="display: block">@item.ApproverAprrovalStatusName</span>
                                                         }
-                                                    </td>
-                                                    @*<td>
-                                                            @if (item.ApproverAprrovalStatusId == (int)KGERP.Utility.EnumVoucherApprovalStatus.Submitted)
+                                                        else if (item.AprrovalStatusId == (int)KGERP.Utility.EnumVoucherApprovalStatus.Rejected)
+                                                        {
+                                                            <span class="btn btn-danger btn-sm" style="display: block">@item.ApproverAprrovalStatusName</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            if (item.CheckerAprrovalStatusId == (int)KGERP.Utility.EnumVoucherApprovalStatus.Approved)
                                                             {
-                                                                <span class="btn btn-info btn-sm" style="display: block">@item.ApproverAprrovalStatusName</span>
+                                                                if (item.ApproverAprrovalStatusId == (int)KGERP.Utility.EnumVoucherApprovalStatus.Pending)
+                                                                {
+                                                                    <span class="btn btn-warning btn-sm" style="display: block">@item.ApproverAprrovalStatusName at Approver</span>
+                                                                }
                                                             }
-                                                            else if (item.ApproverAprrovalStatusId == (int)KGERP.Utility.EnumVoucherApprovalStatus.Pending)
+                                                            else if (item.CheckerAprrovalStatusId == (int)KGERP.Utility.EnumVoucherApprovalStatus.Rejected)
                                                             {
-                                                                <span class="btn btn-warning btn-sm" style="display: block">@item.ApproverAprrovalStatusName</span>
-                                                            }
-                                                            else if (item.ApproverAprrovalStatusId == (int)KGERP.Utility.EnumVoucherApprovalStatus.Approved)
-                                                            {
-                                                                <span class="btn btn-success btn-sm" style="display: block">@item.ApproverAprrovalStatusName</span>
-                                                            }
-                                                            else if (item.ApproverAprrovalStatusId == (int)KGERP.Utility.EnumVoucherApprovalStatus.Rejected)
-                                                            {
-                                                                <span class="btn btn-danger btn-sm" style="display: block">@item.ApproverAprrovalStatusName</span>
+                                                                <span class="btn btn-danger btn-sm" style="display: block">@item.ApproverAprrovalStatusName by Checker</span>
                                                             }
                                                             else
                                                             {
-                                                                <span class="btn btn-info btn-sm" style="display: block">@item.ApproverAprrovalStatusName</span>
+                                                                <span class="btn btn-warning btn-sm" style="display: block">@item.ApproverAprrovalStatusName at Checker</span>
                                                             }
-
-                                                        </td>*@
+                                                        }
+                                                    </td>
                                                     <td>
                                                         @if (item.IsStock)
                                                         {
@@ -222,7 +209,7 @@
                                                         }
                                                         else
                                                         {
-                                                            <a href="~/Vouchers/RequisitionVoucherEntry?companyId=@item.CompanyId&voucherId=@item.VoucherId" title="Details"><i class="glyphicon glyphicon-new-window"></i></a>
+                                                            <a href="~/Vouchers/RequisitionVoucherEntry?companyId=@item.CompanyId&voucherId=@item.VoucherId" title="Details"><i class="glyphicon glyphicon-new-window"></i> Action</a>
 
                                                         }
 

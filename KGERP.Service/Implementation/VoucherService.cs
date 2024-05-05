@@ -540,8 +540,6 @@ namespace KGERP.Service.Implementation
         public async Task<VoucherModel> RequisitionVouchersApprovalList(int companyId, DateTime? fromDate, DateTime? toDate, /*bool? vStatus,*/ int? voucherTypeId)
         {
             VoucherModel voucherModel = new VoucherModel();
-            var empId = Convert.ToInt64(System.Web.HttpContext.Current.Session["Id"]);
-
             voucherModel.CompanyId = companyId;
             voucherModel.VoucherTypeId = voucherTypeId;
 
@@ -571,13 +569,13 @@ namespace KGERP.Service.Implementation
                                                               IsSubmit = t1.IsSubmit,
                                                               IsIntegrated = t1.IsIntegrated,
                                                               CostCenterName = t3.Name,
-                                                              ApproverAprrovalStatusId = (int)(t1.ApprovalStatusId == null ? (int)EnumBillRequisitionStatus.Submitted : t1.ApprovalStatusId),
                                                               RequisitionId = t1.BillRequisitionMasterId ?? 0,
                                                               IsRequisitionVoucher = t1.BillRequisitionMasterId == null ? false : true,
                                                               RequisitionNo = t4.BillRequisitionNo ?? "N/A",
-                                                              EmpId = empId,
-
-                                                          }).OrderByDescending(x => x.VoucherId).AsEnumerable());
+                                                              AprrovalStatusId = (int)(t1.ApprovalStatusId == null ? (int)EnumVoucherApprovalStatus.Pending : t1.ApprovalStatusId),
+                                                              CheckerAprrovalStatusId = (int)(t1.CheckerApprovalStatusId == null ? (int)EnumVoucherApprovalStatus.Pending : t1.CheckerApprovalStatusId),
+                                                              ApproverAprrovalStatusId = (int)(t1.ApproverApprovalStatusId == null ? (int)EnumVoucherApprovalStatus.Pending : t1.ApproverApprovalStatusId)
+                                                          }).OrderByDescending(x => x.VoucherId).AsEnumerable()); ; ;
 
             return voucherModel;
         }

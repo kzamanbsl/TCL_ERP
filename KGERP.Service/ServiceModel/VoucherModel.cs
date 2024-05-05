@@ -78,10 +78,11 @@ namespace KGERP.Service.ServiceModel
         public string InitiatorAprrovalStatusName { get { return BaseFunctionalities.GetEnumDescription((EnumBillRequisitionStatus)InitiatorAprrovalStatusId); } }
         public int CheckerAprrovalStatusId { get; set; }
         public string CheckerAprrovalStatusName { get { return BaseFunctionalities.GetEnumDescription((EnumBillRequisitionStatus)CheckerAprrovalStatusId); } }
-
         public int ApproverAprrovalStatusId { get; set; }
         public string ApproverAprrovalStatusName { get { return BaseFunctionalities.GetEnumDescription((EnumBillRequisitionStatus)ApproverAprrovalStatusId); } }
 
+        public int AprrovalStatusId { get; set; }
+        public string AprrovalStatusName { get { return BaseFunctionalities.GetEnumDescription((EnumBillRequisitionStatus)AprrovalStatusId); } }
 
         public SelectList VoucherTypesList { get; set; } = new SelectList(new List<object>());
         public List<SelectModel> VoucherTypes { get; set; }
