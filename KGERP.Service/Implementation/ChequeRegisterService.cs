@@ -229,6 +229,17 @@ namespace KGERP.Service.Implementation
                             sendData = true;
                         }
                     }
+                    else if ((bool)result.IsCancelRequest)
+                    {
+                        result.IsCanceled = true;
+                        result.ModifiedBy = HttpContext.Current.User.Identity.Name;
+                        result.ModifiedOn = DateTime.Now;
+
+                        if (await _context.SaveChangesAsync() > 0)
+                        {
+                            sendData = true;
+                        }
+                    }
                 }
             }
 
@@ -807,7 +818,7 @@ namespace KGERP.Service.Implementation
                         productForAssets.ModifiedBy = data.CreatedBy;
                         productForAssets.ModifiedOn = DateTime.Now;
                         _context.SaveChanges();
-;                        sendData = true;
+                        ; sendData = true;
                     }
                 }
             }

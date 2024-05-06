@@ -258,9 +258,18 @@
                                                         }
                                                         else
                                                         {
-                                                            <center class="btn btn-xs btn-warning text-center d-block disabled" style="padding-left: 7px; padding-right: 7px;" id="showToHide_@item.ChequeRegisterId" title="Disabled">
-                                                                Unsign
-                                                            </center>
+                                                            if (!item.IsSigned)
+                                                            {
+                                                                <center class="btn btn-xs btn-warning text-center d-block disabled" style="padding-left: 7px; padding-right: 7px;" id="showToHide_@item.ChequeRegisterId" title="Disabled">
+                                                                    Unsign
+                                                                </center>
+                                                            }
+                                                            else
+                                                            {
+                                                                <center class="btn btn-xs btn-success text-center d-block disabled" style="padding-left: 7px; padding-right: 7px;" id="showToHide_@item.ChequeRegisterId" title="Disabled">
+                                                                    Signed
+                                                                </center>
+                                                            }
                                                         }
                                                     </td>
                                                     <td>
@@ -284,9 +293,9 @@
                                                         }
                                                         else
                                                         {
-                                                            if (item.IsCancelRequest)
+                                                            if (item.IsCancelRequest && !item.IsCanceled)
                                                             {
-                                                                <center class="btn btn-xs btn-danger text-center d-block" style="padding-left: 7px; padding-right: 7px;" id="showToHideCancel_@item.ChequeRegisterId" onclick="ChequeCancel('@item.ChequeRegisterId')">
+                                                                <center class="btn btn-xs btn-danger text-center d-block" style="padding-left: 7px; padding-right: 7px;" id="showToHideCancel_@item.ChequeRegisterId" onclick="SignedChequeCancel('@item.ChequeRegisterId')">
                                                                     Cancel
                                                                 </center>
                                                                 <center class="btn btn-xs btn-danger text-center hidden" style="padding-left: 7px; padding-right: 7px;" id="hideToShowCancel_@item.ChequeRegisterId">
@@ -295,8 +304,8 @@
                                                             }
                                                             else
                                                             {
-                                                                <center class="btn btn-xs btn-danger text-center d-block disabled" style="padding-left: 7px; padding-right: 7px;" id="showToHideCancel_@item.ChequeRegisterId" title="Disabled">
-                                                                    Cancel
+                                                                <center class="btn btn-xs btn-danger text-center d-block" style="padding-left: 7px; padding-right: 7px;" id="showToHideCancel_@item.ChequeRegisterId" title="Disabled">
+                                                                    Canceled
                                                                 </center>
                                                             }
                                                         }
@@ -421,7 +430,6 @@
 
         // Cheue sign cancel
         function ChequeCancel(chequeRegisterId) {
-
             $.ajax({
                 type: "GET",
                 url: "/ChequeRegister/CancelationInfo",
@@ -445,6 +453,53 @@
                 },
             });
 
+            $('#confirmCancelButton').click(function () {
+                $.ajax({
+                    type: "GET",
+                    url: "/ChequeRegister/ChequeCancel",
+                    dataType: "json",
+                    data: { chequeRegisterId: chequeRegisterId },
+                    success: function (data) {
+                        if (data) {
+                            $("#showToHideCancel_" + chequeRegisterId).removeClass("d-block").addClass("hidden");
+                            $("#hideToShowCancel_" + chequeRegisterId).removeClass("hidden").addClass("d-block");
+                            window.location.reload();
+                        }
+                        else {
+                            $('#errorMessage').text("This cheque is already signed!");
+                            $('#confirmationModalErrorMessage').modal('show');
+                        }
+                    }
+                });
+
+                $('#confirmationModalCancel').modal('hide');
+            });
+        }
+
+        // Signed Cheue sign cancel
+        function SignedChequeCancel(chequeRegisterId) {
+            $.ajax({
+                type: "GET",
+                url: "/ChequeRegister/CancelationInfo",
+                dataType: "json",
+                data: { chequeRegisterId: chequeRegisterId },
+                success: function (data) {
+                    console.log(data.RequestedOn);
+                    if (data.IsCancelRequest) {
+                        var requestedDateTime = new Date(data.RequestedOn);
+                        var formattedDateTime = requestedDateTime.toLocaleString();
+
+                        $("#cancelationInfo").removeClass("hidden").addClass("d-block");
+                        $("#requestedBy").text(data.RequestedBy);
+                        $("#requestedOn").text(formattedDateTime);
+                        $("#cancelReason").text(data.CancelReason);
+                    } else {
+                        $("#cancelationInfo").removeClass("d-block").addClass("hidden");
+                    }
+
+                    $('#confirmationModalCancel').modal('show');
+                },
+            });
 
             $('#confirmCancelButton').click(function () {
                 $.ajax({
@@ -468,6 +523,7 @@
                 $('#confirmationModalCancel').modal('hide');
             });
         }
+
     </script>
 }
 
