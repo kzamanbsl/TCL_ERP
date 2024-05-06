@@ -1361,6 +1361,8 @@ namespace KGERP.Service.Implementation.Procurement
             {
                 //vmPurchaseOrderSlave.
             }
+
+            return result;
             
         }
 

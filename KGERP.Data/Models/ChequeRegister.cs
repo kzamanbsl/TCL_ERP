@@ -44,9 +44,9 @@ namespace KGERP.Data.Models
         public virtual BillRequisitionMaster BillRequisitionMaster { get; set; }
         public virtual Vendor Vendor { get; set; }
 
-        public static implicit operator ChequeRegister(ChequeRegister v)
-        {
-            throw new NotImplementedException();
-        }
+        //public static implicit operator ChequeRegister(ChequeRegister v)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }
