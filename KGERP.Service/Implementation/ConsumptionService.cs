@@ -39,6 +39,7 @@ namespace KGERP.Service.Implementation
                 BoqItemId = consumption.BOQItemId,
                 StoreId = consumption?.StockInfoId ?? 0,
                 DivisionId = consumption.BoQDivisionId,
+                StatusId=(int)ConsumptionStatusEnum.Draft,
                 IsActive=true,
                 CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
                 CreatedOn = DateTime.Now

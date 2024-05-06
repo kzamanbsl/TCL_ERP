@@ -523,12 +523,6 @@ namespace KGERP.Controllers
             return View(vmPurchaseOrderSlave);
         }
 
-        [HttpGet]
-        public JsonResult GetMaterialByRequisitionId(int companyId, long requisitionId)
-        {
-            return Json(_billRequisitionService.ApprovedMaterialList(companyId, requisitionId), JsonRequestBehavior.AllowGet);
-        }
-
         [HttpPost]
         public async Task<ActionResult> ProcurementPurchaseOrderSlave(VMPurchaseOrderSlave vmPurchaseOrderSlave)
         {
@@ -548,6 +542,67 @@ namespace KGERP.Controllers
             }
             return RedirectToAction(nameof(ProcurementPurchaseOrderSlave), new { companyId = vmPurchaseOrderSlave.CompanyFK, purchaseOrderId = vmPurchaseOrderSlave.PurchaseOrderId });
         }
+
+        [HttpGet]
+        public async Task<ActionResult> CSProcurementPurchaseOrderSlave(int QuotationMasterId = 0, int QuotationSubmitMasterId = 0 ,int purchaseOrderId = 0)
+        {
+            VMPurchaseOrderSlave vmPurchaseOrderSlave = new VMPurchaseOrderSlave();
+
+            if (purchaseOrderId == 0)
+            {
+                vmPurchaseOrderSlave.CompanyFK = CompanyInfo.CompanyId;
+                vmPurchaseOrderSlave.Status = (int)POStatusEnum.Draft;
+            }
+            else if (purchaseOrderId > 0)
+            {
+                vmPurchaseOrderSlave = await Task.Run(() => _service.ProcurementPurchaseOrderSlaveGet(CompanyInfo.CompanyId, purchaseOrderId));
+
+            }
+            long requisitionId = 0;
+            vmPurchaseOrderSlave.TermNCondition = new SelectList(_service.CommonTermsAndConditionDropDownList(CompanyInfo.CompanyId), "Value", "Text");
+            vmPurchaseOrderSlave.ShippedByList = new SelectList(_service.ShippedByListDropDownList(CompanyInfo.CompanyId), "Value", "Text");
+            vmPurchaseOrderSlave.CountryList = new SelectList(_service.CountriesDropDownList(CompanyInfo.CompanyId), "Value", "Text");
+            vmPurchaseOrderSlave.StockInfoList = _stockInfoService.GetStockInfoSelectModels(CompanyInfo.CompanyId);
+            vmPurchaseOrderSlave.Requisitions = new SelectList(_billRequisitionService.ApprovedRequisitionList(CompanyInfo.CompanyId), "Value", "Text");
+            vmPurchaseOrderSlave.Quotations = new SelectList(await _quotationService.GetQuotationListWithNameAndNo(), "QuotationMasterId", "QuotationNo");
+            vmPurchaseOrderSlave.MaterialItemList = new SelectList(_billRequisitionService.ApprovedMaterialList(CompanyInfo.CompanyId, requisitionId), "ProductId", "ProductName");
+            vmPurchaseOrderSlave.MaterialTypeList = new SelectList(_configurationService.GetAllProductCategoryList(CompanyInfo.CompanyId), "ProductCategoryId", "Name");
+            if (CompanyInfo.CompanyId == (int)CompanyNameEnum.KrishibidSeedLimited)
+            {
+                vmPurchaseOrderSlave.LCList = new SelectList(_service.SeedLCHeadGLList(CompanyInfo.CompanyId), "Value", "Text");
+
+            }
+            return View(vmPurchaseOrderSlave);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CSProcurementPurchaseOrderSlave(VMPurchaseOrderSlave vmPurchaseOrderSlave)
+        {
+
+            if (vmPurchaseOrderSlave.ActionEum == ActionEnum.Add)
+            {
+                if (vmPurchaseOrderSlave.PurchaseOrderId == 0)
+                {
+                    vmPurchaseOrderSlave.PurchaseOrderId = await _service.CSProcurementPurchaseOrderAdd(vmPurchaseOrderSlave);
+                }
+                await _service.ProcurementPurchaseOrderSlaveAdd(vmPurchaseOrderSlave);
+            }
+            else if (vmPurchaseOrderSlave.ActionEum == ActionEnum.Edit)
+            {
+                //Delete
+                await _service.ProcurementPurchaseOrderSlaveEdit(vmPurchaseOrderSlave);
+            }
+            return RedirectToAction(nameof(CSProcurementPurchaseOrderSlave), new { companyId = vmPurchaseOrderSlave.CompanyFK, purchaseOrderId = vmPurchaseOrderSlave.PurchaseOrderId });
+        }
+
+        [HttpGet]
+        public JsonResult GetMaterialByRequisitionId(int companyId, long requisitionId)
+        {
+            return Json(_billRequisitionService.ApprovedMaterialList(companyId, requisitionId), JsonRequestBehavior.AllowGet);
+        }
+
+       
+        
 
         [HttpPost]
         public async Task<ActionResult> DeleteProcurementPurchaseOrderSlave(VMPurchaseOrderSlave vmPurchaseOrderSlave)
