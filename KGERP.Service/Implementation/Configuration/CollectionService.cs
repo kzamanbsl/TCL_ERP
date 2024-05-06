@@ -594,9 +594,9 @@ namespace KGERP.Service.Implementation.Configuration
 
             paymentVm.DataList = await Task.Run(() =>
             (from t1 in _db.Payments
-             join t2 in _db.PaymentMasters on t1.PaymentMasterId equals t2.PaymentMasterId 
-             join t3 in _db.MaterialReceives on t1.PurchaseOrderId equals t3.MaterialReceiveId 
-             join t4 in _db.PurchaseOrders on t3.PurchaseOrderId equals t4.PurchaseOrderId 
+             join t2 in _db.PaymentMasters on t1.PaymentMasterId equals t2.PaymentMasterId
+             join t3 in _db.MaterialReceives on t1.PurchaseOrderId equals t3.MaterialReceiveId
+             join t4 in _db.PurchaseOrders on t3.PurchaseOrderId equals t4.PurchaseOrderId
              where t1.VendorId == supplierId && t1.IsActive && t1.CompanyId == companyId && t1.PaymentMasterId == paymentMasterId
              select new VMPayment
              {
@@ -657,9 +657,30 @@ namespace KGERP.Service.Implementation.Configuration
 
             _db.PaymentMasters.Add(paymentMaster);
 
-            if (await _db.SaveChangesAsync() > 0)
+            if (_db.SaveChanges() > 0)
             {
-                result = paymentMaster.PaymentMasterId;
+                var vendor = _db.Vendors.FirstOrDefault(x => x.VendorId == paymentMaster.VendorId);
+                VoucherPaymentChequeHistory chequeRegisterHistory = new VoucherPaymentChequeHistory
+                {
+                    VendorId = paymentMaster.VendorId,
+                    PaymentId = paymentMaster.PaymentMasterId,
+                    BankAccountInfoId = vmPayment.BankAccountInfoId,
+                    ChequeBookId = vmPayment.ChequeBookId,
+                    ChequeNo = vmPayment.MoneyReceiptNo,
+                    PayTo = vendor.ContactName,
+                    IssueDate = vmPayment.TransactionDate.Date,
+                    IsRegistered = false,
+                    CreatedBy = paymentMaster.CreatedBy,
+                    CreatedOn = DateTime.Now,
+                    IsActive = true
+                };
+
+                _db.VoucherPaymentChequeHistories.Add(chequeRegisterHistory);
+
+                if (await _db.SaveChangesAsync() > 0)
+                {
+                    result = paymentMaster.PaymentMasterId;
+                }
             }
             return result;
         }
@@ -803,7 +824,14 @@ namespace KGERP.Service.Implementation.Configuration
 
                 vmPayment = await Task.Run(() => ProcurementPurchaseOrdersGetByID(model.CompanyId, model.VendorId, model.PaymentMasterId));
 
-                await _accountingService.PaymentPushGCCL(model.CompanyId, vmPayment, (int)GCCLJournalEnum.DebitVoucher);
+                var voucherId = await _accountingService.PaymentPushGCCL(model.CompanyId, vmPayment, (int)GCCLJournalEnum.DebitVoucher);
+
+                if (voucherId > 0)
+                {
+                    VoucherPaymentChequeHistory voucherChequeHistory = _db.VoucherPaymentChequeHistories.FirstOrDefault(x => x.PaymentId == model.PaymentMasterId);
+                    voucherChequeHistory.VoucherId = (int?)voucherId;
+                    _db.SaveChanges();
+                }
 
             }
             //Deposit Adjust started here
@@ -893,9 +921,9 @@ namespace KGERP.Service.Implementation.Configuration
             List<VmTransaction> tempList = new List<VmTransaction>();
             var vendorOpenings = (from t1 in _db.PurchaseOrders
                                   join t2 in _db.Vendors on t1.SupplierId equals t2.VendorId
-                                  join t3 in _db.MaterialReceives on t1.PurchaseOrderId equals  t3.PurchaseOrderId
+                                  join t3 in _db.MaterialReceives on t1.PurchaseOrderId equals t3.PurchaseOrderId
                                   where t1.SupplierId == vmTransaction.VendorFK && t1.IsActive == true && t1.Status == (int)POStatusEnum.Submitted && t1.IsOpening
-                                 && t3.IsActive==true && t3.IsActive==true
+                                 && t3.IsActive == true && t3.IsActive == true
                                   select new VmTransaction
                                   {
                                       PurchaseOrdersId = t1.PurchaseOrderId,
@@ -935,7 +963,7 @@ namespace KGERP.Service.Implementation.Configuration
                              join t2 in _db.PaymentMasters on t1.PaymentMasterId equals t2.PaymentMasterId
                              join t3 in _db.MaterialReceives on t1.PurchaseOrderId equals t3.MaterialReceiveId
                              join t4 in _db.PurchaseOrders on t3.PurchaseOrderId equals t4.PurchaseOrderId
-                            
+
                              where t1.VendorId == vmTransaction.VendorFK && t1.IsActive == true
                              select new VmTransaction
                              {

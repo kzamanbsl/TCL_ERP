@@ -569,60 +569,75 @@ namespace KGERP.Service.Implementation.Accounting
         public async Task<long> VoucherRequisitionMapAdd(VMJournalSlave vmJournalSlave)
         {
             long result = -1;
-            //GetVoucherNo
 
-            try
+            Voucher voucher = new Voucher
             {
-                Voucher voucher = new Voucher
-                {
-                    Narration = vmJournalSlave.Narration,
-                    VoucherNo = vmJournalSlave.VoucherNo,
-                    VoucherStatus = vmJournalSlave.Status,
-                    VoucherTypeId = vmJournalSlave.VoucherTypeId,
-                    ChqDate = vmJournalSlave.ChqDate,
-                    VirtualHeadId = vmJournalSlave.Accounting_BankOrCashId,
-                    ChqNo = vmJournalSlave.ChqNo,
-                    IsStock = vmJournalSlave.IsStock,
-                    Accounting_CostCenterFk = vmJournalSlave.Accounting_CostCenterFK,
-                    ChqName = vmJournalSlave.ChqName,
-                    VoucherDate = vmJournalSlave.Date,
-                    CompanyId = vmJournalSlave.CompanyFK,
-                    BillRequisitionMasterId = vmJournalSlave.RequisitionMaterialId,
-                    CheckerApprovalStatusId = (int)EnumVoucherApprovalStatus.Pending,
-                    ApproverApprovalStatusId = (int)EnumVoucherApprovalStatus.Pending,
-                    CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
-                    CreateDate = DateTime.Now,
-                    IsActive = true,
-                };
-                _db.Vouchers.Add(voucher);
+                Narration = vmJournalSlave.Narration,
+                VoucherNo = vmJournalSlave.VoucherNo,
+                VoucherStatus = vmJournalSlave.Status,
+                VoucherTypeId = vmJournalSlave.VoucherTypeId,
+                ChqDate = vmJournalSlave.ChqDate,
+                VirtualHeadId = vmJournalSlave.Accounting_BankOrCashId,
+                ChqNo = vmJournalSlave.ChqNo,
+                IsStock = vmJournalSlave.IsStock,
+                Accounting_CostCenterFk = vmJournalSlave.Accounting_CostCenterFK,
+                ChqName = vmJournalSlave.ChqName,
+                VoucherDate = vmJournalSlave.Date,
+                CompanyId = vmJournalSlave.CompanyFK,
+                BillRequisitionMasterId = vmJournalSlave.RequisitionMaterialId,
+                CheckerApprovalStatusId = (int)EnumVoucherApprovalStatus.Pending,
+                ApproverApprovalStatusId = (int)EnumVoucherApprovalStatus.Pending,
+                CreatedBy = HttpContext.Current.User.Identity.Name,
+                CreateDate = DateTime.Now,
+                IsActive = true,
+            };
+            _db.Vouchers.Add(voucher);
 
-                using (var scope = _db.Database.BeginTransaction())
+            using (var scope = _db.Database.BeginTransaction())
+            {
+                await _db.SaveChangesAsync();
+                VoucherBRMapMaster voucherBRMapMaster = new VoucherBRMapMaster();
+                if (vmJournalSlave.IsRequisitionVoucher)
                 {
-                    await _db.SaveChangesAsync();
-                    VoucherBRMapMaster voucherBRMapMaster = new VoucherBRMapMaster();
-                    if (vmJournalSlave.IsRequisitionVoucher)
-                    {
-                        voucherBRMapMaster.BillRequsitionMasterId = vmJournalSlave.BillRequisitionId;
-                    }
-                    voucherBRMapMaster.VoucherId = voucher.VoucherId;
-                    voucherBRMapMaster.ApprovalStatusId = (int)EnumBillRequisitionStatus.Draft;
-                    voucherBRMapMaster.CostCenterId = vmJournalSlave.Accounting_CostCenterFK;
-                    voucherBRMapMaster.StatusId = (int)EnumBillRequisitionStatus.Draft;
-                    voucherBRMapMaster.IsRequisitionVoucher = vmJournalSlave.IsRequisitionVoucher;
-                    voucherBRMapMaster.CompanyId = voucher.CompanyId;
-                    voucherBRMapMaster.CreateDate = DateTime.Now;
-                    voucherBRMapMaster.CreatedBy = System.Web.HttpContext.Current.User.Identity.Name;
-                    voucherBRMapMaster.IsActive = true;
-                    _db.VoucherBRMapMasters.Add(voucherBRMapMaster);
-
-                    _db.SaveChanges();
-                    result = voucher.VoucherId;
-                    scope.Commit();
+                    voucherBRMapMaster.BillRequsitionMasterId = vmJournalSlave.BillRequisitionId;
                 }
+                voucherBRMapMaster.VoucherId = voucher.VoucherId;
+                voucherBRMapMaster.ApprovalStatusId = (int)EnumBillRequisitionStatus.Draft;
+                voucherBRMapMaster.CostCenterId = vmJournalSlave.Accounting_CostCenterFK;
+                voucherBRMapMaster.StatusId = (int)EnumBillRequisitionStatus.Draft;
+                voucherBRMapMaster.IsRequisitionVoucher = vmJournalSlave.IsRequisitionVoucher;
+                voucherBRMapMaster.CompanyId = voucher.CompanyId;
+                voucherBRMapMaster.CreateDate = DateTime.Now;
+                voucherBRMapMaster.CreatedBy = voucher.CreatedBy;
+                voucherBRMapMaster.IsActive = true;
+                _db.VoucherBRMapMasters.Add(voucherBRMapMaster);
+
+                _db.SaveChanges();
+                result = voucher.VoucherId;
+                scope.Commit();
             }
-            catch (Exception ex)
+
+            if (vmJournalSlave.VoucherTypeId == (int)VoucherTypeIdDatabaseValue.BankPaymentVoucher)
             {
-                throw;
+                //var vendor = _db.Vendors.FirstOrDefault(x => x.VendorId == vmJournalSlave.VendorId);
+                VoucherPaymentChequeHistory chequeRegisterHistory = new VoucherPaymentChequeHistory
+                {
+                    VendorId = (int)vmJournalSlave.SupplierId,
+                    VoucherId = (int?)voucher.VoucherId,
+                    BankAccountInfoId = (int)vmJournalSlave.BankAccountInfoId,
+                    ChequeBookId = vmJournalSlave.ChequeBookId,
+                    ChequeNo = vmJournalSlave.ChqNo,
+                    PayTo = vmJournalSlave.ChqName,
+                    IssueDate = (DateTime)vmJournalSlave.ChqDate,
+                    IsRegistered = false,
+                    CreatedBy = voucher.CreatedBy,
+                    CreatedOn = DateTime.Now,
+                    IsActive = true
+                };
+
+                _db.VoucherPaymentChequeHistories.Add(chequeRegisterHistory);
+
+                _db.SaveChanges();
             }
 
             return result;

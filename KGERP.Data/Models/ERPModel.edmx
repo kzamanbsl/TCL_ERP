@@ -5766,6 +5766,26 @@ warning 6002: The table/view 'TCLErp_Dev.Erp.RequisitionItemDetail' does not hav
           <Property Name="IsRequisitionVoucher" Type="bit" Nullable="false" />
           <Property Name="Reasons" Type="varchar(max)" />
         </EntityType>
+        <EntityType Name="VoucherPaymentChequeHistory">
+          <Key>
+            <PropertyRef Name="VoucherPaymentChequeHistoryId" />
+          </Key>
+          <Property Name="VoucherPaymentChequeHistoryId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VendorId" Type="int" Nullable="false" />
+          <Property Name="VoucherId" Type="int" />
+          <Property Name="PaymentId" Type="int" />
+          <Property Name="BankAccountInfoId" Type="int" Nullable="false" />
+          <Property Name="ChequeBookId" Type="bigint" Nullable="false" />
+          <Property Name="ChequeNo" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="PayTo" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="IssueDate" Type="date" Nullable="false" />
+          <Property Name="IsRegistered" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="Zone">
           <Key>
             <PropertyRef Name="ZoneId" />
@@ -9510,6 +9530,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
           <EntitySet Name="VoucherBRMapDetail" EntityType="Self.VoucherBRMapDetail" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="VoucherBRMapMaster" EntityType="Self.VoucherBRMapMaster" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="VoucherBRMapMasterApproval" EntityType="Self.VoucherBRMapMasterApproval" Schema="Erp" store:Type="Tables" />
+          <EntitySet Name="VoucherPaymentChequeHistory" EntityType="Self.VoucherPaymentChequeHistory" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="Zone" EntityType="Self.Zone" Schema="Erp" store:Type="Tables" />
           <EntitySet Name="Attendance_Shadow" EntityType="Self.Attendance_Shadow" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -12555,6 +12576,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             <End Role="Voucher" EntitySet="Vouchers" />
             <End Role="VoucherDetail" EntitySet="VoucherDetails" />
           </AssociationSet>
+          <EntitySet Name="VoucherPaymentChequeHistories" EntityType="ERPModel.VoucherPaymentChequeHistory" />
           </EntityContainer>
 				<EntityType Name="AdminPolicy">
 					<Key>
@@ -22568,6 +22590,26 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="VoucherPaymentChequeHistory">
+          <Key>
+            <PropertyRef Name="VoucherPaymentChequeHistoryId" />
+          </Key>
+          <Property Name="VoucherPaymentChequeHistoryId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VendorId" Type="Int32" Nullable="false" />
+          <Property Name="VoucherId" Type="Int32" />
+          <Property Name="PaymentId" Type="Int32" />
+          <Property Name="BankAccountInfoId" Type="Int32" Nullable="false" />
+          <Property Name="ChequeBookId" Type="Int64" Nullable="false" />
+          <Property Name="ChequeNo" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="PayTo" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="IssueDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="IsRegistered" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+        </EntityType>
         </Schema>
 		</edmx:ConceptualModels>
 		<!-- C-S mapping content -->
@@ -28768,6 +28810,27 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
                 <ScalarProperty Name="VoucherTypeId" ColumnName="VoucherTypeId" />
                 <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="VoucherId" ColumnName="VoucherId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VoucherPaymentChequeHistories">
+            <EntityTypeMapping TypeName="ERPModel.VoucherPaymentChequeHistory">
+              <MappingFragment StoreEntitySet="VoucherPaymentChequeHistory">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsRegistered" ColumnName="IsRegistered" />
+                <ScalarProperty Name="IssueDate" ColumnName="IssueDate" />
+                <ScalarProperty Name="PayTo" ColumnName="PayTo" />
+                <ScalarProperty Name="ChequeNo" ColumnName="ChequeNo" />
+                <ScalarProperty Name="ChequeBookId" ColumnName="ChequeBookId" />
+                <ScalarProperty Name="BankAccountInfoId" ColumnName="BankAccountInfoId" />
+                <ScalarProperty Name="PaymentId" ColumnName="PaymentId" />
+                <ScalarProperty Name="VoucherId" ColumnName="VoucherId" />
+                <ScalarProperty Name="VendorId" ColumnName="VendorId" />
+                <ScalarProperty Name="VoucherPaymentChequeHistoryId" ColumnName="VoucherPaymentChequeHistoryId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
