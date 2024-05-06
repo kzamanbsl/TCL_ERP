@@ -1105,6 +1105,23 @@ namespace KGERP.Service.Implementation
 
             if (await _context.SaveChangesAsync() > 0)
             {
+                var chequeRegisterHistory = _context.VoucherPaymentChequeHistories.FirstOrDefault(x => x.VoucherId == voucherModel.VoucherId);
+                var paymentMaster = _context.PaymentMasters.FirstOrDefault(x => x.PaymentMasterId == chequeRegisterHistory.PaymentId);
+                var paymentDetail = _context.Payments.FirstOrDefault(x => x.PaymentMasterId == chequeRegisterHistory.PaymentId);
+
+                ChequeRegister newCheque = new ChequeRegister
+                {
+                    ProjectId = (int)voucherModel.Accounting_CostCenterFk,
+                    SupplierId = chequeRegisterHistory.VendorId,
+                    ChequeBookId = chequeRegisterHistory.ChequeBookId,
+                    PayTo = chequeRegisterHistory.PayTo,
+                    IssueDate = chequeRegisterHistory.IssueDate,
+                    ChequeDate = DateTime.Now.Date,
+                    ChequeNo = int.Parse(chequeRegisterHistory.ChequeNo),
+                    Amount = (decimal)paymentDetail.OutAmount,
+
+                };
+
                 result = voucherModel.VoucherId;
             }
 

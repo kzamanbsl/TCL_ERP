@@ -43,5 +43,10 @@ namespace KGERP.Data.Models
         public virtual Accounting_CostCenter Accounting_CostCenter { get; set; }
         public virtual BillRequisitionMaster BillRequisitionMaster { get; set; }
         public virtual Vendor Vendor { get; set; }
+
+        public static implicit operator ChequeRegister(ChequeRegister v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
