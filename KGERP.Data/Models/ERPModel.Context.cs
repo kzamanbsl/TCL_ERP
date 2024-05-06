@@ -327,6 +327,7 @@ namespace KGERP.Data.Models
         public virtual DbSet<Bank> Banks { get; set; }
         public virtual DbSet<PaymentMaster> PaymentMasters { get; set; }
         public virtual DbSet<Voucher> Vouchers { get; set; }
+        public virtual DbSet<VoucherPaymentChequeHistory> VoucherPaymentChequeHistories { get; set; }
     
         public virtual ObjectResult<GetEmployeeListForTeam_Result> GetEmployeeListForTeam(Nullable<int> companyId)
         {
