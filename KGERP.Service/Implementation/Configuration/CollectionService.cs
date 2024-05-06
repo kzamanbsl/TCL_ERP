@@ -824,7 +824,14 @@ namespace KGERP.Service.Implementation.Configuration
 
                 vmPayment = await Task.Run(() => ProcurementPurchaseOrdersGetByID(model.CompanyId, model.VendorId, model.PaymentMasterId));
 
-                await _accountingService.PaymentPushGCCL(model.CompanyId, vmPayment, (int)GCCLJournalEnum.DebitVoucher);
+                var voucherId = await _accountingService.PaymentPushGCCL(model.CompanyId, vmPayment, (int)GCCLJournalEnum.DebitVoucher);
+
+                if (voucherId > 0)
+                {
+                    VoucherPaymentChequeHistory voucherChequeHistory = _db.VoucherPaymentChequeHistories.FirstOrDefault(x => x.PaymentId == model.PaymentMasterId);
+                    voucherChequeHistory.VoucherId = (int?)voucherId;
+                    _db.SaveChanges();
+                }
 
             }
             //Deposit Adjust started here
