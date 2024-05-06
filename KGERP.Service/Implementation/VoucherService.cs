@@ -1119,10 +1119,23 @@ namespace KGERP.Service.Implementation
                     ChequeDate = DateTime.Now.Date,
                     ChequeNo = int.Parse(chequeRegisterHistory.ChequeNo),
                     Amount = (decimal)paymentDetail.OutAmount,
-
+                    ClearingDate = DateTime.Now.Date,
+                    Remarks = "The cheque is electronically generated.",
+                    IsSigned = false,
+                    HasPDF = false,
+                    CreatedBy = voucherModel.ModifiedBy,
+                    CreatedOn = DateTime.Now,
+                    IsActive = true
                 };
 
-                result = voucherModel.VoucherId;
+                _context.ChequeRegisters.Add(newCheque);
+
+                if (_context.SaveChanges() > 0)
+                {
+                    chequeRegisterHistory.IsRegistered = true;
+                    _context.SaveChanges();
+                    result = voucherModel.VoucherId;
+                }
             }
 
             return result;

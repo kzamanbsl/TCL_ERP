@@ -2,7 +2,7 @@
 @using KGERP.Utility;
 
 @{
-    ViewData["Title"] = "Cheque Genearte";
+    ViewData["Title"] = "Cheque Generate";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     KGERP.Service.ServiceModel.ChequeRegisterModel searchData = TempData["ChequeRegisterModel"] as KGERP.Service.ServiceModel.ChequeRegisterModel;
@@ -31,14 +31,14 @@
 <section class="content-header">
     <h1>
         <span>
-            Cheque Signning
+            Cheque Generate
         </span>
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
         <li class="active">
             <span>
-                Cheque Genearte
+                Cheque Generate
             </span>
         </li>
     </ol>
@@ -99,6 +99,7 @@
                                         <th>Cheque No</th>
                                         <th>Pay To</th>
                                         <th>Amount</th>
+                                        <th>Remarks</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
@@ -128,8 +129,9 @@
                                                     </td>
                                                     <td>@item.IssueDate.ToString("dd-MM-yyyy")</td>
                                                     <td>@item.ChequeNo</td>
-                                                    <td><p style="text-align:left !important;">@item.PayTo</p></td>
+                                                    <td><p style="width: 150px; text-align: left !important;">@item.PayTo</p></td>
                                                     <td><p style="text-align:right !important;">@item.Amount</p></td>
+                                                    <td><p style="width: 200px; text-align:left !important;">@item.Remarks</p></td>
                                                     <td>
                                                         @if (!item.HasPDF)
                                                         {
@@ -189,8 +191,9 @@
                                                     </td>
                                                     <td>@item.IssueDate.ToString("dd-MM-yyyy")</td>
                                                     <td>@item.ChequeNo</td>
-                                                    <td><p style="text-align:left !important;">@item.PayTo</p></td>
+                                                    <td><p style="width: 150px; text-align: left !important;">@item.PayTo</p></td>
                                                     <td><p style="text-align:right !important;">@item.Amount</p></td>
+                                                    <td><p style="width: 200px; text-align:left !important;">@item.Remarks</p></td>
                                                     <td>
                                                         @if (!item.HasPDF)
                                                         {

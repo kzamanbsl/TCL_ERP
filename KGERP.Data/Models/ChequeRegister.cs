@@ -11,7 +11,7 @@ namespace KGERP.Data.Models
 {
     using System;
     using System.Collections.Generic;
-    
+
     public partial class ChequeRegister
     {
         public long ChequeRegisterId { get; set; }
@@ -39,14 +39,10 @@ namespace KGERP.Data.Models
         public string CancelReason { get; set; }
         public string RequestedBy { get; set; }
         public Nullable<System.DateTime> RequestedOn { get; set; }
-    
+
         public virtual Accounting_CostCenter Accounting_CostCenter { get; set; }
         public virtual BillRequisitionMaster BillRequisitionMaster { get; set; }
         public virtual Vendor Vendor { get; set; }
 
-        //public static implicit operator ChequeRegister(ChequeRegister v)
-        //{
-        //    throw new NotImplementedException();
-        //}
     }
 }

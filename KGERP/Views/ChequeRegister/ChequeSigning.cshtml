@@ -99,6 +99,7 @@
                                         <th>Cheque No</th>
                                         <th>Pay To</th>
                                         <th>Amount</th>
+                                        <th>Remarks</th>
                                         <th>Print Count</th>
                                         <th>Cancel Request</th>
                                         <th>Make Sign</th>
@@ -130,8 +131,9 @@
                                                     </td>
                                                     <td>@item.IssueDate.ToString("dd-MM-yyyy")</td>
                                                     <td>@item.ChequeNo</td>
-                                                    <td><p style="text-align:left !important;">@item.PayTo</p></td>
+                                                    <td><p style="width: 150px; text-align: left !important;">@item.PayTo</p></td>
                                                     <td><p style="text-align:right !important;">@item.Amount</p></td>
+                                                    <td><p style="width: 200px; text-align:left !important;">@item.Remarks</p></td>
                                                     <td><p style="text-align:center !important;">@item.PrintCount time(s)</p></td>
                                                     <td>
                                                         @if (item.IsCancelRequest == true)
@@ -221,8 +223,9 @@
                                                     </td>
                                                     <td>@item.IssueDate.ToString("dd-MM-yyyy")</td>
                                                     <td>@item.ChequeNo</td>
-                                                    <td><p style="text-align:left !important;">@item.PayTo</p></td>
+                                                    <td><p style="width: 150px; text-align: left !important;">@item.PayTo</p></td>
                                                     <td><p style="text-align:right !important;">@item.Amount</p></td>
+                                                    <td><p style="width: 200px; text-align:left !important;">@item.Remarks</p></td>
                                                     <td><p style="text-align:center !important;">@item.PrintCount time(s)</p></td>
                                                     <td>
                                                         @if (item.IsCancelRequest == true)

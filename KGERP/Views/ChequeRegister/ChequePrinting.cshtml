@@ -99,6 +99,7 @@
                                         <th>Cheque No</th>
                                         <th>Pay To</th>
                                         <th>Amount</th>
+                                        <th>Remarks</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -127,8 +128,9 @@
                                                     </td>
                                                     <td>@item.IssueDate.ToString("dd-MM-yyyy")</td>
                                                     <td>@item.ChequeNo</td>
-                                                    <td><p style="text-align:left !important;">@item.PayTo</p></td>
+                                                    <td><p style="width: 150px; text-align: left !important;">@item.PayTo</p></td>
                                                     <td><p style="text-align:right !important;">@item.Amount</p></td>
+                                                    <td><p style="width: 200px; text-align:left !important;">@item.Remarks</p></td>
                                                     <td class="text-center">
                                                         <a class="btn btn-xs btn-primary text-center" target="_blank" href="~/Report/ChequeRegisterPrinting?chequeRegisterId=@item.ChequeRegisterId" onclick="ChequePrintCount('@item.ChequeRegisterId')">
                                                             <i class="fa fa-print"></i> Print Here
@@ -160,8 +162,9 @@
                                                     </td>
                                                     <td>@item.IssueDate.ToString("dd-MM-yyyy")</td>
                                                     <td>@item.ChequeNo</td>
-                                                    <td><p style="text-align:left !important;">@item.PayTo</p></td>
+                                                    <td><p style="width: 150px; text-align: left !important;">@item.PayTo</p></td>
                                                     <td><p style="text-align:right !important;">@item.Amount</p></td>
+                                                    <td><p style="width: 200px; text-align:left !important;">@item.Remarks</p></td>
                                                     <td class="text-center">
                                                         <a class="btn btn-xs btn-primary text-center" target="_blank" href="~/Report/ChequeRegisterPrinting?chequeRegisterId=@item.ChequeRegisterId" onclick="ChequePrintCount('@item.ChequeRegisterId')">
                                                             <i class="fa fa-print"></i> Print Here
