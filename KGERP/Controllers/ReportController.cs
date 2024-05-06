@@ -2341,7 +2341,7 @@ namespace KGERP.Controllers
             {
                 model.ProductSubCategoryId = 0;
             }
-            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&StrFromDate={2}&Common_ProductCategoryFk={3}&StrToDate={4}&CompanyId={5}&Common_ProductSubCategoryFk={6}&Common_ProductFK={7}&StockInfoId={7}", model.ReportName, model.ReportType, model.StrFromDate, model.ProductCategoryId, model.StrToDate, model.CompanyId, model.ProductSubCategoryId, model.ProductId, model.StockId);
+            string reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&StrFromDate={2}&Common_ProductCategoryFk={3}&StrToDate={4}&CompanyId={5}&Common_ProductSubCategoryFk={6}&Common_ProductFK={7}&StockInfoId={8}", model.ReportName, model.ReportType, model.StrFromDate, model.ProductCategoryId, model.StrToDate, model.CompanyId, model.ProductSubCategoryId, model.ProductId, model.StockId);
 
             if (model.ReportType.Equals(ReportType.EXCEL))
             {

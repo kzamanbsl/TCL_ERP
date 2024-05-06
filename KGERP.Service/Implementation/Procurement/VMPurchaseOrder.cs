@@ -119,6 +119,8 @@ namespace KGERP.Service.Implementation.Procurement
     public class VMPurchaseOrderSlave : VMPurchaseOrder
     {
         public long PurchaseOrderDetailId { get; set; }
+        public long QuotationSubmitMasterId { get; set; }
+        public long QuotationMasterId { get; set; }
         public int FinishProductBOMId { get; set; }
         public string OrderNo { get; set; }
         public string StyleNo { get; set; }

@@ -1347,6 +1347,21 @@ namespace KGERP.Service.Implementation.Procurement
             {
                 return result;
             }
+        } 
+        public async Task<long> CSProcurementPurchaseOrderAdd(VMPurchaseOrderSlave vmPurchaseOrderSlave)
+        {
+            long result = -1;
+
+            var quationMaster =await  _db.QuotationMasters.AsNoTracking().AsQueryable()
+                            .Where(c => c.QuotationMasterId == vmPurchaseOrderSlave.QuotationMasterId).FirstOrDefaultAsync();
+            var quationSubmitMaster= _db.QuotationSubmitMasters.AsNoTracking().AsQueryable()
+                            .Where(c => c.QuotationSubmitMasterId == vmPurchaseOrderSlave.QuotationSubmitMasterId).FirstOrDefault();
+
+            if (vmPurchaseOrderSlave?.QuotationSubmitMasterId > 0)
+            {
+                //vmPurchaseOrderSlave.
+            }
+            
         }
 
         public async Task<int> PromotionalOfferAdd(VMPromtionalOfferDetail vmPromotionalOfferDetail)

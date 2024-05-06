@@ -234,7 +234,7 @@ namespace KGERP.Utility
     }
     public enum ConsumptionStatusEnum
     {
-        Draft,
+        Draft=1,
         Submitted
     }
     public enum SmSStatusEnum
