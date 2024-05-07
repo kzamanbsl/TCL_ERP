@@ -1290,7 +1290,7 @@ namespace KGERP.Service.Implementation.Procurement
                         CreatedDate = DateTime.Now,
                         IsActive = true,
                         IsOpening = vmPurchaseOrderSlave.IsOpening,
-                        StockInfoId = vmPurchaseOrderSlave.StockInfoId > 0 ? vmPurchaseOrderSlave.StockInfoId : Convert.ToInt32(System.Web.HttpContext.Current.Session["StockInfoId"])
+                        StockInfoId = vmPurchaseOrderSlave.StockInfoId 
                     };
                     _db.PurchaseOrders.Add(procurementPurchaseOrder);
                     if (await _db.SaveChangesAsync() > 0)
@@ -1333,7 +1333,7 @@ namespace KGERP.Service.Implementation.Procurement
                         CreatedDate = DateTime.Now,
                         IsActive = true,
                         IsOpening = vmPurchaseOrderSlave.IsOpening,
-                        StockInfoId = vmPurchaseOrderSlave.StockInfoId > 0 ? vmPurchaseOrderSlave.StockInfoId : Convert.ToInt32(System.Web.HttpContext.Current.Session["StockInfoId"])
+                        StockInfoId = vmPurchaseOrderSlave.StockInfoId 
                     };
                     _db.PurchaseOrders.Add(procurementPurchaseOrder);
                     if (await _db.SaveChangesAsync() > 0)
@@ -1348,22 +1348,73 @@ namespace KGERP.Service.Implementation.Procurement
                 return result;
             }
         } 
-        public async Task<long> CSProcurementPurchaseOrderAdd(VMPurchaseOrderSlave vmPurchaseOrderSlave)
+        public async Task<long> CSProcurementPurchaseOrderMaster(VMPurchaseOrderSlave vmPurchaseOrderSlave)
         {
             long result = -1;
 
-            var quationMaster =await  _db.QuotationMasters.AsNoTracking().AsQueryable()
-                            .Where(c => c.QuotationMasterId == vmPurchaseOrderSlave.QuotationMasterId).FirstOrDefaultAsync();
-            var quationSubmitMaster= _db.QuotationSubmitMasters.AsNoTracking().AsQueryable()
-                            .Where(c => c.QuotationSubmitMasterId == vmPurchaseOrderSlave.QuotationSubmitMasterId).FirstOrDefault();
-
-            if (vmPurchaseOrderSlave?.QuotationSubmitMasterId > 0)
+            if (vmPurchaseOrderSlave?.QuotationSubmitMasterId <= 0)
             {
-                //vmPurchaseOrderSlave.
+                return result;
             }
 
+            var quationSubmitMaster = _db.QuotationSubmitMasters.AsNoTracking().AsQueryable()
+                            .Where(c => c.QuotationSubmitMasterId == vmPurchaseOrderSlave.QuotationSubmitMasterId).FirstOrDefault();
+
+            if (quationSubmitMaster!=null)
+            {
+                vmPurchaseOrderSlave.Common_SupplierFK = quationSubmitMaster.SupplierId;
+                vmPurchaseOrderSlave.WorkOrderFor = (int)EnumWorkOrderFor.Quotation;
+                result = await ProcurementPurchaseOrderAdd(vmPurchaseOrderSlave);
+            }
+           
             return result;
             
+        }
+        public async Task<long> CSProcurementPurchaseOrderDetail(VMPurchaseOrderSlave vmPurchaseOrderSlave)
+        {
+            long result = -1;
+
+            var dataList = _db.QuotationSubmitDetails.AsNoTracking().AsQueryable()
+                       .Where(c => c.QuotationSubmitMasterId == vmPurchaseOrderSlave.QuotationSubmitMasterId).ToList();
+            if(!dataList.Any())
+            {
+                return result;
+            }
+            var purchaseOrderDetailList = new List<PurchaseOrderDetail>();
+
+            foreach(var data in dataList)
+            {
+                var detailObject = new PurchaseOrderDetail()
+                {
+                  
+                    PurchaseOrderId = vmPurchaseOrderSlave.PurchaseOrderId,
+                    ProductId = data.MaterrialId,
+                    PurchaseQty = data.Quantity,
+                    PurchaseRate = data.UnitPrice,
+                    PurchaseAmount = (data.Quantity * data.UnitPrice),
+                    DemandRate = 0,
+                    QCRate = 0,
+                    CompanyId = vmPurchaseOrderSlave.CompanyFK,
+                    CreatedBy = System.Web.HttpContext.Current.Session["EmployeeName"].ToString(),
+                    CreatedDate = DateTime.Now,
+                    IsActive = true,
+                };
+                purchaseOrderDetailList.Add(detailObject);
+            }
+
+            try
+            {
+                _db.PurchaseOrderDetails.AddRange(purchaseOrderDetailList);
+                _db.SaveChanges();
+                result = purchaseOrderDetailList.LastOrDefault().PurchaseOrderDetailId;
+            }
+            catch
+            {
+
+            }
+
+
+            return result;
         }
 
         public async Task<int> PromotionalOfferAdd(VMPromtionalOfferDetail vmPromotionalOfferDetail)
@@ -1424,6 +1475,7 @@ namespace KGERP.Service.Implementation.Procurement
             procurementPurchaseOrder.SupplierId = vmPurchaseOrder.Common_SupplierFK;
             procurementPurchaseOrder.DeliveryDate = vmPurchaseOrder.DeliveryDate;
             procurementPurchaseOrder.SupplierPaymentMethodEnumFK = vmPurchaseOrder.SupplierPaymentMethodEnumFK;
+            if(vmPurchaseOrder.StockInfoId>0) procurementPurchaseOrder.StockInfoId = vmPurchaseOrder.StockInfoId;
             procurementPurchaseOrder.DeliveryAddress = vmPurchaseOrder.DeliveryAddress;
             procurementPurchaseOrder.Remarks = vmPurchaseOrder.Remarks;
             procurementPurchaseOrder.TermsAndCondition = vmPurchaseOrder.TermsAndCondition;
@@ -1978,7 +2030,7 @@ namespace KGERP.Service.Implementation.Procurement
                                                              CreatedBy = t1.CreatedBy,
                                                              Companylogo = t3.CompanyLogo,
                                                              StockInfoId = t1.StockInfoId,
-                                                             StockInfoName = t6.Name
+                                                             StockInfoName = t6.Name,
 
                                                          }).FirstOrDefault());
 
