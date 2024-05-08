@@ -1011,7 +1011,7 @@ namespace KGERP.Service.Implementation
             bool result = false;
             if (boqItemId > 0 && materialId > 0)
             {
-                if (await _context.BoQItemProductMaps.FirstOrDefaultAsync(x => x.BoQItemId == boqItemId && x.ProductId == materialId) != null)
+                if (await _context.BoQItemProductMaps.FirstOrDefaultAsync(x => x.BoQItemId == boqItemId && x.ProductId == materialId && x.IsActive) != null)
                 {
                     result = true;
                 }
