@@ -584,7 +584,7 @@ namespace KGERP.Service.Implementation.Accounting
                 ChqName = vmJournalSlave.ChqName,
                 VoucherDate = vmJournalSlave.Date,
                 CompanyId = vmJournalSlave.CompanyFK,
-                BillRequisitionMasterId = vmJournalSlave.RequisitionMaterialId,
+                BillRequisitionMasterId = vmJournalSlave.BillRequisitionId,
                 CheckerApprovalStatusId = (int)EnumVoucherApprovalStatus.Pending,
                 ApproverApprovalStatusId = (int)EnumVoucherApprovalStatus.Pending,
                 CreatedBy = HttpContext.Current.User.Identity.Name,

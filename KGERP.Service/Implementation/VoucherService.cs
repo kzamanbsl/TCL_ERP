@@ -938,6 +938,13 @@ namespace KGERP.Service.Implementation
                                                    join t4 in _context.Accounting_CostCenter on t1.Accounting_CostCenterFk equals t4.CostCenterId
                                                    join t5 in _context.BillRequisitionMasters on t1.BillRequisitionMasterId equals t5.BillRequisitionMasterId into t5_Join
                                                    from t5 in t5_Join.DefaultIfEmpty()
+                                                   join t6 in _context.BillRequisitionApprovals
+                                                   .Where(x => x.SignatoryId == (int)EnumBRequisitionSignatory.MD) on t5.BillRequisitionMasterId equals t6.BillRequisitionMasterId into t6_Join
+                                                   from t6 in t6_Join.DefaultIfEmpty()
+                                                   join t7 in _context.Employees on t5.CreatedBy equals t7.EmployeeId into t7_ReqInitiator
+                                                   from t7 in t7_ReqInitiator.DefaultIfEmpty()
+                                                   join t8 in _context.Employees on t1.CreatedBy equals t8.EmployeeId into t8_Join
+                                                   from t8 in t8_Join.DefaultIfEmpty()
                                                    select new VMJournalSlave
                                                    {
                                                        VoucherId = t1.VoucherId,
@@ -953,9 +960,10 @@ namespace KGERP.Service.Implementation
                                                        ChqNo = t1.ChqNo,
                                                        Accounting_CostCenterFK = t1.Accounting_CostCenterFk,
                                                        Accounting_BankOrCashId = t1.VirtualHeadId,
-                                                       CreatedBy = t1.CreatedBy,
+                                                       CreatedBy = t1.CreatedBy + " - " + t8.Name,
                                                        IsSubmit = t1.IsSubmit,
                                                        RequisitionId = t1.BillRequisitionMasterId ?? 0,
+                                                       RequisitionInitiator = t5.CreatedBy + " - " + t7.Name,
                                                        IsRequisitionVoucher = t1.BillRequisitionMasterId == null ? false : true,
                                                        RequisitionNo = t5.BillRequisitionNo ?? "N/A",
                                                        AprrovalStatusId = (int)(t1.ApprovalStatusId == null ? (int)EnumVoucherApprovalStatus.Pending : t1.ApprovalStatusId),

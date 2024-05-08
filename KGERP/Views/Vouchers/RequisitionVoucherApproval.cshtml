@@ -58,71 +58,49 @@
                         @if (Model.VoucherId > 0)
                         {
                             <div class="row">
-
                                 <div class="col-md-1"> </div>
                                 <div class="col-md-10">
                                     <table class="table">
                                         <tr>
-                                            <th style="width:18%">
-                                                Voucher No
-                                            </th>
+                                            <th style="width:18%">Voucher No</th>
                                             <th style="width:2%">:</th>
-                                            <td style="width:30%">
-                                                @Model.VoucherNo
-                                            </td>
-                                            <th style="width:18%"> Voucher Date</th>
+                                            <td style="width:30%"> @Model.VoucherNo</td>
+                                            <th style="width:18%">Voucher Date</th>
                                             <th style="width:2%">:</th>
-                                            <td style="width:30%">@Model.Date</td>
+                                            <td style="width:30%">@Model.Date.Value.ToString("dd/MM/yyyy")</td>
                                         </tr>
                                         <tr>
-                                            <th style="width:18%">
-                                                Cheque No & Name
-                                            </th>
+                                            <th style="width:18%">Cheque No & Name</th>
                                             <th style="width:2%">:</th>
-                                            <td style="width:30%">
-                                                @Model.ChqNo @Model.ChqName
-                                            </td>
-                                            <th style="width:18%"> Cheque Date</th>
+                                            <td style="width:30%">@Model.ChqNo @Model.ChqName</td>
+                                            <th style="width:18%">Cheque Date</th>
                                             <th style="width:2%">:</th>
                                             <td style="width:30%">@Model.ChqDate</td>
                                         </tr>
                                         <tr>
-                                            <th style="width:18%">
-                                                Cost Center
-                                            </th>
+                                            <th style="width:18%">Cost Center</th>
                                             <th style="width:2%">:</th>
-                                            <td style="width:30%">
-                                                @Model.Accounting_CostCenterName
-                                            </td>
-                                            <th style="width:18%"> Bank/Cash</th>
+                                            <td style="width:30%">@Model.Accounting_CostCenterName</td>
+                                            <th style="width:18%">Payment Method</th>
                                             <th style="width:2%">:</th>
                                             <td style="width:30%">@Model.BankOrCashNane</td>
                                         </tr>
                                         <tr>
-                                            <th style="width:18%">
-                                                Requisition No
-                                            </th>
+                                            <th style="width:18%">Requisition No</th>
                                             <th style="width:2%">:</th>
-                                            <td style="width:30%">
-                                                @Model.RequisitionNo
-                                            </td>
+                                            <td style="width:30%">@Model.RequisitionNo</td>
                                             <th style="width:18%"> Requisition Initiator</th>
                                             <th style="width:2%">:</th>
                                             <td style="width:30%">@Model.RequisitionInitiator</td>
                                         </tr>
                                         <tr>
-                                            <th style="width:18%">
-                                                Narration
-                                            </th>
+                                            <th style="width:18%">Narration</th>
                                             <th style="width:2%">:</th>
-                                            <td style="width:30%">
-                                                @Html.Raw(Model.Narration)
-                                            </td>
+                                            <td style="width:30%">@Html.Raw(Model.Narration)</td>
                                             <th style="width:18%">Created By</th>
                                             <th style="width:2%">:</th>
                                             <td style="width:30%">@Model.CreatedBy</td>
                                         </tr>
-
                                     </table>
                                 </div>
                                 <div class="col-md-1"> </div>
