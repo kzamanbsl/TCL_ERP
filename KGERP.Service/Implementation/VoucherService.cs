@@ -1114,9 +1114,19 @@ namespace KGERP.Service.Implementation
 
             if (await _context.SaveChangesAsync() > 0)
             {
+                decimal payAmount = 0;
                 var chequeRegisterHistory = _context.VoucherPaymentChequeHistories.FirstOrDefault(x => x.VoucherId == voucherModel.VoucherId);
-                var paymentMaster = _context.PaymentMasters.FirstOrDefault(x => x.PaymentMasterId == chequeRegisterHistory.PaymentId);
-                var paymentDetail = _context.Payments.FirstOrDefault(x => x.PaymentMasterId == chequeRegisterHistory.PaymentId);
+                if (chequeRegisterHistory.PaymentId != null)
+                {
+                    var paymentMaster = _context.PaymentMasters.FirstOrDefault(x => x.PaymentMasterId == chequeRegisterHistory.PaymentId);
+                    var paymentDetail = _context.Payments.FirstOrDefault(x => x.PaymentMasterId == chequeRegisterHistory.PaymentId);
+                    payAmount = (decimal)paymentDetail.OutAmount;
+                }
+                else
+                {
+                    var voucherDetail = _context.VoucherDetails.Where(x => x.VoucherId == voucherModel.VoucherId);
+                    payAmount = (decimal)voucherDetail.Sum(x => x.DebitAmount);
+                }
 
                 ChequeRegister newCheque = new ChequeRegister
                 {
@@ -1127,7 +1137,7 @@ namespace KGERP.Service.Implementation
                     IssueDate = chequeRegisterHistory.IssueDate,
                     ChequeDate = DateTime.Now.Date,
                     ChequeNo = int.Parse(chequeRegisterHistory.ChequeNo),
-                    Amount = (decimal)paymentDetail.OutAmount,
+                    Amount = payAmount,
                     ClearingDate = DateTime.Now.Date,
                     Remarks = "The cheque is electronically generated.",
                     IsSigned = false,
@@ -1143,7 +1153,18 @@ namespace KGERP.Service.Implementation
                 {
                     chequeRegisterHistory.IsRegistered = true;
                     _context.SaveChanges();
-                    result = voucherModel.VoucherId;
+
+                    if (chequeRegisterHistory.IsRegistered)
+                    {
+                        var chequeBook = _context.ChequeBooks.FirstOrDefault(x => x.UsedBookPage == newCheque.ChequeBookId);
+
+                        if (chequeBook != null)
+                        {
+                            chequeBook.UsedBookPage = ++chequeBook.UsedBookPage;
+                            _context.SaveChanges();
+                            result = voucherModel.VoucherId;
+                        }
+                    }
                 }
             }
 
