@@ -1134,14 +1134,16 @@ namespace KGERP.Service.Implementation
                     SupplierId = chequeRegisterHistory.VendorId,
                     ChequeBookId = chequeRegisterHistory.ChequeBookId,
                     PayTo = chequeRegisterHistory.PayTo,
-                    IssueDate = chequeRegisterHistory.IssueDate,
-                    ChequeDate = DateTime.Now.Date,
+                    ChequeDate = chequeRegisterHistory.IssueDate,
+                    IssueDate = DateTime.Now.Date,
                     ChequeNo = int.Parse(chequeRegisterHistory.ChequeNo),
                     Amount = payAmount,
                     ClearingDate = DateTime.Now.Date,
                     Remarks = "The cheque is electronically generated.",
                     IsSigned = false,
                     HasPDF = false,
+                    IsCanceled = false,
+                    IsCancelRequest = false,
                     CreatedBy = voucherModel.ModifiedBy,
                     CreatedOn = DateTime.Now,
                     IsActive = true
@@ -1156,7 +1158,7 @@ namespace KGERP.Service.Implementation
 
                     if (chequeRegisterHistory.IsRegistered)
                     {
-                        var chequeBook = _context.ChequeBooks.FirstOrDefault(x => x.UsedBookPage == newCheque.ChequeBookId);
+                        var chequeBook = _context.ChequeBooks.FirstOrDefault(x => x.ChequeBookId == newCheque.ChequeBookId);
 
                         if (chequeBook != null)
                         {
