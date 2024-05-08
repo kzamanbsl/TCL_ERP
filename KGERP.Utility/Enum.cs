@@ -165,6 +165,13 @@ namespace KGERP.Utility
         Road,
         Runway,
     }
+
+    public enum MaterialStockReportTypeEnum
+    {
+        Summary = 1,
+        [Display(Name ="Date Wise")]
+        DateWise
+    }
     public enum FLatCompletionStatusEnum
     {
         OnGoing = 1,

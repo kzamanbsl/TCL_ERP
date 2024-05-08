@@ -2323,7 +2323,16 @@ namespace KGERP.Controllers
             NetworkCredential nwc = new NetworkCredential(_admin, _password);
             WebClient client = new WebClient();
             client.Credentials = nwc;
-            model.ReportName = CompanyInfo.ReportPrefix + "ProductStockReport";
+
+            if(model.StockReportType== MaterialStockReportTypeEnum.Summary)
+            {
+                model.ReportName = CompanyInfo.ReportPrefix + "ProductStockReport";
+
+            }
+            else if(model.StockReportType == MaterialStockReportTypeEnum.DateWise)
+            {
+                model.ReportName = CompanyInfo.ReportPrefix + "ProductDateWiseStockReport";
+            }
             if (model.StockId == null)
             {
                 model.StockId = 0;

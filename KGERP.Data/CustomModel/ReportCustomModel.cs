@@ -61,6 +61,7 @@ namespace KGERP.Data.CustomModel
         public Nullable<int> CostCenterId { get; set; }
         public Nullable<int> ProjectTypeId { get; set; }
         public Nullable<int> StockId { get; set; }
+        public MaterialStockReportTypeEnum StockReportType { get; set; }
         public Nullable<int> ZoneId { get; set; }
 
         public List<SelectModel> Years { get; set; }

@@ -17,7 +17,7 @@
             @Html.Label("From Date", htmlAttributes: new { @class = "control-label" })
             <br />
             <div style="display:flex">
-                @Html.EditorFor(model => model.StrFromDate, new { htmlAttributes = new { @class = "datepicker form-control", @autocomplete = "off", @style = "width: 100%;" } })
+                @Html.EditorFor(model => model.StrFromDate, new { htmlAttributes = new { @class = "datepicker form-control", @autocomplete = "off", @style = "width: 100%;", @required= "required" } })
             </div>
             @Html.ValidationMessageFor(model => model.FromDate, "", new { @class = "text-danger" })
 
@@ -43,6 +43,21 @@
             <div class="form-group">
                 <label>Stock</label>
                 @Html.DropDownListFor(model => model.StockId, Model.Stocklist as SelectList, "==Select Stock==", new { id = "ddlStockInfoId", @class = "form-control searchingDropdown", style = "width:100%" })
+                @Html.ValidationMessageFor(model => model.StockId, "", new { @class = "text-danger" })
+            </div>
+        </div> 
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Report Type</label>
+                
+                @Html.DropDownListFor(model => model.StockReportType,new SelectList( Enum.GetValues(typeof(KGERP.Utility.MaterialStockReportTypeEnum))
+                       .Cast<KGERP.Utility.MaterialStockReportTypeEnum>()
+                       .Select(e => new SelectListItem
+                       {
+                           Text = e.ToString(),
+                           Value = ((int)e).ToString()
+                       }), "Value", "Text")
+                        , "==Select Stock==", new { id = "ddlStockInfoId", @class = "form-control searchingDropdown", style = "width:100%" })
                 @Html.ValidationMessageFor(model => model.StockId, "", new { @class = "text-danger" })
             </div>
         </div>
