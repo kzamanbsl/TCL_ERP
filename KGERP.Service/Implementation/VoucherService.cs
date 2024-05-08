@@ -963,6 +963,7 @@ namespace KGERP.Service.Implementation
                                                        CreatedBy = t1.CreatedBy + " - " + t8.Name,
                                                        IsSubmit = t1.IsSubmit,
                                                        RequisitionId = t1.BillRequisitionMasterId ?? 0,
+                                                       BankOrCashNane = t6.PaymentMethod,
                                                        RequisitionInitiator = t5.CreatedBy + " - " + t7.Name,
                                                        IsRequisitionVoucher = t1.BillRequisitionMasterId == null ? false : true,
                                                        RequisitionNo = t5.BillRequisitionNo ?? "N/A",
