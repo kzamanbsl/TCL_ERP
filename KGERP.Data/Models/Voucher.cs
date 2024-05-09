@@ -53,6 +53,9 @@ namespace KGERP.Data.Models
         public Nullable<int> ApproverApprovalStatusId { get; set; }
         public string ApproverApprovedBy { get; set; }
         public Nullable<System.DateTime> ApproverApprovedOn { get; set; }
+        public Nullable<long> ChequeRegisterId { get; set; }
+        public string CheckerRemarks { get; set; }
+        public string ApprovarRemarks { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BillRequisitionVoucherMap> BillRequisitionVoucherMaps { get; set; }

@@ -1097,74 +1097,106 @@ namespace KGERP.Service.Implementation
             {
                 voucherModel.ApproverApprovalStatusId = (int)EnumVoucherApprovalStatus.Rejected;
                 voucherModel.ApprovalStatusId = (int)EnumVoucherApprovalStatus.Rejected;
-                //voucherModel.ApproverRemarks = vmJournalSlave.Reason;
+                voucherModel.ApprovarRemarks = vmJournalSlave.Reason;
+                voucherModel.ApproverApprovedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                voucherModel.ApproverApprovedOn = DateTime.Now;
+                voucherModel.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                voucherModel.ModifiedDate = DateTime.Now;
+
+                if (await _context.SaveChangesAsync() > 0)
+                {
+                    result = voucherModel.VoucherId;
+                }
             }
-            else
+
+            if (vmJournalSlave.ActionId == (int)ActionEnum.Approve)
             {
                 voucherModel.ApproverApprovalStatusId = (int)EnumVoucherApprovalStatus.Approved;
                 voucherModel.ApprovalStatusId = (int)EnumVoucherApprovalStatus.Approved;
-            }
+                voucherModel.ApprovarRemarks = vmJournalSlave.Reason;
+                voucherModel.ApproverApprovedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                voucherModel.ApproverApprovedOn = DateTime.Now;
+                voucherModel.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
+                voucherModel.ModifiedDate = DateTime.Now;
 
-            voucherModel.ApproverApprovedBy = System.Web.HttpContext.Current.User.Identity.Name;
-            voucherModel.ApproverApprovedOn = DateTime.Now;
-
-            voucherModel.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
-            voucherModel.ModifiedDate = DateTime.Now;
-
-
-            if (await _context.SaveChangesAsync() > 0)
-            {
-                decimal payAmount = 0;
-                var chequeRegisterHistory = _context.VoucherPaymentChequeHistories.FirstOrDefault(x => x.VoucherId == voucherModel.VoucherId);
-                if (chequeRegisterHistory.PaymentId != null)
+                if (await _context.SaveChangesAsync() > 0)
                 {
-                    var paymentMaster = _context.PaymentMasters.FirstOrDefault(x => x.PaymentMasterId == chequeRegisterHistory.PaymentId);
-                    var paymentDetail = _context.Payments.FirstOrDefault(x => x.PaymentMasterId == chequeRegisterHistory.PaymentId);
-                    payAmount = (decimal)paymentDetail.OutAmount;
-                }
-                else
-                {
-                    var voucherDetail = _context.VoucherDetails.Where(x => x.VoucherId == voucherModel.VoucherId);
-                    payAmount = (decimal)voucherDetail.Sum(x => x.DebitAmount);
-                }
-
-                ChequeRegister newCheque = new ChequeRegister
-                {
-                    ProjectId = (int)voucherModel.Accounting_CostCenterFk,
-                    SupplierId = chequeRegisterHistory.VendorId,
-                    ChequeBookId = chequeRegisterHistory.ChequeBookId,
-                    PayTo = chequeRegisterHistory.PayTo,
-                    ChequeDate = chequeRegisterHistory.IssueDate,
-                    IssueDate = DateTime.Now.Date,
-                    ChequeNo = int.Parse(chequeRegisterHistory.ChequeNo),
-                    Amount = payAmount,
-                    ClearingDate = DateTime.Now.Date,
-                    Remarks = "The cheque is electronically generated.",
-                    IsSigned = false,
-                    HasPDF = false,
-                    IsCanceled = false,
-                    IsCancelRequest = false,
-                    CreatedBy = voucherModel.ModifiedBy,
-                    CreatedOn = DateTime.Now,
-                    IsActive = true
-                };
-
-                _context.ChequeRegisters.Add(newCheque);
-
-                if (_context.SaveChanges() > 0)
-                {
-                    chequeRegisterHistory.IsRegistered = true;
-                    _context.SaveChanges();
-
-                    if (chequeRegisterHistory.IsRegistered)
+                    decimal payAmount = 0;
+                    var chequeRegisterHistory = _context.VoucherPaymentChequeHistories.FirstOrDefault(x => x.VoucherId == voucherModel.VoucherId);
+                    if (chequeRegisterHistory.PaymentId != null)
                     {
-                        var chequeBook = _context.ChequeBooks.FirstOrDefault(x => x.ChequeBookId == newCheque.ChequeBookId);
+                        var paymentMaster = _context.PaymentMasters.FirstOrDefault(x => x.PaymentMasterId == chequeRegisterHistory.PaymentId);
+                        var paymentDetail = _context.Payments.FirstOrDefault(x => x.PaymentMasterId == chequeRegisterHistory.PaymentId);
+                        payAmount = (decimal)paymentDetail.OutAmount;
+                    }
+                    else
+                    {
+                        var voucherDetail = _context.VoucherDetails.Where(x => x.VoucherId == voucherModel.VoucherId);
+                        payAmount = (decimal)voucherDetail.Sum(x => x.DebitAmount);
+                    }
 
-                        if (chequeBook != null)
+                    ChequeRegister newCheque = new ChequeRegister();
+
+                    if (voucherModel.BillRequisitionMasterId > 0)
+                    {
+                        newCheque.ProjectId = (int)voucherModel.Accounting_CostCenterFk;
+                        newCheque.RequisitionMasterId = voucherModel.BillRequisitionMasterId;
+                        newCheque.SupplierId = chequeRegisterHistory.VendorId;
+                        newCheque.ChequeBookId = chequeRegisterHistory.ChequeBookId;
+                        newCheque.PayTo = chequeRegisterHistory.PayTo;
+                        newCheque.ChequeDate = chequeRegisterHistory.IssueDate;
+                        newCheque.IssueDate = DateTime.Now.Date;
+                        newCheque.ChequeNo = int.Parse(chequeRegisterHistory.ChequeNo);
+                        newCheque.Amount = payAmount;
+                        newCheque.ClearingDate = DateTime.Now.Date;
+                        newCheque.Remarks = "The cheque is electronically generated.";
+                        newCheque.IsSigned = false;
+                        newCheque.HasPDF = false;
+                        newCheque.IsCanceled = false;
+                        newCheque.IsCancelRequest = false;
+                        newCheque.CreatedBy = voucherModel.ModifiedBy;
+                        newCheque.CreatedOn = DateTime.Now;
+                        newCheque.IsActive = true;
+                    }
+                    else
+                    {
+                        newCheque.ProjectId = (int)voucherModel.Accounting_CostCenterFk;
+                        newCheque.SupplierId = chequeRegisterHistory.VendorId;
+                        newCheque.ChequeBookId = chequeRegisterHistory.ChequeBookId;
+                        newCheque.PayTo = chequeRegisterHistory.PayTo;
+                        newCheque.ChequeDate = chequeRegisterHistory.IssueDate;
+                        newCheque.IssueDate = DateTime.Now.Date;
+                        newCheque.ChequeNo = int.Parse(chequeRegisterHistory.ChequeNo);
+                        newCheque.Amount = payAmount;
+                        newCheque.ClearingDate = DateTime.Now.Date;
+                        newCheque.Remarks = "The cheque is electronically generated.";
+                        newCheque.IsSigned = false;
+                        newCheque.HasPDF = false;
+                        newCheque.IsCanceled = false;
+                        newCheque.IsCancelRequest = false;
+                        newCheque.CreatedBy = voucherModel.ModifiedBy;
+                        newCheque.CreatedOn = DateTime.Now;
+                        newCheque.IsActive = true;
+                    }
+
+                    _context.ChequeRegisters.Add(newCheque);
+
+                    if (_context.SaveChanges() > 0)
+                    {
+                        chequeRegisterHistory.IsRegistered = true;
+                        _context.SaveChanges();
+
+                        if (chequeRegisterHistory.IsRegistered)
                         {
-                            chequeBook.UsedBookPage = ++chequeBook.UsedBookPage;
-                            _context.SaveChanges();
-                            result = voucherModel.VoucherId;
+                            var chequeBook = _context.ChequeBooks.FirstOrDefault(x => x.ChequeBookId == newCheque.ChequeBookId);
+
+                            if (chequeBook != null)
+                            {
+                                chequeBook.UsedBookPage = ++chequeBook.UsedBookPage;
+                                voucherModel.ChequeRegisterId = newCheque.ChequeRegisterId;
+                                _context.SaveChanges();
+                                result = voucherModel.VoucherId;
+                            }
                         }
                     }
                 }
