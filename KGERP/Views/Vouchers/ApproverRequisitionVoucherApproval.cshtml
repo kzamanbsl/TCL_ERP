@@ -319,10 +319,10 @@
         var previousBank = '';
         $(document).ready(function () {
 
-
             $("#txtCredit").click(function () {
                 $(this).select();
             });
+
             $("#txtDebit").click(function () {
                 $(this).select();
             });
@@ -332,21 +332,17 @@
                 $(this).attr('disabled', 'disabled');
                 $(this).val('Processing...');
                 $('#manageBankOrCashFormId').submit();
-
-
             });
+
             $('#approveBtn').click(function () {
 
-                $('#ActionId').val(6);
+                $('#ActionId').val(@((int)ActionEnum.Approve));
             });
             $('#rejectBtn').click(function () {
 
-                $('#rejectActionId').val(8);
+                $('#rejectActionId').val(@((int)ActionEnum.UnApprove));
 
             });
-
-
-
 
             function checkTotal() {
                 var approvedTotal = parseFloat($("#txtApprovedTotal").val());
@@ -395,16 +391,12 @@
                 checkTotal();
             });
 
-            /*showBoQMaterial();*/
         });
-
 
         function makeDeletable(id) {
             if (id !== null) {
                 $('#voucherDetailIdIdDelete').val(id);
                 $('#ActionIdDelete').val(3);
-
-
             }
         }
 
