@@ -47,7 +47,7 @@
                                         @Html.DisplayFor(model => model.DataListSlavePartial[i].PriviousReturnQuantity)
                                     </td>
                                     <td>
-                                        <span>@(Model.DataListSlavePartial[i].ReceivedChallanQuantity - Model.DataListSlavePartial[i].PriviousReturnQuantity)</span>
+                                        <span id="ChallanReturnQuantity">@(Model.DataListSlavePartial[i].ReceivedChallanQuantity - Model.DataListSlavePartial[i].PriviousReturnQuantity)</span>
                                     </td>
                                     @*<td>
                                             @Html.DisplayFor(model =>model.DataListSlavePartial[i].ReceivedChallanQuantity)
@@ -56,7 +56,9 @@
                                         @Html.HiddenFor(model => model.DataListSlavePartial[i].Procurement_PurchaseOrderSlaveFk)
                                         @Html.HiddenFor(model => model.DataListSlavePartial[i].ProductId)
                                         @Html.HiddenFor(model => model.DataListSlavePartial[i].MaterialRecieveDetailId)
-                                        @Html.TextBoxFor(model => model.DataListSlavePartial[i].ReturnQuantity, new { @class = "form-control" })
+                                        @Html.HiddenFor(model => model.DataListSlavePartial[i].ReceivedChallanQuantity)
+                                        @Html.HiddenFor(model => model.DataListSlavePartial[i].PriviousReturnQuantity)
+                                        @Html.TextBoxFor(model => model.DataListSlavePartial[i].ReturnQuantity, new { @class = "form-control",@id= "returnQuantity" })
                                     </td>
                                     <td>
                                         @Html.DisplayFor(model => model.DataListSlavePartial[i].UnitName)
@@ -96,6 +98,26 @@
 
 
 <script>
+
+   
+        $("#returnQuantity").on('keyup', function () {
+        var challanQty = parseFloat($("#ChallanReturnQuantity").val());
+        var returnQuantity = parseFloat($(this).val());
+
+        if (returnQuantity > challanQty) {
+            $("#btnsave").prop("disabled", true);
+        $(this).val(challanQty);
+        console.log(challanQty);
+        } else {
+            $("#btnsave").prop("disabled", false);
+        }
+    });
+
+
+
+
+
+
     $(document).ready(function () {
 
 

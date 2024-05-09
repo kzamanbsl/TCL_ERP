@@ -205,12 +205,12 @@
                                                 <tr>
                                                     <td>@(++sl)</td>
                                                     <td>@item.ProductName</td>
-                                                    <td>@item.UnitName</td>
                                                     <td>@item.ReturnQuantity</td>
+                                                    <td>@item.UnitName</td>
                                                     <td>@item.Rate</td>
                                                     <td>@item.Total</td>
                                                     @*<td>@item.RemainingQuantity</td>
-                                                        <td>@item.StockLossQuantity</td>*@
+        <td>@item.StockLossQuantity</td>*@
                                                     <td hidden="hidden">@item.MaterialReceiveDetailId</td>
                                                 </tr>
                                             }
@@ -294,6 +294,7 @@
                     @Html.HiddenFor(model => model.CompanyFK, new { id = "submitCompanyFK" })
                     @Html.HiddenFor(model => model.PurchaseReturnId, new { id = "submitMaterialReturnId" })
                     @Html.HiddenFor(model => model.ActionId, new { id = "submitActionId" })
+                    @Html.HiddenFor(model => model.DataListSlave, new { id = "dataListSlaveList" })
 
                     <div style="text-align:center">
                         <h3>Are you sure to Confirm this Materail/Item return?</h3>
@@ -314,14 +315,17 @@
 
 
 @section scripts {
-
+    
     <script type="text/javascript">
 
         function makesubmitPurchaseReturnSubmitable(rowId) {
             $("#submitMaterialReturnId").val(rowId)
             $('#submitCompanyFK').val("@Model.CompanyFK");
             $('#submitActionId').val(10);
-        }
+        };
+
+       
+        
 
         $(document).ready(function () {
 

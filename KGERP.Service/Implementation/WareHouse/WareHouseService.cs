@@ -20,7 +20,7 @@ namespace KGERP.Service.Implementation.Warehouse
 {
     public class WarehouseService : IDisposable
     {
-        private  ERPEntities _db;
+        private ERPEntities _db;
         private readonly AccountingService _accountingService;
         private bool disposed = false;
 
@@ -477,7 +477,7 @@ namespace KGERP.Service.Implementation.Warehouse
                                                                               from t7 in t7_join.DefaultIfEmpty()
                                                                               join t8 in _db.Units on t5.UnitId equals t8.UnitId into t8_join
                                                                               from t8 in t8_join.DefaultIfEmpty()
-                                                                              where t1.IsActive && t2.IsActive && t3.IsActive && t5.IsActive 
+                                                                              where t1.IsActive && t2.IsActive && t3.IsActive && t5.IsActive
                                                                               && t3.PurchaseOrderId == id && !t1.IsReturn
 
                                                                               // orderby t1.Time
@@ -868,25 +868,43 @@ namespace KGERP.Service.Implementation.Warehouse
 
             model.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
             model.ModifiedDate = DateTime.Now;
+
+
+            #region Update Material Receive IsReturn
+            var PurchaseDetailIList = _db.PurchaseReturns.AsQueryable().Where(c => c.PurchaseReturnId == vmModel.PurchaseReturnId)
+                                  .Join(_db.PurchaseReturnDetails,
+                                    c => c.PurchaseReturnId,
+                                    d => d.PurchaseReturnId,
+                                    (c, d) => new VMWarehousePOReturnSlave
+                                    {
+                                        MaterialReceiveDetailId = d.MaterialReceiveDetailId,
+                                        PurchaseReturnId = d.PurchaseReturnId,
+                                        ReturnQuantity = d.Qty ?? 0
+                                    }).ToList();
+
+            var materialDetailIIds = PurchaseDetailIList.Select(c => c.MaterialReceiveDetailId);
+
+            var materialDetailList = _db.MaterialReceiveDetails
+                            .AsQueryable()
+                            .Where(c => materialDetailIIds.Contains(c.MaterialReceiveDetailId)).ToList();
+            foreach (var item in PurchaseDetailIList)
+            {
+
+                var receivedqty = materialDetailList.Where(c => c.MaterialReceiveDetailId == item.MaterialReceiveDetailId)
+                                 .Select(c => c.ReceiveQty).Sum();
+                if ((receivedqty >= item.ReturnQuantity))
+                {
+                    materialDetailList.Where(c => c.MaterialReceiveDetailId == item.MaterialReceiveDetailId)
+                                 .FirstOrDefault().IsReturn = true;
+                }
+
+            }
+            #endregion
             if (await _db.SaveChangesAsync() > 0)
             {
                 result = model.PurchaseReturnId;
             }
-            //if (result > 0 && vmModel.CompanyFK == (int)CompanyName.GloriousCropCareLimited)
-            //{
-            //    #region Ready To Account Integration
-            //    VMWarehousePOReceivingSlave AccData = await GCCLPOReturnSlaveACPushGet(vmModel.CompanyFK.Value, vmModel.MaterialReceiveId);
-            //    await _accountingService.AccountingPurchaseReturnPushGCCL(vmModel.CompanyFK.Value, AccData, (int)JournalEnum.PurchaseVoucher);
-            //    #endregion
-            //}
 
-            //if (result > 0 && vmModel.CompanyFK == (int)CompanyName.KrishibidSeedLimited)
-            //{
-            //    #region Ready To Account Integration
-            //    VMWarehousePOReturnSlave AccData = await WarehousePOReturnSlaveGet(vmModel.CompanyFK.Value, vmModel.PurchaseReturnId);
-            //    await _accountingService.AccountingPurchaseReturnPushSeed(vmModel.CompanyFK.Value, AccData, (int)SeedJournalEnum.PurchaseReturnVoucher);
-            //    #endregion
-            //}
 
             return result;
         }
@@ -1059,8 +1077,12 @@ namespace KGERP.Service.Implementation.Warehouse
                 var cosprices = _db.Products.Where(x => returnProductIds.Contains(x.ProductId)).ToList();
                 List<PurchaseReturnDetail> purchaseReturnDetails = new List<PurchaseReturnDetail>();
 
+
+
                 foreach (var item in dataListSlavePartial)
                 {
+                    if (item.ReceivedChallanQuantity < item.ReturnQuantity) continue;
+
 
                     PurchaseReturnDetail detailObj = new PurchaseReturnDetail
                     {
@@ -1073,6 +1095,8 @@ namespace KGERP.Service.Implementation.Warehouse
                         Rate = item.UnitPrice
 
                     };
+
+
                     purchaseReturnDetails.Add(detailObj);
                 }
 
@@ -2157,17 +2181,17 @@ namespace KGERP.Service.Implementation.Warehouse
         }
         public object GetMaterialReceivedPO(int vendorId)
         {
-            var list = (from t1 in _db.MaterialReceives.Where(c=>c.IsSubmitted==true && c.IsActive==true)
+            var list = (from t1 in _db.MaterialReceives.Where(c => c.IsSubmitted == true && c.IsActive == true)
                         join t2 in _db.BillingGeneratedMaps on t1.MaterialReceiveId equals t2.MaterialReceiveId
                         join t3 in _db.PurchaseOrders.
                        Where(x => x.SupplierId == vendorId &&
                          x.IsActive && (x.Status == (int)POStatusEnum.Submitted))
                        on t1.PurchaseOrderId equals t3.PurchaseOrderId
-                       select new
-                       {
-                           t3.PurchaseOrderId,
-                           t3.PurchaseOrderNo
-                       }).ToList().Distinct();
+                        select new
+                        {
+                            t3.PurchaseOrderId,
+                            t3.PurchaseOrderNo
+                        }).ToList().Distinct();
 
             return list.Select(x => new SelectModel { Text = x.PurchaseOrderNo, Value = x.PurchaseOrderId }).ToList();
         }
