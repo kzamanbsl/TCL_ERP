@@ -206,7 +206,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="bankInfo col-md-3 hidden">
+                                    @*<div class="bankInfo col-md-3 hidden">
                                         <div class="form-group">
                                             <label class="form-label">Cheque Book<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                             @Html.DropDownListFor(model => model.ChequeBookId, Model.ChequeBookList as SelectList, "==Select Cheque Book==", new { id = "ddlCheqeBookId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
@@ -220,7 +220,7 @@
                                             @Html.TextBoxFor(model => model.ChqNo, new { id = "txtChqNo", @class = "form-control", placeholder = "Cheque No", @readonly = "true" })
                                             @Html.ValidationMessageFor(model => model.ChqNo, "", new { id = "chequeNoValidationMessage", @class = "text-danger" })
                                         </div>
-                                    </div>
+                                    </div>*@
 
                                 </div>
                                 @*<div class="row bankHead" style="display:none">

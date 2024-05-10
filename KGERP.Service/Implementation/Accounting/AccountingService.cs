@@ -625,8 +625,6 @@ namespace KGERP.Service.Implementation.Accounting
                     VendorId = (int)vmJournalSlave.SupplierId,
                     VoucherId = (int?)voucher.VoucherId,
                     BankAccountInfoId = (int)vmJournalSlave.BankAccountInfoId,
-                    ChequeBookId = vmJournalSlave.ChequeBookId,
-                    ChequeNo = vmJournalSlave.ChqNo,
                     PayTo = vmJournalSlave.ChqName,
                     IssueDate = (DateTime)vmJournalSlave.ChqDate,
                     IsRegistered = false,
