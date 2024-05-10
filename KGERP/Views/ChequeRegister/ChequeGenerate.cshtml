@@ -128,7 +128,7 @@
                                                         }
                                                     </td>
                                                     <td>@item.IssueDate.ToString("dd-MM-yyyy")</td>
-                                                    <td>@item.ChequeNo</td>
+                                                    <td>@(item.ChequeNo == 0 ? "-" : item.ChequeNo.ToString())</td>
                                                     <td><p style="width: 150px; text-align: left !important;">@item.PayTo</p></td>
                                                     <td><p style="text-align:right !important;">@item.Amount</p></td>
                                                     <td><p style="width: 200px; text-align:left !important;">@item.Remarks</p></td>
@@ -190,7 +190,7 @@
                                                         }
                                                     </td>
                                                     <td>@item.IssueDate.ToString("dd-MM-yyyy")</td>
-                                                    <td>@item.ChequeNo</td>
+                                                    <td>@(item.ChequeNo == 0 ? "-" : item.ChequeNo.ToString())</td>
                                                     <td><p style="width: 150px; text-align: left !important;">@item.PayTo</p></td>
                                                     <td><p style="text-align:right !important;">@item.Amount</p></td>
                                                     <td><p style="width: 200px; text-align:left !important;">@item.Remarks</p></td>
@@ -247,7 +247,33 @@
                 <h3 class="text-primary" id="confirmationModalLabel">Confirmation</h3>
             </div>
             <div class="modal-body" style="padding: 30px 20px;">
-                <h4>Are you sure you want to generate a cheque?</h4>
+                <div class="row">
+                    <div class="col-md-4">
+                        <p><b>Bank Name: </b> <span id="bankName"></span></p>
+                    </div>
+                    <div class="col-md-4">
+                        <p><b>Branch Name: </b> <span id="branchName"></span></p>
+                    </div>
+                    <div class="col-md-4">
+                        <p><b>A/C Info: </b> <span id="accountInfo"></span></p>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Cheque Book<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                            @Html.DropDownListFor(model => model.ChequeBookId, Model.ChequeBookList as SelectList, "==Select Cheque Book==", new { id = "ddlCheqeBookId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                            @Html.ValidationMessageFor(model => model.ChequeBookId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Cheque No<sup class="text-danger" title="Required">*</sup></label>
+                            @Html.TextBoxFor(model => model.ChequeNo, new { id = "txtChequeNo", @class = "form-control", @placeholder = "Cheque no", required = "true", @readonly = "true" })
+                            @Html.ValidationMessageFor(model => model.ChequeNo, "", new { id = "nameExist", @class = "text-danger" })
+                            <small class="text-danger" id="message"></small>
+                        </div>
+                    </div>
+                </div>
+                <h4 class="text-center">Are you sure you want to generate a cheque?</h4>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -275,12 +301,63 @@
         function ChequeGenerate(chequeRegisterId) {
             $('#confirmationModal').modal('show');
 
+            $.ajax({
+                type: "GET",
+                url: "/ChequeRegister/CheckBookByACInfo",
+                dataType: "json",
+                data: { chequeRegisterId: chequeRegisterId },
+                success: function (data) {
+                    $("#bankName").text(data.BankName);
+                    $("#branchName").text(data.BranchName);
+                    $("#accountInfo").text(data.BankAccountInfo);
+
+                    $.each(data.ChequeBookList, function (index, item) {
+                        $("#ddlCheqeBookId").append($('<option>', {
+                            value: item.ChequeBookId,
+                            text: item.ChequeBookNo
+                        }));
+                    });
+                }
+            });
+
+            $('#ddlCheqeBookId').on('change', function (event) {
+                var chequeBookId = $("#ddlCheqeBookId option:selected").val();
+                $.ajax({
+                    type: "GET",
+                    url: "/ChequeRegister/GetChequeBookInfoById",
+                    dataType: "json",
+                    data: { chequeBookId: chequeBookId },
+                    success: function (data) {
+                        if (data.UsedBookPage != data.TotalBookPage || data.UsedBookPage < data.TotalBookPage) {
+
+                            if (data.UsedBookPage == 0) {
+                                $('#txtChequeNo').val(data.BookFirstPageNumber);
+                                $('#message').text("");
+                            }
+                            else {
+                                $('#txtChequeNo').val(data.BookFirstPageNumber + data.UsedBookPage);
+                                $('#message').text("");
+                            }
+
+                            $('#confirmSignButton').removeClass("hidden").addClass("d-block");
+                        }
+                        else {
+                            $('#txtChequeNo').val(0);
+                            $('#message').text("No more page here, Try with another book!");
+                            $('#confirmSignButton').removeClass("d-block").addClass("hidden");
+                        }
+                    }
+                });
+            });
+
             $('#confirmSignButton').click(function () {
+                var chequeBookId = $('#ddlCheqeBookId').val();
+                var chequeNo = $('#txtChequeNo').val();
                 $.ajax({
                     type: "GET",
                     url: "/ChequeRegister/ChequePdfGenerate",
                     dataType: "json",
-                    data: { chequeRegisterId: chequeRegisterId },
+                    data: { chequeRegisterId: chequeRegisterId, chequeBookId: chequeBookId, chequeNo: chequeNo },
                     success: function (data) {
                         if (data) {
                             $("#showToHide_" + chequeRegisterId).removeClass("d-block").addClass("hidden");
@@ -293,8 +370,13 @@
                 });
 
                 $('#confirmationModal').modal('hide');
+                window.location.reload();
             });
         }
+
+
+
+
 
         function ChequePrintCount(chequeRegisterId) {
             $.ajax({
@@ -307,5 +389,6 @@
                 }
             });
         }
+
     </script>
 }

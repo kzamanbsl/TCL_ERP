@@ -39,6 +39,7 @@ namespace KGERP.Data.Models
         public string CancelReason { get; set; }
         public string RequestedBy { get; set; }
         public Nullable<System.DateTime> RequestedOn { get; set; }
+        public Nullable<long> BankAccountInfoId { get; set; }
     
         public virtual Accounting_CostCenter Accounting_CostCenter { get; set; }
         public virtual BillRequisitionMaster BillRequisitionMaster { get; set; }

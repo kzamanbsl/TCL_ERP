@@ -4100,11 +4100,11 @@ namespace KGERP.Service.Implementation.Accounting
                 + " A/C Name: " + vmPayment.ACName + " A/C No: " + vmPayment.ACNo + " Bank Name: " + vmPayment.BankName +
                 " Branch Name: " + vmPayment.BranchName
                 ,
-                ChqDate = vmPayment.MoneyReceiptDate,
+                ChqDate = vmPayment.TransactionDate,
                 ChqName = vmPayment.MoneyReceiptName,
                 ChqNo = vmPayment.MoneyReceiptNo,
                 CompanyFK = companyFk,
-                Date = vmPayment.TransactionDate,
+                Date = DateTime.Now.Date,
                 IsSubmit = true,
             };
 

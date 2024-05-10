@@ -1,4 +1,5 @@
-﻿using KGERP.Data.Models;
+﻿using KGERP.Data.CustomModel;
+using KGERP.Data.Models;
 using KGERP.Service.Implementation.Accounting;
 using KGERP.Service.Implementation.Configuration;
 using KGERP.Service.Interface;
@@ -39,6 +40,7 @@ namespace KGERP.Service.Implementation
             {
                 ChequeRegister data = new ChequeRegister()
                 {
+                    BankAccountInfoId = model.BankAccountInfoId,
                     ChequeBookId = model.ChequeBookId,
                     ProjectId = model.ProjectId,
                     SupplierId = model.SupplierId,
@@ -58,23 +60,16 @@ namespace KGERP.Service.Implementation
                     CreatedBy = HttpContext.Current.User.Identity.Name,
                     CreatedOn = DateTime.Now
                 };
+
                 if (model.RequisitionId > 0)
                 {
                     data.RequisitionMasterId = model.RequisitionId;
-
                 }
 
                 _context.ChequeRegisters.Add(data);
+
                 if (await _context.SaveChangesAsync() > 0)
                 {
-                    if (model.ChequeBookId > 0)
-                    {
-                        var chequeBook = _context.ChequeBooks.FirstOrDefault(x => x.ChequeBookId == model.ChequeBookId);
-                        chequeBook.UsedBookPage = ++chequeBook.UsedBookPage;
-                        chequeBook.ModifiedBy = data.CreatedBy;
-                        chequeBook.ModifiedOn = DateTime.Now;
-                        _context.SaveChanges();
-                    }
                     sendData = true;
                 }
             }
@@ -82,6 +77,7 @@ namespace KGERP.Service.Implementation
             {
                 ChequeRegister data = new ChequeRegister()
                 {
+                    BankAccountInfoId = model.BankAccountInfoId,
                     ChequeBookId = model.ChequeBookId,
                     ProjectId = model.ProjectId,
                     PayTo = model.PayTo,
@@ -100,22 +96,16 @@ namespace KGERP.Service.Implementation
                     CreatedBy = HttpContext.Current.User.Identity.Name,
                     CreatedOn = DateTime.Now
                 };
+
                 if (model.RequisitionId > 0)
                 {
                     data.RequisitionMasterId = model.RequisitionId;
                 }
 
                 _context.ChequeRegisters.Add(data);
+
                 if (await _context.SaveChangesAsync() > 0)
                 {
-                    if (model.ChequeBookId > 0)
-                    {
-                        var chequeBook = _context.ChequeBooks.FirstOrDefault(x => x.ChequeBookId == model.ChequeBookId);
-                        chequeBook.UsedBookPage = ++chequeBook.UsedBookPage;
-                        chequeBook.ModifiedBy = data.CreatedBy;
-                        chequeBook.ModifiedOn = DateTime.Now;
-                        _context.SaveChanges();
-                    }
                     sendData = true;
                 }
             }
@@ -246,7 +236,7 @@ namespace KGERP.Service.Implementation
             return sendData;
         }
 
-        public async Task<bool> MakePdf(long chequeRegisterId)
+        public async Task<bool> MakePdf(long chequeRegisterId, long chequeBookId, int chequeNo)
         {
             bool sendData = false;
             if (chequeRegisterId > 0)
@@ -254,13 +244,31 @@ namespace KGERP.Service.Implementation
                 var result = _context.ChequeRegisters.FirstOrDefault(x => x.ChequeRegisterId == chequeRegisterId);
                 if (result != null)
                 {
+                    result.ChequeBookId = chequeBookId;
+                    result.ChequeNo = chequeNo;
                     result.HasPDF = true;
                     result.ModifiedBy = HttpContext.Current.User.Identity.Name;
                     result.ModifiedOn = DateTime.Now;
 
                     if (await _context.SaveChangesAsync() > 0)
                     {
-                        sendData = true;
+                        var chequeBook = _context.ChequeBooks.FirstOrDefault(x => x.ChequeBookId == chequeBookId);
+                        chequeBook.UsedBookPage = ++chequeBook.UsedBookPage;
+
+                        if (_context.SaveChanges() > 0)
+                        {
+                            var voucherUpdate = _context.Vouchers.FirstOrDefault(x => x.ChequeRegisterId == chequeRegisterId);
+                            voucherUpdate.ChqNo = chequeNo.ToString();
+                            if (_context.SaveChanges() > 0)
+                            {
+                                var chequeHistory = _context.VoucherPaymentChequeHistories.FirstOrDefault(x => x.VoucherId == voucherUpdate.VoucherId);
+
+                                chequeHistory.ChequeBookId = chequeBookId;
+                                chequeHistory.ChequeNo = chequeNo.ToString();
+                                _context.SaveChanges();
+                                sendData = true;
+                            }
+                        }
                     }
                 }
             }
@@ -349,6 +357,39 @@ namespace KGERP.Service.Implementation
 
         }
 
+        public object GetCheckBookByACInfo(long chequeRegisterId)
+        {
+            object sendData = new { };
+
+            sendData = (from t1 in _context.ChequeRegisters
+                        join t2 in _context.BankAccountInfoes on t1.BankAccountInfoId equals t2.BankAccountInfoId into t2_Join
+                        from t2 in t2_Join.DefaultIfEmpty()
+                        join t3 in _context.BankBranches on t2.BranchId equals t3.BankBranchId into t3_Join
+                        from t3 in t3_Join.DefaultIfEmpty()
+                        join t4 in _context.Banks on t3.BankId equals t4.BankId into t4_Join
+                        from t4 in t4_Join.DefaultIfEmpty()
+                        where t1.ChequeRegisterId == chequeRegisterId
+                        select new
+                        {
+                            BankAccountInfo = t2.AccountName + " (" + t2.AccountNumber + ")",
+                            BranchName = t3.Name,
+                            BankName = t4.Name,
+                            ChequeBookList = (from t1 in _context.ChequeRegisters
+                                              join t2 in _context.BankAccountInfoes on t1.BankAccountInfoId equals t2.BankAccountInfoId into t2_Join
+                                              from t2 in t2_Join.DefaultIfEmpty()
+                                              join t3 in _context.ChequeBooks on t2.BankAccountInfoId equals t3.BankAccountInfoId into t3_Join
+                                              from t3 in t3_Join.DefaultIfEmpty()
+                                              where t1.ChequeRegisterId == chequeRegisterId && t3.UsedBookPage < t3.TotalBookPage
+                                              select new
+                                              {
+                                                  ChequeBookNo = t3.ChequeBookNo,
+                                                  ChequeBookId = t3.ChequeBookId
+                                              }).ToList()
+                        }).FirstOrDefault();
+
+            return sendData;
+        }
+
         public List<object> ChequePageNo()
         {
             var getData = (from t1 in _context.ChequeRegisters
@@ -397,7 +438,7 @@ namespace KGERP.Service.Implementation
                                                             PayTo = t1.PayTo,
                                                             IssueDate = t1.IssueDate,
                                                             ChequeDate = t1.ChequeDate,
-                                                            ChequeNo = (int)t1.ChequeNo,
+                                                            ChequeNo = t1.ChequeNo == null ? 0 : (int)t1.ChequeNo,
                                                             Amount = t1.Amount,
                                                             ClearingDate = t1.ClearingDate,
                                                             Remarks = t1.Remarks,

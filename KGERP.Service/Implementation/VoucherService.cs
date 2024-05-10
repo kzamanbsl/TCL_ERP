@@ -1139,14 +1139,13 @@ namespace KGERP.Service.Implementation
 
                     if (voucherModel.BillRequisitionMasterId > 0)
                     {
+                        newCheque.BankAccountInfoId = chequeRegisterHistory.BankAccountInfoId;
                         newCheque.ProjectId = (int)voucherModel.Accounting_CostCenterFk;
                         newCheque.RequisitionMasterId = voucherModel.BillRequisitionMasterId;
                         newCheque.SupplierId = chequeRegisterHistory.VendorId;
-                        newCheque.ChequeBookId = chequeRegisterHistory.ChequeBookId;
                         newCheque.PayTo = chequeRegisterHistory.PayTo;
                         newCheque.ChequeDate = chequeRegisterHistory.IssueDate;
                         newCheque.IssueDate = DateTime.Now.Date;
-                        newCheque.ChequeNo = int.Parse(chequeRegisterHistory.ChequeNo);
                         newCheque.Amount = payAmount;
                         newCheque.ClearingDate = DateTime.Now.Date;
                         newCheque.Remarks = "The cheque is electronically generated.";
@@ -1160,13 +1159,12 @@ namespace KGERP.Service.Implementation
                     }
                     else
                     {
+                        newCheque.BankAccountInfoId = chequeRegisterHistory.BankAccountInfoId;
                         newCheque.ProjectId = (int)voucherModel.Accounting_CostCenterFk;
                         newCheque.SupplierId = chequeRegisterHistory.VendorId;
-                        newCheque.ChequeBookId = chequeRegisterHistory.ChequeBookId;
                         newCheque.PayTo = chequeRegisterHistory.PayTo;
                         newCheque.ChequeDate = chequeRegisterHistory.IssueDate;
                         newCheque.IssueDate = DateTime.Now.Date;
-                        newCheque.ChequeNo = int.Parse(chequeRegisterHistory.ChequeNo);
                         newCheque.Amount = payAmount;
                         newCheque.ClearingDate = DateTime.Now.Date;
                         newCheque.Remarks = "The cheque is electronically generated.";
@@ -1184,20 +1182,16 @@ namespace KGERP.Service.Implementation
                     if (_context.SaveChanges() > 0)
                     {
                         chequeRegisterHistory.IsRegistered = true;
-                        _context.SaveChanges();
+                        chequeRegisterHistory.VoucherId = (int?)voucherModel.VoucherId;
 
-                        if (chequeRegisterHistory.IsRegistered)
+                        if (_context.SaveChanges() > 0)
                         {
-                            var chequeBook = _context.ChequeBooks.FirstOrDefault(x => x.ChequeBookId == newCheque.ChequeBookId);
-
-                            if (chequeBook != null)
-                            {
-                                chequeBook.UsedBookPage = ++chequeBook.UsedBookPage;
-                                voucherModel.ChequeRegisterId = newCheque.ChequeRegisterId;
-                                _context.SaveChanges();
-                                result = voucherModel.VoucherId;
-                            }
+                            voucherModel.ChequeRegisterId = newCheque.ChequeRegisterId;
+                            voucherModel.ChqDate = newCheque.ChequeDate;
+                            _context.SaveChanges();
                         }
+
+                        result = voucherModel.VoucherId;
                     }
                 }
             }

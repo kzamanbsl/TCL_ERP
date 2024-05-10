@@ -88,7 +88,7 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label class="form-label">Select Bank<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                     @Html.DropDownListFor(model => model.BankId, new SelectList(Model.BankList.OrderBy(order => order.Text), "Value", "Text"), "==Select Bank==", new { id = "ddlBankId", @class = "form-control searchingDropdown", style = "width:100%" })
@@ -96,7 +96,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label class="form-label">Select Branch<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                     @Html.DropDownListFor(model => model.BankBranchId, new SelectList(Model.BankBranchList.OrderBy(order => order.Text), "Value", "Text"), "==Select Branch==", new { id = "ddlBankBranchId", @class = "form-control searchingDropdown", style = "width:100%" })
@@ -104,7 +104,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label class="form-label">Account Number<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                     @Html.DropDownListFor(model => model.BankAccountInfoId, new SelectList(Model.AccountNoList.OrderBy(order => order.Text), "Value", "Text"), "==Select Account No==", new { id = "ddlBankAccountInfoId", @class = "form-control searchingDropdown", style = "width:100%" })
@@ -112,13 +112,13 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label class="form-label">Cheque Book<sup class="text-danger" title="Required"><b>*</b></sup></label>
-                                    @Html.DropDownListFor(model => model.ChequeBookId, Model.ChequeBookList as SelectList, "==Select Cheque Book==", new { id = "ddlCheqeBookId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
-                                    @Html.ValidationMessageFor(model => model.ChequeBookId, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
+                            @*<div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="form-label">Cheque Book<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                        @Html.DropDownListFor(model => model.ChequeBookId, Model.ChequeBookList as SelectList, "==Select Cheque Book==", new { id = "ddlCheqeBookId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.ChequeBookId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>*@
 
                             <div class="col-md-4">
                                 <div class="form-group">
@@ -148,16 +148,16 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label class="form-label">Cheque No<sup class="text-danger" title="Required">*</sup></label>
-                                    @Html.TextBoxFor(model => model.ChequeNo, new { id = "txtChequeNo", @class = "form-control", @placeholder = "Cheque no", required = "true", @readonly = "true" })
-                                    @Html.ValidationMessageFor(model => model.ChequeNo, "", new { id = "nameExist", @class = "text-danger" })
-                                    <small class="text-danger" id="message"></small>
-                                </div>
-                            </div>
+                            @*<div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Cheque No<sup class="text-danger" title="Required">*</sup></label>
+                                        @Html.TextBoxFor(model => model.ChequeNo, new { id = "txtChequeNo", @class = "form-control", @placeholder = "Cheque no", required = "true", @readonly = "true" })
+                                        @Html.ValidationMessageFor(model => model.ChequeNo, "", new { id = "nameExist", @class = "text-danger" })
+                                        <small class="text-danger" id="message"></small>
+                                    </div>
+                                </div>*@
 
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="form-label">Amount<sup class="text-danger" title="Required">*</sup></label>
                                     @Html.TextBoxFor(model => model.Amount, new { id = "txtAmount", @class = "form-control", @placeholder = "Amount", required = "true", @readonly = "true" })
@@ -165,7 +165,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="form-label">Pay To<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                     @Html.TextBoxFor(model => model.PayTo, new { id = "txtPayTo", @class = "form-control", @placeholder = "Pay to", required = "true", @readonly = "false" })
@@ -217,14 +217,13 @@
                             <thead>
                                 <tr>
                                     <th>SL</th>
-                                    <th>Cheque No</th>
-                                    <th>Amount</th>
-                                    <th>Issue Date</th>
-                                    <th>Cheque Date</th>
-                                    <th>Clearing Date</th>
+                                    <th style="width: 80px">Issue Date</th>
+                                    <th style="width: 80px">Cheque Date</th>
+                                    <th style="width: 80px">Clearing Date</th>
                                     <th>Project Name</th>
                                     <th>Supplier/Party</th>
-                                    <th>Requisition No</th>
+                                    <th style="width: 100px">Requisition No</th>
+                                    <th>Amount</th>
                                     <th>Remarks/Purpose</th>
                                     <th>Action</th>
                                 </tr>
@@ -240,8 +239,6 @@
                                             <input type="hidden" id="hiddenChequeDate_@item.ChequeRegisterId" value="@item.ChequeDate.ToString("dd/MM/yyyy")" />
                                             <input type="hidden" id="hiddenClearingDate_@item.ChequeRegisterId" value="@item.ClearingDate.ToString("dd/MM/yyyy")" />
                                         </td>
-                                        <td>@item.ChequeNo</td>
-                                        <td>@item.Amount</td>
                                         <td>@item.IssueDate.ToString("dd-MM-yyyy")</td>
                                         <td>@item.ChequeDate.ToString("dd-MM-yyyy")</td>
                                         <td>@item.ClearingDate.ToString("dd-MM-yyyy")</td>
@@ -266,6 +263,7 @@
                                                 <small class="text-center text-secondary d-block" id="hidePrintButton">General Cheque</small>
                                             }
                                         </td>
+                                        <td>@item.Amount</td>
                                         <td>@item.Remarks</td>
                                         <td>
                                             @if (item.HasPDF == false)

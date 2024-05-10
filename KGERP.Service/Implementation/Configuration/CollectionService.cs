@@ -650,7 +650,7 @@ namespace KGERP.Service.Implementation.Configuration
                 BankAccountInfoId = vmPayment.BankAccountInfoId,
                 CompanyId = vmPayment.CompanyFK.Value,
                 CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
-                PaymentToHeadGLId = 29833,
+                PaymentToHeadGLId = 29962,
                 CreatedDate = DateTime.Now,
                 IsActive = true
             };

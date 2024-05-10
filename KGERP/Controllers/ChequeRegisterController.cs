@@ -219,12 +219,23 @@ namespace KGERP.Controllers
         }
 
         [HttpGet]
-        public async Task<JsonResult> ChequePdfGenerate(long chequeRegisterId)
+        public async Task<JsonResult> ChequePdfGenerate(long chequeRegisterId, long chequeBookId, int chequeNo)
         {
             bool response = false;
             if (chequeRegisterId > 0)
             {
-                response = await _Service.MakePdf(chequeRegisterId);
+                response = await _Service.MakePdf(chequeRegisterId, chequeBookId, chequeNo);
+            }
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult CheckBookByACInfo(long chequeRegisterId)
+        {
+            object response = new { };
+            if (chequeRegisterId > 0)
+            {
+                response = _Service.GetCheckBookByACInfo(chequeRegisterId);
             }
             return Json(response, JsonRequestBehavior.AllowGet);
         }
