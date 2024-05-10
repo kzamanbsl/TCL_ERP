@@ -664,8 +664,6 @@ namespace KGERP.Service.Implementation.Configuration
                 {
                     VendorId = paymentMaster.VendorId,
                     PaymentId = paymentMaster.PaymentMasterId,
-                    BankAccountInfoId = vmPayment.BankAccountInfoId,
-                    ChequeBookId = vmPayment.ChequeBookId,
                     ChequeNo = vmPayment.MoneyReceiptNo,
                     PayTo = vendor.ContactName,
                     IssueDate = vmPayment.TransactionDate.Date,

@@ -107,7 +107,7 @@
                                 @if (Model.PaymentMasterId == 0)
                                 {
                                     <div class="row">
-                                        <div class="col-md-4" id="inputChequeDate">
+                                        <div class="col-md-3" id="inputChequeDate">
                                             <div class="form-group">
                                                 <label class="form-label">Payment Date<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                                 <input name="TransactionDate" asp-for="TransactionDate" type="text" class="datePicker form-control" id="txtChqDate" placeholder="Payment Date" autocomplete="off">
@@ -115,7 +115,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="bankInfo col-md-4">
+                                        <div class="col-md-3">
                                             <div class="form-group">
                                                 <label class="form-label">Select Bank<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                                 @Html.DropDownListFor(model => model.BankId, new SelectList(Model.BankList.OrderBy(order => order.Text), "Value", "Text"), "==Select Bank==", new { id = "ddlBankId", @class = "form-control searchingDropdown", style = "width:100%" })
@@ -123,7 +123,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="bankInfo col-md-4">
+                                        <div class="col-md-3">
                                             <div class="form-group">
                                                 <label class="form-label">Select Branch<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                                 @Html.DropDownListFor(model => model.BranchId, new SelectList(Model.BranchList.OrderBy(order => order.Text), "Value", "Text"), "==Select Branch==", new { id = "ddlBankBranchId", @class = "form-control searchingDropdown", style = "width:100%" })
@@ -131,7 +131,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="bankInfo col-md-4">
+                                        <div class="col-md-3">
                                             <div class="form-group">
                                                 <label class="form-label">Account Number<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                                 @Html.DropDownListFor(model => model.BankAccountInfoId, new SelectList(Model.AccountNoList.OrderBy(order => order.Text), "Value", "Text"), "==Select Account No==", new { id = "ddlBankAccountInfoId", @class = "form-control searchingDropdown", style = "width:100%" })
@@ -139,7 +139,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="bankInfo col-md-4">
+                                        @*<div class="bankInfo col-md-4">
                                             <div class="form-group">
                                                 <label class="form-label">Cheque Book<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                                 @Html.DropDownListFor(model => model.ChequeBookId, Model.ChequeBookList as SelectList, "==Select Cheque Book==", new { id = "ddlCheqeBookId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
@@ -153,7 +153,7 @@
                                                 @Html.TextBoxFor(model => model.MoneyReceiptNo, new { id = "txtChqNo", @class = "form-control", placeholder = "Cheque No", @readonly = "true" })
                                                 @Html.ValidationMessageFor(model => model.MoneyReceiptNo, "", new { id = "chequeNoValidationMessage", @class = "text-danger" })
                                             </div>
-                                        </div>
+                                        </div>*@
                                     </div>
 
                                     @*<div class="row">

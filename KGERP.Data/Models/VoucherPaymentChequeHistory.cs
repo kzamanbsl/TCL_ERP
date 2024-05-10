@@ -19,7 +19,7 @@ namespace KGERP.Data.Models
         public Nullable<int> VoucherId { get; set; }
         public Nullable<int> PaymentId { get; set; }
         public int BankAccountInfoId { get; set; }
-        public long ChequeBookId { get; set; }
+        public Nullable<long> ChequeBookId { get; set; }
         public string ChequeNo { get; set; }
         public string PayTo { get; set; }
         public System.DateTime IssueDate { get; set; }
