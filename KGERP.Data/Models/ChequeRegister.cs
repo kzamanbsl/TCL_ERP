@@ -22,7 +22,7 @@ namespace KGERP.Data.Models
         public string PayTo { get; set; }
         public System.DateTime IssueDate { get; set; }
         public System.DateTime ChequeDate { get; set; }
-        public int ChequeNo { get; set; }
+        public Nullable<int> ChequeNo { get; set; }
         public decimal Amount { get; set; }
         public System.DateTime ClearingDate { get; set; }
         public string Remarks { get; set; }

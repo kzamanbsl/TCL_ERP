@@ -3796,7 +3796,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.TempFeedVoucherDetail' does not hav
           <Property Name="PayTo" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="IssueDate" Type="datetime" Nullable="false" />
           <Property Name="ChequeDate" Type="datetime" Nullable="false" />
-          <Property Name="ChequeNo" Type="int" Nullable="false" />
+          <Property Name="ChequeNo" Type="int" />
           <Property Name="Amount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="ClearingDate" Type="datetime" Nullable="false" />
           <Property Name="Remarks" Type="varchar(max)" />
@@ -5779,7 +5779,7 @@ warning 6002: The table/view 'TCLErp_Dev.Erp.RequisitionItemDetail' does not hav
           <Property Name="PaymentId" Type="int" />
           <Property Name="BankAccountInfoId" Type="int" Nullable="false" />
           <Property Name="ChequeBookId" Type="bigint" Nullable="false" />
-          <Property Name="ChequeNo" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="ChequeNo" Type="varchar" MaxLength="20" />
           <Property Name="PayTo" Type="varchar" MaxLength="250" Nullable="false" />
           <Property Name="IssueDate" Type="date" Nullable="false" />
           <Property Name="IsRegistered" Type="bit" Nullable="false" />
@@ -12506,19 +12506,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             <End Role="VendorOpening" EntitySet="VendorOpenings" />
           </AssociationSet>
           <EntitySet Name="BillingGeneratedMaps" EntityType="ERPModel.BillingGeneratedMap" />
-          <EntitySet Name="ChequeRegisters" EntityType="ERPModel.ChequeRegister" />
-          <AssociationSet Name="FK_ChequeRegister_Accounting_CostCenter" Association="ERPModel.FK_ChequeRegister_Accounting_CostCenter">
-            <End Role="Accounting_CostCenter" EntitySet="Accounting_CostCenter" />
-            <End Role="ChequeRegister" EntitySet="ChequeRegisters" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ChequeRegister_BillRequisitionMaster" Association="ERPModel.FK_ChequeRegister_BillRequisitionMaster">
-            <End Role="BillRequisitionMaster" EntitySet="BillRequisitionMasters" />
-            <End Role="ChequeRegister" EntitySet="ChequeRegisters" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ChequeRegister_ChequeRegister" Association="ERPModel.FK_ChequeRegister_ChequeRegister">
-            <End Role="Vendor" EntitySet="Vendors" />
-            <End Role="ChequeRegister" EntitySet="ChequeRegisters" />
-          </AssociationSet>
           <EntitySet Name="BankAccountInfoes" EntityType="ERPModel.BankAccountInfo" />
           <AssociationSet Name="FK_BankAccountInfo_BankBranch" Association="ERPModel.FK_BankAccountInfo_BankBranch">
             <End Role="BankBranch" EntitySet="BankBranches" />
@@ -12550,7 +12537,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             <End Role="PaymentMaster" EntitySet="PaymentMasters" />
             <End Role="Payment" EntitySet="Payments" />
           </AssociationSet>
-          <EntitySet Name="VoucherPaymentChequeHistories" EntityType="ERPModel.VoucherPaymentChequeHistory" />
           <EntitySet Name="Vouchers" EntityType="ERPModel.Voucher" />
           <AssociationSet Name="FK_BillRequisitionVoucherMap_Voucher" Association="ERPModel.FK_BillRequisitionVoucherMap_Voucher">
             <End Role="Voucher" EntitySet="Vouchers" />
@@ -12579,6 +12565,20 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
           <AssociationSet Name="FK_VoucherDetail_Voucher" Association="ERPModel.FK_VoucherDetail_Voucher">
             <End Role="Voucher" EntitySet="Vouchers" />
             <End Role="VoucherDetail" EntitySet="VoucherDetails" />
+          </AssociationSet>
+          <EntitySet Name="ChequeRegisters" EntityType="ERPModel.ChequeRegister" />
+          <EntitySet Name="VoucherPaymentChequeHistories" EntityType="ERPModel.VoucherPaymentChequeHistory" />
+          <AssociationSet Name="FK_ChequeRegister_Accounting_CostCenter" Association="ERPModel.FK_ChequeRegister_Accounting_CostCenter">
+            <End Role="Accounting_CostCenter" EntitySet="Accounting_CostCenter" />
+            <End Role="ChequeRegister" EntitySet="ChequeRegisters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ChequeRegister_BillRequisitionMaster" Association="ERPModel.FK_ChequeRegister_BillRequisitionMaster">
+            <End Role="BillRequisitionMaster" EntitySet="BillRequisitionMasters" />
+            <End Role="ChequeRegister" EntitySet="ChequeRegisters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ChequeRegister_ChequeRegister" Association="ERPModel.FK_ChequeRegister_ChequeRegister">
+            <End Role="Vendor" EntitySet="Vendors" />
+            <End Role="ChequeRegister" EntitySet="ChequeRegisters" />
           </AssociationSet>
           </EntityContainer>
 				<EntityType Name="AdminPolicy">
@@ -22232,75 +22232,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
           <Property Name="ModifiedDate" Type="DateTime" Precision="0" />
           <Property Name="IsActive" Type="Boolean" />
         </EntityType>
-        <EntityType Name="ChequeRegister">
-          <Key>
-            <PropertyRef Name="ChequeRegisterId" />
-          </Key>
-          <Property Name="ChequeRegisterId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="RequisitionMasterId" Type="Int64" />
-          <Property Name="ProjectId" Type="Int32" Nullable="false" />
-          <Property Name="SupplierId" Type="Int32" />
-          <Property Name="ChequeBookId" Type="Int64" Nullable="false" />
-          <Property Name="PayTo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="IssueDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ChequeDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ChequeNo" Type="Int32" Nullable="false" />
-          <Property Name="Amount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="ClearingDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="IsSigned" Type="Boolean" Nullable="false" />
-          <Property Name="HasPDF" Type="Boolean" Nullable="false" />
-          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
-          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <Property Name="PrintCount" Type="Int32" />
-          <Property Name="IsCanceled" Type="Boolean" />
-          <Property Name="IsCancelRequest" Type="Boolean" />
-          <Property Name="CancelReason" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="RequestedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="RequestedOn" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Accounting_CostCenter" Relationship="ERPModel.FK_ChequeRegister_Accounting_CostCenter" FromRole="ChequeRegister" ToRole="Accounting_CostCenter" />
-          <NavigationProperty Name="BillRequisitionMaster" Relationship="ERPModel.FK_ChequeRegister_BillRequisitionMaster" FromRole="ChequeRegister" ToRole="BillRequisitionMaster" />
-          <NavigationProperty Name="Vendor" Relationship="ERPModel.FK_ChequeRegister_ChequeRegister" FromRole="ChequeRegister" ToRole="Vendor" />
-        </EntityType>
-        <Association Name="FK_ChequeRegister_Accounting_CostCenter">
-          <End Type="ERPModel.Accounting_CostCenter" Role="Accounting_CostCenter" Multiplicity="1" />
-          <End Type="ERPModel.ChequeRegister" Role="ChequeRegister" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Accounting_CostCenter">
-              <PropertyRef Name="CostCenterId" />
-            </Principal>
-            <Dependent Role="ChequeRegister">
-              <PropertyRef Name="ProjectId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ChequeRegister_BillRequisitionMaster">
-          <End Type="ERPModel.BillRequisitionMaster" Role="BillRequisitionMaster" Multiplicity="0..1" />
-          <End Type="ERPModel.ChequeRegister" Role="ChequeRegister" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BillRequisitionMaster">
-              <PropertyRef Name="BillRequisitionMasterId" />
-            </Principal>
-            <Dependent Role="ChequeRegister">
-              <PropertyRef Name="RequisitionMasterId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ChequeRegister_ChequeRegister">
-          <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="0..1" />
-          <End Type="ERPModel.ChequeRegister" Role="ChequeRegister" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Vendor">
-              <PropertyRef Name="VendorId" />
-            </Principal>
-            <Dependent Role="ChequeRegister">
-              <PropertyRef Name="SupplierId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="BankAccountInfo">
           <Key>
             <PropertyRef Name="BankAccountInfoId" />
@@ -22469,26 +22400,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="VoucherPaymentChequeHistory">
-          <Key>
-            <PropertyRef Name="VoucherPaymentChequeHistoryId" />
-          </Key>
-          <Property Name="VoucherPaymentChequeHistoryId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="VendorId" Type="Int32" Nullable="false" />
-          <Property Name="VoucherId" Type="Int32" />
-          <Property Name="PaymentId" Type="Int32" />
-          <Property Name="BankAccountInfoId" Type="Int32" Nullable="false" />
-          <Property Name="ChequeBookId" Type="Int64" Nullable="false" />
-          <Property Name="ChequeNo" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="PayTo" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="IssueDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="IsRegistered" Type="Boolean" Nullable="false" />
-          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-        </EntityType>
         <EntityType Name="Voucher">
           <Key>
             <PropertyRef Name="VoucherId" />
@@ -22613,6 +22524,95 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             </Principal>
             <Dependent Role="VoucherDetail">
               <PropertyRef Name="VoucherId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ChequeRegister">
+          <Key>
+            <PropertyRef Name="ChequeRegisterId" />
+          </Key>
+          <Property Name="ChequeRegisterId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RequisitionMasterId" Type="Int64" />
+          <Property Name="ProjectId" Type="Int32" Nullable="false" />
+          <Property Name="SupplierId" Type="Int32" />
+          <Property Name="ChequeBookId" Type="Int64" Nullable="false" />
+          <Property Name="PayTo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IssueDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ChequeDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ChequeNo" Type="Int32" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="ClearingDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IsSigned" Type="Boolean" Nullable="false" />
+          <Property Name="HasPDF" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="PrintCount" Type="Int32" />
+          <Property Name="IsCanceled" Type="Boolean" />
+          <Property Name="IsCancelRequest" Type="Boolean" />
+          <Property Name="CancelReason" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="RequestedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RequestedOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Accounting_CostCenter" Relationship="ERPModel.FK_ChequeRegister_Accounting_CostCenter" FromRole="ChequeRegister" ToRole="Accounting_CostCenter" />
+          <NavigationProperty Name="BillRequisitionMaster" Relationship="ERPModel.FK_ChequeRegister_BillRequisitionMaster" FromRole="ChequeRegister" ToRole="BillRequisitionMaster" />
+          <NavigationProperty Name="Vendor" Relationship="ERPModel.FK_ChequeRegister_ChequeRegister" FromRole="ChequeRegister" ToRole="Vendor" />
+        </EntityType>
+        <EntityType Name="VoucherPaymentChequeHistory">
+          <Key>
+            <PropertyRef Name="VoucherPaymentChequeHistoryId" />
+          </Key>
+          <Property Name="VoucherPaymentChequeHistoryId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VendorId" Type="Int32" Nullable="false" />
+          <Property Name="VoucherId" Type="Int32" />
+          <Property Name="PaymentId" Type="Int32" />
+          <Property Name="BankAccountInfoId" Type="Int32" Nullable="false" />
+          <Property Name="ChequeBookId" Type="Int64" Nullable="false" />
+          <Property Name="ChequeNo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="PayTo" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="IssueDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="IsRegistered" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_ChequeRegister_Accounting_CostCenter">
+          <End Type="ERPModel.Accounting_CostCenter" Role="Accounting_CostCenter" Multiplicity="1" />
+          <End Type="ERPModel.ChequeRegister" Role="ChequeRegister" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Accounting_CostCenter">
+              <PropertyRef Name="CostCenterId" />
+            </Principal>
+            <Dependent Role="ChequeRegister">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ChequeRegister_BillRequisitionMaster">
+          <End Type="ERPModel.BillRequisitionMaster" Role="BillRequisitionMaster" Multiplicity="0..1" />
+          <End Type="ERPModel.ChequeRegister" Role="ChequeRegister" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BillRequisitionMaster">
+              <PropertyRef Name="BillRequisitionMasterId" />
+            </Principal>
+            <Dependent Role="ChequeRegister">
+              <PropertyRef Name="RequisitionMasterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ChequeRegister_ChequeRegister">
+          <End Type="ERPModel.Vendor" Role="Vendor" Multiplicity="0..1" />
+          <End Type="ERPModel.ChequeRegister" Role="ChequeRegister" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="VendorId" />
+            </Principal>
+            <Dependent Role="ChequeRegister">
+              <PropertyRef Name="SupplierId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -28675,37 +28675,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ChequeRegisters">
-            <EntityTypeMapping TypeName="ERPModel.ChequeRegister">
-              <MappingFragment StoreEntitySet="ChequeRegister">
-                <ScalarProperty Name="RequestedOn" ColumnName="RequestedOn" />
-                <ScalarProperty Name="RequestedBy" ColumnName="RequestedBy" />
-                <ScalarProperty Name="CancelReason" ColumnName="CancelReason" />
-                <ScalarProperty Name="IsCancelRequest" ColumnName="IsCancelRequest" />
-                <ScalarProperty Name="IsCanceled" ColumnName="IsCanceled" />
-                <ScalarProperty Name="PrintCount" ColumnName="PrintCount" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="HasPDF" ColumnName="HasPDF" />
-                <ScalarProperty Name="IsSigned" ColumnName="IsSigned" />
-                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
-                <ScalarProperty Name="ClearingDate" ColumnName="ClearingDate" />
-                <ScalarProperty Name="Amount" ColumnName="Amount" />
-                <ScalarProperty Name="ChequeNo" ColumnName="ChequeNo" />
-                <ScalarProperty Name="ChequeDate" ColumnName="ChequeDate" />
-                <ScalarProperty Name="IssueDate" ColumnName="IssueDate" />
-                <ScalarProperty Name="PayTo" ColumnName="PayTo" />
-                <ScalarProperty Name="ChequeBookId" ColumnName="ChequeBookId" />
-                <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
-                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
-                <ScalarProperty Name="RequisitionMasterId" ColumnName="RequisitionMasterId" />
-                <ScalarProperty Name="ChequeRegisterId" ColumnName="ChequeRegisterId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="BankAccountInfoes">
             <EntityTypeMapping TypeName="ERPModel.BankAccountInfo">
               <MappingFragment StoreEntitySet="BankAccountInfo">
@@ -28785,27 +28754,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="VoucherPaymentChequeHistories">
-            <EntityTypeMapping TypeName="ERPModel.VoucherPaymentChequeHistory">
-              <MappingFragment StoreEntitySet="VoucherPaymentChequeHistory">
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="IsRegistered" ColumnName="IsRegistered" />
-                <ScalarProperty Name="IssueDate" ColumnName="IssueDate" />
-                <ScalarProperty Name="PayTo" ColumnName="PayTo" />
-                <ScalarProperty Name="ChequeNo" ColumnName="ChequeNo" />
-                <ScalarProperty Name="ChequeBookId" ColumnName="ChequeBookId" />
-                <ScalarProperty Name="BankAccountInfoId" ColumnName="BankAccountInfoId" />
-                <ScalarProperty Name="PaymentId" ColumnName="PaymentId" />
-                <ScalarProperty Name="VoucherId" ColumnName="VoucherId" />
-                <ScalarProperty Name="VendorId" ColumnName="VendorId" />
-                <ScalarProperty Name="VoucherPaymentChequeHistoryId" ColumnName="VoucherPaymentChequeHistoryId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Vouchers">
             <EntityTypeMapping TypeName="ERPModel.Voucher">
               <MappingFragment StoreEntitySet="Voucher">
@@ -28840,6 +28788,58 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
                 <ScalarProperty Name="VoucherTypeId" ColumnName="VoucherTypeId" />
                 <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="VoucherId" ColumnName="VoucherId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ChequeRegisters">
+            <EntityTypeMapping TypeName="ERPModel.ChequeRegister">
+              <MappingFragment StoreEntitySet="ChequeRegister">
+                <ScalarProperty Name="RequestedOn" ColumnName="RequestedOn" />
+                <ScalarProperty Name="RequestedBy" ColumnName="RequestedBy" />
+                <ScalarProperty Name="CancelReason" ColumnName="CancelReason" />
+                <ScalarProperty Name="IsCancelRequest" ColumnName="IsCancelRequest" />
+                <ScalarProperty Name="IsCanceled" ColumnName="IsCanceled" />
+                <ScalarProperty Name="PrintCount" ColumnName="PrintCount" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="HasPDF" ColumnName="HasPDF" />
+                <ScalarProperty Name="IsSigned" ColumnName="IsSigned" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="ClearingDate" ColumnName="ClearingDate" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="ChequeNo" ColumnName="ChequeNo" />
+                <ScalarProperty Name="ChequeDate" ColumnName="ChequeDate" />
+                <ScalarProperty Name="IssueDate" ColumnName="IssueDate" />
+                <ScalarProperty Name="PayTo" ColumnName="PayTo" />
+                <ScalarProperty Name="ChequeBookId" ColumnName="ChequeBookId" />
+                <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="RequisitionMasterId" ColumnName="RequisitionMasterId" />
+                <ScalarProperty Name="ChequeRegisterId" ColumnName="ChequeRegisterId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VoucherPaymentChequeHistories">
+            <EntityTypeMapping TypeName="ERPModel.VoucherPaymentChequeHistory">
+              <MappingFragment StoreEntitySet="VoucherPaymentChequeHistory">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsRegistered" ColumnName="IsRegistered" />
+                <ScalarProperty Name="IssueDate" ColumnName="IssueDate" />
+                <ScalarProperty Name="PayTo" ColumnName="PayTo" />
+                <ScalarProperty Name="ChequeNo" ColumnName="ChequeNo" />
+                <ScalarProperty Name="ChequeBookId" ColumnName="ChequeBookId" />
+                <ScalarProperty Name="BankAccountInfoId" ColumnName="BankAccountInfoId" />
+                <ScalarProperty Name="PaymentId" ColumnName="PaymentId" />
+                <ScalarProperty Name="VoucherId" ColumnName="VoucherId" />
+                <ScalarProperty Name="VendorId" ColumnName="VendorId" />
+                <ScalarProperty Name="VoucherPaymentChequeHistoryId" ColumnName="VoucherPaymentChequeHistoryId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

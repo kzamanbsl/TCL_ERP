@@ -572,10 +572,6 @@
         <AssociationConnector Association="ERPModel.FK_VendorDepositHistory_VendorType" />
         <AssociationConnector Association="ERPModel.FK_VendorOpening_VendorType" />
         <EntityTypeShape EntityType="ERPModel.BillingGeneratedMap" Width="1.5" PointX="29.375" PointY="39.75" />
-        <EntityTypeShape EntityType="ERPModel.ChequeRegister" Width="1.5" PointX="74.625" PointY="40.5" />
-        <AssociationConnector Association="ERPModel.FK_ChequeRegister_Accounting_CostCenter" />
-        <AssociationConnector Association="ERPModel.FK_ChequeRegister_BillRequisitionMaster" />
-        <AssociationConnector Association="ERPModel.FK_ChequeRegister_ChequeRegister" />
         <EntityTypeShape EntityType="ERPModel.BankAccountInfo" Width="1.5" PointX="51.875" PointY="48.875" />
         <AssociationConnector Association="ERPModel.FK_BankAccountInfo_BankBranch" />
         <AssociationConnector Association="ERPModel.FK_ChequeBook_BankAccountInfo" />
@@ -586,7 +582,6 @@
         <EntityTypeShape EntityType="ERPModel.PaymentMaster" Width="1.5" PointX="63.875" PointY="43.375" />
         <AssociationConnector Association="ERPModel.FK_PaymentMaster_BatchPaymentDetail" />
         <AssociationConnector Association="ERPModel.FK_Payment_PaymentMaster" />
-        <EntityTypeShape EntityType="ERPModel.VoucherPaymentChequeHistory" Width="1.5" PointX="51.375" PointY="17.75" />
         <EntityTypeShape EntityType="ERPModel.Voucher" Width="1.5" PointX="11" PointY="80.75" />
         <AssociationConnector Association="ERPModel.FK_BillRequisitionVoucherMap_Voucher" />
         <AssociationConnector Association="ERPModel.FK_VendorDeposit_Voucher" />
@@ -595,6 +590,11 @@
         <AssociationConnector Association="ERPModel.FK_VoucherBRMapMaster_Voucher" />
         <AssociationConnector Association="ERPModel.FK_VoucherBRMapMasterApproval_Voucher" />
         <AssociationConnector Association="ERPModel.FK_VoucherDetail_Voucher" />
+        <EntityTypeShape EntityType="ERPModel.ChequeRegister" Width="1.5" PointX="74.625" PointY="40.5" />
+        <EntityTypeShape EntityType="ERPModel.VoucherPaymentChequeHistory" Width="1.5" PointX="51.375" PointY="17.75" />
+        <AssociationConnector Association="ERPModel.FK_ChequeRegister_Accounting_CostCenter" />
+        <AssociationConnector Association="ERPModel.FK_ChequeRegister_BillRequisitionMaster" />
+        <AssociationConnector Association="ERPModel.FK_ChequeRegister_ChequeRegister" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
