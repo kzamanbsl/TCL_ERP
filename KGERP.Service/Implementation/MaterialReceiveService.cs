@@ -735,7 +735,8 @@ namespace KGERP.Service.Implementation
                               {
                                   UnitPrice = t2.UnitPrice,
                                   ReceiveQuentity = t2.ReceiveQty,
-                                  //purchaseQuentity = t5.PurchaseAmount,
+                                  ReceiveProductRate=t2.UnitPrice,
+                                  MaterialDetailReceiveId = t2.MaterialReceiveDetailId,
                                   TotalAmount = t2.UnitPrice* t2.ReceiveQty
                               }).ToListAsync();
 
@@ -747,13 +748,30 @@ namespace KGERP.Service.Implementation
                                    {
                                        t6.ConsumedQty
                                    }).ToList();
+
+            var MaterialDetailReceiveIds = data.Select(c => c.MaterialDetailReceiveId).ToList();
+
+            var transferData = _context.PurchaseReturnDetails.Where(c => MaterialDetailReceiveIds.Contains(c.MaterialReceiveDetailId))
+                              .Join(_context.PurchaseReturns,
+                                  pr => pr.PurchaseReturnId,
+                                  p => p.PurchaseReturnId,
+                                  (pr, p) => new
+                                  {
+                                      ReturnQty=pr.Qty,
+                                      ReturnRate=pr.Rate,
+                                      ProductId=pr.ProductId,
+                                      PurchaseReturnDetailId=pr.PurchaseReturnDetailId,
+                                      PurchaseReturnId=pr.PurchaseReturnId,
+                                  });
             var result = new
             {
                 UnitPrice = data.Select(c => c.UnitPrice).FirstOrDefault(),
                 StoredQty = data.Select(c => c.ReceiveQuentity).Sum(),
-                ConsumedQty = consumptionData.Select(c=>c.ConsumedQty).Sum(),
-                RemainQuentity = data.Select(c => c.ReceiveQuentity).Sum()- consumptionData.Select(c =>c.ConsumedQty).Sum(),
-                TotalAmount= data.Select(c=>c.TotalAmount).Sum(),
+                ConsumedQty = consumptionData.Select(c => c.ConsumedQty).Sum(),
+                ReturnQty = transferData.Select(c => c.ReturnQty).Sum(),
+                RemainQuentity = data.Select(c => c.ReceiveQuentity).Sum() - (consumptionData.Select(c => c.ConsumedQty).Sum()??0 + transferData.Select(c => c.ReturnQty).Sum()??0),
+                ReceiveProductRate = data.Select(c => c.ReceiveProductRate).Average(),
+                TotalAmount = data.Select(c=>c.TotalAmount).Sum(),
                
             };
             return result;

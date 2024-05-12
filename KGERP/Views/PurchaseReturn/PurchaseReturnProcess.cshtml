@@ -74,6 +74,7 @@
                 @Html.HiddenFor(x => x.CompanyId)
                 @Html.HiddenFor(x => x.PurchaseReturnId)
                 @Html.HiddenFor(x => x.AccoutHeadId, new { @id = "hfSupplierAccoutHeadId" })
+                @Html.HiddenFor(x => x.StockInfoId, new { @id = "hfStockInfoId" })
                 @Html.HiddenFor(x => x.PurchaseReturnDetailId, new { @id = "hfPurchaseReturnDetailId" })
 
                 <div class="box-danger">
@@ -221,7 +222,7 @@
 
                             @if (Model.IsSubmited == false)
                             {
-                                <table class="table table-responsive">
+                                @*<table class="table table-responsive">
                                     <tr style="background-color:#3c8dbc;color:#ffffff">
                                         <th>Material/Item Name</th>
                                         <th>Return Quantity</th>
@@ -262,7 +263,7 @@
                                         }
 
                                     </tr>
-                                </table>
+                                </table>*@
                             }
 
                             <br />
@@ -279,10 +280,10 @@
                                             <th>Unit</th>
                                             <th>Return Rate</th>
                                             <th>Total Amount</th>
-                                            @if (Model.IsSubmited == false)
+                                            @*@if (Model.IsSubmited == false)
                                             {
                                                 <th>&nbsp;</th>
-                                            }
+                                            }*@
                                     </thead>
 
                                     <tbody>
@@ -295,13 +296,13 @@
                                                 <td> @item.UnitName</td>
                                                 <td>@item.Rate</td>
                                                 <td><b> @item.TotalRate  </b></td>
-                                                @if (Model.IsSubmited == false)
+                                                @*@if (Model.IsSubmited == false)
                                                 {
                                                     <td>
                                                         <a onclick="makeEdit(@item.PurchaseReturnDetailId)" style="color:black" class="linkPointer" title="Edit" data-placement="top"> <i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></a>
                                                         <a id="linkVoucherId_@item.PurchaseReturnDetailId" onclick="makeDeletale(@item.PurchaseReturnDetailId)" style="color:red" class="linkPointer" data-toggle="modal" data-target="#deleteVoucherModal" title="Delete" data-placement="top"> <i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>
                                                     </td>
-                                                }
+                                                }*@
                                             </tr>
                                         }
 
@@ -581,27 +582,69 @@
                         cache: true,
                         contentType: "application/json; charset=utf-8",
                         success: function (data) {
+                            console.log(data);
                             response($.map(data, function (item) {
+                                console.log(item);
+
                                 return item;
                             }))
                         },
                         error: function (response) {
-                            //alert(response.responseText);
+                            alert(response.responseText);
                         },
                         failure: function (response) {
-                            //alert(response.responseText);
+                            alert(response.responseText);
                         }
                     });
 
                 },
                 select: function (e, i) {
                     $("#hfProductId").val(i.item.val);
+                    var productId = $("#hfProductId").val();
+                    var stockInfoId = $("#hfStockInfoId").val();
+
+                    $.ajax({
+                        url: '/MaterialReceive/MaterialStoreDetailByBoqItemStoreIdAndProductId/',
+                        data: { BoqItem: 0, storeId: stockInfoId, ProductId: productId },
+                        dataType: "json",
+                        type: "GET",
+                        cache: true,
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+
+                            $("#Qty").val(data.RemainQuentity);
+                            $("#Rate").val(data.ReceiveProductRate);
+                        }
+                    });
+                    
                 },
                 minLength: 1
             }).focus(function () {
                 $(this).autocomplete("search");
             });
+
+
         });
+
+        //$("#ProductName").on('change', function () {
+        //    var productId = $("#hfProductId").val();
+        //    var stockInfoId = $("#hfStockInfoId").val();
+
+        //    $.ajax({
+        //        url: '/Warehouse/MaterialStoreDetailByBoqItemStoreIdAndProductId/',
+        //        data: { BoqItem: 0, storeId: stockInfoId, ProductId: productId },
+        //        dataType: "json",
+        //        type: "GET",
+        //        cache: true,
+        //        contentType: "application/json; charset=utf-8",
+        //        success: function (data) {
+        //            response($.map(data, function (item) {
+        //                return item;
+        //            }))
+        //        }
+        //    });
+        //});
+
 
         $(function () {
             $("#returnPersonName").autocomplete({
