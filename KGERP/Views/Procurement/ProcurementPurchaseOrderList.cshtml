@@ -146,11 +146,11 @@
 
                                             </td>
                                             <td>@item.StockInfoName</td>
-                                            <td>@item.OrderDate.Value.ToString("dd-MM-yyyy")</td>
+                                            <td>@(item.OrderDate?.ToString("dd-MM-yyyy")??"")</td>
                                             <td>@item.SupplierName</td>
 
-                                            <td>@item.DeliveryDate.Value.ToString("dd-MM-yyyy")</td>
-                                            <td>@item.DeliveryAddress</td>
+                                            <td>@(item.DeliveryDate?.ToString("dd-MM-yyyy")??"")</td>
+                                            <td>@(item?.DeliveryAddress??"")</td>
                                             <td>@item.POPaymentMethodName</td>
                                             <td>@item.EnumStatusName</td>
 
