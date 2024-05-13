@@ -12,18 +12,7 @@
 
 <section class="content-header">
     <h1>
-        @if (Model.CostCenterManagerMapId > 0)
-        {
-            <span>
-                Project Manager Assign
-            </span>
-        }
-        else
-        {
-            <span>
-                Project Manager Assign
-            </span>
-        }
+        Project Manager Assign
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
@@ -52,16 +41,16 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label asp-for="ProjectId">Select Project : </label>
-                                    @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.Projects.OrderBy(order => order.Name), "CostCenterId", "Name"), "== Select Project ==", new { id = "selectProject", @class = "form-control searchingDropdown" })
+                                    <label asp-for="ProjectId">Project<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                    @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.Projects.OrderBy(order => order.Name), "CostCenterId", "Name"), "==Select Project==", new { id = "selectProject", @class = "form-control searchingDropdown" })
                                     @Html.ValidationMessageFor(model => model.ProjectId, "", new { @class = "text-danger" })
                                 </div>
                             </div>
 
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label asp-for="EmployeeRowId">Select Manager : </label>
-                                    @Html.DropDownListFor(model => model.EmployeeRowId, new SelectList(Model.EmployeesWithId.OrderBy(order => order.Name), "Id", "Name"), "== Select Manager ==", new { id = "selectEmployee", @class = "form-control searchingDropdown" })
+                                    <label asp-for="EmployeeRowId">Manager<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                    @Html.DropDownListFor(model => model.EmployeeRowId, new SelectList(Model.EmployeesWithId.OrderBy(order => order.Name), "Id", "Name"), "==Select Manager==", new { id = "selectEmployee", @class = "form-control searchingDropdown" })
                                     @Html.ValidationMessageFor(model => model.EmployeeRowId, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -95,7 +84,7 @@
                             <thead>
                                 <tr>
                                     <th>SL</th>
-                                    <th>Project Type</th>
+                                    <th>Project Category</th>
                                     <th>Project Name</th>
                                     <th>Manager Name</th>
                                     <th>Employee Id</th>
@@ -176,7 +165,7 @@
 @section scripts {
     <script type="text/javascript">
         $(document).ready(function () {
-            
+
         });
 
         function makeEditble(elem) {

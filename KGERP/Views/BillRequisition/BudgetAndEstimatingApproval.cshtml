@@ -13,13 +13,12 @@
     input, select, textarea {
         max-width: 100%;
     }
+
     .table-wrapper {
         max-height: 600px;
         overflow: auto;
         display: inline-block;
     }
-
-
 </style>
 
 <section class="content-header">
@@ -50,23 +49,23 @@
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label asp-for="ProjectId" class="form-control-label">Select Project<sup class="text-danger" title="Required"><b>*</b></sup></label>
-                                        @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.Projects.OrderBy(order => order.Name), "CostCenterId", "Name"), "==Select Project Type First==", new { id = "ddlProjectId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                        <label asp-for="ProjectId" class="form-control-label">Project<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                        @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.Projects.OrderBy(order => order.Name), "CostCenterId", "Name"), "==Select Project==", new { id = "ddlProjectId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
                                         @Html.ValidationMessageFor(model => model.ProjectId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
 
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label asp-for="BoQDivisionId" class="form-control-label">Select BoQ Division</label>
-                                        @Html.DropDownListFor(model => model.BoQDivisionId, new SelectList(Model.BoqDivisionsSelectList, "Text", "Value"), "==Select BoQ Division==", new { id = "ddlBoQDivisionId", @class = "form-control searchingDropdown", style = "width:100%" })
+                                        <label asp-for="BoQDivisionId" class="form-control-label">BoQ Division</label>
+                                        @Html.DropDownListFor(model => model.BoQDivisionId, new SelectList(Model.BoqDivisionsSelectList, "Text", "Value"), "==Select Division==", new { id = "ddlBoQDivisionId", @class = "form-control searchingDropdown", style = "width:100%" })
                                         @Html.ValidationMessageFor(model => model.BoQDivisionId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
 
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label asp-for="BoQItemId" class="form-control-label">Select BoQ Item</label>
+                                        <label asp-for="BoQItemId" class="form-control-label">BoQ Item</label>
                                         @Html.DropDownListFor(model => model.BoQItemId, new SelectList(Model.BoqItemSelectList, "Value", "Text"), "==Select BoQ Item==", new { id = "ddlBoQItemId", @class = "form-control searchingDropdown", style = "width:100%" })
                                         @Html.ValidationMessageFor(model => model.BoQItemId, "", new { @class = "text-danger" })
                                     </div>
@@ -81,9 +80,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-9">
-
-                                </div>
+                                <div class="col-md-9"></div>
 
                                 <div class="col-md-3" style="padding: 0px 2px 0px 8px;">
                                     <div class="form-group">
@@ -183,13 +180,15 @@
                                             </tr>
                                             <tr>
                                                 <th></th>
-                                                <th colspan="7" style="text-align:right!important">Total Gross Margin :
-                                                <br /> <span>Total Gross Margin % :  </span>  </th>
+                                                <th colspan="7" style="text-align:right!important">
+                                                    Total Gross Margin :
+                                                    <br /> <span>Total Gross Margin % :  </span>
+                                                </th>
                                                 <th style="text-align:right!important">
                                                     @(Model.TotalGrossMargin) <br />@(Model.TotalGrossMarginPercentage.ToString("#.##")) %
                                                 </th>
                                             </tr>
-                                            
+
                                         </tfoot>
                                     </table>
                                 </div>
@@ -302,10 +301,10 @@
         $(document).ready(function () {
             $('#ddlStatusEnumFK').removeAttr('title');
             $("#ddlBoQDivisionId").empty();
-            $("#ddlBoQDivisionId").append("<option selected disabled>==Select Project==</option>");
+            $("#ddlBoQDivisionId").append("<option selected disabled>==Select Division==</option>");
 
             $("#ddlBoQItemId").empty();
-            $("#ddlBoQItemId").append("<option selected disabled>==Select BoQ Division==</option>");
+            $("#ddlBoQItemId").append("<option selected disabled>==Select BoQ Item==</option>");
         });
 
         $('.datepicker').datepicker({
@@ -338,7 +337,7 @@
                 data: { id: getProjectId },
                 success: function (data) {
                     showBoqDivisionList.empty();
-                    showBoqDivisionList.append("<option selected disabled>==Select BoQ Division==</option>");
+                    showBoqDivisionList.append("<option selected disabled>==Select Division==</option>");
 
                     $.each(data, function (index, item) {
                         showBoqDivisionList.append($('<option>', {
@@ -380,7 +379,7 @@
         function revisedApproved(boqMapId) {
 
             var estimatedQty = $("#tdBoqEstimateQty_" + boqMapId).find("input[type='text']").val();;
-           // var estimatedRate = $("#tdBoqUnitRate_" + boqMapId).find("input[type='text']").val();;
+            // var estimatedRate = $("#tdBoqUnitRate_" + boqMapId).find("input[type='text']").val();;
             var estimatedQtyId = $("#tdBoqEstimateQty_" + boqMapId);
             var unitQty = $("#tdBoqUnitRate_" + boqMapId).find('input').val();
             var unitQtyId = $("#tdBoqUnitRate_" + boqMapId);
@@ -393,7 +392,6 @@
                         UnitRate: unitQty
                     }
                 ]
-
             };
 
 
@@ -410,9 +408,6 @@
                     reApprovedBtn.removeClass("btn-warning").addClass("btn-success");
                     $("#tdBoqEstimateQty_" + boqMapId).find("input[type='text']").prop('disabled', true);
                     $("#tdBoqUnitRate_" + boqMapId).find("input[type='text']").prop('disabled', true);
-
-
-
                 }
             });
         }

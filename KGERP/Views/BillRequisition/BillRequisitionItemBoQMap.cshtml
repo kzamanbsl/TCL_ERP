@@ -1,6 +1,6 @@
 ﻿@model KGERP.Service.ServiceModel.BillRequisitionItemBoQMapModel
 @{
-    ViewData["Title"] = "BoQ Budget & Estimating";
+    ViewData["Title"] = "Budget & Estimating";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     KGERP.Service.ServiceModel.BillRequisitionItemBoQMapModel CacheData = TempData["CacheModel"] as KGERP.Service.ServiceModel.BillRequisitionItemBoQMapModel;
@@ -13,11 +13,11 @@
 </style>
 <section class="content-header">
     <h1>
-        BoQ Budget & Estimating
+        Budget & Estimating
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">BoQ Budget & Estimating</li>
+        <li class="active">Budget & Estimating</li>
     </ol>
 </section>
 
@@ -45,56 +45,56 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label class="form-label">Select Project Type<sup class="text-danger" title="Required"><b>*</b></sup></label>
-                                @Html.DropDownListFor(model => model.ProjectTypeId, new SelectList(Model.ProjectTypes.OrderBy(order => order.Name), "CostCenterTypeId", "Name"), "==Select Project Type==", new { id = "projectTypeId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                <label class="form-label">Project Category<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                @Html.DropDownListFor(model => model.ProjectTypeId, new SelectList(Model.ProjectTypes.OrderBy(order => order.Name), "CostCenterTypeId", "Name"), "==Select Project Category==", new { id = "projectTypeId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
                                 @Html.ValidationMessageFor(model => model.ProjectTypeId, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label class="form-label">Select Project<sup class="text-danger" title="Required"><b>*</b></sup></label>
-                                @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.Projects.OrderBy(order => order.Name), "CostCenterId", "Name"), "==Select Project Type First==", new { id = "ddlProjectId", @class = "form-control searchingDropdown", style = "width:100%", required = "true" })
+                                <label class="form-label">Project<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                @Html.DropDownListFor(model => model.ProjectId, new SelectList(Model.Projects.OrderBy(order => order.Name), "CostCenterId", "Name"), "==Select Project==", new { id = "ddlProjectId", @class = "form-control searchingDropdown", style = "width:100%", required = "true" })
                                 @Html.ValidationMessageFor(model => model.ProjectId, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label class="form-label">Select BoQ Division<sup class="text-danger" title="Required"><b>*</b></sup></label>
-                                @Html.DropDownListFor(model => model.BoQDivisionId, new SelectList(Model.BoQDivisions.OrderBy(order => order.Name), "BoQDivisionId", "Name"), "==Select Project First==", new { id = "ddlBoQDivisionId", @class = "form-control searchingDropdown", style = "width:100%", required = "true" })
+                                <label class="form-label">Division<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                @Html.DropDownListFor(model => model.BoQDivisionId, new SelectList(Model.BoQDivisions.OrderBy(order => order.Name), "BoQDivisionId", "Name"), "==Select Division==", new { id = "ddlBoQDivisionId", @class = "form-control searchingDropdown", style = "width:100%", required = "true" })
                                 @Html.ValidationMessageFor(model => model.BoQDivisionId, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label class="form-label">Select BoQ Item<sup class="text-danger" title="Required"><b>*</b></sup></label>
-                                @Html.DropDownListFor(model => model.BoQItemId, new SelectList(Model.BoQItems.OrderBy(order => order.Name), "BoQItemId", "Name"), "==Select BoQ Division First==", new { id = "ddlBoQItemId", @class = "form-control searchingDropdown", style = "width:100%", required = "true" })
+                                <label class="form-label">BoQ Item<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                @Html.DropDownListFor(model => model.BoQItemId, new SelectList(Model.BoQItems.OrderBy(order => order.Name), "BoQItemId", "Name"), "==Select BoQ Item==", new { id = "ddlBoQItemId", @class = "form-control searchingDropdown", style = "width:100%", required = "true" })
                                 @Html.ValidationMessageFor(model => model.BoQItemId, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label class="form-label">Select Material Type<sup class="text-danger" title="Required"><b>*</b></sup></label>
-                                @Html.DropDownListFor(model => model.BudgetTypeId, new SelectList(Model.BudgetTypes.OrderBy(order => order.Name), "ProductCategoryId", "Name"), "==Select Material Type==", new { id = "ddlBRTypeId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                <label class="form-label">Material Category<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                @Html.DropDownListFor(model => model.BudgetTypeId, new SelectList(Model.BudgetTypes.OrderBy(order => order.Name), "ProductCategoryId", "Name"), "==Select Material Category==", new { id = "ddlBRTypeId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
                                 @Html.ValidationMessageFor(model => model.BudgetTypeId, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label class="form-label">Select Material Subtype<sup class="text-danger" title="Required"><b>*</b></sup></label>
-                                @Html.DropDownListFor(model => model.BudgetSubtypeId, new SelectList(Model.BudgetSubtypes.OrderBy(order => order.Name), "ProductSubCategoryId", "Name"), "==Select Material Type First==", new { id = "ddlBRSubTypeId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                <label class="form-label">Material Subcategory<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                @Html.DropDownListFor(model => model.BudgetSubtypeId, new SelectList(Model.BudgetSubtypes.OrderBy(order => order.Name), "ProductSubCategoryId", "Name"), "==Select Material Subcategory==", new { id = "ddlBRSubTypeId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
                                 @Html.ValidationMessageFor(model => model.BudgetSubtypeId, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label class="form-label">Select Material<sup class="text-danger" title="Required"><b>*</b></sup></label>
-                                @Html.DropDownListFor(model => model.MaterialItemId, new SelectList(Model.BoQMaterials.OrderBy(order => order.ProductName), "ProductId", "ProductName"), "==Select Material Subtype First==", new { id = "ddlMaterialItemId", @class = "form-control searchingDropdown", required = "true" })
+                                <label class="form-label">Material / Item<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                @Html.DropDownListFor(model => model.MaterialItemId, new SelectList(Model.BoQMaterials.OrderBy(order => order.ProductName), "ProductId", "ProductName"), "==Select Material==", new { id = "ddlMaterialItemId", @class = "form-control searchingDropdown", required = "true" })
                                 @Html.ValidationMessageFor(model => model.MaterialItemId, "", new { @class = "text-danger" })
                                 <small class="text-danger" id="errorMessage"></small>
                             </div>
@@ -103,7 +103,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label class="form-label">Estimated Quantity<sup class="text-danger" title="Required"><b>*</b></sup></label>
-                                @Html.TextBoxFor(model => model.EstimatedQty, new { id = "txtEstimateQty", @class = "form-control", @placeholder = "BoQ Item Number", required = "true" })
+                                @Html.TextBoxFor(model => model.EstimatedQty, new { id = "txtEstimateQty", @class = "form-control", @placeholder = "Type estimated quantity", required = "true" })
                                 @Html.ValidationMessageFor(model => model.EstimatedQty, "", new { id = "nameExist", @class = "text-danger" })
                             </div>
                         </div>
@@ -111,7 +111,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label class="form-label">Unit Price<sup class="text-danger" title="Required"><b>*</b></sup></label>
-                                @Html.TextBoxFor(model => model.UnitRate, new { id = "txtUnitRate", @class = "form-control", @placeholder = "BoQ Item Number", required = "true" })
+                                @Html.TextBoxFor(model => model.UnitRate, new { id = "txtUnitRate", @class = "form-control", @placeholder = "Type unit price", required = "true" })
                                 @Html.ValidationMessageFor(model => model.UnitRate, "", new { id = "nameExist", @class = "text-danger" })
                             </div>
                         </div>

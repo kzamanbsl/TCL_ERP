@@ -1,25 +1,22 @@
 ﻿@model KGERP.Service.Implementation.Configuration.VMCommonProductCategory
 @using KG.Core.Services
 @{
-    ViewData["Title"] = "New Material Type";
+    ViewData["Title"] = "Add Material Category";
     Layout = "~/Views/Shared/_Layout.cshtml";
-
-
 }
 
 <style type="text/css">
-
     input, select, textarea {
         max-width: 100%;
     }
 </style>
 <section class="content-header">
     <h1>
-        New Material Type
+        Material Categories
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">New Requisition Type</li>
+        <li class="active">Add Material Category</li>
     </ol>
 </section>
 @using (Html.BeginForm("CommonRawProductCategory", "Configuration", FormMethod.Post, new { id = "commonFinishProductCategoryFormId", @class = "formValidator", onreset = "resetDDL();" }))
@@ -42,8 +39,8 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label>Material Type Name :</label>
-                                            @Html.TextBoxFor(model => model.Name, new { id = "txtProductCategoryName", @class = "form-control input-sm", @placeholder = "Material type name", required = "true", })
+                                            <label>Material Category<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                            @Html.TextBoxFor(model => model.Name, new { id = "txtProductCategoryName", @class = "form-control input-sm", @placeholder = "Type material category name", required = "true", })
                                             @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -77,14 +74,14 @@
                                         <thead>
                                             <tr>
                                                 <th>SL</th>
-                                                <th>Material Type</th>
+                                                <th>Material Category</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         @{int sl = 0;
                                         }
                                         <tbody>
-                                            @foreach (var item in Model.DataList.OrderBy(c=>c.Name))
+                                            @foreach (var item in Model.DataList.OrderBy(c => c.Name))
                                             {
                                                 <tr>
                                                     <td>@(++sl)</td>
@@ -157,7 +154,7 @@
 @section scripts {
     <script type="text/javascript">
         $(document).ready(function () {
-            
+
 
         });
 

@@ -1,6 +1,6 @@
 ﻿@model KGERP.Service.Implementation.Configuration.VMCommonProductSubCategory
 @{
-    ViewData["Title"] = "New Material Subtype";
+    ViewData["Title"] = "Add Material Subcategory";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -12,11 +12,11 @@
 </style>
 <section class="content-header">
     <h1>
-        New Material Subtype
+        Material Subcategories
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">New Material Subtype</li>
+        <li class="active">Add Material Subcategory</li>
     </ol>
 </section>
 @using (Html.BeginForm("CommonRawProductSubCategory", "Configuration", FormMethod.Post, new { id = "commonProductSubCategoryFormId", @class = "formValidator", onreset = "resetDDL();" }))
@@ -39,15 +39,15 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label>Material Type :</label>
-                                            @Html.DropDownListFor(model => model.Common_ProductCategoryFk, Model.ProductCategoryLists as SelectList, "=Select Requisition type=", new { id = "ddlCommonProductCategoryFk", @class = "form-control", required = "true", })
+                                            <label>Material Category<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                            @Html.DropDownListFor(model => model.Common_ProductCategoryFk, Model.ProductCategoryLists as SelectList, "==Select Category==", new { id = "ddlCommonProductCategoryFk", @class = "form-control searchingDropdown", required = "true", })
                                             @Html.ValidationMessageFor(model => model.Common_ProductCategoryFk, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label>Material Subtype Name :</label>
-                                            @Html.TextBoxFor(model => model.Name, new { id = "txtSubcategoryName", @class = "form-control input-sm", @placeholder = "Material subtype name", required = "true" })
+                                            <label>Material Subcategory<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                            @Html.TextBoxFor(model => model.Name, new { id = "txtSubcategoryName", @class = "form-control input-sm", @placeholder = "Type material subcategory name", required = "true" })
                                             @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -79,14 +79,14 @@
                                         <thead>
                                             <tr>
                                                 <th>SL</th>
-                                                <th>Material Type</th>
-                                                <th>Material Subtype</th>
+                                                <th>Material Category</th>
+                                                <th>Material Subcategory</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         @{int sl = 0;}
                                         <tbody>
-                                            @foreach (var item in Model.DataList.OrderBy(c=>c.Common_ProductCategoryFk))
+                                            @foreach (var item in Model.DataList.OrderBy(c => c.Common_ProductCategoryFk))
                                             {
                                                 <tr>
                                                     <td>@(++sl)</td>
@@ -152,7 +152,7 @@
 @section scripts {
     <script type="text/javascript">
         $(document).ready(function () {
-            
+
         });
 
         function makeEditble(elem) {

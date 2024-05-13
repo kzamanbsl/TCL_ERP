@@ -1,7 +1,7 @@
 ﻿@model KGERP.Service.Implementation.Configuration.VMCommonUnit
 @{
 
-    ViewData["Title"] = "BoQ Unit";
+    ViewData["Title"] = "Add BoQ Unit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -14,11 +14,11 @@
 
 <section class="content-header">
     <h1>
-        BoQ Unit
+        BoQ Units
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">BoQ Unit</li>
+        <li class="active">Add BoQ Unit</li>
     </ol>
 </section>
 
@@ -40,8 +40,8 @@
                             @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
 
                             <div class="form-group">
-                                <label>BoQ Unit Name<sup class="text-danger" title="Required"><b>*</b></sup></label>
-                                @Html.TextBoxFor(model => model.Name, new { id = "txtUnitName", @class = "form-control input-sm", @placeholder = "BoQ Unit Name", required = "true", })
+                                <label>BoQ Unit<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                @Html.TextBoxFor(model => model.Name, new { id = "txtUnitName", @class = "form-control input-sm", @placeholder = "Type BoQ unit name", required = "true", })
                                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                             </div>
                             <div class="form-group">
@@ -72,16 +72,15 @@
                                     <thead>
                                         <tr>
                                             <th>SL</th>
-                                            <th>Unit Name</th>
+                                            <th>BoQ Unit</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     @{int sl = 0;
                                     }
                                     <tbody>
-                                        @foreach (var item in Model.DataList.Where(c => c.IsBoQUnit == true).OrderBy(order=> order.Name))
+                                        @foreach (var item in Model.DataList.Where(c => c.IsBoQUnit == true).OrderBy(order => order.Name))
                                         {
-
                                             <tr>
                                                 <td>@(++sl)</td>
                                                 <td id="tdUnitName_@item.ID">@item.Name</td>
@@ -149,7 +148,7 @@
 @section scripts {
     <script type="text/javascript">
         $(document).ready(function () {
-            
+
 
         });
 

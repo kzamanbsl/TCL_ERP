@@ -1,12 +1,11 @@
 ﻿@model KGERP.Service.Implementation.Configuration.VMCommonUnit
 @{
 
-    ViewData["Title"] = "Material Unit";
+    ViewData["Title"] = "Add Material Unit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <style type="text/css">
-
     input, select, textarea {
         max-width: 100%;
     }
@@ -14,11 +13,11 @@
 
 <section class="content-header">
     <h1>
-        Material Unit
+        Material Units
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">Material Unit</li>
+        <li class="active">Add Material Unit</li>
     </ol>
 </section>
 
@@ -27,87 +26,87 @@
     <section class="content">
         <div class="row">
 
-                <div class="col-md-3">
-                    <div class="box">
-                        @Html.AntiForgeryToken()
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        <div class="box-danger">
-                            <div class="box-header"></div>
-                            <!-- /.box-header -->
-                            <div class="box-body">
-                                @Html.HiddenFor(model => model.ID, new { Value = "", id = "unitId" })
-                                @Html.HiddenFor(model => model.ActionId, new { Value = "", id = "ActionId" })
-                                @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
+            <div class="col-md-3">
+                <div class="box">
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="box-danger">
+                        <div class="box-header"></div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            @Html.HiddenFor(model => model.ID, new { Value = "", id = "unitId" })
+                            @Html.HiddenFor(model => model.ActionId, new { Value = "", id = "ActionId" })
+                            @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
 
-                                <div class="form-group">
-                                    <label>Material Unit Name :</label>
-                                    @Html.TextBoxFor(model => model.Name, new { id = "txtUnitName", @class = "form-control input-sm", @placeholder = "Unit Name", required = "true", })
-                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                            <div class="form-group">
+                                <label>Material Unit<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                @Html.TextBoxFor(model => model.Name, new { id = "txtUnitName", @class = "form-control input-sm", @placeholder = "Type material unit name", required = "true", })
+                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-5">
+                                    <button type="button" onclick="resetForm()" class="btn btn-secondary" data-dismiss="modal">Reset</button>
                                 </div>
-                                <div class="form-group">
-                                    <div class="col-md-5">
-                                        <button type="button" onclick="resetForm()" class="btn btn-secondary" data-dismiss="modal">Reset</button>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <button type="submit" id="btnSave" class="btn btn-primary btn-block"><i class='fa fa-edit'></i> Add</button>
-
-                                    </div>
+                                <div class="col-md-7">
+                                    <button type="submit" id="btnSave" class="btn btn-primary btn-block"><i class='fa fa-edit'></i> Add</button>
 
                                 </div>
+
                             </div>
-                            <div class="box-footer">
-                            </div>
+                        </div>
+                        <div class="box-footer">
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="col-md-9">
-                    <div class="box">
+            <div class="col-md-9">
+                <div class="box">
 
-                        <div class="box-danger">
-                            <div class="box-header"></div>
-                            <!-- /.box-header -->
-                            <div class="box-body">
+                    <div class="box-danger">
+                        <div class="box-header"></div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
 
-                                <div class="table-responsive col-md-12">
-                                    <table id="KgErpDataTable" class="table table-striped">
-                                        <thead>
+                            <div class="table-responsive col-md-12">
+                                <table id="KgErpDataTable" class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>SL</th>
+                                            <th>Material / Item Unit</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    @{int sl = 0;
+                                    }
+                                    <tbody>
+                                        @foreach (var item in Model.DataList.Where(c => c.IsBoQUnit == false).OrderBy(order => order.Name))
+                                        {
+
                                             <tr>
-                                                <th>SL</th>
-                                                <th>Unit Name</th>
-                                                <th>Action</th>
+                                                <td>@(++sl)</td>
+                                                <td id="tdUnitName_@item.ID">@item.Name</td>
+                                                <td>
+                                                    <a id="@item.ID" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
+
+                                                    <a id="@item.ID" onclick="makeDeletable(@item.ID);" class="linkPointer" data-toggle="modal" data-target="#unitDeleteModal" title="Delete"
+                                                       data-placement="top">
+                                                        <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+                                                    </a>
+                                                </td>
                                             </tr>
-                                        </thead>
-                                        @{int sl = 0;
                                         }
-                                        <tbody>
-                                            @foreach (var item in Model.DataList.Where(c => c.IsBoQUnit == false).OrderBy(order => order.Name))
-                                            {
-
-                                                <tr>
-                                                    <td>@(++sl)</td>
-                                                    <td id="tdUnitName_@item.ID">@item.Name</td>
-                                                    <td>
-                                                        <a id="@item.ID" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
-
-                                                        <a id="@item.ID" onclick="makeDeletable(@item.ID);" class="linkPointer" data-toggle="modal" data-target="#unitDeleteModal" title="Delete"
-                                                           data-placement="top">
-                                                            <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                            }
-                                        </tbody>
-                                    </table>
-                                </div>
-
+                                    </tbody>
+                                </table>
                             </div>
-                            <div class="box-footer">
-                            </div>
+
+                        </div>
+                        <div class="box-footer">
                         </div>
                     </div>
                 </div>
-            
+            </div>
+
         </div>
     </section>
 
@@ -151,7 +150,7 @@
 @section scripts {
     <script type="text/javascript">
         $(document).ready(function () {
-            
+
 
         });
 

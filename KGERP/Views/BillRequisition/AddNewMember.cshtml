@@ -1,6 +1,6 @@
 ﻿@model KGERP.Service.ServiceModel.BuildingMemberModel
 @{
-    ViewData["Title"] = "New Member";
+    ViewData["Title"] = "Add Member";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -11,13 +11,11 @@
 </style>
 <section class="content-header">
     <h1>
-        <span>
-            New Member
-        </span>
+        Members
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">New Member</li>
+        <li class="active">Add Member</li>
     </ol>
 </section>
 
@@ -38,8 +36,8 @@
                                 @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
 
                                 <div class="form-group">
-                                    <label asp-for="Name" class="form-control-label">Member Name<sup class="text-danger"><b>*</b></sup></label>
-                                    @Html.TextBoxFor(model => model.Name, new { id = "txtMemberName", @class = "form-control", @placeholder = "Floor name", required = "true" })
+                                    <label asp-for="Name" class="form-control-label">Member<sup class="text-danger"><b>*</b></sup></label>
+                                    @Html.TextBoxFor(model => model.Name, new { id = "txtMemberName", @class = "form-control", @placeholder = "Type member name", required = "true" })
                                     @Html.ValidationMessageFor(model => model.Name, "", new { id = "nameExist", @class = "text-danger" })
                                 </div>
 
@@ -68,7 +66,7 @@
                                         <thead>
                                             <tr>
                                                 <th>SL</th>
-                                                <th>Member Name</th>
+                                                <th>Member</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -143,7 +141,7 @@
 @section scripts {
     <script type="text/javascript">
         $(document).ready(function () {
-            
+
         });
 
         function makeEditble(elem) {

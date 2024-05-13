@@ -1,6 +1,6 @@
 ﻿@model KGERP.Service.ServiceModel.CostCenterTypeModel
 @{
-    ViewData["Title"] = "Project Type";
+    ViewData["Title"] = "Add Project Category";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -11,22 +11,11 @@
 </style>
 <section class="content-header">
     <h1>
-        @if (Model.CostCenterTypeId > 0)
-        {
-            <span>
-                Project Type
-            </span>
-        }
-        else
-        {
-            <span>
-                Project Type
-            </span>
-        }
+        Project Categories
     </h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">Project Type</li>
+        <li class="active">Add Project Category</li>
     </ol>
 </section>
 
@@ -47,8 +36,8 @@
                                 @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
 
                                 <div class="form-group">
-                                    <label asp-for="Name" class="form-control-label">Project Type Name : </label>
-                                    @Html.TextBoxFor(model => model.Name, new { id = "txtCostCenterTypeName", @class = "form-control", @placeholder = "Project Type", required = "true" })
+                                    <label asp-for="Name" class="form-control-label">Project Category<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                    @Html.TextBoxFor(model => model.Name, new { id = "txtCostCenterTypeName", @class = "form-control", @placeholder = "Type project category name", required = "true" })
                                     @Html.ValidationMessageFor(model => model.Name, "", new { id = "nameExist", @class = "text-danger" })
                                 </div>
 
@@ -79,7 +68,7 @@
                                         <thead>
                                             <tr>
                                                 <th>SL</th>
-                                                <th>Project Type Name</th>
+                                                <th>Project Category</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -159,7 +148,7 @@
 @section scripts {
     <script type="text/javascript">
         $(document).ready(function () {
-            
+
         });
 
         function makeEditble(elem) {
