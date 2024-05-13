@@ -1290,7 +1290,7 @@ namespace KGERP.Service.Implementation.Procurement
                         CreatedDate = DateTime.Now,
                         IsActive = true,
                         IsOpening = vmPurchaseOrderSlave.IsOpening,
-                        StockInfoId = vmPurchaseOrderSlave.StockInfoId 
+                        StockInfoId = vmPurchaseOrderSlave.StockInfoId
                     };
                     _db.PurchaseOrders.Add(procurementPurchaseOrder);
                     if (await _db.SaveChangesAsync() > 0)
@@ -1333,7 +1333,7 @@ namespace KGERP.Service.Implementation.Procurement
                         CreatedDate = DateTime.Now,
                         IsActive = true,
                         IsOpening = vmPurchaseOrderSlave.IsOpening,
-                        StockInfoId = vmPurchaseOrderSlave.StockInfoId 
+                        StockInfoId = vmPurchaseOrderSlave.StockInfoId
                     };
                     _db.PurchaseOrders.Add(procurementPurchaseOrder);
                     if (await _db.SaveChangesAsync() > 0)
@@ -1347,7 +1347,7 @@ namespace KGERP.Service.Implementation.Procurement
             {
                 return result;
             }
-        } 
+        }
         public async Task<long> CSProcurementPurchaseOrderMaster(VMPurchaseOrderSlave vmPurchaseOrderSlave)
         {
             long result = -1;
@@ -1360,15 +1360,15 @@ namespace KGERP.Service.Implementation.Procurement
             var quationSubmitMaster = _db.QuotationSubmitMasters.AsNoTracking().AsQueryable()
                             .Where(c => c.QuotationSubmitMasterId == vmPurchaseOrderSlave.QuotationSubmitMasterId).FirstOrDefault();
 
-            if (quationSubmitMaster!=null)
+            if (quationSubmitMaster != null)
             {
                 vmPurchaseOrderSlave.Common_SupplierFK = quationSubmitMaster.SupplierId;
                 vmPurchaseOrderSlave.WorkOrderFor = (int)EnumWorkOrderFor.Quotation;
                 result = await ProcurementPurchaseOrderAdd(vmPurchaseOrderSlave);
             }
-           
+
             return result;
-            
+
         }
         public async Task<long> CSProcurementPurchaseOrderDetail(VMPurchaseOrderSlave vmPurchaseOrderSlave)
         {
@@ -1376,17 +1376,17 @@ namespace KGERP.Service.Implementation.Procurement
 
             var dataList = _db.QuotationSubmitDetails.AsNoTracking().AsQueryable()
                        .Where(c => c.QuotationSubmitMasterId == vmPurchaseOrderSlave.QuotationSubmitMasterId).ToList();
-            if(!dataList.Any())
+            if (!dataList.Any())
             {
                 return result;
             }
             var purchaseOrderDetailList = new List<PurchaseOrderDetail>();
 
-            foreach(var data in dataList)
+            foreach (var data in dataList)
             {
                 var detailObject = new PurchaseOrderDetail()
                 {
-                  
+
                     PurchaseOrderId = vmPurchaseOrderSlave.PurchaseOrderId,
                     ProductId = data.MaterrialId,
                     PurchaseQty = data.Quantity,
@@ -1475,7 +1475,7 @@ namespace KGERP.Service.Implementation.Procurement
             procurementPurchaseOrder.SupplierId = vmPurchaseOrder.Common_SupplierFK;
             procurementPurchaseOrder.DeliveryDate = vmPurchaseOrder.DeliveryDate;
             procurementPurchaseOrder.SupplierPaymentMethodEnumFK = vmPurchaseOrder.SupplierPaymentMethodEnumFK;
-            if(vmPurchaseOrder.StockInfoId>0) procurementPurchaseOrder.StockInfoId = vmPurchaseOrder.StockInfoId;
+            if (vmPurchaseOrder.StockInfoId > 0) procurementPurchaseOrder.StockInfoId = vmPurchaseOrder.StockInfoId;
             procurementPurchaseOrder.DeliveryAddress = vmPurchaseOrder.DeliveryAddress;
             procurementPurchaseOrder.Remarks = vmPurchaseOrder.Remarks;
             procurementPurchaseOrder.TermsAndCondition = vmPurchaseOrder.TermsAndCondition;
@@ -1954,6 +1954,22 @@ namespace KGERP.Service.Implementation.Procurement
             return item;
         }
         public decimal PurchaseOrderPayableValueGet(int companyId, int purchaseOrderId)
+        {
+            var purchaseValue = (from t1 in _db.MaterialReceives.Where(x => x.IsActive && x.MaterialReceiveId == purchaseOrderId)
+                                 join t2 in _db.PurchaseOrderDetails on t1.PurchaseOrderId equals t2.PurchaseOrderId
+                                 join t3 in _db.PurchaseOrders on t2.PurchaseOrderId equals t3.PurchaseOrderId
+                                 select t2.PurchaseQty * t2.PurchaseRate).DefaultIfEmpty(0).Sum();
+            var returnValue = (from t1 in _db.PurchaseReturnDetails
+                               join t2 in _db.PurchaseReturns.Where(x => x.CompanyId == companyId) on t1.PurchaseReturnId equals t2.PurchaseReturnId
+                               //join t3 in _db.MaterialReceives.Where(x => x.IsActive == true && x.CompanyId == companyId && x.PurchaseOrderId == purchaseOrderId) on t2.id equals t3.OrderDeliverId
+                               select t1.Qty * t1.Rate).DefaultIfEmpty(0).Sum();
+            var paidValue = (from t1 in _db.Payments.Where(a => a.IsActive == true && a.PurchaseOrderId == purchaseOrderId)
+                             select t1.OutAmount).DefaultIfEmpty(0).Sum();
+            //return salesValue - returnValue.Value + paidValue.Value;
+            return (purchaseValue - returnValue.Value) - paidValue.Value;
+        }
+
+        public decimal PayableAmountByBill(int companyId, int purchaseOrderId)
         {
             var purchaseValue = (from t1 in _db.MaterialReceives.Where(x => x.IsActive && x.MaterialReceiveId == purchaseOrderId)
                                  join t2 in _db.PurchaseOrderDetails on t1.PurchaseOrderId equals t2.PurchaseOrderId

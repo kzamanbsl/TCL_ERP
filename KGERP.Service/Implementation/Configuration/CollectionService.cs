@@ -357,31 +357,56 @@ namespace KGERP.Service.Implementation.Configuration
             return orderMastersList;
         }
 
+        //public List<object> MaterialReceivedDropDownList(int companyId, int supplierId)
+        //{
+        //    var workOrderList = (from t1 in _db.MaterialReceives
+        //                         join t2 in _db.PurchaseOrders on t1.PurchaseOrderId equals t2.PurchaseOrderId
+        //                         where t1.IsActive && t1.IsSubmitted
+        //                               && t2.CompanyId == companyId && t2.SupplierId == supplierId
+        //                         orderby t2.PurchaseDate
+        //                         select new
+        //                         {
+        //                             Value = t1.MaterialReceiveId,
+        //                             PurchaseOrderNo = t2.PurchaseOrderNo,
+        //                             PurchaseDate = t2.PurchaseDate
+        //                         }).ToList();
+
+        //    var formattedList = workOrderList.Select(item => new
+        //    {
+        //        Value = item.Value,
+        //        Text = $"{item.PurchaseOrderNo} Date: {item.PurchaseDate.Value.ToString("MM/dd/yyyy")}"
+        //    }).ToList<object>();
+
+        //    return formattedList;
+        //}
+
         public List<object> MaterialReceivedDropDownList(int companyId, int supplierId)
         {
-            var workOrderList = (from t1 in _db.MaterialReceives
-                                 join t2 in _db.PurchaseOrders on t1.PurchaseOrderId equals t2.PurchaseOrderId
-                                 where t1.IsActive && t1.IsSubmitted
-                                       && t2.CompanyId == companyId && t2.SupplierId == supplierId
-                                 orderby t2.PurchaseDate
+            var workOrderList = (from t1 in _db.BillingGeneratedMaps
+                                 join t2 in _db.MaterialReceives on t1.MaterialReceiveId equals t2.MaterialReceiveId
+                                 join t3 in _db.PurchaseOrders on t2.PurchaseOrderId equals t3.PurchaseOrderId
+                                 where t3.IsActive && t3.SupplierId == supplierId
                                  select new
                                  {
                                      Value = t1.MaterialReceiveId,
-                                     PurchaseOrderNo = t2.PurchaseOrderNo,
-                                     PurchaseDate = t2.PurchaseDate
+                                     PurchaseOrderNo = t1.BillGeneratedNo,
+                                     PurchaseDate = t1.CreatedDate
                                  }).ToList();
+
+            //var formattedList = workOrderList.Select(item => new
+            //{
+            //    Value = item.Value,
+            //    Text = $"{item.PurchaseOrderNo} Date: {item.PurchaseDate.Value.ToString("MM/dd/yyyy")}"
+            //}).ToList<object>();
 
             var formattedList = workOrderList.Select(item => new
             {
                 Value = item.Value,
-                Text = $"{item.PurchaseOrderNo} Date: {item.PurchaseDate.Value.ToString("MM/dd/yyyy")}"
+                Text = item.PurchaseOrderNo
             }).ToList<object>();
 
             return formattedList;
         }
-
-
-
 
         public List<object> PurchaseOrdersDropDownList(int companyId, int customerId)
         {

@@ -88,17 +88,17 @@
                                                 <td style="width:30%">@Model.PaymentToHeadGLName</td>
                                             </tr>
                                             @*<tr>
-                                                <th style="width:18%">
-                                                    Reference
-                                                </th>
-                                                <th style="width:2%">:</th>
-                                                <td style="width:30%">
-                                                    <label class="col-form-label">@Model.ReferenceNo</label>
-                                                </td>
-                                                <th style="width:18%">Bank Charge</th>
-                                                <th style="width:2%">:</th>
-                                                <th style="width:30%">@Model.BankCharge</th>
-                                            </tr>*@
+                                                    <th style="width:18%">
+                                                        Reference
+                                                    </th>
+                                                    <th style="width:2%">:</th>
+                                                    <td style="width:30%">
+                                                        <label class="col-form-label">@Model.ReferenceNo</label>
+                                                    </td>
+                                                    <th style="width:18%">Bank Charge</th>
+                                                    <th style="width:2%">:</th>
+                                                    <th style="width:30%">@Model.BankCharge</th>
+                                                </tr>*@
                                         </table>
                                     </div>
                                     <div class="col-md-1"> </div>
@@ -140,20 +140,20 @@
                                         </div>
 
                                         @*<div class="bankInfo col-md-4">
-                                            <div class="form-group">
-                                                <label class="form-label">Cheque Book<sup class="text-danger" title="Required"><b>*</b></sup></label>
-                                                @Html.DropDownListFor(model => model.ChequeBookId, Model.ChequeBookList as SelectList, "==Select Cheque Book==", new { id = "ddlCheqeBookId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
-                                                @Html.ValidationMessageFor(model => model.ChequeBookId, "", new { @class = "text-danger" })
+                                                <div class="form-group">
+                                                    <label class="form-label">Cheque Book<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                                    @Html.DropDownListFor(model => model.ChequeBookId, Model.ChequeBookList as SelectList, "==Select Cheque Book==", new { id = "ddlCheqeBookId", @class = "form-control searchingDropdown", style = "width:100%", required = "required" })
+                                                    @Html.ValidationMessageFor(model => model.ChequeBookId, "", new { @class = "text-danger" })
+                                                </div>
                                             </div>
-                                        </div>
 
-                                        <div class="col-md-4" id="inputChequeNo">
-                                            <div class="form-group">
-                                                <label class="form-label">Cheque No<sup class="text-danger" title="Required"><b>*</b></sup></label>
-                                                @Html.TextBoxFor(model => model.MoneyReceiptNo, new { id = "txtChqNo", @class = "form-control", placeholder = "Cheque No", @readonly = "true" })
-                                                @Html.ValidationMessageFor(model => model.MoneyReceiptNo, "", new { id = "chequeNoValidationMessage", @class = "text-danger" })
-                                            </div>
-                                        </div>*@
+                                            <div class="col-md-4" id="inputChequeNo">
+                                                <div class="form-group">
+                                                    <label class="form-label">Cheque No<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                                    @Html.TextBoxFor(model => model.MoneyReceiptNo, new { id = "txtChqNo", @class = "form-control", placeholder = "Cheque No", @readonly = "true" })
+                                                    @Html.ValidationMessageFor(model => model.MoneyReceiptNo, "", new { id = "chequeNoValidationMessage", @class = "text-danger" })
+                                                </div>
+                                            </div>*@
                                     </div>
 
                                     @*<div class="row">
@@ -192,8 +192,8 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="message-text" class="col-form-label">Work Order No<sup class="text-danger" title="Required"><b>*</b></sup></label>
-                                            @Html.DropDownListFor(model => model.PurchaseOrderId, Model.OrderMusterList as SelectList, "==Work Order No==", new { id = "ddlPurchaseOrderId", @class = "searchingDropdown form-control", required = "true" })
+                                            <label for="message-text" class="col-form-label">Bill No<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                            @Html.DropDownListFor(model => model.PurchaseOrderId, Model.OrderMusterList as SelectList, "==Select Bill No==", new { id = "ddlPurchaseOrderId", @class = "searchingDropdown form-control", required = "true" })
                                             @Html.ValidationMessageFor(model => model.PurchaseOrderId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
