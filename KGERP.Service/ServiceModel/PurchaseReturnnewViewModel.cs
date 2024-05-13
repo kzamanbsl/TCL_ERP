@@ -52,6 +52,7 @@ namespace KGERP.Service.ServiceModel
         [Required]
         [DisplayName("Return Person")]
         public string ReturnPersonName { get; set; }
+        public ActionEnum ActionEum { get; set; }
 
 
         ///------------------------item ...............

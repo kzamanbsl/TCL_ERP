@@ -113,9 +113,9 @@
                                             @if (item.IsSubmited == false)
                                             {
                                                 <td class="text-center">
-                                                    <a onclick="makeEdit(@item.PurchaseReturnId)" href="#" data-toggle="modal" data-target="#EditModal" target="_blank" class="btn btn-primary btn-xs" title="Edit">
-                                                        <i class="fa fa-edit"></i>
-                                                    </a>
+                                                    @* <a onclick="makeEdit(@item.PurchaseReturnId)" href="#" data-toggle="modal" data-target="#EditModal" target="_blank" class="btn btn-primary btn-xs" title="Edit">
+                                                            <i class="fa fa-edit"></i>
+                                                        </a>*@
                                                     <a href="/PurchaseReturn/purchaseReturnProcess?companyId=@item.CompanyId&&purchaseReturnId=@item.PurchaseReturnId" target="_blank" class="btn btn-success btn-xs" title="Details">
                                                         <i class="fa fa-sticky-note"></i>
                                                     </a>
@@ -127,9 +127,9 @@
                                             else
                                             {
                                                 <td class="text-center">
-                                                    <a class="btn btn-primary disabled btn-xs" title="Edit">
+                                                    @*<a class="btn btn-primary disabled btn-xs" title="Edit">
                                                         <i class="fa fa-edit"></i>
-                                                    </a>
+                                                    </a>*@
                                                     <a href="/PurchaseReturn/PurchaseReturnProcess?companyId=@item.CompanyId&&purchaseReturnId=@item.PurchaseReturnId" target="_blank" class="btn btn-success btn-xs" title="Details">
                                                         <i class="fa fa-sticky-note"></i>
                                                     </a>
@@ -194,7 +194,7 @@
 
 
 
-@using (Html.BeginForm("EditPurchaseReturn", "PurchaseReturn", FormMethod.Post))
+@using (Html.BeginForm("WarehousePurchaseReturnSlave", "PurchaseReturn", FormMethod.Post))
 {
 
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -205,29 +205,30 @@
                     <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
                         &times;
                     </button>
-                    <h5 class="modal-title"><b>Delete Purchase Return </b></h5>
+                    <h5 class="modal-title"><b>Submit Purchase Return </b></h5>
                 </div>
                 <div class="modal-body">
                     @Html.HiddenFor(model => model.PurchaseReturnId, new { id = "ttPurchaseReturnId" })
+                    @Html.HiddenFor(model => model.ActionEum, KGERP.Utility.ActionEnum.Finalize)
                     @Html.HiddenFor(model => model.CompanyId, new { id = "CompanyId" })
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
                     <div class="row">
-                        <div class="col-md-6 mb-2">
-                            <div class="input-group">
-                                @Html.LabelFor(model => model.ProductType, htmlAttributes: new { @class = "control-label" })
-                                @Html.DropDownListFor(model => model.ProductType, new SelectList(Model.ProductTypes, "Value", "Text"), "---Select---", new { @id = "ddlProductType", @class = "dropdownsize form-control" })
-                                <br />
-                                @Html.ValidationMessageFor(model => model.ProductType, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
+                        @*<div class="col-md-6 mb-2">
+                                <div class="input-group">
+                                    @Html.LabelFor(model => model.ProductType, htmlAttributes: new { @class = "control-label" })
+                                    @Html.DropDownListFor(model => model.ProductType, new SelectList(Model.ProductTypes, "Value", "Text"), "---Select---", new { @id = "ddlProductType", @class = "dropdownsize form-control" })
+                                    <br />
+                                    @Html.ValidationMessageFor(model => model.ProductType, "", new { @class = "text-danger" })
+                                </div>
+                            </div>*@
                         <div class="col-md-6 mb-2">
                             <div class="input-group">
                                 @Html.Label("Supplier", htmlAttributes: new { @class = "control-label" })
                                 <br />
                                 @Html.HiddenFor(model => model.SupplierId, new { @id = "hfSupplierId" })
-                                @Html.EditorFor(model => model.SupplierName, new { htmlAttributes = new { @class = "form-control", @name = "SupplierName", @id = "txtSupplierName" } })
+                                @Html.EditorFor(model => model.SupplierName, new { htmlAttributes = new { @class = "form-control", @name = "SupplierName", @id = "txtSupplierName", @readonly = "readonly" } })
                                 <br />
                                 @Html.ValidationMessageFor(model => model.SupplierName, "", new { @class = "text-danger" })
                             </div>
@@ -246,46 +247,47 @@
                                 <input type="text" class="form-control" id="Address" readonly>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="row">
-
-                        <div class="col-md-6 mb-2">
-                            <div class="input-group">
-                                @Html.LabelFor(model => model.ReturnNo, htmlAttributes: new { @class = "control-label" })
-                                @Html.EditorFor(model => model.ReturnNo, new { htmlAttributes = new { @id = "txtReturnNo", @class = "form-control", @autocomplete = "off", @readonly = "readonly" } })
-                                @Html.ValidationMessageFor(model => model.ReturnNo, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-2">
-                            <div class="input-group">
-                                @Html.LabelFor(model => model.ReturnDate, htmlAttributes: new { @class = "control-label" })
-                                <br />
-                                <div style="display:flex">
-                                    @Html.EditorFor(model => model.ReturnDate, new { htmlAttributes = new { @class = "datepicker form-control", @autocomplete = "off", id = "ReturnDate" } })
-                                </div>
-                                @Html.ValidationMessageFor(model => model.ReturnDate, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="col-md-6 mb-2">
-                            <div class="input-group">
-                                @Html.Label("Warehouse", htmlAttributes: new { @class = "control-label" })
-                                @Html.DropDownListFor(model => model.StockInfoId, new SelectList(Model.Stocks, "Value", "Text"), "---Select---", new { @class = "dropdownsize form-control", @id = "StockInfoId" })
-                                <br />
-                                @Html.ValidationMessageFor(model => model.StockInfoId, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
                         <div class="col-md-6 mb-2">
                             <div class="input-group">
                                 @Html.Label("Return Person", htmlAttributes: new { @class = "control-label" })
-                                @Html.EditorFor(model => model.ReturnPersonName, new { htmlAttributes = new { @class = "form-control", @name = "returnPersonName", @id = "returnPersonName" } })
+                                @Html.EditorFor(model => model.ReturnPersonName, new { htmlAttributes = new { @class = "form-control", @name = "returnPersonName", @id = "returnPersonName", @readonly = "readonly" } })
                                 @Html.HiddenFor(x => x.ReturnBy, new { @id = "returnBy", @name = "returnBy" })
                                 <br />
                                 @Html.ValidationMessageFor(model => model.ReturnPersonName, "", new { @class = "text-danger" })
                             </div>
                         </div>
+                    </div>
+
+                    <div class="row">
+
+                        @*<div class="col-md-6 mb-2">
+                                <div class="input-group">
+                                    @Html.LabelFor(model => model.ReturnNo, htmlAttributes: new { @class = "control-label" })
+                                    @Html.EditorFor(model => model.ReturnNo, new { htmlAttributes = new { @id = "txtReturnNo", @class = "form-control", @autocomplete = "off", @readonly = "readonly" } })
+                                    @Html.ValidationMessageFor(model => model.ReturnNo, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <div class="input-group">
+                                    @Html.LabelFor(model => model.ReturnDate, htmlAttributes: new { @class = "control-label" })
+                                    <br />
+                                    <div style="display:flex">
+                                        @Html.EditorFor(model => model.ReturnDate, new { htmlAttributes = new { @class = "datepicker form-control", @autocomplete = "off", id = "ReturnDate" } })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.ReturnDate, "", new { @class = "text-danger" })
+                                </div>
+                            </div>*@
+
+                        @*<div class="col-md-6 mb-2">
+                                <div class="input-group">
+                                    @Html.Label("Warehouse", htmlAttributes: new { @class = "control-label" })
+                                    @Html.DropDownListFor(model => model.StockInfoId, new SelectList(Model.Stocks, "Value", "Text"), "---Select---", new { @class = "dropdownsize form-control", @id = "StockInfoId" })
+                                    <br />
+                                    @Html.ValidationMessageFor(model => model.StockInfoId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>*@
+
+
                     </div>
 
                     <div class="row">
@@ -339,40 +341,40 @@
             changeYear: true,
             yearRange: "2001:+50"
         });
-        $(function () {
-            $("#txtSupplierName").autocomplete({
-                source: function (request, response) {
-                    $.ajax({
-                        url: '/Vendor/SupplierAutoComplete/',
-                        data: "{ 'prefix': '" + request.term + "'}",
-                        dataType: "json",
-                        type: "POST",
-                        contentType: "application/json; charset=utf-8",
-                        success: function (data) {
-                            response($.map(data, function (item) {
-                                return item;
-                            }))
-                        },
-                        error: function (response) {
-                            alert(response.responseText);
-                        },
-                        failure: function (response) {
-                            alert(response.responseText);
-                        }
-                    });
-                },
-                select: function (e, i) {
-                    $("#hfSupplierId").val(i.item.val);
-                },
-                minLength: 1,
-                change: function (event, ui) {
-                    loadSupplierInformation(ui.item.val);
-                }
+        //$(function () {
+        //    $("#txtSupplierName").autocomplete({
+        //        source: function (request, response) {
+        //            $.ajax({
+        //                url: '/Vendor/SupplierAutoComplete/',
+        //                data: "{ 'prefix': '" + request.term + "'}",
+        //                dataType: "json",
+        //                type: "POST",
+        //                contentType: "application/json; charset=utf-8",
+        //                success: function (data) {
+        //                    response($.map(data, function (item) {
+        //                        return item;
+        //                    }))
+        //                },
+        //                error: function (response) {
+        //                    alert(response.responseText);
+        //                },
+        //                failure: function (response) {
+        //                    alert(response.responseText);
+        //                }
+        //            });
+        //        },
+        //        select: function (e, i) {
+        //            $("#hfSupplierId").val(i.item.val);
+        //        },
+        //        minLength: 1,
+        //        change: function (event, ui) {
+        //            loadSupplierInformation(ui.item.val);
+        //        }
 
-            }).focus(function () {
-                $(this).autocomplete("search");
-            });
-        });
+        //    }).focus(function () {
+        //        $(this).autocomplete("search");
+        //    });
+        //});
 
         function loadSupplierInformation(supplierId) {
             $.ajax({
@@ -407,71 +409,71 @@
             });
         });
 
-        $(function () {
-            $("#ProductName").autocomplete({
-                source: function (request, response) {
-                    $.ajax({
-                        url: '/Products/AutoComplete/',
-                        data: '{"prefix":"' + request.term + '", "productType":"R"}',
-                        dataType: "json",
-                        type: "POST",
-                        contentType: "application/json; charset=utf-8",
-                        success: function (data) {
-                            response($.map(data, function (item) {
-                                return item;
-                            }))
-                        },
-                        error: function (response) {
-                            alert(response.responseText);
-                        },
-                        failure: function (response) {
-                            alert(response.responseText);
-                        }
-                    });
-                },
-                select: function (e, i) {
-                    $("#hfProductId").val(i.item.val);
-                },
-                minLength: 1
-            }).focus(function () {
-                $(this).autocomplete("search");
-            });
-        });
+        //$(function () {
+        //    $("#ProductName").autocomplete({
+        //        source: function (request, response) {
+        //            $.ajax({
+        //                url: '/Products/AutoComplete/',
+        //                data: '{"prefix":"' + request.term + '", "productType":"R"}',
+        //                dataType: "json",
+        //                type: "POST",
+        //                contentType: "application/json; charset=utf-8",
+        //                success: function (data) {
+        //                    response($.map(data, function (item) {
+        //                        return item;
+        //                    }))
+        //                },
+        //                error: function (response) {
+        //                    alert(response.responseText);
+        //                },
+        //                failure: function (response) {
+        //                    alert(response.responseText);
+        //                }
+        //            });
+        //        },
+        //        select: function (e, i) {
+        //            $("#hfProductId").val(i.item.val);
+        //        },
+        //        minLength: 1
+        //    }).focus(function () {
+        //        $(this).autocomplete("search");
+        //    });
+        //});
 
-        $(function () {
-            $("#returnPersonName").autocomplete({
-                source: function (request, response) {
-                    $.ajax({
-                        url: '/Employee/EmployeeAutoComplete/',
-                        //data: "{ 'prefix': '" + request.term + "'}",
-                        data: '{"prefix":"' + request.term + '", "productType":"F"}',
-                        dataType: "json",
-                        type: "POST",
-                        cache: true,
-                        contentType: "application/json; charset=utf-8",
-                        success: function (data) {
-                            response($.map(data, function (item) {
-                                return item;
-                            }))
-                        },
-                        error: function (response) {
-                            alert(response.responseText);
-                        },
-                        failure: function (response) {
-                            alert(response.responseText);
-                        }
-                    });
-                },
-                select: function (e, i) {
-                    $("#returnBy").val(i.item.val);
-                },
-                minLength: 1,
-                cache: true
+        //$(function () {
+        //    $("#returnPersonName").autocomplete({
+        //        source: function (request, response) {
+        //            $.ajax({
+        //                url: '/Employee/EmployeeAutoComplete/',
+        //                //data: "{ 'prefix': '" + request.term + "'}",
+        //                data: '{"prefix":"' + request.term + '", "productType":"F"}',
+        //                dataType: "json",
+        //                type: "POST",
+        //                cache: true,
+        //                contentType: "application/json; charset=utf-8",
+        //                success: function (data) {
+        //                    response($.map(data, function (item) {
+        //                        return item;
+        //                    }))
+        //                },
+        //                error: function (response) {
+        //                    alert(response.responseText);
+        //                },
+        //                failure: function (response) {
+        //                    alert(response.responseText);
+        //                }
+        //            });
+        //        },
+        //        select: function (e, i) {
+        //            $("#returnBy").val(i.item.val);
+        //        },
+        //        minLength: 1,
+        //        cache: true
 
-            }).focus(function () {
-                $(this).autocomplete("search");
-            });
-        });
+        //    }).focus(function () {
+        //        $(this).autocomplete("search");
+        //    });
+        //});
 
 
 

@@ -887,16 +887,12 @@ namespace KGERP.Service.Implementation.Warehouse
             var materialDetailList = _db.MaterialReceiveDetails
                             .AsQueryable()
                             .Where(c => materialDetailIIds.Contains(c.MaterialReceiveDetailId)).ToList();
-            foreach (var item in PurchaseDetailIList)
+            foreach (var item in materialDetailList)
             {
 
-                var receivedqty = materialDetailList.Where(c => c.MaterialReceiveDetailId == item.MaterialReceiveDetailId)
-                                 .Select(c => c.ReceiveQty).Sum();
-                if ((receivedqty >= item.ReturnQuantity))
-                {
-                    materialDetailList.Where(c => c.MaterialReceiveDetailId == item.MaterialReceiveDetailId)
-                                 .FirstOrDefault().IsReturn = true;
-                }
+                
+                    item.IsReturn = true;
+                
 
             }
             #endregion

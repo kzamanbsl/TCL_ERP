@@ -112,12 +112,12 @@
                                             @Html.HiddenFor(model => model.Common_SupplierFK, new { id = "ddlSupplierFk" })
                                             @Html.ValidationMessageFor(model => model.Common_SupplierFK, "", new { @class = "text-danger" })
                                         </div>
-
-                                        <div class="form-group" style="padding:0px">
-                                            <label>Work Order No:</label>
-                                            @Html.DropDownListFor(model => model.Procurement_PurchaseOrderFk, Model.ExistingChallanList as SelectList, "==Select Existing Work Order Number==", new { id = "ddlPo", @class = "searchingDropdown form-control ddlReset", required = "required", style = "width:100%" })
-                                            @Html.ValidationMessageFor(model => model.Procurement_PurchaseOrderFk, "", new { @class = "text-danger" })
+                                        <div class="form-group">
+                                            <label>Challan No:</label>
+                                            @Html.DropDownListFor(model => model.MaterialReceiveId, Model.ExistingChallanList as SelectList, "==Select Existing Challan==", new { id = "ddlChallan", @class = "searchingDropdown form-control ddlReset", required = "required", style = "width:100%" })
+                                            @Html.ValidationMessageFor(model => model.MaterialReceiveId, "", new { @class = "text-danger" })
                                         </div>
+
 
                                         <table class="table" id="poDetailsTable">
                                             <tr>
@@ -147,11 +147,12 @@
 
                                 <div class="col-md-6">
                                     <div class="box-body">
-                                        <div class="form-group">
-                                            <label>Challan No:</label>
-                                            @Html.DropDownListFor(model => model.MaterialReceiveId, Model.ExistingChallanList as SelectList, "==Select Existing Challan==", new { id = "ddlChallan", @class = "searchingDropdown form-control ddlReset", required = "required", style = "width:100%" })
-                                            @Html.ValidationMessageFor(model => model.MaterialReceiveId, "", new { @class = "text-danger" })
+                                        <div class="form-group" style="padding:0px">
+                                            <label>Work Order No:</label>
+                                            @Html.DropDownListFor(model => model.Procurement_PurchaseOrderFk, Model.ExistingChallanList as SelectList, "==Select Existing Work Order Number==", new { id = "ddlPo", @class = "searchingDropdown form-control ddlReset", required = "required", style = "width:100%" })
+                                            @Html.ValidationMessageFor(model => model.Procurement_PurchaseOrderFk, "", new { @class = "text-danger" })
                                         </div>
+                                       
 
                                         <div class="form-group">
                                             <label>Return Date:</label>
