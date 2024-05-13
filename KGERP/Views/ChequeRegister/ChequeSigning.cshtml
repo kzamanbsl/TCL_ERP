@@ -192,9 +192,30 @@
                                                         }
                                                         else
                                                         {
-                                                            <center class="btn btn-xs btn-danger text-center d-block disabled" style="padding-left: 7px; padding-right: 7px;" id="showToHideCancel_@item.ChequeRegisterId" title="Disabled">
-                                                                Cancel
-                                                            </center>
+                                                            if (item.IsCancelRequest && !item.IsCanceled)
+                                                            {
+                                                                <center class="btn btn-xs btn-danger text-center d-block" style="padding-left: 7px; padding-right: 7px;" id="showToHideCancel_@item.ChequeRegisterId" onclick="SignedChequeCancel('@item.ChequeRegisterId')">
+                                                                    Cancel
+                                                                </center>
+                                                                <center class="btn btn-xs btn-danger text-center hidden" style="padding-left: 7px; padding-right: 7px;" id="hideToShowCancel_@item.ChequeRegisterId">
+                                                                    Canceled
+                                                                </center>
+                                                            }
+                                                            else
+                                                            {
+                                                                if (item.IsCanceled)
+                                                                {
+                                                                    <center class="btn btn-xs btn-danger text-center d-block" style="padding-left: 7px; padding-right: 7px;">
+                                                                        Canceled
+                                                                    </center>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <center class="btn btn-xs btn-danger disabled text-center d-block" style="padding-left: 7px; padding-right: 7px;" title="Disabled">
+                                                                        Cancel
+                                                                    </center>
+                                                                }
+                                                            }
                                                         }
                                                     </td>
                                                 </tr>
@@ -304,9 +325,18 @@
                                                             }
                                                             else
                                                             {
-                                                                <center class="btn btn-xs btn-danger text-center d-block" style="padding-left: 7px; padding-right: 7px;" id="showToHideCancel_@item.ChequeRegisterId" title="Disabled">
-                                                                    Cancel
-                                                                </center>
+                                                                if (item.IsCanceled)
+                                                                {
+                                                                    <center class="btn btn-xs btn-danger text-center d-block" style="padding-left: 7px; padding-right: 7px;">
+                                                                        Canceled
+                                                                    </center>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <center class="btn btn-xs btn-danger disabled text-center d-block" style="padding-left: 7px; padding-right: 7px;" title="Disabled">
+                                                                        Cancel
+                                                                    </center>
+                                                                }
                                                             }
                                                         }
                                                     </td>

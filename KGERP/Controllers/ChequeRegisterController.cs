@@ -323,6 +323,28 @@ namespace KGERP.Controllers
 
         #endregion
 
+        #region Cheque Status
+        [HttpGet]
+        public async Task<ActionResult> ChequeStatus(int companyId = 0)
+        {
+            ChequeRegisterModel viewData = new ChequeRegisterModel();
+            viewData.CompanyFK = companyId;
+            viewData.ChequeRegisterList = await _Service.GetGeneratedChequeList(companyId);
+            return View(viewData);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ChequeRegisterSearchForStatus(ChequeRegisterModel model)
+        {
+            ChequeRegisterModel viewData = new ChequeRegisterModel();
+            viewData.CompanyFK = model.CompanyFK;
+            viewData.ChequeRegisterList = await _Service.GetChequeRegisterListByDate(model);
+            TempData["ChequeRegisterModel"] = viewData;
+
+            return RedirectToAction(nameof(ChequeStatus), new { companyId = model.CompanyFK, fromDate = model.StrFromDate, ToDate = model.StrToDate });
+        }
+        #endregion
+
         #region Cheque Cancel Request
 
         [HttpGet]
