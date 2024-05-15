@@ -5759,7 +5759,7 @@ namespace KGERP.Controllers
             try
             {
                 reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&CostCenterId={3}&BoQItemId={4}&MaterialId={5}",
-             ReportName,CompanyInfo.CompanyId, model.ReportType, model.ProjectId,model.BoQItemId,model.MaterialId);
+             ReportName, model.ReportType, CompanyInfo.CompanyId, model.ProjectId,model.BoQItemId,model.MaterialId);
 
             }
             catch
