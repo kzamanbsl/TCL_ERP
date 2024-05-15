@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -282,5 +283,24 @@ namespace KGERP.Service.Implementation
             return consumptionMasterModel;
         }
 
+        public async Task<List<object>> GetConsumptionMaterialList(int? projectId = 0, int? BoqItemId = 0)
+        {
+
+            var data = await (from t1 in _context.ConsumptionMasters.AsNoTracking().AsQueryable()
+                              join t2 in _context.ConsumptionDetails.AsNoTracking().AsQueryable() on t1.ConsumptionMasterId equals t2.ConsumptionMasterId
+                              join t3 in _context.Products.AsNoTracking().AsQueryable() on t2.ProductId equals t3.ProductId
+                              join t4 in _context.BoQDivisions.AsNoTracking().AsQueryable() on t1.DivisionId equals t4.BoQDivisionId into t4_Join
+                              from t4 in t4_Join.DefaultIfEmpty()
+                              where t1.IsActive == true && t2.IsActive == true &&
+                              (projectId > 0 ? t4.ProjectId == projectId:true) && (BoqItemId > 0 ? t1.BoqItemId == BoqItemId:true)
+                              select new
+                              {
+                                  MaterialId = t3.ProductId,
+                                  MaterialName = t3.ProductName,
+
+                              }).Distinct().ToListAsync();
+
+            return data.Cast<object>().ToList();
+        }
     }
 }

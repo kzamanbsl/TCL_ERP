@@ -79,5 +79,12 @@ namespace KGERP.Controllers
 
             return RedirectToAction(nameof(ConsumptionMasterSlave), new { companyId = CompanyInfo.CompanyId, consumptionMasterId = consumptionModel.ConsumptionMasterId });
         }
+
+
+        public async Task<JsonResult> ConsumptionMaterialList(int projectId=0, int boqItemId=0)
+        {
+            var data =await _service.GetConsumptionMaterialList(projectId,boqItemId);
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
     }
 }

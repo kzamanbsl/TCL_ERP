@@ -303,9 +303,9 @@ namespace KGERP.Controllers
         }
 
         // Filter with boq division id
-        public async Task<JsonResult> getBoqItemListWithBoqNumber(long id)
+        public async Task<JsonResult> getBoqItemListWithBoqNumber(long id,long? projectId=0)
         {
-            var boqItemList = await _service.GetBoqListByDivisionId(id);
+            var boqItemList = await _service.GetBoqListByDivisionId(id,projectId);
 
             var boqItemWithId = (from t1 in boqItemList
                                  select new BillRequisitionBoqModel

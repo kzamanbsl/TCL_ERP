@@ -9,7 +9,7 @@
       <am:Name>SSDTRS</am:Name>
       <am:Version>17.9.34622.214</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2024-04-29T05:44:39.8690538Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2024-05-14T18:40:21.2910182Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
@@ -36,7 +36,11 @@
       <Fields>
         <Field Name="Amount">
           <DataField>Amount</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="UpperSevenDigitValue">
+          <DataField>UpperSevenDigitValue</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="DateText">
           <DataField>DateText</DataField>
@@ -45,6 +49,10 @@
         <Field Name="PayTo">
           <DataField>PayTo</DataField>
           <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="AmountLength">
+          <DataField>AmountLength</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="AmountAsWord">
           <DataField>AmountAsWord</DataField>
@@ -340,7 +348,11 @@
                 <TextRuns>
                   <TextRun>
                     <Label>Amount As Word</Label>
-                    <Value>=First(Fields!AmountAsWord.Value, "ChequeInfoDSet")</Value>
+                    <Value>=IIf(
+    Sum(Fields!AmountLength.Value, "ChequeInfoDSet") &gt; 10,
+    First(Fields!UpperSevenDigitValue.Value, "ChequeInfoDSet") &amp; " " &amp; First(Fields!AmountAsWord.Value, "ChequeInfoDSet"),
+	First(Fields!AmountAsWord.Value, "ChequeInfoDSet")
+)</Value>
                     <Style>
                       <FontFamily>times New Roman</FontFamily>
                       <FontSize>12pt</FontSize>
