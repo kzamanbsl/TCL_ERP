@@ -25,17 +25,20 @@ namespace KGERP.Controllers
         {
             BulkUpload viewModel = new BulkUpload();
             viewModel.CompanyId = companyId;
+            ViewBag.Result = false;
             return View(viewModel);
         }
 
         [HttpPost]
         public ActionResult MaterialCategoryUpload(BulkUpload model)
         {
+            bool response = false;
             if (model.FormFile != null)
             {
-                var response = _service.ProductCategoryUploadAsync(model);
+                response = _service.ProductCategoryUpload(model);
             }
-            return RedirectToAction(nameof(MaterialCategoryUpload), new { companyId = 21 });
+            ViewBag.Result = response;
+            return RedirectToAction(nameof(MaterialCategoryUpload), new { companyId = model.CompanyId });
         }
     }
 }

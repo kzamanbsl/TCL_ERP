@@ -23,7 +23,7 @@ namespace KGERP.Service.Implementation
             _configurationService = configurationService;
         }
 
-        public bool ProductCategoryUploadAsync(BulkUpload model)
+        public bool ProductCategoryUpload(BulkUpload model)
         {
             if (model == null || model.FormFile == null || model.FormFile.ContentLength == 0)
             {
