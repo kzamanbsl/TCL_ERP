@@ -2749,45 +2749,105 @@ namespace KGERP.Service.Implementation.Configuration
             _db.ProductSubCategories.Add(commonProductSubCategory);
             //result = await _db.SaveChangesAsync();
             //return result;
-            if (await _db.SaveChangesAsync() > 0)
+            if (_db.SaveChanges() > 0)
             {
+                int assetHead5ParentId = 0;
+                int incomeHead5ParentId = 0;
+                int expenseHead5ParentId = 0;
                 var categoryId = _db.ProductSubCategories.FirstOrDefault(x => x.ProductSubCategoryId == commonProductSubCategory.ProductSubCategoryId).ProductCategoryId;
-                int head5ParentId = 0;
+
                 if (categoryId > 0)
                 {
-                    var head4Id = _db.ProductCategories.FirstOrDefault(x => x.ProductCategoryId == categoryId).AccountingHeadId;
-                    if (head4Id > 0)
+                    var assetHead4Id = _db.ProductCategories.FirstOrDefault(x => x.ProductCategoryId == categoryId).AccountingHeadId;
+                    if (assetHead4Id > 0)
                     {
-                        head5ParentId = (int)(head4Id == null ? 0 : head4Id);
+                        assetHead5ParentId = (int)(assetHead4Id == null ? 0 : assetHead4Id);
+
+                        if (assetHead5ParentId > 0)
+                        {
+                            VMHeadIntegration integration = new VMHeadIntegration
+                            {
+                                AccName = commonProductSubCategory.Name,
+                                LayerNo = 5,
+                                Remarks = "5th Layer",
+                                IsIncomeHead = true,
+                                ParentId = assetHead5ParentId,
+                                CompanyFK = commonProductSubCategory.CompanyId,
+                                CreatedBy = commonProductSubCategory.CreatedBy,
+                                CreatedDate = DateTime.Now,
+                            };
+
+                            int head5Id = AccHead5Push(integration);
+
+                            var subCategoryForAssets = _db.ProductSubCategories.SingleOrDefault(x => x.ProductSubCategoryId == commonProductSubCategory.ProductSubCategoryId);
+                            subCategoryForAssets.AccountingHeadId = head5Id;
+                            subCategoryForAssets.ModifiedBy = commonProductSubCategory.CreatedBy;
+                            subCategoryForAssets.ModifiedDate = DateTime.Now;
+                        }
+                    }
+
+                    var incomeHead4Id = _db.ProductCategories.FirstOrDefault(x => x.ProductCategoryId == categoryId).AccountingIncomeHeadId;
+                    if (incomeHead4Id > 0)
+                    {
+                        incomeHead5ParentId = (int)(incomeHead4Id == null ? 0 : incomeHead4Id);
+
+                        if (incomeHead5ParentId > 0)
+                        {
+                            VMHeadIntegration integration = new VMHeadIntegration
+                            {
+                                AccName = commonProductSubCategory.Name,
+                                LayerNo = 5,
+                                Remarks = "5th Layer",
+                                IsIncomeHead = true,
+                                ParentId = incomeHead5ParentId,
+                                CompanyFK = commonProductSubCategory.CompanyId,
+                                CreatedBy = commonProductSubCategory.CreatedBy,
+                                CreatedDate = DateTime.Now,
+                            };
+
+                            int head5Id = AccHead5Push(integration);
+
+                            var subCategoryForAssets = _db.ProductSubCategories.SingleOrDefault(x => x.ProductSubCategoryId == commonProductSubCategory.ProductSubCategoryId);
+                            subCategoryForAssets.AccountingIncomeHeadId = head5Id;
+                            subCategoryForAssets.ModifiedBy = commonProductSubCategory.CreatedBy;
+                            subCategoryForAssets.ModifiedDate = DateTime.Now;
+                        }
+                    }
+
+                    var expenseHead4Id = _db.ProductCategories.FirstOrDefault(x => x.ProductCategoryId == categoryId).AccountingExpenseHeadId;
+                    if (expenseHead4Id > 0)
+                    {
+                        expenseHead5ParentId = (int)(expenseHead4Id == null ? 0 : expenseHead4Id);
+
+                        if (expenseHead5ParentId > 0)
+                        {
+                            VMHeadIntegration integration = new VMHeadIntegration
+                            {
+                                AccName = commonProductSubCategory.Name,
+                                LayerNo = 5,
+                                Remarks = "5th Layer",
+                                IsIncomeHead = true,
+                                ParentId = expenseHead5ParentId,
+                                CompanyFK = commonProductSubCategory.CompanyId,
+                                CreatedBy = commonProductSubCategory.CreatedBy,
+                                CreatedDate = DateTime.Now,
+                            };
+
+                            int head5Id = AccHead5Push(integration);
+
+                            var subCategoryForAssets = _db.ProductSubCategories.SingleOrDefault(x => x.ProductSubCategoryId == commonProductSubCategory.ProductSubCategoryId);
+                            subCategoryForAssets.AccountingExpenseHeadId = head5Id;
+                            subCategoryForAssets.ModifiedBy = commonProductSubCategory.CreatedBy;
+                            subCategoryForAssets.ModifiedDate = DateTime.Now;
+                        }
+                    }
+
+                    if (_db.SaveChanges() > 0)
+                    {
+                        result = commonProductSubCategory.ProductSubCategoryId;
                     }
                 }
-
-                VMHeadIntegration integration = new VMHeadIntegration
-                {
-                    AccName = commonProductSubCategory.Name,
-                    LayerNo = 5,
-                    Remarks = "5th Layer",
-                    IsIncomeHead = true,
-                    ParentId = head5ParentId,
-                    CompanyFK = commonProductSubCategory.CompanyId,
-                    CreatedBy = commonProductSubCategory.CreatedBy,
-                    CreatedDate = DateTime.Now,
-                };
-
-                int head5Id = AccHead5Push(integration);
-
-                if (head5Id > 0)
-                {
-                    var subCategoryForAssets = _db.ProductSubCategories.SingleOrDefault(x => x.ProductSubCategoryId == commonProductSubCategory.ProductSubCategoryId);
-                    subCategoryForAssets.AccountingHeadId = head5Id;
-                    subCategoryForAssets.ModifiedBy = commonProductSubCategory.CreatedBy;
-                    subCategoryForAssets.ModifiedDate = DateTime.Now;
-
-                    _db.SaveChanges();
-                    result = commonProductSubCategory.ProductSubCategoryId;
-                }
             }
-
             return result;
         }
         public async Task<int> ProductSubCategoryEdit(VMCommonProductSubCategory vmCommonProductSubCategory)
@@ -5397,7 +5457,7 @@ namespace KGERP.Service.Implementation.Configuration
 
             if (_db.SaveChanges() > 0)
             {
-                result = head4.ParentId ?? 0;
+                result = head4.Id;
             }
 
             return result;
