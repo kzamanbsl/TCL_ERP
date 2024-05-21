@@ -48,13 +48,13 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-check">
-                                                    @Html.RadioButtonFor(model => model.Asset, "Inventory", new { @class = "form-check-input", id = "inventory" })
+                                                    @Html.RadioButtonFor(model => model.Asset, KGERP.Utility.EnumAssetIntegration.Inventory, new { @class = "form-check-input", id = "inventory" })
                                                     <label class="form-check-label" for="inventory">Inventory</label>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-check">
-                                                    @Html.RadioButtonFor(model => model.Asset, "Intangible", new { @class = "form-check-input", id = "intangible" })
+                                                    @Html.RadioButtonFor(model => model.Asset, KGERP.Utility.EnumAssetIntegration.Intangible, new { @class = "form-check-input", id = "intangible" })
                                                     <label class="form-check-label" for="intangible">Intangible</label>
                                                 </div>
                                             </div>

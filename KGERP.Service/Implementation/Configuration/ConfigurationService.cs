@@ -5,6 +5,7 @@ using System.Data.Entity.Validation;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using System.Windows.Interop;
 using KG.Core.Services.Configuration;
 using KGERP.Data.Models;
 using KGERP.Service.Implementation.Accounting;
@@ -2529,21 +2530,106 @@ namespace KGERP.Service.Implementation.Configuration
             //return result;
             if (_db.SaveChanges() > 0)
             {
-                var category = await _db.ProductCategories.FindAsync(productCategory.ProductCategoryId);
-                VMHeadIntegration integration = new VMHeadIntegration
+                int head4Id = 0;
+                VMHeadIntegration integration = new VMHeadIntegration();
+                var category = _db.ProductCategories.Find(productCategory.ProductCategoryId);
+                switch (productCategoryModel.Asset)
                 {
-                    AccName = category.Name,
-                    LayerNo = 4,
-                    Remarks = "4th Layer",
-                    IsIncomeHead = true,
-                    CompanyFK = productCategory.CompanyId,
-                    CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
-                    CreatedDate = DateTime.Now,
-                };
+                    case EnumAssetIntegration.Inventory:
 
-                int head4Id = AccHead4Push(integration, productCategory.ProductCategoryId);
+                        integration.ParentId = 29383; // Layer 3 Id => Inventories - 1207
+                        integration.AccName = category.Name;
+                        integration.LayerNo = 4;
+                        integration.Remarks = "4th Layer";
+                        integration.IsIncomeHead = true;
+                        integration.CompanyFK = productCategory.CompanyId;
+                        integration.CreatedBy = productCategory.CreatedBy;
+                        integration.CreatedDate = DateTime.Now;
 
-                result = productCategory.ProductCategoryId;
+                        head4Id = AccHead4Push(integration);
+                        if (head4Id > 0)
+                        {
+                            var categoryForAssets = _db.ProductCategories.SingleOrDefault(x => x.ProductCategoryId == productCategory.ProductCategoryId);
+                            categoryForAssets.AccountingHeadId = head4Id;
+                            categoryForAssets.ModifiedBy = productCategory.CreatedBy;
+                            categoryForAssets.ModifiedDate = DateTime.Now;
+                        }
+
+                        break;
+
+                    case EnumAssetIntegration.Intangible:
+
+                        integration.ParentId = 29279; // Layer 3 Id = > Intengible Asset - 1102
+                        integration.AccName = category.Name;
+                        integration.LayerNo = 4;
+                        integration.Remarks = "4th Layer";
+                        integration.IsIncomeHead = true;
+                        integration.CompanyFK = productCategory.CompanyId;
+                        integration.CreatedBy = productCategory.CreatedBy;
+                        integration.CreatedDate = DateTime.Now;
+
+                        head4Id = AccHead4Push(integration);
+                        if (head4Id > 0)
+                        {
+                            var categoryForAssets = _db.ProductCategories.SingleOrDefault(x => x.ProductCategoryId == productCategory.ProductCategoryId);
+                            categoryForAssets.AccountingHeadId = head4Id;
+                            categoryForAssets.ModifiedBy = productCategory.CreatedBy;
+                            categoryForAssets.ModifiedDate = DateTime.Now;
+                        }
+
+                        break;
+
+                    default:
+
+                        break;
+                }
+
+                if (productCategoryModel.Income)
+                {
+                    integration.ParentId = 29509; // Layer 3 Id => Sales - 3101
+                    integration.AccName = category.Name;
+                    integration.LayerNo = 4;
+                    integration.Remarks = "4th Layer";
+                    integration.IsIncomeHead = true;
+                    integration.CompanyFK = productCategory.CompanyId;
+                    integration.CreatedBy = productCategory.CreatedBy;
+                    integration.CreatedDate = DateTime.Now;
+
+                    head4Id = AccHead4Push(integration);
+                    if (head4Id > 0)
+                    {
+                        var categoryForAssets = _db.ProductCategories.SingleOrDefault(x => x.ProductCategoryId == productCategory.ProductCategoryId);
+                        categoryForAssets.AccountingIncomeHeadId = head4Id;
+                        categoryForAssets.ModifiedBy = productCategory.CreatedBy;
+                        categoryForAssets.ModifiedDate = DateTime.Now;
+                    }
+                }
+
+                if (productCategoryModel.Expense)
+                {
+                    integration.ParentId = 29965; // Layer 3 Id => Head Office Expense - 4101
+                    integration.AccName = category.Name;
+                    integration.LayerNo = 4;
+                    integration.Remarks = "4th Layer";
+                    integration.IsIncomeHead = true;
+                    integration.CompanyFK = productCategory.CompanyId;
+                    integration.CreatedBy = productCategory.CreatedBy;
+                    integration.CreatedDate = DateTime.Now;
+
+                    head4Id = AccHead4Push(integration);
+                    if (head4Id > 0)
+                    {
+                        var categoryForAssets = _db.ProductCategories.SingleOrDefault(x => x.ProductCategoryId == productCategory.ProductCategoryId);
+                        categoryForAssets.AccountingExpenseHeadId = head4Id;
+                        categoryForAssets.ModifiedBy = productCategory.CreatedBy;
+                        categoryForAssets.ModifiedDate = DateTime.Now;
+                    }
+                }
+
+                if (_db.SaveChanges() > 0)
+                {
+                    result = productCategory.ProductCategoryId;
+                }
             }
             return result;
         }
@@ -5289,17 +5375,15 @@ namespace KGERP.Service.Implementation.Configuration
 
         }
 
-        private int AccHead4Push(VMHeadIntegration vmModel, int id)
+        private int AccHead4Push(VMHeadIntegration vmModel)
         {
-            int result = -1;
-            var head4ParentId = 29383;
-
+            int result = 0;
             Head4 head4 = new Head4
             {
                 Id = _db.Database.SqlQuery<int>("spGetNewId").FirstOrDefault(),
-                AccCode = GenerateHead4AccCode(head4ParentId),
+                AccCode = GenerateHead4AccCode(vmModel.ParentId),
                 AccName = vmModel.AccName,
-                ParentId = head4ParentId,
+                ParentId = vmModel.ParentId,
                 LayerNo = vmModel.LayerNo,
                 OrderNo = 0,
                 Remarks = vmModel.Remarks,
@@ -5310,11 +5394,11 @@ namespace KGERP.Service.Implementation.Configuration
             };
 
             _db.Head4.Add(head4);
-            var categoryForAssets = _db.ProductCategories.SingleOrDefault(x => x.ProductCategoryId == id);
-            categoryForAssets.AccountingHeadId = head4.Id;
-            categoryForAssets.ModifiedBy = vmModel.CreatedBy;
-            categoryForAssets.ModifiedDate = DateTime.Now;
-            _db.SaveChanges();
+
+            if (_db.SaveChanges() > 0)
+            {
+                result = head4.ParentId ?? 0;
+            }
 
             return result;
         }
