@@ -45,6 +45,36 @@
                                         </div>
                                     </div>
                                     <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-check">
+                                                    @Html.RadioButtonFor(model => model.Asset, "Inventory", new { @class = "form-check-input", id = "inventory" })
+                                                    @Html.Label("Inventory", "Inventory", new { @class = "form-check-label" })
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-check">
+                                                    @Html.RadioButtonFor(model => model.Asset, "Intangible", new { @class = "form-check-input", id = "intangible" })
+                                                    @Html.Label("Intangible", "Intangible", new { @class = "form-check-label" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-check">
+                                                    @Html.CheckBoxFor(model => model.Income, new { @class = "form-check-input", id = "income" })
+                                                    @Html.LabelFor(model => model.Income, new { @class = "form-check-label" })
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-check">
+                                                    @Html.CheckBoxFor(model => model.Expense, new { @class = "form-check-input", id = "expense" })
+                                                    @Html.LabelFor(model => model.Expense, new { @class = "form-check-label" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
                                         <div class="form-group">
                                             <div class="col-md-6">
                                                 <button type="button" onclick="resetForm()" class="btn btn-secondary btn-block w-100" data-dismiss="modal">Reset</button>
@@ -56,19 +86,16 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="box-footer">
-                            </div>
+                            <div class="box-footer"></div>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-9">
                     <div class="box">
-
                         <div class="box-danger">
                             <div class="box-header"></div>
                             <!-- /.box-header -->
                             <div class="box-body">
-
                                 <div class="table-responsive col-md-12">
                                     <table id="KgErpDataTable" class="table table-dark table-responsive table-striped">
                                         <thead>
@@ -101,7 +128,6 @@
                                         </tbody>
                                     </table>
                                 </div>
-
                             </div>
                             <div class="box-footer"></div>
                         </div>

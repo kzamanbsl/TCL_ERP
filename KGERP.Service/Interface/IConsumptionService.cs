@@ -16,7 +16,7 @@ namespace KGERP.Service.Interface
          Task<bool> ConsumptionSubmitted(ConsumptionModel consumption);
          Task<bool> DeleteConsumption(ConsumptionModel consumption);
         Task<ConsumptionModel> GetConsumptionMasterDetail(long consumptionMasterId = 0);
-
+        Task<List<object>> GetConsumptionMaterialList(int? projectId=0, int? BoqItemId=0);
 
     }
 }

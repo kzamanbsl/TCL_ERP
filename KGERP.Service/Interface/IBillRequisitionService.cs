@@ -61,7 +61,7 @@ namespace KGERP.Service.Interface
         bool Edit(BillRequisitionBoqModel model);
         bool Delete(BillRequisitionBoqModel model);
         List<BillRequisitionBoqModel> GetBillOfQuotationList();
-        Task<List<BillRequisitionBoqModel>> GetBoqListByDivisionId(long id);
+        Task<List<BillRequisitionBoqModel>> GetBoqListByDivisionId(long id, long? ProjectId = 0);
         List<BillBoQItem> GetBillOfQuotationListByProjectId(int id);
         Task<bool> IsBoqExistByDivisionId(long divisionId, string boqNumber);
         #endregion

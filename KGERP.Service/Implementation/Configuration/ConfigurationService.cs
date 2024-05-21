@@ -2527,7 +2527,7 @@ namespace KGERP.Service.Implementation.Configuration
             _db.ProductCategories.Add(productCategory);
             //result = await _db.SaveChangesAsync();
             //return result;
-            if (await _db.SaveChangesAsync() > 0)
+            if (_db.SaveChanges() > 0)
             {
                 var category = await _db.ProductCategories.FindAsync(productCategory.ProductCategoryId);
                 VMHeadIntegration integration = new VMHeadIntegration

@@ -1,4 +1,5 @@
-﻿using KGERP.Utility;
+﻿using KGERP.Data.Models;
+using KGERP.Utility;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -63,6 +64,8 @@ namespace KGERP.Data.CustomModel
         public Nullable<int> StockId { get; set; }
         public MaterialStockReportTypeEnum StockReportType { get; set; }
         public Nullable<int> ZoneId { get; set; }
+        public int? BoQItemId { get; set; }
+        public int? MaterialId { get; set; }
 
         public List<SelectModel> Years { get; set; }
         public List<SelectModel> Employees { get; set; }
@@ -135,6 +138,10 @@ namespace KGERP.Data.CustomModel
         public List<SelectModelType> ZoneList { get; set; } = new List<SelectModelType> { };
         public SelectList SubZoneList { get; set; } = new SelectList(new List<object>());
         public SelectList CustomerList { get; set; } = new SelectList(new List<object>());
+        public List<Accounting_CostCenter> Projects { get; set; } = new List<Accounting_CostCenter>();
+        public List<object> BoqItemSelectList { get; set; } = new List<object>();
+        public List<object> MaterialSelectList { get; set; } = new List<object>();
+
         public int? CustomerId { get; set; }
         public int SalaryTag { get; set; } = 0;
         public string AttendanceStatusvalue { get; set; } = "";

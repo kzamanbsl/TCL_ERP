@@ -1,0 +1,86 @@
+﻿@model KGERP.Service.ServiceModel.BulkUpload
+
+@{
+    ViewData["Title"] = "Material Category Upload";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    bool? result = ViewBag.Result as bool?;
+}
+
+<style type="text/css">
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
+
+<section class="content-header">
+    <h1>Material Category Upload</h1>
+    <ol class="breadcrumb">
+        <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
+        <li class="active">Material Category Upload</li>
+    </ol>
+</section>
+
+@using (Html.BeginForm("MaterialCategoryUpload", "BulkUpload", FormMethod.Post, new { id = "uploadCSVFormId", @class = "formValidator", enctype = "multipart/form-data" }))
+{
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.CompanyId)
+                    <div class="box-body" style="margin: 10px 0">
+                        <div class="row">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4">
+                                @if (result.HasValue)
+                                {
+                                    if (result.Value)
+                                    {
+                                        <div class="alert alert-success" id="successStatus">Upload successful!</div>
+                                    }
+                                    else
+                                    {
+                                        <div class="alert alert-danger" id="successStatus">Upload failed. Please try again.</div>
+                                    }
+                                }
+                                <div>
+                                    <p class="text-center hidden" id="uploadStatus">Uploading...</p>
+                                </div>
+                                <div class="d-block" id="uploadForm">
+                                    <div class="form-group">
+                                        <label>CSV File<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                        <input style="margin: 10px 0;" name="FormFile" type="file" id="fileUpload" accept=".csv" required />
+                                        <span class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="submit" id="btnSave" class="btn btn-primary btn-block">
+                                            <i class='fa fa-upload'></i> Upload File
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#btnSave').on('click', function (event) {
+                $('#uploadForm').removeClass("d-block").addClass("hidden");
+                $('#uploadStatus').removeClass("hidden").addClass("d-block");
+            });
+
+            setTimeout(function () {
+                $("#successStatus").addClass('hidden');
+            }, 3000);
+        });
+    </script>
+}

@@ -5711,5 +5711,75 @@ namespace KGERP.Controllers
             }
             return View();
         }
+   
+         [HttpGet]
+        [SessionExpire]
+        public async Task< ActionResult> BoqItemsSalveReport(int companyId=0)
+        {
+            var model = new ReportCustomModel()
+            {
+                Projects = await  _iBillRequisitionService.GetProjectList(companyId),
+                
+            };
+           
+            return View(model);
+        }
+
+       
+
+
+        [HttpPost]
+        public ActionResult BoqItemsSalveReport(ReportCustomModel model)
+        {
+            NetworkCredential nwc = new NetworkCredential(_admin, _password);
+            WebClient client = new WebClient();
+            client.Credentials = nwc;
+            var ReportName = CompanyInfo.ReportPrefix + "BoqItemExpense";
+
+            if (model.ReportType == null)
+            {
+                model.ReportType = "PDF";
+            }
+            if (model.ProjectId == null)
+            {
+                model.ProjectId = 0;
+            }
+            if (model.BoQItemId == null)
+            {
+                model.BoQItemId = 0;
+            }
+            if (model.MaterialId == null)
+            {
+                model.MaterialId = 0;
+            }
+
+           
+
+            string reportUrl = "";
+            try
+            {
+                reportUrl = string.Format("http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format={1}&CompanyId={2}&CostCenterId={3}&BoQItemId={4}&MaterialId={5}",
+             ReportName, model.ReportType, CompanyInfo.CompanyId, model.ProjectId,model.BoQItemId,model.MaterialId);
+
+            }
+            catch
+            {
+
+            }
+
+            if (model.ReportType.Equals(ReportType.EXCEL))
+            {
+                return File(client.DownloadData(reportUrl), "application/vnd.ms-excel", "BoqItemExpense.xls");
+            }
+            if (model.ReportType.Equals(ReportType.PDF))
+            {
+                return File(client.DownloadData(reportUrl), "application/pdf");
+            }
+            if (model.ReportType.Equals(ReportType.WORD))
+            {
+                return File(client.DownloadData(reportUrl), "application/msword", "BoqItemExpense.doc");
+            }
+            return View();
+        }
     }
 }

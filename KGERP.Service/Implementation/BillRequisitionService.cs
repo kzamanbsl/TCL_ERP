@@ -619,10 +619,12 @@ namespace KGERP.Service.Implementation
         #endregion
 
         #region Bill of Quotation
-        public async Task<List<BillRequisitionBoqModel>> GetBoqListByDivisionId(long id)
+        public async Task<List<BillRequisitionBoqModel>> GetBoqListByDivisionId(long id,long? ProjectId=0)
         {
-            var data = await (from t1 in _context.BillBoQItems
-                              .Where(x => x.BoQDivisionId == id && x.IsActive)
+            var data = await (from t1 in _context.BillBoQItems.Where(x => (id>0?x.BoQDivisionId == id:true) && x.IsActive )
+                              join t2 in _context.BoQDivisions  on t1.BoQDivisionId equals t2.BoQDivisionId into t2_Join
+                              from t2 in t2_Join.DefaultIfEmpty()
+                              where (ProjectId>0?t2.ProjectId == ProjectId :true)
                               select new BillRequisitionBoqModel
                               {
                                   BoQItemId = t1.BoQItemId,
