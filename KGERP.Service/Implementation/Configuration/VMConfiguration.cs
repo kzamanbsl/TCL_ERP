@@ -173,7 +173,7 @@ namespace KGERP.Service.Implementation.Configuration
         public string Email { get; set; }
         public string MobileOffice { get; set; }
         public string MobilePersonal { get; set; }
-     
+
         public SelectList ZoneList { get; set; } = new SelectList(new List<object>());
         public List<SelectModel> EmployeeList { get; set; } = new List<SelectModel>();
         public List<SelectModel> RegionList { get; set; } = new List<SelectModel>();
@@ -183,7 +183,7 @@ namespace KGERP.Service.Implementation.Configuration
         public string ZoneName { get; set; }
         public Nullable<long> EmployeeId { get; set; }
         public Nullable<int> RegionId { get; set; }
-        public string RegionName{ get; set; }
+        public string RegionName { get; set; }
         public Nullable<int> AreaId { get; set; }
         public string AreaName { get; set; }
 
@@ -194,7 +194,7 @@ namespace KGERP.Service.Implementation.Configuration
 
     public class VMCommonRegion : BaseVM
     {
-       
+
         public string Name { get; set; }
         public string Code { get; set; }
         public string RegionIncharge { get; set; }
@@ -280,7 +280,7 @@ namespace KGERP.Service.Implementation.Configuration
 
         public SelectList UpazilasList { get; set; } = new SelectList(new List<object>());
         public SelectList ZoneList { get; set; } = new SelectList(new List<object>());
-        public SelectList RegionList { get; set; } = new SelectList(new List<object>()); 
+        public SelectList RegionList { get; set; } = new SelectList(new List<object>());
         public SelectList CountryList { get; set; } = new SelectList(new List<object>());
         public SelectList DistrictList { get; set; } = new SelectList(new List<object>());
         public SelectList DivisionList { get; set; } = new SelectList(new List<object>());
@@ -388,7 +388,9 @@ namespace KGERP.Service.Implementation.Configuration
         public string ProductType { get; set; }
         public string Code { get; set; }
         public bool IsCrm { get; set; }
-
+        public EnumAssetIntegration Asset { get; set; } = EnumAssetIntegration.Inventory;
+        public bool Income { get; set; }
+        public bool Expense { get; set; }
         public IEnumerable<VMCommonProductCategory> DataList { get; set; }
     }
 

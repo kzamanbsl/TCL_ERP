@@ -2,11 +2,18 @@
 
 namespace KGERP.Utility
 {
+    public enum EnumAssetIntegration
+    {
+        Inventory = 1,
+        Intangible
+    }
+
     public enum EnumVendorTye
     {
         Supplier = 1,
         Subcontractor
     }
+
     public enum EnumBankAccountType
     {
         [Display(Name = "Saving Account")]
@@ -20,6 +27,7 @@ namespace KGERP.Utility
         [Display(Name = "SND Account")]
         FDR
     }
+
     public enum EnumWorkOrderFor
     {
         [Display(Name = "General Work Order")]
@@ -169,7 +177,7 @@ namespace KGERP.Utility
     public enum MaterialStockReportTypeEnum
     {
         Summary = 1,
-        [Display(Name ="Date Wise")]
+        [Display(Name = "Date Wise")]
         DateWise
     }
     public enum FLatCompletionStatusEnum
@@ -241,7 +249,7 @@ namespace KGERP.Utility
     }
     public enum ConsumptionStatusEnum
     {
-        Draft=1,
+        Draft = 1,
         Submitted
     }
     public enum SmSStatusEnum

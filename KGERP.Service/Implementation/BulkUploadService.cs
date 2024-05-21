@@ -53,8 +53,6 @@ namespace KGERP.Service.Implementation
                 return false;
             }
         }
-
-
     }
 }
 
