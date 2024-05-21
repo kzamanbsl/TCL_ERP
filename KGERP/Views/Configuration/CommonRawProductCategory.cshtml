@@ -49,13 +49,13 @@
                                             <div class="col-md-6">
                                                 <div class="form-check">
                                                     @Html.RadioButtonFor(model => model.Asset, "Inventory", new { @class = "form-check-input", id = "inventory" })
-                                                    @Html.Label("Inventory", "Inventory", new { @class = "form-check-label" })
+                                                    <label class="form-check-label" for="inventory">Inventory</label>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-check">
                                                     @Html.RadioButtonFor(model => model.Asset, "Intangible", new { @class = "form-check-input", id = "intangible" })
-                                                    @Html.Label("Intangible", "Intangible", new { @class = "form-check-label" })
+                                                    <label class="form-check-label" for="intangible">Intangible</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -63,18 +63,18 @@
                                             <div class="col-md-6">
                                                 <div class="form-check">
                                                     @Html.CheckBoxFor(model => model.Income, new { @class = "form-check-input", id = "income" })
-                                                    @Html.LabelFor(model => model.Income, new { @class = "form-check-label" })
+                                                    <label class="form-check-label" for="income">Income</label>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-check">
                                                     @Html.CheckBoxFor(model => model.Expense, new { @class = "form-check-input", id = "expense" })
-                                                    @Html.LabelFor(model => model.Expense, new { @class = "form-check-label" })
+                                                    <label class="form-check-label" for="expense">Expense</label>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-12">
+                                    <div class="col-md-12" style="margin-top: 15px;">
                                         <div class="form-group">
                                             <div class="col-md-6">
                                                 <button type="button" onclick="resetForm()" class="btn btn-secondary btn-block w-100" data-dismiss="modal">Reset</button>
