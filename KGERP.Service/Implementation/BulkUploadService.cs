@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using KGERP.Data.Models;
 using KGERP.Service.Implementation.Configuration;
 using KGERP.Service.ServiceModel;
+using KGERP.Utility;
 
 namespace KGERP.Service.Implementation
 {
@@ -37,13 +38,27 @@ namespace KGERP.Service.Implementation
                     while (!reader.EndOfStream)
                     {
                         var line = reader.ReadLine();
+                        var values = line.Split(',');
+
                         var materialCategory = new VMCommonProductCategory();
-                        materialCategory.Name = line;
+                        if (Enum.TryParse<EnumAssetIntegration>(values[1], out var asset))
+                        {
+                            materialCategory.Asset = asset;
+                        }
+                        else
+                        {
+                            materialCategory.Asset = EnumAssetIntegration.Inventory;
+                        }
+
+                        materialCategory.Name = values[0];
+                        materialCategory.Income = (values[2] == "0" ? Convert.ToBoolean(false) : values[2] == "1" ? Convert.ToBoolean(true) : false);
+                        materialCategory.Expense = (values[3] == "0" ? Convert.ToBoolean(false) : values[3] == "1" ? Convert.ToBoolean(true) : false);
                         materialCategory.ProductType = "R";
                         materialCategory.CompanyFK = model.CompanyId;
                         var result = _configurationService.ProductFinishCategoryAdd(materialCategory);
                     }
                 }
+
 
                 return true;
             }
