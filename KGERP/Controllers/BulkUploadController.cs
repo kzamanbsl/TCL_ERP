@@ -21,11 +21,11 @@ namespace KGERP.Controllers
         }
 
         [HttpGet]
-        public ActionResult MaterialCategoryUpload(int companyId = 0)
+        public ActionResult MaterialCategoryUpload(int companyId = 0, bool? result = null)
         {
             BulkUpload viewModel = new BulkUpload();
             viewModel.CompanyId = companyId;
-            ViewBag.Result = false;
+            ViewBag.Result = result;
             return View(viewModel);
         }
 
@@ -38,7 +38,7 @@ namespace KGERP.Controllers
                 response = _service.ProductCategoryUpload(model);
             }
             ViewBag.Result = response;
-            return RedirectToAction(nameof(MaterialCategoryUpload), new { companyId = model.CompanyId });
+            return RedirectToAction(nameof(MaterialCategoryUpload), new { companyId = model.CompanyId, result = response });
         }
     }
 }
