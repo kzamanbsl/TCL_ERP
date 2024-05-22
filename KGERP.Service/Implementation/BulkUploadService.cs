@@ -51,8 +51,8 @@ namespace KGERP.Service.Implementation
                         }
 
                         materialCategory.Name = values[0];
-                        materialCategory.Income = (values[2] == "0" ? Convert.ToBoolean(false) : values[2] == "1" ? Convert.ToBoolean(true) : false);
-                        materialCategory.Expense = (values[3] == "0" ? Convert.ToBoolean(false) : values[3] == "1" ? Convert.ToBoolean(true) : false);
+                        materialCategory.Income = (values[2].ToUpper() == "NO" ? Convert.ToBoolean(false) : values[2].ToUpper() == "YES" ? Convert.ToBoolean(true) : false);
+                        materialCategory.Expense = (values[3].ToUpper() == "NO" ? Convert.ToBoolean(false) : values[3].ToUpper() == "YES" ? Convert.ToBoolean(true) : false);
                         materialCategory.ProductType = "R";
                         materialCategory.CompanyFK = model.CompanyId;
                         var result = _configurationService.ProductFinishCategoryAdd(materialCategory);

@@ -3450,39 +3450,113 @@ namespace KGERP.Service.Implementation.Configuration
 
                 if (await _db.SaveChangesAsync() > 0)
                 {
-                    int headGlParentId = 0;
+                    int assetHeadGlParentId = 0;
+                    int incomeHeadGlParentId = 0;
+                    int expenseHeadGlParentId = 0;
                     if (commonProduct.ProductSubCategoryId > 0)
                     {
-                        var head5Id = _db.ProductSubCategories.FirstOrDefault(x => x.ProductSubCategoryId == commonProduct.ProductSubCategoryId).AccountingHeadId;
-                        if (head5Id > 0)
+                        var assetHead5Id = _db.ProductSubCategories.FirstOrDefault(x => x.ProductSubCategoryId == commonProduct.ProductSubCategoryId).AccountingHeadId;
+                        if (assetHead5Id > 0)
                         {
-                            headGlParentId = (int)(head5Id == null ? 0 : head5Id);
+                            assetHeadGlParentId = (int)(assetHead5Id == null ? 0 : assetHead5Id);
+
+                            if (assetHeadGlParentId > 0)
+                            {
+                                VMHeadIntegration integration = new VMHeadIntegration
+                                {
+                                    AccName = commonProduct.ProductName,
+                                    ParentId = assetHeadGlParentId,
+                                    LayerNo = 6,
+                                    Remarks = "GL Layer",
+                                    IsIncomeHead = false,
+                                    ProductType = commonProduct.ProductType,
+                                    CompanyFK = commonProduct.CompanyId,
+                                    CreatedBy = commonProduct.CreatedBy,
+                                    CreatedDate = DateTime.Now
+                                };
+
+                                int headGl = AccHeadGlPush(integration);
+
+                                if (headGl > 0)
+                                {
+                                    var productForAssets = _db.Products.SingleOrDefault(x => x.ProductId == commonProduct.ProductId);
+                                    productForAssets.AccountingHeadId = headGl;
+                                    productForAssets.ModifiedBy = commonProduct.CreatedBy;
+                                    productForAssets.ModifiedDate = DateTime.Now;
+                                }
+                            }
+                        }
+
+                        var incomeHead5Id = _db.ProductSubCategories.FirstOrDefault(x => x.ProductSubCategoryId == commonProduct.ProductSubCategoryId).AccountingIncomeHeadId;
+                        if (incomeHead5Id > 0)
+                        {
+                            incomeHeadGlParentId = (int)(incomeHead5Id == null ? 0 : incomeHead5Id);
+
+                            if (assetHeadGlParentId > 0)
+                            {
+                                VMHeadIntegration integration = new VMHeadIntegration
+                                {
+                                    AccName = commonProduct.ProductName,
+                                    ParentId = incomeHeadGlParentId,
+                                    LayerNo = 6,
+                                    Remarks = "GL Layer",
+                                    IsIncomeHead = false,
+                                    ProductType = commonProduct.ProductType,
+                                    CompanyFK = commonProduct.CompanyId,
+                                    CreatedBy = commonProduct.CreatedBy,
+                                    CreatedDate = DateTime.Now
+                                };
+
+                                int headGl = AccHeadGlPush(integration);
+
+                                if (headGl > 0)
+                                {
+                                    var productForAssets = _db.Products.SingleOrDefault(x => x.ProductId == commonProduct.ProductId);
+                                    productForAssets.AccountingIncomeHeadId = headGl;
+                                    productForAssets.ModifiedBy = commonProduct.CreatedBy;
+                                    productForAssets.ModifiedDate = DateTime.Now;
+                                }
+                            }
+                        }
+
+                        var expenseHead5Id = _db.ProductSubCategories.FirstOrDefault(x => x.ProductSubCategoryId == commonProduct.ProductSubCategoryId).AccountingExpenseHeadId;
+                        if (expenseHead5Id > 0)
+                        {
+                            expenseHeadGlParentId = (int)(expenseHead5Id == null ? 0 : expenseHead5Id);
+
+                            if (assetHeadGlParentId > 0)
+                            {
+                                VMHeadIntegration integration = new VMHeadIntegration
+                                {
+                                    AccName = commonProduct.ProductName,
+                                    ParentId = expenseHeadGlParentId,
+                                    LayerNo = 6,
+                                    Remarks = "GL Layer",
+                                    IsIncomeHead = false,
+                                    ProductType = commonProduct.ProductType,
+                                    CompanyFK = commonProduct.CompanyId,
+                                    CreatedBy = commonProduct.CreatedBy,
+                                    CreatedDate = DateTime.Now
+                                };
+
+                                int headGl = AccHeadGlPush(integration);
+
+                                if (headGl > 0)
+                                {
+                                    var productForAssets = _db.Products.SingleOrDefault(x => x.ProductId == commonProduct.ProductId);
+                                    productForAssets.AccountingExpenseHeadId = headGl;
+                                    productForAssets.ModifiedBy = commonProduct.CreatedBy;
+                                    productForAssets.ModifiedDate = DateTime.Now;
+                                }
+                            }
+                        }
+
+                        if (_db.SaveChanges() > 0)
+                        {
+                            result = commonProduct.ProductId;
                         }
                     }
 
-                    VMHeadIntegration integration = new VMHeadIntegration
-                    {
-                        AccName = commonProduct.ProductName,
-                        ParentId = headGlParentId,
-                        LayerNo = 6,
-                        Remarks = "GL Layer",
-                        IsIncomeHead = false,
-                        ProductType = commonProduct.ProductType,
-                        CompanyFK = commonProduct.CompanyId,
-                        CreatedBy = commonProduct.CreatedBy,
-                        CreatedDate = DateTime.Now
-                    };
-
-                    int headGl = AccHeadGlPush(integration);
-
-                    if (headGl > 0)
-                    {
-                        var productForAssets = _db.Products.SingleOrDefault(x => x.ProductId == commonProduct.ProductId);
-                        productForAssets.AccountingHeadId = headGl;
-                        productForAssets.ModifiedBy = commonProduct.CreatedBy;
-                        productForAssets.ModifiedDate = DateTime.Now;
-                        result = commonProduct.ProductId;
-                    }
                 }
                 return result;
             }
