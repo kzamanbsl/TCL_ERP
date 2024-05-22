@@ -1,0 +1,72 @@
+﻿@model KGERP.Service.ServiceModel.BulkUpload
+
+@{
+    ViewData["Title"] = "Material Category Upload";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    bool? result = ViewBag.Result as bool?;
+}
+
+<style type="text/css">
+    input, select, textarea {
+        max-width: 100%;
+    }
+</style>
+
+<section class="content-header">
+    <h1>Material Category Upload</h1>
+    <ol class="breadcrumb">
+        <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
+        <li class="active">Material Category Upload</li>
+    </ol>
+</section>
+
+@using (Html.BeginForm("RequisitionArchive", "BulkUpload", FormMethod.Post, new { id = "downloadFormId", @class = "formValidator" }))
+{
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.CompanyId)
+                    <div class="box-body" style="margin: 10px 0">
+                        <div class="row">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4">
+                                <p class="text-center hidden" id="downloadStatus">Downloading...</p>
+                                <div class="d-block" id="uploadForm">
+                                    <div class="form-group">
+                                        <label>Status<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                        @Html.DropDownListFor(model => model.RequisitionStatus, Model.RequisitionStatusList, "==Select Status==", new { id = "ddStatusId", @class = "form-control searchingDropdown", style = "width:100%" })
+                                        @Html.ValidationMessageFor(model => model.RequisitionStatus, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="submit" id="btnSave" class="btn btn-primary btn-block">
+                                            <i class='fa fa-download'></i> Download File
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#btnSave').on('click', function (event) {
+                $('#downloadStatus').removeClass("hidden").addClass("d-block");
+            });
+
+            setTimeout(function () {
+                $("#downloadStatus").addClass('hidden');
+            }, 3000);
+        });
+    </script>
+}

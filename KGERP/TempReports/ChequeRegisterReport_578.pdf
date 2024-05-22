@@ -1,0 +1,121 @@
+
+
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <link href=/Images/Logo/ rel="shortcut icon" type="image/x-icon" />
+    <title>TCL</title>
+    <link href="/Content/bootstrap.css" rel="stylesheet" />
+    <link href="/Content/Login.css" rel="stylesheet" />
+    <link href="/Content/all.css" rel="stylesheet" />
+    <script src="/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="/Scripts/jquery.validate.js"></script>
+    <script src="/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="/Scripts/bootstrap.js"></script>
+    <script src="/Scripts/login.jquery.slim.min.js"></script>
+    <script src="/Scripts/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+
+    <style>
+        * {
+            box-sizng: border-box;
+        }
+
+        img {
+            width: 50%;
+            height: auto;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .imgiss {
+            width: 20px;
+            height: auto;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .form-control:focus {
+            box-shadow: 1px 1px 20px #b6ff00;
+            border-color: #ddd !important;
+        }
+
+        .form-control {
+            border-color: #ddd !important;
+        }
+    </style>
+
+</head>
+<form action="/user/login" method="post"><div class="container">
+        <div class="row">
+            <div class="col-md-offset-4 col-md-4 top-align">
+                <input name="__RequestVerificationToken" type="hidden" value="Qrz0zQQInsxsYaARy97mAjmEhXmR4_4T3wUjFN0c9pjj8PwD7eGx1WeEhGbhEwauhwLR_sdQ1ygG4GYVbMby2NAb1kZavpdBZDhN1NXy09o1" />
+                <img src=/Content/img/TCLLogo.png alt="Company Logo">
+                <form class="form-signin">
+                    <div class="form-group">
+                        <label class="control-label" for="UserName">Employee ID</label>
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user" style="color:#333"></i></span>
+                            <input class="form-control text-box single-line" data-val="true" data-val-required="Employee ID is required" id="UserName" name="UserName" placeholder="User ID" type="text" value="" />
+                        </div>
+                        <span class="field-validation-valid text-danger" data-valmsg-for="UserName" data-valmsg-replace="true"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="Password">Password</label>
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock" style="color:#333"></i></span>
+                            <input class="form-control text-box single-line password" data-val="true" data-val-required="Password is required" id="Password" name="Password" placeholder="Password" type="password" value="" />
+                        </div>
+                        <span class="field-validation-valid text-danger" data-valmsg-for="Password" data-valmsg-replace="true"></span>
+                    </div>
+
+                    <br />
+                    <button class="btn btn-lg btn-success btn-block" value="Login" type="submit">SIGN IN</button>
+                        <div style="color:red" class="text-center"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<script src="/Scripts/jquery.validate.min.js"></script>
+<script src="/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

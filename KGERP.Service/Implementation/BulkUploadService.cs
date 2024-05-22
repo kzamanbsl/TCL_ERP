@@ -68,6 +68,24 @@ namespace KGERP.Service.Implementation
                 return false;
             }
         }
+
+        public List<long> RequisitionIdList(long status)
+        {
+            List<long> requisitionIds = new List<long>();
+
+            if (status > 0)
+            {
+                var requisitions = _context.BillRequisitionMasters.Where(x => x.StatusId == status && x.IsActive).ToList();
+
+                foreach (var requisition in requisitions)
+                {
+                    requisitionIds.Add(requisition.BillRequisitionMasterId);
+                }
+            }
+
+            return requisitionIds;
+        }
+
     }
 }
 
