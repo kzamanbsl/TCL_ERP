@@ -69,21 +69,16 @@ namespace KGERP.Service.Implementation
             }
         }
 
-        public List<long> RequisitionIdList(long status)
+        public List<BillRequisitionMasterModel> RequisitionIdList(long status)
         {
-            List<long> requisitionIds = new List<long>();
-
-            if (status > 0)
-            {
-                var requisitions = _context.BillRequisitionMasters.Where(x => x.StatusId == status && x.IsActive).ToList();
-
-                foreach (var requisition in requisitions)
-                {
-                    requisitionIds.Add(requisition.BillRequisitionMasterId);
-                }
-            }
-
-            return requisitionIds;
+            var getData = (from t1 in _context.BillRequisitionMasters
+                           where t1.IsActive && t1.StatusId == status
+                           select new BillRequisitionMasterModel
+                           {
+                               BillRequisitionMasterId = t1.BillRequisitionMasterId,
+                               BillRequisitionNo = t1.BillRequisitionNo,
+                           }).ToList();
+            return getData;
         }
 
     }

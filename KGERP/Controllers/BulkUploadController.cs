@@ -50,29 +50,41 @@ namespace KGERP.Controllers
         [HttpGet]
         public ActionResult RequisitionArchive(int companyId = 0, long status = 0)
         {
-            BulkUpload viewModel = new BulkUpload();
-            viewModel.CompanyId = companyId;
+            BulkUpload viewModel = new BulkUpload
+            {
+                CompanyId = companyId
+            };
+
             if (status > 0)
             {
                 try
                 {
-                    var requisitionIds = _service.RequisitionIdList(status);
+                    var requisitionList = _service.RequisitionIdList(status);
                     string tempDir = Server.MapPath("~/TempReports");
                     Directory.CreateDirectory(tempDir);
 
                     List<string> pdfFilePaths = new List<string>();
 
-                    foreach (int requisitionId in requisitionIds)
+                    foreach (var requisition in requisitionList)
                     {
-                        string pdfFileName = $"ChequeRegisterReport_{requisitionId}.pdf";
+                        string pdfFileName = $"{requisition.BillRequisitionNo}.pdf";
                         string pdfFilePath = Path.Combine(tempDir, pdfFileName);
 
-                        DownloadPdf(requisitionId, pdfFilePath);
-
-                        pdfFilePaths.Add(pdfFilePath);
+                        bool isSuccess = DownloadPdf((int)requisition.BillRequisitionMasterId, pdfFilePath);
+                        if (isSuccess)
+                        {
+                            pdfFilePaths.Add(pdfFilePath);
+                        }
+                        else
+                        {
+                            // Handle the case where the PDF download failed
+                            return Content($"Failed to download PDF for requisition ID: {requisition.BillRequisitionMasterId}");
+                        }
                     }
 
-                    string zipFilePath = Path.Combine(tempDir, "TempReports.zip");
+                    string requisitionStatus = Enum.GetName(typeof(EnumBillRequisitionStatus), status);
+                    string zipFileName = $"{DateTime.Now.ToString("ddMMyyyy_HHmm")}_{requisitionStatus}_Report.zip";
+                    string zipFilePath = Path.Combine(tempDir, zipFileName);
                     ZipFiles(pdfFilePaths, zipFilePath);
 
                     foreach (string pdfFilePath in pdfFilePaths)
@@ -80,7 +92,7 @@ namespace KGERP.Controllers
                         System.IO.File.Delete(pdfFilePath);
                     }
 
-                    return File(zipFilePath, "application/zip", "RequisitionReports.zip");
+                    return File(zipFilePath, "application/zip", zipFileName);
                 }
                 catch (Exception ex)
                 {
@@ -96,13 +108,33 @@ namespace KGERP.Controllers
             return RedirectToAction(nameof(RequisitionArchive), new { companyId = model.CompanyId, status = model.RequisitionStatus });
         }
 
-        private void DownloadPdf(int requisitionId, string filePath)
+        private bool DownloadPdf(int requisitionId, string filePath)
         {
-            string reportUrl = $"http://localhost:60768/Report/TCLBillRequisiontReport?companyId=21&billRequisitionMasterId={requisitionId}";
+            string reportUrl = $"{Request.Url.Scheme}://{Request.Url.Host}:{Request.Url.Port}/Report/TCLBillRequisiontReport?companyId=21&billRequisitionMasterId={requisitionId}";
 
-            using (WebClient client = new WebClient())
+            try
             {
-                client.DownloadFile(reportUrl, filePath);
+                using (WebClient client = new WebClient())
+                {
+                    client.Headers.Add("Content-Type", "application/pdf");
+                    byte[] pdfData = client.DownloadData(reportUrl);
+
+                    if (pdfData != null && pdfData.Length > 0)
+                    {
+                        System.IO.File.WriteAllBytes(filePath, pdfData);
+                        return true;
+                    }
+                    else
+                    {
+                        // Log that the download failed because the data was empty
+                        return false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                return false;
             }
         }
 
@@ -118,7 +150,7 @@ namespace KGERP.Controllers
 
                         ZipArchiveEntry entry = archive.CreateEntry(entryName);
 
-                        using (FileStream fileStream = new FileStream(filePath, FileMode.Open))
+                        using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                         {
                             using (Stream entryStream = entry.Open())
                             {
@@ -129,6 +161,5 @@ namespace KGERP.Controllers
                 }
             }
         }
-
     }
 }

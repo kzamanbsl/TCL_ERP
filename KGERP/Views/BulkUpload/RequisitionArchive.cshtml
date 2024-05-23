@@ -1,7 +1,7 @@
 ﻿@model KGERP.Service.ServiceModel.BulkUpload
 
 @{
-    ViewData["Title"] = "Material Category Upload";
+    ViewData["Title"] = "Requisition Archive";
     Layout = "~/Views/Shared/_Layout.cshtml";
     bool? result = ViewBag.Result as bool?;
 }
@@ -13,10 +13,10 @@
 </style>
 
 <section class="content-header">
-    <h1>Material Category Upload</h1>
+    <h1>Download Requisition</h1>
     <ol class="breadcrumb">
         <li><a href="~/Home/Index"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">Material Category Upload</li>
+        <li class="active">Download Requisition</li>
     </ol>
 </section>
 
@@ -36,7 +36,7 @@
                                 <p class="text-center hidden" id="downloadStatus">Downloading...</p>
                                 <div class="d-block" id="uploadForm">
                                     <div class="form-group">
-                                        <label>Status<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                        <label>Requisition Status<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                         @Html.DropDownListFor(model => model.RequisitionStatus, Model.RequisitionStatusList, "==Select Status==", new { id = "ddStatusId", @class = "form-control searchingDropdown", style = "width:100%" })
                                         @Html.ValidationMessageFor(model => model.RequisitionStatus, "", new { @class = "text-danger" })
                                     </div>
@@ -65,7 +65,7 @@
             });
 
             setTimeout(function () {
-                $("#downloadStatus").addClass('hidden');
+                $("#downloadStatus").removeClass("d-block").addClass('hidden');
             }, 3000);
         });
     </script>
