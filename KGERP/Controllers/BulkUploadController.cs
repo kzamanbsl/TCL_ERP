@@ -87,7 +87,16 @@ namespace KGERP.Controllers
 
                     foreach (var requisition in requisitionList)
                     {
-                        string pdfFileName = $"{requisition.BillRequisitionNo}.pdf";
+                        string pdfFileName = "";
+                        if (requisition.BillRequisitionNo == "5/7NEW-REQ-240507-0007" || requisition.BillRequisitionNo == "5/7NEW-REQ-240507-0002")
+                        {
+                            pdfFileName = "WrongName.pdf";
+                        }
+                        else
+                        {
+                            pdfFileName = $"{requisition.BillRequisitionNo}.pdf";
+                        }
+                        
                         string pdfFilePath = Path.Combine(tempDir, pdfFileName);
 
                         bool isSuccess = DownloadPdf(companyId, requisition.BillRequisitionMasterId, pdfFilePath);
