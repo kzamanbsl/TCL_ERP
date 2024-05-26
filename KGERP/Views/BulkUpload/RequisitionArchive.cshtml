@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Requisition Archive";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    bool? result = ViewBag.Result as bool?;
+    var zipFileName = TempData["ZipFileName"] as string;
 }
 
 <style type="text/css">
@@ -33,8 +33,25 @@
                         <div class="row">
                             <div class="col-md-4"></div>
                             <div class="col-md-4">
-                                <p class="text-center hidden" id="downloadStatus">Downloading...</p>
-                                <div class="d-block" id="uploadForm">
+                                @if (!Model.Status.Equals(null))
+                                {
+                                    if (Model.Status.Equals(1))
+                                    {
+                                        <div class="alert alert-success" id="successStatus">
+                                            <p>Your file has been prepared and is now available for download. <a href="~/TempReports/@zipFileName">CLICK HERE</a>.</p>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="alert alert-danger" id="successStatus">Donwload failed. Please try again.</div>
+                                    }
+                                }
+
+                                <div>
+                                    <p class="text-center hidden" id="downloadStatus">Your download file is being prepared. Please wait...</p>
+                                </div>
+
+                                <div class="d-block" id="downloadForm">
                                     <div class="form-group">
                                         <label>Requisition Status<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                         @Html.DropDownListFor(model => model.RequisitionStatus, Model.RequisitionStatusList, "==Select Status==", new { id = "ddStatusId", @class = "form-control searchingDropdown", style = "width:100%" })
@@ -56,17 +73,17 @@
     </section>
 }
 
-
 @section scripts {
     <script type="text/javascript">
         $(document).ready(function () {
             $('#btnSave').on('click', function (event) {
                 $('#downloadStatus').removeClass("hidden").addClass("d-block");
+                $('#downloadForm').removeClass("d-block").addClass("hidden");
             });
 
             setTimeout(function () {
-                $("#downloadStatus").removeClass("d-block").addClass('hidden');
-            }, 3000);
+                $("#successStatus").addClass('hidden');
+            }, 40000);
         });
     </script>
 }

@@ -2,23 +2,19 @@
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 using KGERP.Service.Implementation;
-using KGERP.Service.Implementation.FTP;
-using KGERP.Service.Interface;
 using KGERP.Service.ServiceModel;
 using KGERP.Utility;
-using Microsoft.AspNetCore.Hosting.Server;
 
 namespace KGERP.Controllers
 {
     [SessionExpire]
     public class BulkUploadController : Controller
     {
+        private readonly string _admin = "Administrator";
+        private readonly string _password = "Gocorona!9";
         private BulkUploadService _service;
 
         public BulkUploadController(BulkUploadService bulkUploadService)
@@ -48,18 +44,29 @@ namespace KGERP.Controllers
         }
 
         [HttpGet]
-        public ActionResult RequisitionArchive(int companyId = 0, long status = 0)
+        public ActionResult RequisitionArchive(int companyId = 0, int? status = null)
         {
             BulkUpload viewModel = new BulkUpload
             {
-                CompanyId = companyId
+                CompanyId = companyId,
+                Status = status
             };
 
-            if (status > 0)
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult RequisitionArchive(BulkUpload model)
+        {
+            int status = 0;
+            int companyId = model.CompanyId;
+            long requisitionId = model.RequisitionStatus;
+
+            if (requisitionId > 0)
             {
                 try
                 {
-                    var requisitionList = _service.RequisitionIdList(status);
+                    var requisitionList = _service.RequisitionIdList(requisitionId);
                     string tempDir = Server.MapPath("~/TempReports");
                     Directory.CreateDirectory(tempDir);
 
@@ -70,19 +77,18 @@ namespace KGERP.Controllers
                         string pdfFileName = $"{requisition.BillRequisitionNo}.pdf";
                         string pdfFilePath = Path.Combine(tempDir, pdfFileName);
 
-                        bool isSuccess = DownloadPdf((int)requisition.BillRequisitionMasterId, pdfFilePath);
+                        bool isSuccess = DownloadPdf(companyId, requisition.BillRequisitionMasterId, pdfFilePath);
                         if (isSuccess)
                         {
                             pdfFilePaths.Add(pdfFilePath);
                         }
                         else
                         {
-                            // Handle the case where the PDF download failed
-                            return Content($"Failed to download PDF for requisition ID: {requisition.BillRequisitionMasterId}");
+                            return Content($"Failed to download PDF for requisition ID: {requisition.BillRequisitionNo}");
                         }
                     }
 
-                    string requisitionStatus = Enum.GetName(typeof(EnumBillRequisitionStatus), status);
+                    string requisitionStatus = Enum.GetName(typeof(EnumBillRequisitionStatus), requisitionId);
                     string zipFileName = $"{DateTime.Now.ToString("ddMMyyyy_HHmm")}_{requisitionStatus}_Report.zip";
                     string zipFilePath = Path.Combine(tempDir, zipFileName);
                     ZipFiles(pdfFilePaths, zipFilePath);
@@ -92,31 +98,34 @@ namespace KGERP.Controllers
                         System.IO.File.Delete(pdfFilePath);
                     }
 
-                    return File(zipFilePath, "application/zip", zipFileName);
+                    status = 1;
+                    TempData["ZipFileName"] = zipFileName;
+                    return RedirectToAction(nameof(RequisitionArchive), new { companyId = model.CompanyId, status = status });
                 }
                 catch (Exception ex)
                 {
-                    return Content($"An error occurred: {ex.Message}");
+                    //return Content($"An error occurred: {ex.Message}");
+                    return RedirectToAction(nameof(RequisitionArchive), new { companyId = model.CompanyId, status = status });
                 }
             }
-            return View(viewModel);
+            return RedirectToAction(nameof(RequisitionArchive), new { companyId = model.CompanyId, status = status });
         }
 
-        [HttpPost]
-        public ActionResult RequisitionArchive(BulkUpload model)
+        private bool DownloadPdf(int companyId, long requisitionId, string filePath)
         {
-            return RedirectToAction(nameof(RequisitionArchive), new { companyId = model.CompanyId, status = model.RequisitionStatus });
-        }
-
-        private bool DownloadPdf(int requisitionId, string filePath)
-        {
-            string reportUrl = $"{Request.Url.Scheme}://{Request.Url.Host}:{Request.Url.Port}/Report/TCLBillRequisiontReport?companyId=21&billRequisitionMasterId={requisitionId}";
-
             try
             {
+                NetworkCredential authentication = new NetworkCredential(_admin, _password);
                 using (WebClient client = new WebClient())
                 {
-                    client.Headers.Add("Content-Type", "application/pdf");
+                    client.Credentials = authentication;
+
+                    var reportName = CompanyInfo.ReportPrefix + "BillRequisition";
+                    string reportUrl = string.Format(
+                        "http://192.168.0.7/ReportServer_SQLEXPRESS/?%2fErpReport/{0}&rs:Command=Render&rs:Format=PDF&CompanyId={1}&BillRequisitionMasterId={2}",
+                        reportName, companyId, requisitionId
+                    );
+
                     byte[] pdfData = client.DownloadData(reportUrl);
 
                     if (pdfData != null && pdfData.Length > 0)
@@ -126,14 +135,12 @@ namespace KGERP.Controllers
                     }
                     else
                     {
-                        // Log that the download failed because the data was empty
                         return false;
                     }
                 }
             }
             catch (Exception ex)
             {
-                // Log the exception
                 return false;
             }
         }
