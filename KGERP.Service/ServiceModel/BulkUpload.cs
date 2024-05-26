@@ -12,6 +12,8 @@ namespace KGERP.Service.ServiceModel
         public HttpPostedFileBase FormFile { get; set; }
         public long RequisitionStatus { get; set; }
         public int? Status { get; set; }
+        public int UploadType { get; set; }
+        public SelectList UploadTypeList { get { return new SelectList(BaseFunctionalities.GetEnumList<EnumMaterialBulkUploadType>(), "Value", "Text"); } }
         public SelectList RequisitionStatusList { get { return new SelectList(BaseFunctionalities.GetEnumList<EnumBillRequisitionStatus>(), "Value", "Text"); } }
     }
 }

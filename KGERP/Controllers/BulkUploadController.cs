@@ -23,7 +23,7 @@ namespace KGERP.Controllers
         }
 
         [HttpGet]
-        public ActionResult MaterialCategoryUpload(int companyId = 0, bool? result = null)
+        public ActionResult MaterialBulkUpload(int companyId = 0, bool? result = null)
         {
             BulkUpload viewModel = new BulkUpload();
             viewModel.CompanyId = companyId;
@@ -32,15 +32,28 @@ namespace KGERP.Controllers
         }
 
         [HttpPost]
-        public ActionResult MaterialCategoryUpload(BulkUpload model)
+        public ActionResult MaterialBulkUpload(BulkUpload model)
         {
             bool response = false;
             if (model.FormFile != null)
             {
-                response = _service.ProductCategoryUpload(model);
+                if (model.UploadType == (int)EnumMaterialBulkUploadType.Category)
+                {
+                    response = _service.ProductCategoryUpload(model);
+                }
+
+                if (model.UploadType == (int)EnumMaterialBulkUploadType.Subcategory)
+                {
+                    //response = _service.ProductCategoryUpload(model);
+                }
+
+                if (model.UploadType == (int)EnumMaterialBulkUploadType.Material)
+                {
+                    //response = _service.ProductCategoryUpload(model);
+                }
             }
             ViewBag.Result = response;
-            return RedirectToAction(nameof(MaterialCategoryUpload), new { companyId = model.CompanyId, result = response });
+            return RedirectToAction(nameof(MaterialBulkUpload), new { companyId = model.CompanyId, result = response });
         }
 
         [HttpGet]

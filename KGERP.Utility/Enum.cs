@@ -2,6 +2,13 @@
 
 namespace KGERP.Utility
 {
+    public enum EnumMaterialBulkUploadType
+    {
+        Category = 1,
+        Subcategory,
+        Material
+    }
+
     public enum EnumAssetIntegration
     {
         Inventory = 1,
