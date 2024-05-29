@@ -113,12 +113,24 @@
                                                             @Html.DropDownListFor(model => model.Head2AssetId, Model.Head2AssetList, "==Select Head==", new { id = "ddlHead2AssetId", @class = "form-control searchingDropdown", required = "true", @style = "width: 100%" })
                                                             @Html.ValidationMessageFor(model => model.Head2AssetId, "", new { @class = "text-danger" })
                                                         </div>
+
+                                                        <div class="form-group hidden">
+                                                            <label>Asset 3rd Layer<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                                            @Html.DropDownListFor(model => model.Head3AssetId, Model.Head3AssetList, "==Select Head==", new { id = "ddlHead3AssetId", @class = "form-control searchingDropdown", required = "true", @style = "width: 100%" })
+                                                            @Html.ValidationMessageFor(model => model.Head2AssetId, "", new { @class = "text-danger" })
+                                                        </div>
                                                     </div>
                                                     <div class="col-md-3 hidden" id="accEquity">
                                                         <div class="form-group">
                                                             <label>Equity 2nd Layer<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                                             @Html.DropDownListFor(model => model.Head2EquityId, Model.Head2EquityList, "==Select Head==", new { id = "ddlHead2EquityId", @class = "form-control searchingDropdown", required = "true", @style = "width: 100%" })
                                                             @Html.ValidationMessageFor(model => model.Head2EquityId, "", new { @class = "text-danger" })
+                                                        </div>
+
+                                                        <div class="form-group hidden">
+                                                            <label>Equity 3rd Layer<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                                            @Html.DropDownListFor(model => model.Head3EquityId, Model.Head3EquityList, "==Select Head==", new { id = "ddlHead3EquityId", @class = "form-control searchingDropdown", required = "true", @style = "width: 100%" })
+                                                            @Html.ValidationMessageFor(model => model.Head3EquityId, "", new { @class = "text-danger" })
                                                         </div>
                                                     </div>
                                                     <div class="col-md-3 hidden" id="accIncome">
@@ -127,12 +139,24 @@
                                                             @Html.DropDownListFor(model => model.Head2IncomeId, Model.Head2IncomeList, "==Select Head==", new { id = "ddlHead2IncomeId", @class = "form-control searchingDropdown", required = "true", @style = "width: 100%" })
                                                             @Html.ValidationMessageFor(model => model.Head2IncomeId, "", new { @class = "text-danger" })
                                                         </div>
+
+                                                        <div class="form-group hidden">
+                                                            <label>Income 3rd Layer<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                                            @Html.DropDownListFor(model => model.Head3IncomeId, Model.Head3IncomeList, "==Select Head==", new { id = "ddlHead3IncomeId", @class = "form-control searchingDropdown", required = "true", @style = "width: 100%" })
+                                                            @Html.ValidationMessageFor(model => model.Head3IncomeId, "", new { @class = "text-danger" })
+                                                        </div>
                                                     </div>
                                                     <div class="col-md-3 hidden" id="accExpense">
                                                         <div class="form-group">
                                                             <label>Expense 2nd Layer<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                                             @Html.DropDownListFor(model => model.Head2ExpenseId, Model.Head2ExpenseList, "==Select Head==", new { id = "ddlHead2ExpenseId", @class = "form-control searchingDropdown", required = "true", @style = "width: 100%" })
                                                             @Html.ValidationMessageFor(model => model.Head2ExpenseId, "", new { @class = "text-danger" })
+                                                        </div>
+
+                                                        <div class="form-group hidden">
+                                                            <label>Expense 3rd Layer<sup class="text-danger" title="Required"><b>*</b></sup></label>
+                                                            @Html.DropDownListFor(model => model.Head3ExpenseId, Model.Head3ExpenseList, "==Select Head==", new { id = "ddlHead3ExpenseId", @class = "form-control searchingDropdown", required = "true", @style = "width: 100%" })
+                                                            @Html.ValidationMessageFor(model => model.Head3ExpenseId, "", new { @class = "text-danger" })
                                                         </div>
                                                     </div>
                                                 </div>

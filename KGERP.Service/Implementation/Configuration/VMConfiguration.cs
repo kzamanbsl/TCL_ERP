@@ -402,6 +402,16 @@ namespace KGERP.Service.Implementation.Configuration
         public SelectList Head2IncomeList { get; set; } = new SelectList(new List<object>());
         public int Head2ExpenseId { get; set; }
         public SelectList Head2ExpenseList { get; set; } = new SelectList(new List<object>());
+
+        public int Head3AssetId { get; set; }
+        public SelectList Head3AssetList { get; set; } = new SelectList(new List<object>());
+        public int Head3EquityId { get; set; }
+        public SelectList Head3EquityList { get; set; } = new SelectList(new List<object>());
+        public int Head3IncomeId { get; set; }
+        public SelectList Head3IncomeList { get; set; } = new SelectList(new List<object>());
+        public int Head3ExpenseId { get; set; }
+        public SelectList Head3ExpenseList { get; set; } = new SelectList(new List<object>());
+
         public IEnumerable<VMCommonProductCategory> DataList { get; set; }
     }
 
