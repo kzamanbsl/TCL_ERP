@@ -2533,56 +2533,56 @@ namespace KGERP.Service.Implementation.Configuration
                 int head4Id = 0;
                 VMHeadIntegration integration = new VMHeadIntegration();
                 var category = _db.ProductCategories.Find(productCategory.ProductCategoryId);
-                switch (productCategoryModel.Asset)
-                {
-                    case EnumAssetIntegration.Inventory:
+                //switch (productCategoryModel.Asset)
+                //{
+                //    case EnumAssetIntegration.Inventory:
 
-                        integration.ParentId = 29383; // Layer 3 Id => Inventories - 1207
-                        integration.AccName = category.Name;
-                        integration.LayerNo = 4;
-                        integration.Remarks = "4th Layer";
-                        integration.IsIncomeHead = true;
-                        integration.CompanyFK = productCategory.CompanyId;
-                        integration.CreatedBy = productCategory.CreatedBy;
-                        integration.CreatedDate = DateTime.Now;
+                //        integration.ParentId = 29383; // Layer 3 Id => Inventories - 1207
+                //        integration.AccName = category.Name;
+                //        integration.LayerNo = 4;
+                //        integration.Remarks = "4th Layer";
+                //        integration.IsIncomeHead = true;
+                //        integration.CompanyFK = productCategory.CompanyId;
+                //        integration.CreatedBy = productCategory.CreatedBy;
+                //        integration.CreatedDate = DateTime.Now;
 
-                        head4Id = AccHead4Push(integration);
-                        if (head4Id > 0)
-                        {
-                            var categoryForAssets = _db.ProductCategories.SingleOrDefault(x => x.ProductCategoryId == productCategory.ProductCategoryId);
-                            categoryForAssets.AccountingHeadId = head4Id;
-                            categoryForAssets.ModifiedBy = productCategory.CreatedBy;
-                            categoryForAssets.ModifiedDate = DateTime.Now;
-                        }
+                //        head4Id = AccHead4Push(integration);
+                //        if (head4Id > 0)
+                //        {
+                //            var categoryForAssets = _db.ProductCategories.SingleOrDefault(x => x.ProductCategoryId == productCategory.ProductCategoryId);
+                //            categoryForAssets.AccountingHeadId = head4Id;
+                //            categoryForAssets.ModifiedBy = productCategory.CreatedBy;
+                //            categoryForAssets.ModifiedDate = DateTime.Now;
+                //        }
 
-                        break;
+                //        break;
 
-                    case EnumAssetIntegration.Intangible:
+                //    case EnumAssetIntegration.Intangible:
 
-                        integration.ParentId = 29279; // Layer 3 Id = > Intengible Asset - 1102
-                        integration.AccName = category.Name;
-                        integration.LayerNo = 4;
-                        integration.Remarks = "4th Layer";
-                        integration.IsIncomeHead = true;
-                        integration.CompanyFK = productCategory.CompanyId;
-                        integration.CreatedBy = productCategory.CreatedBy;
-                        integration.CreatedDate = DateTime.Now;
+                //        integration.ParentId = 29279; // Layer 3 Id = > Intengible Asset - 1102
+                //        integration.AccName = category.Name;
+                //        integration.LayerNo = 4;
+                //        integration.Remarks = "4th Layer";
+                //        integration.IsIncomeHead = true;
+                //        integration.CompanyFK = productCategory.CompanyId;
+                //        integration.CreatedBy = productCategory.CreatedBy;
+                //        integration.CreatedDate = DateTime.Now;
 
-                        head4Id = AccHead4Push(integration);
-                        if (head4Id > 0)
-                        {
-                            var categoryForAssets = _db.ProductCategories.SingleOrDefault(x => x.ProductCategoryId == productCategory.ProductCategoryId);
-                            categoryForAssets.AccountingHeadId = head4Id;
-                            categoryForAssets.ModifiedBy = productCategory.CreatedBy;
-                            categoryForAssets.ModifiedDate = DateTime.Now;
-                        }
+                //        head4Id = AccHead4Push(integration);
+                //        if (head4Id > 0)
+                //        {
+                //            var categoryForAssets = _db.ProductCategories.SingleOrDefault(x => x.ProductCategoryId == productCategory.ProductCategoryId);
+                //            categoryForAssets.AccountingHeadId = head4Id;
+                //            categoryForAssets.ModifiedBy = productCategory.CreatedBy;
+                //            categoryForAssets.ModifiedDate = DateTime.Now;
+                //        }
 
-                        break;
+                //        break;
 
-                    default:
+                //    default:
 
-                        break;
-                }
+                //        break;
+                //}
 
                 if (productCategoryModel.Income)
                 {

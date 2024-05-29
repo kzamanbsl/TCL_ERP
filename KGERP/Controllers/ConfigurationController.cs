@@ -784,7 +784,7 @@ namespace KGERP.Controllers
 
             if (vmCommonProductCategory.ActionEum == ActionEnum.Add)
             {
-                //Add 
+                //Add
                 vmCommonProductCategory.ProductType = "R";
 
                 await _service.ProductFinishCategoryAdd(vmCommonProductCategory);

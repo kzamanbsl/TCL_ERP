@@ -388,8 +388,11 @@ namespace KGERP.Service.Implementation.Configuration
         public string ProductType { get; set; }
         public string Code { get; set; }
         public bool IsCrm { get; set; }
-        public EnumAssetIntegration Asset { get; set; } = EnumAssetIntegration.Inventory;
+        //public EnumAssetIntegration Asset { get; set; } = EnumAssetIntegration.Inventory;
+        public bool IsBudget { get; set; }
+        public bool Asset { get; set; }
         public bool Income { get; set; }
+        public bool Equity { get; set; }
         public bool Expense { get; set; }
         public IEnumerable<VMCommonProductCategory> DataList { get; set; }
     }

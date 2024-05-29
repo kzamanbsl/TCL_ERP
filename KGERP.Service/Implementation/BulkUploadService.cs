@@ -41,14 +41,14 @@ namespace KGERP.Service.Implementation
                         var values = line.Split(',');
 
                         var materialCategory = new VMCommonProductCategory();
-                        if (Enum.TryParse<EnumAssetIntegration>(values[1], out var asset))
-                        {
-                            materialCategory.Asset = asset;
-                        }
-                        else
-                        {
-                            materialCategory.Asset = EnumAssetIntegration.Inventory;
-                        }
+                        //if (Enum.TryParse<EnumAssetIntegration>(values[1], out var asset))
+                        //{
+                        //    materialCategory.Asset = asset;
+                        //}
+                        //else
+                        //{
+                        //    materialCategory.Asset = EnumAssetIntegration.Inventory;
+                        //}
 
                         materialCategory.Name = values[0];
                         materialCategory.Income = (values[2].ToUpper() == "NO" ? Convert.ToBoolean(false) : values[2].ToUpper() == "YES" ? Convert.ToBoolean(true) : false);

@@ -9,6 +9,27 @@
     input, select, textarea {
         max-width: 100%;
     }
+
+    .text-on-pannel {
+        background: #fff none repeat scroll 0 0;
+        height: auto;
+        position: absolute;
+        padding: 0 !important;
+        margin: 20px;
+        margin-top: -39px;
+    }
+
+    .panel {
+        margin-top: 27px !important;
+        border-color: #d2d6de !important;
+        border-radius: 0px !important;
+        padding: 0 !important;
+    }
+
+    .panel-body {
+        padding: 0;
+        padding-top: 30px !important;
+    }
 </style>
 <section class="content-header">
     <h1>
@@ -24,7 +45,7 @@
     <section class="content">
         <div class="row">
             <div class="col-md-12">
-                <div class="col-md-3">
+                <div class="col-md-12">
                     <div class="box">
                         @Html.AntiForgeryToken()
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -37,44 +58,57 @@
                                 @Html.HiddenFor(model => model.CompanyFK, new { id = "CompanyFK" })
 
                                 <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Material Category<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                             @Html.TextBoxFor(model => model.Name, new { id = "txtProductCategoryName", @class = "form-control input-sm", @placeholder = "Type material category name", required = "true", })
                                             @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
-                                    <div class="col-md-12">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-check">
-                                                    @Html.RadioButtonFor(model => model.Asset, KGERP.Utility.EnumAssetIntegration.Inventory, new { @class = "form-check-input", id = "inventory" })
-                                                    <label class="form-check-label" for="inventory">Inventory</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-check">
-                                                    @Html.RadioButtonFor(model => model.Asset, KGERP.Utility.EnumAssetIntegration.Intangible, new { @class = "form-check-input", id = "intangible" })
-                                                    <label class="form-check-label" for="intangible">Intangible</label>
-                                                </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label></label>
+                                            <div class="form-check" style="margin: 10px 0;">
+                                                @Html.CheckBoxFor(model => model.IsBudget, new { @class = "form-check-input", id = "isBudget" })
+                                                <label class="form-check-label" for="isBudget">Check this box if the item is within the <span class="text-danger">Budget</span>.</label>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-check">
-                                                    @Html.CheckBoxFor(model => model.Income, new { @class = "form-check-input", id = "income" })
-                                                    <label class="form-check-label" for="income">Income</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-check">
-                                                    @Html.CheckBoxFor(model => model.Expense, new { @class = "form-check-input", id = "expense" })
-                                                    <label class="form-check-label" for="expense">Expense</label>
+                                    </div>
+                                    <div class="col-md-12" style="margin-top: -10px">
+                                        <div class="panel panel-primary">
+                                            <div class="panel-body">
+                                                <h5 class="text-on-pannel">Accounting Head</h5>
+                                                <div class="row" style="margin: 15px 0; margin-top: -8px">
+                                                    <div class="col-md-3">
+                                                        <div class="form-check">
+                                                            @Html.CheckBoxFor(model => model.Asset, new { @class = "form-check-input", id = "asset" })
+                                                            <label class="form-check-label" for="asset">Assets</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-check">
+                                                            @Html.CheckBoxFor(model => model.Equity, new { @class = "form-check-input", id = "equity" })
+                                                            <label class="form-check-label" for="equity">Equity & Liabilities</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-check">
+                                                            @Html.CheckBoxFor(model => model.Income, new { @class = "form-check-input", id = "income" })
+                                                            <label class="form-check-label" for="income">Income</label>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <div class="form-check">
+                                                            @Html.CheckBoxFor(model => model.Expense, new { @class = "form-check-input", id = "expense" })
+                                                            <label class="form-check-label" for="expense">Expense</label>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-12" style="margin-top: 15px;">
+                                    <div class="col-md-12" style="margin: 10px 0;">
                                         <div class="form-group">
                                             <div class="col-md-6">
                                                 <button type="button" onclick="resetForm()" class="btn btn-secondary btn-block w-100" data-dismiss="modal">Reset</button>
@@ -86,11 +120,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="box-footer"></div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-9">
+                <div class="col-md-12">
                     <div class="box">
                         <div class="box-danger">
                             <div class="box-header"></div>
@@ -212,8 +245,3 @@
 
     </script>
 }
-
-
-
-
-
