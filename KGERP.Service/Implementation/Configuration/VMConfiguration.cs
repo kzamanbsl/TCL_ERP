@@ -394,6 +394,14 @@ namespace KGERP.Service.Implementation.Configuration
         public bool Income { get; set; }
         public bool Equity { get; set; }
         public bool Expense { get; set; }
+        public int Head2AssetId { get; set; }
+        public SelectList Head2AssetList { get; set; } = new SelectList(new List<object>());
+        public int Head2EquityId { get; set; }
+        public SelectList Head2EquityList { get; set; } = new SelectList(new List<object>());
+        public int Head2IncomeId { get; set; }
+        public SelectList Head2IncomeList { get; set; } = new SelectList(new List<object>());
+        public int Head2ExpenseId { get; set; }
+        public SelectList Head2ExpenseList { get; set; } = new SelectList(new List<object>());
         public IEnumerable<VMCommonProductCategory> DataList { get; set; }
     }
 
