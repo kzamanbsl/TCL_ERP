@@ -114,7 +114,7 @@
                                                             @Html.ValidationMessageFor(model => model.Head2AssetId, "", new { @class = "text-danger" })
                                                         </div>
 
-                                                        <div class="form-group hidden">
+                                                        <div class="form-group hidden" id="accAsset2">
                                                             <label>Asset 3rd Layer<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                                             @Html.DropDownListFor(model => model.Head3AssetId, Model.Head3AssetList, "==Select Head==", new { id = "ddlHead3AssetId", @class = "form-control searchingDropdown", required = "true", @style = "width: 100%" })
                                                             @Html.ValidationMessageFor(model => model.Head2AssetId, "", new { @class = "text-danger" })
@@ -127,7 +127,7 @@
                                                             @Html.ValidationMessageFor(model => model.Head2EquityId, "", new { @class = "text-danger" })
                                                         </div>
 
-                                                        <div class="form-group hidden">
+                                                        <div class="form-group hidden" id="accEquity2">
                                                             <label>Equity 3rd Layer<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                                             @Html.DropDownListFor(model => model.Head3EquityId, Model.Head3EquityList, "==Select Head==", new { id = "ddlHead3EquityId", @class = "form-control searchingDropdown", required = "true", @style = "width: 100%" })
                                                             @Html.ValidationMessageFor(model => model.Head3EquityId, "", new { @class = "text-danger" })
@@ -140,7 +140,7 @@
                                                             @Html.ValidationMessageFor(model => model.Head2IncomeId, "", new { @class = "text-danger" })
                                                         </div>
 
-                                                        <div class="form-group hidden">
+                                                        <div class="form-group hidden" id="accIncome2">
                                                             <label>Income 3rd Layer<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                                             @Html.DropDownListFor(model => model.Head3IncomeId, Model.Head3IncomeList, "==Select Head==", new { id = "ddlHead3IncomeId", @class = "form-control searchingDropdown", required = "true", @style = "width: 100%" })
                                                             @Html.ValidationMessageFor(model => model.Head3IncomeId, "", new { @class = "text-danger" })
@@ -153,7 +153,7 @@
                                                             @Html.ValidationMessageFor(model => model.Head2ExpenseId, "", new { @class = "text-danger" })
                                                         </div>
 
-                                                        <div class="form-group hidden">
+                                                        <div class="form-group hidden" id="accExpense2">
                                                             <label>Expense 3rd Layer<sup class="text-danger" title="Required"><b>*</b></sup></label>
                                                             @Html.DropDownListFor(model => model.Head3ExpenseId, Model.Head3ExpenseList, "==Select Head==", new { id = "ddlHead3ExpenseId", @class = "form-control searchingDropdown", required = "true", @style = "width: 100%" })
                                                             @Html.ValidationMessageFor(model => model.Head3ExpenseId, "", new { @class = "text-danger" })
@@ -266,8 +266,8 @@
             $('#asset').on('change', function () {
                 if ($(this).is(':checked')) {
                     $('#accAsset').removeClass('hidden').addClass('d-block');
-
                     const head1Id = 29104; // static asset id (Head 1)
+
                     $.ajax({
                         url: '/BulkUpload/AccountingHead2ndLayer',
                         type: 'GET',
@@ -275,6 +275,7 @@
                         data: { head1Id: head1Id },
                         success: function (response) {
                             $('#ddlHead2AssetId').empty();
+                            $('#ddlHead2AssetId').append('<option selected disabled>==Select Head==</option>');
                             $.each(response, function (index, item) {
                                 $('#ddlHead2AssetId').append($('<option>', {
                                     value: item.Id,
@@ -292,8 +293,8 @@
             $('#equity').on('change', function () {
                 if ($(this).is(':checked')) {
                     $('#accEquity').removeClass('hidden').addClass('d-block');
-
                     const head1Id = 29105; // static equity id (Head 1)
+
                     $.ajax({
                         url: '/BulkUpload/AccountingHead2ndLayer',
                         type: 'GET',
@@ -301,6 +302,7 @@
                         data: { head1Id: head1Id },
                         success: function (response) {
                             $('#ddlHead2EquityId').empty();
+                            $('#ddlHead2EquityId').append('<option selected disabled>==Select Head==</option>');
                             $.each(response, function (index, item) {
                                 $('#ddlHead2EquityId').append($('<option>', {
                                     value: item.Id,
@@ -318,8 +320,8 @@
             $('#income').on('change', function () {
                 if ($(this).is(':checked')) {
                     $('#accIncome').removeClass('hidden').addClass('d-block');
-
                     const head1Id = 29106; // static income id (Head 1)
+
                     $.ajax({
                         url: '/BulkUpload/AccountingHead2ndLayer',
                         type: 'GET',
@@ -327,6 +329,7 @@
                         data: { head1Id: head1Id },
                         success: function (response) {
                             $('#ddlHead2IncomeId').empty();
+                            $('#ddlHead2IncomeId').append('<option selected disabled>==Select Head==</option>');
                             $.each(response, function (index, item) {
                                 $('#ddlHead2IncomeId').append($('<option>', {
                                     value: item.Id,
@@ -344,8 +347,8 @@
             $('#expense').on('change', function () {
                 if ($(this).is(':checked')) {
                     $('#accExpense').removeClass('hidden').addClass('d-block');
-
                     const head1Id = 29107; // static expense id (Head 1)
+
                     $.ajax({
                         url: '/BulkUpload/AccountingHead2ndLayer',
                         type: 'GET',
@@ -353,6 +356,7 @@
                         data: { head1Id: head1Id },
                         success: function (response) {
                             $('#ddlHead2ExpenseId').empty();
+                            $('#ddlHead2ExpenseId').append('<option selected disabled>==Select Head==</option>');
                             $.each(response, function (index, item) {
                                 $('#ddlHead2ExpenseId').append($('<option>', {
                                     value: item.Id,
@@ -376,7 +380,6 @@
                 $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Update");
                 $('#txtProductCategoryName').val($('#tdProductCategoryName_' + rowId).text().trim());
                 window.scrollTo({ top: 0, behavior: 'smooth' });
-
             }
         }
 
@@ -388,11 +391,100 @@
 
             }
         }
+
         function resetForm() {
             $('#commonFinishProductCategoryFormId')[0].reset();
             $('#btnSave').html("<i class='fa fa-edit'></i>&nbsp;Add");
 
         }
+
+        $('#ddlHead2AssetId').on('change', function () {
+            $('#accAsset2').removeClass('hidden').addClass('d-block');
+            var head2Id = $('#ddlHead2AssetId').val();
+
+            $.ajax({
+                url: '/BulkUpload/AccountingHead3rdLayer',
+                type: 'GET',
+                dataType: 'json',
+                data: { head2Id: head2Id },
+                success: function (response) {
+                    $('#ddlHead3AssetId').empty();
+                    $('#ddlHead3AssetId').append('<option selected disabled>==Select Head==</option>');
+                    $.each(response, function (index, item) {
+                        $('#ddlHead3AssetId').append($('<option>', {
+                            value: item.Id,
+                            text: item.AccountingCode + " - " + item.AccountingName,
+                        }));
+                    });
+                }
+            });
+        });
+
+        $('#ddlHead2EquityId').on('change', function () {
+            $('#accEquity2').removeClass('hidden').addClass('d-block');
+            var head2Id = $('#ddlHead2EquityId').val();
+
+            $.ajax({
+                url: '/BulkUpload/AccountingHead3rdLayer',
+                type: 'GET',
+                dataType: 'json',
+                data: { head2Id: head2Id },
+                success: function (response) {
+                    $('#ddlHead3EquityId').empty();
+                    $('#ddlHead3EquityId').append('<option selected disabled>==Select Head==</option>');
+                    $.each(response, function (index, item) {
+                        $('#ddlHead3EquityId').append($('<option>', {
+                            value: item.Id,
+                            text: item.AccountingCode + " - " + item.AccountingName,
+                        }));
+                    });
+                }
+            });
+        });
+
+        $('#ddlHead2IncomeId').on('change', function () {
+            $('#accIncome2').removeClass('hidden').addClass('d-block');
+            var head2Id = $('#ddlHead2IncomeId').val();
+
+            $.ajax({
+                url: '/BulkUpload/AccountingHead3rdLayer',
+                type: 'GET',
+                dataType: 'json',
+                data: { head2Id: head2Id },
+                success: function (response) {
+                    $('#ddlHead3IncomeId').empty();
+                    $('#ddlHead3IncomeId').append('<option selected disabled>==Select Head==</option>');
+                    $.each(response, function (index, item) {
+                        $('#ddlHead3IncomeId').append($('<option>', {
+                            value: item.Id,
+                            text: item.AccountingCode + " - " + item.AccountingName,
+                        }));
+                    });
+                }
+            });
+        });
+
+        $('#ddlHead2ExpenseId').on('change', function () {
+            $('#accExpense2').removeClass('hidden').addClass('d-block');
+            var head2Id = $('#ddlHead2ExpenseId').val();
+
+            $.ajax({
+                url: '/BulkUpload/AccountingHead3rdLayer',
+                type: 'GET',
+                dataType: 'json',
+                data: { head2Id: head2Id },
+                success: function (response) {
+                    $('#ddlHead3ExpenseId').empty();
+                    $('#ddlHead3ExpenseId').append('<option selected disabled>==Select Head==</option>');
+                    $.each(response, function (index, item) {
+                        $('#ddlHead3ExpenseId').append($('<option>', {
+                            value: item.Id,
+                            text: item.AccountingCode + " - " + item.AccountingName,
+                        }));
+                    });
+                }
+            });
+        });
 
     </script>
 }
