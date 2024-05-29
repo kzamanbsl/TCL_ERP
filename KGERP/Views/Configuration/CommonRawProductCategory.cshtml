@@ -266,6 +266,24 @@
             $('#asset').on('change', function () {
                 if ($(this).is(':checked')) {
                     $('#accAsset').removeClass('hidden').addClass('d-block');
+
+                    const head1Id = 29104; // static asset id (Head 1)
+                    $.ajax({
+                        url: '/BulkUpload/AccountingHead2ndLayer',
+                        type: 'GET',
+                        dataType: 'json',
+                        data: { head1Id: head1Id },
+                        success: function (response) {
+                            $('#ddlHead2AssetId').empty();
+                            $.each(response, function (index, item) {
+                                $('#ddlHead2AssetId').append($('<option>', {
+                                    value: item.Id,
+                                    text: item.AccountingCode + " - " + item.AccountingName,
+                                }));
+                            });
+                        }
+                    });
+
                 } else {
                     $('#accAsset').removeClass('d-block').addClass('hidden');
                 }
@@ -274,6 +292,24 @@
             $('#equity').on('change', function () {
                 if ($(this).is(':checked')) {
                     $('#accEquity').removeClass('hidden').addClass('d-block');
+
+                    const head1Id = 29105; // static equity id (Head 1)
+                    $.ajax({
+                        url: '/BulkUpload/AccountingHead2ndLayer',
+                        type: 'GET',
+                        dataType: 'json',
+                        data: { head1Id: head1Id },
+                        success: function (response) {
+                            $('#ddlHead2EquityId').empty();
+                            $.each(response, function (index, item) {
+                                $('#ddlHead2EquityId').append($('<option>', {
+                                    value: item.Id,
+                                    text: item.AccountingCode + " - " + item.AccountingName,
+                                }));
+                            });
+                        }
+                    });
+
                 } else {
                     $('#accEquity').removeClass('d-block').addClass('hidden');
                 }
@@ -282,6 +318,24 @@
             $('#income').on('change', function () {
                 if ($(this).is(':checked')) {
                     $('#accIncome').removeClass('hidden').addClass('d-block');
+
+                    const head1Id = 29106; // static income id (Head 1)
+                    $.ajax({
+                        url: '/BulkUpload/AccountingHead2ndLayer',
+                        type: 'GET',
+                        dataType: 'json',
+                        data: { head1Id: head1Id },
+                        success: function (response) {
+                            $('#ddlHead2IncomeId').empty();
+                            $.each(response, function (index, item) {
+                                $('#ddlHead2IncomeId').append($('<option>', {
+                                    value: item.Id,
+                                    text: item.AccountingCode + " - " + item.AccountingName,
+                                }));
+                            });
+                        }
+                    });
+
                 } else {
                     $('#accIncome').removeClass('d-block').addClass('hidden');
                 }
@@ -290,6 +344,24 @@
             $('#expense').on('change', function () {
                 if ($(this).is(':checked')) {
                     $('#accExpense').removeClass('hidden').addClass('d-block');
+
+                    const head1Id = 29107; // static expense id (Head 1)
+                    $.ajax({
+                        url: '/BulkUpload/AccountingHead2ndLayer',
+                        type: 'GET',
+                        dataType: 'json',
+                        data: { head1Id: head1Id },
+                        success: function (response) {
+                            $('#ddlHead2ExpenseId').empty();
+                            $.each(response, function (index, item) {
+                                $('#ddlHead2ExpenseId').append($('<option>', {
+                                    value: item.Id,
+                                    text: item.AccountingCode + " - " + item.AccountingName,
+                                }));
+                            });
+                        }
+                    });
+
                 } else {
                     $('#accExpense').removeClass('d-block').addClass('hidden');
                 }

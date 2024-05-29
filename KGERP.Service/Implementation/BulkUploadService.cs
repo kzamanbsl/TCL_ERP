@@ -81,6 +81,41 @@ namespace KGERP.Service.Implementation
             return getData;
         }
 
+
+        #region Accouting Head Send Back Response
+
+        public List<object> GetAccountingHead2ndLayer(int head1Id, int companyId)
+        {
+            var getData = (from t1 in _context.Head2
+                           where t1.ParentId == head1Id
+                           && t1.CompanyId == companyId
+                           && t1.IsActive
+                           select new
+                           {
+                               Id = t1.Id,
+                               AccountingCode = t1.AccCode,
+                               AccountingName = t1.AccName
+                           }).ToList();
+            return getData.Cast<object>().ToList();
+        }
+
+        public List<object> GetAccountingHead3rdLayer(int head2Id, int companyId)
+        {
+            var getData = (from t1 in _context.Head3
+                           where t1.ParentId == head2Id
+                           && t1.CompanyId == 21
+                           && t1.IsActive
+                           select new
+                           {
+                               Id = t1.Id,
+                               AccountingCode = t1.AccCode,
+                               AccountingName = t1.AccName
+                           }).ToList();
+            return getData.Cast<object>().ToList();
+        }
+
+        #endregion
+
     }
 }
 

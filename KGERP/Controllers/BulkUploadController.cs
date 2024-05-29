@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Metadata.Edm;
 using System.IO;
 using System.IO.Compression;
 using System.Net;
@@ -68,6 +69,8 @@ namespace KGERP.Controllers
             return View(viewModel);
         }
 
+        #region Requisition Download
+
         [HttpPost]
         public ActionResult RequisitionArchive(BulkUpload model)
         {
@@ -96,7 +99,7 @@ namespace KGERP.Controllers
                         {
                             pdfFileName = $"{requisition.BillRequisitionNo}.pdf";
                         }
-                        
+
                         string pdfFilePath = Path.Combine(tempDir, pdfFileName);
 
                         bool isSuccess = DownloadPdf(companyId, requisition.BillRequisitionMasterId, pdfFilePath);
@@ -190,5 +193,30 @@ namespace KGERP.Controllers
                 }
             }
         }
+
+        #endregion
+
+        #region Accouting Head Send Request
+
+        [HttpGet]
+        public JsonResult AccountingHead2ndLayer(int head1Id)
+        {
+            int companyId = (int)CompanyNameEnum.KrishibidSeedLimited;
+            var response = _service.GetAccountingHead2ndLayer(head1Id, companyId);
+
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult AccountingHead3rdLayer(int head2Id)
+        {
+            int companyId = (int)CompanyNameEnum.KrishibidSeedLimited;
+            var response = _service.GetAccountingHead3rdLayer(head2Id, companyId);
+
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion
+
     }
 }
