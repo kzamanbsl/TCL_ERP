@@ -18,8 +18,8 @@ namespace KGERP.Data.Models
         public ProductCategory()
         {
             this.Products = new HashSet<Product>();
-            this.ProductSubCategories = new HashSet<ProductSubCategory>();
             this.ProductionMasters = new HashSet<ProductionMaster>();
+            this.ProductSubCategories = new HashSet<ProductSubCategory>();
             this.VendorOpenings = new HashSet<VendorOpening>();
         }
     
@@ -36,19 +36,21 @@ namespace KGERP.Data.Models
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public bool IsActive { get; set; }
         public Nullable<int> AccountingHeadId { get; set; }
+        public Nullable<int> AccoutingEquityHeadId { get; set; }
         public Nullable<int> AccountingIncomeHeadId { get; set; }
         public Nullable<int> AccountingExpenseHeadId { get; set; }
         public string Address { get; set; }
         public string Code { get; set; }
         public bool IsCrm { get; set; }
         public Nullable<int> CostCenterId { get; set; }
+        public Nullable<bool> IsBudget { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Product> Products { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ProductSubCategory> ProductSubCategories { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductionMaster> ProductionMasters { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ProductSubCategory> ProductSubCategories { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<VendorOpening> VendorOpenings { get; set; }
     }

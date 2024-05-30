@@ -3773,6 +3773,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.TempFeedVoucherDetail' does not hav
           <Property Name="ChequeBookId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="BankAccountInfoId" Type="int" Nullable="false" />
           <Property Name="ChequeBookNo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ChequeBookName" Type="varchar" MaxLength="50" />
           <Property Name="BookFirstPageNumber" Type="int" Nullable="false" />
           <Property Name="BookLastPageNumber" Type="int" Nullable="false" />
           <Property Name="TotalBookPage" Type="int" Nullable="false" />
@@ -4742,12 +4743,14 @@ warning 6002: The table/view 'TCLErp_Dev.Erp.FormulaHistory' does not have a pri
           <Property Name="ModifiedDate" Type="datetime" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="AccountingHeadId" Type="int" />
+          <Property Name="AccoutingEquityHeadId" Type="int" />
           <Property Name="AccountingIncomeHeadId" Type="int" />
           <Property Name="AccountingExpenseHeadId" Type="int" />
           <Property Name="Address" Type="nvarchar" MaxLength="200" />
           <Property Name="Code" Type="nvarchar" MaxLength="50" />
           <Property Name="IsCrm" Type="bit" Nullable="false" />
           <Property Name="CostCenterId" Type="int" />
+          <Property Name="IsBudget" Type="bit" />
         </EntityType>
         <EntityType Name="ProductDetails">
           <Key>
@@ -11660,23 +11663,14 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 						<End Role="StockAdjustDetail" EntitySet="StockAdjustDetails" />
 					</AssociationSet>
 					<EntitySet Name="TeamInfoes" EntityType="ERPModel.TeamInfo" />
-					<EntitySet Name="ProductCategories" EntityType="ERPModel.ProductCategory" />
 					<EntitySet Name="ProductSubCategories" EntityType="ERPModel.ProductSubCategory" />
 					<AssociationSet Name="FK_IngredientStandard_Product" Association="ERPModel.FK_IngredientStandard_Product">
 						<End Role="ProductSubCategory" EntitySet="ProductSubCategories" />
 						<End Role="IngredientStandard" EntitySet="IngredientStandards" />
 					</AssociationSet>
-					<AssociationSet Name="FK_Product_ProductCategory" Association="ERPModel.FK_Product_ProductCategory">
-						<End Role="ProductCategory" EntitySet="ProductCategories" />
-						<End Role="Product" EntitySet="Products" />
-					</AssociationSet>
 					<AssociationSet Name="FK_Product_ProductSubCategory" Association="ERPModel.FK_Product_ProductSubCategory">
 						<End Role="ProductSubCategory" EntitySet="ProductSubCategories" />
 						<End Role="Product" EntitySet="Products" />
-					</AssociationSet>
-					<AssociationSet Name="FK_ProductSubCategory_ProductCategory" Association="ERPModel.FK_ProductSubCategory_ProductCategory">
-						<End Role="ProductCategory" EntitySet="ProductCategories" />
-						<End Role="ProductSubCategory" EntitySet="ProductSubCategories" />
 					</AssociationSet>
 					<EntitySet Name="RequisitionItemDetails" EntityType="ERPModel.RequisitionItemDetail" />
 					<EntitySet Name="RequisitionItems" EntityType="ERPModel.RequisitionItem" />
@@ -12023,10 +12017,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 						<End Role="Company" EntitySet="Companies" />
 						<End Role="ProductionMaster" EntitySet="ProductionMasters" />
 					</AssociationSet>
-					<AssociationSet Name="FK_ProductionMaster_ProductCategory" Association="ERPModel.FK_ProductionMaster_ProductCategory">
-						<End Role="ProductCategory" EntitySet="ProductCategories" />
-						<End Role="ProductionMaster" EntitySet="ProductionMasters" />
-					</AssociationSet>
 					<AssociationSet Name="FK_ProductionMaster_ProductSubCategory" Association="ERPModel.FK_ProductionMaster_ProductSubCategory">
 						<End Role="ProductSubCategory" EntitySet="ProductSubCategories" />
 						<End Role="ProductionMaster" EntitySet="ProductionMasters" />
@@ -12056,10 +12046,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 					<EntitySet Name="VendorOpenings" EntityType="ERPModel.VendorOpening" />
 					<AssociationSet Name="FK_VendorOpening_Company" Association="ERPModel.FK_VendorOpening_Company">
 						<End Role="Company" EntitySet="Companies" />
-						<End Role="VendorOpening" EntitySet="VendorOpenings" />
-					</AssociationSet>
-					<AssociationSet Name="FK_VendorOpening_ProductCategory" Association="ERPModel.FK_VendorOpening_ProductCategory">
-						<End Role="ProductCategory" EntitySet="ProductCategories" />
 						<End Role="VendorOpening" EntitySet="VendorOpenings" />
 					</AssociationSet>
 					<EntitySet Name="Areas" EntityType="ERPModel.Area" />
@@ -12356,7 +12342,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 						<End Role="Accounting_CostCenter" EntitySet="Accounting_CostCenter" />
 						<End Role="CostCenterManagerMap" EntitySet="CostCenterManagerMaps" />
 					</AssociationSet>
-					<EntitySet Name="ChequeBooks" EntityType="ERPModel.ChequeBook" />
 					<EntitySet Name="BillRequisitionMasters" EntityType="ERPModel.BillRequisitionMaster" />
 					<AssociationSet Name="FK_PurchaseOrder_PurchaseOrder" Association="ERPModel.FK_PurchaseOrder_PurchaseOrder">
 						<End Role="BillRequisitionMaster" EntitySet="BillRequisitionMasters" />
@@ -12512,10 +12497,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             <End Role="BankBranch" EntitySet="BankBranches" />
             <End Role="BankAccountInfo" EntitySet="BankAccountInfoes" />
           </AssociationSet>
-          <AssociationSet Name="FK_ChequeBook_BankAccountInfo" Association="ERPModel.FK_ChequeBook_BankAccountInfo">
-            <End Role="BankAccountInfo" EntitySet="BankAccountInfoes" />
-            <End Role="ChequeBook" EntitySet="ChequeBooks" />
-          </AssociationSet>
           <EntitySet Name="Banks" EntityType="ERPModel.Bank" />
           <AssociationSet Name="FK_BankAccountInfo_Bank" Association="ERPModel.FK_BankAccountInfo_Bank">
             <End Role="Bank" EntitySet="Banks" />
@@ -12580,6 +12561,28 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
           <AssociationSet Name="FK_ChequeRegister_ChequeRegister" Association="ERPModel.FK_ChequeRegister_ChequeRegister">
             <End Role="Vendor" EntitySet="Vendors" />
             <End Role="ChequeRegister" EntitySet="ChequeRegisters" />
+          </AssociationSet>
+          <EntitySet Name="ChequeBooks" EntityType="ERPModel.ChequeBook" />
+          <EntitySet Name="ProductCategories" EntityType="ERPModel.ProductCategory" />
+          <AssociationSet Name="FK_ChequeBook_BankAccountInfo" Association="ERPModel.FK_ChequeBook_BankAccountInfo">
+            <End Role="BankAccountInfo" EntitySet="BankAccountInfoes" />
+            <End Role="ChequeBook" EntitySet="ChequeBooks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_ProductCategory" Association="ERPModel.FK_Product_ProductCategory">
+            <End Role="ProductCategory" EntitySet="ProductCategories" />
+            <End Role="Product" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductionMaster_ProductCategory" Association="ERPModel.FK_ProductionMaster_ProductCategory">
+            <End Role="ProductCategory" EntitySet="ProductCategories" />
+            <End Role="ProductionMaster" EntitySet="ProductionMasters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductSubCategory_ProductCategory" Association="ERPModel.FK_ProductSubCategory_ProductCategory">
+            <End Role="ProductCategory" EntitySet="ProductCategories" />
+            <End Role="ProductSubCategory" EntitySet="ProductSubCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VendorOpening_ProductCategory" Association="ERPModel.FK_VendorOpening_ProductCategory">
+            <End Role="ProductCategory" EntitySet="ProductCategories" />
+            <End Role="VendorOpening" EntitySet="VendorOpenings" />
           </AssociationSet>
           </EntityContainer>
 				<EntityType Name="AdminPolicy">
@@ -16554,7 +16557,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 					<NavigationProperty Name="ProductFormulas" Relationship="ERPModel.FK_ProductFormula_Product" FromRole="Product" ToRole="ProductFormula" />
 					<NavigationProperty Name="StockTransferDetails" Relationship="ERPModel.FK_StockTransferDetail_Product" FromRole="Product" ToRole="StockTransferDetail" />
 					<NavigationProperty Name="StoreDetails" Relationship="ERPModel.FK_StoreDetail_Product" FromRole="Product" ToRole="StoreDetail" />
-					<NavigationProperty Name="ProductCategory" Relationship="ERPModel.FK_Product_ProductCategory" FromRole="Product" ToRole="ProductCategory" />
 					<NavigationProperty Name="ProductSubCategory" Relationship="ERPModel.FK_Product_ProductSubCategory" FromRole="Product" ToRole="ProductSubCategory" />
 					<NavigationProperty Name="RequisitionItems" Relationship="ERPModel.FK_RequisitionItem_Product" FromRole="Product" ToRole="RequisitionItem" />
 					<Property Name="VartualValue" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
@@ -16565,6 +16567,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 					<NavigationProperty Name="BoQItemProductMaps" Relationship="ERPModel.FK_BoQItemProductMap_Product" FromRole="Product" ToRole="BoQItemProductMap" />
 					<NavigationProperty Name="QuotationDetails" Relationship="ERPModel.FK_QuotationDetail_Product" FromRole="Product" ToRole="QuotationDetail" />
 					<NavigationProperty Name="QuotationSubmitDetails" Relationship="ERPModel.FK_QuotationSubmitDetail_Product" FromRole="Product" ToRole="QuotationSubmitDetail" />
+          <NavigationProperty Name="ProductCategory" Relationship="ERPModel.FK_Product_ProductCategory" FromRole="Product" ToRole="ProductCategory" />
 				</EntityType>
 				<Association Name="FK_Product_FacingInfo">
 					<End Type="ERPModel.FacingInfo" Role="FacingInfo" Multiplicity="0..1" />
@@ -17618,34 +17621,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 					<Property Name="ManagerId" Type="Int64" />
 					<NavigationProperty Name="Employee" Relationship="ERPModel.FK_TeamInfo_Employee" FromRole="TeamInfo" ToRole="Employee" />
 				</EntityType>
-				<EntityType Name="ProductCategory">
-					<Key>
-						<PropertyRef Name="ProductCategoryId" />
-					</Key>
-					<Property Name="ProductType" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-					<Property Name="CompanyId" Type="Int32" />
-					<Property Name="ProductCategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-					<Property Name="Name" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
-					<Property Name="CashCustomerRate" Type="Decimal" Precision="18" Scale="2" />
-					<Property Name="Remarks" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-					<Property Name="OrderNo" Type="Int32" Nullable="false" />
-					<Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="28" FixedLength="false" Unicode="true" />
-					<Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
-					<Property Name="ModifiedBy" Type="String" MaxLength="28" FixedLength="false" Unicode="true" />
-					<Property Name="ModifiedDate" Type="DateTime" Precision="3" />
-					<Property Name="IsActive" Type="Boolean" Nullable="false" />
-					<Property Name="AccountingHeadId" Type="Int32" />
-					<Property Name="AccountingIncomeHeadId" Type="Int32" />
-					<Property Name="AccountingExpenseHeadId" Type="Int32" />
-					<Property Name="Address" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-					<Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-					<Property Name="IsCrm" Type="Boolean" Nullable="false" />
-					<Property Name="CostCenterId" Type="Int32" />
-					<NavigationProperty Name="Products" Relationship="ERPModel.FK_Product_ProductCategory" FromRole="ProductCategory" ToRole="Product" />
-					<NavigationProperty Name="ProductSubCategories" Relationship="ERPModel.FK_ProductSubCategory_ProductCategory" FromRole="ProductCategory" ToRole="ProductSubCategory" />
-					<NavigationProperty Name="ProductionMasters" Relationship="ERPModel.FK_ProductionMaster_ProductCategory" FromRole="ProductCategory" ToRole="ProductionMaster" />
-					<NavigationProperty Name="VendorOpenings" Relationship="ERPModel.FK_VendorOpening_ProductCategory" FromRole="ProductCategory" ToRole="VendorOpening" />
-				</EntityType>
 				<EntityType Name="ProductSubCategory">
 					<Key>
 						<PropertyRef Name="ProductSubCategoryId" />
@@ -17669,8 +17644,8 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 					<Property Name="AccountingExpenseHeadId" Type="Int32" />
 					<NavigationProperty Name="IngredientStandards" Relationship="ERPModel.FK_IngredientStandard_Product" FromRole="ProductSubCategory" ToRole="IngredientStandard" />
 					<NavigationProperty Name="Products" Relationship="ERPModel.FK_Product_ProductSubCategory" FromRole="ProductSubCategory" ToRole="Product" />
-					<NavigationProperty Name="ProductCategory" Relationship="ERPModel.FK_ProductSubCategory_ProductCategory" FromRole="ProductSubCategory" ToRole="ProductCategory" />
 					<NavigationProperty Name="ProductionMasters" Relationship="ERPModel.FK_ProductionMaster_ProductSubCategory" FromRole="ProductSubCategory" ToRole="ProductionMaster" />
+          <NavigationProperty Name="ProductCategory" Relationship="ERPModel.FK_ProductSubCategory_ProductCategory" FromRole="ProductSubCategory" ToRole="ProductCategory" />
 				</EntityType>
 				<Association Name="FK_IngredientStandard_Product">
 					<End Type="ERPModel.ProductSubCategory" Role="ProductSubCategory" Multiplicity="1" />
@@ -17684,18 +17659,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 						</Dependent>
 					</ReferentialConstraint>
 				</Association>
-				<Association Name="FK_Product_ProductCategory">
-					<End Type="ERPModel.ProductCategory" Role="ProductCategory" Multiplicity="0..1" />
-					<End Type="ERPModel.Product" Role="Product" Multiplicity="*" />
-					<ReferentialConstraint>
-						<Principal Role="ProductCategory">
-							<PropertyRef Name="ProductCategoryId" />
-						</Principal>
-						<Dependent Role="Product">
-							<PropertyRef Name="ProductCategoryId" />
-						</Dependent>
-					</ReferentialConstraint>
-				</Association>
 				<Association Name="FK_Product_ProductSubCategory">
 					<End Type="ERPModel.ProductSubCategory" Role="ProductSubCategory" Multiplicity="0..1" />
 					<End Type="ERPModel.Product" Role="Product" Multiplicity="*" />
@@ -17705,18 +17668,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 						</Principal>
 						<Dependent Role="Product">
 							<PropertyRef Name="ProductSubCategoryId" />
-						</Dependent>
-					</ReferentialConstraint>
-				</Association>
-				<Association Name="FK_ProductSubCategory_ProductCategory">
-					<End Type="ERPModel.ProductCategory" Role="ProductCategory" Multiplicity="0..1" />
-					<End Type="ERPModel.ProductSubCategory" Role="ProductSubCategory" Multiplicity="*" />
-					<ReferentialConstraint>
-						<Principal Role="ProductCategory">
-							<PropertyRef Name="ProductCategoryId" />
-						</Principal>
-						<Dependent Role="ProductSubCategory">
-							<PropertyRef Name="ProductCategoryId" />
 						</Dependent>
 					</ReferentialConstraint>
 				</Association>
@@ -19568,13 +19519,13 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 					<Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
 					<Property Name="ModifiedDate" Type="DateTime" Precision="3" />
 					<NavigationProperty Name="Company" Relationship="ERPModel.FK_ProductionMaster_Company" FromRole="ProductionMaster" ToRole="Company" />
-					<NavigationProperty Name="ProductCategory" Relationship="ERPModel.FK_ProductionMaster_ProductCategory" FromRole="ProductionMaster" ToRole="ProductCategory" />
 					<NavigationProperty Name="ProductSubCategory" Relationship="ERPModel.FK_ProductionMaster_ProductSubCategory" FromRole="ProductionMaster" ToRole="ProductSubCategory" />
 					<NavigationProperty Name="ProductionStage" Relationship="ERPModel.FK__Productio__Produ__5DC591CD" FromRole="ProductionMaster" ToRole="ProductionStage" />
 					<NavigationProperty Name="ProductionStage1" Relationship="ERPModel.FK_ProductionMaster_ProductionStatus" FromRole="ProductionMaster" ToRole="ProductionStage" />
 					<NavigationProperty Name="ProductionDetails" Relationship="ERPModel.FK__Productio__Produ__60A1FE78" FromRole="ProductionMaster" ToRole="ProductionDetail" />
 					<NavigationProperty Name="MaterialReceives" Relationship="ERPModel.FK_MaterialReceive_ProductionMaster" FromRole="ProductionMaster" ToRole="MaterialReceive" />
 					<NavigationProperty Name="Unit" Relationship="ERPModel.FK_ProductionMaster_Unit" FromRole="ProductionMaster" ToRole="Unit" />
+          <NavigationProperty Name="ProductCategory" Relationship="ERPModel.FK_ProductionMaster_ProductCategory" FromRole="ProductionMaster" ToRole="ProductCategory" />
 				</EntityType>
 				<Association Name="FK_ProductionMaster_Company">
 					<End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
@@ -19585,18 +19536,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 						</Principal>
 						<Dependent Role="ProductionMaster">
 							<PropertyRef Name="CompanyId" />
-						</Dependent>
-					</ReferentialConstraint>
-				</Association>
-				<Association Name="FK_ProductionMaster_ProductCategory">
-					<End Type="ERPModel.ProductCategory" Role="ProductCategory" Multiplicity="0..1" />
-					<End Type="ERPModel.ProductionMaster" Role="ProductionMaster" Multiplicity="*" />
-					<ReferentialConstraint>
-						<Principal Role="ProductCategory">
-							<PropertyRef Name="ProductCategoryId" />
-						</Principal>
-						<Dependent Role="ProductionMaster">
-							<PropertyRef Name="ProductCategoryId" />
 						</Dependent>
 					</ReferentialConstraint>
 				</Association>
@@ -19732,10 +19671,10 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 					<Property Name="CompanyId" Type="Int32" />
 					<Property Name="ProductCategoryId" Type="Int32" />
 					<NavigationProperty Name="Company" Relationship="ERPModel.FK_VendorOpening_Company" FromRole="VendorOpening" ToRole="Company" />
-					<NavigationProperty Name="ProductCategory" Relationship="ERPModel.FK_VendorOpening_ProductCategory" FromRole="VendorOpening" ToRole="ProductCategory" />
 					<NavigationProperty Name="Vendor" Relationship="ERPModel.FK_VendorOpening_Vendor" FromRole="VendorOpening" ToRole="Vendor" />
           <NavigationProperty Name="VendorType" Relationship="ERPModel.FK_VendorOpening_VendorType" FromRole="VendorOpening" ToRole="VendorType" />
           <NavigationProperty Name="Voucher" Relationship="ERPModel.FK_VendorOpening_Voucher" FromRole="VendorOpening" ToRole="Voucher" />
+          <NavigationProperty Name="ProductCategory" Relationship="ERPModel.FK_VendorOpening_ProductCategory" FromRole="VendorOpening" ToRole="ProductCategory" />
 				</EntityType>
 				<Association Name="FK_VendorOpening_Company">
 					<End Type="ERPModel.Company" Role="Company" Multiplicity="0..1" />
@@ -19746,18 +19685,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 						</Principal>
 						<Dependent Role="VendorOpening">
 							<PropertyRef Name="CompanyId" />
-						</Dependent>
-					</ReferentialConstraint>
-				</Association>
-				<Association Name="FK_VendorOpening_ProductCategory">
-					<End Type="ERPModel.ProductCategory" Role="ProductCategory" Multiplicity="0..1" />
-					<End Type="ERPModel.VendorOpening" Role="VendorOpening" Multiplicity="*" />
-					<ReferentialConstraint>
-						<Principal Role="ProductCategory">
-							<PropertyRef Name="ProductCategoryId" />
-						</Principal>
-						<Dependent Role="VendorOpening">
-							<PropertyRef Name="ProductCategoryId" />
 						</Dependent>
 					</ReferentialConstraint>
 				</Association>
@@ -21473,25 +21400,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 						</Dependent>
 					</ReferentialConstraint>
 				</Association>
-				<EntityType Name="ChequeBook">
-					<Key>
-						<PropertyRef Name="ChequeBookId" />
-					</Key>
-					<Property Name="ChequeBookId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-					<Property Name="BankAccountInfoId" Type="Int32" Nullable="false" />
-					<Property Name="ChequeBookNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-					<Property Name="BookFirstPageNumber" Type="Int32" Nullable="false" />
-					<Property Name="BookLastPageNumber" Type="Int32" Nullable="false" />
-					<Property Name="TotalBookPage" Type="Int32" Nullable="false" />
-					<Property Name="UsedBookPage" Type="Int32" Nullable="false" />
-					<Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-					<Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-					<Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
-					<Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-					<Property Name="ModifiedOn" Type="DateTime" Precision="3" />
-					<Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="BankAccountInfo" Relationship="ERPModel.FK_ChequeBook_BankAccountInfo" FromRole="ChequeBook" ToRole="BankAccountInfo" />
-				</EntityType>
 				<EntityType Name="BillRequisitionMaster">
 					<Key>
 						<PropertyRef Name="BillRequisitionMasterId" />
@@ -22254,8 +22162,8 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
           <Property Name="AccountingIncomeHeadId" Type="Int32" />
           <Property Name="AccountingExpenseHeadId" Type="Int32" />
           <NavigationProperty Name="BankBranch" Relationship="ERPModel.FK_BankAccountInfo_BankBranch" FromRole="BankAccountInfo" ToRole="BankBranch" />
-          <NavigationProperty Name="ChequeBooks" Relationship="ERPModel.FK_ChequeBook_BankAccountInfo" FromRole="BankAccountInfo" ToRole="ChequeBook" />
           <NavigationProperty Name="Bank" Relationship="ERPModel.FK_BankAccountInfo_Bank" FromRole="BankAccountInfo" ToRole="Bank" />
+          <NavigationProperty Name="ChequeBooks" Relationship="ERPModel.FK_ChequeBook_BankAccountInfo" FromRole="BankAccountInfo" ToRole="ChequeBook" />
         </EntityType>
         <Association Name="FK_BankAccountInfo_BankBranch">
           <End Type="ERPModel.BankBranch" Role="BankBranch" Multiplicity="1" />
@@ -22266,18 +22174,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             </Principal>
             <Dependent Role="BankAccountInfo">
               <PropertyRef Name="BranchId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ChequeBook_BankAccountInfo">
-          <End Type="ERPModel.BankAccountInfo" Role="BankAccountInfo" Multiplicity="1" />
-          <End Type="ERPModel.ChequeBook" Role="ChequeBook" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BankAccountInfo">
-              <PropertyRef Name="BankAccountInfoId" />
-            </Principal>
-            <Dependent Role="ChequeBook">
-              <PropertyRef Name="BankAccountInfoId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -22615,6 +22511,116 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             </Principal>
             <Dependent Role="ChequeRegister">
               <PropertyRef Name="SupplierId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ChequeBook">
+          <Key>
+            <PropertyRef Name="ChequeBookId" />
+          </Key>
+          <Property Name="ChequeBookId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BankAccountInfoId" Type="Int32" Nullable="false" />
+          <Property Name="ChequeBookNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ChequeBookName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BookFirstPageNumber" Type="Int32" Nullable="false" />
+          <Property Name="BookLastPageNumber" Type="Int32" Nullable="false" />
+          <Property Name="TotalBookPage" Type="Int32" Nullable="false" />
+          <Property Name="UsedBookPage" Type="Int32" Nullable="false" />
+          <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="BankAccountInfo" Relationship="ERPModel.FK_ChequeBook_BankAccountInfo" FromRole="ChequeBook" ToRole="BankAccountInfo" />
+        </EntityType>
+        <EntityType Name="ProductCategory">
+          <Key>
+            <PropertyRef Name="ProductCategoryId" />
+          </Key>
+          <Property Name="ProductType" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CompanyId" Type="Int32" />
+          <Property Name="ProductCategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="CashCustomerRate" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Remarks" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="OrderNo" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="28" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="28" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="AccountingHeadId" Type="Int32" />
+          <Property Name="AccoutingEquityHeadId" Type="Int32" />
+          <Property Name="AccountingIncomeHeadId" Type="Int32" />
+          <Property Name="AccountingExpenseHeadId" Type="Int32" />
+          <Property Name="Address" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsCrm" Type="Boolean" Nullable="false" />
+          <Property Name="CostCenterId" Type="Int32" />
+          <Property Name="IsBudget" Type="Boolean" />
+          <NavigationProperty Name="Products" Relationship="ERPModel.FK_Product_ProductCategory" FromRole="ProductCategory" ToRole="Product" />
+          <NavigationProperty Name="ProductionMasters" Relationship="ERPModel.FK_ProductionMaster_ProductCategory" FromRole="ProductCategory" ToRole="ProductionMaster" />
+          <NavigationProperty Name="ProductSubCategories" Relationship="ERPModel.FK_ProductSubCategory_ProductCategory" FromRole="ProductCategory" ToRole="ProductSubCategory" />
+          <NavigationProperty Name="VendorOpenings" Relationship="ERPModel.FK_VendorOpening_ProductCategory" FromRole="ProductCategory" ToRole="VendorOpening" />
+        </EntityType>
+        <Association Name="FK_ChequeBook_BankAccountInfo">
+          <End Type="ERPModel.BankAccountInfo" Role="BankAccountInfo" Multiplicity="1" />
+          <End Type="ERPModel.ChequeBook" Role="ChequeBook" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BankAccountInfo">
+              <PropertyRef Name="BankAccountInfoId" />
+            </Principal>
+            <Dependent Role="ChequeBook">
+              <PropertyRef Name="BankAccountInfoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_ProductCategory">
+          <End Type="ERPModel.ProductCategory" Role="ProductCategory" Multiplicity="0..1" />
+          <End Type="ERPModel.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductCategory">
+              <PropertyRef Name="ProductCategoryId" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="ProductCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductionMaster_ProductCategory">
+          <End Type="ERPModel.ProductCategory" Role="ProductCategory" Multiplicity="0..1" />
+          <End Type="ERPModel.ProductionMaster" Role="ProductionMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductCategory">
+              <PropertyRef Name="ProductCategoryId" />
+            </Principal>
+            <Dependent Role="ProductionMaster">
+              <PropertyRef Name="ProductCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductSubCategory_ProductCategory">
+          <End Type="ERPModel.ProductCategory" Role="ProductCategory" Multiplicity="0..1" />
+          <End Type="ERPModel.ProductSubCategory" Role="ProductSubCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductCategory">
+              <PropertyRef Name="ProductCategoryId" />
+            </Principal>
+            <Dependent Role="ProductSubCategory">
+              <PropertyRef Name="ProductCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VendorOpening_ProductCategory">
+          <End Type="ERPModel.ProductCategory" Role="ProductCategory" Multiplicity="0..1" />
+          <End Type="ERPModel.VendorOpening" Role="VendorOpening" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductCategory">
+              <PropertyRef Name="ProductCategoryId" />
+            </Principal>
+            <Dependent Role="VendorOpening">
+              <PropertyRef Name="ProductCategoryId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -26569,31 +26575,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 							</MappingFragment>
 						</EntityTypeMapping>
 					</EntitySetMapping>
-					<EntitySetMapping Name="ProductCategories">
-						<EntityTypeMapping TypeName="ERPModel.ProductCategory">
-							<MappingFragment StoreEntitySet="ProductCategory">
-								<ScalarProperty Name="CostCenterId" ColumnName="CostCenterId" />
-								<ScalarProperty Name="IsCrm" ColumnName="IsCrm" />
-								<ScalarProperty Name="Code" ColumnName="Code" />
-								<ScalarProperty Name="Address" ColumnName="Address" />
-								<ScalarProperty Name="AccountingExpenseHeadId" ColumnName="AccountingExpenseHeadId" />
-								<ScalarProperty Name="AccountingIncomeHeadId" ColumnName="AccountingIncomeHeadId" />
-								<ScalarProperty Name="AccountingHeadId" ColumnName="AccountingHeadId" />
-								<ScalarProperty Name="IsActive" ColumnName="IsActive" />
-								<ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-								<ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-								<ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-								<ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-								<ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
-								<ScalarProperty Name="Remarks" ColumnName="Remarks" />
-								<ScalarProperty Name="CashCustomerRate" ColumnName="CashCustomerRate" />
-								<ScalarProperty Name="Name" ColumnName="Name" />
-								<ScalarProperty Name="ProductCategoryId" ColumnName="ProductCategoryId" />
-								<ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
-								<ScalarProperty Name="ProductType" ColumnName="ProductType" />
-							</MappingFragment>
-						</EntityTypeMapping>
-					</EntitySetMapping>
 					<EntitySetMapping Name="ProductSubCategories">
 						<EntityTypeMapping TypeName="ERPModel.ProductSubCategory">
 							<MappingFragment StoreEntitySet="ProductSubCategory">
@@ -28355,25 +28336,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 							</MappingFragment>
 						</EntityTypeMapping>
 					</EntitySetMapping>
-					<EntitySetMapping Name="ChequeBooks">
-						<EntityTypeMapping TypeName="ERPModel.ChequeBook">
-							<MappingFragment StoreEntitySet="ChequeBook">
-								<ScalarProperty Name="IsActive" ColumnName="IsActive" />
-								<ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
-								<ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-								<ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-								<ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-								<ScalarProperty Name="Remarks" ColumnName="Remarks" />
-								<ScalarProperty Name="UsedBookPage" ColumnName="UsedBookPage" />
-								<ScalarProperty Name="TotalBookPage" ColumnName="TotalBookPage" />
-								<ScalarProperty Name="BookLastPageNumber" ColumnName="BookLastPageNumber" />
-								<ScalarProperty Name="BookFirstPageNumber" ColumnName="BookFirstPageNumber" />
-								<ScalarProperty Name="ChequeBookNo" ColumnName="ChequeBookNo" />
-								<ScalarProperty Name="BankAccountInfoId" ColumnName="BankAccountInfoId" />
-								<ScalarProperty Name="ChequeBookId" ColumnName="ChequeBookId" />
-							</MappingFragment>
-						</EntityTypeMapping>
-					</EntitySetMapping>
 					<EntitySetMapping Name="BillRequisitionMasters">
 						<EntityTypeMapping TypeName="ERPModel.BillRequisitionMaster">
 							<MappingFragment StoreEntitySet="BillRequisitionMaster">
@@ -28843,6 +28805,53 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
                 <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
                 <ScalarProperty Name="RequisitionMasterId" ColumnName="RequisitionMasterId" />
                 <ScalarProperty Name="ChequeRegisterId" ColumnName="ChequeRegisterId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ChequeBooks">
+            <EntityTypeMapping TypeName="ERPModel.ChequeBook">
+              <MappingFragment StoreEntitySet="ChequeBook">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="UsedBookPage" ColumnName="UsedBookPage" />
+                <ScalarProperty Name="TotalBookPage" ColumnName="TotalBookPage" />
+                <ScalarProperty Name="BookLastPageNumber" ColumnName="BookLastPageNumber" />
+                <ScalarProperty Name="BookFirstPageNumber" ColumnName="BookFirstPageNumber" />
+                <ScalarProperty Name="ChequeBookName" ColumnName="ChequeBookName" />
+                <ScalarProperty Name="ChequeBookNo" ColumnName="ChequeBookNo" />
+                <ScalarProperty Name="BankAccountInfoId" ColumnName="BankAccountInfoId" />
+                <ScalarProperty Name="ChequeBookId" ColumnName="ChequeBookId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductCategories">
+            <EntityTypeMapping TypeName="ERPModel.ProductCategory">
+              <MappingFragment StoreEntitySet="ProductCategory">
+                <ScalarProperty Name="IsBudget" ColumnName="IsBudget" />
+                <ScalarProperty Name="CostCenterId" ColumnName="CostCenterId" />
+                <ScalarProperty Name="IsCrm" ColumnName="IsCrm" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="AccountingExpenseHeadId" ColumnName="AccountingExpenseHeadId" />
+                <ScalarProperty Name="AccountingIncomeHeadId" ColumnName="AccountingIncomeHeadId" />
+                <ScalarProperty Name="AccoutingEquityHeadId" ColumnName="AccoutingEquityHeadId" />
+                <ScalarProperty Name="AccountingHeadId" ColumnName="AccountingHeadId" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="CashCustomerRate" ColumnName="CashCustomerRate" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ProductCategoryId" ColumnName="ProductCategoryId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="ProductType" ColumnName="ProductType" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

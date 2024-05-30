@@ -231,7 +231,6 @@ namespace KGERP.Data.Models
         public virtual DbSet<ConvertedProduct> ConvertedProducts { get; set; }
         public virtual DbSet<StockAdjustDetail> StockAdjustDetails { get; set; }
         public virtual DbSet<TeamInfo> TeamInfoes { get; set; }
-        public virtual DbSet<ProductCategory> ProductCategories { get; set; }
         public virtual DbSet<ProductSubCategory> ProductSubCategories { get; set; }
         public virtual DbSet<RequisitionItemDetail> RequisitionItemDetails { get; set; }
         public virtual DbSet<RequisitionItem> RequisitionItems { get; set; }
@@ -307,7 +306,6 @@ namespace KGERP.Data.Models
         public virtual DbSet<ConsumptionMaster> ConsumptionMasters { get; set; }
         public virtual DbSet<BillRequisitionDetail> BillRequisitionDetails { get; set; }
         public virtual DbSet<Accounting_CostCenter> Accounting_CostCenter { get; set; }
-        public virtual DbSet<ChequeBook> ChequeBooks { get; set; }
         public virtual DbSet<BillRequisitionMaster> BillRequisitionMasters { get; set; }
         public virtual DbSet<BillRequisitionApproval> BillRequisitionApprovals { get; set; }
         public virtual DbSet<BoqBNEApprovalHistroy> BoqBNEApprovalHistroys { get; set; }
@@ -328,6 +326,8 @@ namespace KGERP.Data.Models
         public virtual DbSet<Voucher> Vouchers { get; set; }
         public virtual DbSet<VoucherPaymentChequeHistory> VoucherPaymentChequeHistories { get; set; }
         public virtual DbSet<ChequeRegister> ChequeRegisters { get; set; }
+        public virtual DbSet<ChequeBook> ChequeBooks { get; set; }
+        public virtual DbSet<ProductCategory> ProductCategories { get; set; }
     
         public virtual ObjectResult<GetEmployeeListForTeam_Result> GetEmployeeListForTeam(Nullable<int> companyId)
         {

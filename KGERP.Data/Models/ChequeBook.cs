@@ -17,6 +17,7 @@ namespace KGERP.Data.Models
         public long ChequeBookId { get; set; }
         public int BankAccountInfoId { get; set; }
         public string ChequeBookNo { get; set; }
+        public string ChequeBookName { get; set; }
         public int BookFirstPageNumber { get; set; }
         public int BookLastPageNumber { get; set; }
         public int TotalBookPage { get; set; }

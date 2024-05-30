@@ -84,7 +84,6 @@ namespace KGERP.Data.Models
         public virtual ICollection<StockTransferDetail> StockTransferDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StoreDetail> StoreDetails { get; set; }
-        public virtual ProductCategory ProductCategory { get; set; }
         public virtual ProductSubCategory ProductSubCategory { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RequisitionItem> RequisitionItems { get; set; }
@@ -101,5 +100,6 @@ namespace KGERP.Data.Models
         public virtual ICollection<QuotationDetail> QuotationDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<QuotationSubmitDetail> QuotationSubmitDetails { get; set; }
+        public virtual ProductCategory ProductCategory { get; set; }
     }
 }

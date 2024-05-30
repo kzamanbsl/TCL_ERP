@@ -37,7 +37,6 @@ namespace KGERP.Data.Models
         public Nullable<System.DateTime> ModifiedDate { get; set; }
     
         public virtual Company Company { get; set; }
-        public virtual ProductCategory ProductCategory { get; set; }
         public virtual ProductSubCategory ProductSubCategory { get; set; }
         public virtual ProductionStage ProductionStage { get; set; }
         public virtual ProductionStage ProductionStage1 { get; set; }
@@ -46,5 +45,6 @@ namespace KGERP.Data.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MaterialReceive> MaterialReceives { get; set; }
         public virtual Unit Unit { get; set; }
+        public virtual ProductCategory ProductCategory { get; set; }
     }
 }
