@@ -2517,17 +2517,17 @@ namespace KGERP.Service.Implementation.Configuration
                 Name = productCategoryModel.Name,
                 ProductType = productCategoryModel.ProductType,
                 CashCustomerRate = productCategoryModel.CashCommission,
-
+                IsBudget = productCategoryModel.IsBudget,
                 Remarks = productCategoryModel.Remarks,
                 CompanyId = productCategoryModel.CompanyFK,
                 CreatedBy = System.Web.HttpContext.Current.User.Identity.Name,
                 CreatedDate = DateTime.Now,
                 IsActive = true
-
             };
             _db.ProductCategories.Add(productCategory);
             //result = await _db.SaveChangesAsync();
             //return result;
+
             if (_db.SaveChanges() > 0)
             {
                 int head4Id = 0;
@@ -2567,13 +2567,13 @@ namespace KGERP.Service.Implementation.Configuration
                     integration.CreatedDate = DateTime.Now;
 
                     head4Id = AccHead4Push(integration);
-                    //if (head4Id > 0)
-                    //{
-                    //    var categoryForAssets = _db.ProductCategories.SingleOrDefault(x => x.ProductCategoryId == productCategory.ProductCategoryId);
-                    //    categoryForAssets.AccountingIncomeHeadId = head4Id;
-                    //    categoryForAssets.ModifiedBy = productCategory.CreatedBy;
-                    //    categoryForAssets.ModifiedDate = DateTime.Now;
-                    //}
+                    if (head4Id > 0)
+                    {
+                        var categoryForAssets = _db.ProductCategories.SingleOrDefault(x => x.ProductCategoryId == productCategory.ProductCategoryId);
+                        categoryForAssets.AccoutingEquityHeadId = head4Id;
+                        categoryForAssets.ModifiedBy = productCategory.CreatedBy;
+                        categoryForAssets.ModifiedDate = DateTime.Now;
+                    }
                 }
 
                 if (productCategoryModel.Income)
@@ -6371,4 +6371,3 @@ namespace KGERP.Service.Implementation.Configuration
 
 
 }
-
