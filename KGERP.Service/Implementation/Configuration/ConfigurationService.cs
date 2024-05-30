@@ -3472,6 +3472,7 @@ namespace KGERP.Service.Implementation.Configuration
                 if (await _db.SaveChangesAsync() > 0)
                 {
                     int assetHeadGlParentId = 0;
+                    int equityHeadGlParentId = 0;
                     int incomeHeadGlParentId = 0;
                     int expenseHeadGlParentId = 0;
                     if (commonProduct.ProductSubCategoryId > 0)
@@ -3487,6 +3488,38 @@ namespace KGERP.Service.Implementation.Configuration
                                 {
                                     AccName = commonProduct.ProductName,
                                     ParentId = assetHeadGlParentId,
+                                    LayerNo = 6,
+                                    Remarks = "GL Layer",
+                                    IsIncomeHead = false,
+                                    ProductType = commonProduct.ProductType,
+                                    CompanyFK = commonProduct.CompanyId,
+                                    CreatedBy = commonProduct.CreatedBy,
+                                    CreatedDate = DateTime.Now
+                                };
+
+                                int headGl = AccHeadGlPush(integration);
+
+                                if (headGl > 0)
+                                {
+                                    var productForAssets = _db.Products.SingleOrDefault(x => x.ProductId == commonProduct.ProductId);
+                                    productForAssets.AccountingHeadId = headGl;
+                                    productForAssets.ModifiedBy = commonProduct.CreatedBy;
+                                    productForAssets.ModifiedDate = DateTime.Now;
+                                }
+                            }
+                        }
+
+                        var equityHead5Id = _db.ProductSubCategories.FirstOrDefault(x => x.ProductSubCategoryId == commonProduct.ProductSubCategoryId).AccountingEquityHeadId;
+                        if (equityHead5Id > 0)
+                        {
+                            equityHeadGlParentId = (int)(equityHead5Id == null ? 0 : equityHead5Id);
+
+                            if (equityHeadGlParentId > 0)
+                            {
+                                VMHeadIntegration integration = new VMHeadIntegration
+                                {
+                                    AccName = commonProduct.ProductName,
+                                    ParentId = equityHeadGlParentId,
                                     LayerNo = 6,
                                     Remarks = "GL Layer",
                                     IsIncomeHead = false,
