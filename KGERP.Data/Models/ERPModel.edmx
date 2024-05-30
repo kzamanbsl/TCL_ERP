@@ -413,7 +413,7 @@
           <Property Name="ModifiedDate" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.Attendance_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.Attendance_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Attendance_Shadow">
           <Key>
             <PropertyRef Name="Id" />
@@ -457,7 +457,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.Attendance_Shadow' does not have a 
           <Property Name="ModifiedDate" Type="smalldatetime" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.AttendanceType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.AttendanceType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="AttendanceType">
           <Key>
             <PropertyRef Name="EmployeeId" />
@@ -529,7 +529,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.AttendanceType' does not have a pri
           <Property Name="TourDays" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.AttendenceApproveApplication_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.AttendenceApproveApplication_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="AttendenceApproveApplication_Shadow">
           <Key>
             <PropertyRef Name="Id" />
@@ -1346,7 +1346,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.AttendenceApproveApplication_Shadow
           <Property Name="StockInfoId" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.Employee_Audit' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.Employee_Audit' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Employee_Audit">
           <Key>
             <PropertyRef Name="ChangId" />
@@ -1417,7 +1417,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.Employee_Audit' does not have a pri
           <Property Name="Operation" Type="varchar" MaxLength="10" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.Employee_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.Employee_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Employee_Shadow">
           <Key>
             <PropertyRef Name="Id" />
@@ -1511,7 +1511,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.Employee_Shadow' does not have a pr
           <Property Name="ManagerId" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.EmployeeLeaveDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.EmployeeLeaveDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="EmployeeLeaveDetail">
           <Key>
             <PropertyRef Name="sl_number" />
@@ -2450,7 +2450,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.EmployeeLeaveDetail' does not have 
           <Property Name="OperationId" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.LeaveApplication_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.LeaveApplication_Shadow' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="LeaveApplication_Shadow">
           <Key>
             <PropertyRef Name="LeaveApplicationId" />
@@ -2751,7 +2751,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.LeaveApplication_Shadow' does not h
           <Property Name="EDate" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.ProcessAttenendance' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.ProcessAttenendance' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ProcessAttenendance">
           <Key>
             <PropertyRef Name="EmployeeId" />
@@ -2776,7 +2776,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.ProcessAttenendance' does not have 
           <Property Name="CompanyId" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.ProcessLeave' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.ProcessLeave' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ProcessLeave">
           <Key>
             <PropertyRef Name="Employee" />
@@ -2903,7 +2903,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.ProcessLeave' does not have a prima
           <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.PS' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.PS' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="PS">
           <Key>
             <PropertyRef Name="ProductId" />
@@ -2969,7 +2969,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.PS' does not have a primary key def
           <Property Name="Modifydate" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.ServerConfig' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.ServerConfig' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ServerConfig">
           <Key>
             <PropertyRef Name="Id" />
@@ -3100,7 +3100,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.ServerConfig' does not have a prima
           <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.TempFeedVoucherDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.TempFeedVoucherDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="TempFeedVoucherDetail">
           <Key>
             <PropertyRef Name="IsActive" />
@@ -3872,7 +3872,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.TempFeedVoucherDetail' does not hav
           <Property Name="RowNo" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.Erp.ConvertedProductDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.Erp.ConvertedProductDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ConvertedProductDetail">
           <Key>
             <PropertyRef Name="Qty" />
@@ -4147,7 +4147,7 @@ warning 6002: The table/view 'TCLErp_Dev.Erp.ConvertedProductDetail' does not ha
           <Property Name="COGS" Type="decimal" Precision="18" Scale="3" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.Erp.FormulaHistory' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.Erp.FormulaHistory' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="FormulaHistory">
           <Key>
             <PropertyRef Name="Id" />
@@ -4679,6 +4679,7 @@ warning 6002: The table/view 'TCLErp_Dev.Erp.FormulaHistory' does not have a pri
           <Property Name="CostingPrice" Type="decimal" Precision="18" Scale="5" Nullable="false" />
           <Property Name="DieSize" Type="decimal" Precision="19" Scale="6" />
           <Property Name="AccountingHeadId" Type="int" />
+          <Property Name="AccountingEquityHeadId" Type="int" />
           <Property Name="AccountingIncomeHeadId" Type="int" />
           <Property Name="AccountingExpenseHeadId" Type="int" />
           <Property Name="Status" Type="int" Nullable="false" />
@@ -4909,6 +4910,7 @@ warning 6002: The table/view 'TCLErp_Dev.Erp.FormulaHistory' does not have a pri
           <Property Name="ModifiedDate" Type="datetime" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="AccountingHeadId" Type="int" />
+          <Property Name="AccountingEquityHeadId" Type="int" />
           <Property Name="AccountingIncomeHeadId" Type="int" />
           <Property Name="AccountingExpenseHeadId" Type="int" />
         </EntityType>
@@ -5209,7 +5211,7 @@ warning 6002: The table/view 'TCLErp_Dev.Erp.FormulaHistory' does not have a pri
           <Property Name="TPPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.Erp.RequisitionItemDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.Erp.RequisitionItemDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="RequisitionItemDetail">
           <Key>
             <PropertyRef Name="RequistionItemDetailId" />
@@ -5818,7 +5820,7 @@ warning 6002: The table/view 'TCLErp_Dev.Erp.RequisitionItemDetail' does not hav
           <Property Name="EmployeeId" Type="bigint" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.vw_Attendence' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.vw_Attendence' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_Attendence">
           <Key>
             <PropertyRef Name="Id" />
@@ -5849,7 +5851,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vw_Attendence' does not have a prim
           <Property Name="SalaryTag" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.vwAllHeads' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.vwAllHeads' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwAllHeads">
           <Key>
             <PropertyRef Name="Id" />
@@ -5868,7 +5870,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwAllHeads' does not have a primary
           <Property Name="ModifiedDate" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.vwDemandForSaleInvoice' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.vwDemandForSaleInvoice' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwDemandForSaleInvoice">
           <Key>
             <PropertyRef Name="DemandId" />
@@ -5891,7 +5893,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwDemandForSaleInvoice' does not ha
           <Property Name="SpecialDiscount" Type="decimal" Precision="18" Scale="3" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.vwFTPFileInfo' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.vwFTPFileInfo' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwFTPFileInfo">
           <Key>
             <PropertyRef Name="docid" />
@@ -5914,7 +5916,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwFTPFileInfo' does not have a prim
           <Property Name="RecDate" Type="datetime" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.vwKGRECustomer' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.vwKGRECustomer' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwKGRECustomer">
           <Key>
             <PropertyRef Name="ClientId" />
@@ -5951,7 +5953,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwKGRECustomer' does not have a pri
           <Property Name="EmployeeId" Type="varchar" MaxLength="20" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.vwProductPrice' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.vwProductPrice' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwProductPrice">
           <Key>
             <PropertyRef Name="Id" />
@@ -5965,7 +5967,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwProductPrice' does not have a pri
           <Property Name="ProductName" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.vwSeedMaterialRcvList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.vwSeedMaterialRcvList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwSeedMaterialRcvList">
           <Key>
             <PropertyRef Name="MaterialReceiveId" />
@@ -5997,7 +5999,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwSeedMaterialRcvList' does not hav
           <Property Name="Remarks" Type="varchar(max)" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.vwSMSList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.vwSMSList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwSMSList">
           <Key>
             <PropertyRef Name="Id" />
@@ -6025,7 +6027,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwSMSList' does not have a primary 
           <Property Name="CompanyName" Type="varchar" MaxLength="200" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamInfoList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.vwTeamInfoList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwTeamInfoList">
           <Key>
             <PropertyRef Name="Id" />
@@ -6055,7 +6057,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamInfoList' does not have a pri
           <Property Name="CompanyName" Type="varchar" MaxLength="200" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'TCLErp.dbo.vwTeamLeaderList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwTeamLeaderList">
           <Key>
             <PropertyRef Name="Id" />
@@ -7675,6 +7677,18 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_IngredientStandard_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="IngredientStandard" Type="Self.IngredientStandard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="IngredientStandard">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IngredientStandard_ProductSubCategory">
           <End Role="ProductSubCategory" Type="Self.ProductSubCategory" Multiplicity="1" />
           <End Role="IngredientStandard" Type="Self.IngredientStandard" Multiplicity="*" />
           <ReferentialConstraint>
@@ -8082,6 +8096,30 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_PFormulaDetail_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="PFormulaDetail" Type="Self.PFormulaDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="PFormulaDetail">
+              <PropertyRef Name="RProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PFormulaDetail_ProductFormula">
+          <End Role="ProductFormula" Type="Self.ProductFormula" Multiplicity="0..1" />
+          <End Role="PFormulaDetail" Type="Self.PFormulaDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductFormula">
+              <PropertyRef Name="ProductFormulaId" />
+            </Principal>
+            <Dependent Role="PFormulaDetail">
+              <PropertyRef Name="ProductFormulaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Product_FacingInfo">
           <End Role="FacingInfo" Type="Self.FacingInfo" Multiplicity="0..1" />
           <End Role="Product" Type="Self.Product" Multiplicity="*" />
@@ -8142,6 +8180,18 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ProductDetails_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="ProductDetails" Type="Self.ProductDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="ProductDetails">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ProductDetails_StoreDetail">
           <End Role="StoreDetail" Type="Self.StoreDetail" Multiplicity="1" />
           <End Role="ProductDetails" Type="Self.ProductDetails" Multiplicity="*" />
@@ -8151,6 +8201,18 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             </Principal>
             <Dependent Role="ProductDetails">
               <PropertyRef Name="StoreDetailsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductFormula_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="ProductFormula" Type="Self.ProductFormula" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="ProductFormula">
+              <PropertyRef Name="FProductId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -8550,6 +8612,18 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_RequisitionItem_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="RequisitionItem" Type="Self.RequisitionItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="RequisitionItem">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_RequisitionItem_Requisition">
           <End Role="Requisition" Type="Self.Requisition" Multiplicity="1" />
           <End Role="RequisitionItem" Type="Self.RequisitionItem" Multiplicity="*" />
@@ -8739,6 +8813,18 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             </Principal>
             <Dependent Role="Store">
               <PropertyRef Name="VendorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StoreDetail_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="StoreDetail" Type="Self.StoreDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="StoreDetail">
+              <PropertyRef Name="ProductId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -10599,6 +10685,10 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             <End Role="IncentiveDetail" EntitySet="IncentiveDetail" />
           </AssociationSet>
           <AssociationSet Name="FK_IngredientStandard_Product" Association="Self.FK_IngredientStandard_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="IngredientStandard" EntitySet="IngredientStandard" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IngredientStandard_ProductSubCategory" Association="Self.FK_IngredientStandard_ProductSubCategory">
             <End Role="ProductSubCategory" EntitySet="ProductSubCategory" />
             <End Role="IngredientStandard" EntitySet="IngredientStandard" />
           </AssociationSet>
@@ -10734,6 +10824,14 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             <End Role="BatchPaymentDetail" EntitySet="BatchPaymentDetail" />
             <End Role="PaymentMaster" EntitySet="PaymentMaster" />
           </AssociationSet>
+          <AssociationSet Name="FK_PFormulaDetail_Product" Association="Self.FK_PFormulaDetail_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="PFormulaDetail" EntitySet="PFormulaDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PFormulaDetail_ProductFormula" Association="Self.FK_PFormulaDetail_ProductFormula">
+            <End Role="ProductFormula" EntitySet="ProductFormula" />
+            <End Role="PFormulaDetail" EntitySet="PFormulaDetail" />
+          </AssociationSet>
           <AssociationSet Name="FK_Product_FacingInfo" Association="Self.FK_Product_FacingInfo">
             <End Role="FacingInfo" EntitySet="FacingInfo" />
             <End Role="Product" EntitySet="Product" />
@@ -10754,9 +10852,17 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             <End Role="BookingInstallmentType" EntitySet="BookingInstallmentType" />
             <End Role="ProductBookingInfo" EntitySet="ProductBookingInfo" />
           </AssociationSet>
+          <AssociationSet Name="FK_ProductDetails_Product" Association="Self.FK_ProductDetails_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="ProductDetails" EntitySet="ProductDetails" />
+          </AssociationSet>
           <AssociationSet Name="FK_ProductDetails_StoreDetail" Association="Self.FK_ProductDetails_StoreDetail">
             <End Role="StoreDetail" EntitySet="StoreDetail" />
             <End Role="ProductDetails" EntitySet="ProductDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductFormula_Product" Association="Self.FK_ProductFormula_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="ProductFormula" EntitySet="ProductFormula" />
           </AssociationSet>
           <AssociationSet Name="FK_ProductionDetails_Product" Association="Self.FK_ProductionDetails_Product">
             <End Role="Product" EntitySet="Product" />
@@ -10890,6 +10996,10 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             <End Role="RentProduction" EntitySet="RentProduction" />
             <End Role="RentProductionDetail" EntitySet="RentProductionDetail" />
           </AssociationSet>
+          <AssociationSet Name="FK_RequisitionItem_Product" Association="Self.FK_RequisitionItem_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="RequisitionItem" EntitySet="RequisitionItem" />
+          </AssociationSet>
           <AssociationSet Name="FK_RequisitionItem_Requisition" Association="Self.FK_RequisitionItem_Requisition">
             <End Role="Requisition" EntitySet="Requisition" />
             <End Role="RequisitionItem" EntitySet="RequisitionItem" />
@@ -10953,6 +11063,10 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
           <AssociationSet Name="FK_Store_Vendor" Association="Self.FK_Store_Vendor">
             <End Role="Vendor" EntitySet="Vendor" />
             <End Role="Store" EntitySet="Store" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StoreDetail_Product" Association="Self.FK_StoreDetail_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="StoreDetail" EntitySet="StoreDetail" />
           </AssociationSet>
           <AssociationSet Name="FK_StoreDetail_Store" Association="Self.FK_StoreDetail_Store">
             <End Role="Store" EntitySet="Store" />
@@ -11232,13 +11346,9 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 					<EntitySet Name="Farmers" EntityType="ERPModel.Farmer" />
 					<EntitySet Name="Incentives" EntityType="ERPModel.Incentive" />
 					<EntitySet Name="IncentiveDetails" EntityType="ERPModel.IncentiveDetail" />
-					<EntitySet Name="IngredientStandards" EntityType="ERPModel.IngredientStandard" />
 					<EntitySet Name="IngredientStandardDetails" EntityType="ERPModel.IngredientStandardDetail" />
 					<EntitySet Name="IssueDetailInfoes" EntityType="ERPModel.IssueDetailInfo" />
 					<EntitySet Name="IssueMasterInfoes" EntityType="ERPModel.IssueMasterInfo" />
-					<EntitySet Name="PFormulaDetails" EntityType="ERPModel.PFormulaDetail" />
-					<EntitySet Name="ProductDetails" EntityType="ERPModel.ProductDetail" />
-					<EntitySet Name="ProductFormulas" EntityType="ERPModel.ProductFormula" />
 					<EntitySet Name="ProductPrices" EntityType="ERPModel.ProductPrice" />
 					<EntitySet Name="ProductStores" EntityType="ERPModel.ProductStore" />
 					<EntitySet Name="PurchaseOrderTemplates" EntityType="ERPModel.PurchaseOrderTemplate" />
@@ -11395,10 +11505,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 						<End Role="Incentive" EntitySet="Incentives" />
 						<End Role="IncentiveDetail" EntitySet="IncentiveDetails" />
 					</AssociationSet>
-					<AssociationSet Name="FK_IngredientStandardDetail_IngredientStandard" Association="ERPModel.FK_IngredientStandardDetail_IngredientStandard">
-						<End Role="IngredientStandard" EntitySet="IngredientStandards" />
-						<End Role="IngredientStandardDetail" EntitySet="IngredientStandardDetails" />
-					</AssociationSet>
 					<AssociationSet Name="FK_IssueDetailInfo_IssueMasterInfo" Association="ERPModel.FK_IssueDetailInfo_IssueMasterInfo">
 						<End Role="IssueMasterInfo" EntitySet="IssueMasterInfoes" />
 						<End Role="IssueDetailInfo" EntitySet="IssueDetailInfoes" />
@@ -11520,31 +11626,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 					<EntitySet Name="vwTeamInfoLists" EntityType="ERPModel.vwTeamInfoList" />
 					<EntitySet Name="vwTeamLeaderLists" EntityType="ERPModel.vwTeamLeaderList" />
 					<EntitySet Name="FacingInfoes" EntityType="ERPModel.FacingInfo" />
-					<EntitySet Name="Products" EntityType="ERPModel.Product" />
-					<AssociationSet Name="FK_Product_FacingInfo" Association="ERPModel.FK_Product_FacingInfo">
-						<End Role="FacingInfo" EntitySet="FacingInfoes" />
-						<End Role="Product" EntitySet="Products" />
-					</AssociationSet>
-					<AssociationSet Name="FK_IngredientStandard_Product1" Association="ERPModel.FK_IngredientStandard_Product1">
-						<End Role="Product" EntitySet="Products" />
-						<End Role="IngredientStandard" EntitySet="IngredientStandards" />
-					</AssociationSet>
-					<AssociationSet Name="FK_PFormulaDetail_ProductFormula" Association="ERPModel.FK_PFormulaDetail_ProductFormula">
-						<End Role="Product" EntitySet="Products" />
-						<End Role="PFormulaDetail" EntitySet="PFormulaDetails" />
-					</AssociationSet>
-					<AssociationSet Name="FK_ProductDetails_Product" Association="ERPModel.FK_ProductDetails_Product">
-						<End Role="Product" EntitySet="Products" />
-						<End Role="ProductDetail" EntitySet="ProductDetails" />
-					</AssociationSet>
-					<AssociationSet Name="FK_ProductFormula_Product" Association="ERPModel.FK_ProductFormula_Product">
-						<End Role="Product" EntitySet="Products" />
-						<End Role="ProductFormula" EntitySet="ProductFormulas" />
-					</AssociationSet>
-					<AssociationSet Name="FK_StockTransferDetail_Product" Association="ERPModel.FK_StockTransferDetail_Product">
-						<End Role="Product" EntitySet="Products" />
-						<End Role="StockTransferDetail" EntitySet="StockTransferDetails" />
-					</AssociationSet>
 					<EntitySet Name="BookingInstallmentSchedules" EntityType="ERPModel.BookingInstallmentSchedule" />
 					<AssociationSet Name="FK_BookingInstallmentSchedule_CustomerGroupInfo" Association="ERPModel.FK_BookingInstallmentSchedule_CustomerGroupInfo">
 						<End Role="CustomerGroupInfo" EntitySet="CustomerGroupInfoes" />
@@ -11553,19 +11634,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 					<EntitySet Name="MaterialReceiveDetails" EntityType="ERPModel.MaterialReceiveDetail" />
 					<EntitySet Name="MoneyReceiptTypes" EntityType="ERPModel.MoneyReceiptType" />
 					<EntitySet Name="MoneyReceiptDetails" EntityType="ERPModel.MoneyReceiptDetail" />
-					<EntitySet Name="StoreDetails" EntityType="ERPModel.StoreDetail" />
-					<AssociationSet Name="FK_StoreDetail_Product" Association="ERPModel.FK_StoreDetail_Product">
-						<End Role="Product" EntitySet="Products" />
-						<End Role="StoreDetail" EntitySet="StoreDetails" />
-					</AssociationSet>
-					<AssociationSet Name="FK_ProductDetails_StoreDetail" Association="ERPModel.FK_ProductDetails_StoreDetail">
-						<End Role="StoreDetail" EntitySet="StoreDetails" />
-						<End Role="ProductDetail" EntitySet="ProductDetails" />
-					</AssociationSet>
-					<AssociationSet Name="FK_StoreDetail_Store" Association="ERPModel.FK_StoreDetail_Store">
-						<End Role="Store" EntitySet="Stores" />
-						<End Role="StoreDetail" EntitySet="StoreDetails" />
-					</AssociationSet>
 					<EntitySet Name="CrmPromotionalOffers" EntityType="ERPModel.CrmPromotionalOffer" />
 					<EntitySet Name="CrmChoiceAreas" EntityType="ERPModel.CrmChoiceArea" />
 					<EntitySet Name="CrmSourceMedias" EntityType="ERPModel.CrmSourceMedia" />
@@ -11663,25 +11731,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 						<End Role="StockAdjustDetail" EntitySet="StockAdjustDetails" />
 					</AssociationSet>
 					<EntitySet Name="TeamInfoes" EntityType="ERPModel.TeamInfo" />
-					<EntitySet Name="ProductSubCategories" EntityType="ERPModel.ProductSubCategory" />
-					<AssociationSet Name="FK_IngredientStandard_Product" Association="ERPModel.FK_IngredientStandard_Product">
-						<End Role="ProductSubCategory" EntitySet="ProductSubCategories" />
-						<End Role="IngredientStandard" EntitySet="IngredientStandards" />
-					</AssociationSet>
-					<AssociationSet Name="FK_Product_ProductSubCategory" Association="ERPModel.FK_Product_ProductSubCategory">
-						<End Role="ProductSubCategory" EntitySet="ProductSubCategories" />
-						<End Role="Product" EntitySet="Products" />
-					</AssociationSet>
 					<EntitySet Name="RequisitionItemDetails" EntityType="ERPModel.RequisitionItemDetail" />
-					<EntitySet Name="RequisitionItems" EntityType="ERPModel.RequisitionItem" />
-					<AssociationSet Name="FK_RequisitionItem_Product" Association="ERPModel.FK_RequisitionItem_Product">
-						<End Role="Product" EntitySet="Products" />
-						<End Role="RequisitionItem" EntitySet="RequisitionItems" />
-					</AssociationSet>
-					<AssociationSet Name="FK_RequisitionItem_Requisition" Association="ERPModel.FK_RequisitionItem_Requisition">
-						<End Role="Requisition" EntitySet="Requisitions" />
-						<End Role="RequisitionItem" EntitySet="RequisitionItems" />
-					</AssociationSet>
 					<EntitySet Name="CompanySubMenus" EntityType="ERPModel.CompanySubMenu" />
 					<AssociationSet Name="FK_CompanySubMenu_CompanyMenu" Association="ERPModel.FK_CompanySubMenu_CompanyMenu">
 						<End Role="CompanyMenu" EntitySet="CompanyMenus" />
@@ -11942,10 +11992,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 						<End Role="Employee" EntitySet="Employees" />
 						<End Role="ManagerProductMap" EntitySet="ManagerProductMaps" />
 					</AssociationSet>
-					<AssociationSet Name="FK_ManagerProductMap_Product" Association="ERPModel.FK_ManagerProductMap_Product">
-						<End Role="Product" EntitySet="Products" />
-						<End Role="ManagerProductMap" EntitySet="ManagerProductMaps" />
-					</AssociationSet>
 					<EntitySet Name="ExpenseMasters" EntityType="ERPModel.ExpenseMaster" />
 					<AssociationSet Name="FK_ExpenseMaster_Company" Association="ERPModel.FK_ExpenseMaster_Company">
 						<End Role="Company" EntitySet="Companies" />
@@ -12015,10 +12061,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 					<EntitySet Name="ProductionMasters" EntityType="ERPModel.ProductionMaster" />
 					<AssociationSet Name="FK_ProductionMaster_Company" Association="ERPModel.FK_ProductionMaster_Company">
 						<End Role="Company" EntitySet="Companies" />
-						<End Role="ProductionMaster" EntitySet="ProductionMasters" />
-					</AssociationSet>
-					<AssociationSet Name="FK_ProductionMaster_ProductSubCategory" Association="ERPModel.FK_ProductionMaster_ProductSubCategory">
-						<End Role="ProductSubCategory" EntitySet="ProductSubCategories" />
 						<End Role="ProductionMaster" EntitySet="ProductionMasters" />
 					</AssociationSet>
 					<EntitySet Name="Expenses" EntityType="ERPModel.Expense" />
@@ -12154,15 +12196,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 						<End Role="OrderMaster" EntitySet="OrderMasters" />
 						<End Role="OrderDetail" EntitySet="OrderDetails" />
 					</AssociationSet>
-					<AssociationSet Name="FK_OrderDetail_Product" Association="ERPModel.FK_OrderDetail_Product">
-						<End Role="Product" EntitySet="Products" />
-						<End Role="OrderDetail" EntitySet="OrderDetails" />
-					</AssociationSet>
 					<EntitySet Name="ProductionDetails" EntityType="ERPModel.ProductionDetail" />
-					<AssociationSet Name="FK_ProductionDetails_Product" Association="ERPModel.FK_ProductionDetails_Product">
-						<End Role="Product" EntitySet="Products" />
-						<End Role="ProductionDetail" EntitySet="ProductionDetails" />
-					</AssociationSet>
 					<AssociationSet Name="FK__Productio__Produ__60A1FE78" Association="ERPModel.FK__Productio__Produ__60A1FE78">
 						<End Role="ProductionMaster" EntitySet="ProductionMasters" />
 						<End Role="ProductionDetail" EntitySet="ProductionDetails" />
@@ -12233,10 +12267,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 					<AssociationSet Name="FK_Unit_Company" Association="ERPModel.FK_Unit_Company">
 						<End Role="Company" EntitySet="Companies" />
 						<End Role="Unit" EntitySet="Units" />
-					</AssociationSet>
-					<AssociationSet Name="FK_Product_Unit" Association="ERPModel.FK_Product_Unit">
-						<End Role="Unit" EntitySet="Units" />
-						<End Role="Product" EntitySet="Products" />
 					</AssociationSet>
 					<AssociationSet Name="FK_ProductionMaster_Unit" Association="ERPModel.FK_ProductionMaster_Unit">
 						<End Role="Unit" EntitySet="Units" />
@@ -12370,16 +12400,8 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 						<End Role="BoQItemProductMap" EntitySet="BoQItemProductMaps" />
 						<End Role="BoqBNEApprovalHistroy" EntitySet="BoqBNEApprovalHistroys" />
 					</AssociationSet>
-					<AssociationSet Name="FK_BoQItemProductMap_Product" Association="ERPModel.FK_BoQItemProductMap_Product">
-						<End Role="Product" EntitySet="Products" />
-						<End Role="BoQItemProductMap" EntitySet="BoQItemProductMaps" />
-					</AssociationSet>
 					<EntitySet Name="QuotationDetails" EntityType="ERPModel.QuotationDetail" />
 					<EntitySet Name="QuotationFors" EntityType="ERPModel.QuotationFor" />
-					<AssociationSet Name="FK_QuotationDetail_Product" Association="ERPModel.FK_QuotationDetail_Product">
-						<End Role="Product" EntitySet="Products" />
-						<End Role="QuotationDetail" EntitySet="QuotationDetails" />
-					</AssociationSet>
 					<EntitySet Name="QuotationMasters" EntityType="ERPModel.QuotationMaster" />
 					<AssociationSet Name="FK_QuotationMaster_BillRequisitionMaster" Association="ERPModel.FK_QuotationMaster_BillRequisitionMaster">
 						<End Role="BillRequisitionMaster" EntitySet="BillRequisitionMasters" />
@@ -12394,10 +12416,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 						<End Role="QuotationMaster" EntitySet="QuotationMasters" />
 					</AssociationSet>
 					<EntitySet Name="QuotationSubmitDetails" EntityType="ERPModel.QuotationSubmitDetail" />
-					<AssociationSet Name="FK_QuotationSubmitDetail_Product" Association="ERPModel.FK_QuotationSubmitDetail_Product">
-						<End Role="Product" EntitySet="Products" />
-						<End Role="QuotationSubmitDetail" EntitySet="QuotationSubmitDetails" />
-					</AssociationSet>
 					<EntitySet Name="QuotationSubmitMasters" EntityType="ERPModel.QuotationSubmitMaster" />
 					<AssociationSet Name="FK_QuotationSubmitMaster_QuotationMaster" Association="ERPModel.FK_QuotationSubmitMaster_QuotationMaster">
 						<End Role="QuotationMaster" EntitySet="QuotationMasters" />
@@ -12568,21 +12586,117 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             <End Role="BankAccountInfo" EntitySet="BankAccountInfoes" />
             <End Role="ChequeBook" EntitySet="ChequeBooks" />
           </AssociationSet>
-          <AssociationSet Name="FK_Product_ProductCategory" Association="ERPModel.FK_Product_ProductCategory">
-            <End Role="ProductCategory" EntitySet="ProductCategories" />
-            <End Role="Product" EntitySet="Products" />
-          </AssociationSet>
           <AssociationSet Name="FK_ProductionMaster_ProductCategory" Association="ERPModel.FK_ProductionMaster_ProductCategory">
             <End Role="ProductCategory" EntitySet="ProductCategories" />
             <End Role="ProductionMaster" EntitySet="ProductionMasters" />
           </AssociationSet>
+          <AssociationSet Name="FK_VendorOpening_ProductCategory" Association="ERPModel.FK_VendorOpening_ProductCategory">
+            <End Role="ProductCategory" EntitySet="ProductCategories" />
+            <End Role="VendorOpening" EntitySet="VendorOpenings" />
+          </AssociationSet>
+          <EntitySet Name="ProductSubCategories" EntityType="ERPModel.ProductSubCategory" />
           <AssociationSet Name="FK_ProductSubCategory_ProductCategory" Association="ERPModel.FK_ProductSubCategory_ProductCategory">
             <End Role="ProductCategory" EntitySet="ProductCategories" />
             <End Role="ProductSubCategory" EntitySet="ProductSubCategories" />
           </AssociationSet>
-          <AssociationSet Name="FK_VendorOpening_ProductCategory" Association="ERPModel.FK_VendorOpening_ProductCategory">
+          <AssociationSet Name="FK_ProductionMaster_ProductSubCategory" Association="ERPModel.FK_ProductionMaster_ProductSubCategory">
+            <End Role="ProductSubCategory" EntitySet="ProductSubCategories" />
+            <End Role="ProductionMaster" EntitySet="ProductionMasters" />
+          </AssociationSet>
+          <EntitySet Name="IngredientStandards" EntityType="ERPModel.IngredientStandard" />
+          <EntitySet Name="PFormulaDetails" EntityType="ERPModel.PFormulaDetail" />
+          <EntitySet Name="Products" EntityType="ERPModel.Product" />
+          <EntitySet Name="ProductDetails" EntityType="ERPModel.ProductDetail" />
+          <EntitySet Name="ProductFormulas" EntityType="ERPModel.ProductFormula" />
+          <EntitySet Name="RequisitionItems" EntityType="ERPModel.RequisitionItem" />
+          <EntitySet Name="StoreDetails" EntityType="ERPModel.StoreDetail" />
+          <AssociationSet Name="FK_ManagerProductMap_Product" Association="ERPModel.FK_ManagerProductMap_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="ManagerProductMap" EntitySet="ManagerProductMaps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BoQItemProductMap_Product" Association="ERPModel.FK_BoQItemProductMap_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="BoQItemProductMap" EntitySet="BoQItemProductMaps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_FacingInfo" Association="ERPModel.FK_Product_FacingInfo">
+            <End Role="FacingInfo" EntitySet="FacingInfoes" />
+            <End Role="Product" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IngredientStandard_Product" Association="ERPModel.FK_IngredientStandard_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="IngredientStandard" EntitySet="IngredientStandards" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IngredientStandard_ProductSubCategory" Association="ERPModel.FK_IngredientStandard_ProductSubCategory">
+            <End Role="ProductSubCategory" EntitySet="ProductSubCategories" />
+            <End Role="IngredientStandard" EntitySet="IngredientStandards" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IngredientStandardDetail_IngredientStandard" Association="ERPModel.FK_IngredientStandardDetail_IngredientStandard">
+            <End Role="IngredientStandard" EntitySet="IngredientStandards" />
+            <End Role="IngredientStandardDetail" EntitySet="IngredientStandardDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderDetail_Product" Association="ERPModel.FK_OrderDetail_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="OrderDetail" EntitySet="OrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PFormulaDetail_Product" Association="ERPModel.FK_PFormulaDetail_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="PFormulaDetail" EntitySet="PFormulaDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PFormulaDetail_ProductFormula" Association="ERPModel.FK_PFormulaDetail_ProductFormula">
+            <End Role="ProductFormula" EntitySet="ProductFormulas" />
+            <End Role="PFormulaDetail" EntitySet="PFormulaDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_ProductCategory" Association="ERPModel.FK_Product_ProductCategory">
             <End Role="ProductCategory" EntitySet="ProductCategories" />
-            <End Role="VendorOpening" EntitySet="VendorOpenings" />
+            <End Role="Product" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_ProductSubCategory" Association="ERPModel.FK_Product_ProductSubCategory">
+            <End Role="ProductSubCategory" EntitySet="ProductSubCategories" />
+            <End Role="Product" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Unit" Association="ERPModel.FK_Product_Unit">
+            <End Role="Unit" EntitySet="Units" />
+            <End Role="Product" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductDetails_Product" Association="ERPModel.FK_ProductDetails_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="ProductDetail" EntitySet="ProductDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductFormula_Product" Association="ERPModel.FK_ProductFormula_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="ProductFormula" EntitySet="ProductFormulas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductionDetails_Product" Association="ERPModel.FK_ProductionDetails_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="ProductionDetail" EntitySet="ProductionDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_QuotationDetail_Product" Association="ERPModel.FK_QuotationDetail_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="QuotationDetail" EntitySet="QuotationDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_QuotationSubmitDetail_Product" Association="ERPModel.FK_QuotationSubmitDetail_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="QuotationSubmitDetail" EntitySet="QuotationSubmitDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RequisitionItem_Product" Association="ERPModel.FK_RequisitionItem_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="RequisitionItem" EntitySet="RequisitionItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StoreDetail_Product" Association="ERPModel.FK_StoreDetail_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="StoreDetail" EntitySet="StoreDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductDetails_StoreDetail" Association="ERPModel.FK_ProductDetails_StoreDetail">
+            <End Role="StoreDetail" EntitySet="StoreDetails" />
+            <End Role="ProductDetail" EntitySet="ProductDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RequisitionItem_Requisition" Association="ERPModel.FK_RequisitionItem_Requisition">
+            <End Role="Requisition" EntitySet="Requisitions" />
+            <End Role="RequisitionItem" EntitySet="RequisitionItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StoreDetail_Store" Association="ERPModel.FK_StoreDetail_Store">
+            <End Role="Store" EntitySet="Stores" />
+            <End Role="StoreDetail" EntitySet="StoreDetails" />
           </AssociationSet>
           </EntityContainer>
 				<EntityType Name="AdminPolicy">
@@ -14457,23 +14571,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 					<Property Name="IsActive" Type="Boolean" Nullable="false" />
 					<NavigationProperty Name="Incentive" Relationship="ERPModel.FK_IncentiveDetail_Incentive" FromRole="IncentiveDetail" ToRole="Incentive" />
 				</EntityType>
-				<EntityType Name="IngredientStandard">
-					<Key>
-						<PropertyRef Name="IngredientStandardId" />
-					</Key>
-					<Property Name="IngredientStandardId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-					<Property Name="CompanyId" Type="Int32" Nullable="false" />
-					<Property Name="ProductSubCategoryId" Type="Int32" Nullable="false" />
-					<Property Name="ProductId" Type="Int32" Nullable="false" />
-					<Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-					<Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
-					<Property Name="ModifiedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-					<Property Name="ModifiedDate" Type="DateTime" Precision="3" />
-					<Property Name="IsActive" Type="Boolean" Nullable="false" />
-					<NavigationProperty Name="IngredientStandardDetails" Relationship="ERPModel.FK_IngredientStandardDetail_IngredientStandard" FromRole="IngredientStandard" ToRole="IngredientStandardDetail" />
-					<NavigationProperty Name="Product" Relationship="ERPModel.FK_IngredientStandard_Product1" FromRole="IngredientStandard" ToRole="Product" />
-					<NavigationProperty Name="ProductSubCategory" Relationship="ERPModel.FK_IngredientStandard_Product" FromRole="IngredientStandard" ToRole="ProductSubCategory" />
-				</EntityType>
 				<EntityType Name="IngredientStandardDetail">
 					<Key>
 						<PropertyRef Name="IngredientStandardDetailId" />
@@ -14487,7 +14584,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 					<Property Name="ModifiedBy" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
 					<Property Name="ModifiedDate" Type="DateTime" Precision="3" />
 					<Property Name="IsActive" Type="Boolean" Nullable="false" />
-					<NavigationProperty Name="IngredientStandard" Relationship="ERPModel.FK_IngredientStandardDetail_IngredientStandard" FromRole="IngredientStandardDetail" ToRole="IngredientStandard" />
+          <NavigationProperty Name="IngredientStandard" Relationship="ERPModel.FK_IngredientStandardDetail_IngredientStandard" FromRole="IngredientStandardDetail" ToRole="IngredientStandard" />
 				</EntityType>
 				<EntityType Name="IssueDetailInfo">
 					<Key>
@@ -14520,64 +14617,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 					<Property Name="IsActive" Type="Boolean" />
 					<Property Name="RequisitionId" Type="Int32" />
 					<NavigationProperty Name="IssueDetailInfoes" Relationship="ERPModel.FK_IssueDetailInfo_IssueMasterInfo" FromRole="IssueMasterInfo" ToRole="IssueDetailInfo" />
-				</EntityType>
-				<EntityType Name="PFormulaDetail">
-					<Key>
-						<PropertyRef Name="PFormulaDetailId" />
-					</Key>
-					<Property Name="PFormulaDetailId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-					<Property Name="ProductFormulaId" Type="Int32" />
-					<Property Name="RProductId" Type="Int32" />
-					<Property Name="RQty" Type="Decimal" Nullable="false" Precision="18" Scale="3" />
-					<Property Name="RProcessLoss" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-					<Property Name="CreatedDate" Type="DateTime" Precision="3" />
-					<Property Name="CreatedBy" Type="String" MaxLength="28" FixedLength="false" Unicode="false" />
-					<Property Name="ModifiedDate" Type="DateTime" Precision="3" />
-					<Property Name="ModifiedBy" Type="String" MaxLength="28" FixedLength="false" Unicode="false" />
-					<Property Name="Remarks" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-					<NavigationProperty Name="Product" Relationship="ERPModel.FK_PFormulaDetail_ProductFormula" FromRole="PFormulaDetail" ToRole="Product" />
-				</EntityType>
-				<EntityType Name="ProductDetail">
-					<Key>
-						<PropertyRef Name="ProductDetailsId" />
-					</Key>
-					<Property Name="ProductDetailsId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-					<Property Name="StoreDetailsId" Type="Int64" Nullable="false" />
-					<Property Name="ProductId" Type="Int32" Nullable="false" />
-					<Property Name="EngineNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-					<Property Name="ChassissNO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-					<Property Name="FuelPumpSlNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-					<Property Name="BetteryNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-					<Property Name="RearTyreLH" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-					<Property Name="RearTyreRH" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-					<Property Name="RearTyreFLH" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-					<Property Name="RearTyreFRH" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-					<Property Name="Color" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-					<Property Name="IsDelevered" Type="Int32" />
-					<Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-					<Property Name="CreatedDate" Type="DateTime" Precision="3" />
-					<Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-					<Property Name="ModifiedDate" Type="DateTime" Precision="3" />
-					<Property Name="LcNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-					<Property Name="DeliveredId" Type="Int64" />
-					<NavigationProperty Name="Product" Relationship="ERPModel.FK_ProductDetails_Product" FromRole="ProductDetail" ToRole="Product" />
-					<NavigationProperty Name="StoreDetail" Relationship="ERPModel.FK_ProductDetails_StoreDetail" FromRole="ProductDetail" ToRole="StoreDetail" />
-				</EntityType>
-				<EntityType Name="ProductFormula">
-					<Key>
-						<PropertyRef Name="ProductFormulaId" />
-					</Key>
-					<Property Name="ProductFormulaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-					<Property Name="FProductId" Type="Int32" />
-					<Property Name="CompanyId" Type="Int32" />
-					<Property Name="FQty" Type="Decimal" Precision="18" Scale="3" />
-					<Property Name="FormulaDate" Type="DateTime" Precision="0" />
-					<Property Name="CreatedBy" Type="String" MaxLength="28" FixedLength="false" Unicode="false" />
-					<Property Name="CreatedDate" Type="DateTime" Precision="3" />
-					<Property Name="ModifiedBy" Type="String" MaxLength="28" FixedLength="false" Unicode="false" />
-					<Property Name="ModifiedDate" Type="DateTime" Precision="3" />
-					<Property Name="IsActive" Type="Boolean" Nullable="false" />
-					<NavigationProperty Name="Product" Relationship="ERPModel.FK_ProductFormula_Product" FromRole="ProductFormula" ToRole="Product" />
 				</EntityType>
 				<EntityType Name="ProductPrice">
 					<Key>
@@ -15217,18 +15256,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 						</Dependent>
 					</ReferentialConstraint>
 				</Association>
-				<Association Name="FK_IngredientStandardDetail_IngredientStandard">
-					<End Type="ERPModel.IngredientStandard" Role="IngredientStandard" Multiplicity="1" />
-					<End Type="ERPModel.IngredientStandardDetail" Role="IngredientStandardDetail" Multiplicity="*" />
-					<ReferentialConstraint>
-						<Principal Role="IngredientStandard">
-							<PropertyRef Name="IngredientStandardId" />
-						</Principal>
-						<Dependent Role="IngredientStandardDetail">
-							<PropertyRef Name="IngredientStandardId" />
-						</Dependent>
-					</ReferentialConstraint>
-				</Association>
 				<Association Name="FK_IssueDetailInfo_IssueMasterInfo">
 					<End Type="ERPModel.IssueMasterInfo" Role="IssueMasterInfo" Multiplicity="0..1" />
 					<End Type="ERPModel.IssueDetailInfo" Role="IssueDetailInfo" Multiplicity="*" />
@@ -15558,7 +15585,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 					<Property Name="IsActive" Type="Boolean" Nullable="false" />
 					<Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
 					<Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
-					<NavigationProperty Name="Product" Relationship="ERPModel.FK_StockTransferDetail_Product" FromRole="StockTransferDetail" ToRole="Product" />
 					<Property Name="UnitPrice" Type="Decimal" Nullable="false" Precision="18" Scale="3" />
 					<NavigationProperty Name="StockTransfer" Relationship="ERPModel.FK_StockTransferDetail_StockTransfer" FromRole="StockTransferDetail" ToRole="StockTransfer" />
 				</EntityType>
@@ -15820,7 +15846,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 					<Property Name="OrderDetailsId" Type="Int32" Nullable="false" />
 					<Property Name="IsSubmitted" Type="Boolean" Nullable="false" />
 					<NavigationProperty Name="Stores" Relationship="ERPModel.FK_Store_Requisition" FromRole="Requisition" ToRole="Store" />
-					<NavigationProperty Name="RequisitionItems" Relationship="ERPModel.FK_RequisitionItem_Requisition" FromRole="Requisition" ToRole="RequisitionItem" />
+          <NavigationProperty Name="RequisitionItems" Relationship="ERPModel.FK_RequisitionItem_Requisition" FromRole="Requisition" ToRole="RequisitionItem" />
 				</EntityType>
 				<EntityType Name="Store">
 					<Key>
@@ -15867,10 +15893,10 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 					<Property Name="OtherCharge" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
 					<Property Name="IsSubmited" Type="Boolean" Nullable="false" />
 					<NavigationProperty Name="Requisition" Relationship="ERPModel.FK_Store_Requisition" FromRole="Store" ToRole="Requisition" />
-					<NavigationProperty Name="StoreDetails" Relationship="ERPModel.FK_StoreDetail_Store" FromRole="Store" ToRole="StoreDetail" />
 					<NavigationProperty Name="Company" Relationship="ERPModel.FK_Store_Company1" FromRole="Store" ToRole="Company" />
 					<NavigationProperty Name="StockInfo" Relationship="ERPModel.FK_Store_StockInfo" FromRole="Store" ToRole="StockInfo" />
 					<NavigationProperty Name="Vendor" Relationship="ERPModel.FK_Store_Vendor" FromRole="Store" ToRole="Vendor" />
+          <NavigationProperty Name="StoreDetails" Relationship="ERPModel.FK_StoreDetail_Store" FromRole="Store" ToRole="StoreDetail" />
 				</EntityType>
 				<Association Name="FK_Store_Requisition">
 					<End Type="ERPModel.Requisition" Role="Requisition" Multiplicity="0..1" />
@@ -16507,140 +16533,8 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 					<Property Name="ModifiedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
 					<Property Name="ModifiedDate" Type="DateTime" Precision="3" />
 					<Property Name="IsActive" Type="Boolean" Nullable="false" />
-					<NavigationProperty Name="Products" Relationship="ERPModel.FK_Product_FacingInfo" FromRole="FacingInfo" ToRole="Product" />
+          <NavigationProperty Name="Products" Relationship="ERPModel.FK_Product_FacingInfo" FromRole="FacingInfo" ToRole="Product" />
 				</EntityType>
-				<EntityType Name="Product">
-					<Key>
-						<PropertyRef Name="ProductId" />
-					</Key>
-					<Property Name="ProductId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-					<Property Name="ProductType" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-					<Property Name="CompanyId" Type="Int32" />
-					<Property Name="ProductCategoryId" Type="Int32" />
-					<Property Name="ProductSubCategoryId" Type="Int32" />
-					<Property Name="ProductCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-					<Property Name="ProductName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
-					<Property Name="ShortName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-					<Property Name="UnitPrice" Type="Decimal" Precision="18" Scale="2" />
-					<Property Name="CreditSalePrice" Type="Decimal" Precision="18" Scale="2" />
-					<Property Name="SaleCommissionRate" Type="Decimal" Precision="18" Scale="2" />
-					<Property Name="PurchaseRate" Type="Decimal" Precision="18" Scale="2" />
-					<Property Name="PurchaseCommissionRate" Type="Decimal" Precision="18" Scale="2" />
-					<Property Name="TPPrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-					<Property Name="UnitId" Type="Int32" />
-					<Property Name="Qty" Type="Double" />
-					<Property Name="PackSize" Type="Double" />
-					<Property Name="FormulaQty" Type="Decimal" Precision="18" Scale="2" />
-					<Property Name="FacingId" Type="Int32" />
-					<Property Name="JsonData" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-					<Property Name="ProcessLoss" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-					<Property Name="Remarks" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-					<Property Name="OrderNo" Type="Int32" Nullable="false" />
-					<Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-					<Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
-					<Property Name="ModifiedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-					<Property Name="ModifiedDate" Type="DateTime" Precision="3" />
-					<Property Name="PackId" Type="Int32" />
-					<Property Name="IsActive" Type="Boolean" Nullable="false" />
-					<Property Name="EngineNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-					<Property Name="ChassisNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-					<Property Name="CostingPrice" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
-					<Property Name="DieSize" Type="Decimal" Precision="19" Scale="6" />
-					<Property Name="AccountingHeadId" Type="Int32" />
-					<Property Name="AccountingIncomeHeadId" Type="Int32" />
-					<Property Name="AccountingExpenseHeadId" Type="Int32" />
-					<Property Name="Status" Type="Int32" Nullable="false" />
-					<NavigationProperty Name="FacingInfo" Relationship="ERPModel.FK_Product_FacingInfo" FromRole="Product" ToRole="FacingInfo" />
-					<NavigationProperty Name="IngredientStandards" Relationship="ERPModel.FK_IngredientStandard_Product1" FromRole="Product" ToRole="IngredientStandard" />
-					<NavigationProperty Name="PFormulaDetails" Relationship="ERPModel.FK_PFormulaDetail_ProductFormula" FromRole="Product" ToRole="PFormulaDetail" />
-					<NavigationProperty Name="ProductDetails" Relationship="ERPModel.FK_ProductDetails_Product" FromRole="Product" ToRole="ProductDetail" />
-					<NavigationProperty Name="ProductFormulas" Relationship="ERPModel.FK_ProductFormula_Product" FromRole="Product" ToRole="ProductFormula" />
-					<NavigationProperty Name="StockTransferDetails" Relationship="ERPModel.FK_StockTransferDetail_Product" FromRole="Product" ToRole="StockTransferDetail" />
-					<NavigationProperty Name="StoreDetails" Relationship="ERPModel.FK_StoreDetail_Product" FromRole="Product" ToRole="StoreDetail" />
-					<NavigationProperty Name="ProductSubCategory" Relationship="ERPModel.FK_Product_ProductSubCategory" FromRole="Product" ToRole="ProductSubCategory" />
-					<NavigationProperty Name="RequisitionItems" Relationship="ERPModel.FK_RequisitionItem_Product" FromRole="Product" ToRole="RequisitionItem" />
-					<Property Name="VartualValue" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
-					<NavigationProperty Name="ManagerProductMaps" Relationship="ERPModel.FK_ManagerProductMap_Product" FromRole="Product" ToRole="ManagerProductMap" />
-					<NavigationProperty Name="OrderDetails" Relationship="ERPModel.FK_OrderDetail_Product" FromRole="Product" ToRole="OrderDetail" />
-					<NavigationProperty Name="ProductionDetails" Relationship="ERPModel.FK_ProductionDetails_Product" FromRole="Product" ToRole="ProductionDetail" />
-					<NavigationProperty Name="Unit" Relationship="ERPModel.FK_Product_Unit" FromRole="Product" ToRole="Unit" />
-					<NavigationProperty Name="BoQItemProductMaps" Relationship="ERPModel.FK_BoQItemProductMap_Product" FromRole="Product" ToRole="BoQItemProductMap" />
-					<NavigationProperty Name="QuotationDetails" Relationship="ERPModel.FK_QuotationDetail_Product" FromRole="Product" ToRole="QuotationDetail" />
-					<NavigationProperty Name="QuotationSubmitDetails" Relationship="ERPModel.FK_QuotationSubmitDetail_Product" FromRole="Product" ToRole="QuotationSubmitDetail" />
-          <NavigationProperty Name="ProductCategory" Relationship="ERPModel.FK_Product_ProductCategory" FromRole="Product" ToRole="ProductCategory" />
-				</EntityType>
-				<Association Name="FK_Product_FacingInfo">
-					<End Type="ERPModel.FacingInfo" Role="FacingInfo" Multiplicity="0..1" />
-					<End Type="ERPModel.Product" Role="Product" Multiplicity="*" />
-					<ReferentialConstraint>
-						<Principal Role="FacingInfo">
-							<PropertyRef Name="FacingId" />
-						</Principal>
-						<Dependent Role="Product">
-							<PropertyRef Name="FacingId" />
-						</Dependent>
-					</ReferentialConstraint>
-				</Association>
-				<Association Name="FK_IngredientStandard_Product1">
-					<End Type="ERPModel.Product" Role="Product" Multiplicity="1" />
-					<End Type="ERPModel.IngredientStandard" Role="IngredientStandard" Multiplicity="*" />
-					<ReferentialConstraint>
-						<Principal Role="Product">
-							<PropertyRef Name="ProductId" />
-						</Principal>
-						<Dependent Role="IngredientStandard">
-							<PropertyRef Name="ProductId" />
-						</Dependent>
-					</ReferentialConstraint>
-				</Association>
-				<Association Name="FK_PFormulaDetail_ProductFormula">
-					<End Type="ERPModel.Product" Role="Product" Multiplicity="0..1" />
-					<End Type="ERPModel.PFormulaDetail" Role="PFormulaDetail" Multiplicity="*" />
-					<ReferentialConstraint>
-						<Principal Role="Product">
-							<PropertyRef Name="ProductId" />
-						</Principal>
-						<Dependent Role="PFormulaDetail">
-							<PropertyRef Name="RProductId" />
-						</Dependent>
-					</ReferentialConstraint>
-				</Association>
-				<Association Name="FK_ProductDetails_Product">
-					<End Type="ERPModel.Product" Role="Product" Multiplicity="1" />
-					<End Type="ERPModel.ProductDetail" Role="ProductDetail" Multiplicity="*" />
-					<ReferentialConstraint>
-						<Principal Role="Product">
-							<PropertyRef Name="ProductId" />
-						</Principal>
-						<Dependent Role="ProductDetail">
-							<PropertyRef Name="ProductId" />
-						</Dependent>
-					</ReferentialConstraint>
-				</Association>
-				<Association Name="FK_ProductFormula_Product">
-					<End Type="ERPModel.Product" Role="Product" Multiplicity="0..1" />
-					<End Type="ERPModel.ProductFormula" Role="ProductFormula" Multiplicity="*" />
-					<ReferentialConstraint>
-						<Principal Role="Product">
-							<PropertyRef Name="ProductId" />
-						</Principal>
-						<Dependent Role="ProductFormula">
-							<PropertyRef Name="FProductId" />
-						</Dependent>
-					</ReferentialConstraint>
-				</Association>
-				<Association Name="FK_StockTransferDetail_Product">
-					<End Type="ERPModel.Product" Role="Product" Multiplicity="0..1" />
-					<End Type="ERPModel.StockTransferDetail" Role="StockTransferDetail" Multiplicity="*" />
-					<ReferentialConstraint>
-						<Principal Role="Product">
-							<PropertyRef Name="ProductId" />
-						</Principal>
-						<Dependent Role="StockTransferDetail">
-							<PropertyRef Name="ProductId" />
-						</Dependent>
-					</ReferentialConstraint>
-				</Association>
 				<EntityType Name="BookingInstallmentSchedule">
 					<Key>
 						<PropertyRef Name="InstallmentId" />
@@ -16734,69 +16628,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 					<Property Name="Amount" Type="Decimal" Nullable="false" Precision="18" Scale="3" />
 					<Property Name="PaidAmount" Type="Decimal" Nullable="false" Precision="18" Scale="3" />
 				</EntityType>
-				<EntityType Name="StoreDetail">
-					<Key>
-						<PropertyRef Name="StoreDetailId" />
-					</Key>
-					<Property Name="StoreDetailId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-					<Property Name="StoreId" Type="Int64" />
-					<Property Name="ProductId" Type="Int32" />
-					<Property Name="Qty" Type="Double" Nullable="false" />
-					<Property Name="RemainingQty" Type="Double" Nullable="false" />
-					<Property Name="BatchId" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-					<Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-					<Property Name="ModifiedDate" Type="DateTime" Precision="3" />
-					<Property Name="ProductionRate" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-					<Property Name="BagQty" Type="Int32" Nullable="false" />
-					<Property Name="UnitPrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-					<Property Name="InvoiceValue" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-					<Property Name="LandedCost" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-					<Property Name="TotalCOGS" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-					<Property Name="CogsPerUnit" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-					<Property Name="ReceivedCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-					<Property Name="USDPrice" Type="Decimal" Precision="18" Scale="2" />
-					<Property Name="BDTPrice" Type="Decimal" Precision="18" Scale="2" />
-					<Property Name="IsActive" Type="Boolean" Nullable="false" />
-					<NavigationProperty Name="Product" Relationship="ERPModel.FK_StoreDetail_Product" FromRole="StoreDetail" ToRole="Product" />
-					<NavigationProperty Name="ProductDetails" Relationship="ERPModel.FK_ProductDetails_StoreDetail" FromRole="StoreDetail" ToRole="ProductDetail" />
-					<NavigationProperty Name="Store" Relationship="ERPModel.FK_StoreDetail_Store" FromRole="StoreDetail" ToRole="Store" />
-				</EntityType>
-				<Association Name="FK_StoreDetail_Product">
-					<End Type="ERPModel.Product" Role="Product" Multiplicity="0..1" />
-					<End Type="ERPModel.StoreDetail" Role="StoreDetail" Multiplicity="*" />
-					<ReferentialConstraint>
-						<Principal Role="Product">
-							<PropertyRef Name="ProductId" />
-						</Principal>
-						<Dependent Role="StoreDetail">
-							<PropertyRef Name="ProductId" />
-						</Dependent>
-					</ReferentialConstraint>
-				</Association>
-				<Association Name="FK_ProductDetails_StoreDetail">
-					<End Type="ERPModel.StoreDetail" Role="StoreDetail" Multiplicity="1" />
-					<End Type="ERPModel.ProductDetail" Role="ProductDetail" Multiplicity="*" />
-					<ReferentialConstraint>
-						<Principal Role="StoreDetail">
-							<PropertyRef Name="StoreDetailId" />
-						</Principal>
-						<Dependent Role="ProductDetail">
-							<PropertyRef Name="StoreDetailsId" />
-						</Dependent>
-					</ReferentialConstraint>
-				</Association>
-				<Association Name="FK_StoreDetail_Store">
-					<End Type="ERPModel.Store" Role="Store" Multiplicity="0..1" />
-					<End Type="ERPModel.StoreDetail" Role="StoreDetail" Multiplicity="*" />
-					<ReferentialConstraint>
-						<Principal Role="Store">
-							<PropertyRef Name="StoreId" />
-						</Principal>
-						<Dependent Role="StoreDetail">
-							<PropertyRef Name="StoreId" />
-						</Dependent>
-					</ReferentialConstraint>
-				</Association>
 				<EntityType Name="CrmPromotionalOffer">
 					<Key>
 						<PropertyRef Name="OfferId" />
@@ -17621,56 +17452,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 					<Property Name="ManagerId" Type="Int64" />
 					<NavigationProperty Name="Employee" Relationship="ERPModel.FK_TeamInfo_Employee" FromRole="TeamInfo" ToRole="Employee" />
 				</EntityType>
-				<EntityType Name="ProductSubCategory">
-					<Key>
-						<PropertyRef Name="ProductSubCategoryId" />
-					</Key>
-					<Property Name="ProductSubCategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-					<Property Name="ProductType" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-					<Property Name="CompanyId" Type="Int32" />
-					<Property Name="ProductCategoryId" Type="Int32" />
-					<Property Name="Name" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
-					<Property Name="BaseCommissionRate" Type="Decimal" Precision="18" Scale="2" />
-					<Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-					<Property Name="Remarks" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-					<Property Name="OrderNo" Type="Int32" Nullable="false" />
-					<Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-					<Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
-					<Property Name="ModifiedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-					<Property Name="ModifiedDate" Type="DateTime" Precision="3" />
-					<Property Name="IsActive" Type="Boolean" Nullable="false" />
-					<Property Name="AccountingHeadId" Type="Int32" />
-					<Property Name="AccountingIncomeHeadId" Type="Int32" />
-					<Property Name="AccountingExpenseHeadId" Type="Int32" />
-					<NavigationProperty Name="IngredientStandards" Relationship="ERPModel.FK_IngredientStandard_Product" FromRole="ProductSubCategory" ToRole="IngredientStandard" />
-					<NavigationProperty Name="Products" Relationship="ERPModel.FK_Product_ProductSubCategory" FromRole="ProductSubCategory" ToRole="Product" />
-					<NavigationProperty Name="ProductionMasters" Relationship="ERPModel.FK_ProductionMaster_ProductSubCategory" FromRole="ProductSubCategory" ToRole="ProductionMaster" />
-          <NavigationProperty Name="ProductCategory" Relationship="ERPModel.FK_ProductSubCategory_ProductCategory" FromRole="ProductSubCategory" ToRole="ProductCategory" />
-				</EntityType>
-				<Association Name="FK_IngredientStandard_Product">
-					<End Type="ERPModel.ProductSubCategory" Role="ProductSubCategory" Multiplicity="1" />
-					<End Type="ERPModel.IngredientStandard" Role="IngredientStandard" Multiplicity="*" />
-					<ReferentialConstraint>
-						<Principal Role="ProductSubCategory">
-							<PropertyRef Name="ProductSubCategoryId" />
-						</Principal>
-						<Dependent Role="IngredientStandard">
-							<PropertyRef Name="ProductSubCategoryId" />
-						</Dependent>
-					</ReferentialConstraint>
-				</Association>
-				<Association Name="FK_Product_ProductSubCategory">
-					<End Type="ERPModel.ProductSubCategory" Role="ProductSubCategory" Multiplicity="0..1" />
-					<End Type="ERPModel.Product" Role="Product" Multiplicity="*" />
-					<ReferentialConstraint>
-						<Principal Role="ProductSubCategory">
-							<PropertyRef Name="ProductSubCategoryId" />
-						</Principal>
-						<Dependent Role="Product">
-							<PropertyRef Name="ProductSubCategoryId" />
-						</Dependent>
-					</ReferentialConstraint>
-				</Association>
 				<EntityType Name="RequisitionItemDetail">
 					<Key>
 						<PropertyRef Name="RequistionItemDetailId" />
@@ -17692,59 +17473,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 					<Property Name="RUnitPrice" Type="Decimal" Nullable="false" Precision="18" Scale="3" />
 					<Property Name="IsActive" Type="Boolean" Nullable="false" />
 				</EntityType>
-				<EntityType Name="RequisitionItem">
-					<Key>
-						<PropertyRef Name="RequisitionItemId" />
-					</Key>
-					<Property Name="RequisitionItemId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-					<Property Name="RequisitionId" Type="Int32" Nullable="false" />
-					<Property Name="ProductFormulaId" Type="Int32" />
-					<Property Name="ProductId" Type="Int32" />
-					<Property Name="Qty" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-					<Property Name="InputQty" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-					<Property Name="OutputQty" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-					<Property Name="OverHead" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-					<Property Name="ProcessLoss" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-					<Property Name="ActualProcessLoss" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-					<Property Name="RMCost" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-					<Property Name="BagQty" Type="Int32" Nullable="false" />
-					<Property Name="BagId" Type="Int32" />
-					<Property Name="BagUnitPrice" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
-					<Property Name="RMCostRate" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
-					<Property Name="BagRate" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
-					<Property Name="ProductionRate" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
-					<Property Name="RequisitionItemStatus" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-					<Property Name="IssueBy" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-					<Property Name="IssueDate" Type="DateTime" Precision="3" />
-					<Property Name="IsActive" Type="Boolean" Nullable="false" />
-					<Property Name="TPPrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-					<NavigationProperty Name="Product" Relationship="ERPModel.FK_RequisitionItem_Product" FromRole="RequisitionItem" ToRole="Product" />
-					<NavigationProperty Name="Requisition" Relationship="ERPModel.FK_RequisitionItem_Requisition" FromRole="RequisitionItem" ToRole="Requisition" />
-				</EntityType>
-				<Association Name="FK_RequisitionItem_Product">
-					<End Type="ERPModel.Product" Role="Product" Multiplicity="0..1" />
-					<End Type="ERPModel.RequisitionItem" Role="RequisitionItem" Multiplicity="*" />
-					<ReferentialConstraint>
-						<Principal Role="Product">
-							<PropertyRef Name="ProductId" />
-						</Principal>
-						<Dependent Role="RequisitionItem">
-							<PropertyRef Name="ProductId" />
-						</Dependent>
-					</ReferentialConstraint>
-				</Association>
-				<Association Name="FK_RequisitionItem_Requisition">
-					<End Type="ERPModel.Requisition" Role="Requisition" Multiplicity="1" />
-					<End Type="ERPModel.RequisitionItem" Role="RequisitionItem" Multiplicity="*" />
-					<ReferentialConstraint>
-						<Principal Role="Requisition">
-							<PropertyRef Name="RequisitionId" />
-						</Principal>
-						<Dependent Role="RequisitionItem">
-							<PropertyRef Name="RequisitionId" />
-						</Dependent>
-					</ReferentialConstraint>
-				</Association>
 				<EntityType Name="CompanySubMenu">
 					<Key>
 						<PropertyRef Name="CompanySubMenuId" />
@@ -19161,7 +18889,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 					<Property Name="IsActive" Type="Boolean" Nullable="false" />
 					<NavigationProperty Name="Company" Relationship="ERPModel.FK_ManagerProductMap_Company" FromRole="ManagerProductMap" ToRole="Company" />
 					<NavigationProperty Name="Employee" Relationship="ERPModel.FK_ManagerProductMap_Employee" FromRole="ManagerProductMap" ToRole="Employee" />
-					<NavigationProperty Name="Product" Relationship="ERPModel.FK_ManagerProductMap_Product" FromRole="ManagerProductMap" ToRole="Product" />
+          <NavigationProperty Name="Product" Relationship="ERPModel.FK_ManagerProductMap_Product" FromRole="ManagerProductMap" ToRole="Product" />
 				</EntityType>
 				<Association Name="FK_ManagerProductMap_Company">
 					<End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
@@ -19184,18 +18912,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 						</Principal>
 						<Dependent Role="ManagerProductMap">
 							<PropertyRef Name="EmployeeId" />
-						</Dependent>
-					</ReferentialConstraint>
-				</Association>
-				<Association Name="FK_ManagerProductMap_Product">
-					<End Type="ERPModel.Product" Role="Product" Multiplicity="1" />
-					<End Type="ERPModel.ManagerProductMap" Role="ManagerProductMap" Multiplicity="*" />
-					<ReferentialConstraint>
-						<Principal Role="Product">
-							<PropertyRef Name="ProductId" />
-						</Principal>
-						<Dependent Role="ManagerProductMap">
-							<PropertyRef Name="ProductId" />
 						</Dependent>
 					</ReferentialConstraint>
 				</Association>
@@ -19519,13 +19235,13 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 					<Property Name="ModifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
 					<Property Name="ModifiedDate" Type="DateTime" Precision="3" />
 					<NavigationProperty Name="Company" Relationship="ERPModel.FK_ProductionMaster_Company" FromRole="ProductionMaster" ToRole="Company" />
-					<NavigationProperty Name="ProductSubCategory" Relationship="ERPModel.FK_ProductionMaster_ProductSubCategory" FromRole="ProductionMaster" ToRole="ProductSubCategory" />
 					<NavigationProperty Name="ProductionStage" Relationship="ERPModel.FK__Productio__Produ__5DC591CD" FromRole="ProductionMaster" ToRole="ProductionStage" />
 					<NavigationProperty Name="ProductionStage1" Relationship="ERPModel.FK_ProductionMaster_ProductionStatus" FromRole="ProductionMaster" ToRole="ProductionStage" />
 					<NavigationProperty Name="ProductionDetails" Relationship="ERPModel.FK__Productio__Produ__60A1FE78" FromRole="ProductionMaster" ToRole="ProductionDetail" />
 					<NavigationProperty Name="MaterialReceives" Relationship="ERPModel.FK_MaterialReceive_ProductionMaster" FromRole="ProductionMaster" ToRole="MaterialReceive" />
 					<NavigationProperty Name="Unit" Relationship="ERPModel.FK_ProductionMaster_Unit" FromRole="ProductionMaster" ToRole="Unit" />
           <NavigationProperty Name="ProductCategory" Relationship="ERPModel.FK_ProductionMaster_ProductCategory" FromRole="ProductionMaster" ToRole="ProductCategory" />
+          <NavigationProperty Name="ProductSubCategory" Relationship="ERPModel.FK_ProductionMaster_ProductSubCategory" FromRole="ProductionMaster" ToRole="ProductSubCategory" />
 				</EntityType>
 				<Association Name="FK_ProductionMaster_Company">
 					<End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
@@ -19536,18 +19252,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 						</Principal>
 						<Dependent Role="ProductionMaster">
 							<PropertyRef Name="CompanyId" />
-						</Dependent>
-					</ReferentialConstraint>
-				</Association>
-				<Association Name="FK_ProductionMaster_ProductSubCategory">
-					<End Type="ERPModel.ProductSubCategory" Role="ProductSubCategory" Multiplicity="0..1" />
-					<End Type="ERPModel.ProductionMaster" Role="ProductionMaster" Multiplicity="*" />
-					<ReferentialConstraint>
-						<Principal Role="ProductSubCategory">
-							<PropertyRef Name="ProductSubCategoryId" />
-						</Principal>
-						<Dependent Role="ProductionMaster">
-							<PropertyRef Name="ProductSubCategoryId" />
 						</Dependent>
 					</ReferentialConstraint>
 				</Association>
@@ -20180,7 +19884,7 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 					<Property Name="PromotionalOfferId" Type="Int32" />
 					<NavigationProperty Name="OrderDeliverDetails" Relationship="ERPModel.FK_OrderDeliverDetail_OrderDetail" FromRole="OrderDetail" ToRole="OrderDeliverDetail" />
 					<NavigationProperty Name="OrderMaster" Relationship="ERPModel.FK_OrderDetail_OrderMaster" FromRole="OrderDetail" ToRole="OrderMaster" />
-					<NavigationProperty Name="Product" Relationship="ERPModel.FK_OrderDetail_Product" FromRole="OrderDetail" ToRole="Product" />
+          <NavigationProperty Name="Product" Relationship="ERPModel.FK_OrderDetail_Product" FromRole="OrderDetail" ToRole="Product" />
 				</EntityType>
 				<EntityType Name="OrderMaster">
 					<Key>
@@ -20298,18 +20002,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 						</Dependent>
 					</ReferentialConstraint>
 				</Association>
-				<Association Name="FK_OrderDetail_Product">
-					<End Type="ERPModel.Product" Role="Product" Multiplicity="1" />
-					<End Type="ERPModel.OrderDetail" Role="OrderDetail" Multiplicity="*" />
-					<ReferentialConstraint>
-						<Principal Role="Product">
-							<PropertyRef Name="ProductId" />
-						</Principal>
-						<Dependent Role="OrderDetail">
-							<PropertyRef Name="ProductId" />
-						</Dependent>
-					</ReferentialConstraint>
-				</Association>
 				<EntityType Name="ProductionDetail">
 					<Key>
 						<PropertyRef Name="ProductionDetailsId" />
@@ -20331,21 +20023,9 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 					<Property Name="ProcessedQty" Type="Decimal" Precision="18" Scale="0" />
 					<Property Name="IsMain" Type="Boolean" Nullable="false" />
 					<Property Name="ProductionResultId" Type="Int32" />
-					<NavigationProperty Name="Product" Relationship="ERPModel.FK_ProductionDetails_Product" FromRole="ProductionDetail" ToRole="Product" />
 					<NavigationProperty Name="ProductionMaster" Relationship="ERPModel.FK__Productio__Produ__60A1FE78" FromRole="ProductionDetail" ToRole="ProductionMaster" />
+          <NavigationProperty Name="Product" Relationship="ERPModel.FK_ProductionDetails_Product" FromRole="ProductionDetail" ToRole="Product" />
 				</EntityType>
-				<Association Name="FK_ProductionDetails_Product">
-					<End Type="ERPModel.Product" Role="Product" Multiplicity="1" />
-					<End Type="ERPModel.ProductionDetail" Role="ProductionDetail" Multiplicity="*" />
-					<ReferentialConstraint>
-						<Principal Role="Product">
-							<PropertyRef Name="ProductId" />
-						</Principal>
-						<Dependent Role="ProductionDetail">
-							<PropertyRef Name="RawProductId" />
-						</Dependent>
-					</ReferentialConstraint>
-				</Association>
 				<Association Name="FK__Productio__Produ__60A1FE78">
 					<End Type="ERPModel.ProductionMaster" Role="ProductionMaster" Multiplicity="1" />
 					<End Type="ERPModel.ProductionDetail" Role="ProductionDetail" Multiplicity="*" />
@@ -20762,8 +20442,8 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 					<Property Name="IsActive" Type="Boolean" Nullable="false" />
 					<Property Name="IsBoQUnit" Type="Boolean" Nullable="false" />
 					<NavigationProperty Name="Company" Relationship="ERPModel.FK_Unit_Company" FromRole="Unit" ToRole="Company" />
-					<NavigationProperty Name="Products" Relationship="ERPModel.FK_Product_Unit" FromRole="Unit" ToRole="Product" />
 					<NavigationProperty Name="ProductionMasters" Relationship="ERPModel.FK_ProductionMaster_Unit" FromRole="Unit" ToRole="ProductionMaster" />
+          <NavigationProperty Name="Products" Relationship="ERPModel.FK_Product_Unit" FromRole="Unit" ToRole="Product" />
 				</EntityType>
 				<Association Name="FK_Unit_Company">
 					<End Type="ERPModel.Company" Role="Company" Multiplicity="0..1" />
@@ -20774,18 +20454,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 						</Principal>
 						<Dependent Role="Unit">
 							<PropertyRef Name="CompanyId" />
-						</Dependent>
-					</ReferentialConstraint>
-				</Association>
-				<Association Name="FK_Product_Unit">
-					<End Type="ERPModel.Unit" Role="Unit" Multiplicity="0..1" />
-					<End Type="ERPModel.Product" Role="Product" Multiplicity="*" />
-					<ReferentialConstraint>
-						<Principal Role="Unit">
-							<PropertyRef Name="UnitId" />
-						</Principal>
-						<Dependent Role="Product">
-							<PropertyRef Name="UnitId" />
 						</Dependent>
 					</ReferentialConstraint>
 				</Association>
@@ -21530,8 +21198,8 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 					<Property Name="IsActive" Type="Boolean" Nullable="false" />
 					<NavigationProperty Name="Company" Relationship="ERPModel.FK_BillRequisitionItemBoQMap_Company" FromRole="BoQItemProductMap" ToRole="Company" />
 					<NavigationProperty Name="BoqBNEApprovalHistroys" Relationship="ERPModel.FK_BoqBNEApprovalHistroy_BoQItemProductMap" FromRole="BoQItemProductMap" ToRole="BoqBNEApprovalHistroy" />
-					<NavigationProperty Name="Product" Relationship="ERPModel.FK_BoQItemProductMap_Product" FromRole="BoQItemProductMap" ToRole="Product" />
 					<NavigationProperty Name="BillBoQItem" Relationship="ERPModel.FK_BillRequisitionItemBoQMap_BillBoQItem" FromRole="BoQItemProductMap" ToRole="BillBoQItem" />
+          <NavigationProperty Name="Product" Relationship="ERPModel.FK_BoQItemProductMap_Product" FromRole="BoQItemProductMap" ToRole="Product" />
 				</EntityType>
 				<Association Name="FK_BillRequisitionItemBoQMap_Company">
 					<End Type="ERPModel.Company" Role="Company" Multiplicity="1" />
@@ -21557,18 +21225,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 						</Dependent>
 					</ReferentialConstraint>
 				</Association>
-				<Association Name="FK_BoQItemProductMap_Product">
-					<End Type="ERPModel.Product" Role="Product" Multiplicity="1" />
-					<End Type="ERPModel.BoQItemProductMap" Role="BoQItemProductMap" Multiplicity="*" />
-					<ReferentialConstraint>
-						<Principal Role="Product">
-							<PropertyRef Name="ProductId" />
-						</Principal>
-						<Dependent Role="BoQItemProductMap">
-							<PropertyRef Name="ProductId" />
-						</Dependent>
-					</ReferentialConstraint>
-				</Association>
 				<EntityType Name="QuotationDetail">
 					<Key>
 						<PropertyRef Name="QuotationDetailId" />
@@ -21584,8 +21240,8 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 					<Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
 					<Property Name="ModifiedOn" Type="DateTime" Precision="3" />
 					<Property Name="IsActive" Type="Boolean" Nullable="false" />
-					<NavigationProperty Name="Product" Relationship="ERPModel.FK_QuotationDetail_Product" FromRole="QuotationDetail" ToRole="Product" />
 					<NavigationProperty Name="QuotationMaster" Relationship="ERPModel.FK_QuotationDetail_QuotationMaster1" FromRole="QuotationDetail" ToRole="QuotationMaster" />
+          <NavigationProperty Name="Product" Relationship="ERPModel.FK_QuotationDetail_Product" FromRole="QuotationDetail" ToRole="Product" />
 				</EntityType>
 				<EntityType Name="QuotationFor">
 					<Key>
@@ -21601,18 +21257,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 					<Property Name="IsActive" Type="Boolean" Nullable="false" />
 					<NavigationProperty Name="QuotationMasters" Relationship="ERPModel.FK_QuotationMaster_QuotationFor" FromRole="QuotationFor" ToRole="QuotationMaster" />
 				</EntityType>
-				<Association Name="FK_QuotationDetail_Product">
-					<End Type="ERPModel.Product" Role="Product" Multiplicity="1" />
-					<End Type="ERPModel.QuotationDetail" Role="QuotationDetail" Multiplicity="*" />
-					<ReferentialConstraint>
-						<Principal Role="Product">
-							<PropertyRef Name="ProductId" />
-						</Principal>
-						<Dependent Role="QuotationDetail">
-							<PropertyRef Name="MaterialId" />
-						</Dependent>
-					</ReferentialConstraint>
-				</Association>
 				<EntityType Name="QuotationMaster">
 					<Key>
 						<PropertyRef Name="QuotationMasterId" />
@@ -21688,21 +21332,9 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 					<Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
 					<Property Name="ModifiedOn" Type="DateTime" Precision="3" />
 					<Property Name="IsActive" Type="Boolean" Nullable="false" />
-					<NavigationProperty Name="Product" Relationship="ERPModel.FK_QuotationSubmitDetail_Product" FromRole="QuotationSubmitDetail" ToRole="Product" />
 					<NavigationProperty Name="QuotationSubmitMaster" Relationship="ERPModel.FK_QuotationSubmitDetail_QuotationSubmitMaster" FromRole="QuotationSubmitDetail" ToRole="QuotationSubmitMaster" />
+          <NavigationProperty Name="Product" Relationship="ERPModel.FK_QuotationSubmitDetail_Product" FromRole="QuotationSubmitDetail" ToRole="Product" />
 				</EntityType>
-				<Association Name="FK_QuotationSubmitDetail_Product">
-					<End Type="ERPModel.Product" Role="Product" Multiplicity="1" />
-					<End Type="ERPModel.QuotationSubmitDetail" Role="QuotationSubmitDetail" Multiplicity="*" />
-					<ReferentialConstraint>
-						<Principal Role="Product">
-							<PropertyRef Name="ProductId" />
-						</Principal>
-						<Dependent Role="QuotationSubmitDetail">
-							<PropertyRef Name="MaterrialId" />
-						</Dependent>
-					</ReferentialConstraint>
-				</Association>
 				<EntityType Name="QuotationSubmitMaster">
 					<Key>
 						<PropertyRef Name="QuotationSubmitMasterId" />
@@ -22559,10 +22191,10 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
           <Property Name="IsCrm" Type="Boolean" Nullable="false" />
           <Property Name="CostCenterId" Type="Int32" />
           <Property Name="IsBudget" Type="Boolean" />
-          <NavigationProperty Name="Products" Relationship="ERPModel.FK_Product_ProductCategory" FromRole="ProductCategory" ToRole="Product" />
           <NavigationProperty Name="ProductionMasters" Relationship="ERPModel.FK_ProductionMaster_ProductCategory" FromRole="ProductCategory" ToRole="ProductionMaster" />
-          <NavigationProperty Name="ProductSubCategories" Relationship="ERPModel.FK_ProductSubCategory_ProductCategory" FromRole="ProductCategory" ToRole="ProductSubCategory" />
           <NavigationProperty Name="VendorOpenings" Relationship="ERPModel.FK_VendorOpening_ProductCategory" FromRole="ProductCategory" ToRole="VendorOpening" />
+          <NavigationProperty Name="ProductSubCategories" Relationship="ERPModel.FK_ProductSubCategory_ProductCategory" FromRole="ProductCategory" ToRole="ProductSubCategory" />
+          <NavigationProperty Name="Products" Relationship="ERPModel.FK_Product_ProductCategory" FromRole="ProductCategory" ToRole="Product" />
         </EntityType>
         <Association Name="FK_ChequeBook_BankAccountInfo">
           <End Type="ERPModel.BankAccountInfo" Role="BankAccountInfo" Multiplicity="1" />
@@ -22573,18 +22205,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             </Principal>
             <Dependent Role="ChequeBook">
               <PropertyRef Name="BankAccountInfoId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Product_ProductCategory">
-          <End Type="ERPModel.ProductCategory" Role="ProductCategory" Multiplicity="0..1" />
-          <End Type="ERPModel.Product" Role="Product" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ProductCategory">
-              <PropertyRef Name="ProductCategoryId" />
-            </Principal>
-            <Dependent Role="Product">
-              <PropertyRef Name="ProductCategoryId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -22600,6 +22220,45 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_VendorOpening_ProductCategory">
+          <End Type="ERPModel.ProductCategory" Role="ProductCategory" Multiplicity="0..1" />
+          <End Type="ERPModel.VendorOpening" Role="VendorOpening" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductCategory">
+              <PropertyRef Name="ProductCategoryId" />
+            </Principal>
+            <Dependent Role="VendorOpening">
+              <PropertyRef Name="ProductCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ProductSubCategory">
+          <Key>
+            <PropertyRef Name="ProductSubCategoryId" />
+          </Key>
+          <Property Name="ProductSubCategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductType" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CompanyId" Type="Int32" />
+          <Property Name="ProductCategoryId" Type="Int32" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="BaseCommissionRate" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Remarks" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="OrderNo" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="AccountingHeadId" Type="Int32" />
+          <Property Name="AccountingEquityHeadId" Type="Int32" />
+          <Property Name="AccountingIncomeHeadId" Type="Int32" />
+          <Property Name="AccountingExpenseHeadId" Type="Int32" />
+          <NavigationProperty Name="ProductCategory" Relationship="ERPModel.FK_ProductSubCategory_ProductCategory" FromRole="ProductSubCategory" ToRole="ProductCategory" />
+          <NavigationProperty Name="ProductionMasters" Relationship="ERPModel.FK_ProductionMaster_ProductSubCategory" FromRole="ProductSubCategory" ToRole="ProductionMaster" />
+          <NavigationProperty Name="IngredientStandards" Relationship="ERPModel.FK_IngredientStandard_ProductSubCategory" FromRole="ProductSubCategory" ToRole="IngredientStandard" />
+          <NavigationProperty Name="Products" Relationship="ERPModel.FK_Product_ProductSubCategory" FromRole="ProductSubCategory" ToRole="Product" />
+        </EntityType>
         <Association Name="FK_ProductSubCategory_ProductCategory">
           <End Type="ERPModel.ProductCategory" Role="ProductCategory" Multiplicity="0..1" />
           <End Type="ERPModel.ProductSubCategory" Role="ProductSubCategory" Multiplicity="*" />
@@ -22612,15 +22271,472 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_VendorOpening_ProductCategory">
+        <Association Name="FK_ProductionMaster_ProductSubCategory">
+          <End Type="ERPModel.ProductSubCategory" Role="ProductSubCategory" Multiplicity="0..1" />
+          <End Type="ERPModel.ProductionMaster" Role="ProductionMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductSubCategory">
+              <PropertyRef Name="ProductSubCategoryId" />
+            </Principal>
+            <Dependent Role="ProductionMaster">
+              <PropertyRef Name="ProductSubCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="IngredientStandard">
+          <Key>
+            <PropertyRef Name="IngredientStandardId" />
+          </Key>
+          <Property Name="IngredientStandardId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="ProductSubCategoryId" Type="Int32" Nullable="false" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Product" Relationship="ERPModel.FK_IngredientStandard_Product" FromRole="IngredientStandard" ToRole="Product" />
+          <NavigationProperty Name="ProductSubCategory" Relationship="ERPModel.FK_IngredientStandard_ProductSubCategory" FromRole="IngredientStandard" ToRole="ProductSubCategory" />
+          <NavigationProperty Name="IngredientStandardDetails" Relationship="ERPModel.FK_IngredientStandardDetail_IngredientStandard" FromRole="IngredientStandard" ToRole="IngredientStandardDetail" />
+        </EntityType>
+        <EntityType Name="PFormulaDetail">
+          <Key>
+            <PropertyRef Name="PFormulaDetailId" />
+          </Key>
+          <Property Name="PFormulaDetailId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductFormulaId" Type="Int32" />
+          <Property Name="RProductId" Type="Int32" />
+          <Property Name="RQty" Type="Decimal" Nullable="false" Precision="18" Scale="3" />
+          <Property Name="RProcessLoss" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="28" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="28" FixedLength="false" Unicode="false" />
+          <Property Name="Remarks" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Product" Relationship="ERPModel.FK_PFormulaDetail_Product" FromRole="PFormulaDetail" ToRole="Product" />
+          <NavigationProperty Name="ProductFormula" Relationship="ERPModel.FK_PFormulaDetail_ProductFormula" FromRole="PFormulaDetail" ToRole="ProductFormula" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Name="ProductId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductType" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CompanyId" Type="Int32" />
+          <Property Name="ProductCategoryId" Type="Int32" />
+          <Property Name="ProductSubCategoryId" Type="Int32" />
+          <Property Name="ProductCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ProductName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="ShortName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UnitPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="CreditSalePrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SaleCommissionRate" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PurchaseRate" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PurchaseCommissionRate" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="TPPrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="UnitId" Type="Int32" />
+          <Property Name="Qty" Type="Double" />
+          <Property Name="PackSize" Type="Double" />
+          <Property Name="FormulaQty" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="FacingId" Type="Int32" />
+          <Property Name="JsonData" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ProcessLoss" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Remarks" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="OrderNo" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="PackId" Type="Int32" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="EngineNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ChassisNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CostingPrice" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
+          <Property Name="DieSize" Type="Decimal" Precision="19" Scale="6" />
+          <Property Name="AccountingHeadId" Type="Int32" />
+          <Property Name="AccountingEquityHeadId" Type="Int32" />
+          <Property Name="AccountingIncomeHeadId" Type="Int32" />
+          <Property Name="AccountingExpenseHeadId" Type="Int32" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="VartualValue" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
+          <NavigationProperty Name="ManagerProductMaps" Relationship="ERPModel.FK_ManagerProductMap_Product" FromRole="Product" ToRole="ManagerProductMap" />
+          <NavigationProperty Name="BoQItemProductMaps" Relationship="ERPModel.FK_BoQItemProductMap_Product" FromRole="Product" ToRole="BoQItemProductMap" />
+          <NavigationProperty Name="FacingInfo" Relationship="ERPModel.FK_Product_FacingInfo" FromRole="Product" ToRole="FacingInfo" />
+          <NavigationProperty Name="IngredientStandards" Relationship="ERPModel.FK_IngredientStandard_Product" FromRole="Product" ToRole="IngredientStandard" />
+          <NavigationProperty Name="OrderDetails" Relationship="ERPModel.FK_OrderDetail_Product" FromRole="Product" ToRole="OrderDetail" />
+          <NavigationProperty Name="PFormulaDetails" Relationship="ERPModel.FK_PFormulaDetail_Product" FromRole="Product" ToRole="PFormulaDetail" />
+          <NavigationProperty Name="ProductCategory" Relationship="ERPModel.FK_Product_ProductCategory" FromRole="Product" ToRole="ProductCategory" />
+          <NavigationProperty Name="ProductSubCategory" Relationship="ERPModel.FK_Product_ProductSubCategory" FromRole="Product" ToRole="ProductSubCategory" />
+          <NavigationProperty Name="Unit" Relationship="ERPModel.FK_Product_Unit" FromRole="Product" ToRole="Unit" />
+          <NavigationProperty Name="ProductDetails" Relationship="ERPModel.FK_ProductDetails_Product" FromRole="Product" ToRole="ProductDetail" />
+          <NavigationProperty Name="ProductFormulas" Relationship="ERPModel.FK_ProductFormula_Product" FromRole="Product" ToRole="ProductFormula" />
+          <NavigationProperty Name="ProductionDetails" Relationship="ERPModel.FK_ProductionDetails_Product" FromRole="Product" ToRole="ProductionDetail" />
+          <NavigationProperty Name="QuotationDetails" Relationship="ERPModel.FK_QuotationDetail_Product" FromRole="Product" ToRole="QuotationDetail" />
+          <NavigationProperty Name="QuotationSubmitDetails" Relationship="ERPModel.FK_QuotationSubmitDetail_Product" FromRole="Product" ToRole="QuotationSubmitDetail" />
+          <NavigationProperty Name="RequisitionItems" Relationship="ERPModel.FK_RequisitionItem_Product" FromRole="Product" ToRole="RequisitionItem" />
+          <NavigationProperty Name="StoreDetails" Relationship="ERPModel.FK_StoreDetail_Product" FromRole="Product" ToRole="StoreDetail" />
+        </EntityType>
+        <EntityType Name="ProductDetail">
+          <Key>
+            <PropertyRef Name="ProductDetailsId" />
+          </Key>
+          <Property Name="ProductDetailsId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StoreDetailsId" Type="Int64" Nullable="false" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="EngineNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ChassissNO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FuelPumpSlNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BetteryNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RearTyreLH" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RearTyreRH" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RearTyreFLH" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RearTyreFRH" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Color" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IsDelevered" Type="Int32" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="LcNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DeliveredId" Type="Int64" />
+          <NavigationProperty Name="Product" Relationship="ERPModel.FK_ProductDetails_Product" FromRole="ProductDetail" ToRole="Product" />
+          <NavigationProperty Name="StoreDetail" Relationship="ERPModel.FK_ProductDetails_StoreDetail" FromRole="ProductDetail" ToRole="StoreDetail" />
+        </EntityType>
+        <EntityType Name="ProductFormula">
+          <Key>
+            <PropertyRef Name="ProductFormulaId" />
+          </Key>
+          <Property Name="ProductFormulaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FProductId" Type="Int32" />
+          <Property Name="CompanyId" Type="Int32" />
+          <Property Name="FQty" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="FormulaDate" Type="DateTime" Precision="0" />
+          <Property Name="CreatedBy" Type="String" MaxLength="28" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="28" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="PFormulaDetails" Relationship="ERPModel.FK_PFormulaDetail_ProductFormula" FromRole="ProductFormula" ToRole="PFormulaDetail" />
+          <NavigationProperty Name="Product" Relationship="ERPModel.FK_ProductFormula_Product" FromRole="ProductFormula" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="RequisitionItem">
+          <Key>
+            <PropertyRef Name="RequisitionItemId" />
+          </Key>
+          <Property Name="RequisitionItemId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RequisitionId" Type="Int32" Nullable="false" />
+          <Property Name="ProductFormulaId" Type="Int32" />
+          <Property Name="ProductId" Type="Int32" />
+          <Property Name="Qty" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="InputQty" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="OutputQty" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="OverHead" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="ProcessLoss" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="ActualProcessLoss" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="RMCost" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="BagQty" Type="Int32" Nullable="false" />
+          <Property Name="BagId" Type="Int32" />
+          <Property Name="BagUnitPrice" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
+          <Property Name="RMCostRate" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
+          <Property Name="BagRate" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
+          <Property Name="ProductionRate" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
+          <Property Name="RequisitionItemStatus" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="IssueBy" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="IssueDate" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="TPPrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <NavigationProperty Name="Product" Relationship="ERPModel.FK_RequisitionItem_Product" FromRole="RequisitionItem" ToRole="Product" />
+          <NavigationProperty Name="Requisition" Relationship="ERPModel.FK_RequisitionItem_Requisition" FromRole="RequisitionItem" ToRole="Requisition" />
+        </EntityType>
+        <EntityType Name="StoreDetail">
+          <Key>
+            <PropertyRef Name="StoreDetailId" />
+          </Key>
+          <Property Name="StoreDetailId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StoreId" Type="Int64" />
+          <Property Name="ProductId" Type="Int32" />
+          <Property Name="Qty" Type="Double" Nullable="false" />
+          <Property Name="RemainingQty" Type="Double" Nullable="false" />
+          <Property Name="BatchId" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ProductionRate" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="BagQty" Type="Int32" Nullable="false" />
+          <Property Name="UnitPrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="InvoiceValue" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="LandedCost" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="TotalCOGS" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="CogsPerUnit" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="ReceivedCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="USDPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="BDTPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Product" Relationship="ERPModel.FK_StoreDetail_Product" FromRole="StoreDetail" ToRole="Product" />
+          <NavigationProperty Name="ProductDetails" Relationship="ERPModel.FK_ProductDetails_StoreDetail" FromRole="StoreDetail" ToRole="ProductDetail" />
+          <NavigationProperty Name="Store" Relationship="ERPModel.FK_StoreDetail_Store" FromRole="StoreDetail" ToRole="Store" />
+        </EntityType>
+        <Association Name="FK_ManagerProductMap_Product">
+          <End Type="ERPModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="ERPModel.ManagerProductMap" Role="ManagerProductMap" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="ManagerProductMap">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BoQItemProductMap_Product">
+          <End Type="ERPModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="ERPModel.BoQItemProductMap" Role="BoQItemProductMap" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="BoQItemProductMap">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_FacingInfo">
+          <End Type="ERPModel.FacingInfo" Role="FacingInfo" Multiplicity="0..1" />
+          <End Type="ERPModel.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FacingInfo">
+              <PropertyRef Name="FacingId" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="FacingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IngredientStandard_Product">
+          <End Type="ERPModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="ERPModel.IngredientStandard" Role="IngredientStandard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="IngredientStandard">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IngredientStandard_ProductSubCategory">
+          <End Type="ERPModel.ProductSubCategory" Role="ProductSubCategory" Multiplicity="1" />
+          <End Type="ERPModel.IngredientStandard" Role="IngredientStandard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductSubCategory">
+              <PropertyRef Name="ProductSubCategoryId" />
+            </Principal>
+            <Dependent Role="IngredientStandard">
+              <PropertyRef Name="ProductSubCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IngredientStandardDetail_IngredientStandard">
+          <End Type="ERPModel.IngredientStandard" Role="IngredientStandard" Multiplicity="1" />
+          <End Type="ERPModel.IngredientStandardDetail" Role="IngredientStandardDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IngredientStandard">
+              <PropertyRef Name="IngredientStandardId" />
+            </Principal>
+            <Dependent Role="IngredientStandardDetail">
+              <PropertyRef Name="IngredientStandardId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderDetail_Product">
+          <End Type="ERPModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="ERPModel.OrderDetail" Role="OrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="OrderDetail">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PFormulaDetail_Product">
+          <End Type="ERPModel.Product" Role="Product" Multiplicity="0..1" />
+          <End Type="ERPModel.PFormulaDetail" Role="PFormulaDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="PFormulaDetail">
+              <PropertyRef Name="RProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PFormulaDetail_ProductFormula">
+          <End Type="ERPModel.ProductFormula" Role="ProductFormula" Multiplicity="0..1" />
+          <End Type="ERPModel.PFormulaDetail" Role="PFormulaDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductFormula">
+              <PropertyRef Name="ProductFormulaId" />
+            </Principal>
+            <Dependent Role="PFormulaDetail">
+              <PropertyRef Name="ProductFormulaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_ProductCategory">
           <End Type="ERPModel.ProductCategory" Role="ProductCategory" Multiplicity="0..1" />
-          <End Type="ERPModel.VendorOpening" Role="VendorOpening" Multiplicity="*" />
+          <End Type="ERPModel.Product" Role="Product" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ProductCategory">
               <PropertyRef Name="ProductCategoryId" />
             </Principal>
-            <Dependent Role="VendorOpening">
+            <Dependent Role="Product">
               <PropertyRef Name="ProductCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_ProductSubCategory">
+          <End Type="ERPModel.ProductSubCategory" Role="ProductSubCategory" Multiplicity="0..1" />
+          <End Type="ERPModel.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductSubCategory">
+              <PropertyRef Name="ProductSubCategoryId" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="ProductSubCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Unit">
+          <End Type="ERPModel.Unit" Role="Unit" Multiplicity="0..1" />
+          <End Type="ERPModel.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Unit">
+              <PropertyRef Name="UnitId" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="UnitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductDetails_Product">
+          <End Type="ERPModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="ERPModel.ProductDetail" Role="ProductDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="ProductDetail">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductFormula_Product">
+          <End Type="ERPModel.Product" Role="Product" Multiplicity="0..1" />
+          <End Type="ERPModel.ProductFormula" Role="ProductFormula" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="ProductFormula">
+              <PropertyRef Name="FProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductionDetails_Product">
+          <End Type="ERPModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="ERPModel.ProductionDetail" Role="ProductionDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="ProductionDetail">
+              <PropertyRef Name="RawProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_QuotationDetail_Product">
+          <End Type="ERPModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="ERPModel.QuotationDetail" Role="QuotationDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="QuotationDetail">
+              <PropertyRef Name="MaterialId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_QuotationSubmitDetail_Product">
+          <End Type="ERPModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="ERPModel.QuotationSubmitDetail" Role="QuotationSubmitDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="QuotationSubmitDetail">
+              <PropertyRef Name="MaterrialId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RequisitionItem_Product">
+          <End Type="ERPModel.Product" Role="Product" Multiplicity="0..1" />
+          <End Type="ERPModel.RequisitionItem" Role="RequisitionItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="RequisitionItem">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StoreDetail_Product">
+          <End Type="ERPModel.Product" Role="Product" Multiplicity="0..1" />
+          <End Type="ERPModel.StoreDetail" Role="StoreDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="StoreDetail">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductDetails_StoreDetail">
+          <End Type="ERPModel.StoreDetail" Role="StoreDetail" Multiplicity="1" />
+          <End Type="ERPModel.ProductDetail" Role="ProductDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StoreDetail">
+              <PropertyRef Name="StoreDetailId" />
+            </Principal>
+            <Dependent Role="ProductDetail">
+              <PropertyRef Name="StoreDetailsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RequisitionItem_Requisition">
+          <End Type="ERPModel.Requisition" Role="Requisition" Multiplicity="1" />
+          <End Type="ERPModel.RequisitionItem" Role="RequisitionItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Requisition">
+              <PropertyRef Name="RequisitionId" />
+            </Principal>
+            <Dependent Role="RequisitionItem">
+              <PropertyRef Name="RequisitionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StoreDetail_Store">
+          <End Type="ERPModel.Store" Role="Store" Multiplicity="0..1" />
+          <End Type="ERPModel.StoreDetail" Role="StoreDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="StoreId" />
+            </Principal>
+            <Dependent Role="StoreDetail">
+              <PropertyRef Name="StoreId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -24484,21 +24600,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 							</MappingFragment>
 						</EntityTypeMapping>
 					</EntitySetMapping>
-					<EntitySetMapping Name="IngredientStandards">
-						<EntityTypeMapping TypeName="ERPModel.IngredientStandard">
-							<MappingFragment StoreEntitySet="IngredientStandard">
-								<ScalarProperty Name="IsActive" ColumnName="IsActive" />
-								<ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-								<ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-								<ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-								<ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-								<ScalarProperty Name="ProductId" ColumnName="ProductId" />
-								<ScalarProperty Name="ProductSubCategoryId" ColumnName="ProductSubCategoryId" />
-								<ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
-								<ScalarProperty Name="IngredientStandardId" ColumnName="IngredientStandardId" />
-							</MappingFragment>
-						</EntityTypeMapping>
-					</EntitySetMapping>
 					<EntitySetMapping Name="IngredientStandardDetails">
 						<EntityTypeMapping TypeName="ERPModel.IngredientStandardDetail">
 							<MappingFragment StoreEntitySet="IngredientStandardDetail">
@@ -24543,63 +24644,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 								<ScalarProperty Name="IssueDate" ColumnName="IssueDate" />
 								<ScalarProperty Name="IssueNo" ColumnName="IssueNo" />
 								<ScalarProperty Name="IssueMasterId" ColumnName="IssueMasterId" />
-							</MappingFragment>
-						</EntityTypeMapping>
-					</EntitySetMapping>
-					<EntitySetMapping Name="PFormulaDetails">
-						<EntityTypeMapping TypeName="ERPModel.PFormulaDetail">
-							<MappingFragment StoreEntitySet="PFormulaDetail">
-								<ScalarProperty Name="Remarks" ColumnName="Remarks" />
-								<ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-								<ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-								<ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-								<ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-								<ScalarProperty Name="RProcessLoss" ColumnName="RProcessLoss" />
-								<ScalarProperty Name="RQty" ColumnName="RQty" />
-								<ScalarProperty Name="RProductId" ColumnName="RProductId" />
-								<ScalarProperty Name="ProductFormulaId" ColumnName="ProductFormulaId" />
-								<ScalarProperty Name="PFormulaDetailId" ColumnName="PFormulaDetailId" />
-							</MappingFragment>
-						</EntityTypeMapping>
-					</EntitySetMapping>
-					<EntitySetMapping Name="ProductDetails">
-						<EntityTypeMapping TypeName="ERPModel.ProductDetail">
-							<MappingFragment StoreEntitySet="ProductDetails">
-								<ScalarProperty Name="DeliveredId" ColumnName="DeliveredId" />
-								<ScalarProperty Name="LcNo" ColumnName="LcNo" />
-								<ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-								<ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-								<ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-								<ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-								<ScalarProperty Name="IsDelevered" ColumnName="IsDelevered" />
-								<ScalarProperty Name="Color" ColumnName="Color" />
-								<ScalarProperty Name="RearTyreFRH" ColumnName="RearTyreFRH" />
-								<ScalarProperty Name="RearTyreFLH" ColumnName="RearTyreFLH" />
-								<ScalarProperty Name="RearTyreRH" ColumnName="RearTyreRH" />
-								<ScalarProperty Name="RearTyreLH" ColumnName="RearTyreLH" />
-								<ScalarProperty Name="BetteryNo" ColumnName="BetteryNo" />
-								<ScalarProperty Name="FuelPumpSlNo" ColumnName="FuelPumpSlNo" />
-								<ScalarProperty Name="ChassissNO" ColumnName="ChassissNO" />
-								<ScalarProperty Name="EngineNo" ColumnName="EngineNo" />
-								<ScalarProperty Name="ProductId" ColumnName="ProductId" />
-								<ScalarProperty Name="StoreDetailsId" ColumnName="StoreDetailsId" />
-								<ScalarProperty Name="ProductDetailsId" ColumnName="ProductDetailsId" />
-							</MappingFragment>
-						</EntityTypeMapping>
-					</EntitySetMapping>
-					<EntitySetMapping Name="ProductFormulas">
-						<EntityTypeMapping TypeName="ERPModel.ProductFormula">
-							<MappingFragment StoreEntitySet="ProductFormula">
-								<ScalarProperty Name="IsActive" ColumnName="IsActive" />
-								<ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-								<ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-								<ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-								<ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-								<ScalarProperty Name="FormulaDate" ColumnName="FormulaDate" />
-								<ScalarProperty Name="FQty" ColumnName="FQty" />
-								<ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
-								<ScalarProperty Name="FProductId" ColumnName="FProductId" />
-								<ScalarProperty Name="ProductFormulaId" ColumnName="ProductFormulaId" />
 							</MappingFragment>
 						</EntityTypeMapping>
 					</EntitySetMapping>
@@ -25825,50 +25869,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 							</MappingFragment>
 						</EntityTypeMapping>
 					</EntitySetMapping>
-					<EntitySetMapping Name="Products">
-						<EntityTypeMapping TypeName="ERPModel.Product">
-							<MappingFragment StoreEntitySet="Product">
-								<ScalarProperty Name="VartualValue" ColumnName="VartualValue" />
-								<ScalarProperty Name="Status" ColumnName="Status" />
-								<ScalarProperty Name="AccountingExpenseHeadId" ColumnName="AccountingExpenseHeadId" />
-								<ScalarProperty Name="AccountingIncomeHeadId" ColumnName="AccountingIncomeHeadId" />
-								<ScalarProperty Name="AccountingHeadId" ColumnName="AccountingHeadId" />
-								<ScalarProperty Name="DieSize" ColumnName="DieSize" />
-								<ScalarProperty Name="CostingPrice" ColumnName="CostingPrice" />
-								<ScalarProperty Name="ChassisNo" ColumnName="ChassisNo" />
-								<ScalarProperty Name="EngineNo" ColumnName="EngineNo" />
-								<ScalarProperty Name="IsActive" ColumnName="IsActive" />
-								<ScalarProperty Name="PackId" ColumnName="PackId" />
-								<ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-								<ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-								<ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-								<ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-								<ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
-								<ScalarProperty Name="Remarks" ColumnName="Remarks" />
-								<ScalarProperty Name="ProcessLoss" ColumnName="ProcessLoss" />
-								<ScalarProperty Name="JsonData" ColumnName="JsonData" />
-								<ScalarProperty Name="FacingId" ColumnName="FacingId" />
-								<ScalarProperty Name="FormulaQty" ColumnName="FormulaQty" />
-								<ScalarProperty Name="PackSize" ColumnName="PackSize" />
-								<ScalarProperty Name="Qty" ColumnName="Qty" />
-								<ScalarProperty Name="UnitId" ColumnName="UnitId" />
-								<ScalarProperty Name="TPPrice" ColumnName="TPPrice" />
-								<ScalarProperty Name="PurchaseCommissionRate" ColumnName="PurchaseCommissionRate" />
-								<ScalarProperty Name="PurchaseRate" ColumnName="PurchaseRate" />
-								<ScalarProperty Name="SaleCommissionRate" ColumnName="SaleCommissionRate" />
-								<ScalarProperty Name="CreditSalePrice" ColumnName="CreditSalePrice" />
-								<ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
-								<ScalarProperty Name="ShortName" ColumnName="ShortName" />
-								<ScalarProperty Name="ProductName" ColumnName="ProductName" />
-								<ScalarProperty Name="ProductCode" ColumnName="ProductCode" />
-								<ScalarProperty Name="ProductSubCategoryId" ColumnName="ProductSubCategoryId" />
-								<ScalarProperty Name="ProductCategoryId" ColumnName="ProductCategoryId" />
-								<ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
-								<ScalarProperty Name="ProductType" ColumnName="ProductType" />
-								<ScalarProperty Name="ProductId" ColumnName="ProductId" />
-							</MappingFragment>
-						</EntityTypeMapping>
-					</EntitySetMapping>
 					<EntitySetMapping Name="BookingInstallmentSchedules">
 						<EntityTypeMapping TypeName="ERPModel.BookingInstallmentSchedule">
 							<MappingFragment StoreEntitySet="BookingInstallmentSchedule">
@@ -25947,31 +25947,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 								<ScalarProperty Name="Indecator" ColumnName="Indecator" />
 								<ScalarProperty Name="MoneyReceiptId" ColumnName="MoneyReceiptId" />
 								<ScalarProperty Name="MoneyReceiptDetailId" ColumnName="MoneyReceiptDetailId" />
-							</MappingFragment>
-						</EntityTypeMapping>
-					</EntitySetMapping>
-					<EntitySetMapping Name="StoreDetails">
-						<EntityTypeMapping TypeName="ERPModel.StoreDetail">
-							<MappingFragment StoreEntitySet="StoreDetail">
-								<ScalarProperty Name="IsActive" ColumnName="IsActive" />
-								<ScalarProperty Name="BDTPrice" ColumnName="BDTPrice" />
-								<ScalarProperty Name="USDPrice" ColumnName="USDPrice" />
-								<ScalarProperty Name="ReceivedCode" ColumnName="ReceivedCode" />
-								<ScalarProperty Name="CogsPerUnit" ColumnName="CogsPerUnit" />
-								<ScalarProperty Name="TotalCOGS" ColumnName="TotalCOGS" />
-								<ScalarProperty Name="LandedCost" ColumnName="LandedCost" />
-								<ScalarProperty Name="InvoiceValue" ColumnName="InvoiceValue" />
-								<ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
-								<ScalarProperty Name="BagQty" ColumnName="BagQty" />
-								<ScalarProperty Name="ProductionRate" ColumnName="ProductionRate" />
-								<ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-								<ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-								<ScalarProperty Name="BatchId" ColumnName="BatchId" />
-								<ScalarProperty Name="RemainingQty" ColumnName="RemainingQty" />
-								<ScalarProperty Name="Qty" ColumnName="Qty" />
-								<ScalarProperty Name="ProductId" ColumnName="ProductId" />
-								<ScalarProperty Name="StoreId" ColumnName="StoreId" />
-								<ScalarProperty Name="StoreDetailId" ColumnName="StoreDetailId" />
 							</MappingFragment>
 						</EntityTypeMapping>
 					</EntitySetMapping>
@@ -26575,29 +26550,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 							</MappingFragment>
 						</EntityTypeMapping>
 					</EntitySetMapping>
-					<EntitySetMapping Name="ProductSubCategories">
-						<EntityTypeMapping TypeName="ERPModel.ProductSubCategory">
-							<MappingFragment StoreEntitySet="ProductSubCategory">
-								<ScalarProperty Name="AccountingExpenseHeadId" ColumnName="AccountingExpenseHeadId" />
-								<ScalarProperty Name="AccountingIncomeHeadId" ColumnName="AccountingIncomeHeadId" />
-								<ScalarProperty Name="AccountingHeadId" ColumnName="AccountingHeadId" />
-								<ScalarProperty Name="IsActive" ColumnName="IsActive" />
-								<ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-								<ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-								<ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-								<ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-								<ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
-								<ScalarProperty Name="Remarks" ColumnName="Remarks" />
-								<ScalarProperty Name="Code" ColumnName="Code" />
-								<ScalarProperty Name="BaseCommissionRate" ColumnName="BaseCommissionRate" />
-								<ScalarProperty Name="Name" ColumnName="Name" />
-								<ScalarProperty Name="ProductCategoryId" ColumnName="ProductCategoryId" />
-								<ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
-								<ScalarProperty Name="ProductType" ColumnName="ProductType" />
-								<ScalarProperty Name="ProductSubCategoryId" ColumnName="ProductSubCategoryId" />
-							</MappingFragment>
-						</EntityTypeMapping>
-					</EntitySetMapping>
 					<EntitySetMapping Name="RequisitionItemDetails">
 						<EntityTypeMapping TypeName="ERPModel.RequisitionItemDetail">
 							<MappingFragment StoreEntitySet="RequisitionItemDetail">
@@ -26613,34 +26565,6 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
 								<ScalarProperty Name="RequisitionId" ColumnName="RequisitionId" />
 								<ScalarProperty Name="RequisitionItemId" ColumnName="RequisitionItemId" />
 								<ScalarProperty Name="RequistionItemDetailId" ColumnName="RequistionItemDetailId" />
-							</MappingFragment>
-						</EntityTypeMapping>
-					</EntitySetMapping>
-					<EntitySetMapping Name="RequisitionItems">
-						<EntityTypeMapping TypeName="ERPModel.RequisitionItem">
-							<MappingFragment StoreEntitySet="RequisitionItem">
-								<ScalarProperty Name="TPPrice" ColumnName="TPPrice" />
-								<ScalarProperty Name="IsActive" ColumnName="IsActive" />
-								<ScalarProperty Name="IssueDate" ColumnName="IssueDate" />
-								<ScalarProperty Name="IssueBy" ColumnName="IssueBy" />
-								<ScalarProperty Name="RequisitionItemStatus" ColumnName="RequisitionItemStatus" />
-								<ScalarProperty Name="ProductionRate" ColumnName="ProductionRate" />
-								<ScalarProperty Name="BagRate" ColumnName="BagRate" />
-								<ScalarProperty Name="RMCostRate" ColumnName="RMCostRate" />
-								<ScalarProperty Name="BagUnitPrice" ColumnName="BagUnitPrice" />
-								<ScalarProperty Name="BagId" ColumnName="BagId" />
-								<ScalarProperty Name="BagQty" ColumnName="BagQty" />
-								<ScalarProperty Name="RMCost" ColumnName="RMCost" />
-								<ScalarProperty Name="ActualProcessLoss" ColumnName="ActualProcessLoss" />
-								<ScalarProperty Name="ProcessLoss" ColumnName="ProcessLoss" />
-								<ScalarProperty Name="OverHead" ColumnName="OverHead" />
-								<ScalarProperty Name="OutputQty" ColumnName="OutputQty" />
-								<ScalarProperty Name="InputQty" ColumnName="InputQty" />
-								<ScalarProperty Name="Qty" ColumnName="Qty" />
-								<ScalarProperty Name="ProductId" ColumnName="ProductId" />
-								<ScalarProperty Name="ProductFormulaId" ColumnName="ProductFormulaId" />
-								<ScalarProperty Name="RequisitionId" ColumnName="RequisitionId" />
-								<ScalarProperty Name="RequisitionItemId" ColumnName="RequisitionItemId" />
 							</MappingFragment>
 						</EntityTypeMapping>
 					</EntitySetMapping>
@@ -28852,6 +28776,200 @@ warning 6002: The table/view 'TCLErp_Dev.dbo.vwTeamLeaderList' does not have a p
                 <ScalarProperty Name="ProductCategoryId" ColumnName="ProductCategoryId" />
                 <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="ProductType" ColumnName="ProductType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductSubCategories">
+            <EntityTypeMapping TypeName="ERPModel.ProductSubCategory">
+              <MappingFragment StoreEntitySet="ProductSubCategory">
+                <ScalarProperty Name="AccountingExpenseHeadId" ColumnName="AccountingExpenseHeadId" />
+                <ScalarProperty Name="AccountingIncomeHeadId" ColumnName="AccountingIncomeHeadId" />
+                <ScalarProperty Name="AccountingEquityHeadId" ColumnName="AccountingEquityHeadId" />
+                <ScalarProperty Name="AccountingHeadId" ColumnName="AccountingHeadId" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="BaseCommissionRate" ColumnName="BaseCommissionRate" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ProductCategoryId" ColumnName="ProductCategoryId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="ProductType" ColumnName="ProductType" />
+                <ScalarProperty Name="ProductSubCategoryId" ColumnName="ProductSubCategoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IngredientStandards">
+            <EntityTypeMapping TypeName="ERPModel.IngredientStandard">
+              <MappingFragment StoreEntitySet="IngredientStandard">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="ProductSubCategoryId" ColumnName="ProductSubCategoryId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="IngredientStandardId" ColumnName="IngredientStandardId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PFormulaDetails">
+            <EntityTypeMapping TypeName="ERPModel.PFormulaDetail">
+              <MappingFragment StoreEntitySet="PFormulaDetail">
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="RProcessLoss" ColumnName="RProcessLoss" />
+                <ScalarProperty Name="RQty" ColumnName="RQty" />
+                <ScalarProperty Name="RProductId" ColumnName="RProductId" />
+                <ScalarProperty Name="ProductFormulaId" ColumnName="ProductFormulaId" />
+                <ScalarProperty Name="PFormulaDetailId" ColumnName="PFormulaDetailId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="ERPModel.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="VartualValue" ColumnName="VartualValue" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="AccountingExpenseHeadId" ColumnName="AccountingExpenseHeadId" />
+                <ScalarProperty Name="AccountingIncomeHeadId" ColumnName="AccountingIncomeHeadId" />
+                <ScalarProperty Name="AccountingEquityHeadId" ColumnName="AccountingEquityHeadId" />
+                <ScalarProperty Name="AccountingHeadId" ColumnName="AccountingHeadId" />
+                <ScalarProperty Name="DieSize" ColumnName="DieSize" />
+                <ScalarProperty Name="CostingPrice" ColumnName="CostingPrice" />
+                <ScalarProperty Name="ChassisNo" ColumnName="ChassisNo" />
+                <ScalarProperty Name="EngineNo" ColumnName="EngineNo" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="PackId" ColumnName="PackId" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="ProcessLoss" ColumnName="ProcessLoss" />
+                <ScalarProperty Name="JsonData" ColumnName="JsonData" />
+                <ScalarProperty Name="FacingId" ColumnName="FacingId" />
+                <ScalarProperty Name="FormulaQty" ColumnName="FormulaQty" />
+                <ScalarProperty Name="PackSize" ColumnName="PackSize" />
+                <ScalarProperty Name="Qty" ColumnName="Qty" />
+                <ScalarProperty Name="UnitId" ColumnName="UnitId" />
+                <ScalarProperty Name="TPPrice" ColumnName="TPPrice" />
+                <ScalarProperty Name="PurchaseCommissionRate" ColumnName="PurchaseCommissionRate" />
+                <ScalarProperty Name="PurchaseRate" ColumnName="PurchaseRate" />
+                <ScalarProperty Name="SaleCommissionRate" ColumnName="SaleCommissionRate" />
+                <ScalarProperty Name="CreditSalePrice" ColumnName="CreditSalePrice" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="ProductCode" ColumnName="ProductCode" />
+                <ScalarProperty Name="ProductSubCategoryId" ColumnName="ProductSubCategoryId" />
+                <ScalarProperty Name="ProductCategoryId" ColumnName="ProductCategoryId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="ProductType" ColumnName="ProductType" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductDetails">
+            <EntityTypeMapping TypeName="ERPModel.ProductDetail">
+              <MappingFragment StoreEntitySet="ProductDetails">
+                <ScalarProperty Name="DeliveredId" ColumnName="DeliveredId" />
+                <ScalarProperty Name="LcNo" ColumnName="LcNo" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsDelevered" ColumnName="IsDelevered" />
+                <ScalarProperty Name="Color" ColumnName="Color" />
+                <ScalarProperty Name="RearTyreFRH" ColumnName="RearTyreFRH" />
+                <ScalarProperty Name="RearTyreFLH" ColumnName="RearTyreFLH" />
+                <ScalarProperty Name="RearTyreRH" ColumnName="RearTyreRH" />
+                <ScalarProperty Name="RearTyreLH" ColumnName="RearTyreLH" />
+                <ScalarProperty Name="BetteryNo" ColumnName="BetteryNo" />
+                <ScalarProperty Name="FuelPumpSlNo" ColumnName="FuelPumpSlNo" />
+                <ScalarProperty Name="ChassissNO" ColumnName="ChassissNO" />
+                <ScalarProperty Name="EngineNo" ColumnName="EngineNo" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="StoreDetailsId" ColumnName="StoreDetailsId" />
+                <ScalarProperty Name="ProductDetailsId" ColumnName="ProductDetailsId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductFormulas">
+            <EntityTypeMapping TypeName="ERPModel.ProductFormula">
+              <MappingFragment StoreEntitySet="ProductFormula">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="FormulaDate" ColumnName="FormulaDate" />
+                <ScalarProperty Name="FQty" ColumnName="FQty" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="FProductId" ColumnName="FProductId" />
+                <ScalarProperty Name="ProductFormulaId" ColumnName="ProductFormulaId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RequisitionItems">
+            <EntityTypeMapping TypeName="ERPModel.RequisitionItem">
+              <MappingFragment StoreEntitySet="RequisitionItem">
+                <ScalarProperty Name="TPPrice" ColumnName="TPPrice" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IssueDate" ColumnName="IssueDate" />
+                <ScalarProperty Name="IssueBy" ColumnName="IssueBy" />
+                <ScalarProperty Name="RequisitionItemStatus" ColumnName="RequisitionItemStatus" />
+                <ScalarProperty Name="ProductionRate" ColumnName="ProductionRate" />
+                <ScalarProperty Name="BagRate" ColumnName="BagRate" />
+                <ScalarProperty Name="RMCostRate" ColumnName="RMCostRate" />
+                <ScalarProperty Name="BagUnitPrice" ColumnName="BagUnitPrice" />
+                <ScalarProperty Name="BagId" ColumnName="BagId" />
+                <ScalarProperty Name="BagQty" ColumnName="BagQty" />
+                <ScalarProperty Name="RMCost" ColumnName="RMCost" />
+                <ScalarProperty Name="ActualProcessLoss" ColumnName="ActualProcessLoss" />
+                <ScalarProperty Name="ProcessLoss" ColumnName="ProcessLoss" />
+                <ScalarProperty Name="OverHead" ColumnName="OverHead" />
+                <ScalarProperty Name="OutputQty" ColumnName="OutputQty" />
+                <ScalarProperty Name="InputQty" ColumnName="InputQty" />
+                <ScalarProperty Name="Qty" ColumnName="Qty" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="ProductFormulaId" ColumnName="ProductFormulaId" />
+                <ScalarProperty Name="RequisitionId" ColumnName="RequisitionId" />
+                <ScalarProperty Name="RequisitionItemId" ColumnName="RequisitionItemId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StoreDetails">
+            <EntityTypeMapping TypeName="ERPModel.StoreDetail">
+              <MappingFragment StoreEntitySet="StoreDetail">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="BDTPrice" ColumnName="BDTPrice" />
+                <ScalarProperty Name="USDPrice" ColumnName="USDPrice" />
+                <ScalarProperty Name="ReceivedCode" ColumnName="ReceivedCode" />
+                <ScalarProperty Name="CogsPerUnit" ColumnName="CogsPerUnit" />
+                <ScalarProperty Name="TotalCOGS" ColumnName="TotalCOGS" />
+                <ScalarProperty Name="LandedCost" ColumnName="LandedCost" />
+                <ScalarProperty Name="InvoiceValue" ColumnName="InvoiceValue" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="BagQty" ColumnName="BagQty" />
+                <ScalarProperty Name="ProductionRate" ColumnName="ProductionRate" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="BatchId" ColumnName="BatchId" />
+                <ScalarProperty Name="RemainingQty" ColumnName="RemainingQty" />
+                <ScalarProperty Name="Qty" ColumnName="Qty" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="StoreId" ColumnName="StoreId" />
+                <ScalarProperty Name="StoreDetailId" ColumnName="StoreDetailId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

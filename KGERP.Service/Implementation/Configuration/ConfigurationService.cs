@@ -2744,6 +2744,7 @@ namespace KGERP.Service.Implementation.Configuration
             if (_db.SaveChanges() > 0)
             {
                 int assetHead5ParentId = 0;
+                int equityHead5ParentId = 0;
                 int incomeHead5ParentId = 0;
                 int expenseHead5ParentId = 0;
                 var categoryId = _db.ProductSubCategories.FirstOrDefault(x => x.ProductSubCategoryId == commonProductSubCategory.ProductSubCategoryId).ProductCategoryId;
@@ -2775,6 +2776,34 @@ namespace KGERP.Service.Implementation.Configuration
                             subCategoryForAssets.AccountingHeadId = head5Id;
                             subCategoryForAssets.ModifiedBy = commonProductSubCategory.CreatedBy;
                             subCategoryForAssets.ModifiedDate = DateTime.Now;
+                        }
+                    }
+
+                    var equityHead4Id = _db.ProductCategories.FirstOrDefault(x => x.ProductCategoryId == categoryId).AccoutingEquityHeadId;
+                    if (equityHead4Id > 0)
+                    {
+                        equityHead5ParentId = (int)(equityHead4Id == null ? 0 : equityHead4Id);
+
+                        if (equityHead5ParentId > 0)
+                        {
+                            VMHeadIntegration integration = new VMHeadIntegration
+                            {
+                                AccName = commonProductSubCategory.Name,
+                                LayerNo = 5,
+                                Remarks = "5th Layer",
+                                IsIncomeHead = true,
+                                ParentId = equityHead5ParentId,
+                                CompanyFK = commonProductSubCategory.CompanyId,
+                                CreatedBy = commonProductSubCategory.CreatedBy,
+                                CreatedDate = DateTime.Now,
+                            };
+
+                            int head5Id = AccHead5Push(integration);
+
+                            var subCategoryForEquity = _db.ProductSubCategories.SingleOrDefault(x => x.ProductSubCategoryId == commonProductSubCategory.ProductSubCategoryId);
+                            subCategoryForEquity.AccountingEquityHeadId = head5Id;
+                            subCategoryForEquity.ModifiedBy = commonProductSubCategory.CreatedBy;
+                            subCategoryForEquity.ModifiedDate = DateTime.Now;
                         }
                     }
 

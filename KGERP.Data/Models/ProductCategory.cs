@@ -17,10 +17,10 @@ namespace KGERP.Data.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public ProductCategory()
         {
-            this.Products = new HashSet<Product>();
             this.ProductionMasters = new HashSet<ProductionMaster>();
-            this.ProductSubCategories = new HashSet<ProductSubCategory>();
             this.VendorOpenings = new HashSet<VendorOpening>();
+            this.ProductSubCategories = new HashSet<ProductSubCategory>();
+            this.Products = new HashSet<Product>();
         }
     
         public string ProductType { get; set; }
@@ -46,12 +46,12 @@ namespace KGERP.Data.Models
         public Nullable<bool> IsBudget { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Product> Products { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductionMaster> ProductionMasters { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<VendorOpening> VendorOpenings { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductSubCategory> ProductSubCategories { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<VendorOpening> VendorOpenings { get; set; }
+        public virtual ICollection<Product> Products { get; set; }
     }
 }

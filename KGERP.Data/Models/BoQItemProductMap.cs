@@ -37,7 +37,7 @@ namespace KGERP.Data.Models
         public virtual Company Company { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BoqBNEApprovalHistroy> BoqBNEApprovalHistroys { get; set; }
-        public virtual Product Product { get; set; }
         public virtual BillBoQItem BillBoQItem { get; set; }
+        public virtual Product Product { get; set; }
     }
 }

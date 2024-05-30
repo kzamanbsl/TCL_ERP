@@ -26,7 +26,7 @@ namespace KGERP.Data.Models
         public Nullable<System.DateTime> ModifiedOn { get; set; }
         public bool IsActive { get; set; }
     
-        public virtual Product Product { get; set; }
         public virtual QuotationSubmitMaster QuotationSubmitMaster { get; set; }
+        public virtual Product Product { get; set; }
     }
 }

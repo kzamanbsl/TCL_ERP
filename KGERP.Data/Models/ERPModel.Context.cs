@@ -127,13 +127,9 @@ namespace KGERP.Data.Models
         public virtual DbSet<Farmer> Farmers { get; set; }
         public virtual DbSet<Incentive> Incentives { get; set; }
         public virtual DbSet<IncentiveDetail> IncentiveDetails { get; set; }
-        public virtual DbSet<IngredientStandard> IngredientStandards { get; set; }
         public virtual DbSet<IngredientStandardDetail> IngredientStandardDetails { get; set; }
         public virtual DbSet<IssueDetailInfo> IssueDetailInfoes { get; set; }
         public virtual DbSet<IssueMasterInfo> IssueMasterInfoes { get; set; }
-        public virtual DbSet<PFormulaDetail> PFormulaDetails { get; set; }
-        public virtual DbSet<ProductDetail> ProductDetails { get; set; }
-        public virtual DbSet<ProductFormula> ProductFormulas { get; set; }
         public virtual DbSet<ProductPrice> ProductPrices { get; set; }
         public virtual DbSet<ProductStore> ProductStores { get; set; }
         public virtual DbSet<PurchaseOrderTemplate> PurchaseOrderTemplates { get; set; }
@@ -200,12 +196,10 @@ namespace KGERP.Data.Models
         public virtual DbSet<vwTeamInfoList> vwTeamInfoLists { get; set; }
         public virtual DbSet<vwTeamLeaderList> vwTeamLeaderLists { get; set; }
         public virtual DbSet<FacingInfo> FacingInfoes { get; set; }
-        public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<BookingInstallmentSchedule> BookingInstallmentSchedules { get; set; }
         public virtual DbSet<MaterialReceiveDetail> MaterialReceiveDetails { get; set; }
         public virtual DbSet<MoneyReceiptType> MoneyReceiptTypes { get; set; }
         public virtual DbSet<MoneyReceiptDetail> MoneyReceiptDetails { get; set; }
-        public virtual DbSet<StoreDetail> StoreDetails { get; set; }
         public virtual DbSet<CrmPromotionalOffer> CrmPromotionalOffers { get; set; }
         public virtual DbSet<CrmChoiceArea> CrmChoiceAreas { get; set; }
         public virtual DbSet<CrmSourceMedia> CrmSourceMedias { get; set; }
@@ -231,9 +225,7 @@ namespace KGERP.Data.Models
         public virtual DbSet<ConvertedProduct> ConvertedProducts { get; set; }
         public virtual DbSet<StockAdjustDetail> StockAdjustDetails { get; set; }
         public virtual DbSet<TeamInfo> TeamInfoes { get; set; }
-        public virtual DbSet<ProductSubCategory> ProductSubCategories { get; set; }
         public virtual DbSet<RequisitionItemDetail> RequisitionItemDetails { get; set; }
-        public virtual DbSet<RequisitionItem> RequisitionItems { get; set; }
         public virtual DbSet<CompanySubMenu> CompanySubMenus { get; set; }
         public virtual DbSet<MoneyReceipt> MoneyReceipts { get; set; }
         public virtual DbSet<Accounting_Signatory> Accounting_Signatory { get; set; }
@@ -328,6 +320,14 @@ namespace KGERP.Data.Models
         public virtual DbSet<ChequeRegister> ChequeRegisters { get; set; }
         public virtual DbSet<ChequeBook> ChequeBooks { get; set; }
         public virtual DbSet<ProductCategory> ProductCategories { get; set; }
+        public virtual DbSet<ProductSubCategory> ProductSubCategories { get; set; }
+        public virtual DbSet<IngredientStandard> IngredientStandards { get; set; }
+        public virtual DbSet<PFormulaDetail> PFormulaDetails { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<ProductDetail> ProductDetails { get; set; }
+        public virtual DbSet<ProductFormula> ProductFormulas { get; set; }
+        public virtual DbSet<RequisitionItem> RequisitionItems { get; set; }
+        public virtual DbSet<StoreDetail> StoreDetails { get; set; }
     
         public virtual ObjectResult<GetEmployeeListForTeam_Result> GetEmployeeListForTeam(Nullable<int> companyId)
         {

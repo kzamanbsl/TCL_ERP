@@ -32,7 +32,7 @@ namespace KGERP.Data.Models
         public bool IsMain { get; set; }
         public Nullable<int> ProductionResultId { get; set; }
     
-        public virtual Product Product { get; set; }
         public virtual ProductionMaster ProductionMaster { get; set; }
+        public virtual Product Product { get; set; }
     }
 }
