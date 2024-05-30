@@ -191,6 +191,10 @@
                                                 <th>SL</th>
                                                 <th>Material Category</th>
                                                 <th>Budget</th>
+                                                <th>Asset</th>
+                                                <th>Equity</th>
+                                                <th>Income</th>
+                                                <th>Expense</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -202,7 +206,11 @@
                                                 <tr>
                                                     <td>@(++sl)</td>
                                                     <td id="tdProductCategoryName_@item.ID">@item.Name</td>
-                                                    <td>Yes</td>
+                                                    <td>@(item.IsBudget ? "Yes" : "No")</td>
+                                                    <td>@(item.Head2AssetId > 0 ? "Yes" : "No")</td>
+                                                    <td>@(item.Head2EquityId > 0 ? "Yes" : "No")</td>
+                                                    <td>@(item.Head2IncomeId > 0 ? "Yes" : "No")</td>
+                                                    <td>@(item.Head2ExpenseId > 0 ? "Yes" : "No")</td>
                                                     <td>
                                                         <a id="@item.ID" onclick="makeEditble(this);" class="linkPointer" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
 

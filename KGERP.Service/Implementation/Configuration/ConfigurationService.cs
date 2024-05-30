@@ -2505,6 +2505,11 @@ namespace KGERP.Service.Implementation.Configuration
                                                                          ProductType = t1.ProductType,
                                                                          CompanyFK = t1.CompanyId,
                                                                          CashCommission = t1.CashCustomerRate,
+                                                                         IsBudget = t1.IsBudget == true ? true : false,
+                                                                         Head2AssetId = t1.AccountingHeadId ?? 0,
+                                                                         Head2EquityId = t1.AccoutingEquityHeadId ?? 0,
+                                                                         Head2IncomeId = t1.AccountingIncomeHeadId ?? 0,
+                                                                         Head2ExpenseId = t1.AccountingExpenseHeadId ?? 0,
                                                                          Remarks = t1.Remarks
                                                                      }).OrderByDescending(x => x.ID).AsEnumerable());
             return vmCommonProductCategory;

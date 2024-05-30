@@ -279,7 +279,6 @@ namespace KGERP.Controllers
 
         public async Task<ActionResult> CommonProductSubCategoryGet(int companyId, int categoryId)
         {
-
             var vmCommonProductSubCategory = await Task.Run(() => _service.CommonProductSubCategoryGet(companyId, categoryId));
             var list = vmCommonProductSubCategory.Select(x => new { Value = x.ID, Text = x.Name }).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
